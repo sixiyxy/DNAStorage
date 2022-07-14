@@ -14,7 +14,7 @@ def index():
 @app.route('/test_args')
 def get_student():
     student_name = request.args.get('student')
-    return '{}'.format(student_name)
+    return '查询参数：{}'.format(student_name)
 
 @app.route('/test_json')
 def get_json():
