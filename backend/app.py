@@ -39,6 +39,7 @@ def get_front():
     return "success"
 
 print(app.url_map)
+print('kkkkkk')
 
 if __name__ == '__main__':
     app.run('127.0.0.1', port=5000, debug=True)
