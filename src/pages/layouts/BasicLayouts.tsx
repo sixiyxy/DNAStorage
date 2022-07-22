@@ -11,17 +11,21 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   return (
     <Layout className="layout">
       <Header>
-        <div className="logo" />
-        <Menu theme="dark" mode="horizontal">
-          <MenuItem key="home">
-            <Link to="/">Home</Link>
+        <Menu theme="dark" mode="horizontal" className="header-menu">
+          <Link to="/">
+            <i
+              className="iconfont icon-medical"
+              style={{ color: "white", display: "inline", margin: "0 40px" }}
+            ></i>
+          </Link>
+
+          <MenuItem key="services">
+            <Link to="/services">Services</Link>
           </MenuItem>
           <MenuItem key="tutorial">
             <Link to="/tutorial">Tutorial</Link>
           </MenuItem>
-          <MenuItem key="services">
-            <Link to="/services">Services</Link>
-          </MenuItem>
+
           <MenuItem key="publications">
             <Link to="/publications">Publication</Link>
           </MenuItem>

@@ -9,12 +9,12 @@ import { BasicLayout } from "../pages/layouts/BasicLayouts";
 export const router: RouteObject[] = [
   {
     path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/",
     element: <BasicLayout />,
     children: [
-      {
-        index: true,
-        element: <Home />,
-      },
       { path: "/publications", element: <Publications /> },
       { path: "/resources", element: <Resources /> },
       { path: "/services", element: <Services /> },

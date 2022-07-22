@@ -1,0 +1,19 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3541423 */
+  src: url("data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAANsAAsAAAAAB2QAAAMfAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHFQGYACCcAqCXIIqATYCJAMICwYABCAFhGcHMRtnBsiemjwJhNjAAoCPCbTjJsTD8/v7b+17zgeQrAjPJCJDIRFpJlSFAqZJhSrhDfuuvoPckWhmazW6tmf8AvIn3F2t7/X6a/j7n89zOW4RfhBozokHdh7QAbaHZVG2gXp5gXEKtTvWC9AiTxGoNiOP8WZZTQuwP4+YBLyZMslBUhjntWoELFWt3FAYKoVydGEWD0EZxX3jy3gQvD/+mwtLCmWJWbLnZKkKHP81aZWbjP9/jfSBRxLY4AJlSJhYmT4ONFt3MYmiE0xUV1lN9bHGLPg1+X+Pu+4/HkGUM/NrQS/lnhPP4Z/qLwuQUY4zgLu9UinfaW5Vbl7txbW7PV05j3lLN+52XR9zvOV26xI/oyWxW6MOpt1uudyw3nP+kgP7fDzQ7CUb9nlsij/Vfq9tqf/OJPeF3q2709zvVN5rv9a8yWfRUg7NduXmdcxxs/HSr21fZ8LGVe1tnqV1drd7OdfclS3e03csTfxS9szr98oiEadijx6HnmFvwVuvwf3xQqd1Q9Jq0yV3ns0Pm7+iLOXrsYhfM0oJbV7Ws9exe/gdM67vUO84jpIT0dX9/eZtSbczjr59NP3Q4rDXG/b7PO7tG9V4w4hmi7PonZz6mA8H1ge/6PVt++3T2R9fW1t+q4nu4OzVYBVA6Wb6lq7/h++YeP9PHHK2rMngs+OLgbt0MwPMTuWJWoO3LjsBEmbNR5GreGqycIb5jYirrQAlprPZ077KlrtLhkot92iv0JMgqdRHy6wxlKkxh3KVllBtXOnyGi0UJiJXYcgkgtBoAwr13iFpdI6WWfdQpt07lGv0F9UOhd1mNYaCL6YYMayC3Aio5WWJ2AoWUG3C6iEComWhNkwNWhqAiXEJ+UQ5ljAdYophqDqJMQIJlUVYJo/DgiBDhco6zLM4DWNKVnw8qTpLHC+LoBiFIQymAnFGgLR4MgnxiFn285pgakMIEArS2qKUgZZShxLFSQBo5VIJ6riSbQyGUkvCMAREUBIXQWVqP0wgkEFKdT8djMfE0fQIK7LEW0QElcbNLxcfbRdUM1VFWD2TigtYpeWRAAAA")
+      format("woff2"),
+    url("iconfont.woff?t=1658497717144") format("woff"),
+    url("iconfont.ttf?t=1658497717144") format("truetype");
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-medical:before {
+  content: "\e62d";
+}

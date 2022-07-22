@@ -1,0 +1,16 @@
+{
+  "id": "3541423",
+  "name": "DNA存储",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1398641",
+      "name": "DNA 染色体",
+      "font_class": "medical",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    }
+  ]
+}
