@@ -4,8 +4,14 @@ from flask_cors import *
 import os
 import json
 
+from script.step11_get_file_uid import get_file_uid
+
+
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
 CORS(app,suports_credentials=True)
+
+backend_dir = os.path.dirname(os.path.abspath(__file__))
+file_save_dir = '{}/upload/'.format(backend_dir)
 
 @app.route('/')
 def index():
@@ -26,10 +32,11 @@ def get_json():
 def file_upload():
     f = request.files['picture']
     filename = 'upload_test_picture.jpg'
-    now_dir = os.path.dirname(os.path.abspath(__file__))
-    file_save_dir = "{}/upload/{}".format(now_dir,filename)
-    f.save(file_save_dir)
-    file_info = {'file_szie':1234}
+    save_dir = '{}/{}'.format(file_save_dir,filename)
+    f.save(save_dir)
+    file_uid = get_file_uid()
+    file_info = {'file_uid':file_uid,
+                'file_name':filename }
     return json.dumps(file_info)
 
 @app.route('/test_front',methods=["GET","POST"])
@@ -39,7 +46,7 @@ def get_front():
     return "success"
 
 print(app.url_map)
-print('kkkkkk')
+
 
 if __name__ == '__main__':
     app.run('127.0.0.1', port=5000, debug=True)
