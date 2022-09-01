@@ -35,16 +35,12 @@ def read_bits_from_file(path, segment_length=120, need_logs=True):
 
 '''
 input:
-    file_name,
-    file_type,
     file_uid,
     segment_length,
     index_length,
     varify_method
 '''
-def get_file_info(file_name,
-    file_type,
-    file_uid,
+def get_file_info(file_uid,
     segment_length,
     index_length,
     varify_method):
@@ -55,15 +51,14 @@ def get_file_info(file_name,
     file_path = '{}/{}/{}_{}'.format(backend_dir,file_dir,file_uid,file_name)
     original_bit_segments, bit_size = read_bits_from_file(file_path,
     segment_length=segment_length,need_logs=True)
+
     print(bit_size)
 
 
 
 
 if __name__ =='__main__':
-    get_file_info(file_name='upload_test_picture.jpg',
-                  file_type='picture',
-                  file_uid=1564988971384180736,
+    get_file_info(file_uid=1564988971384180736,
                   segment_length=160,
                   index_length=20,
                   varify_method='Hamming')
