@@ -1,0 +1,15 @@
+# basic
+backend_dir: backend
+script_dir: script
+
+# about file
+file_save_dir: upload
+
+file_type:
+ - picture
+ - music
+ - txt
+ - pdf
+ - video
+
+# about run

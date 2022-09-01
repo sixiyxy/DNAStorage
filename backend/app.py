@@ -1,17 +1,20 @@
+from distutils.command.config import config
 from flask import Flask, render_template
 from flask import request
 from flask_cors import *
 import os
 import json
 
+from script.utils import get_config
 from script.step11_get_file_uid import get_file_uid
+
 
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
 CORS(app,suports_credentials=True)
 
 backend_dir = os.path.dirname(os.path.abspath(__file__))
-file_save_dir = '{}/upload/'.format(backend_dir)
+
 
 @app.route('/')
 def index():
@@ -27,23 +30,27 @@ def get_json():
     json_data = {'one':1,'two':'xxx'}
     return json.dumps(json_data)
 
-
-@app.route('/upload',methods=['GET','POST'])
-def file_upload():
-    f = request.files['picture']
-    filename = 'upload_test_picture.jpg'
-    save_dir = '{}/{}'.format(file_save_dir,filename)
-    f.save(save_dir)
-    file_uid = get_file_uid()
-    file_info = {'file_uid':file_uid,
-                'file_name':filename }
-    return json.dumps(file_info)
-
 @app.route('/test_front',methods=["GET","POST"])
 def get_front():
     front_data = request.data
     print(front_data)
     return "success"
+
+@app.route('/upload',methods=['GET','POST'])
+def file_upload():
+    f = request.files['picture']
+    filename = 'upload_test_picture.jpg'
+    file_uid = get_file_uid()
+    file_rename = '{}_{}'.format(file_uid,filename)
+    save_dir = '{}/upload/{}'.format(backend_dir,file_rename)
+    f.save(save_dir)
+    file_info = {'file_uid':file_uid,
+                'file_name':file_rename}
+    return json.dumps(file_info)
+
+@app.route('/fileinfo',methods=['GET','POST'])
+def file_information():
+    pass
 
 print(app.url_map)
 
