@@ -4,14 +4,22 @@ import yaml
 from datetime import datetime
 
 
-def get_config():
+def get_config(yaml_path=''):
     now_dir = os.path.dirname(os.path.abspath(__file__))
     backend_dir = os.path.dirname(now_dir)
-    config_file = '{}/script/config.yaml'.format(backend_dir)
-    f = open(config_file)
-    config_data = f.read()
-    config = yaml.load(config_data,Loader=yaml.FullLoader)
-    config['backend_dir'] = backend_dir
+    
+    # read file yaml
+    if yaml_path !='config':
+        f = open(yaml_path)
+        config_data = f.read()
+        config = yaml.load(config_data,Loader=yaml.FullLoader)
+    # read config yaml
+    elif yaml_path == 'config':
+        config_file = '{}/script/config.yaml'.format(backend_dir)
+        f = open(config_file)
+        config_data = f.read()
+        config = yaml.load(config_data,Loader=yaml.FullLoader)
+        config['backend_dir'] = backend_dir
     return config
 
 def write_yaml(yaml_path,data,appending):
@@ -19,7 +27,7 @@ def write_yaml(yaml_path,data,appending):
         with open(yaml_path,"w",encoding="utf-8") as f:
             yaml.dump(data,f)
     elif appending==True:
-        with open(yaml_path,"w",encoding="utf-8") as f:
+        with open(yaml_path,"a",encoding="utf-8") as f:
             yaml.dump(data,f)
 
 
