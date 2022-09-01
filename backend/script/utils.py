@@ -14,7 +14,13 @@ def get_config():
     config['backend_dir'] = backend_dir
     return config
 
-
+def write_yaml(yaml_path,data,appending):
+    if appending==False:
+        with open(yaml_path,"w",encoding="utf-8") as f:
+            yaml.dump(data,f)
+    elif appending==True:
+        with open(yaml_path,"w",encoding="utf-8") as f:
+            yaml.dump(data,f)
 
 
 class Monitor:
