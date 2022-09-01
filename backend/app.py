@@ -7,6 +7,7 @@ import json
 
 from script.utils import get_config,write_yaml
 from script.step11_get_file_uid import get_file_uid
+from script.step12_get_file_info import get_file_info
 
 
 
@@ -20,6 +21,8 @@ backend_dir = os.path.dirname(os.path.abspath(__file__))
 def index():
     return render_template('index.html')  
 
+####################################################
+#### test route ####
 @app.route('/test_args')
 def get_student():
     student_name = request.args.get('student')
@@ -35,6 +38,8 @@ def get_front():
     front_data = request.data
     print(front_data)
     return "success"
+#### test route ####
+######################################################
 
 @app.route('/upload',methods=['GET','POST'])
 def file_upload():
@@ -45,17 +50,37 @@ def file_upload():
     file_rename = '{}_{}'.format(file_uid,filename)
     save_dir = '{}/upload/{}'.format(backend_dir,file_rename)
     f.save(save_dir)
-    file_info = {'file_uid':file_uid,
+    file_base_info = {'file_uid':file_uid,
                 'file_name':filename,
                 'file_rename':file_rename,
                 'file_type':filetype}
     yaml_file = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
-    write_yaml(yaml_path=yaml_file,data=file_info,appending=False)
-    return json.dumps(file_info)
+    write_yaml(yaml_path=yaml_file,data=file_base_info,appending=False)
+    return json.dumps(file_base_info)
 
 @app.route('/fileinfo',methods=['GET','POST'])
 def file_information():
-    pass
+    front_data = request.data
+    front_data = json.loads(front_data)
+
+    #### Postman test json ####
+    # {"file_uid":1565237658387615744,
+    # "segment_length":160,
+    # "index_length":20,
+    # "verify_method":"Hamming"}
+    file_uid = front_data['file_uid']
+    segment_length = front_data['segment_length']
+    index_length = front_data['index_length']
+    verify_method = front_data['verify_method']
+
+    file_info = get_file_info(file_uid=file_uid,
+    segment_length=segment_length,
+    index_length=index_length,
+    verify_method=verify_method)
+
+    return json.dumps(file_info)
+
+
 
 print(app.url_map)
 
