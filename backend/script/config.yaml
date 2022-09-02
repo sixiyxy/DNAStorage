@@ -13,4 +13,4 @@ file_type:
  - video
 
 # about run
-encode_dir: encode_dir
+dna_dir: dna_file

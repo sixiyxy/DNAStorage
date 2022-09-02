@@ -3,9 +3,15 @@ file_rename: 1565536927137009664_upload_test_picture.jpg
 file_type: picture
 file_uid: 1565536927137009664
 bit_size: 780320
-bit_size: 780320
 byte_size: 97530
+encode_method: Basic
 index_length: 20
 segment_length: 160
 segment_number: 4877
 verify_method: Hamming
+final_segment_bit_length: 188
+verify_code_length: 8
+DNA_sequence_length: 94
+encoding_time: 3.868922
+information_density: 1.702127659574468
+nucleotide_count: 458438

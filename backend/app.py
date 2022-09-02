@@ -64,20 +64,24 @@ def file_information():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    # {"file_uid":1565237658387615744,
-    # "segment_length":160,
-    # "index_length":20,
-    # "verify_method":"Hamming"}
+    {"file_uid":1565237658387615744,
+    "segment_length":160,
+    "index_length":20,
+    "verify_method":"Hamming",
+    "encode_method":"Basic"}
 
     file_uid = front_data['file_uid']
     segment_length = front_data['segment_length']
     index_length = front_data['index_length']
     verify_method = front_data['verify_method']
+    encode_method = front_data['encode_method']
 
     file_info = get_file_info(file_uid=file_uid,
     segment_length=segment_length,
     index_length=index_length,
-    verify_method=verify_method)
+    verify_method=verify_method,
+    encode_method=encode_method
+    )
 
     return json.dumps(file_info)
 

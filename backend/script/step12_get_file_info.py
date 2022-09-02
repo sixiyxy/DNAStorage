@@ -3,9 +3,9 @@ import os,sys
 sys.path.append('./')
 sys.path.append('../')
 import json
+from numpy import fromfile, array, uint8
 
 from .utils.utils_basic import get_config,write_yaml
-
 
 
 '''
@@ -13,12 +13,14 @@ input:
     file_uid,
     segment_length,
     index_length,
-    verify_method
+    verify_method,
+    encode_method
 '''
 def get_file_info(file_uid,
     segment_length,
     index_length,
-    verify_method):
+    verify_method,
+    encode_method):
 
     # file information path
     config = get_config(yaml_path='config')
@@ -45,7 +47,8 @@ def get_file_info(file_uid,
                 "segment_length":segment_length,
                 "segment_number":segment_number,
                 "index_length":index_length,
-                "verify_method":verify_method}
+                "verify_method":verify_method,
+                "encode_method":encode_method}
     write_yaml(yaml_path=file_info_path,data=file_info,appending=True)
 
     return file_info
