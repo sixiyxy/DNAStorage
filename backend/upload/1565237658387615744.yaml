@@ -19,3 +19,8 @@ byte_size: 97530
 index_length: 20
 segment_number: 4877
 verify_method: Hamming
+bit_size: 780320
+byte_size: 97530
+index_length: 20
+segment_number: 4877
+verify_method: Hamming
