@@ -1,5 +1,6 @@
 from distutils.command.config import config
 import os,sys
+from webbrowser import get
 import yaml
 from datetime import datetime
 
@@ -27,8 +28,12 @@ def write_yaml(yaml_path,data,appending):
         with open(yaml_path,"w",encoding="utf-8") as f:
             yaml.dump(data,f)
     elif appending==True:
-        with open(yaml_path,"a",encoding="utf-8") as f:
-            yaml.dump(data,f)
+        yaml_data = get_config(yaml_path=yaml_path)
+        data_keys = list(data.keys())
+        print(data_keys)
+        if data_keys[0] not in yaml_data:
+            with open(yaml_path,"a",encoding="utf-8") as f:
+                yaml.dump(data,f)
 
 
 class Monitor:
