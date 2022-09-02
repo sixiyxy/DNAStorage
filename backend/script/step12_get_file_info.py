@@ -4,7 +4,7 @@ sys.path.append('./')
 sys.path.append('../')
 import json
 from numpy import fromfile, array, uint8
-from .utils import get_config,write_yaml
+from .utils.utils_basic import get_config,write_yaml
 
 
 
