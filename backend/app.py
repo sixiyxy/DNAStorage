@@ -68,6 +68,7 @@ def file_information():
     # "segment_length":160,
     # "index_length":20,
     # "verify_method":"Hamming"}
+
     file_uid = front_data['file_uid']
     segment_length = front_data['segment_length']
     index_length = front_data['index_length']
@@ -81,7 +82,7 @@ def file_information():
     return json.dumps(file_info)
 
 
-
+print('test github')
 print(app.url_map)
 
 
