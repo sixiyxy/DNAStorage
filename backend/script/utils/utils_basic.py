@@ -7,7 +7,7 @@ from datetime import datetime
 
 def get_config(yaml_path=''):
     now_dir = os.path.dirname(os.path.abspath(__file__))
-    backend_dir = os.path.dirname(now_dir)
+    backend_dir = os.path.dirname(os.path.dirname(now_dir))
     
     # read file yaml
     if yaml_path !='config':
