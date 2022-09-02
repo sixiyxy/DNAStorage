@@ -5,7 +5,7 @@ from flask_cors import *
 import os
 import json
 
-from script.utils import get_config,write_yaml
+from script.utils.utils_basic import get_config,write_yaml
 from script.step11_get_file_uid import get_file_uid
 from script.step12_get_file_info import get_file_info
 

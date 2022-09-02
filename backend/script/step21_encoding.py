@@ -1,5 +1,6 @@
 import os,sys
-from utils.utils_basic import get_config,write_yaml
+from numpy import fromfile, array, uint8
+from utils.utils_basic import get_config,write_yaml,Monitor
 
 
 def read_bits_from_file(path, segment_length=120):
