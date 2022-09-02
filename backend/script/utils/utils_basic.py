@@ -30,7 +30,7 @@ def write_yaml(yaml_path,data,appending):
     elif appending==True:
         yaml_data = get_config(yaml_path=yaml_path)
         data_keys = list(data.keys())
-        print(data_keys)
+        # print(data_keys)
         if data_keys[0] not in yaml_data:
             with open(yaml_path,"a",encoding="utf-8") as f:
                 yaml.dump(data,f)
@@ -39,15 +39,13 @@ def write_dna_file(path, dna_sequences, need_logs=False):
     monitor = Monitor()
 
     with open(path, "w") as file:
-        if need_logs:
-            print("Write DNA sequences to file: " + path)
-
         for index, dna_sequence in enumerate(dna_sequences):
             file.write("".join(dna_sequence) + "\n")
 
             if need_logs:
                 monitor.output(index + 1, len(dna_sequences))
-
+        if need_logs:
+            print("Write DNA sequences to file: " + path + '\n')
     return True
 
 class Monitor:

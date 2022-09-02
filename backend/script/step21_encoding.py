@@ -105,12 +105,11 @@ class Encoding():
         bit_segments = self.verify_code()
         encode_method = encoding_methods[self.file_info_dict['encode_method']]
         dna_sequences = encode_method.encode(bit_segments)
-        print('Encode bit segments to DNA sequences by coding scheme.')
-        print(len(dna_sequences))
+        print('Encode bit segments to DNA sequences by coding scheme.\n')
 
         run_time = (datetime.now() - start_time).total_seconds()
         nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
-        print(nucleotide_count,run_time)
+
         information_density = self.file_info_dict['bit_size']/nucleotide_count
         record_info = {"DNA_sequence_length":len(dna_sequences[0]),
                        "nucleotide_counts":nucleotide_count,
