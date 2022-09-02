@@ -111,6 +111,7 @@ class Encoding():
         nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
 
         information_density = self.file_info_dict['bit_size']/nucleotide_count
+        information_density = round(information_density,3)
         record_info = {"DNA_sequence_length":len(dna_sequences[0]),
                        "nucleotide_counts":nucleotide_count,
                        "encoding_time":run_time,
