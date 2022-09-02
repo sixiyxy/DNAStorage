@@ -26,7 +26,7 @@ class Encoding():
         self.file_uid = file_uid
         self.config = get_config(yaml_path='config')
        
-        self.backend_dir = config['backend_dir']
+        self.backend_dir = self.config['backend_dir']
 
         # file save dir and file information
         self.file_dir = '{}/{}'.format(self.backend_dir,config['file_save_dir'])
