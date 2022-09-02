@@ -29,16 +29,17 @@ class Encoding():
         self.backend_dir = self.config['backend_dir']
 
         # file save dir and file information
-        self.file_dir = '{}/{}'.format(self.backend_dir,config['file_save_dir'])
-        file_info_path = '{}/{}/{}.yaml'.format(self.file_dir,file_uid)
+        self.file_dir = '{}/{}'.format(self.backend_dir,self.config['file_save_dir'])
+        file_info_path = '{}/{}.yaml'.format(self.file_dir,file_uid)
         self.file_info_dict = get_config(yaml_path=file_info_path)
 
         # file encode dir
-        self.dna_dir = config['encode_dir']
+        self.dna_dir = self.config['encode_dir']
 
     def segment_file(self):
         file_name = self.file_info_dict['file_name']
-        file_path = '{}/{}/{}_{}'.format(self.file_dir,self.file_uid,file_name)
+        file_path = '{}/{}_{}'.format(self.file_dir,self.file_uid,file_name)
+        print(self.file_info_dict)
 
         segment_length = self.file_info_dict['segment_length']
         
@@ -56,4 +57,4 @@ class Encoding():
 
 if __name__ == '__main__':
     obj = Encoding(1565536927137009664)
-    obj.segment_file
+    obj.segment_file()

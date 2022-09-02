@@ -42,6 +42,7 @@ def get_file_info(file_uid,
 
     file_info = {"byte_size":byte_size,
                 "bit_size":bit_size_final,
+                "segment_lenth":segment_length,
                 "segment_number":segment_number,
                 "index_length":index_length,
                 "verify_method":verify_method}
