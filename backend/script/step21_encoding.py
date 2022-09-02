@@ -1,5 +1,5 @@
 import os,sys
-from utils import get_config,write_yaml
+from utils.utils_basic import get_config,write_yaml
 
 
 def read_bits_from_file(path, segment_length=120):
@@ -26,7 +26,6 @@ class Encoding():
         self.file_uid = file_uid
         self.config = get_config(yaml_path='config')
        
-        
         self.backend_dir = config['backend_dir']
 
         # file save dir and file information
