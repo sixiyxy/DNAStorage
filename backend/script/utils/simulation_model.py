@@ -44,4 +44,33 @@ class ErrorAdder_simu:
             self.TM = genTM(self.probS)
             self.all_equal =   1
 
+    def genNewError(self, dna):
+        Errors = []
+        for i, base in enumerate(['A', 'C', 'G', 'T']):
+            Pi = np.where(dna == base)[0]
+            subi = np.random.choice(['A', 'C', 'G', 'T'], size=Pi.size, p=self.TM[i])
+            subPi = np.where(subi != base)[0]
+            for pos in subPi:
+                Errors.append((Pi[pos], 's', subi[pos]))
+        #delP = np.where(np.random.choice([False, True], size=len(dna), p=[1 - self.probD, self.probD]))[0]
+        #insP = np.where(np.random.choice([False, True], size=len(dna), p=[1 - self.probI, self.probI]))[0]
+
+        ##delete
+        del_flag=np.random.choice([False,True],size=len(dna),p=[1-self.probD,self.probD])
+        del_count=(np.where(del_flag==True)[0]).size
+        for i in range(del_count):
+                if self.del_pattern:
+                    choose_base=np.random.choice(list(self.del_pattern.keys()),p=list(self.del_pattern.values()))
+                    count=0
+                    while count<=5000:
+                        pos=np.random.choice(len(dna))
+                        if dna[pos]==choose_base:
+                            Errors.append([pos,'-',dna[pos]])
+                            continue
+                        else:
+                            count+=1
+                else:
+                    pos=np.random.choice(len(dna))
+                    Errors.append([pos,'-',dna[pos]])
+
     
