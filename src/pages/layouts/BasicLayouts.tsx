@@ -19,11 +19,11 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
             ></i>
           </Link>
 
-          <MenuItem key="services">
-            <Link to="/services">Services</Link>
-          </MenuItem>
           <MenuItem key="tutorial">
             <Link to="/tutorial">Tutorial</Link>
+          </MenuItem>
+          <MenuItem key="services">
+            <Link to="/services">Services</Link>
           </MenuItem>
 
           <MenuItem key="publications">
@@ -37,7 +37,7 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           </MenuItem>
         </Menu>
       </Header>
-      <Content style={{ width: 1000, height: 1000, padding: "0 50px" }}>
+      <Content style={{ width: 1000, height: 1000, padding: "0 0px" }}>
         <Outlet />
       </Content>
       <Footer style={{ textAlign: "center" }}>
