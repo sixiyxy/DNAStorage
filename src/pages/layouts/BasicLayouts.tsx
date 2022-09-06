@@ -32,6 +32,9 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           <MenuItem key="resources">
             <Link to="/resources">Resource</Link>
           </MenuItem>
+          <MenuItem key="methods">
+            <Link to="/methods">Methods</Link>
+          </MenuItem>
           <MenuItem key="contact">
             <Link to="/contact">Contact</Link>
           </MenuItem>
@@ -40,7 +43,7 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       <Content style={{ width: 1000, height: 1000, padding: "0 0px" }}>
         <Outlet />
       </Content>
-      <Footer style={{ textAlign: "center" }}>
+      <Footer style={{ textAlign: "center",position:"fixed",bottom:0,left:1400,height:10}}>
         Ant Design ©2018 Created by Ant UED
       </Footer>
     </Layout>

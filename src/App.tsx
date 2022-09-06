@@ -7,6 +7,7 @@ import { Contact } from "./pages/Contact";
 import { Publications } from "./pages/Publications";
 import { Resources } from "./pages/Resources";
 
+
 function App() {
   return useRoutes(router);
 }

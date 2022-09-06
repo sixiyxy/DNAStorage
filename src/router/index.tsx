@@ -4,6 +4,7 @@ import { Resources } from "../pages/Resources";
 import { Services } from "../pages/Services";
 import { Tutorial } from "../pages/Tutorial";
 import { Publications } from "../pages/Publications";
+import { Methods } from "../pages/Methods";
 import { RouteObject } from "react-router-dom";
 import { BasicLayout } from "../pages/layouts/BasicLayouts";
 export const router: RouteObject[] = [
@@ -19,6 +20,7 @@ export const router: RouteObject[] = [
       { path: "/resources", element: <Resources /> },
       { path: "/services", element: <Services /> },
       { path: "/tutorial", element: <Tutorial /> },
+      {path:"/methods",element:<Methods/>},
       { path: "/contact", element: <Contact /> },
     ],
   },

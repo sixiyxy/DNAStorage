@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import "./index.less";
 import { Breadcrumb, Layout, Menu } from "antd";
@@ -17,7 +18,10 @@ import { Sequencing } from "./Sequencing";
 import { Decode } from "./Decode";
 const { Header, Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
+
+
 export class ServicesProps {}
+import './index.less'
 
 const siderLabel = ["Encode Data", "Simulation", "Decode"];
 function getItem(
@@ -62,6 +66,7 @@ const items = [
 ];
 
 export const Services: React.FC<ServicesProps> = (props) => {
+
   const [siderSelect, setSiderSelect] = useState(["0-0"]);
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
@@ -88,4 +93,4 @@ export const Services: React.FC<ServicesProps> = (props) => {
   );
 };
 
-Services.defaultProps = new ServicesProps();
+  
