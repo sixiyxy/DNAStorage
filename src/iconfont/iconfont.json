@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6807132",
+      "name": "Decode-File",
+      "font_class": "Decode-File",
+      "unicode": "ebce",
+      "unicode_decimal": 60366
+    },
+    {
+      "icon_id": "6807138",
+      "name": "Encode-File",
+      "font_class": "Encode-File",
+      "unicode": "ebd2",
+      "unicode_decimal": 60370
+    },
+    {
+      "icon_id": "12097575",
+      "name": "模拟弹屏",
+      "font_class": "monidanping",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
       "icon_id": "1398641",
       "name": "DNA 染色体",
       "font_class": "medical",
