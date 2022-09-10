@@ -132,13 +132,14 @@ class PCRer_simu:
         return out_dnas
 
 class ErrorAdder_simu:
-    def __init__(self, probS=0.2/3, probD=0.6, probI=0.2, raw_rate=0.0001,del_pattern=None,ins_pattern=None,TM=None):  # 替代substitute，删除delete和插入insert
+    def __init__(self, probS=0.2/3, probD=0.6, probI=0.2, raw_rate=0.0001,del_pattern=None,ins_pattern=None,TM=None,TM_Normal=True):  # 替代substitute，删除delete和插入insert
         self.probD = probD * raw_rate
         self.probI = probI * raw_rate
         self.probS = probS * raw_rate
 
         self.del_pattern=del_pattern
         self.ins_pattern=ins_pattern
+        self.TM_Normal=TM_Normal
 
         if TM != None:
             self.TM = TM
@@ -149,14 +150,30 @@ class ErrorAdder_simu:
 
     def genNewError(self, dna):
         Errors = []
-        for i, base in enumerate(['A', 'C', 'G', 'T']):
-            Pi = np.where(dna == base)[0]
-            subi = np.random.choice(['A', 'C', 'G', 'T'], size=Pi.size, p=self.TM[i])
-            subPi = np.where(subi != base)[0]
-            for pos in subPi:
-                Errors.append((Pi[pos], 's', subi[pos]))
-        #delP = np.where(np.random.choice([False, True], size=len(dna), p=[1 - self.probD, self.probD]))[0]
-        #insP = np.where(np.random.choice([False, True], size=len(dna), p=[1 - self.probI, self.probI]))[0]
+        if self.TM_Normal:
+            for i, base in enumerate(['A', 'C', 'G', 'T']):
+                Pi = np.where(dna == base)[0]
+                subi = np.random.choice(['A', 'C', 'G', 'T'], size=Pi.size, p=self.TM[i])
+                subPi = np.where(subi != base)[0]
+                for pos in subPi:
+                    Errors.append((Pi[pos], 's', subi[pos]))
+            #delP = np.where(np.random.choice([False, True], size=len(dna), p=[1 - self.probD, self.probD]))[0]
+            #insP = np.where(np.random.choice([False, True], size=len(dna), p=[1 - self.probI, self.probI]))[0]
+        else:
+                TM_keys=list(self.TM.keys())
+            for key in TM_keys:
+                index=dna.find(key)
+                while index!=-1:
+                    prob=list(self.TM[key].values())[0]
+                    prob_try=np.random.uniform(0,1)
+                    if prob_try < prob:
+                        break
+                    else:
+                        sub=list(self.TM[key].keys())[0]
+                        dna_1=dna[:index]
+                        dna_2=dna[index:].replace(key,sub,1)
+                        dna=dna_1+dna_2
+                    index=dna.find(key,index+1)
 
         ##delete
         del_flag=np.random.choice([False,True],size=len(dna),p=[1-self.probD,self.probD])
