@@ -1,7 +1,6 @@
 import numpy as np
 from math import sqrt,log
 import copy 
-import Model.config as config
 import time
 
 BASE = np.array(['A','C','G','T'])

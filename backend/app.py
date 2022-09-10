@@ -86,20 +86,26 @@ def file_information():
     return json.dumps(file_info)
 
 @app.route('/simu_synthesis',methods=['GET','POST'])
-def file_information():
+def simu_synthesis():
     front_data = request.data
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    {"synthesis_number":30,
+    {"file_uid":1565536927137009664,
+    "synthesis_number":30,
     "synthesis_yield":0.99,
     "synthesis_method":'ErrASE'}
 
+    file_uid=front_data['file_uid']
     synthesis_number = front_data['synthesis_number']
     synthesis_yield = front_data['synthesis_yield']
     synthesis_method = front_data['synthesis_method']
 
-    simu_synthesis_settings={'1':'placeholder'}
+    simu_synthesis_settings=get_simu_synthesis_info(
+        file_uid=file_uid,
+        synthesis_number=synthesis_number,
+        synthesis_yield=synthesis_yield,
+        synthesis_method=synthesis_method
     )
 
     return json.dumps(simu_synthesis_settings)
