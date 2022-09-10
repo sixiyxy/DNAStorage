@@ -166,13 +166,14 @@ class ErrorAdder_simu:
                 while index!=-1:
                     prob=list(self.TM[key].values())[0]
                     prob_try=np.random.uniform(0,1)
-                    if prob_try < prob:
+                    if prob_try > prob:
                         break
                     else:
                         sub=list(self.TM[key].keys())[0]
                         dna_1=dna[:index]
                         dna_2=dna[index:].replace(key,sub,1)
                         dna=dna_1+dna_2
+                        Errors.append((index,key,sub))
                     index=dna.find(key,index+1)
 
         ##delete
