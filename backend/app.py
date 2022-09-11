@@ -8,6 +8,7 @@ import json
 from script.utils.utils_basic import get_config,write_yaml
 from script.step11_get_file_uid import get_file_uid
 from script.step12_get_file_info import get_file_info
+import step3_simulation as Simu
 
 
 
@@ -85,6 +86,7 @@ def file_information():
 
     return json.dumps(file_info)
 
+simu_dna=[]
 @app.route('/simu_synthesis',methods=['GET','POST'])
 def simu_synthesis():
     front_data = request.data
@@ -101,14 +103,43 @@ def simu_synthesis():
     synthesis_yield = front_data['synthesis_yield']
     synthesis_method = front_data['synthesis_method']
 
-    simu_synthesis_settings=get_simu_synthesis_info(
+    simu_synthesis_settings,dnas_syn=Simu.get_simu_synthesis_info(
         file_uid=file_uid,
         synthesis_number=synthesis_number,
         synthesis_yield=synthesis_yield,
         synthesis_method=synthesis_method
     )
 
+    global simu_dna
+    simu_dna=dnas_syn
+
     return json.dumps(simu_synthesis_settings)
+
+@app.route('/simu_dec',methods=['GET','POST'])
+def simu_decay():
+    front_data = request.data
+    front_data = json.loads(front_data)
+
+    #### Postman test json ####
+    {"file_uid":1565536927137009664,
+    "months_of_storage":24,
+    "lost_rate":0.3,
+    "storage_host":'Ecoli'}
+
+    file_uid=front_data['file_uid']
+    months_of_storage = front_data['months_of_storage']
+    lost_rate = front_data['lost_rate']
+    storage_host = front_data['storage_host']
+
+    simu_dec_settings=Simu.get_simu_dec_info(
+        file_uid=file_uid,
+        months_of_storage=months_of_storage,
+        lost_rate=lost_rate,
+        storage_host=storage_host,
+        dnas=simu_dna
+    )
+
+    return json.dumps(simu_dec_settings)
 
 print('test github')
 print(app.url_map)

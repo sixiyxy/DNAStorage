@@ -1,4 +1,4 @@
-from .simulation_arg import synthMeth 
+from .simulation_arg import synthMeth, decHost
 
 
 class ArgumentPasser:
@@ -10,5 +10,9 @@ class ArgumentPasser:
 
 def SynthMeth_arg(synthesis_method):
     dic=synthMeth[synthesis_method]
+    return ArgumentPasser(dic)
+
+def DecHost_arg(decay_host):
+    dic=decHost[decay_host]
     return ArgumentPasser(dic)
 
