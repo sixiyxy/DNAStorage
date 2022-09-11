@@ -8,8 +8,28 @@ QUANT = {'A': 0, 'C':1, 'G':2, 'T':3}
 qua2str = lambda qua: ''.join(BASE[qua])
 str2qua = lambda dna: np.array([QUANT[base] for base in dna],dtype = 'uint8')
 
+class Syn_D:
+    '''Synthesis Distribution adopter'''
+    def __init__(self, Yield = 0.99, N = 30):
+        self.Yield = Yield
+        self.N = N
+        
+    def distribution(self):
+        return np.random.binomial(self.N, self.p) #伯努利二项分布
+    
+    def __call__(self,dnas):
+        self.L = len(dnas[0])
+        self.p = self.Yield ** self.L
+
+        out = []
+        for dna in dnas:
+            n = self.distribution()
+            out.append({'ori':dna, 'num':n,'re':[[n,[]]]})
+        return out
+
 class Synthesizer_simu:
     def __init__(self, arg):
+        print(arg)
         self.Yield = arg.syn_yield
         self.N = arg.syn_number
         self.probS = arg.syn_sub_prob
@@ -131,6 +151,42 @@ class PCRer_simu:
             dna['num'] = sum([tp[0] for tp in dna['re']])
         return out_dnas
 
+class Sampler:
+    def __init__(self, p=0.001, sam_to_number = False, arg = None):
+        if arg: 
+            self.p = arg.sam_ratio
+            self.sam_to_number = arg.sam_to_number
+        else: 
+            self.p = p
+            self.sam_to_number = sam_to_number
+    
+    def distribution(self,N):
+        return np.random.binomial(N,self.p)
+
+    def run(self,re_dnas):
+        markers = []
+        for i,dna in enumerate(re_dnas):
+            dna[0] = self.distribution(dna[0])
+            if dna[0] > 0: markers.append(i)
+        re_dnas = [re_dnas[i] for i in markers]
+        return re_dnas
+    
+    def __call__(self,dnas, in_place = False):
+        if not in_place:
+            out_dnas = copy.deepcopy(dnas)
+        else:
+            out_dnas = dnas
+        
+        if self.sam_to_number:
+            rNs = [dna['num'] for dna in dnas]
+            average_copies = sum(rNs) / len(rNs)
+            self.p = self.sam_to_number / average_copies
+            
+        for dna in out_dnas:
+            dna['re'] = self.run(dna['re'])
+            dna['num'] = sum([tp[0] for tp in dna['re']])
+        return out_dnas
+        
 class ErrorAdder_simu:
     def __init__(self, probS=0.2/3, probD=0.6, probI=0.2, raw_rate=0.0001,del_pattern=None,ins_pattern=None,TM=None,TM_Normal=True):  # 替代substitute，删除delete和插入insert
         self.probD = probD * raw_rate
@@ -160,16 +216,23 @@ class ErrorAdder_simu:
             #delP = np.where(np.random.choice([False, True], size=len(dna), p=[1 - self.probD, self.probD]))[0]
             #insP = np.where(np.random.choice([False, True], size=len(dna), p=[1 - self.probI, self.probI]))[0]
         else:
-                TM_keys=list(self.TM.keys())
+            TM_keys=list(self.TM.keys())
             for key in TM_keys:
                 index=dna.find(key)
                 while index!=-1:
-                    prob=list(self.TM[key].values())[0]
-                    prob_try=np.random.uniform(0,1)
-                    if prob_try > prob:
-                        break
+                    prob=list(self.TM[key].values())
+                    change=False
+                    if len(prob)==1:
+                        prob_try=np.random.uniform(0,1)
+                        if prob_try > prob:
+                            break
+                        else:
+                            change=True
+                            sub=list(self.TM[key].keys())[0]
                     else:
-                        sub=list(self.TM[key].keys())[0]
+                        sub=np.random.choice(list(self.TM[key].keys()),p=list(self.TM[key].values()))
+                        change=True
+                    if change==True:
                         dna_1=dna[:index]
                         dna_2=dna[index:].replace(key,sub,1)
                         dna=dna_1+dna_2
@@ -187,7 +250,7 @@ class ErrorAdder_simu:
                         pos=np.random.choice(len(dna))
                         if dna[pos]==choose_base:
                             Errors.append([pos,'-',dna[pos]])
-                            continue
+                            break
                         else:
                             count+=1
                 else:
@@ -205,7 +268,7 @@ class ErrorAdder_simu:
                     pos=np.random.choice((len(dna)))
                     if dna[pos]==choose_base:
                         Errors.append([pos,'+',np.random.choice(['A','C','G','T'])])
-                        continue
+                        break
                     else:
                         count+=1
             else:
@@ -284,3 +347,4 @@ def genTm(prob):
         row[i] = 1 - 3* prob 
         tm.append(row)
     return tm
+

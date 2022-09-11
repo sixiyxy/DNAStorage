@@ -1,7 +1,7 @@
-from utils import simulation_model
+from utils import simulation_model as Model
 import numpy as np
 from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-import simulation_utils
+from utils.simulation_utils import SynthMeth_arg
 
 '''
 Input:
@@ -25,12 +25,14 @@ def get_simu_synthesis_info(file_uid,
         dnas=f.readlines()
     in_dnas=[dna.split('\n')[0] for dna in dnas]
 
+    arg=SynthMeth_arg(synthesis_method)
+    arg.syn_number=synthesis_number
+    arg.syn_yield=synthesis_yield
 
-
-    Syn=Synthesizer_simu(arg)
+    SYN=Model.Synthesizer_simu(arg)
     dnas_syn=SYN(in_dnas)
 
-    print(in_dnas)
+    print(dnas_syn)
 
 
 if __name__ == "__main__":
