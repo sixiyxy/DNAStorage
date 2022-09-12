@@ -131,14 +131,17 @@ def simu_decay():
     loss_rate = front_data['loss_rate']
     storage_host = front_data['storage_host']
 
-    simu_dec_settings=Simu.get_simu_dec_info(
+    simu_dec_settings,dnas_dec=Simu.get_simu_dec_info(
         file_uid=file_uid,
         months_of_storage=months_of_storage,
         loss_rate=loss_rate,
         storage_host=storage_host,
         dnas=simu_dna
     )
-
+    
+    global simu_dna
+    simu_dna=dnas_dec
+    
     return json.dumps(simu_dec_settings)
 
 print('test github')

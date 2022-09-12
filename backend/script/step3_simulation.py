@@ -79,8 +79,15 @@ def get_simu_dec_info(file_uid,
     DEC=Model.Decayer_simu(arg)
     dnas_dec=DEC(in_dnas)
 
+    dec_info={
+        "storgae_host":storage_host,
+        "decay_reference_link":0,
+        "months_of_storage":months_of_storage,
+        "decay_loss_rate":loss_rate
+    }
+    write_yaml(yaml_path=file_info_path,data=dec_info,appending=True)
 
-    return dnas_dec
+    return dec_info,dnas_dec
 
 if __name__ == "__main__":
 
