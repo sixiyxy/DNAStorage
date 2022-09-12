@@ -1,4 +1,4 @@
-from utils import simulation_model as Model
+import utils.simulation_model as Model
 import numpy as np
 from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
 from utils.simulation_utils import SynthMeth_arg,DecHost_arg
@@ -9,17 +9,17 @@ def get_simu_synthesis_info(file_uid,
     synthesis_yield,
     synthesis_method):
 
-'''
-Input:
-    file_uid
-    synthesis_number
-    synthesis_yield
-    synthesis_method
-'''
+    '''
+    Input:
+        file_uid
+        synthesis_number
+        synthesis_yield
+        synthesis_method
+    '''
     # file information path
     config = get_config(yaml_path='config')
     backend_dir = config['backend_dir']
-    file_dir=config['file_svae_dir']
+    file_dir=config['file_save_dir']
 
     file_info_path='{}/{}/{}.yaml'.format(backend_dir,file_dir,file_uid)
 
@@ -52,28 +52,40 @@ Input:
 
 def get_simu_dec_info(file_uid,
     months_of_storage,
-    lost_rate,
+    loss_rate,
     storage_host,
-    dnas):
+    in_dnas):
+
+    '''
+    Input:
+        file_uid
+        months_of_storage,
+        loss_rate,
+        storage_host,
+        dnas
+    '''
 
     # file information path
     config = get_config(yaml_path='config')
     backend_dir = config['backend_dir']
-    file_dir=config['file_svae_dir']
+    file_dir=config['file_save_dir']
 
     file_info_path='{}/{}/{}.yaml'.format(backend_dir,file_dir,file_uid)
 
     arg=DecHost_arg(storage_host)
-    arg.syn_number=synthesis_number
-    arg.syn_yield=synthesis_yield
+    arg.months_of_storage=months_of_storage
+    arg.dec_loss_rate=loss_rate
 
-    SYN=Model.Synthesizer_simu(arg)
-    dnas_syn=SYN(in_dnas)
+    DEC=Model.Decayer_simu(arg)
+    dnas_dec=DEC(in_dnas)
 
 
-    return dnas_syn
+    return dnas_dec
 
 if __name__ == "__main__":
 
-    get_simu_synthesis_info(1565536927137009664,
+    _,in_dnas=get_simu_synthesis_info(1565536927137009664,
     30,0.99,'ErrASE')
+
+    a=get_simu_dec_info(1565536927137009664,24,0.3,'Ecoli',in_dnas)
+    print(a)

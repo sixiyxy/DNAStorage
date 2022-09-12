@@ -8,7 +8,7 @@ import json
 from script.utils.utils_basic import get_config,write_yaml
 from script.step11_get_file_uid import get_file_uid
 from script.step12_get_file_info import get_file_info
-import step3_simulation as Simu
+import script.step3_simulation as Simu
 
 
 
@@ -123,18 +123,18 @@ def simu_decay():
     #### Postman test json ####
     {"file_uid":1565536927137009664,
     "months_of_storage":24,
-    "lost_rate":0.3,
+    "loss_rate":0.3,
     "storage_host":'Ecoli'}
 
     file_uid=front_data['file_uid']
     months_of_storage = front_data['months_of_storage']
-    lost_rate = front_data['lost_rate']
+    loss_rate = front_data['loss_rate']
     storage_host = front_data['storage_host']
 
     simu_dec_settings=Simu.get_simu_dec_info(
         file_uid=file_uid,
         months_of_storage=months_of_storage,
-        lost_rate=lost_rate,
+        loss_rate=loss_rate,
         storage_host=storage_host,
         dnas=simu_dna
     )

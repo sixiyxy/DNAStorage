@@ -54,7 +54,8 @@ class Decayer_simu:
         self.probS = arg.dec_sub_prob
         self.probD = arg.dec_del_prob
         self.probI = arg.dec_ins_prob
-        self.raw_rate = arg.dec_raw_rate
+        #self.months_of_storage=arg.months_of_storage
+        self.raw_rate = arg.dec_raw_rate*int(arg.months_of_storage)
         self.del_pattern=arg.dec_del_pattern
         self.ins_pattern=arg.dec_ins_pattern
 

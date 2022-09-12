@@ -15,3 +15,7 @@ DNA_sequence_length: 94
 encoding_time: 3.868922
 information_density: 1.702127659574468
 nucleotide_count: 458438
+synthesis_method: ErrASE
+synthesis_method_reference: '0'
+synthesis_number: 30
+synthesis_yield: 0.99
