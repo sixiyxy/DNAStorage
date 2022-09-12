@@ -59,6 +59,7 @@ class Decayer_simu:
         self.del_pattern=arg.dec_del_pattern
         self.ins_pattern=arg.dec_ins_pattern
 
+
         self.sam = Sampler(1-self.loss_rate)
         self.err = ErrorAdder_simu(probS=self.probS, probD = self.probD, probI = self.probI, raw_rate=self.raw_rate,del_pattern=self.del_pattern,ins_pattern=self.ins_pattern)
 
@@ -189,7 +190,7 @@ class Sampler:
         return out_dnas
         
 class ErrorAdder_simu:
-    def __init__(self, probS=0.2/3, probD=0.6, probI=0.2, raw_rate=0.0001,del_pattern=None,ins_pattern=None,TM=None,TM_Normal=True):  # 替代substitute，删除delete和插入insert
+    def __init__(self, probS=0.2, probD=0.6, probI=0.2, raw_rate=0.0001,del_pattern=None,ins_pattern=None,TM=None,TM_Normal=True):  # 替代substitute，删除delete和插入insert
         self.probD = probD * raw_rate
         self.probI = probI * raw_rate
         self.probS = probS * raw_rate
@@ -199,10 +200,10 @@ class ErrorAdder_simu:
         self.TM_Normal=TM_Normal
 
         if TM != None:
-            self.TM = TM
+            self.TM = TM*
             self.all_equal = 0
         else:
-            self.TM = genTm(self.probS)  # 生成替换概率矩阵，A-CGT
+            self.TM = genTm(self.probS/3)  # 生成替换概率矩阵，A-CGT
             self.all_equal = 1
 
     def genNewError(self, dna):
@@ -222,6 +223,7 @@ class ErrorAdder_simu:
                 index=dna.find(key)
                 while index!=-1:
                     prob=list(self.TM[key].values())
+                    prob=[self.probS * i for i in prob]
                     change=False
                     if len(prob)==1:
                         prob_try=np.random.uniform(0,1)
@@ -231,7 +233,7 @@ class ErrorAdder_simu:
                             change=True
                             sub=list(self.TM[key].keys())[0]
                     else:
-                        sub=np.random.choice(list(self.TM[key].keys()),p=list(self.TM[key].values()))
+                        sub=np.random.choice(list(self.TM[key].keys()),p=prob)
                         change=True
                     if change==True:
                         dna_1=dna[:index]

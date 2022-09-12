@@ -141,7 +141,36 @@ def simu_decay():
     
     global simu_dna
     simu_dna=dnas_dec
+
+    return json.dumps(simu_dec_settings)
+
+@app.route('/simu_pcr',methods=['GET','POST'])
+def simu_pcr():
+    front_data = request.data
+    front_data = json.loads(front_data)
+
+    #### Postman test json ####
+    {"file_uid":1565536927137009664,
+    "pcr_cycle":12,
+    "pcr_prob":0.8,
+    "pcr_polymerase":'Taq'}
+
+    file_uid=front_data['file_uid']
+    pcr_cycle = front_data['pcr_cycle']
+    pcr_prob = front_data['pcr_prob']
+    pcr_polymerase = front_data['pcr_polymerase']
+
+    simu_pcr_settings,dnas_pcr=Simu.get_simu_pcr_info(
+        file_uid=file_uid,
+        pcr_cycle=pcr_cycle,
+        pcr_prob=pcr_prob,
+        pcr_polymerase=pcr_polymerase,
+        dnas=simu_dna
+    )
     
+    global simu_dna
+    simu_dna=dnas_pcr
+
     return json.dumps(simu_dec_settings)
 
 print('test github')

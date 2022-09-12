@@ -1,7 +1,7 @@
 import utils.simulation_model as Model
 import numpy as np
 from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from utils.simulation_utils import SynthMeth_arg,DecHost_arg
+from utils.simulation_utils import SynthMeth_arg,DecHost_arg,PcrPoly_arg
 
 
 def get_simu_synthesis_info(file_uid,
@@ -88,6 +88,45 @@ def get_simu_dec_info(file_uid,
     write_yaml(yaml_path=file_info_path,data=dec_info,appending=True)
 
     return dec_info,dnas_dec
+
+def get_simu_pcr_info(file_uid,
+    pcr_cycle,
+    pcr_prob,
+    pcr_polymerase,
+    in_dnas):
+
+    '''
+    Input:
+        file_uid
+        pcr_cycle
+        pcr_prob
+        pcr_polymerase
+        in_dnas
+    '''
+    # file information path
+    config = get_config(yaml_path='config')
+    backend_dir = config['backend_dir']
+    file_dir=config['file_save_dir']
+
+    file_info_path='{}/{}/{}.yaml'.format(backend_dir,file_dir,file_uid)
+
+    arg=PcrPoly_arg(pcr_polymerase)
+    arg.pcrc=pcr_cycle
+    arg.pcrp=pcr_prob
+
+    PCR=Model.PCRer_simu(arg)
+    dnas_pcr=PCR(in_dnas)
+
+    pcr_info={
+        "pcr_polymerase":pcr_polymerase,
+        "pcr_reference_link":0,
+        "pcr_cycle":pcr_cycle,
+        "pcr_prob":pcr_prob
+    }
+    write_yaml(yaml_path=file_info_path,data=pcr_info,appending=True)
+    ##error_occur_number???
+    ##diagram settings???
+    return pcr_info,dnas_pcr
 
 if __name__ == "__main__":
 

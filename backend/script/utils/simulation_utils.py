@@ -16,3 +16,7 @@ def DecHost_arg(decay_host):
     dic=decHost[decay_host]
     return ArgumentPasser(dic)
 
+def PcrPoly_arg(pcr_polymerase):
+    dic=pcrPoly[pcr_polymerase]
+    return ArgumentPasser
+
