@@ -2,7 +2,7 @@ import React,{useState}from "react";
 import "./index.less";
 import { Breadcrumb } from 'antd';
 import {Encodelist} from '../../../components/Encodelist'
-import {Uploads} from '../../../components/Uploads'
+import Uploads from '../../../components/Uploads'
 export class EncodeProps {}
 
 export const Encode: React.FC<EncodeProps> = (props) => {
