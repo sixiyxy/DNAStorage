@@ -18,5 +18,9 @@ def DecHost_arg(decay_host):
 
 def PcrPoly_arg(pcr_polymerase):
     dic=pcrPoly[pcr_polymerase]
-    return ArgumentPasser
+    return ArgumentPasser(dic)
+
+def Sampler_arg(sam_ratio):
+    dic={"sam_ratio":sam_ratio}
+    return ArgumentPasser(dic)
 

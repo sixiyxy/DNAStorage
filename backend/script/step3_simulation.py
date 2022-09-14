@@ -1,7 +1,7 @@
 import utils.simulation_model as Model
 import numpy as np
 from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from utils.simulation_utils import SynthMeth_arg,DecHost_arg,PcrPoly_arg
+from utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg
 
 
 def get_simu_synthesis_info(file_uid,
@@ -124,8 +124,36 @@ def get_simu_pcr_info(file_uid,
         "pcr_prob":pcr_prob
     }
     write_yaml(yaml_path=file_info_path,data=pcr_info,appending=True)
-    ##error_occur_number???
-    ##diagram settings???
+
+    return pcr_info,dnas_pcr
+
+def get_simu_sam_info(file_uid,
+    sam_ratio
+    in_dnas):
+
+    '''
+    Input:
+        file_uid
+        sam_ratio
+        in_dnas
+    '''
+    # file information path
+    config = get_config(yaml_path='config')
+    backend_dir = config['backend_dir']
+    file_dir=config['file_save_dir']
+
+    file_info_path='{}/{}/{}.yaml'.format(backend_dir,file_dir,file_uid)
+
+    arg=Sampler_arg
+
+    Sam=Model.Sampler_simu(arg)
+    dnas_sam=Sam(in_dnas)
+
+    pcr_info={
+        "sam_ratio":sam_ratio
+    }
+    write_yaml(yaml_path=file_info_path,data=pcr_info,appending=True)
+
     return pcr_info,dnas_pcr
 
 if __name__ == "__main__":

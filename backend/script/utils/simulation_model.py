@@ -153,15 +153,13 @@ class PCRer_simu:
             dna['num'] = sum([tp[0] for tp in dna['re']])
         return out_dnas
 
-class Sampler:
-    def __init__(self, p=0.001, sam_to_number = False, arg = None):
+class Sampler_simu:
+    def __init__(self, p=0.001,  arg = None):
         if arg: 
             self.p = arg.sam_ratio
-            self.sam_to_number = arg.sam_to_number
         else: 
             self.p = p
-            self.sam_to_number = sam_to_number
-    
+
     def distribution(self,N):
         return np.random.binomial(N,self.p)
 
@@ -178,11 +176,6 @@ class Sampler:
             out_dnas = copy.deepcopy(dnas)
         else:
             out_dnas = dnas
-        
-        if self.sam_to_number:
-            rNs = [dna['num'] for dna in dnas]
-            average_copies = sum(rNs) / len(rNs)
-            self.p = self.sam_to_number / average_copies
             
         for dna in out_dnas:
             dna['re'] = self.run(dna['re'])
