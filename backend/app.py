@@ -197,6 +197,29 @@ def simu_sam():
 
     return json.dumps(simu_sam_settings)
 
+@app.route('/simu_seq',methods=['GET','POST'])
+def simu_seq():
+    front_data = request.data
+    front_data = json.loads(front_data)
+
+    #### Postman test json ####
+    {"file_uid":1565536927137009664,
+    "sam_ratio":0.005
+    }
+
+    file_uid=front_data['file_uid']
+    sam_ratio =front_data['sam_ratio'] 
+
+    simu_sam_settings,dnas_sam=Simu.get_simu_sam_info(
+        file_uid=file_uid,
+        sam_ratio=sam_ratio,
+        dnas=simu_dna
+    )
+    
+    global simu_dna
+    simu_dna=dnas_sam
+
+    return json.dumps(simu_sam_settings)
 
 print('test github')
 print(app.url_map)

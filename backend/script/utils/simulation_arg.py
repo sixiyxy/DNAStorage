@@ -273,3 +273,83 @@ pcrPoly={
 
 
 }
+
+seqMeth={
+     "ill_SingleEnd":{
+            "seq_sub_prob":0.9963,
+            "seq_ins_prob":0.0013,
+            "seq_del_prob":0.0024,
+            "seq_raw_rate":0.0021,
+            "seq_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "seq_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "seq_sub_pattern":{
+                                "A":{"C":0.25,"G":0.5,"T":0.25},
+                                "C":{"A":0.25,"G":0.5,"T":0.25},
+                                "G":{"A":0.25,"C":0.25,"T":0.5},
+                                "T":{"A":0.25,"C":0.25,"G":0.5}
+                                }
+            "seq_del_pos":{"homopolymer":0,"random":1},
+            "seq_ins_pos":{"homopolymer":0,"random":1}
+        },
+        "ill_PairEnd":{
+            "seq_sub_prob":0.79,
+            "seq_ins_prob":0.0011,
+            "seq_del_prob":0.0018,
+            "seq_raw_rate":0.0032,
+            "seq_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "seq_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "seq_sub_pattern":{
+                                "A":{"C":0.25,"G":0.5,"T":0.25},
+                                "C":{"A":0.25,"G":0.5,"T":0.25},
+                                "G":{"A":0.25,"C":0.25,"T":0.5},
+                                "T":{"A":0.25,"C":0.25,"G":0.5}
+                                }
+            "seq_del_pos":{"homopolymer":0,"random":1},
+            "seq_ins_pos":{"homopolymer":0,"random":1}
+        },
+        "nano_1D":{
+            "seq_sub_prob":0.9963,
+            "seq_ins_prob":0.0013,
+            "seq_del_prob":0.0024,
+            "seq_raw_rate":0.0021,
+            "seq_del_pattern":{"A":0.15,"C":0.35,"G":0.35,"T":0.15},
+            "seq_ins_pattern":{"A":0.35,"C":0.15,"G":0.15,"T":0.35},
+            "seq_sub_pattern":{
+                                "A":{"C":0.25,"G":0.5,"T":0.25},
+                                "C":{"A":0.25,"G":0.5,"T":0.25},
+                                "G":{"A":0.25,"C":0.25,"T":0.5},
+                                "T":{"A":0.25,"C":0.25,"G":0.5}
+                                }
+            "seq_del_pos":{"homopolymer":0.46,"random":0.54},
+            "seq_ins_pos":{"homopolymer":0.46,"random":0.54}
+        },
+
+         "nano_2D":{
+            "seq_sub_prob":0.41,
+            "seq_ins_prob":0.23,
+            "seq_del_prob":0.36,
+            "seq_raw_rate":0.13,
+            "seq_del_pattern":{"A":0.15,"C":0.35,"G":0.35,"T":0.15},
+            "seq_ins_pattern":{"A":0.35,"C":0.15,"G":0.15,"T":0.35},
+            "seq_sub_pattern":{
+                                "TAC":{"TGC":1},
+                                "TAG":{"TGG":1}
+                                }
+            "seq_del_pos":{"homopolymer":0.46,"random":0.54},
+            "seq_ins_pos":{"homopolymer":0.46,"random":0.54}
+        },
+
+        "None":{
+            "seq_sub_prob":0.75,
+            "seq_ins_prob":0.05,
+            "seq_del_prob":0.2,
+            "seq_raw_rate":0.02,
+            "seq_del_pattern":{"A":0.15,"C":0.35,"G":0.35,"T":0.15},
+            "seq_ins_pattern":{"A":0.35,"C":0.15,"G":0.15,"T":0.35},
+            "seq_sub_pattern":{
+                                "CG":{"CA":0.5,"TG":0.5}
+                                }
+            "seq_del_pos":{"homopolymer":0.85,"random":0.15},
+            "seq_ins_pos":{"homopolymer":0.85,"random":0.15}
+        },
+}
