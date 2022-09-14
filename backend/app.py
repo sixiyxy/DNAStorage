@@ -1,4 +1,5 @@
 from distutils.command.config import config
+from imp import reload
 from flask import Flask, render_template
 from flask import request
 from flask_cors import *
@@ -9,7 +10,6 @@ from script.utils.utils_basic import get_config,write_yaml
 from script.step11_get_file_uid import get_file_uid
 from script.step12_get_file_info import get_file_info
 import script.step3_simulation as Simu
-
 
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
@@ -44,9 +44,13 @@ def get_front():
 
 @app.route('/upload',methods=['GET','POST'])
 def file_upload():
-    f = request.files['picture']
-    filename = 'upload_test_picture.jpg'
-    filetype = 'picture'
+    print('get file')
+    f = request.files['file']
+    print(f)
+    filename = f.filename
+    filetype = f.mimetype
+    #filename = 'upload_test_picture.jpg'
+    #filetype = 'file' #前端传
     file_uid = get_file_uid()
     file_rename = '{}_{}'.format(file_uid,filename)
     save_dir = '{}/upload/{}'.format(backend_dir,file_rename)
@@ -57,6 +61,7 @@ def file_upload():
                 'file_type':filetype}
     yaml_file = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
     write_yaml(yaml_path=yaml_file,data=file_base_info,appending=False)
+
     return json.dumps(file_base_info)
 
 @app.route('/fileinfo',methods=['GET','POST'])
