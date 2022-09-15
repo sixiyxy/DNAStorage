@@ -91,7 +91,7 @@ def file_information():
 
     return json.dumps(file_info)
 
-simu_dna=[]
+global simu_dna
 @app.route('/simu_synthesis',methods=['GET','POST'])
 def simu_synthesis():
     front_data = request.data
@@ -101,7 +101,7 @@ def simu_synthesis():
     {"file_uid":1565536927137009664,
     "synthesis_number":30,
     "synthesis_yield":0.99,
-    "synthesis_method":'ErrASE'}
+    "synthesis_method":"ErrASE"}
 
     file_uid=front_data['file_uid']
     synthesis_number = front_data['synthesis_number']
@@ -114,8 +114,7 @@ def simu_synthesis():
         synthesis_yield=synthesis_yield,
         synthesis_method=synthesis_method
     )
-
-    global simu_dna
+    simu_dna=[]
     simu_dna=dnas_syn
 
     return json.dumps(simu_synthesis_settings)
@@ -129,7 +128,7 @@ def simu_decay():
     {"file_uid":1565536927137009664,
     "months_of_storage":24,
     "loss_rate":0.3,
-    "storage_host":'Ecoli'}
+    "storage_host":"Ecoli"}
 
     file_uid=front_data['file_uid']
     months_of_storage = front_data['months_of_storage']
@@ -143,8 +142,7 @@ def simu_decay():
         storage_host=storage_host,
         dnas=simu_dna
     )
-    
-    global simu_dna
+    simu_dna=[]
     simu_dna=dnas_dec
 
     return json.dumps(simu_dec_settings)
@@ -158,7 +156,7 @@ def simu_pcr():
     {"file_uid":1565536927137009664,
     "pcr_cycle":12,
     "pcr_prob":0.8,
-    "pcr_polymerase":'Taq'}
+    "pcr_polymerase":"Taq"}
 
     file_uid=front_data['file_uid']
     pcr_cycle = front_data['pcr_cycle']
@@ -172,8 +170,7 @@ def simu_pcr():
         pcr_polymerase=pcr_polymerase,
         dnas=simu_dna
     )
-    
-    global simu_dna
+    simu_dna=[]
     simu_dna=dnas_pcr
 
     return json.dumps(simu_pcr_settings)
@@ -196,8 +193,7 @@ def simu_sam():
         sam_ratio=sam_ratio,
         dnas=simu_dna
     )
-    
-    global simu_dna
+    simu_dna=[]
     simu_dna=dnas_sam
 
     return json.dumps(simu_sam_settings)
@@ -209,22 +205,24 @@ def simu_seq():
 
     #### Postman test json ####
     {"file_uid":1565536927137009664,
-    "sam_ratio":0.005
+    "seq_depth":0.005,
+    "seq_meth":"ill_PairedEnd"
     }
 
     file_uid=front_data['file_uid']
-    sam_ratio =front_data['sam_ratio'] 
+    seq_depth =front_data['seq_depth'] 
+    seq_meth=front_data['seq_meth']
 
-    simu_sam_settings,dnas_sam=Simu.get_simu_sam_info(
+    simu_seq_settings,dnas_seq=Simu.get_simu_seq_info(
         file_uid=file_uid,
-        sam_ratio=sam_ratio,
-        dnas=simu_dna
+        seq_depth=seq_depth,
+        seq_meth=seq_meth,
+        in_dnas=simu_dna
     )
-    
-    global simu_dna
-    simu_dna=dnas_sam
+    simu_dna=[]
+    simu_dna=dnas_seq
 
-    return json.dumps(simu_sam_settings)
+    return json.dumps(simu_seq_settings)
 
 print('test github')
 print(app.url_map)
