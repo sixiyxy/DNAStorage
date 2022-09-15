@@ -38,8 +38,12 @@ class Synthesizer_simu:
 
         self.del_pattern=arg.syn_del_pattern
         self.ins_pattern=arg.syn_ins_pattern##对于添加和删除错误而言，不同base所对应的不同概率；例如：对于ErrASE的syn方式，del概率：ACGT：0.4,0.2,0.2,0.2
+        if hasattr(arg,'TM_Normal'):
+            self.TM_Normal=arg.TM_Normal
+        else:
+            self.TM_Normal=True
         self.TM_Normal=arg.TM_Normal
-        if arg.syn_sub_pattern:
+        if hasattr(arg,'syn_sub_pattern'):
             self.TM=arg.syn_sub_pattern
         else:
             self.TM=None
@@ -62,8 +66,12 @@ class Decayer_simu:
         self.raw_rate = arg.dec_raw_rate*int(arg.months_of_storage)
         self.del_pattern=arg.dec_del_pattern
         self.ins_pattern=arg.dec_ins_pattern
+        if hasattr(arg,'TM_Normal'):
+            self.TM_Normal=arg.TM_Normal
+        else:
+            self.TM_Normal=True
         self.TM_Normal=arg.TM_Normal
-        if arg.dec_sub_pattern:
+        if hasattr(arg,'dec_sub_pattern'):
             self.TM=arg.dec_sub_pattern
         else:
             self.TM=None
@@ -91,11 +99,16 @@ class Sequencer_simu:
         self.del_pattern = arg.seq_del_pattern
         self.ins_pattern = arg.seq_ins_pattern  ##对于添加和删除错误而言，不同base所对应的不同概率；例如：对于ErrASE的syn方式，del概率：ACGT：0.4,0.2,0.2,0.2
 
+        if hasattr(arg,'TM_Normal'):
+            self.TM_Normal=arg.TM_Normal
+        else:
+            self.TM_Normal=True
         self.TM_Normal=arg.TM_Normal
-        if arg.seq_seq_pattern:
+        if hasattr(arg,'seq_sub_pattern'):
             self.TM=arg.seq_sub_pattern
         else:
             self.TM=None
+
         self.err=ErrorAdder_simu(self.probS, self.probD, self.probI,self.raw_rate,self.del_pattern,self.ins_pattern,self.TM,self.TM_Normal)
 
     def __call__(self, dnas):
@@ -124,8 +137,11 @@ class PCRer_simu:
             self.raw_rate = arg.pcr_raw_rate
             self.del_pattern = arg.pcr_del_pattern
             self.ins_pattern = arg.pcr_ins_pattern
-            self.TM_Normal=arg.TM_Normal
-            if arg.pcr_sub_pattern:
+            if hasattr(arg,'TM_Normal'):
+                self.TM_Normal=arg.TM_Normal
+            else:
+                self.TM_Normal=True
+            if hasattr(arg,'pcr_sub_pattern'):
                 self.TM=arg.pcr_sub_pattern
             else:
                 self.TM=None
@@ -360,8 +376,16 @@ def genTm(prob):
     return tm
 
 if __name__ == '__main__':
-    arg=
-        {"syn_sub_prob":0.2,
+    class ArgumentPasser:
+    """Simple Class for passing arguments in arg object.
+        Init all arttributes from a dictionary.
+    """
+
+        def __init__(self, dic):
+            self.__dict__.update(dic)
+
+    arg={
+            "syn_sub_prob":0.2,
             "syn_ins_prob":0.2,
             "syn_del_prob":0.2,
             "syn_raw_rate":0.000025,
@@ -373,6 +397,9 @@ if __name__ == '__main__':
             "syn_number": 30,
             "syn_yield": 0.99,
          }
+
+
+    arg=ArgumentPasser(arg)
     dnas=Synthesizer_simu(arg)
     print(dnas)
 

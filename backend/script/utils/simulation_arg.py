@@ -10,7 +10,6 @@ synthMeth={
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
             "syn_ins_pos":{"homopolymer":0,"random":1},
-            "TM_Normal":True
         },
 
         "MutS":{
@@ -185,7 +184,8 @@ decHost={
                                 "T":{"A":0.3333,"C":0.3333,"T":0.333400000004}
                                 },
             "dec_del_pos":{"homopolymer":0.5,"random":0.5},
-            "dec_ins_pos":{"homopolymer":0.5,"random":0.5}
+            "dec_ins_pos":{"homopolymer":0.5,"random":0.5},
+            "TM_Normal":False
         }
 
 
@@ -207,7 +207,8 @@ pcrPoly={
                                 "T":{"A":0.01,"C":0.97,"G":0.02}
                                 },
             "pcr_del_pos":{"homopolymer":0,"random":1},
-            "pcr_ins_pos":{"homopolymer":0,"random":1}
+            "pcr_ins_pos":{"homopolymer":0,"random":1},
+            "TM_Normal":False
         },
 
         "Phusion":{
@@ -224,7 +225,8 @@ pcrPoly={
                                 "T":{"A":0.01,"C":0.97,"G":0.02}
                                 },
             "pcr_del_pos":{"homopolymer":0,"random":1},
-            "pcr_ins_pos":{"homopolymer":0,"random":1}
+            "pcr_ins_pos":{"homopolymer":0,"random":1},
+            "TM_Normal":False
         },
 
          "Pwo":{
@@ -242,6 +244,7 @@ pcrPoly={
                                 },
             "pcr_del_pos":{"homopolymer":0,"random":1},
             "pcr_ins_pos":{"homopolymer":0,"random":1}
+            "TM_Normal":False
         },
 
          "Pfu":{
@@ -258,7 +261,8 @@ pcrPoly={
                                 "T":{"A":0.25,"C":0.75,"G":0}
                                 },
             "pcr_del_pos":{"homopolymer":0,"random":1},
-            "pcr_ins_pos":{"homopolymer":0,"random":1}
+            "pcr_ins_pos":{"homopolymer":0,"random":1},
+            "TM_Normal":False
         },
 
         "None":{
@@ -290,7 +294,8 @@ seqMeth={
                                 "T":{"A":0.25,"C":0.25,"G":0.5}
                                 },
             "seq_del_pos":{"homopolymer":0,"random":1},
-            "seq_ins_pos":{"homopolymer":0,"random":1}
+            "seq_ins_pos":{"homopolymer":0,"random":1},
+            "TM_Normal":False
         },
         "ill_PairEnd":{
             "seq_sub_prob":0.79,
@@ -306,7 +311,8 @@ seqMeth={
                                 "T":{"A":0.25,"C":0.25,"G":0.5}
                                 },
             "seq_del_pos":{"homopolymer":0,"random":1},
-            "seq_ins_pos":{"homopolymer":0,"random":1}
+            "seq_ins_pos":{"homopolymer":0,"random":1},
+            "TM_Normal":False
         },
         "nano_1D":{
             "seq_sub_prob":0.9963,
@@ -322,7 +328,8 @@ seqMeth={
                                 "T":{"A":0.25,"C":0.25,"G":0.5}
                                 },
             "seq_del_pos":{"homopolymer":0.46,"random":0.54},
-            "seq_ins_pos":{"homopolymer":0.46,"random":0.54}
+            "seq_ins_pos":{"homopolymer":0.46,"random":0.54},
+            "TM_Normal":False
         },
 
          "nano_2D":{
@@ -337,7 +344,8 @@ seqMeth={
                                 "TAG":{"TGG":1}
                                 },
             "seq_del_pos":{"homopolymer":0.46,"random":0.54},
-            "seq_ins_pos":{"homopolymer":0.46,"random":0.54}
+            "seq_ins_pos":{"homopolymer":0.46,"random":0.54},
+            "TM_Normal":False
         },
 
         "None":{
@@ -351,6 +359,7 @@ seqMeth={
                                 "CG":{"CA":0.5,"TG":0.5}
                                 },
             "seq_del_pos":{"homopolymer":0.85,"random":0.15},
-            "seq_ins_pos":{"homopolymer":0.85,"random":0.15}
+            "seq_ins_pos":{"homopolymer":0.85,"random":0.15},
+            "TM_Normal":False
         },
 }
