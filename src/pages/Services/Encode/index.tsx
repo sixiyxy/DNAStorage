@@ -1,8 +1,11 @@
 import React,{useState}from "react";
 import "./index.less";
 import { Breadcrumb } from 'antd';
-import {Encodelist} from '../../../components/Encodelist'
-import Uploads from '../../../components/Uploads'
+import {Encodelist} from '../Encode/components/Encodelist'
+import Uploads from '../Encode/components/Uploads'
+import Sliders from '../Encode/components/Sliders'
+import Graphs from '../Encode/components/Graphs'
+import { VerifyMethod } from "./components/VerifyMethod";
 export class EncodeProps {}
 
 export const Encode: React.FC<EncodeProps> = (props) => {
@@ -21,12 +24,25 @@ export const Encode: React.FC<EncodeProps> = (props) => {
             <Breadcrumb.Item>Encode Data</Breadcrumb.Item>
         </Breadcrumb>
       </div>
-      <div>
-        <p style={{paddingLeft:"30px",paddingTop:"20px",fontSize:"18px",marginBottom:"0px"}}>Please upload the storage files:</p> 
+      <div style={{paddingLeft:"30px",paddingTop:"20px",fontSize:"18px"}}>
+        <p ><strong>Please upload the storage files:</strong></p> 
         <Uploads/>
       </div>
-      <div>
-        <p style={{paddingLeft:"30px",paddingTop:"70px",fontSize:"18px",marginBottom:"0px"}}>请在下面的勾选框中选出适合自己的编码方法:</p>
+      <div style={{paddingLeft:"30px",paddingTop:"50px",fontSize:"14px"}}>
+        <hr/>
+        <Sliders/>
+      </div>
+      <div style={{paddingLeft:"30px",paddingTop:"40px",fontSize:"16px"}}>
+        <hr/>
+        <strong>Verify Method: </strong> <VerifyMethod/>
+        <p style={{fontSize:"14px"}}>Tips: Method details please click the <a href='../Methods'>Method Paper</a></p>
+      </div>
+      <div style={{paddingLeft:"30px",paddingTop:"20px"}}>
+        <Graphs/>
+      </div>
+      <div style={{paddingLeft:"30px",paddingTop:"20px",fontSize:"18px"}}>
+        <hr/>
+        <p><strong>请在下面的勾选框中选出适合自己的编码方法:</strong></p>
       </div>
       <Encodelist/>
     </div>
