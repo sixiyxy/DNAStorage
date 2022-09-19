@@ -10,23 +10,27 @@ export const Home: React.FC<HomeProps> = (props) => {
   return (
     <div className="home-content">
       <div className="home-model-name">
-        <h1>model name</h1>
+        <h1>DNA Storage Designer</h1>
       </div>
       <div className="brief">
-        简介：xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        <span>
+          简介：xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        </span>
       </div>
       <div className="home-photo">
         <img></img>
       </div>
 
       <div className="button-container">
-        <Button className="home-button">
+        <Button className="home-button" size="large">
           <Link to="/tutorial">Getting Start</Link>
         </Button>
-        <Button className="home-button">
+        <Button className="home-button" size="large">
           <Link to="/tutorial">Manual</Link>
         </Button>
-        <Button className="home-button">Github</Button>
+        <Button className="home-button" size="large">
+          Github
+        </Button>
       </div>
     </div>
   );
