@@ -1,4 +1,4 @@
-from .simulation_arg import synthMeth, decHost
+from .simulation_arg import synthMeth, decHost,pcrPoly,seqMeth
 
 
 class ArgumentPasser:
@@ -22,5 +22,9 @@ def PcrPoly_arg(pcr_polymerase):
 
 def Sampler_arg(sam_ratio):
     dic={"sam_ratio":sam_ratio}
+    return ArgumentPasser(dic)
+
+def Seq_arg(seq_meth):
+    dic=seqMeth[seq_meth]
     return ArgumentPasser(dic)
 

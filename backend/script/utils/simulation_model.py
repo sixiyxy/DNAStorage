@@ -29,7 +29,6 @@ class Syn_D:
 
 class Synthesizer_simu:
     def __init__(self, arg):
-        print(arg)
         self.Yield = arg.syn_yield
         self.N = arg.syn_number
         self.probS = arg.syn_sub_prob
@@ -39,9 +38,18 @@ class Synthesizer_simu:
 
         self.del_pattern=arg.syn_del_pattern
         self.ins_pattern=arg.syn_ins_pattern##对于添加和删除错误而言，不同base所对应的不同概率；例如：对于ErrASE的syn方式，del概率：ACGT：0.4,0.2,0.2,0.2
+        if hasattr(arg,'TM_Normal'):
+            self.TM_Normal=arg.TM_Normal
+        else:
+            self.TM_Normal=True
+        self.TM_Normal=arg.TM_Normal
+        if hasattr(arg,'syn_sub_pattern'):
+            self.TM=arg.syn_sub_pattern
+        else:
+            self.TM=None
 
         self.syn = Syn_D(self.Yield, self.N)
-        self.err = ErrorAdder_simu(self.probS, self.probD, self.probI,self.raw_rate,self.del_pattern,self.ins_pattern)
+        self.err = ErrorAdder_simu(self.probS, self.probD, self.probI,self.raw_rate,self.del_pattern,self.ins_pattern,TM=self.TM,TM_Normal=self.TM_Normal)
 
     def __call__(self, dnas):
         dnas = self.syn(dnas)
@@ -58,10 +66,18 @@ class Decayer_simu:
         self.raw_rate = arg.dec_raw_rate*int(arg.months_of_storage)
         self.del_pattern=arg.dec_del_pattern
         self.ins_pattern=arg.dec_ins_pattern
+        if hasattr(arg,'TM_Normal'):
+            self.TM_Normal=arg.TM_Normal
+        else:
+            self.TM_Normal=True
+        self.TM_Normal=arg.TM_Normal
+        if hasattr(arg,'dec_sub_pattern'):
+            self.TM=arg.dec_sub_pattern
+        else:
+            self.TM=None
 
-
-        self.sam = Sampler(1-self.loss_rate)
-        self.err = ErrorAdder_simu(probS=self.probS, probD = self.probD, probI = self.probI, raw_rate=self.raw_rate,del_pattern=self.del_pattern,ins_pattern=self.ins_pattern)
+        self.sam = Sampler_simu(1-self.loss_rate)
+        self.err = ErrorAdder_simu(probS=self.probS, probD = self.probD, probI = self.probI, raw_rate=self.raw_rate,del_pattern=self.del_pattern,ins_pattern=self.ins_pattern,TM=self.TM,TM_Normal=self.TM_Normal)
 
     
     def __call__(self, dnas):
@@ -71,35 +87,42 @@ class Decayer_simu:
 
 class Sequencer_simu:
     def __init__(self, arg):
-        self.copies_required = arg.seq_copies
-        self.pcrp = arg.seq_prcp
-        self.performPCR = arg.seq_performPCR
-
         self.seq_depth = arg.seq_depth
 
-        self.TM = arg.seq_TM
+        self.TM = arg.seq_sub_pattern
+        self.TM_Normal=arg.TM_Normal
+        self.probS = arg.seq_sub_prob
+        self.probD = arg.seq_del_prob
+        self.probI = arg.seq_ins_prob
+        self.raw_rate = arg.seq_raw_rate
+
+        self.del_pattern = arg.seq_del_pattern
+        self.ins_pattern = arg.seq_ins_pattern  ##对于添加和删除错误而言，不同base所对应的不同概率；例如：对于ErrASE的syn方式，del概率：ACGT：0.4,0.2,0.2,0.2
+
+        if hasattr(arg,'TM_Normal'):
+            self.TM_Normal=arg.TM_Normal
+        else:
+            self.TM_Normal=True
+        self.TM_Normal=arg.TM_Normal
+        if hasattr(arg,'seq_sub_pattern'):
+            self.TM=arg.seq_sub_pattern
+        else:
+            self.TM=None
+
+        self.err=ErrorAdder_simu(self.probS, self.probD, self.probI,self.raw_rate,self.del_pattern,self.ins_pattern,self.TM,self.TM_Normal)
 
     def __call__(self, dnas):
-        if self.performPCR:
-            dnas = self.pcr(dnas)
+        # if self.performPCR:
+        #     dnas = self.pcr(dnas)
         dnas = self.sample(dnas)
-        self.E = ErrorAdder(probI=0.00001, probD=0.00001, TM=self.TM)
-        dnas = self.E(dnas)
-        return dnas
-
-    def pcr(self, dnas):
-        rNs = [dna['num'] for dna in dnas]
-        average_copies = sum(rNs) / len(rNs)
-        amplify_ratio = self.copies_required / average_copies
-        self.pcrc = int(log(amplify_ratio) / log(self.pcrp + 1))
-        dnas = PCRer(self.pcrc, self.pcrp)(dnas)
+        dnas = self.err(dnas)
         return dnas
 
     def sample(self, dnas):
         rNs = [dna['num'] for dna in dnas]
         average_copies = sum(rNs) / len(rNs)
         self.sample_ratio = self.seq_depth / average_copies
-        dnas = Sampler(self.sample_ratio)(dnas)
+        dnas = Sampler_simu(self.sample_ratio)(dnas)
         return dnas
 
 class PCRer_simu:
@@ -114,8 +137,16 @@ class PCRer_simu:
             self.raw_rate = arg.pcr_raw_rate
             self.del_pattern = arg.pcr_del_pattern
             self.ins_pattern = arg.pcr_ins_pattern
+            if hasattr(arg,'TM_Normal'):
+                self.TM_Normal=arg.TM_Normal
+            else:
+                self.TM_Normal=True
+            if hasattr(arg,'pcr_sub_pattern'):
+                self.TM=arg.pcr_sub_pattern
+            else:
+                self.TM=None
             self.err = ErrorAdder_simu(probS=self.probS, probD=self.probD, probI=self.probI, raw_rate=self.raw_rate,
-                                      del_pattern=self.del_pattern, ins_pattern=self.ins_pattern)
+                                      del_pattern=self.del_pattern, ins_pattern=self.ins_pattern,TM=self.TM,TM_Normal=self.TM_Normal)
         self.p = p
         self.N = N
         self.pBias = pBias
@@ -193,7 +224,7 @@ class ErrorAdder_simu:
         self.TM_Normal=TM_Normal
 
         if TM != None:
-            self.TM = TM*
+            self.TM = TM
             self.all_equal = 0
         else:
             self.TM = genTm(self.probS/3)  # 生成替换概率矩阵，A-CGT
@@ -343,4 +374,32 @@ def genTm(prob):
         row[i] = 1 - 3* prob 
         tm.append(row)
     return tm
+
+if __name__ == '__main__':
+    class ArgumentPasser:
+    """Simple Class for passing arguments in arg object.
+        Init all arttributes from a dictionary.
+    """
+
+        def __init__(self, dic):
+            self.__dict__.update(dic)
+
+    arg={
+            "syn_sub_prob":0.2,
+            "syn_ins_prob":0.2,
+            "syn_del_prob":0.2,
+            "syn_raw_rate":0.000025,
+            "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
+            "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "syn_del_pos":{"homopolymer":0,"random":1},
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "TM_Normal":True,
+            "syn_number": 30,
+            "syn_yield": 0.99,
+         }
+
+
+    arg=ArgumentPasser(arg)
+    dnas=Synthesizer_simu(arg)
+    print(dnas)
 

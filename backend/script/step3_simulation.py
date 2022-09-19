@@ -1,7 +1,7 @@
-import utils.simulation_model as Model
+import script.utils.simulation_model as Model
 import numpy as np
-from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg
+from script.utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg
 
 
 def get_simu_synthesis_info(file_uid,
@@ -128,7 +128,7 @@ def get_simu_pcr_info(file_uid,
     return pcr_info,dnas_pcr
 
 def get_simu_sam_info(file_uid,
-    sam_ratio
+    sam_ratio,
     in_dnas):
 
     '''
@@ -144,17 +144,53 @@ def get_simu_sam_info(file_uid,
 
     file_info_path='{}/{}/{}.yaml'.format(backend_dir,file_dir,file_uid)
 
-    arg=Sampler_arg
+    arg=Sampler_arg(sam_ratio)
 
     Sam=Model.Sampler_simu(arg)
     dnas_sam=Sam(in_dnas)
 
-    pcr_info={
+    sam_info={
         "sam_ratio":sam_ratio
     }
-    write_yaml(yaml_path=file_info_path,data=pcr_info,appending=True)
+    write_yaml(yaml_path=file_info_path,data=sam_info,appending=True)
 
-    return pcr_info,dnas_pcr
+    return sam_info,dnas_sam
+
+def get_simu_seq_info(file_uid,
+    seq_depth,
+    seq_meth,
+    in_dnas):
+
+    '''
+    Input:
+        file_uid
+        seq_depth
+        seq_meth
+        in_dnas
+    '''
+    # file information path
+    config = get_config(yaml_path='config')
+    backend_dir = config['backend_dir']
+    file_dir=config['file_save_dir']
+
+    file_info_path='{}/{}/{}.yaml'.format(backend_dir,file_dir,file_uid)
+
+    arg=Seq_arg(seq_meth)
+    arg.seq_depth=seq_depth
+
+    Seq=Model.Sequencer_simu(arg)
+    dnas_seq=Seq(in_dnas)
+
+    seq_info={
+        "seq_depth":seq_depth,
+        "seq_meth":seq_meth,
+        "seq_reference":seq_reference
+    }
+    write_yaml(yaml_path=file_info_path,data=seq_info,appending=True)
+
+    return seq_info,dnas_seq
+
+
 
 if __name__ == "__main__":
 
