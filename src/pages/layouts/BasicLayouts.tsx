@@ -40,10 +40,18 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           </MenuItem>
         </Menu>
       </Header>
-      <Content style={{ width: 1000, height: 1000, padding: "0 0px" }}>
+      <Content style={{}}>
         <Outlet />
       </Content>
-      <Footer style={{ textAlign: "center",position:"fixed",bottom:0,left:1400,height:10}}>
+      <Footer
+        style={{
+          textAlign: "center",
+          position: "fixed",
+          bottom: 0,
+          left: 1400,
+          height: 10,
+        }}
+      >
         Ant Design ©2018 Created by Ant UED
       </Footer>
     </Layout>
