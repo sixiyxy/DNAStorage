@@ -117,6 +117,7 @@ def simu_synthesis():
     simu_dna=[]
     simu_dna=dnas_syn
     nums=Simu.calculate_density(simu_dna)
+    simu_synthesis_settings['density']=nums
     return json.dumps(simu_synthesis_settings)
     #return simu_dna
 
