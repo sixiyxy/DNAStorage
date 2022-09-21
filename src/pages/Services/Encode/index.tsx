@@ -5,7 +5,7 @@ import {Encodelist} from '../Encode/components/Encodelist'
 import Uploads from '../Encode/components/Uploads'
 import Sliders from '../Encode/components/Sliders'
 import Graphs from '../Encode/components/Graphs'
-import { VerifyMethod } from "./components/VerifyMethod";
+
 export class EncodeProps {}
 
 export const Encode: React.FC<EncodeProps> = (props) => {
@@ -32,12 +32,8 @@ export const Encode: React.FC<EncodeProps> = (props) => {
         <hr/>
         <Sliders/>
       </div>
-      <div style={{paddingLeft:"30px",paddingTop:"40px",fontSize:"16px"}}>
-        <hr/>
-        <strong>Verify Method: </strong> <VerifyMethod/>
-        <p style={{fontSize:"14px"}}>Tips: Method details please click the <a href='../Methods'>Method Paper</a></p>
-      </div>
       <div style={{paddingLeft:"30px",paddingTop:"20px"}}>
+        <hr/>
         <Graphs/>
       </div>
       <div style={{paddingLeft:"30px",paddingTop:"20px",fontSize:"18px"}}>
