@@ -190,7 +190,7 @@ def get_simu_seq_info(file_uid,
 
     return seq_info,dnas_seq
 
-def count_density(dnas):
+def calculate_density(dnas):
     nums = {}
     total = 0
     for dna in dnas:
