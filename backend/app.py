@@ -66,21 +66,22 @@ def file_upload():
 
 @app.route('/fileinfo',methods=['GET','POST'])
 def file_information():
+    print("我开始接收了")
     front_data = request.data
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    {"file_uid":1565237658387615744,
-    "segment_length":160,
-    "index_length":20,
-    "verify_method":"Hamming",
-    "encode_method":"Basic"}
+    # {"file_uid":1565237658387615744,
+    # "segment_length":160,
+    # "index_length":20,
+    # "verify_method":"Hamming",
+    # "encode_method":"Basic"}
 
-    file_uid = front_data['file_uid']
-    segment_length = front_data['segment_length']
-    index_length = front_data['index_length']
-    verify_method = front_data['verify_method']
-    encode_method = front_data['encode_method']
+    file_uid = front_data['file_uid'] #'1566....'
+    segment_length = front_data['segment_length'] #4
+    index_length = front_data['index_length'] #128
+    verify_method = front_data['verify_method'] #'HammingCode'
+    encode_method = front_data['encode_method'] #'Basic'
 
     file_info = get_file_info(file_uid=file_uid,
     segment_length=segment_length,

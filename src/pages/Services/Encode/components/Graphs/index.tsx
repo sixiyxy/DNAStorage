@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Bar } from '@ant-design/plots';
-
+import axios from 'axios'
 
 const Graphs: React.FC = (props:any) => {
   
@@ -38,14 +38,42 @@ const Graphs: React.FC = (props:any) => {
     }
   ];  
   const [dataobj,setData]=useState(data)
-  console.log('method：',props.method);
-  console.log('props：',props);
+  // console.log('method：',props.method);
+  // console.log('props：',props);
+
+  var params = {
+    "file_uid":'1565536927137009664',
+    "segment_length":160,
+    "index_length":20,
+    "verify_method":"Hamming",
+    "encode_method":"Basic"
+  }
+  console.log(params);
   const handleClick=()=>{
     if (props.method==='WithoutVerifycode'){
       data[0].value = props.values[1].Indexvalue
       data[3].value = props.values[0].Segvalue
       setData(data)
       console.log(dataobj);
+
+      params.segment_length = props.values[1].Indexvalue
+      params.index_length = props.values[0].Segvalue
+      params.verify_method = props.method
+      axios.post('http://127.0.0.1:5000/fileinfo',params)
+            .then(function (response) {
+                console.log("response: ", response);
+                //以下均为后端返回的data中的值
+                console.log(response.data.byte_size)
+                console.log(response.data.bit_size)
+                console.log(response.data.encode_method)
+                console.log(response.data.index_length)
+                console.log(response.data.segment_length)  
+                console.log(response.data.segment_number)  
+                console.log(response.data.verify_method)    
+
+                
+            })
+            .catch(err => console.log('前端',err))
       
     }
     else if(props.method==='HammingCode'){
@@ -53,11 +81,31 @@ const Graphs: React.FC = (props:any) => {
       data[4].value = props.values[0].Segvalue
       setData(data)
       console.log(dataobj);
+
+      params.segment_length = props.values[1].Indexvalue
+      params.index_length = props.values[0].Segvalue
+      params.verify_method = props.method
+
+      axios.post('http://127.0.0.1:5000/fileinfo',params)
+            .then(function (response) {
+                console.log("response: ", response);
+            })
+            .catch(err => console.log(err))
     }else{
       data[2].value = props.values[1].Indexvalue
       data[5].value = props.values[0].Segvalue
       setData(data)
       console.log(dataobj);
+      
+      params.segment_length = props.values[1].Indexvalue
+      params.index_length = props.values[0].Segvalue
+      params.verify_method = props.method
+
+      axios.post('http://127.0.0.1:5000/fileinfo',params)
+            .then(function (response) {
+                console.log("response: ", response);
+            })
+            .catch(err => console.log(err))
     }
   }
   const config:any = {
