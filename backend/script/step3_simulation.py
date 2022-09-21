@@ -190,7 +190,20 @@ def get_simu_seq_info(file_uid,
 
     return seq_info,dnas_seq
 
-
+def count_density(dnas):
+    nums = {}
+    total = 0
+    for dna in dnas:
+        for re in dna['re']:
+            n = re[0]
+            nums[n] = nums.get(n, 0) + 1
+            total += 1
+    print(nums)
+    print(total)
+    for i in nums:
+        nums[i] = nums[i] / total
+    nums = sorted(nums.items(), key=lambda e: e[0])
+    return nums
 
 if __name__ == "__main__":
 
@@ -199,3 +212,4 @@ if __name__ == "__main__":
 
     a=get_simu_dec_info(1565536927137009664,24,0.3,'Ecoli',in_dnas)
     print(a)
+

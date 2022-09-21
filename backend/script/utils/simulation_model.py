@@ -42,7 +42,7 @@ class Synthesizer_simu:
             self.TM_Normal=arg.TM_Normal
         else:
             self.TM_Normal=True
-        self.TM_Normal=arg.TM_Normal
+
         if hasattr(arg,'syn_sub_pattern'):
             self.TM=arg.syn_sub_pattern
         else:
@@ -377,9 +377,9 @@ def genTm(prob):
 
 if __name__ == '__main__':
     class ArgumentPasser:
-    """Simple Class for passing arguments in arg object.
-        Init all arttributes from a dictionary.
-    """
+        """Simple Class for passing arguments in arg object.
+            Init all arttributes from a dictionary.
+        """
 
         def __init__(self, dic):
             self.__dict__.update(dic)
