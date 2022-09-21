@@ -12,7 +12,6 @@ export const Methods: React.FC<MethodsProps> = (props) => {
   }, []);
   return (
     <div>
-
         <div className="Methods">
         <div id='test'>
           <br></br>
@@ -87,7 +86,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
 
         </div>
         </div>    
-        <div style={{ position:"fixed",top:"150px",margin:"0px 1200px"}}>
+        <div style={{ position:"fixed",top:"150px",margin:"0px 1300px"}}>
             <Anchor targetOffset={targetOffset}>
               <Link href="#infotitle" title="Basic Information" />
               <Link href="#checkcode" title="Check Codes" >

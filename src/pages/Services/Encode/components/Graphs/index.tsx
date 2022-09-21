@@ -3,43 +3,65 @@ import ReactDOM from 'react-dom';
 import { Bar } from '@ant-design/plots';
 
 
-const Graphs: React.FC = () => {
-
+const Graphs: React.FC = (props:any) => {
+  
   const data = [
     {
-      name: '无纠错码',
-      value: 16,
+      name: 'WithoutVerifycode',
+      value: 0,
       type: '索引区',
     },
     {
-      name: 'Hamming码',
-      value: 16,
+      name: 'HammingCode',
+      value: 0,
       type: '索引区',
     },
     {
-      name: 'RS码',
-      value: 16,
+      name: 'ReedSolomonCode',
+      value: 0,
       type: '索引区',
     },
     {
-      name: '无纠错码',
-      value: 160,
+      name: 'WithoutVerifycode',
+      value: 0,
       type: '信息区',
     },
     {
-      name: 'Hamming码',
-      value: 150,
+      name: 'HammingCode',
+      value: 0,
       type: '信息区',
     },
     {
-      name: 'RS码',
-      value: 140,
+      name: 'ReedSolomonCode',
+      value: 0,
       type: '信息区',
     }
-  ];
-
+  ];  
+  const [dataobj,setData]=useState(data)
+  console.log('method：',props.method);
+  console.log('props：',props);
+  const handleClick=()=>{
+    if (props.method==='WithoutVerifycode'){
+      data[0].value = props.values[1].Indexvalue
+      data[3].value = props.values[0].Segvalue
+      setData(data)
+      console.log(dataobj);
+      
+    }
+    else if(props.method==='HammingCode'){
+      data[1].value = props.values[1].Indexvalue
+      data[4].value = props.values[0].Segvalue
+      setData(data)
+      console.log(dataobj);
+    }else{
+      data[2].value = props.values[1].Indexvalue
+      data[5].value = props.values[0].Segvalue
+      setData(data)
+      console.log(dataobj);
+    }
+  }
   const config:any = {
-    data: data.reverse(),
+    data: dataobj,
     isStack: true,
     xField: 'value',
     yField: 'name',
@@ -63,7 +85,15 @@ const Graphs: React.FC = () => {
       ],
     },
   };
-  return <Bar {...config} />;
+
+  
+  return (
+    <div>
+      <button className='btn btn-danger' style={{marginLeft:"650px",marginTop:"10px"}} onClick={handleClick}>点我</button>
+      <Bar {...config} />
+    </div>
+    
+  );
 };
 export default Graphs;
 
