@@ -2,6 +2,7 @@ import numpy as np
 from math import sqrt,log
 import copy 
 import time
+from utils import homopolymer
 
 BASE = np.array(['A','C','G','T'])
 QUANT = {'A': 0, 'C':1, 'G':2, 'T':3}
@@ -48,8 +49,10 @@ class Synthesizer_simu:
         else:
             self.TM=None
 
+        self.ins_pos=arg.syn_ins_pos
+        self.del_pos=arg.syn_del_pos
         self.syn = Syn_D(self.Yield, self.N)
-        self.err = ErrorAdder_simu(self.probS, self.probD, self.probI,self.raw_rate,self.del_pattern,self.ins_pattern,TM=self.TM,TM_Normal=self.TM_Normal)
+        self.err = ErrorAdder_simu(self.probS, self.probD, self.probI,self.raw_rate,self.del_pattern,self.ins_pattern,TM=self.TM,TM_Normal=self.TM_Normal,ins_pos=self.ins_pos,del_pos=self.del_pos)
 
     def __call__(self, dnas):
         dnas = self.syn(dnas)
@@ -70,14 +73,16 @@ class Decayer_simu:
             self.TM_Normal=arg.TM_Normal
         else:
             self.TM_Normal=True
-        self.TM_Normal=arg.TM_Normal
+
         if hasattr(arg,'dec_sub_pattern'):
             self.TM=arg.dec_sub_pattern
         else:
             self.TM=None
 
+        self.ins_pos=arg.dec_ins_pos
+        self.del_pos=arg.dec_del_pos
         self.sam = Sampler_simu(1-self.loss_rate)
-        self.err = ErrorAdder_simu(probS=self.probS, probD = self.probD, probI = self.probI, raw_rate=self.raw_rate,del_pattern=self.del_pattern,ins_pattern=self.ins_pattern,TM=self.TM,TM_Normal=self.TM_Normal)
+        self.err = ErrorAdder_simu(probS=self.probS, probD = self.probD, probI = self.probI, raw_rate=self.raw_rate,del_pattern=self.del_pattern,ins_pattern=self.ins_pattern,TM=self.TM,TM_Normal=self.TM_Normal,ins_pos=self.ins_pos,del_pos=self.del_pos)
 
     
     def __call__(self, dnas):
@@ -109,7 +114,9 @@ class Sequencer_simu:
         else:
             self.TM=None
 
-        self.err=ErrorAdder_simu(self.probS, self.probD, self.probI,self.raw_rate,self.del_pattern,self.ins_pattern,self.TM,self.TM_Normal)
+        self.ins_pos=arg.seq_ins_pos
+        self.del_pos=arg.seq_del_pos
+        self.err=ErrorAdder_simu(self.probS, self.probD, self.probI,self.raw_rate,self.del_pattern,self.ins_pattern,self.TM,self.TM_Normal,ins_pos=self.ins_pos,del_pos=self.del_pos)
 
     def __call__(self, dnas):
         # if self.performPCR:
@@ -145,8 +152,11 @@ class PCRer_simu:
                 self.TM=arg.pcr_sub_pattern
             else:
                 self.TM=None
+            
+            self.ins_pos=arg.pcr_ins_pos
+            self.del_pos=arg.pcr_del_pos
             self.err = ErrorAdder_simu(probS=self.probS, probD=self.probD, probI=self.probI, raw_rate=self.raw_rate,
-                                      del_pattern=self.del_pattern, ins_pattern=self.ins_pattern,TM=self.TM,TM_Normal=self.TM_Normal)
+                                      del_pattern=self.del_pattern, ins_pattern=self.ins_pattern,TM=self.TM,TM_Normal=self.TM_Normal,ins_pos=self.ins_pos,del_pos=self.del_pos)
         self.p = p
         self.N = N
         self.pBias = pBias
@@ -214,7 +224,7 @@ class Sampler_simu:
         return out_dnas
         
 class ErrorAdder_simu:
-    def __init__(self, probS=0.2, probD=0.6, probI=0.2, raw_rate=0.0001,del_pattern=None,ins_pattern=None,TM=None,TM_Normal=True):  # 替代substitute，删除delete和插入insert
+    def __init__(self, probS=0.2, probD=0.6, probI=0.2, raw_rate=0.0001,del_pattern=None,ins_pattern=None,TM=None,TM_Normal=True,ins_pos={"homo":0,"random":1},del_pos={"homo":0,"random":1}):  # 替代substitute，删除delete和插入insert
         self.probD = probD * raw_rate
         self.probI = probI * raw_rate
         self.probS = probS * raw_rate
@@ -229,6 +239,11 @@ class ErrorAdder_simu:
         else:
             self.TM = genTm(self.probS/3)  # 生成替换概率矩阵，A-CGT
             self.all_equal = 1
+        
+        self.ins_pos_random=ins_pos['random']
+        self.ins_pos_homo=ins_pos['homo']
+        self.del_pos_random=del_pos['random']
+        self.del_pos_homo=del_pos['homo']
 
     def genNewError(self, dna):
         Errors = []
@@ -239,8 +254,7 @@ class ErrorAdder_simu:
                 subPi = np.where(subi != base)[0]
                 for pos in subPi:
                     Errors.append((Pi[pos], 's', subi[pos]))
-            #delP = np.where(np.random.choice([False, True], size=len(dna), p=[1 - self.probD, self.probD]))[0]
-            #insP = np.where(np.random.choice([False, True], size=len(dna), p=[1 - self.probI, self.probI]))[0]
+           
         else:
             TM_keys=list(self.TM.keys())
             for key in TM_keys:
@@ -269,7 +283,9 @@ class ErrorAdder_simu:
         ##delete
         del_flag=np.random.choice([False,True],size=len(dna),p=[1-self.probD,self.probD])
         del_count=(np.where(del_flag==True)[0]).size
-        for i in range(del_count):
+        del_random_count=int(del_count*self.del_pos_random)
+        del_homo_count=del_count-del_random_count
+        for i in range(del_random_count):
                 if self.del_pattern:
                     choose_base=np.random.choice(list(self.del_pattern.keys()),p=list(self.del_pattern.values()))
                     count=0
@@ -283,11 +299,30 @@ class ErrorAdder_simu:
                 else:
                     pos=np.random.choice(len(dna))
                     Errors.append([pos,'-',dna[pos]])
+        for i in range(del_homo_count):
+            homos=homopolymer.homopolymer(dna)
+            homos_pos=[[i['startpos'],i['endpos']] for i in homos]
+            if self.del_pattern:
+                choose_base=choose_base=np.random.choice(list(self.del_pattern.keys()),p=list(self.del_pattern.values()))
+                count=0
+                while count<=5000:
+                    pos=randomPicker(homos_pos)
+                    if dna[pos]==choose_base:
+                        Errors.append([pos,'-',dna[pos]])
+                        break
+                    else:
+                        count+=1
+            else:
+                pos=randomPicker(homos_pos)
+                Errors.append([pos,'-',dna[pos]])
+
 
         #insert
         ins_flag=np.random.choice([False,True],size=len(dna),p=[1-self.probI,self.probI])
         ins_count=(np.where(ins_flag==True)[0]).size
-        for i in range(ins_count):
+        ins_random_count=int(ins_count*self.ins_pos_random)
+        ins_homo_count=ins_count-ins_random_count
+        for i in range(ins_random_count):
             if self.ins_pattern:
                 choose_base=np.random.choice(list(self.ins_pattern.keys()),p=list(self.ins_pattern.values()))
                 count=0
@@ -301,9 +336,23 @@ class ErrorAdder_simu:
             else:
                 pos=np.random.choice(len(dna))
                 Errors.append([pos,'+',np.random.choice(['A','C','G','T'])])
-
-        #Errors += ([(pos, '-', dna[pos]) for pos in delP] + [(pos, '+', np.random.choice(['A', 'T', 'C', 'G'])) for pos
-         #                                                    in insP])
+        for i in range(ins_homo_count):
+            homos=homopolymer.homopolymer(dna)
+            homos_pos=[[i['startpos'],i['endpos']] for i in homos]
+            if self.del_pattern:
+                choose_base=choose_base=np.random.choice(list(self.ins_pattern.keys()),p=list(self.ins_pattern.values()))
+                count=0
+                while count<=5000:
+                    pos=randomPicker(homos_pos)
+                    if dna[pos]==choose_base:
+                        Errors.append([pos,'+',dna[pos]])
+                        break
+                    else:
+                        count+=1
+            else:
+                pos=randomPicker(homos_pos)
+                Errors.append([pos,'+',dna[pos]])
+        
         return Errors
 
     def run(self, ori_dna, re_dnas):
@@ -374,6 +423,13 @@ def genTm(prob):
         row[i] = 1 - 3* prob 
         tm.append(row)
     return tm
+
+def randomPicker(ranges):
+    nums=[]
+    for range in ranges:
+        for i in range:
+            nums.append(i)
+    return random.choice(nums)
 
 if __name__ == '__main__':
     class ArgumentPasser:

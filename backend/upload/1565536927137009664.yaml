@@ -19,3 +19,7 @@ synthesis_method: ErrASE
 synthesis_method_reference: '0'
 synthesis_number: 30
 synthesis_yield: 0.99
+decay_loss_rate: 0.3
+decay_reference_link: 0
+months_of_storage: 24
+storgae_host: Ecoli
