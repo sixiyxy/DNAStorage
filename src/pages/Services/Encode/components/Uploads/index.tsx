@@ -11,6 +11,8 @@ const props = {
 
     if (status !== 'uploading') {
       console.log(info.file, info.fileList);
+      console.log(info.file.response.file_uid);
+      
     }
 
     if (status === 'done') {
