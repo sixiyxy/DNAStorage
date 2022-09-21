@@ -122,7 +122,7 @@ def simu_synthesis():
     #return simu_dna
 
 @app.route('/simu_dec',methods=['GET','POST'])
-def simu_decay():
+def simu_dec():
     front_data = request.data
     front_data = json.loads(front_data)
 
