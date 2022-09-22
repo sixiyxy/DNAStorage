@@ -42,7 +42,7 @@ def get_front():
 #### test route ####
 ######################################################
 
-@app.route('/upload',methods=['GET','POST'])
+@app.route('/file_upload',methods=['GET','POST'])
 def file_upload():
     print('get file')
     f = request.files['file']
@@ -92,8 +92,15 @@ def file_information():
 
     return json.dumps(file_info)
 
+#if user wants to upload his own dna file instead of generating by us
+@app.route('/dna_upload',method=['GET','POST'])
+def dna_upload():
+    f=request.files['file']
+    filename=f.filename
+    filetype=f.mimetype
+    file_uid=get_file_uid()
+    file_rename='{}_{}'.format(file_uid,filename)
 
-# @app.route('upload_dna',methods=[])
 
 
 global simu_dna
@@ -103,10 +110,10 @@ def simu_synthesis():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    {"file_uid":1565536927137009664,
-    "synthesis_number":30,
-    "synthesis_yield":0.99,
-    "synthesis_method":"ErrASE"}
+    # {"file_uid":1565536927137009664,
+    # "synthesis_number":30,
+    # "synthesis_yield":0.99,
+    # "synthesis_method":"ErrASE"}
 
     file_uid=front_data['file_uid']
     synthesis_number = front_data['synthesis_number']
@@ -132,10 +139,10 @@ def simu_dec():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    {"file_uid":1565536927137009664,
-    "months_of_storage":24,
-    "loss_rate":0.3,
-    "storage_host":"Ecoli"}
+    # {"file_uid":1565536927137009664,
+    # "months_of_storage":24,
+    # "loss_rate":0.3,
+    # "storage_host":"Ecoli"}
 
     file_uid=front_data['file_uid']
     months_of_storage = front_data['months_of_storage']
@@ -160,10 +167,10 @@ def simu_pcr():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    {"file_uid":1565536927137009664,
-    "pcr_cycle":12,
-    "pcr_prob":0.8,
-    "pcr_polymerase":"Taq"}
+    # {"file_uid":1565536927137009664,
+    # "pcr_cycle":12,
+    # "pcr_prob":0.8,
+    # "pcr_polymerase":"Taq"}
 
     file_uid=front_data['file_uid']
     pcr_cycle = front_data['pcr_cycle']
@@ -188,9 +195,9 @@ def simu_sam():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    {"file_uid":1565536927137009664,
-    "sam_ratio":0.005
-    }
+    # {"file_uid":1565536927137009664,
+    # "sam_ratio":0.005
+    # }
 
     file_uid=front_data['file_uid']
     sam_ratio =front_data['sam_ratio'] 
@@ -211,10 +218,10 @@ def simu_seq():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    {"file_uid":1565536927137009664,
-    "seq_depth":0.005,
-    "seq_meth":"ill_PairedEnd"
-    }
+    # {"file_uid":1565536927137009664,
+    # "seq_depth":5,
+    # "seq_meth":"ill_PairedEnd"
+    # }
 
     file_uid=front_data['file_uid']
     seq_depth =front_data['seq_depth'] 
