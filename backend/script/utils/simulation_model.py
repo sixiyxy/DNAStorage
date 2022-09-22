@@ -2,7 +2,7 @@ import numpy as np
 from math import sqrt,log
 import copy 
 import time
-from utils import homopolymer
+from . import homopolymer
 
 BASE = np.array(['A','C','G','T'])
 QUANT = {'A': 0, 'C':1, 'G':2, 'T':3}

@@ -92,6 +92,10 @@ def file_information():
 
     return json.dumps(file_info)
 
+
+# @app.route('upload_dna',methods=[])
+
+
 global simu_dna
 @app.route('/simu_synthesis',methods=['GET','POST'])
 def simu_synthesis():
