@@ -103,35 +103,35 @@ def file_information():
 
 
 
-# global simu_dna
-# @app.route('/simu_synthesis',methods=['GET','POST'])
-# def simu_synthesis():
-#     front_data = request.data
-#     front_data = json.loads(front_data)
+global simu_dna
+@app.route('/simu_synthesis',methods=['GET','POST'])
+def simu_synthesis():
+    front_data = request.data
+    front_data = json.loads(front_data)
 
-#     #### Postman test json ####
-#     # {"file_uid":1565536927137009664,
-#     # "synthesis_number":30,
-#     # "synthesis_yield":0.99,
-#     # "synthesis_method":"ErrASE"}
+    #### Postman test json ####
+    # {"file_uid":1565536927137009664,
+    # "synthesis_number":30,
+    # "synthesis_yield":0.99,
+    # "synthesis_method":"ErrASE"}
 
-#     file_uid=front_data['file_uid']
-#     synthesis_number = front_data['synthesis_number']
-#     synthesis_yield = front_data['synthesis_yield']
-#     synthesis_method = front_data['synthesis_method']
+    file_uid=front_data['file_uid']
+    synthesis_number = front_data['synthesis_number']
+    synthesis_yield = front_data['synthesis_yield']
+    synthesis_method = front_data['synthesis_method']
 
-#     simu_synthesis_settings,dnas_syn=Simu.get_simu_synthesis_info(
-#         file_uid=file_uid,
-#         synthesis_number=synthesis_number,
-#         synthesis_yield=synthesis_yield,
-#         synthesis_method=synthesis_method
-#     )
-#     simu_dna=[]
-#     simu_dna=dnas_syn
-#     nums=Simu.calculate_density(simu_dna)
-#     simu_synthesis_settings['density']=nums
-#     return json.dumps(simu_synthesis_settings)
-#     #return simu_dna
+    simu_synthesis_settings,dnas_syn=Simu.get_simu_synthesis_info(
+        file_uid=file_uid,
+        synthesis_number=synthesis_number,
+        synthesis_yield=synthesis_yield,
+        synthesis_method=synthesis_method
+    )
+    simu_dna=[]
+    simu_dna=dnas_syn
+    nums=Simu.calculate_density(simu_dna)
+    simu_synthesis_settings['density']=nums
+    return json.dumps(simu_synthesis_settings)
+    #return simu_dna
 
 # @app.route('/simu_dec',methods=['GET','POST'])
 # def simu_dec():
