@@ -9,6 +9,7 @@ import {
   Row,
   Select,
   Slider,
+  Spin,
   Tooltip,
 } from "antd";
 import React, { useEffect, useMemo, useState } from "react";
@@ -37,23 +38,21 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     }
     setYieldValue(value);
   };
-  // const DecimalStep = () => {
-  //   return (
-
-  //   );
-  // };
 
   const { Option, OptGroup } = Select;
   const [method, setMethod] = useState("ErrASE");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const params = useMemo(() => {
     return {
-      file_uid: 1565536927137009664,
+      file_uid: "1565536927137009664",
       synthesis_number: cycleValue,
       synthesis_yield: yieldValue,
       synthesis_method: method,
     };
   }, [cycleValue, yieldChange, method]);
+
   const handleChange = (value: string) => {
     setMethod(value);
   };
@@ -66,44 +65,42 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    console.log(params);
-    axios
-      .post("http://127.0.0.1:5000/simu_synthesis", params)
-      .then(function (response) {
-        console.log(response);
-      });
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    asyncFetch();
-  }, []);
-
-  const asyncFetch = () => {
-    fetch(
-      "https://gw.alipayobjects.com/os/bmw-prod/360c3eae-0c73-46f0-a982-4746a6095010.json"
-    )
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .catch((error) => {
-        console.log("fetch data failed", error);
+  const handleOk = () => {
+    setLoading(true);
+    axios
+      .post("http://127.0.0.1:5000/simu_synthesis", params)
+      .then(function (response) {
+        setData(response?.data?.density);
+        setLoading(false);
       });
   };
+
+  const chartData = useMemo(() => {
+    return data.map((item) => {
+      return {
+        copyNumber: item[0],
+        density: item[1],
+      };
+    });
+  }, [data]);
+
   const config = {
-    data,
+    data: chartData,
     width: 200,
     height: 300,
-    xField: "timePeriod",
-    yField: "value",
-    xAxis: {
-      range: [0, 1],
-    },
+    xField: "copyNumber",
+    yField: "density",
+    autoFit: true,
+    // xAxis: {
+    //   range: [0, 200],
+    // },
+    // yAxis: {
+    //   range: [0, 0.5],
+    // },
   };
 
   return (
@@ -120,12 +117,12 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
           <Breadcrumb.Item>Synthesis</Breadcrumb.Item>
         </Breadcrumb>
       </div>
-      <Row>
+      <Row wrap={false}>
         <Col>
           <Card
             title="Note"
             bordered={false}
-            style={{ width: 600, marginLeft: 20, marginTop: 20 }}
+            style={{ marginLeft: 20, marginTop: 20 }}
           >
             <p>
               This stage would simulate error occurrences that happened under
@@ -268,7 +265,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   ></i>
                   <p>
                     Synthesis is the basic process of the error simulation
-                    stage.{" "}
+                    stage.
                   </p>
                   <p>Skipping this step means skipping the whole stage. </p>
                   <p>Do you still want to skip it?</p>
@@ -277,10 +274,8 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
             </Card>
           </div>
         </Col>
-        <Col>
-          <Card
-            style={{ marginLeft: 10, marginTop: 20, height: 510, width: 530 }}
-          >
+        <Col flex="auto">
+          <Card style={{ marginLeft: 10, marginTop: 20, height: 570 }}>
             <div>
               <span>The parameter settings are referenced from :</span>
             </div>
@@ -288,7 +283,21 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
               After synthesis simulation, the situation of oligonucleotides pool
               as follows:
             </div>
-            <Area {...config} />
+            <div>
+              {loading ? (
+                <div
+                  style={{
+                    textAlign: "center",
+                    margin: "155px 0",
+                  }}
+                >
+                  <Spin size={"large"} />
+                </div>
+              ) : (
+                <Area {...config} />
+              )}
+            </div>
+
             <Button style={{ margin: " 40px 200px" }}>Continue</Button>
           </Card>
         </Col>
