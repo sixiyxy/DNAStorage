@@ -224,7 +224,7 @@ class Sampler_simu:
         return out_dnas
         
 class ErrorAdder_simu:
-    def __init__(self, probS=0.2, probD=0.6, probI=0.2, raw_rate=0.0001,del_pattern=None,ins_pattern=None,TM=None,TM_Normal=True,ins_pos={"homo":0,"random":1},del_pos={"homo":0,"random":1}):  # 替代substitute，删除delete和插入insert
+    def __init__(self, probS=0.2, probD=0.6, probI=0.2, raw_rate=0.0001,del_pattern=None,ins_pattern=None,TM=None,TM_Normal=True,ins_pos={"homopolymer":0,"random":1},del_pos={"homopolymer":0,"random":1}):  # 替代substitute，删除delete和插入insert
         self.probD = probD * raw_rate
         self.probI = probI * raw_rate
         self.probS = probS * raw_rate
@@ -241,9 +241,9 @@ class ErrorAdder_simu:
             self.all_equal = 1
         
         self.ins_pos_random=ins_pos['random']
-        self.ins_pos_homo=ins_pos['homo']
+        self.ins_pos_homo=ins_pos['homopolymer']
         self.del_pos_random=del_pos['random']
-        self.del_pos_homo=del_pos['homo']
+        self.del_pos_homo=del_pos['homopolymer']
 
     def genNewError(self, dna):
         Errors = []
