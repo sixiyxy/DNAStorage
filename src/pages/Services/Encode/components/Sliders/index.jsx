@@ -13,23 +13,23 @@ const Sliders = (props) => {
 
   const plainOptions = ["WithoutVerifycode", "HammingCode", "ReedSolomonCode"];
   const onChange1 = ({ target: { value } }) => {
-    console.log("radio1 checked", value);
+    //console.log("radio1 checked", value);
     method = value;
-    console.log(method);
+    // console.log(method);
   };
 
   //获取segment和index的值
   const onAfterChange_seg = (value1) => {
-    console.log("onAfterChange: ", value1);
+    //console.log("onAfterChange: ", value1);
     SaveValue[0].Segvalue = value1;
     setValues(SaveValue);
     //console.log(values);
   };
   const onAfterChange_index = (value2) => {
-    console.log("onAfterChange: ", value2);
+    //console.log("onAfterChange: ", value2);
     SaveValue[1].Indexvalue = value2;
     setValues(SaveValue);
-    console.log(values);
+    //console.log(values);
   };
 
   const handelClick = () => {

@@ -4,12 +4,12 @@ import { message, Upload } from "antd";
 import React, { useState } from "react";
 const { Dragger } = Upload;
 
-var FileValue = [
-  { fileuid: "111" },
-  { filename: "" },
-  { filerename: "" },
-  { filetype: "" },
-];
+var FileValue = {
+  fileuid: "",
+  filename: "",
+  filerename: "",
+  filetype: "",
+};
 
 const Uploads: React.FC = (props: any) => {
   //const [fileID,setfileID] = useState(FileValue)
@@ -20,14 +20,14 @@ const Uploads: React.FC = (props: any) => {
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
-        console.log(info.file, info.fileList);
-        FileValue[0].fileuid = info.file.response.file_uid;
-        FileValue[1].filename = info.file.response.file_name;
-        FileValue[2].filerename = info.file.response.file_rename;
-        FileValue[3].filetype = info.file.response.file_type;
+        //console.log(info.file, info.fileList);
+        // FileValue.fileuid = info.file.response.file_uid;
+        // FileValue.filename = info.file.response.file_name;
+        // FileValue.filerename = info.file.response.file_rename;
+        // FileValue.filetype = info.file.response.file_type;
         //setfileID(FileValue);
         //props.GetFileID(info.file.response.file_uid,info.file.response.file_name,info.file.response.file_rename,info.file.response.file_type)
-        props.GetFileID(FileValue);
+        props.GetFileID(info.file.response.file_uid);
       }
       if (status === "done") {
         message.success(`${info.file.name} file uploaded successfully.`);
@@ -36,7 +36,7 @@ const Uploads: React.FC = (props: any) => {
       }
     },
     onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
+      //console.log("Dropped files", e.dataTransfer.files);
     },
   };
 

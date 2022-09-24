@@ -11,7 +11,7 @@ import { Anchor } from "antd";
 const { Link } = Anchor;
 
 //export class EncodeProps {}
-var fileID = [];
+// var fileID = [];
 
 export const Encode = (props) => {
   const [targetOffset, setTargetOffset] = useState(undefined);
@@ -21,6 +21,7 @@ export const Encode = (props) => {
 
   const SaveValue = [{ Segvalue: 0 }, { Indexvalue: 0 }];
   //const FileValue = [{fileuid:''},{filename:''},{filerename:''},{filetype:''}]
+  const [fileId, setFileId] = useState("");
   const [values, setValues] = useState(SaveValue);
   const [method, setMethod] = useState("WithoutVerifycode");
   //const [fileID,setfileID] = useState([])
@@ -29,15 +30,15 @@ export const Encode = (props) => {
   const ParamPass = (param1, param2) => {
     setValues(param2); //value
     setMethod(param1); //method
-    console.log("父亲", values);
-    console.log("父亲", method);
+    //console.log("父亲", values);
+    //console.log("父亲", method);
   };
   //获取fileID — — — —子传父的回调
-  const GetFileID = (fileobj) => {
-    //setfileID(fileobj);
-    fileID = fileobj;
-    console.log("父亲", fileID);
-  };
+  // const GetFileID = (fileobj) => {
+  //   //setfileID(fileobj);
+  //   fileID = fileobj;
+  //   console.log("父亲", fileID);
+  // };
   //获取解码方法 — — — — 回调
 
   return (
@@ -60,7 +61,7 @@ export const Encode = (props) => {
         <p>
           <strong>Please upload the storage files:</strong>
         </p>
-        <Uploads GetFileID={GetFileID} />
+        <Uploads GetFileID={setFileId} />
       </div>
       <div
         id="sliders"
@@ -82,7 +83,7 @@ export const Encode = (props) => {
           <hr />
           <strong>请在下面的勾选框中选出适合自己的编码方法:</strong>
         </p>
-        <Encodelists fileID={fileID} values={values} method={method} />
+        <Encodelists fileId={fileId} values={values} method={method} />
       </div>
       <div style={{ position: "fixed", top: "200px", margin: "0px 1150px" }}>
         <Anchor targetOffset={targetOffset}>

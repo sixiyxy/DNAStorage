@@ -12,7 +12,7 @@ const Encodelists: React.FC = (props: any) => {
   const [value, setValue] = useState("");
 
   const onChange = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
+    //console.log("radio checked", e.target.value);
     encodeMethod = e.target.value;
     setValue(e.target.value);
   };
@@ -24,22 +24,23 @@ const Encodelists: React.FC = (props: any) => {
     verify_method: "Hamming",
     encode_method: "Basic",
   };
-  console.log(props);
+  //console.log(props);
 
   const handleClick = () => {
-    console.log("encodelists", props);
-    params.file_uid = props.fileID[0].fileuid;
+    //console.log("encodelists", props);
+    params.file_uid = props.fileId;
     params.segment_length = props.values[1].Indexvalue;
     params.index_length = props.values[0].Segvalue;
     params.verify_method = props.method;
     params.encode_method = encodeMethod;
+
     axios
       .post("http://127.0.0.1:5000/fileinfo", params)
       .then(function (response) {
-        console.log("response: ", response);
+        //console.log("response: ", response);
         requests.bit_size = response.data.bit_size;
         requests.segment_number = response.data.segment_number;
-        console.log(requests);
+        //console.log(requests);
 
         //以下均为后端返回的data中的值
         // console.log(response.data.byte_size)
