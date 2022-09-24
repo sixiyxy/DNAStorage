@@ -1,24 +1,22 @@
+import { Slider, Switch } from "antd";
+import React, { useState, useRef, useEffect } from "react";
+import { Radio } from "antd";
+import { Button, Popconfirm } from "antd";
+import { Link } from "react-router-dom";
 
-import { Slider, Switch } from 'antd';
-import React, { useState,useRef,useEffect } from 'react';
-import { Radio } from 'antd';
-import { Button, Popconfirm } from 'antd';
-
-const SaveValue = [{Segvalue:0},{Indexvalue:0}]
-var method = ''
+const SaveValue = [{ Segvalue: 0 }, { Indexvalue: 0 }];
+var method = "";
 
 const Sliders = (props) => {
   const [disabled, setDisabled] = useState(false);
-  const [values,setValues] = useState(SaveValue);
-  
-  const plainOptions = ['WithoutVerifycode', 'HammingCode', 'ReedSolomonCode'];
+  const [values, setValues] = useState(SaveValue);
+
+  const plainOptions = ["WithoutVerifycode", "HammingCode", "ReedSolomonCode"];
   const onChange1 = ({ target: { value } }) => {
-    console.log('radio1 checked', value);
-    method=value
+    console.log("radio1 checked", value);
+    method = value;
     console.log(method);
   };
-  
- 
 
   //获取segment和index的值
   const onAfterChange_seg = (value1) => {
@@ -30,21 +28,24 @@ const Sliders = (props) => {
   const onAfterChange_index = (value2) => {
     console.log("onAfterChange: ", value2);
     SaveValue[1].Indexvalue = value2;
-    setValues(SaveValue)
+    setValues(SaveValue);
     console.log(values);
   };
- 
-  const handelClick=()=>{
-    alert("确认你的值是正确的吗？")
-    props.ParamPass(method,values);
-  }
+
+  const handelClick = () => {
+    alert("确认你的值是正确的吗？");
+    props.ParamPass(method, values);
+  };
 
   return (
     <>
-      <div style={{paddingLeft:"0px",paddingTop:"20px",fontSize:"16px"}}>
+      <div style={{ paddingLeft: "0px", paddingTop: "20px", fontSize: "16px" }}>
         <strong>Verify Method: </strong>
-            <Radio.Group options={plainOptions} onChange={onChange1}  />
-        <p style={{fontSize:"14px"}}>Tips: Method details please click the <a href='../Methods'>Method Paper</a></p>
+        <Radio.Group options={plainOptions} onChange={onChange1} />
+        <p style={{ fontSize: "14px" }}>
+          Tips: Method details please click the{" "}
+          <Link to="/methods">Method Paper</Link>
+        </p>
       </div>
       <div>
         {/*Segment length阈值设置条*/}
@@ -72,13 +73,13 @@ const Sliders = (props) => {
       </div>
       <br />
 
-    <button
-          className="btn btn-danger"
-          style={{ marginLeft: "650px", marginTop: "10px" }}
-          onClick={handelClick}
-        >
-          Confirm
-        </button>   
+      <button
+        className="btn btn-danger"
+        style={{ marginLeft: "650px", marginTop: "10px" }}
+        onClick={handelClick}
+      >
+        Confirm
+      </button>
     </>
   );
 };
