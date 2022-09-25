@@ -90,7 +90,9 @@ export const Services: React.FC<ServicesProps> = (props) => {
       {siderSelect[0] === "0-1-0" ? (
         <Synthesis changeSider={setSiderSelect} fileId={fileId} />
       ) : null}
-      {siderSelect[0] === "0-1-1" ? <Decay /> : null}
+      {siderSelect[0] === "0-1-1" ? (
+        <Decay changeSider={setSiderSelect} fileId={fileId} />
+      ) : null}
       {siderSelect[0] === "0-1-2" ? <Pcr /> : null}
       {siderSelect[0] === "0-1-3" ? <Sampling /> : null}
       {siderSelect[0] === "0-1-4" ? <Sequencing /> : null}

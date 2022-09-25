@@ -26,8 +26,8 @@ export class SynthesisProps {
 export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const { Option, OptGroup } = Select;
 
-  const [yieldValue, setYieldValue] = useState(0.98);
-  const [cycleValue, setCycleValue] = useState(10);
+  const [yieldValue, setYieldValue] = useState(0.99);
+  const [cycleValue, setCycleValue] = useState(30);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
   const [hrefLink, setHrefLink] = useState("");
   const [method, setMethod] = useState("ErrASE");
