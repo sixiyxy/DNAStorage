@@ -100,6 +100,7 @@ class IdWorker(object):
 def get_file_uid():
     worker = IdWorker(1,1,0)
     uid = worker.get_id()
+    uid = str(uid)
     return uid
 
 

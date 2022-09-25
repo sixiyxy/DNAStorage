@@ -92,14 +92,14 @@ def file_information():
 
     return json.dumps(file_info)
 
-#if user wants to upload his own dna file instead of generating by us
-@app.route('/dna_upload',method=['GET','POST'])
-def dna_upload():
-    f=request.files['file']
-    filename=f.filename
-    filetype=f.mimetype
-    file_uid=get_file_uid()
-    file_rename='{}_{}'.format(file_uid,filename)
+# #if user wants to upload his own dna file instead of generating by us
+# @app.route('/dna_upload',method=['GET','POST'])
+# def dna_upload():
+#     f=request.files['file']
+#     filename=f.filename
+#     filetype=f.mimetype
+#     file_uid=get_file_uid()
+#     file_rename='{}_{}'.format(file_uid,filename)
 
 
 

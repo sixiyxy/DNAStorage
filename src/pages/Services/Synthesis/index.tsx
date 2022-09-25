@@ -1,141 +1,118 @@
-import { Area } from "@ant-design/charts";
+import { Area, Datum } from "@ant-design/charts";
 import {
   Breadcrumb,
   Button,
   Card,
   Col,
+  Empty,
   InputNumber,
   Modal,
   Row,
   Select,
   Slider,
+  Spin,
   Tooltip,
 } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
+
+import axios from "axios";
+
 export class SynthesisProps {
   changeSider;
+  fileId;
 }
 
 export const Synthesis: React.FC<SynthesisProps> = (props) => {
-  const IntegerStep = () => {
-    const [inputValue, setInputValue] = useState(10);
+  const { Option, OptGroup } = Select;
 
-    const onChange = (newValue: number) => {
-      setInputValue(newValue);
-    };
+  const [yieldValue, setYieldValue] = useState(0.98);
+  const [cycleValue, setCycleValue] = useState(10);
+  const [noDataTipsShow, setNoDataTipsShow] = useState(true);
+  const [hrefLink, setHrefLink] = useState("");
+  const [method, setMethod] = useState("ErrASE");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-    return (
-      <Row>
-        <Col span={12}>
-          <Slider
-            min={10}
-            max={50}
-            onChange={onChange}
-            value={typeof inputValue === "number" ? inputValue : 0}
-          />
-        </Col>
-        <Col span={4}>
-          <InputNumber
-            min={10}
-            max={50}
-            style={{
-              margin: "0 16px",
-            }}
-            value={inputValue}
-            onChange={onChange}
-          />
-        </Col>
-      </Row>
-    );
+  //处理函数
+  const cycleChange = (value: number) => {
+    if (isNaN(value)) {
+      return;
+    }
+    setCycleValue(value);
   };
-
-  const DecimalStep = () => {
-    const [inputValue, setInputValue] = useState(0.98);
-
-    const onChange = (value: number) => {
-      if (isNaN(value)) {
-        return;
-      }
-
-      setInputValue(value);
-    };
-
-    return (
-      <Row>
-        <Col span={12}>
-          <Slider
-            min={0.98}
-            max={0.995}
-            onChange={onChange}
-            value={typeof inputValue === "number" ? inputValue : 0}
-            step={0.001}
-          />
-        </Col>
-        <Col span={4}>
-          <InputNumber
-            min={0.98}
-            max={0.995}
-            style={{
-              margin: "0 16px",
-            }}
-            step={0.001}
-            value={inputValue}
-            onChange={onChange}
-          />
-        </Col>
-      </Row>
-    );
+  const yieldChange = (value: number) => {
+    if (isNaN(value)) {
+      return;
+    }
+    setYieldValue(value);
   };
-
-  const { Option } = Select;
-  const [Method, setMethod] = useState("Column-Synthesized-Oligos");
   const handleChange = (value: string) => {
     setMethod(value);
   };
-
   const skipSynthesis = function () {
     props.changeSider("0-2");
   };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const showModal = () => {
     setIsModalOpen(true);
   };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    asyncFetch();
-  }, []);
-
-  const asyncFetch = () => {
-    fetch(
-      "https://gw.alipayobjects.com/os/bmw-prod/360c3eae-0c73-46f0-a982-4746a6095010.json"
-    )
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .catch((error) => {
-        console.log("fetch data failed", error);
+  const handleOk = () => {
+    setLoading(true);
+    setNoDataTipsShow(false);
+    axios
+      .post("http://127.0.0.1:5000/simu_synthesis", params)
+      .then(function (response) {
+        //console.log(response);
+        setData(response?.data?.density);
+        setHrefLink(response?.data?.synthesis_method_reference);
+        setLoading(false);
       });
   };
+  const handleContinue = () => {
+    props.changeSider("0-1-1");
+  };
+
+  //数据生成
+  const chartData = useMemo(() => {
+    return data.map((item) => {
+      return {
+        copyNumber: item[0],
+        density: Number(item[1].toFixed(3)),
+      };
+    });
+  }, [data]);
+  const params = useMemo(() => {
+    return {
+      // file_uid: props.fileId,
+      file_uid: "1565536927137009664",
+      synthesis_number: cycleValue,
+      synthesis_yield: yieldValue,
+      synthesis_method: method,
+    };
+  }, [cycleValue, yieldChange, method]);
+  console.log("params", params);
   const config = {
-    data,
+    data: chartData,
     width: 200,
     height: 300,
-    xField: "timePeriod",
-    yField: "value",
+    xField: "copyNumber",
+    yField: "density",
+    autoFit: true,
     xAxis: {
-      range: [0, 1],
+      // range: [0, 200],
+      title: {
+        text: "Copy Number",
+      },
+    },
+    yAxis: {
+      // range: [0, 0.5],
+      title: {
+        text: "Density",
+      },
     },
   };
 
@@ -153,12 +130,12 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
           <Breadcrumb.Item>Synthesis</Breadcrumb.Item>
         </Breadcrumb>
       </div>
-      <Row>
+      <Row wrap={false}>
         <Col>
           <Card
             title="Note"
             bordered={false}
-            style={{ width: 600, marginLeft: 20, marginTop: 20 }}
+            style={{ marginLeft: 20, marginTop: 20 }}
           >
             <p>
               This stage would simulate error occurrences that happened under
@@ -174,48 +151,102 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
             <Card>
               <div className="function-bar">
                 <span>Synthesis Cycle:</span>
-                <Tooltip title="prompt text">
+                <Tooltip title="The copied number of each oligo you want it to have.">
                   <i
                     className="iconfont icon-wenhao"
-                    style={{ verticalAlign: "middle" }}
+                    style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
                   ></i>
                 </Tooltip>
-
-                <IntegerStep />
+                <Row>
+                  <Col span={12}>
+                    <Slider
+                      min={10}
+                      max={50}
+                      onChange={cycleChange}
+                      value={typeof cycleValue === "number" ? cycleValue : 0}
+                    />
+                  </Col>
+                  <Col span={4}>
+                    <InputNumber
+                      min={10}
+                      max={50}
+                      style={{
+                        margin: "0 16px",
+                      }}
+                      value={cycleValue}
+                      onChange={cycleChange}
+                    />
+                  </Col>
+                </Row>
               </div>
               <div className="function-bar">
                 <span>Synthesis Yield :</span>
-                <Tooltip title="prompt text">
+                <Tooltip title="The possibility of adding one nucleoside to the current synthesizing strand is defined as coupling efficiency. The process might be terminated because of unsuccessful coupling so imperfect coupling efficiency limits the length of the final sequence. Typically, it ranges about 98-99.5.">
                   <i
                     className="iconfont icon-wenhao"
-                    style={{ verticalAlign: "middle" }}
+                    style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
                   ></i>
                 </Tooltip>
-                <DecimalStep />
+                <Row>
+                  <Col span={12}>
+                    <Slider
+                      min={0.98}
+                      max={0.995}
+                      onChange={yieldChange}
+                      value={typeof yieldValue === "number" ? yieldValue : 0}
+                      step={0.001}
+                    />
+                  </Col>
+                  <Col span={4}>
+                    <InputNumber
+                      min={0.98}
+                      max={0.995}
+                      style={{
+                        margin: "0 16px",
+                      }}
+                      step={0.001}
+                      value={yieldValue}
+                      onChange={yieldChange}
+                    />
+                  </Col>
+                </Row>
               </div>
               <div className="function-bar">
                 <span>Synthesis Method :</span>
-                <Tooltip title="prompt text">
+                {/* <Tooltip title="prompt text">
                   <i
                     className="iconfont icon-wenhao"
-                    style={{ verticalAlign: "middle" }}
+                    style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
                   ></i>
-                </Tooltip>
+                </Tooltip> */}
                 <Select
-                  style={{ width: 240, marginLeft: 20 }}
+                  style={{ width: 320, marginLeft: 20 }}
                   onChange={handleChange}
-                  value={Method}
+                  value={method}
                 >
-                  <Option value="Column-Synthesized-Oligos">
-                    Column Synthesized Oligos
-                  </Option>
-                  <Option value="ErrASE">ErrASE</Option>
-                  <Option value="MutS">MutS</Option>
-                  <Option value="Consensus-Shuffle">Consensus Shuffle</Option>
-                  <Option value="Microarray-based-Ologo-Pools">
-                    Microarray based Ologo Pools
-                  </Option>
-                  <Option value="User-Defined">User Defined</Option>
+                  <OptGroup label="Column Synthesized Oligos">
+                    <Option value="ErrASE">ErrASE</Option>
+                    <Option value="MutS">MutS</Option>
+                    <Option value="ConsensusShuffle">Consensus Shuffle</Option>
+                  </OptGroup>
+
+                  <OptGroup label="Microarray based Oligo Pools">
+                    <Option value="Oligo">
+                      Oligo Hybridization based error correction
+                    </Option>
+                    <Option value="HighTemperature">
+                      High temperature ligation/hybridization based error
+                      correction
+                    </Option>
+                    <Option value="ErrASE(Mic)">ErrASE</Option>
+                    <Option value="Nuclease">
+                      Nnuclease based error correction
+                    </Option>
+                    <Option value="NGS">NGS based error correction</Option>
+                  </OptGroup>
+                  <OptGroup label="None">
+                    <Option value="None">None</Option>
+                  </OptGroup>
                 </Select>
               </div>
               <div
@@ -225,7 +256,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   margin: "20px 0",
                 }}
               >
-                <Button size="large" style={{ width: 100 }}>
+                <Button size="large" style={{ width: 100 }} onClick={handleOk}>
                   OK
                 </Button>
                 <Button size="large" style={{ width: 100 }} onClick={showModal}>
@@ -244,7 +275,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   ></i>
                   <p>
                     Synthesis is the basic process of the error simulation
-                    stage.{" "}
+                    stage.
                   </p>
                   <p>Skipping this step means skipping the whole stage. </p>
                   <p>Do you still want to skip it?</p>
@@ -253,19 +284,58 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
             </Card>
           </div>
         </Col>
-        <Col>
-          <Card
-            style={{ marginLeft: 10, marginTop: 20, height: 510, width: 530 }}
-          >
+        <Col flex="auto">
+          <Card style={{ marginLeft: 10, marginTop: 20, height: 560 }}>
             <div>
               <span>The parameter settings are referenced from :</span>
+              <a
+                style={{ margin: "0 0 0 5px" }}
+                href={hrefLink}
+                target="_blank"
+              >
+                Method Paper
+              </a>
             </div>
             <div style={{ margin: "0 0 30px 0" }}>
               After synthesis simulation, the situation of oligonucleotides pool
               as follows:
             </div>
-            <Area {...config} />
-            <Button style={{ margin: " 40px 200px" }}>Continue</Button>
+            <div>
+              {noDataTipsShow ? (
+                <Empty
+                  style={{ textAlign: "center", margin: "155px 0" }}
+                  image={Empty.PRESENTED_IMAGE_SIMPLE}
+                  imageStyle={{
+                    height: 60,
+                  }}
+                  description={
+                    <span>No simulation result, please select parameter</span>
+                  }
+                ></Empty>
+              ) : loading ? (
+                <div
+                  style={{
+                    textAlign: "center",
+                    margin: "155px 0",
+                  }}
+                >
+                  <Spin size={"large"} />
+                </div>
+              ) : (
+                <div style={{ margin: "60px 0 0 0" }}>
+                  <div style={{ margin: "0 0 20px 0" }}>copies:</div>
+                  <Area {...config} />
+                </div>
+              )}
+            </div>
+
+            <Button
+              style={{ margin: " 40px 200px" }}
+              onClick={handleContinue}
+              disabled={noDataTipsShow}
+            >
+              Continue
+            </Button>
           </Card>
         </Col>
       </Row>
