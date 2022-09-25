@@ -8,6 +8,7 @@ import Sliders from "./components/Sliders";
 import Graphs from "./components/Graphs";
 
 import { Anchor } from "antd";
+import { useContext } from "react";
 const { Link } = Anchor;
 
 //export class EncodeProps {}
@@ -15,13 +16,14 @@ const { Link } = Anchor;
 
 export const Encode = (props) => {
   const [targetOffset, setTargetOffset] = useState(undefined);
+
   useEffect(() => {
     setTargetOffset(window.innerHeight / 2);
   }, []);
 
   const SaveValue = [{ Segvalue: 0 }, { Indexvalue: 0 }];
   //const FileValue = [{fileuid:''},{filename:''},{filerename:''},{filetype:''}]
-  const [fileId, setFileId] = useState("");
+  // const [fileId, setFileId] = useState("");
   const [values, setValues] = useState(SaveValue);
   const [method, setMethod] = useState("WithoutVerifycode");
   //const [fileID,setfileID] = useState([])
@@ -61,7 +63,7 @@ export const Encode = (props) => {
         <p>
           <strong>Please upload the storage files:</strong>
         </p>
-        <Uploads GetFileID={setFileId} />
+        <Uploads GetFileID={props.setFileId} />
       </div>
       <div
         id="sliders"
@@ -83,7 +85,7 @@ export const Encode = (props) => {
           <hr />
           <strong>请在下面的勾选框中选出适合自己的编码方法:</strong>
         </p>
-        <Encodelists fileId={fileId} values={values} method={method} />
+        <Encodelists fileId={props.fileId} values={values} method={method} />
       </div>
       <div style={{ position: "fixed", top: "200px", margin: "0px 1150px" }}>
         <Anchor targetOffset={targetOffset}>
