@@ -1,6 +1,6 @@
 import itertools
 import numpy
-from utils.utils_basic import Monitor
+from .utils_basic import Monitor
 
 """
 Conversing base to actual index, where index 0 <-> A, index 1 <-> T, index 2 <-> C, index 3 <-> G.

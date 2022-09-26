@@ -2,9 +2,10 @@ from math import inf
 import os,sys
 from datetime import datetime
 from numpy import fromfile, array, uint8
-from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from utils.verify_methods import Hamming,ReedSolomon
-from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
+
+from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+from .utils.verify_methods import Hamming,ReedSolomon
+from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
 
 verify_methods = {
     "None":False,
@@ -115,15 +116,37 @@ class Encoding():
         record_info = {"DNA_sequence_length":len(dna_sequences[0]),
                        "nucleotide_counts":nucleotide_count,
                        "encoding_time":run_time,
-                    "information_density":information_density
-        }
+                    "information_density":information_density}
 
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         write_dna_file(path=self.dna_file,dna_sequences=dna_sequences,need_logs=True)
-        return dna_sequences
 
+        gc_distribution = [0 for _ in range(101)]
+        homo_distribution = [0 for _ in range(max(list(map(len, dna_sequences))))]
 
+        for dna_sequence in dna_sequences:
+            dna_segment = "".join(dna_sequence)
+            gc_content = int(((dna_segment.count("C") + dna_segment.count("G")) / len(dna_segment) * 100) + 0.5)
+            gc_distribution[gc_content] += 1
+            # print()
+            for homo_length in [homo + 1 for homo in range(len(dna_sequence))][::-1]:
+                is_find = False
+                missing_segments = ["A" * homo_length, "C" * homo_length, "G" * homo_length, "T" * homo_length]
+                for missing_segment in missing_segments:
+                    if missing_segment in dna_segment:
+                        is_find = True
+                        homo_distribution[homo_length] += 1
+                        # print(missing_segment)
+                        break
+                    if is_find:
+                        break
 
+        front_gc = dict(zip(range(101),gc_distribution))
+        front_homo = dict(zip(range(max(list(map(len, dna_sequences)))),homo_distribution))
+        record_info['gc_plot'] = front_gc
+        record_info['homo_plot'] = front_homo
+
+        return record_info
 
 
 if __name__ == '__main__':
