@@ -181,11 +181,82 @@ decHost={
             "dec_sub_pattern":{"A":{"C":0.3333,"G":0.33340000000003,"T":0.3333},
                                 "C":{"A":0.3333,"G":0.333400000003,"T":0.3333},
                                 "G":{"A":0.3333,"C":0.3333,"T":0.333400000004},
-                                "T":{"A":0.3333,"C":0.3333,"T":0.333400000004}
+                                "T":{"A":0.3333,"C":0.3333,"G":0.333400000004}
                                 },
             "dec_del_pos":{"homopolymer":0.5,"random":0.5},
             "dec_ins_pos":{"homopolymer":0.5,"random":0.5}
-        }
+        },
+
+        "Dep_ph8_293.15k":{
+            "dec_sub_prob":0,
+            "dec_ins_prob":0,
+            "dec_del_prob":1,
+            "dec_raw_rate":0.00001283,
+            "dec_del_pattern":{"A":0.5,"C":0,"G":0.5,"T":0},
+            "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "dec_del_pos":{"homopolymer":0,"random":1},
+            "dec_ins_pos":{"homopolymer":0.5,"random":0.5}
+        },
+
+        "Dep_ph8_253.15k":{
+            "dec_sub_prob":0,
+            "dec_ins_prob":0,
+            "dec_del_prob":1,
+            "dec_raw_rate":0.00000001,
+            "dec_del_pattern":{"A":0.5,"C":0,"G":0.5,"T":0},
+            "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "dec_del_pos":{"homopolymer":0,"random":1},
+            "dec_ins_pos":{"homopolymer":0.5,"random":0.5}
+        },
+
+        "Dep_ph8_193.15k":{
+            "dec_sub_prob":0,
+            "dec_ins_prob":0,
+            "dec_del_prob":1,
+            "dec_raw_rate":5.98e-16,
+            "dec_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "dec_del_pos":{"homopolymer":0.5,"random":0.5},
+            "dec_ins_pos":{"homopolymer":0.5,"random":0.5}
+        },
+
+        "Dep_ph7_193.15k":{
+            "dec_sub_prob":0,
+            "dec_ins_prob":0,
+            "dec_del_prob":1,
+            "dec_raw_rate":5.736e-15,
+            "dec_del_pattern":{"A":0.5,"C":0,"G":0.5,"T":0},
+            "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "dec_del_pos":{"homopolymer":0,"random":1},
+            "dec_ins_pos":{"homopolymer":0.5,"random":0.5}
+        },
+
+        "Dep_ph7_253.15k":{
+            "dec_sub_prob":0,
+            "dec_ins_prob":0,
+            "dec_del_prob":1,
+            "dec_raw_rate":9e-8,
+            "dec_del_pattern":{"A":0.5,"C":0,"G":0.5,"T":0},
+            "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "dec_del_pos":{"homopolymer":0,"random":1},
+            "dec_ins_pos":{"homopolymer":0.5,"random":0.5}
+        },
+
+        "jukes_q1":{
+            "dec_sub_prob":0,
+            "dec_ins_prob":0,
+            "dec_del_prob":1,
+            "dec_raw_rate":0.0001231,
+            "dec_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "dec_sub_pattern":{"A":{"C":0.3333,"G":0.3333,"T":0.3334000000003},
+                                "C":{"A":0.3333,"G":0.3333,"T":0.33340000000003},
+                                "G":{"A":0.3333,"C":0.3333,"T":0.333400000003},
+                                "T":{"A":0.3333,"C":0.3333,"G":0.333400000004}
+                                },
+            "dec_del_pos":{"homopolymer":0.5,"random":0.5},
+            "dec_ins_pos":{"homopolymer":0.5,"random":0.5}
+        },
 
 
 }
