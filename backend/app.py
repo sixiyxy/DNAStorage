@@ -9,7 +9,7 @@ import json
 from script.utils.utils_basic import get_config,write_yaml
 from script.step11_get_file_uid import get_file_uid
 from script.step12_get_file_info import get_file_info
-import script.step3_simulation as Simu
+import script.step3_simulation_utils as Simu
 
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
