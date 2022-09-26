@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import "./index.less";
 import { Breadcrumb, Layout, Menu } from "antd";
 
@@ -65,9 +65,13 @@ const items = [
 
 export const Services: React.FC<ServicesProps> = (props) => {
   const [siderSelect, setSiderSelect] = useState(["0-0"]);
+
+  const [fileId, setFileId] = useState("");
+
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
   };
+
   return (
     <div className="service-content">
       <Menu
@@ -79,11 +83,16 @@ export const Services: React.FC<ServicesProps> = (props) => {
         mode="inline"
         items={items}
       />
-      {siderSelect[0] === "0-0" ? <Encode /> : null}
-      {siderSelect[0] === "0-1-0" ? (
-        <Synthesis changeSider={setSiderSelect} />
+
+      {siderSelect[0] === "0-0" ? (
+        <Encode fileId={fileId} setFileId={setFileId} />
       ) : null}
-      {siderSelect[0] === "0-1-1" ? <Decay /> : null}
+      {siderSelect[0] === "0-1-0" ? (
+        <Synthesis changeSider={setSiderSelect} fileId={fileId} />
+      ) : null}
+      {siderSelect[0] === "0-1-1" ? (
+        <Decay changeSider={setSiderSelect} fileId={fileId} />
+      ) : null}
       {siderSelect[0] === "0-1-2" ? <Pcr /> : null}
       {siderSelect[0] === "0-1-3" ? <Sampling /> : null}
       {siderSelect[0] === "0-1-4" ? <Sequencing /> : null}

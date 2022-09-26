@@ -37,7 +37,7 @@ const Encodelists: React.FC = (props: any) => {
     axios
       .post("http://127.0.0.1:5000/fileinfo", params)
       .then(function (response) {
-        //console.log("response: ", response);
+        console.log("response: ", response);
         requests.bit_size = response.data.bit_size;
         requests.segment_number = response.data.segment_number;
         //console.log(requests);
