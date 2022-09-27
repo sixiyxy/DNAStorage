@@ -11,7 +11,7 @@ from script.step11_get_file_uid import get_file_uid
 from script.step12_get_file_info import get_file_info
 from script.step21_encoding import Encoding
 
-import script.step3_simulation_utils as Simu
+from script.step3_simulation_utils import Simulation as Simu
 
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
@@ -105,13 +105,13 @@ def file_encode():
     return json.dumps(encode_info)
 
 #if user wants to upload his own dna file instead of generating by us
-@app.route('/dna_upload',methods=['GET','POST'])
-def dna_upload():
-    f=request.files['file']
-    filename=f.filename
-    filetype=f.mimetype
-    file_uid=get_file_uid()
-    file_rename='{}_{}'.format(file_uid,filename)
+# @app.route('/dna_upload',methods=['GET','POST'])
+# def dna_upload():
+#     f=request.files['file']
+#     filename=f.filename
+#     filetype=f.mimetype
+#     file_uid=get_file_uid()
+#     file_rename='{}_{}'.format(file_uid,filename)
 
 now_simu=Simu()
 @app.route('/simu_synthesis',methods=['GET','POST'])
@@ -156,6 +156,7 @@ def simu_dec():
     loss_rate = front_data['loss_rate']
     storage_host = front_data['storage_host']
     global now_simu
+    print(now_simu.file_uid)
     simu_dec_settings=now_simu.get_simu_dec_info(
         months_of_storage=months_of_storage,
         loss_rate=loss_rate,

@@ -5,20 +5,21 @@ from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_ar
 
 
 class Simulation():
-    def __init__(self,file_uid):
-        self.file_uid   =   file_uid
-        self.config = get_config(yaml_path='config')
-        self.backend_dir = self.config['backend_dir']
-        self.file_dir=self.config['file_save_dir']
+    def __init__(self,file_uid=None):
+        if file_uid!=None:
+            self.file_uid   =   file_uid
+            self.config = get_config(yaml_path='config')
+            self.backend_dir = self.config['backend_dir']
+            self.file_dir=self.config['file_save_dir']
 
-        self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
+            self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
 
-        self.dna_dir = self.config['dna_dir']
-        self.dna_file = '{}/{}/{}.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
-    
-        with open(self.dna_file) as f:
-            dnas=f.readlines()
-        self.simu_dna=[dna.split('\n')[0] for dna in dnas]
+            self.dna_dir = self.config['dna_dir']
+            self.dna_file = '{}/{}/{}.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
+        
+            with open(self.dna_file) as f:
+                dnas=f.readlines()
+            self.simu_dna=[dna.split('\n')[0] for dna in dnas]
 
     def get_simu_synthesis_info(self,synthesis_number,
         synthesis_yield,
