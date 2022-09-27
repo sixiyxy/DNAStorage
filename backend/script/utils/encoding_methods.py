@@ -3,8 +3,8 @@ import re
 import os,sys
 import math
 import numpy
-from utils.utils_basic import Monitor
-from utils.encoding_method_rule import *
+from .utils_basic import Monitor
+from .encoding_method_rule import *
 
 class AbstractCodingAlgorithm(object):
 

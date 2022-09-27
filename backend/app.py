@@ -9,7 +9,9 @@ import json
 from script.utils.utils_basic import get_config,write_yaml
 from script.step11_get_file_uid import get_file_uid
 from script.step12_get_file_info import get_file_info
-from script.step3_simulation_utils import Simulation as Simu
+from script.step21_encoding import Encoding
+
+import script.step3_simulation_utils as Simu
 
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
@@ -44,13 +46,9 @@ def get_front():
 
 @app.route('/file_upload',methods=['GET','POST'])
 def file_upload():
-    print('get file')
     f = request.files['file']
-    print(f)
     filename = f.filename
     filetype = f.mimetype
-    #filename = 'upload_test_picture.jpg'
-    #filetype = 'file' #前端传
     file_uid = get_file_uid()
     file_rename = '{}_{}'.format(file_uid,filename)
     save_dir = '{}/upload/{}'.format(backend_dir,file_rename)
@@ -64,9 +62,8 @@ def file_upload():
 
     return json.dumps(file_base_info)
 
-@app.route('/fileinfo',methods=['GET','POST'])
+@app.route('/file_info',methods=['GET','POST'])
 def file_information():
-    print("我开始接收了")
     front_data = request.data
     front_data = json.loads(front_data)
 
@@ -92,14 +89,29 @@ def file_information():
 
     return json.dumps(file_info)
 
-# #if user wants to upload his own dna file instead of generating by us
-# @app.route('/dna_upload',method=['GET','POST'])
-# def dna_upload():
-#     f=request.files['file']
-#     filename=f.filename
-#     filetype=f.mimetype
-#     file_uid=get_file_uid()
-#     file_rename='{}_{}'.format(file_uid,filename)
+
+@app.route('/file_encode',methods=['GET','POST'])
+def file_encode():
+    front_data = request.data
+    front_data = json.loads(front_data)
+
+    #### Postman test json ####
+    # {"file_uid":1565237658387615744}
+
+    file_uid = front_data['file_uid']
+    obj = Encoding(file_uid)
+    encode_info = obj.bit_to_dna()
+
+    return json.dumps(encode_info)
+
+#if user wants to upload his own dna file instead of generating by us
+@app.route('/dna_upload',methods=['GET','POST'])
+def dna_upload():
+    f=request.files['file']
+    filename=f.filename
+    filetype=f.mimetype
+    file_uid=get_file_uid()
+    file_rename='{}_{}'.format(file_uid,filename)
 
 now_simu=Simu()
 @app.route('/simu_synthesis',methods=['GET','POST'])

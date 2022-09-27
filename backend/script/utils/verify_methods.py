@@ -1,6 +1,6 @@
 import copy
 import os,sys
-from utils.utils_basic import Monitor
+from .utils_basic import Monitor
 from reedsolo import RSCodec, ReedSolomonError
 
 class AbstractErrorCorrectionCode(object):
