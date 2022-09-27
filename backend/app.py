@@ -9,7 +9,7 @@ import json
 from script.utils.utils_basic import get_config,write_yaml
 from script.step11_get_file_uid import get_file_uid
 from script.step12_get_file_info import get_file_info
-import script.step3_simulation_utils as Simu
+from script.step3_simulation_utils import Simulation as Simu
 
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
@@ -101,9 +101,7 @@ def file_information():
 #     file_uid=get_file_uid()
 #     file_rename='{}_{}'.format(file_uid,filename)
 
-
-
-global simu_dna
+now_simu=Simu()
 @app.route('/simu_synthesis',methods=['GET','POST'])
 def simu_synthesis():
     front_data = request.data
@@ -120,18 +118,15 @@ def simu_synthesis():
     synthesis_yield = front_data['synthesis_yield']
     synthesis_method = front_data['synthesis_method']
 
-    simu_synthesis_settings,dnas_syn=Simu.get_simu_synthesis_info(
-        file_uid=file_uid,
-        synthesis_number=synthesis_number,
+    global now_simu
+    now_simu=Simu(file_uid)
+    simu_synthesis_settings,density=now_simu.get_simu_synthesis_info(synthesis_number=synthesis_number,
         synthesis_yield=synthesis_yield,
         synthesis_method=synthesis_method
     )
-    simu_dna=[]
-    simu_dna=dnas_syn
-    nums=Simu.calculate_density(simu_dna)
-    simu_synthesis_settings['density']=nums
+    simu_synthesis_settings['density']=density
     return json.dumps(simu_synthesis_settings)
-    #return simu_dna
+
 
 @app.route('/simu_dec',methods=['GET','POST'])
 def simu_dec():
@@ -148,16 +143,12 @@ def simu_dec():
     months_of_storage = front_data['months_of_storage']
     loss_rate = front_data['loss_rate']
     storage_host = front_data['storage_host']
-
-    simu_dec_settings,dnas_dec=Simu.get_simu_dec_info(
-        file_uid=file_uid,
+    global now_simu
+    simu_dec_settings=now_simu.get_simu_dec_info(
         months_of_storage=months_of_storage,
         loss_rate=loss_rate,
         storage_host=storage_host,
-        dnas=simu_dna
     )
-    simu_dna=[]
-    simu_dna=dnas_dec
 
     return json.dumps(simu_dec_settings)
 
@@ -177,15 +168,12 @@ def simu_pcr():
     pcr_prob = front_data['pcr_prob']
     pcr_polymerase = front_data['pcr_polymerase']
 
-    simu_pcr_settings,dnas_pcr=Simu.get_simu_pcr_info(
-        file_uid=file_uid,
+    simu_pcr_settings,dnas_pcr=Simu(file_uid).get_simu_pcr_info(
         pcr_cycle=pcr_cycle,
         pcr_prob=pcr_prob,
         pcr_polymerase=pcr_polymerase,
         dnas=simu_dna
     )
-    simu_dna=[]
-    simu_dna=dnas_pcr
 
     return json.dumps(simu_pcr_settings)
 
@@ -202,7 +190,7 @@ def simu_sam():
     file_uid=front_data['file_uid']
     sam_ratio =front_data['sam_ratio'] 
 
-    simu_sam_settings,dnas_sam=Simu.get_simu_sam_info(
+    simu_sam_settings,dnas_sam=Simu(file_uid).get_simu_sam_info(
         file_uid=file_uid,
         sam_ratio=sam_ratio,
         dnas=simu_dna
@@ -244,3 +232,4 @@ print(app.url_map)
 
 if __name__ == '__main__':
     app.run('127.0.0.1', port=5000, debug=True)
+    

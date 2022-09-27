@@ -217,7 +217,7 @@ class Sampler_simu:
             out_dnas = copy.deepcopy(dnas)
         else:
             out_dnas = dnas
-            
+        print(out_dnas)    
         for dna in out_dnas:
             dna['re'] = self.run(dna['re'])
             dna['num'] = sum([tp[0] for tp in dna['re']])
