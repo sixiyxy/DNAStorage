@@ -21,16 +21,21 @@ export const Encode = (props) => {
     setTargetOffset(window.innerHeight / 2);
   }, []);
 
-  const SaveValue = [{ Segvalue: 0 }, { Indexvalue: 0 }];
+  //const SaveValue = [{ Segvalue: 0 }, { Indexvalue: 0 }];
   //const FileValue = [{fileuid:''},{filename:''},{filerename:''},{filetype:''}]
   // const [fileId, setFileId] = useState("");
-  const [values, setValues] = useState(SaveValue);
-  const [method, setMethod] = useState("WithoutVerifycode");
+  //const [values, setValues] = useState(SaveValue);
+  const [seg,setSeg] = useState(160)
+  const [index,setIndex] = useState(16)
+  const [method, setMethod] = useState("None");
   //const [fileID,setfileID] = useState([])
 
   //获取Slider中的参数信息传递给Graph
   const ParamPass = (param1, param2) => {
-    setValues(param2); //value
+    //setValues(param2); //value
+    setSeg(param2[0].Segvalue)
+    setIndex(param2[1].Indexvalue)
+    console.log(seg);
     setMethod(param1); //method
     //console.log("父亲", values);
     //console.log("父亲", method);
@@ -58,7 +63,7 @@ export const Encode = (props) => {
       </div> */}
       <div
         id="uploads"
-        style={{ paddingLeft: "250px", paddingTop: "20px", fontSize: "18px" }}
+        style={{ paddingLeft: "150px", paddingTop: "20px", fontSize: "18px" }}
       >
         <p>
           <strong>Please upload the storage files:</strong>
@@ -67,27 +72,30 @@ export const Encode = (props) => {
       </div>
       <div
         id="sliders"
-        style={{ paddingLeft: "250px", paddingTop: "50px", fontSize: "14px" }}
+        style={{ paddingLeft: "150px", paddingTop: "50px", fontSize: "14px" }}
       >
         <hr />
         <Sliders ParamPass={ParamPass} />
       </div>
-      <div id="graphs" style={{ paddingLeft: "250px", paddingTop: "20px" }}>
+      <div id="graphs" style={{ paddingLeft: "150px", paddingTop: "20px" }}>
         <hr />
-        <Graphs values={values} method={method} />
+        <Graphs seg={seg} index={index} method={method} setSeg={setSeg} setIndex={setIndex} setMethod={setMethod}/>
       </div>
 
       <div
         id="encodelist"
-        style={{ paddingLeft: "150px", paddingTop: "20px", fontSize: "15px" }}
+        style={{ paddingLeft: "50px", paddingTop: "20px", fontSize: "15px" }}
       >
         <p style={{ paddingLeft: "100px", fontSize: "17px" }}>
           <hr />
           <strong>请在下面的勾选框中选出适合自己的编码方法:</strong>
         </p>
-        <Encodelists fileId={props.fileId} values={values} method={method} />
+        <Encodelists fileId={props.fileId} seg={seg} index={index} method={method} />
       </div>
-      <div style={{ position: "fixed", top: "200px", margin: "0px 1150px" }}>
+      <br/>
+      <br/>
+      <br/>
+      <div style={{ position: "fixed", top: "200px", margin: "0px 1000px" }}>
         <Anchor targetOffset={targetOffset}>
           <Link href="#uploads" title="File Upload" />
           <Link href="#sliders" title="Choose method and length" />
