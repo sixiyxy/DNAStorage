@@ -3,6 +3,7 @@ from math import sqrt,log
 import copy 
 import time
 from . import homopolymer
+#import homopolymer
 
 BASE = np.array(['A','C','G','T'])
 QUANT = {'A': 0, 'C':1, 'G':2, 'T':3}
@@ -133,11 +134,10 @@ class Sequencer_simu:
         return dnas
 
 class PCRer_simu:
-    def __init__(self, N=16, p=0.7, pBias=0.05, arg=None):
-        if arg:
+    def __init__(self,arg=None):
             p = arg.pcrp #pcr_prob
             N = arg.pcrc #pcr_cycle
-            pBias = arg.pcrBias
+            pBias = 0.05
             self.probS = arg.pcr_sub_prob
             self.probD = arg.pcr_del_prob
             self.probI = arg.pcr_ins_prob
@@ -152,17 +152,17 @@ class PCRer_simu:
                 self.TM=arg.pcr_sub_pattern
             else:
                 self.TM=None
-            
+            print(N)
             self.ins_pos=arg.pcr_ins_pos
             self.del_pos=arg.pcr_del_pos
             self.err = ErrorAdder_simu(probS=self.probS, probD=self.probD, probI=self.probI, raw_rate=self.raw_rate,
                                       del_pattern=self.del_pattern, ins_pattern=self.ins_pattern,TM=self.TM,TM_Normal=self.TM_Normal,ins_pos=self.ins_pos,del_pos=self.del_pos)
-        self.p = p
-        self.N = N
-        self.pBias = pBias
+            self.p = float(p)
+            self.N = N
+            self.pBias = pBias
 
-        self.u0 = (1 + p) ** N
-        self.sigma0 = np.sqrt((1 - p) / (1 + p) * ((1 + p) ** (2 * N) - (1 + p) ** N))
+            self.u0 = (1 + p) ** N
+            self.sigma0 = np.sqrt((1 - p) / (1 + p) * ((1 + p) ** (2 * N) - (1 + p) ** N))
 
     def distribution(self, ori):
         assert ori >= 0
@@ -440,22 +440,45 @@ if __name__ == '__main__':
         def __init__(self, dic):
             self.__dict__.update(dic)
 
-    arg={
-            "syn_sub_prob":0.2,
-            "syn_ins_prob":0.2,
-            "syn_del_prob":0.2,
-            "syn_raw_rate":0.000025,
-            "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
-            "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
-            "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1},
-            "TM_Normal":True,
-            "syn_number": 30,
-            "syn_yield": 0.99,
-         }
+    # arg_synthesis={
+    #         "syn_sub_prob":0.2,
+    #         "syn_ins_prob":0.2,
+    #         "syn_del_prob":0.2,
+    #         "syn_raw_rate":0.000025,
+    #         "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
+    #         "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+    #         "syn_del_pos":{"homopolymer":0,"random":1},
+    #         "syn_ins_pos":{"homopolymer":0,"random":1},
+    #         "TM_Normal":True,
+    #         "syn_number": 30,
+    #         "syn_yield": 0.99,
+    #      }
 
-
-    arg=ArgumentPasser(arg)
-    dnas=Synthesizer_simu(arg)
+    
+    # arg=ArgumentPasser(arg)
+    # dnas=Synthesizer_simu(arg)
+    arg_pcr={
+         
+            "pcr_sub_prob":0.99,
+            "pcr_ins_prob":0,
+            "pcr_del_prob":0.01,
+            "pcr_raw_rate":0.000043,
+            "pcr_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "pcr_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
+            "pcr_sub_pattern":{
+                                "A":{"C":0.02,"G":0.97,"T":0.01},
+                                "C":{"A":0,"G":0,"T":1},
+                                "G":{"A":1,"C":0,"T":0},
+                                "T":{"A":0.01,"C":0.97,"G":0.02}
+                                },
+            "pcr_del_pos":{"homopolymer":0,"random":1},
+            "pcr_ins_pos":{"homopolymer":0,"random":1},
+            "pcr_cycle":12,
+            "pcr_prob":0.8
+        
+    }
+    arg=ArgumentPasser(arg_pcr)
+    PCR=PCRer_simu(arg)
+    dnas=PCR(dnas)
     print(dnas)
 

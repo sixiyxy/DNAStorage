@@ -85,19 +85,16 @@ class Simulation():
 
         return dec_info
 
-    def get_simu_pcr_info(self,file_uid,
+    def get_simu_pcr_info(self,
         pcr_cycle,
         pcr_prob,
-        pcr_polymerase,
-        in_dnas):
+        pcr_polymerase):
 
         '''
         Input:
-            file_uid
             pcr_cycle
             pcr_prob
             pcr_polymerase
-            in_dnas
         '''
         # file information path
 
@@ -118,9 +115,8 @@ class Simulation():
 
         return pcr_info
 
-    def get_simu_sam_info(self,file_uid,
-        sam_ratio,
-        in_dnas):
+    def get_simu_sam_info(self,
+        sam_ratio,):
 
         '''
         Input:
@@ -141,17 +137,14 @@ class Simulation():
 
         return sam_info
 
-    def get_simu_seq_info(self,file_uid,
+    def get_simu_seq_info(self,
         seq_depth,
-        seq_meth,
-        in_dnas):
+        seq_meth):
 
         '''
         Input:
-            file_uid
             seq_depth
             seq_meth
-            in_dnas
         '''
 
         arg=Seq_arg(seq_meth)
