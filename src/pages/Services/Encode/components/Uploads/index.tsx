@@ -20,7 +20,7 @@ const Uploads: React.FC = (props: any) => {
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
-        //console.log(info.file, info.fileList);
+        console.log('文件上传后端返回值',info.file, info.fileList);
         // FileValue.fileuid = info.file.response.file_uid;
         // FileValue.filename = info.file.response.file_name;
         // FileValue.filerename = info.file.response.file_rename;

@@ -10,7 +10,6 @@ var requests = { bit_size: "", byte_size: "", segment_number: "" };
 
 const Encodelists: React.FC = (props: any) => {
   const [value, setValue] = useState("");
-
   const onChange = (e: RadioChangeEvent) => {
     //console.log("radio checked", e.target.value);
     encodeMethod = e.target.value;
@@ -29,8 +28,8 @@ const Encodelists: React.FC = (props: any) => {
   const handleClick = () => {
     //console.log("encodelists", props);
     params.file_uid = props.fileId;
-    params.segment_length = props.values[1].Indexvalue;
-    params.index_length = props.values[0].Segvalue;
+    params.segment_length = props.index;
+    params.index_length = props.seg;
     params.verify_method = props.method;
     params.encode_method = encodeMethod;
 
@@ -40,7 +39,7 @@ const Encodelists: React.FC = (props: any) => {
         console.log("response: ", response);
         requests.bit_size = response.data.bit_size;
         requests.segment_number = response.data.segment_number;
-        //console.log(requests);
+        console.log('编码方法后端返回值',requests);
 
         //以下均为后端返回的data中的值
         // console.log(response.data.byte_size)
@@ -57,7 +56,7 @@ const Encodelists: React.FC = (props: any) => {
 
   return (
     <div className="todo-container">
-      <div className="todo-wrap">
+      <div>
         <h2>Choose Decode Method</h2>
         <div style={{ paddingLeft: "20px" }}>
           <Radio.Group onChange={onChange} value={value}>
@@ -78,13 +77,20 @@ const Encodelists: React.FC = (props: any) => {
             </Space>
           </Radio.Group>
         </div>
-        <p>
+        <div>
+        <div style={{ marginTop: "20px"}}>
           Method details please click the :{" "}
           <Link to="/methods">Method Paper</Link>
-        </p>
-        <button className="btn btn-danger" onClick={handleClick}>
+        </div>
+        <button 
+          className="btn btn-danger" 
+          style={{ marginLeft: "650px"}}
+          onClick={handleClick}
+        >
           Run
         </button>
+        
+        </div>
       </div>
 
       {/* <div>
