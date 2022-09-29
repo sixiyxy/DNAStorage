@@ -11,7 +11,11 @@ from script.step11_get_file_uid import get_file_uid
 from script.step12_get_file_info import get_file_info
 from script.step21_encoding import Encoding
 
+<<<<<<< HEAD
 import script.step3_simulation_utils as Simudemo
+=======
+from script.step3_simulation_utils import Simulation as Simu
+>>>>>>> f77059ca9a6d715450283a9acc430d3f2cd992b6
 
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
@@ -105,45 +109,40 @@ def file_encode():
     return json.dumps(encode_info)
 
 #if user wants to upload his own dna file instead of generating by us
-@app.route('/dna_upload',methods=['GET','POST'])
-def dna_upload():
-    f=request.files['file']
-    filename=f.filename
-    filetype=f.mimetype
-    file_uid=get_file_uid()
-    file_rename='{}_{}'.format(file_uid,filename)
+# @app.route('/dna_upload',methods=['GET','POST'])
+# def dna_upload():
+#     f=request.files['file']
+#     filename=f.filename
+#     filetype=f.mimetype
+#     file_uid=get_file_uid()
+#     file_rename='{}_{}'.format(file_uid,filename)
 
-
-
-global simu_dna
+now_simu=Simu()
 @app.route('/simu_synthesis',methods=['GET','POST'])
 def simu_synthesis():
     front_data = request.data
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    # {"file_uid":1565536927137009664,
-    # "synthesis_number":30,
-    # "synthesis_yield":0.99,
-    # "synthesis_method":"ErrASE"}
+    {"file_uid":1565536927137009664,
+    "synthesis_number":30,
+    "synthesis_yield":0.99,
+    "synthesis_method":"ErrASE"}
 
     file_uid=front_data['file_uid']
     synthesis_number = front_data['synthesis_number']
     synthesis_yield = front_data['synthesis_yield']
     synthesis_method = front_data['synthesis_method']
 
-    simu_synthesis_settings,dnas_syn=Simu.get_simu_synthesis_info(
-        file_uid=file_uid,
-        synthesis_number=synthesis_number,
+    global now_simu
+    now_simu=Simu(file_uid)
+    simu_synthesis_settings,density=now_simu.get_simu_synthesis_info(synthesis_number=synthesis_number,
         synthesis_yield=synthesis_yield,
         synthesis_method=synthesis_method
     )
-    simu_dna=[]
-    simu_dna=dnas_syn
-    nums=Simu.calculate_density(simu_dna)
-    simu_synthesis_settings['density']=nums
+    simu_synthesis_settings['density']=density
     return json.dumps(simu_synthesis_settings)
-    #return simu_dna
+
 
 @app.route('/simu_dec',methods=['GET','POST'])
 def simu_dec():
@@ -151,25 +150,20 @@ def simu_dec():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    # {"file_uid":1565536927137009664,
-    # "months_of_storage":24,
-    # "loss_rate":0.3,
-    # "storage_host":"Ecoli"}
+    {"months_of_storage":24,
+    "loss_rate":0.3,
+    "storage_host":"WhiteGaussian"}
 
-    file_uid=front_data['file_uid']
     months_of_storage = front_data['months_of_storage']
     loss_rate = front_data['loss_rate']
     storage_host = front_data['storage_host']
-
-    simu_dec_settings,dnas_dec=Simu.get_simu_dec_info(
-        file_uid=file_uid,
+    global now_simu
+    print(now_simu.file_uid)
+    simu_dec_settings=now_simu.get_simu_dec_info(
         months_of_storage=months_of_storage,
         loss_rate=loss_rate,
-        storage_host=storage_host,
-        dnas=simu_dna
+        storage_host=storage_host
     )
-    simu_dna=[]
-    simu_dna=dnas_dec
 
     return json.dumps(simu_dec_settings)
 
@@ -179,25 +173,20 @@ def simu_pcr():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    # {"file_uid":1565536927137009664,
-    # "pcr_cycle":12,
-    # "pcr_prob":0.8,
-    # "pcr_polymerase":"Taq"}
+    {"pcr_cycle":12,
+    "pcr_prob":0.8,
+    "pcr_polymerase":"Taq"}
 
-    file_uid=front_data['file_uid']
     pcr_cycle = front_data['pcr_cycle']
     pcr_prob = front_data['pcr_prob']
     pcr_polymerase = front_data['pcr_polymerase']
 
-    simu_pcr_settings,dnas_pcr=Simu.get_simu_pcr_info(
-        file_uid=file_uid,
+    global now_simu
+    simu_pcr_settings,dnas_pcr=now_simu.get_simu_pcr_info(
         pcr_cycle=pcr_cycle,
         pcr_prob=pcr_prob,
-        pcr_polymerase=pcr_polymerase,
-        dnas=simu_dna
+        pcr_polymerase=pcr_polymerase
     )
-    simu_dna=[]
-    simu_dna=dnas_pcr
 
     return json.dumps(simu_pcr_settings)
 
@@ -207,17 +196,13 @@ def simu_sam():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    # {"file_uid":1565536927137009664,
-    # "sam_ratio":0.005
-    # }
+    {"sam_ratio":0.005 }
 
-    file_uid=front_data['file_uid']
     sam_ratio =front_data['sam_ratio'] 
 
-    simu_sam_settings,dnas_sam=Simu.get_simu_sam_info(
-        file_uid=file_uid,
-        sam_ratio=sam_ratio,
-        dnas=simu_dna
+    global now_simu
+    simu_sam_settings,dnas_sam=now_simu.get_simu_sam_info(
+        sam_ratio=sam_ratio
     )
     simu_dna=[]
     simu_dna=dnas_sam
@@ -230,20 +215,17 @@ def simu_seq():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    # {"file_uid":1565536927137009664,
-    # "seq_depth":5,
-    # "seq_meth":"ill_PairedEnd"
-    # }
+    { "seq_depth":5,
+     "seq_meth":"ill_PairedEnd"
+     }
 
-    file_uid=front_data['file_uid']
     seq_depth =front_data['seq_depth'] 
     seq_meth=front_data['seq_meth']
+    global now_simu
 
-    simu_seq_settings,dnas_seq=Simu.get_simu_seq_info(
-        file_uid=file_uid,
+    simu_seq_settings,dnas_seq=now_simu.get_simu_seq_info(
         seq_depth=seq_depth,
-        seq_meth=seq_meth,
-        in_dnas=simu_dna
+        seq_meth=seq_meth
     )
     simu_dna=[]
     simu_dna=dnas_seq
@@ -256,3 +238,4 @@ print(app.url_map)
 
 if __name__ == '__main__':
     app.run('127.0.0.1', port=5000, debug=True)
+    
