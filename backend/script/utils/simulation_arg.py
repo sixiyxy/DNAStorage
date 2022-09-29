@@ -10,6 +10,7 @@ synthMeth={
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
             "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":"https://doi.org/10.1371/journal.pone.0115950"
         },
 
         "MutS":{
@@ -20,7 +21,8 @@ synthMeth={
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1}
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":"https://doi.org/10.1371/journal.pone.0115950"
         },
 
         "ConsensusShuffle":{
@@ -31,7 +33,8 @@ synthMeth={
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1}
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":"https://doi.org/10.1371/journal.pone.0115950"
         },
 
         "Oligo":{
@@ -42,7 +45,8 @@ synthMeth={
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1}
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":"https://doi.org/10.1371/journal.pone.0115950"
         },
 
         "HighTemperature":{
@@ -53,7 +57,8 @@ synthMeth={
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1}
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":"https://doi.org/10.1371/journal.pone.0115950"
         },
 
         "ErrASE(Mic)":{
@@ -64,7 +69,8 @@ synthMeth={
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1}
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":"https://doi.org/10.1371/journal.pone.0115950"
         },
 
         "Nuclease":{
@@ -75,7 +81,8 @@ synthMeth={
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1}
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":https://doi.org/10.1371/journal.pone.0115950
         },
 
          "NGS":{
@@ -86,7 +93,8 @@ synthMeth={
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1}
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":https://doi.org/10.1371/journal.pone.0115950
         },
 
          "None":{
@@ -113,7 +121,8 @@ decHost={
             "dec_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
-            "dec_ins_pos":{"homopolymer":0,"random":1}
+            "dec_ins_pos":{"homopolymer":0,"random":1},
+            "reference":"https://doi.org/10.1186/s12859-016-0976-y"
         },
 
         "Hsapiens":{
@@ -125,6 +134,7 @@ decHost={
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
             "dec_ins_pos":{"homopolymer":0,"random":1}
+            "reference":"https://doi.org/10.1186/s12859-016-0976-y"
         },
 
         "Mmusculus":{
@@ -135,7 +145,8 @@ decHost={
             "dec_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
-            "dec_ins_pos":{"homopolymer":0,"random":1}
+            "dec_ins_pos":{"homopolymer":0,"random":1},
+            "reference":https://doi.org/10.1186/s12859-016-0976-y
         },
 
         "Dmelanogaster":{
