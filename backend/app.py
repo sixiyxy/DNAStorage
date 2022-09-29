@@ -212,7 +212,7 @@ def simu_seq():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    { "seq_depth":5,
+    { "seq_depth":15,
      "seq_meth":"ill_PairedEnd"
      }
 

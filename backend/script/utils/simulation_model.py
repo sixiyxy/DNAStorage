@@ -126,7 +126,14 @@ class Sequencer_simu:
     def sample(self, dnas):
         rNs = [dna['num'] for dna in dnas]
         average_copies = sum(rNs) / len(rNs)
-        self.sample_ratio = self.seq_depth / average_copies
+        print("seq_depth"+str(self.seq_depth))
+        print("average_copies:"+str(average_copies))
+        ratio = self.seq_depth / average_copies #in case too big
+        if ratio>=1:
+            self.sample_ratio=1
+        else:
+            self.sample_ratio=ratio
+        print("sample_ratio:"+str(self.sample_ratio))
         dnas = Sampler_simu(p=self.sample_ratio)(dnas)
         return dnas
 
@@ -198,6 +205,8 @@ class Sampler_simu:
             self.p = p
 
     def distribution(self,N):
+        if self.p>1:
+            return N
         return np.random.binomial(int(N),self.p)
 
     def run(self,re_dnas):
