@@ -11,7 +11,7 @@ from script.step11_get_file_uid import get_file_uid
 from script.step12_get_file_info import get_file_info
 from script.step21_encoding import Encoding
 
-import script.step3_simulation_utils as Simu
+import script.step3_simulation_utils as Simudemo
 
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
