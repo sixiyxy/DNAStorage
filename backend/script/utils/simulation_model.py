@@ -126,14 +126,11 @@ class Sequencer_simu:
     def sample(self, dnas):
         rNs = [dna['num'] for dna in dnas]
         average_copies = sum(rNs) / len(rNs)
-        print("seq_depth"+str(self.seq_depth))
-        print("average_copies:"+str(average_copies))
         ratio = self.seq_depth / average_copies #in case too big
         if ratio>=1:
             self.sample_ratio=1
         else:
             self.sample_ratio=ratio
-        print("sample_ratio:"+str(self.sample_ratio))
         dnas = Sampler_simu(p=self.sample_ratio)(dnas)
         return dnas
 
@@ -145,7 +142,7 @@ class PCRer_simu:
             self.probS = arg.pcr_sub_prob
             self.probD = arg.pcr_del_prob
             self.probI = arg.pcr_ins_prob
-            self.raw_rate = arg.pcr_raw_rate
+            self.raw_rate = arg.pcr_raw_rate**N
             self.del_pattern = arg.pcr_del_pattern
             self.ins_pattern = arg.pcr_ins_pattern
             if hasattr(arg,'TM_Normal'):
@@ -178,7 +175,9 @@ class PCRer_simu:
     def run(self, re_dnas):
         out = []
         for dna in re_dnas:
+            print("before:"+str(dna[0]))
             dna[0] = self.distribution(dna[0])
+            print("after:"+str(dna[0]))
             if dna[0] > 0:
                 out.append(dna)
         return out
@@ -189,9 +188,7 @@ class PCRer_simu:
         else:
             out_dnas = dnas
 
-        for i in range (0,self.N):
-            out_dnas = self.err(out_dnas)
-
+        out_dnas=self.err(out_dnas)
         for dna in out_dnas:
             dna['re'] = self.run(dna['re'])
             dna['num'] = sum([tp[0] for tp in dna['re']])
