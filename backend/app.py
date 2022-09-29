@@ -2,7 +2,7 @@ from distutils.command.config import config
 from imp import reload
 from flask import Flask, render_template
 from flask import request
-from flask_cors import *
+#from flask_cors import *
 import os
 import json
 
@@ -10,12 +10,12 @@ from script.utils.utils_basic import get_config,write_yaml
 from script.step11_get_file_uid import get_file_uid
 from script.step12_get_file_info import get_file_info
 from script.step21_encoding import Encoding
-
 from script.step3_simulation_utils import Simulation as Simu
 
 
+
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
-CORS(app,suports_credentials=True)
+#CORS(app,suports_credentials=True)
 
 backend_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -120,10 +120,12 @@ def simu_synthesis():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    {"file_uid":1565536927137009664,
-    "synthesis_number":30,
-    "synthesis_yield":0.99,
-    "synthesis_method":"ErrASE"}
+    {
+        "file_uid":1565536927137009664,
+        "synthesis_number":30,
+        "synthesis_yield":0.99,
+        "synthesis_method":"ErrASE"
+    }
 
     file_uid=front_data['file_uid']
     synthesis_number = front_data['synthesis_number']
@@ -178,7 +180,7 @@ def simu_pcr():
     pcr_polymerase = front_data['pcr_polymerase']
 
     global now_simu
-    simu_pcr_settings,dnas_pcr=now_simu.get_simu_pcr_info(
+    simu_pcr_settings=now_simu.get_simu_pcr_info(
         pcr_cycle=pcr_cycle,
         pcr_prob=pcr_prob,
         pcr_polymerase=pcr_polymerase
@@ -197,11 +199,10 @@ def simu_sam():
     sam_ratio =front_data['sam_ratio'] 
 
     global now_simu
-    simu_sam_settings,dnas_sam=now_simu.get_simu_sam_info(
+    simu_sam_settings=now_simu.get_simu_sam_info(
         sam_ratio=sam_ratio
     )
-    simu_dna=[]
-    simu_dna=dnas_sam
+    
 
     return json.dumps(simu_sam_settings)
 
@@ -218,13 +219,10 @@ def simu_seq():
     seq_depth =front_data['seq_depth'] 
     seq_meth=front_data['seq_meth']
     global now_simu
-
-    simu_seq_settings,dnas_seq=now_simu.get_simu_seq_info(
+    simu_seq_settings=now_simu.get_simu_seq_info(
         seq_depth=seq_depth,
         seq_meth=seq_meth
     )
-    simu_dna=[]
-    simu_dna=dnas_seq
 
     return json.dumps(simu_seq_settings)
 
@@ -234,4 +232,4 @@ print(app.url_map)
 
 if __name__ == '__main__':
     app.run('127.0.0.1', port=5000, debug=True)
-    
+   
