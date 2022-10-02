@@ -50,7 +50,7 @@ export const Encode = (props) => {
 
   return (
     <div className="EncodeContainer">
-      {/* <div style={{paddingLeft:"30px",paddingTop:"20px"}}>
+      <div style={{paddingLeft:"30px",paddingTop:"20px"}}>
           <Breadcrumb separator=">">
             <Breadcrumb.Item>
                         <a href="/">Home</a>
@@ -60,7 +60,7 @@ export const Encode = (props) => {
             </Breadcrumb.Item>
             <Breadcrumb.Item>Encode Data</Breadcrumb.Item>
         </Breadcrumb>
-      </div> */}
+      </div>
       <div
         id="uploads"
         style={{ paddingLeft: "150px", paddingTop: "20px", fontSize: "18px" }}
@@ -86,9 +86,9 @@ export const Encode = (props) => {
         id="encodelist"
         style={{ paddingLeft: "50px", paddingTop: "20px", fontSize: "15px" }}
       >
-        <p style={{ paddingLeft: "100px", fontSize: "17px" }}>
-          <hr />
-          <strong>请在下面的勾选框中选出适合自己的编码方法:</strong>
+        
+        <p style={{ paddingLeft: "100px",fontSize: "17px" }}>
+        <hr/>
         </p>
         <Encodelists fileId={props.fileId} seg={seg} index={index} method={method} />
       </div>
