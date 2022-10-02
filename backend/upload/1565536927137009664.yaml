@@ -23,3 +23,11 @@ decay_loss_rate: 0.3
 decay_reference_link: 0
 months_of_storage: 24
 storgae_host: Ecoli
+sam_ratio: 0.005
+seq_depth: 5
+seq_meth: ill_PairedEnd
+seq_reference: 0
+pcr_cycle: 12
+pcr_polymerase: Taq
+pcr_prob: 0.8
+pcr_reference_link: 0

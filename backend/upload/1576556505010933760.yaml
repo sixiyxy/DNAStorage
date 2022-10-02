@@ -1,0 +1,17 @@
+file_name: 1565536927137009664.dna
+file_rename: 1576556505010933760_1565536927137009664.dna
+file_type: application/octet-stream
+file_uid: '1576556505010933760'
+bit_size: 3706560
+byte_size: 463315
+encode_method: Basic
+index_length: 16
+segment_length: 160
+segment_number: 23166
+verify_method: HammingCode
+final_segment_bit_length: 184
+verify_code_length: 8
+DNA_sequence_length: 92
+encoding_time: 16.418869
+information_density: 1.739
+nucleotide_counts: 2131272

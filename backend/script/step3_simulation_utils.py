@@ -1,7 +1,7 @@
 import script.utils.simulation_model as Model
 import numpy as np
 from script.utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg
+from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg
 
 
 class Simulation():
@@ -116,18 +116,16 @@ class Simulation():
         return pcr_info
 
     def get_simu_sam_info(self,
-        sam_ratio,):
+        sam_ratio):
 
         '''
         Input:
-            file_uid
             sam_ratio
-            in_dnas
         '''
         # file information path
         arg=Sampler_arg(sam_ratio)
 
-        Sam=Model.Sampler_simu(arg)
+        Sam=Model.Sampler_simu(arg=arg)
         self.simu_dna=Sam(self.simu_dna)
 
         sam_info={
@@ -152,6 +150,7 @@ class Simulation():
 
         Seq=Model.Sequencer_simu(arg)
         self.simu_dna=Seq(self.simu_dna)
+        seq_reference=0
 
         seq_info={
             "seq_depth":seq_depth,

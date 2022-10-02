@@ -82,7 +82,7 @@ class Decayer_simu:
 
         self.ins_pos=arg.dec_ins_pos
         self.del_pos=arg.dec_del_pos
-        self.sam = Sampler_simu(1-self.loss_rate)
+        self.sam = Sampler_simu(p=1-self.loss_rate)
         self.err = ErrorAdder_simu(probS=self.probS, probD = self.probD, probI = self.probI, raw_rate=self.raw_rate,del_pattern=self.del_pattern,ins_pattern=self.ins_pattern,TM=self.TM,TM_Normal=self.TM_Normal,ins_pos=self.ins_pos,del_pos=self.del_pos)
 
     
@@ -96,7 +96,6 @@ class Sequencer_simu:
         self.seq_depth = arg.seq_depth
 
         self.TM = arg.seq_sub_pattern
-        self.TM_Normal=arg.TM_Normal
         self.probS = arg.seq_sub_prob
         self.probD = arg.seq_del_prob
         self.probI = arg.seq_ins_prob
@@ -109,7 +108,7 @@ class Sequencer_simu:
             self.TM_Normal=arg.TM_Normal
         else:
             self.TM_Normal=True
-        self.TM_Normal=arg.TM_Normal
+
         if hasattr(arg,'seq_sub_pattern'):
             self.TM=arg.seq_sub_pattern
         else:
@@ -120,8 +119,6 @@ class Sequencer_simu:
         self.err=ErrorAdder_simu(self.probS, self.probD, self.probI,self.raw_rate,self.del_pattern,self.ins_pattern,self.TM,self.TM_Normal,ins_pos=self.ins_pos,del_pos=self.del_pos)
 
     def __call__(self, dnas):
-        # if self.performPCR:
-        #     dnas = self.pcr(dnas)
         dnas = self.sample(dnas)
         dnas = self.err(dnas)
         return dnas
@@ -129,8 +126,12 @@ class Sequencer_simu:
     def sample(self, dnas):
         rNs = [dna['num'] for dna in dnas]
         average_copies = sum(rNs) / len(rNs)
-        self.sample_ratio = self.seq_depth / average_copies
-        dnas = Sampler_simu(self.sample_ratio)(dnas)
+        ratio = self.seq_depth / average_copies #in case too big
+        if ratio>=1:
+            self.sample_ratio=1
+        else:
+            self.sample_ratio=ratio
+        dnas = Sampler_simu(p=self.sample_ratio)(dnas)
         return dnas
 
 class PCRer_simu:
@@ -141,7 +142,7 @@ class PCRer_simu:
             self.probS = arg.pcr_sub_prob
             self.probD = arg.pcr_del_prob
             self.probI = arg.pcr_ins_prob
-            self.raw_rate = arg.pcr_raw_rate
+            self.raw_rate = arg.pcr_raw_rate**N
             self.del_pattern = arg.pcr_del_pattern
             self.ins_pattern = arg.pcr_ins_pattern
             if hasattr(arg,'TM_Normal'):
@@ -152,7 +153,6 @@ class PCRer_simu:
                 self.TM=arg.pcr_sub_pattern
             else:
                 self.TM=None
-            print(N)
             self.ins_pos=arg.pcr_ins_pos
             self.del_pos=arg.pcr_del_pos
             self.err = ErrorAdder_simu(probS=self.probS, probD=self.probD, probI=self.probI, raw_rate=self.raw_rate,
@@ -175,7 +175,9 @@ class PCRer_simu:
     def run(self, re_dnas):
         out = []
         for dna in re_dnas:
+            print("before:"+str(dna[0]))
             dna[0] = self.distribution(dna[0])
+            print("after:"+str(dna[0]))
             if dna[0] > 0:
                 out.append(dna)
         return out
@@ -186,23 +188,23 @@ class PCRer_simu:
         else:
             out_dnas = dnas
 
-        for i in range (0,self.N):
-            out_dnas = self.err(out_dnas)
-
+        out_dnas=self.err(out_dnas)
         for dna in out_dnas:
             dna['re'] = self.run(dna['re'])
             dna['num'] = sum([tp[0] for tp in dna['re']])
         return out_dnas
 
 class Sampler_simu:
-    def __init__(self, p=0.001,  arg = None):
-        if arg: 
-            self.p = arg.sam_ratio
-        else: 
+    def __init__(self, p=0.01,arg = None):
+        if arg: #for sampling
+            self.p=float(arg.sam_ratio)
+        else: #for decaying
             self.p = p
 
     def distribution(self,N):
-        return np.random.binomial(N,self.p)
+        if self.p>1:
+            return N
+        return np.random.binomial(int(N),self.p)
 
     def run(self,re_dnas):
         markers = []
@@ -250,11 +252,11 @@ class ErrorAdder_simu:
         if self.TM_Normal:
             for i, base in enumerate(['A', 'C', 'G', 'T']):
                 Pi = np.where(dna == base)[0]
-                subi = np.random.choice(['A', 'C', 'G', 'T'], size=Pi.size, p=self.TM[i])
+                subi = np.random.choice(['A', 'C', 'G', 'T'], size=Pi.size, p=list(self.TM[base].values()))
                 subPi = np.where(subi != base)[0]
                 for pos in subPi:
                     Errors.append((Pi[pos], 's', subi[pos]))
-           
+                    
         else:
             TM_keys=list(self.TM.keys())
             for key in TM_keys:
@@ -417,11 +419,13 @@ class ErrorAdder_simu:
 
 #生成替换概率矩阵，[[0.9997, 0.0001, 0.0001, 0.0001], [0.0001, 0.9997, 0.0001, 0.0001], [0.0001, 0.0001, 0.9997, 0.0001], [0.0001, 0.0001, 0.0001, 0.9997]]
 def genTm(prob):
-    tm = []
-    for i in range(4):
-        row = [prob for i in range(4)]
-        row[i] = 1 - 3* prob 
-        tm.append(row)
+    tm = dict()
+    for i,base in enumerate(['A','C','G','T']):
+        row=dict()
+        for i,oli in enumerate(['A','C','G','T']):
+            row[oli]=prob
+        row[base] = 1 - 3* prob
+        tm[base]=row
     return tm
 
 def randomPicker(ranges):
@@ -432,13 +436,6 @@ def randomPicker(ranges):
     return random.choice(nums)
 
 if __name__ == '__main__':
-    class ArgumentPasser:
-        """Simple Class for passing arguments in arg object.
-            Init all arttributes from a dictionary.
-        """
-
-        def __init__(self, dic):
-            self.__dict__.update(dic)
 
     # arg_synthesis={
     #         "syn_sub_prob":0.2,

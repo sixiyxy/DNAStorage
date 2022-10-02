@@ -10,6 +10,7 @@ synthMeth={
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
             "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":"https://doi.org/10.1371/journal.pone.0115950"
         },
 
         "MutS":{
@@ -20,7 +21,8 @@ synthMeth={
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1}
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":"https://doi.org/10.1371/journal.pone.0115950"
         },
 
         "ConsensusShuffle":{
@@ -31,7 +33,8 @@ synthMeth={
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1}
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":"https://doi.org/10.1371/journal.pone.0115950"
         },
 
         "Oligo":{
@@ -42,7 +45,8 @@ synthMeth={
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1}
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":"https://doi.org/10.1371/journal.pone.0115950"
         },
 
         "HighTemperature":{
@@ -53,7 +57,8 @@ synthMeth={
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1}
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":"https://doi.org/10.1371/journal.pone.0115950"
         },
 
         "ErrASE(Mic)":{
@@ -64,7 +69,8 @@ synthMeth={
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1}
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":"https://doi.org/10.1371/journal.pone.0115950"
         },
 
         "Nuclease":{
@@ -75,7 +81,8 @@ synthMeth={
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1}
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":https://doi.org/10.1371/journal.pone.0115950
         },
 
          "NGS":{
@@ -86,7 +93,8 @@ synthMeth={
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
-            "syn_ins_pos":{"homopolymer":0,"random":1}
+            "syn_ins_pos":{"homopolymer":0,"random":1},
+            "reference":https://doi.org/10.1371/journal.pone.0115950
         },
 
          "None":{
@@ -113,7 +121,8 @@ decHost={
             "dec_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
-            "dec_ins_pos":{"homopolymer":0,"random":1}
+            "dec_ins_pos":{"homopolymer":0,"random":1},
+            "reference":"https://doi.org/10.1186/s12859-016-0976-y"
         },
 
         "Hsapiens":{
@@ -125,6 +134,7 @@ decHost={
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
             "dec_ins_pos":{"homopolymer":0,"random":1}
+            "reference":"https://doi.org/10.1186/s12859-016-0976-y"
         },
 
         "Mmusculus":{
@@ -135,7 +145,8 @@ decHost={
             "dec_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
-            "dec_ins_pos":{"homopolymer":0,"random":1}
+            "dec_ins_pos":{"homopolymer":0,"random":1},
+            "reference":https://doi.org/10.1186/s12859-016-0976-y
         },
 
         "Dmelanogaster":{
@@ -178,10 +189,10 @@ decHost={
             "dec_raw_rate":0.005,
             "dec_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
-            "dec_sub_pattern":{"A":{"C":0.3333,"G":0.33340000000003,"T":0.3333},
-                                "C":{"A":0.3333,"G":0.333400000003,"T":0.3333},
-                                "G":{"A":0.3333,"C":0.3333,"T":0.333400000004},
-                                "T":{"A":0.3333,"C":0.3333,"G":0.333400000004}
+            "dec_sub_pattern":{"A":{"A":0,"C":0.3333,"G":0.33340000000003,"T":0.3333},
+                                "C":{"A":0.3333,"C":0,"G":0.333400000003,"T":0.3333},
+                                "G":{"A":0.3333,"C":0.3333,"G":0,"T":0.333400000004},
+                                "T":{"A":0.3333,"C":0.3333,"G":0.333400000004,"T":0}
                                 },
             "dec_del_pos":{"homopolymer":0.5,"random":0.5},
             "dec_ins_pos":{"homopolymer":0.5,"random":0.5}
@@ -249,10 +260,10 @@ decHost={
             "dec_raw_rate":0.0001231,
             "dec_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
-            "dec_sub_pattern":{"A":{"C":0.3333,"G":0.3333,"T":0.3334000000003},
-                                "C":{"A":0.3333,"G":0.3333,"T":0.33340000000003},
-                                "G":{"A":0.3333,"C":0.3333,"T":0.333400000003},
-                                "T":{"A":0.3333,"C":0.3333,"G":0.333400000004}
+            "dec_sub_pattern":{"A":{"A":0,"C":0.3333,"G":0.3333,"T":0.3334000000003},
+                                "C":{"A":0.3333,"C":0,"G":0.3333,"T":0.33340000000003},
+                                "G":{"A":0.3333,"C":0.3333,"G":0,"T":0.333400000003},
+                                "T":{"A":0.3333,"C":0.3333,"G":0.333400000004,"T":0}
                                 },
             "dec_del_pos":{"homopolymer":0.5,"random":0.5},
             "dec_ins_pos":{"homopolymer":0.5,"random":0.5}
@@ -288,10 +299,10 @@ pcrPoly={
             "pcr_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "pcr_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "pcr_sub_pattern":{
-                                "A":{"C":0.02,"G":0.97,"T":0.01},
-                                "C":{"A":0,"G":0,"T":1},
-                                "G":{"A":1,"C":0,"T":0},
-                                "T":{"A":0.01,"C":0.97,"G":0.02}
+                                "A":{"A":0,"C":0.02,"G":0.97,"T":0.01},
+                                "C":{"A":0,"C":0,"G":0,"T":1},
+                                "G":{"A":1,"C":0,"G":0,"T":0},
+                                "T":{"A":0.01,"C":0.97,"G":0.02,"T":0}
                                 },
             "pcr_del_pos":{"homopolymer":0,"random":1},
             "pcr_ins_pos":{"homopolymer":0,"random":1},
@@ -305,10 +316,10 @@ pcrPoly={
             "pcr_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "pcr_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "pcr_sub_pattern":{
-                                "A":{"C":0,"G":1,"T":0},
-                                "C":{"A":0,"G":0,"T":1},
-                                "G":{"A":0.57,"C":0.43,"T":0},
-                                "T":{"A":0.33,"C":0.67,"G":0}
+                                "A":{"A":0,"C":0,"G":1,"T":0},
+                                "C":{"A":0,"C":0,"G":0,"T":1},
+                                "G":{"A":0.57,"C":0.43,"G":0,"T":0},
+                                "T":{"A":0.33,"C":0.67,"G":0,"T":0}
                                 },
             "pcr_del_pos":{"homopolymer":0,"random":1},
             "pcr_ins_pos":{"homopolymer":0,"random":1}
@@ -323,10 +334,10 @@ pcrPoly={
             "pcr_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "pcr_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "pcr_sub_pattern":{
-                                "A":{"C":0,"G":0.75,"T":0.25},
-                                "C":{"A":0,"G":0,"T":1},
-                                "G":{"A":1,"C":0,"T":0},
-                                "T":{"A":0.25,"C":0.75,"G":0}
+                                "A":{"A":0,"C":0,"G":0.75,"T":0.25},
+                                "C":{"A":0,"C":0,"G":0,"T":1},
+                                "G":{"A":1,"C":0,"G":0,"T":0},
+                                "T":{"A":0.25,"C":0.75,"G":0,"T":0}
                                 },
             "pcr_del_pos":{"homopolymer":0,"random":1},
             "pcr_ins_pos":{"homopolymer":0,"random":1},
@@ -355,16 +366,16 @@ seqMeth={
             "seq_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "seq_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "seq_sub_pattern":{
-                                "A":{"C":0.25,"G":0.5,"T":0.25},
-                                "C":{"A":0.25,"G":0.5,"T":0.25},
-                                "G":{"A":0.25,"C":0.25,"T":0.5},
-                                "T":{"A":0.25,"C":0.25,"G":0.5}
+                                "A":{"A":0,"C":0.25,"G":0.5,"T":0.25},
+                                "C":{"A":0.25,"C":0,"G":0.5,"T":0.25},
+                                "G":{"A":0.25,"C":0.25,"G":0,"T":0.5},
+                                "T":{"A":0.25,"C":0.25,"G":0.5,"T":0}
                                 },
             "seq_del_pos":{"homopolymer":0,"random":1},
             "seq_ins_pos":{"homopolymer":0,"random":1},
             
         },
-        "ill_PairEnd":{
+        "ill_PairedEnd":{
             "seq_sub_prob":0.79,
             "seq_ins_prob":0.0011,
             "seq_del_prob":0.0018,
@@ -372,10 +383,10 @@ seqMeth={
             "seq_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "seq_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "seq_sub_pattern":{
-                                "A":{"C":0.25,"G":0.5,"T":0.25},
-                                "C":{"A":0.25,"G":0.5,"T":0.25},
-                                "G":{"A":0.25,"C":0.25,"T":0.5},
-                                "T":{"A":0.25,"C":0.25,"G":0.5}
+                                "A":{"A":0,"C":0.25,"G":0.5,"T":0.25},
+                                "C":{"A":0.25,"C":0,"G":0.5,"T":0.25},
+                                "G":{"A":0.25,"C":0.25,"G":0,"T":0.5},
+                                "T":{"A":0.25,"C":0.25,"G":0.5,"T":0}
                                 },
             "seq_del_pos":{"homopolymer":0,"random":1},
             "seq_ins_pos":{"homopolymer":0,"random":1},
@@ -389,10 +400,10 @@ seqMeth={
             "seq_del_pattern":{"A":0.15,"C":0.35,"G":0.35,"T":0.15},
             "seq_ins_pattern":{"A":0.35,"C":0.15,"G":0.15,"T":0.35},
             "seq_sub_pattern":{
-                                "A":{"C":0.25,"G":0.5,"T":0.25},
-                                "C":{"A":0.25,"G":0.5,"T":0.25},
-                                "G":{"A":0.25,"C":0.25,"T":0.5},
-                                "T":{"A":0.25,"C":0.25,"G":0.5}
+                                "A":{"A":0,"C":0.25,"G":0.5,"T":0.25},
+                                "C":{"A":0.25,"C":0,"G":0.5,"T":0.25},
+                                "G":{"A":0.25,"C":0.25,"G":0,"T":0.5},
+                                "T":{"A":0.25,"C":0.25,"G":0.5,"T":0}
                                 },
             "seq_del_pos":{"homopolymer":0.46,"random":0.54},
             "seq_ins_pos":{"homopolymer":0.46,"random":0.54},

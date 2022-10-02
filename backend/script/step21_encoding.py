@@ -9,7 +9,7 @@ from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Bla
 
 verify_methods = {
     "None":False,
-    "Hamming":Hamming(),
+    "HammingCode":Hamming(),
     "RS":ReedSolomon()
 }
 
