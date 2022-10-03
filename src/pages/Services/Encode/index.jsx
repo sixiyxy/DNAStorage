@@ -6,7 +6,7 @@ import Encodelists from "./components/Encodelists";
 import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
 import Graphs from "./components/Graphs";
-
+import Information from "./components/Information";
 import { Anchor } from "antd";
 import { useContext } from "react";
 const { Link } = Anchor;
@@ -23,7 +23,7 @@ export const Encode = (props) => {
   const [seg,setSeg] = useState(160)
   const [index,setIndex] = useState(16)
   const [method, setMethod] = useState("None");
-
+  const [flag,setFlag] = useState(false) //设置标志位 如果axios得到返回值 就置为True 显示新的组件
   //获取Slider中的参数信息传递给Graph
   const ParamPass = (param1, param2) => {
     //setValues(param2); //value
@@ -78,6 +78,12 @@ export const Encode = (props) => {
         <hr/>
         </p>
         <Encodelists fileId={props.fileId} seg={seg} index={index} method={method} />
+      </div>
+      <div
+        id="encodelist"
+        style={{ paddingLeft: "150px", paddingTop: "30px", fontSize: "15px" }}
+      >
+        <Information/>
       </div>
       <br/>
       <br/>

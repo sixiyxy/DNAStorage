@@ -13,7 +13,6 @@ from script.step21_encoding import Encoding
 from flask_cors import CORS
 # from script.step3_simulation_utils import Simulation as Simu
 
-from script.step3_simulation_utils import Simulation as Simu
 
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
