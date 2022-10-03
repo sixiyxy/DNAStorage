@@ -20,6 +20,7 @@ class Simulation():
             with open(self.dna_file) as f:
                 dnas=f.readlines()
             self.simu_dna=[dna.split('\n')[0] for dna in dnas]
+            self.syn_density=0
 
     def get_simu_synthesis_info(self,synthesis_number,
         synthesis_yield,
@@ -49,9 +50,9 @@ class Simulation():
             'synthesis_method_reference':reference_link
         }
         write_yaml(yaml_path=self.file_info_path,data=syn_info,appending=True)
-        density=self.calculate_density(self.simu_dna)
+        self.syn_density=self.calculate_density(self.simu_dna)
 
-        return syn_info,density
+        return syn_info,self.syn_density
 
     def get_simu_dec_info(self,
         months_of_storage,
@@ -82,8 +83,9 @@ class Simulation():
             "decay_loss_rate":loss_rate
         }
         write_yaml(yaml_path=self.file_info_path,data=dec_info,appending=True)
+        dec_density=self.calculate_density(self.simu_dna)
 
-        return dec_info
+        return dec_info,self.syn_density,dec_density
 
     def get_simu_pcr_info(self,
         pcr_cycle,

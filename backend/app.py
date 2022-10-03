@@ -157,12 +157,13 @@ def simu_dec():
     storage_host = front_data['storage_host']
     global now_simu
     print(now_simu.file_uid)
-    simu_dec_settings=now_simu.get_simu_dec_info(
+    simu_dec_settings,syn_density,dec_density=now_simu.get_simu_dec_info(
         months_of_storage=months_of_storage,
         loss_rate=loss_rate,
         storage_host=storage_host
     )
-
+    simu_dec_settings["syn_density"]=syn_density
+    simu_dec_settings["dec_density"]=dec_density
     return json.dumps(simu_dec_settings)
 
 @app.route('/simu_pcr',methods=['GET','POST'])
