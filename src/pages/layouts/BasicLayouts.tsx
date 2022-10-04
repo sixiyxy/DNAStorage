@@ -13,29 +13,53 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       <Header>
         <Menu theme="dark" mode="horizontal" className="header-menu">
           <Link to="/">
-            <i
-              className="iconfont icon-medical"
-              style={{ color: "white", display: "inline", margin: "0 40px" }}
-            ></i>
+            <div
+              style={{
+                color: "white",
+                fontSize: 20,
+                marginRight: "10px",
+              }}
+            >
+              DNA storage designer
+            </div>
           </Link>
 
-          <MenuItem key="tutorial">
-            <Link to="/tutorial">Tutorial</Link>
+          <MenuItem key="home">
+            <i
+              className="iconfont icon-home_light"
+              style={{ color: "white", display: "inline", margin: "0 3px" }}
+            ></i>
+            <Link to="/">Home</Link>
           </MenuItem>
+
           <MenuItem key="services">
+            <i
+              className="iconfont icon-function-console"
+              style={{ color: "white", display: "inline", margin: "0 3px" }}
+            ></i>
             <Link to="/services">Services</Link>
           </MenuItem>
 
-          <MenuItem key="publications">
-            <Link to="/publications">Publication</Link>
+          <MenuItem key="tutorial">
+            <i
+              className="iconfont icon-bangzhushouce"
+              style={{ color: "white", display: "inline", margin: "0 3px" }}
+            ></i>
+            <Link to="/tutorial">Tutorial</Link>
           </MenuItem>
-          <MenuItem key="resources">
-            <Link to="/resources">Resource</Link>
-          </MenuItem>
+
           <MenuItem key="methods">
+            <i
+              className="iconfont icon-lunwenfabiaoshuliang"
+              style={{ color: "white", display: "inline", margin: "0 3px" }}
+            ></i>
             <Link to="/methods">Methods</Link>
           </MenuItem>
           <MenuItem key="contact">
+            <i
+              className="iconfont icon-lianxi"
+              style={{ color: "white", display: "inline", margin: "0 3px" }}
+            ></i>
             <Link to="/contact">Contact</Link>
           </MenuItem>
         </Menu>
