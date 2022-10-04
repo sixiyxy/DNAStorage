@@ -63,7 +63,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_dec", params)
+      .post("http://127.0.0.1:5000/simu_pcr", params)
       .then(function (response) {
         //console.log(response);
         setData(response?.data?.density);
@@ -88,9 +88,9 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     return {
       // file_uid: props.fileId,
       file_uid: "1565536927137009664",
-      months_of_storage: pcrCycleValue,
-      loss_rate: pcrProbability,
-      storage_host: method,
+      pcr_cycle: pcrCycleValue,
+      pcr_prob: pcrProbability,
+      pcr_polymerase: method,
     };
   }, [pcrCycleValue, pcrProbability, method]);
   console.log("params", params);
@@ -116,7 +116,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   };
 
   return (
-    <div className="synthesis-content">
+    <div className="pcr-content">
       <div style={{ margin: 20 }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>

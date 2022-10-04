@@ -26,8 +26,7 @@ export class SequencingProps {
 export const Sequencing: React.FC<SequencingProps> = (props) => {
   const { Option, OptGroup } = Select;
 
-  const [lossValue, setLossValue] = useState(0.3);
-  const [monthValue, setMonthValue] = useState(24);
+  const [sequencingDepth, setSequencingDepth] = useState(1);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
   const [hrefLink, setHrefLink] = useState("");
   const [method, setMethod] = useState("PairedEnd");
@@ -40,14 +39,9 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     if (isNaN(value)) {
       return;
     }
-    setMonthValue(value);
+    setSequencingDepth(value);
   };
-  const lossChange = (value: number) => {
-    if (isNaN(value)) {
-      return;
-    }
-    setLossValue(value);
-  };
+
   const handleChange = (value: string) => {
     setMethod(value);
   };
@@ -64,7 +58,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_dec", params)
+      .post("http://127.0.0.1:5000/simu_seq", params)
       .then(function (response) {
         //console.log(response);
         setData(response?.data?.density);
@@ -89,11 +83,11 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     return {
       // file_uid: props.fileId,
       file_uid: "1565536927137009664",
-      months_of_storage: monthValue,
-      loss_rate: lossValue,
-      storage_host: method,
+      seq_depth: sequencingDepth,
+
+      seq_meth: method,
     };
-  }, [monthValue, lossValue, method]);
+  }, [sequencingDepth, method]);
   console.log("params", params);
   const config = {
     data: chartData,
@@ -117,7 +111,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
   };
 
   return (
-    <div className="synthesis-content">
+    <div className="sequencing-content">
       <div style={{ margin: 20 }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
@@ -163,7 +157,11 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                       min={1}
                       max={100}
                       onChange={monthChange}
-                      value={typeof monthValue === "number" ? monthValue : 0}
+                      value={
+                        typeof sequencingDepth === "number"
+                          ? sequencingDepth
+                          : 0
+                      }
                     />
                   </Col>
                   <Col span={4}>
@@ -173,7 +171,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                       style={{
                         margin: "0 16px",
                       }}
-                      value={monthValue}
+                      value={sequencingDepth}
                       onChange={monthChange}
                     />
                   </Col>

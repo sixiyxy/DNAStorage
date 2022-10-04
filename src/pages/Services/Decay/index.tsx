@@ -117,7 +117,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
   };
 
   return (
-    <div className="synthesis-content">
+    <div className="decay-content">
       <div style={{ margin: 20 }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>

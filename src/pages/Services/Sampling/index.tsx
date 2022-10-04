@@ -24,7 +24,7 @@ export class SamplingProps {
 
 export const Sampling: React.FC<SamplingProps> = (props) => {
   const [samplingRatio, setSamplingRatio] = useState(0.005);
-  const [pcrCycleValue, setPcrCycleValue] = useState(12);
+
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
   const [hrefLink, setHrefLink] = useState("");
   const [method, setMethod] = useState("Taq");
@@ -33,12 +33,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   const [loading, setLoading] = useState(false);
 
   //处理函数
-  const monthChange = (value: number) => {
-    if (isNaN(value)) {
-      return;
-    }
-    setPcrCycleValue(value);
-  };
+
   const lossChange = (value: number) => {
     if (isNaN(value)) {
       return;
@@ -61,7 +56,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_dec", params)
+      .post("http://127.0.0.1:5000/simu_sam", params)
       .then(function (response) {
         //console.log(response);
         setData(response?.data?.density);
@@ -86,11 +81,9 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     return {
       // file_uid: props.fileId,
       file_uid: "1565536927137009664",
-      months_of_storage: pcrCycleValue,
-      loss_rate: samplingRatio,
-      storage_host: method,
+      sam_ratio: samplingRatio,
     };
-  }, [pcrCycleValue, samplingRatio, method]);
+  }, [samplingRatio, method]);
   console.log("params", params);
   const config = {
     data: chartData,
@@ -114,7 +107,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   };
 
   return (
-    <div className="synthesis-content">
+    <div className="sampling-content">
       <div style={{ margin: 20 }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
