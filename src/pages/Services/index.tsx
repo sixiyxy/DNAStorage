@@ -161,9 +161,15 @@ export const Services: React.FC<ServicesProps> = (props) => {
       {siderSelect[0] === "0-1-1" ? (
         <Decay changeSider={setSiderSelect} fileId={fileId} />
       ) : null}
-      {siderSelect[0] === "0-1-2" ? <Pcr /> : null}
-      {siderSelect[0] === "0-1-3" ? <Sampling /> : null}
-      {siderSelect[0] === "0-1-4" ? <Sequencing /> : null}
+      {siderSelect[0] === "0-1-2" ? (
+        <Pcr changeSider={setSiderSelect} fileId={fileId} />
+      ) : null}
+      {siderSelect[0] === "0-1-3" ? (
+        <Sampling changeSider={setSiderSelect} fileId={fileId} />
+      ) : null}
+      {siderSelect[0] === "0-1-4" ? (
+        <Sequencing changeSider={setSiderSelect} fileId={fileId} />
+      ) : null}
       {siderSelect[0] === "0-2" ? <Decode /> : null}
     </div>
   );
