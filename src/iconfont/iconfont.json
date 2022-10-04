@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1167129",
+      "name": "帮助手册",
+      "font_class": "bangzhushouce",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "1492012",
+      "name": "home_light",
+      "font_class": "home_light",
+      "unicode": "e7d4",
+      "unicode_decimal": 59348
+    },
+    {
+      "icon_id": "6615868",
+      "name": "联系",
+      "font_class": "lianxi",
+      "unicode": "e66f",
+      "unicode_decimal": 58991
+    },
+    {
+      "icon_id": "8414565",
+      "name": "论文发表数量",
+      "font_class": "lunwenfabiaoshuliang",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "13723330",
+      "name": "function-console",
+      "font_class": "function-console",
+      "unicode": "e761",
+      "unicode_decimal": 59233
+    },
+    {
       "icon_id": "4765746",
       "name": "warning-circle",
       "font_class": "warning-circle",
