@@ -73,7 +73,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
       });
   };
   const handleContinue = () => {
-    props.changeSider("0-1-1");
+    props.changeSider("0-1-2");
   };
 
   //数据生成
