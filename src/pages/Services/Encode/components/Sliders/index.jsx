@@ -37,6 +37,8 @@ const Sliders = (props) => {
         <strong style={{ fontSize: "16px" }}>Segment length:</strong>{" "}
         <Slider
           max={200}
+          min={120}
+          step={8}
           defaultValue={160}
           disabled={disabled}
           onAfterChange={onAfterChange_seg}

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 import "./index.less";
 import { Breadcrumb, Layout, Menu } from "antd";
 
@@ -22,51 +22,115 @@ export class ServicesProps {}
 import "./index.less";
 
 const siderLabel = ["Encode Data", "Simulation", "Decode"];
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: "group"
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  } as MenuItem;
-}
+// function getItem(
+//   label: React.ReactNode,
+//   key: React.Key,
+//   icon?: React.ReactNode,
+//   children?: MenuItem[],
+//   type?: "group",
+//   disabled?: boolean
+// ): MenuItem {
+//   return {
+//     key,
+//     icon,
+//     children,
+//     label,
+//     type,
+//     disabled,
+//   } as MenuItem;
+// }
 
-const items = [
-  getItem(
-    "Encode Data",
-    "0-0",
-    <i className="iconfont icon-Encode-File" style={{ display: "inline" }}></i>
-  ),
-  getItem(
-    "Simulation",
-    "0-1",
-    <i className="iconfont icon-monidanping" style={{ display: "inline" }}></i>,
-    [
-      getItem("Synthesis", "0-1-0"),
-      getItem("Decay", "0-1-1"),
-      getItem("PCR", "0-1-2"),
-      getItem("Sampling", "0-1-3"),
-      getItem("Sequencing", "0-1-4"),
-    ]
-  ),
-  getItem(
-    "Decode",
-    "0-2",
-    <i className="iconfont icon-Decode-File" style={{ display: "inline" }}></i>
-  ),
-];
+// const items = [
+// getItem(
+//   "Encode Data",
+//   "0-0",
+//   <i className="iconfont icon-Encode-File" style={{ display: "inline" }}></i>
+// ),
+//   getItem(
+//     "Simulation",
+//     "0-1",
+//     <i className="iconfont icon-monidanping" style={{ display: "inline" }}></i>,
+//     [
+//       getItem("Synthesis", "0-1-0"),
+//       getItem("Decay", "0-1-1"),
+//       getItem("PCR", "0-1-2"),
+//       getItem("Sampling", "0-1-3"),
+//       getItem("Sequencing", "0-1-4"),
+//     ]
+//   ),
+//   getItem(
+//     "Decode",
+//     "0-2",
+//     <i className="iconfont icon-Decode-File" style={{ display: "inline" }}></i>
+//   ),
+// ];
 
 export const Services: React.FC<ServicesProps> = (props) => {
   const [siderSelect, setSiderSelect] = useState(["0-0"]);
 
   const [fileId, setFileId] = useState("");
+  const [isSynthesis, setIsSynthesis] = useState(false);
+
+  const items = useMemo(() => {
+    return [
+      {
+        label: "Encode Data",
+        key: "0-0",
+        icon: (
+          <i
+            className="iconfont icon-Encode-File"
+            style={{ display: "inline" }}
+          ></i>
+        ),
+      },
+      {
+        label: "Simulation",
+        key: "0-1",
+        icon: (
+          <i
+            className="iconfont icon-monidanping"
+            style={{ display: "inline" }}
+          ></i>
+        ),
+        children: [
+          {
+            label: "Synthesis",
+            key: "0-1-0",
+          },
+          {
+            label: "Decay",
+            key: "0-1-1",
+            disabled: !isSynthesis,
+          },
+          {
+            label: "PCR",
+            key: "0-1-2",
+            disabled: !isSynthesis,
+          },
+          {
+            label: "Sampling",
+            key: "0-1-3",
+            disabled: !isSynthesis,
+          },
+          {
+            label: "Sequencing",
+            key: "0-1-4",
+            disabled: !isSynthesis,
+          },
+        ],
+      },
+      {
+        label: "Decode",
+        key: "0-2",
+        icon: (
+          <i
+            className="iconfont icon-Decode-File"
+            style={{ display: "inline" }}
+          ></i>
+        ),
+      },
+    ];
+  }, [isSynthesis]);
 
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
@@ -88,7 +152,11 @@ export const Services: React.FC<ServicesProps> = (props) => {
         <Encode fileId={fileId} setFileId={setFileId} />
       ) : null}
       {siderSelect[0] === "0-1-0" ? (
-        <Synthesis changeSider={setSiderSelect} fileId={fileId} />
+        <Synthesis
+          changeSider={setSiderSelect}
+          fileId={fileId}
+          setIsSynthesis={setIsSynthesis}
+        />
       ) : null}
       {siderSelect[0] === "0-1-1" ? (
         <Decay changeSider={setSiderSelect} fileId={fileId} />

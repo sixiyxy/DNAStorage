@@ -1,2 +1,5 @@
 Flask
 PyYaml
+reedsolo
+pyyaml
+numpy

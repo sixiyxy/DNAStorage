@@ -239,6 +239,24 @@ export const Decay: React.FC<DecayProps> = (props) => {
                       White Gaussian Noise with an_error probability of 0.5
                       percent
                     </Option>
+                    <Option value="Dep_ph8_293.15k">
+                      Depurination at pH 8 and 293.15K
+                    </Option>
+                    <Option value="Dep_ph8_253.15k">
+                      Depurination at pH 8 and 253.15K
+                    </Option>
+                    <Option value="Dep_ph8_193.15k">
+                      Depurination at pH 8 and 193.15K
+                    </Option>
+                    <Option value="Dep_ph7_193.15k">
+                      Depurination at pH 7 and 193.15K
+                    </Option>
+                    <Option value="Dep_ph7_253.15k">
+                      Depurination at pH 7 and 253.15K
+                    </Option>
+                    <Option value="jukes_q1">
+                      Jukes-Cantor model with q=1
+                    </Option>
                   </OptGroup>
                   <OptGroup label="Prokaryotes">
                     <Option value="Ecoli">E Coli</Option>

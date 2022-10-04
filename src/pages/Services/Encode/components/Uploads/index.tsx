@@ -16,17 +16,11 @@ const Uploads: React.FC = (props: any) => {
   const Props: UploadProps = {
     name: "file",
     multiple: true,
-    action: "http://127.0.0.1:5000/file_upload",
+    action: "http://127.0.0.1:5000//file_upload",
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
-        console.log('文件上传后端返回值',info.file, info.fileList);
-        // FileValue.fileuid = info.file.response.file_uid;
-        // FileValue.filename = info.file.response.file_name;
-        // FileValue.filerename = info.file.response.file_rename;
-        // FileValue.filetype = info.file.response.file_type;
-        //setfileID(FileValue);
-        //props.GetFileID(info.file.response.file_uid,info.file.response.file_name,info.file.response.file_rename,info.file.response.file_type)
+        console.log('文件上传后端返回值',info.file);
         props.GetFileID(info.file.response.file_uid);
       }
       if (status === "done") {
@@ -36,7 +30,7 @@ const Uploads: React.FC = (props: any) => {
       }
     },
     onDrop(e) {
-      //console.log("Dropped files", e.dataTransfer.files);
+      console.log("Dropped files", e.dataTransfer.files);
     },
   };
 

@@ -21,6 +21,7 @@ import axios from "axios";
 export class SynthesisProps {
   changeSider;
   fileId;
+  setIsSynthesis;
 }
 
 export const Synthesis: React.FC<SynthesisProps> = (props) => {
@@ -71,6 +72,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
         setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
       });
+    props.setIsSynthesis(true);
   };
   const handleContinue = () => {
     props.changeSider("0-1-1");

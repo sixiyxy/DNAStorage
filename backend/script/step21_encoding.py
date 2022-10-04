@@ -8,9 +8,9 @@ from .utils.verify_methods import Hamming,ReedSolomon
 from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
 
 verify_methods = {
-    "None":False,
-    "Hamming":Hamming(),
-    "RS":ReedSolomon()
+    "WithoutVerifycode":False,
+    "HammingCode":Hamming(),
+    "ReedSolomonCode":ReedSolomon()
 }
 
 encoding_methods = {
