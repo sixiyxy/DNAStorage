@@ -11,7 +11,7 @@ from script.step11_get_file_uid import get_file_uid
 from script.step12_get_file_info import get_file_info
 from script.step21_encoding import Encoding
 from flask_cors import CORS
-# from script.step3_simulation_utils import Simulation as Simu
+from script.step3_simulation_utils import Simulation as Simu
 
 
 

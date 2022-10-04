@@ -175,9 +175,9 @@ class PCRer_simu:
     def run(self, re_dnas):
         out = []
         for dna in re_dnas:
-            print("before:"+str(dna[0]))
+           # print("before:"+str(dna[0]))
             dna[0] = self.distribution(dna[0])
-            print("after:"+str(dna[0]))
+            #print("after:"+str(dna[0]))
             if dna[0] > 0:
                 out.append(dna)
         return out
