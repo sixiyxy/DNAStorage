@@ -9,8 +9,30 @@ import Graphs from "./components/Graphs";
 import Information from "./components/Information";
 import { Anchor } from "antd";
 import { useContext } from "react";
+import GLgraph from "./components/GLgraph";
 const { Link } = Anchor;
 
+var infos = {
+  'bit_size':0,
+  'byte_size':0,
+  'encode_method':'None',
+  'index_length':0,
+  'segment_length':0,
+  'segment_number':0,
+  'verify_method':'None'
+  }
+var FileValue = {
+    fileId:"None",
+    filerename: "None",
+    filetype: "None",
+  };
+var data = []
+for (var i=0;i<100;i++){
+        var param = {};
+        param.x_value = i+"";
+        param.y_value = 10;
+        data.push(param);
+      }
 export const Encode = (props) => {
   const [targetOffset, setTargetOffset] = useState(undefined);
 
@@ -21,7 +43,12 @@ export const Encode = (props) => {
   const [seg, setSeg] = useState(160);
   const [index, setIndex] = useState(16);
   const [method, setMethod] = useState("None");
-  const [flag, setFlag] = useState(false); //设置标志位 如果axios得到返回值 就置为True 显示新的组件
+  const [gc,setGC] = useState(data)
+  const [homo,setHomo] = useState([])
+  const [info,setInfo] = useState(infos)
+  const [fileinfo,setFileInfo] = useState(FileValue)
+  //const [flag, setFlag] = useState(false); //设置标志位 如果axios得到返回值 就置为True 显示新的组件
+  
   //获取Slider中的参数信息传递给Graph
   const ParamPass = (param1, param2) => {
     //setValues(param2); //value
@@ -30,8 +57,25 @@ export const Encode = (props) => {
     console.log(seg);
     setMethod(param1); //method
   };
-
-  //console.log(props.fileId);
+  const GCPass = (param1) =>{
+    setGC(param1)
+    console.log('GCPass',gc);
+  }
+  const HomoPass =(param1)=>{
+    setHomo(param1)
+    console.log('HomoPass',homo);
+  }
+  const InfoPass1=(param1)=>{
+    setInfo(param1)
+    console.log('InfoPass1',info);
+  }
+  const FileInfoPass=(param1,param2,param3)=>{
+    FileValue.fileId = param1
+    FileValue.filerename=param2
+    FileValue.filetype=param3
+    setFileInfo(FileValue)
+    console.log(fileinfo);
+  }
   return (
     <div className="EncodeContainer">
       <div style={{ paddingLeft: "30px", paddingTop: "20px" }}>
@@ -52,7 +96,7 @@ export const Encode = (props) => {
         <p>
           <strong>Please upload the storage files:</strong>
         </p>
-        <Uploads GetFileID={props.setFileId} />
+        <Uploads GetFileID={props.setFileId}FileInfoPass={FileInfoPass} />
       </div>
       <div
         id="sliders"
@@ -85,14 +129,25 @@ export const Encode = (props) => {
           seg={seg}
           index={index}
           method={method}
+          InfoPass1={InfoPass1}
+          GCPass = {GCPass}
+          HomoPass={HomoPass}
         />
       </div>
       <div
-        id="encodelist"
+        id="information"
         style={{ paddingLeft: "150px", paddingTop: "30px", fontSize: "15px" }}
       >
-        <Information />
+        <Information info={info} fileId={props.fileId} fileinfo={fileinfo}/>
       </div>
+      <div
+        id="gcgraph"
+        style={{ paddingLeft: "150px", paddingTop: "30px", fontSize: "15px" }}
+      >
+        <h2>Tile:xxxxxxxxxxxxxx</h2>
+        <GLgraph gc={gc}/>
+      </div>
+
       <br />
       <br />
       <br />

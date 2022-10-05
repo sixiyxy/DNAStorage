@@ -78,13 +78,6 @@ const Graphs: React.FC = (props: any) => {
 
   return (
     <div>
-      {/* <button
-        className="btn btn-danger"
-        style={{ marginLeft: "650px", marginTop: "10px" }}
-        onClick={handleClick}
-      >
-        作 图
-      </button> */}
       <Bar {...config} />
     </div>
   );

@@ -6,11 +6,11 @@ export default function Information(props) {
     <div>
          <Card title="Information">
             <Card type="inner" title="File Information" >
-              <p>Job ID:</p>
-              <p>File type:</p>
-              <p>File name:</p>
-              <p>File bites:</p>
-              <p>Segment number:</p>
+              <p>Job ID: {props.fileinfo.fileId}</p>
+              <p>File type: {props.fileinfo.filerename}</p>
+              <p>File name: {props.fileinfo.filetype}</p>
+              <p>File bites: {props.info.bit_size}</p>
+              <p>Segment number: {props.info.segment_number}</p>
             </Card>
             <Card
             style={{

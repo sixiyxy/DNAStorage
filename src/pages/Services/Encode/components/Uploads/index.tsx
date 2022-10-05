@@ -4,12 +4,6 @@ import { message, Upload } from "antd";
 import React, { useState } from "react";
 const { Dragger } = Upload;
 
-var FileValue = {
-  fileuid: "",
-  filename: "",
-  filerename: "",
-  filetype: "",
-};
 
 const Uploads: React.FC = (props: any) => {
   //const [fileID,setfileID] = useState(FileValue)
@@ -22,6 +16,7 @@ const Uploads: React.FC = (props: any) => {
       if (status !== "uploading") {
         console.log('文件上传后端返回值',info.file);
         props.GetFileID(info.file.response.file_uid);
+        props.FileInfoPass(info.file.response.file_uid,info.file.response.file_rename,info.file.response.file_type)
       }
       if (status === "done") {
         message.success(`${info.file.name} file uploaded successfully.`);

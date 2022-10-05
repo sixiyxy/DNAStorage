@@ -11,7 +11,7 @@ const Sliders = (props) => {
   const [disabled, setDisabled] = useState(false);
   const [values, setValues] = useState(SaveValue);
 
-  const plainOptions = ["WithoutVerifycode", "HammingCode", "ReedSolomonCode"];
+  const plainOptions = ["WithoutVerifycode", "Hamming", "ReedSolomon"];
   const onChange1 = ({ target: { value } }) => {
     method = value;
   };

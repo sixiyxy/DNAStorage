@@ -8,10 +8,7 @@ import { Link } from "react-router-dom";
 var encodeMethod = "";
 var response_InfoData={}
 var response_Encode={}
-var request1 = { bit_size: "", byte_size: "", segment_number: "" };
-var request2 = { bit_size: "", byte_size: "", segment_number: "" };
-var gc_plot={}
-var homo_plot={}
+
 
 const Encodelists: React.FC = (props: any) => {
   const [value, setValue] = useState("");
@@ -57,7 +54,9 @@ const Encodelists: React.FC = (props: any) => {
         response_InfoData = response_Info.data
         response_Encode = response_Encode.data
     }));
-    
+    props.InfoPass1(response_InfoData)
+    props.GCPass(response_Encode[2])
+    props.HomoPass(response_Encode[3])
   }
 
   return (
@@ -71,15 +70,9 @@ const Encodelists: React.FC = (props: any) => {
               <Radio value={"Church"}>Church</Radio>
               <Radio value={"Goldman"}>Goldman</Radio>
               <Radio value={"Grass"}>Grass</Radio>
-              {/* <Radio value={"Zan"}>Zan</Radio>
-              <Radio value={"CompositeDNA"}>CompositeDNA</Radio> */}
               <Radio value={"Blawat"}>Blawat</Radio>
               <Radio value={"DNA_Fountain"}>DNA_Fountain</Radio>
               <Radio value={"Yin_Yang"}>Yin_Yang</Radio>
-              {/* <Radio value={4}>
-            More...
-            {value === 4 ? <Input style={{ width: 100, marginLeft: 10 }} /> : null}
-            </Radio> */}
             </Space>
           </Radio.Group>
         </div>
@@ -98,14 +91,6 @@ const Encodelists: React.FC = (props: any) => {
         
         </div>
       </div>
-
-      {/* <div>
-      JobID:
-      Filetype:
-      Filename:
-      Filebites:
-      Segment number:
-    </div> */}
     </div>
   );
 };
