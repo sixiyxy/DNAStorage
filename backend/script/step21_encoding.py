@@ -9,8 +9,8 @@ from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Bla
 
 verify_methods = {
     "WithoutVerifycode":False,
-    "HammingCode":Hamming(),
-    "ReedSolomonCode":ReedSolomon()
+    "Hamming":Hamming(),
+    "ReedSolomon":ReedSolomon()
 }
 
 encoding_methods = {
@@ -85,6 +85,7 @@ class Encoding():
     def verify_code(self):
         connected_bit_segments = self.connet_index()
         verify_method = self.file_info_dict['verify_method']
+        print(verify_method)
         verify_method = verify_methods[verify_method]
         if verify_method == False:
             bit_segments, error_correction_length = connected_bit_segments,0
@@ -141,8 +142,19 @@ class Encoding():
                     if is_find:
                         break
 
-        front_gc = dict(zip(range(101),gc_distribution))
-        front_homo = dict(zip(range(max(list(map(len, dna_sequences)))),homo_distribution))
+        # front_gc = dict(zip(range(101),gc_distribution))
+        front_gc = []
+
+        # front_homo = dict(zip(range(max(list(map(len, dna_sequences)))),homo_distribution))
+        front_homo = []
+
+        for i in range(101):
+            plot_dict = {'x_value':i,'y_value':gc_distribution[i]}
+            front_gc.append(plot_dict)
+        for i in range(max(list(map(len, dna_sequences)))):
+            plot_dict = {'x_value':i,'y_value':gc_distribution[i]}
+            front_homo.append(plot_dict)
+
         record_info['gc_plot'] = front_gc
         record_info['homo_plot'] = front_homo
 
@@ -154,4 +166,5 @@ if __name__ == '__main__':
     # obj.segment_file()
     # obj.connet_index()
     # obj.verify_code()
-    obj.bit_to_dna()
+    a = obj.bit_to_dna()
+    print(a)
