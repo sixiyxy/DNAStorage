@@ -6,9 +6,6 @@ import "./index.less";
 import { Link } from "react-router-dom";
 
 var encodeMethod = "";
-var response_InfoData={}
-var response_Encode={}
-
 
 const Encodelists: React.FC = (props: any) => {
   const [value, setValue] = useState("");
@@ -51,12 +48,12 @@ const Encodelists: React.FC = (props: any) => {
     .then(axios.spread(function(response_Info,response_Encode){
         console.log('response1',response_Info);
         console.log('response2',response_Encode);
-        response_InfoData = response_Info.data
-        response_Encode = response_Encode.data
+
+        props.InfoPass1(response_Info.data)
+        props.GCPass(response_Encode.data.gc_plot)
+        props.HomoPass(response_Encode.data.homo_plot)
     }));
-    props.InfoPass1(response_InfoData)
-    props.GCPass(response_Encode[2])
-    props.HomoPass(response_Encode[3])
+   
   }
 
   return (

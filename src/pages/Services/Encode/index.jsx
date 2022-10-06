@@ -10,6 +10,7 @@ import Information from "./components/Information";
 import { Anchor } from "antd";
 import { useContext } from "react";
 import GLgraph from "./components/GLgraph";
+import HomoGraph from "./components/HomoGraph";
 const { Link } = Anchor;
 
 var infos = {
@@ -30,7 +31,7 @@ var data = []
 for (var i=0;i<100;i++){
         var param = {};
         param.x_value = i+"";
-        param.y_value = 10;
+        param.y_value = 0;
         data.push(param);
       }
 export const Encode = (props) => {
@@ -144,8 +145,15 @@ export const Encode = (props) => {
         id="gcgraph"
         style={{ paddingLeft: "150px", paddingTop: "30px", fontSize: "15px" }}
       >
-        <h2>Tile:xxxxxxxxxxxxxx</h2>
+        <h2>Title:GC_Contact</h2>
         <GLgraph gc={gc}/>
+      </div>
+      <div
+        id="homograph"
+        style={{ paddingLeft: "150px", paddingTop: "30px", fontSize: "15px" }}
+      >
+        <h2>Title:xxx</h2>
+        <HomoGraph homo={homo}/>
       </div>
 
       <br />
