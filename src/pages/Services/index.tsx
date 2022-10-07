@@ -15,6 +15,7 @@ import { Pcr } from "./Pcr";
 import { Sampling } from "./Sampling";
 import { Sequencing } from "./Sequencing";
 import { Decode } from "./Decode";
+import { Report } from "./Report";
 const { Header, Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -157,9 +158,12 @@ export const Services: React.FC<ServicesProps> = (props) => {
         mode="inline"
         items={items}
       />
-
+        
       {siderSelect[0] === "0-0-0" ? (
         <Encode fileId={fileId} setFileId={setFileId} />
+      ) : null}
+      {siderSelect[0] === "0-0-1" ? (
+        <Report/>
       ) : null}
       {siderSelect[0] === "0-1-0" ? (
         <Synthesis
