@@ -66,7 +66,7 @@ const siderLabel = ["Encode Data", "Simulation", "Decode"];
 // ];
 
 export const Services: React.FC<ServicesProps> = (props) => {
-  const [siderSelect, setSiderSelect] = useState(["0-0"]);
+  const [siderSelect, setSiderSelect] = useState(["0-0-0"]);
 
   const [fileId, setFileId] = useState("");
   const [isSynthesis, setIsSynthesis] = useState(false);
@@ -74,7 +74,7 @@ export const Services: React.FC<ServicesProps> = (props) => {
   const items = useMemo(() => {
     return [
       {
-        label: "Encode Data",
+        label: "Encode",
         key: "0-0",
         icon: (
           <i
@@ -82,6 +82,16 @@ export const Services: React.FC<ServicesProps> = (props) => {
             style={{ display: "inline" }}
           ></i>
         ),
+        children: [
+          {
+            label: "Setting",
+            key: "0-0-0",
+          },
+          {
+            label: "Report",
+            key: "0-0-1",
+          },
+        ],
       },
       {
         label: "Simulation",
@@ -148,7 +158,7 @@ export const Services: React.FC<ServicesProps> = (props) => {
         items={items}
       />
 
-      {siderSelect[0] === "0-0" ? (
+      {siderSelect[0] === "0-0-0" ? (
         <Encode fileId={fileId} setFileId={setFileId} />
       ) : null}
       {siderSelect[0] === "0-1-0" ? (
