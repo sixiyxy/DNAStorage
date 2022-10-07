@@ -5,8 +5,8 @@ import { useParams } from 'react-router-dom';
 const GLgraph = (props) => {
 
   const data =useMemo(() => {
-    return props.gc
-}, [props.gc]);
+    return props.GC
+}, [props.GC]);
 
   const config = {
     data,

@@ -52,8 +52,9 @@ const Encodelists: React.FC = (props: any) => {
         props.InfoPass1(response_Info.data)
         props.GCPass(response_Encode.data.gc_plot)
         props.HomoPass(response_Encode.data.homo_plot)
-    }));
-   
+        props.DNAInfoPass(response_Encode.data.DNA_sequence_length,response_Encode.data.encoding_time,response_Encode.data.information_density,response_Encode.data.nucleotide_counts)
+    })); 
+    props.changeSider("0-0-1");
   }
 
   return (

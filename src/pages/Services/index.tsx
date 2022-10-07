@@ -65,13 +65,36 @@ const siderLabel = ["Encode Data", "Simulation", "Decode"];
 //     <i className="iconfont icon-Decode-File" style={{ display: "inline" }}></i>
 //   ),
 // ];
+var infos = {
+  bit_size: 0,
+  byte_size: 0,
+  encode_method: "None",
+  index_length: 0,
+  segment_length: 0,
+  segment_number: 0,
+  verify_method: "None",
+};
+var DNAinfos={
+  DNA_sequence:0,
+  encoding_time:0,
+  information_density:0,
+  nucleotide_counts:0
+}
+var FileValue = {
+    fileId:"None",
+    filerename: "None",
+    filetype: "None",
+  };
 
 export const Services: React.FC<ServicesProps> = (props) => {
   const [siderSelect, setSiderSelect] = useState(["0-0-0"]);
-
   const [fileId, setFileId] = useState("");
   const [isSynthesis, setIsSynthesis] = useState(false);
-
+  const [GC, setGC] = useState([]);
+  const [homo, setHomo] = useState([]);
+  const [info, setInfo] = useState(infos);
+  const [fileinfo, setFileInfo] = useState(FileValue);
+  const [dnainfo,setDNAinfo] = useState(DNAinfos)
   const items = useMemo(() => {
     return [
       {
@@ -160,10 +183,10 @@ export const Services: React.FC<ServicesProps> = (props) => {
       />
         
       {siderSelect[0] === "0-0-0" ? (
-        <Encode fileId={fileId} setFileId={setFileId} />
+        <Encode setDNAinfo={setDNAinfo} DNAinfos={DNAinfos} changeSider={setSiderSelect} fileId={fileId} setFileId={setFileId} setGC={setGC} setHomo={setHomo} setInfo={setInfo} setFileInfo={setFileInfo} FileValue={FileValue} fileinfo={fileinfo}/>
       ) : null}
       {siderSelect[0] === "0-0-1" ? (
-        <Report/>
+        <Report dnainfo={dnainfo} GC={GC} homo={homo} fileinfo={fileinfo} info={info} fileId={fileId}/>
       ) : null}
       {siderSelect[0] === "0-1-0" ? (
         <Synthesis

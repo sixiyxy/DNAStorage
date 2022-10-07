@@ -6,34 +6,10 @@ import Encodelists from "./components/Encodelists";
 import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
 import Graphs from "./components/Graphs";
-import Information from "./components/Information";
 import { Anchor } from "antd";
-import { useContext } from "react";
-import GLgraph from "./components/GLgraph";
-import HomoGraph from "./components/HomoGraph";
 const { Link } = Anchor;
 
-var infos = {
-  bit_size: 0,
-  byte_size: 0,
-  encode_method: "None",
-  index_length: 0,
-  segment_length: 0,
-  segment_number: 0,
-  verify_method: "None",
-};
-var FileValue = {
-    fileId:"None",
-    filerename: "None",
-    filetype: "None",
-  };
-var data = []
-for (var i=0;i<100;i++){
-        var param = {};
-        param.x_value = i+"";
-        param.y_value = 0;
-        data.push(param);
-      }
+
 
 export const Encode = (props) => {
   const [targetOffset, setTargetOffset] = useState(undefined);
@@ -45,10 +21,7 @@ export const Encode = (props) => {
   const [seg, setSeg] = useState(160);
   const [index, setIndex] = useState(16);
   const [method, setMethod] = useState("None");
-  const [gc, setGC] = useState(data);
-  const [homo, setHomo] = useState([]);
-  const [info, setInfo] = useState(infos);
-  const [fileinfo, setFileInfo] = useState(FileValue);
+ 
   //const [flag, setFlag] = useState(false); //设置标志位 如果axios得到返回值 就置为True 显示新的组件
 
   //获取Slider中的参数信息传递给Graph
@@ -56,28 +29,35 @@ export const Encode = (props) => {
     //setValues(param2); //value
     setSeg(param2[0].Segvalue);
     setIndex(param2[1].Indexvalue);
-    console.log(seg);
+    //console.log(seg);
     setMethod(param1); //method
   };
   const GCPass = (param1) => {
-    setGC(param1);
-    console.log("GCPass", gc);
+    props.setGC(param1);
+    //console.log("GCPass", gc);
   };
   const HomoPass = (param1) => {
-    setHomo(param1);
-    console.log("HomoPass", homo);
+    props.setHomo(param1);
+    //console.log("HomoPass", homo);
   };
   const InfoPass1 = (param1) => {
-    setInfo(param1);
-    console.log("InfoPass1", info);
+    props.setInfo(param1);
+    //console.log("InfoPass1", info);
   };
   const FileInfoPass = (param1, param2, param3) => {
-    FileValue.fileId = param1;
-    FileValue.filerename = param2;
-    FileValue.filetype = param3;
-    setFileInfo(FileValue);
-    console.log(fileinfo);
+    props.FileValue.fileId = param1;
+    props.FileValue.filerename = param2;
+    props.FileValue.filetype = param3;
+    props.setFileInfo(props.FileValue);
+    //console.log(props.fileinfo);
   };
+  const DNAInfoPass =(param1,param2,param3,param4)=>{
+    props.DNAinfos.DNA_sequence=param1;
+    props.DNAinfos.encoding_time=param2;
+    props.DNAinfos.information_density=param3;
+    props.DNAinfos.nucleotide_counts=param4;
+    props.setDNAinfo(props.DNAinfos);
+  }
   return (
     <div className="EncodeContainer">
       <div style={{ paddingLeft: "30px", paddingTop: "20px" }}>
@@ -134,29 +114,9 @@ export const Encode = (props) => {
           InfoPass1={InfoPass1}
           GCPass={GCPass}
           HomoPass={HomoPass}
+          changeSider={props.changeSider}
         />
       </div>
-      <div
-        id="information"
-        style={{ paddingLeft: "150px", paddingTop: "30px", fontSize: "15px" }}
-      >
-        <Information info={info} fileId={props.fileId} fileinfo={fileinfo} />
-      </div>
-      <div
-        id="gcgraph"
-        style={{ paddingLeft: "150px", paddingTop: "30px", fontSize: "15px" }}
-      >
-        <h2>Title:GC_Contact</h2>
-        <GLgraph gc={gc}/>
-      </div>
-      <div
-        id="homograph"
-        style={{ paddingLeft: "150px", paddingTop: "30px", fontSize: "15px" }}
-      >
-        <h2>Title:xxx</h2>
-        <HomoGraph homo={homo}/>
-      </div>
-
       <br />
       <br />
       <br />
