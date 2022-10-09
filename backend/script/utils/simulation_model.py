@@ -1,3 +1,4 @@
+from urllib.request import ProxyBasicAuthHandler
 import numpy as np
 from math import sqrt,log
 import copy 
@@ -126,12 +127,8 @@ class Sequencer_simu:
     def sample(self, dnas):
         rNs = [dna['num'] for dna in dnas]
         average_copies = sum(rNs) / len(rNs)
-        ratio = self.seq_depth / average_copies #in case too big
-        if ratio>=1:
-            self.sample_ratio=1
-        else:
-            self.sample_ratio=ratio
-        dnas = Sampler_simu(p=self.sample_ratio)(dnas)
+        ratio = max(self.seq_depth / average_copies,1) #in case too big
+        dnas = Sampler_simu(p=ratio)(dnas)
         return dnas
 
 class PCRer_simu:
@@ -139,10 +136,11 @@ class PCRer_simu:
             p = arg.pcrp #pcr_prob
             N = arg.pcrc #pcr_cycle
             pBias = 0.05
+
             self.probS = arg.pcr_sub_prob
             self.probD = arg.pcr_del_prob
             self.probI = arg.pcr_ins_prob
-            self.raw_rate = arg.pcr_raw_rate**N
+            self.raw_rate = arg.pcr_raw_rate*N
             self.del_pattern = arg.pcr_del_pattern
             self.ins_pattern = arg.pcr_ins_pattern
             if hasattr(arg,'TM_Normal'):
@@ -157,6 +155,7 @@ class PCRer_simu:
             self.del_pos=arg.pcr_del_pos
             self.err = ErrorAdder_simu(probS=self.probS, probD=self.probD, probI=self.probI, raw_rate=self.raw_rate,
                                       del_pattern=self.del_pattern, ins_pattern=self.ins_pattern,TM=self.TM,TM_Normal=self.TM_Normal,ins_pos=self.ins_pos,del_pos=self.del_pos)
+            
             self.p = float(p)
             self.N = N
             self.pBias = pBias
@@ -176,18 +175,15 @@ class PCRer_simu:
         out = []
         for dna in re_dnas:
            # print("before:"+str(dna[0]))
-            dna[0] = self.distribution(dna[0])
+            if dna[0]>0:
+                dna[0] = self.distribution(dna[0])
             #print("after:"+str(dna[0]))
             if dna[0] > 0:
                 out.append(dna)
         return out
 
-    def __call__(self, dnas, in_place=False):
-        if not in_place:
-            out_dnas = copy.deepcopy(dnas)
-        else:
-            out_dnas = dnas
-
+    def __call__(self, dnas):
+        out_dnas=dnas
         out_dnas=self.err(out_dnas)
         for dna in out_dnas:
             dna['re'] = self.run(dna['re'])
@@ -214,12 +210,8 @@ class Sampler_simu:
         re_dnas = [re_dnas[i] for i in markers]
         return re_dnas
     
-    def __call__(self,dnas, in_place = False):
-        if not in_place:
-            out_dnas = copy.deepcopy(dnas)
-        else:
-            out_dnas = dnas
-        #print(out_dnas)    
+    def __call__(self,dnas):
+        out_dnas = dnas
         for dna in out_dnas:
             dna['re'] = self.run(dna['re'])
             dna['num'] = sum([tp[0] for tp in dna['re']])
@@ -252,7 +244,7 @@ class ErrorAdder_simu:
         if self.TM_Normal:
             for i, base in enumerate(['A', 'C', 'G', 'T']):
                 Pi = np.where(dna == base)[0]
-                subi = np.random.choice(['A', 'C', 'G', 'T'], size=Pi.size, p=list(self.TM[base].values()))
+                subi = np.random.choice(['A', 'C', 'G', 'T'], size=Pi.size, p=list(self.TM[base].values())) ###
                 subPi = np.where(subi != base)[0]
                 for pos in subPi:
                     Errors.append((Pi[pos], 's', subi[pos]))
@@ -260,27 +252,26 @@ class ErrorAdder_simu:
         else:
             TM_keys=list(self.TM.keys())
             for key in TM_keys:
-                index=dna.find(key)
-                while index!=-1:
-                    prob=list(self.TM[key].values())
-                    prob=[self.probS * i for i in prob]
-                    change=False
-                    if len(prob)==1:
-                        prob_try=np.random.uniform(0,1)
-                        if prob_try > prob:
-                            break
-                        else:
-                            change=True
-                            sub=list(self.TM[key].keys())[0]
+                index=indexstr(dna,key)
+                for i in index:
+                    prob_try=np.random.uniform(0,1)
+                    if prob_try > self.probS:
+                        change=False
+                        break
                     else:
-                        sub=np.random.choice(list(self.TM[key].keys()),p=prob)
                         change=True
+                        prob=list(self.TM[key].values())
+                        if len(prob)==1:    
+                            sub=list(self.TM[key].keys())[0]
+                        else:
+                            sub=np.random.choice(list(self.TM[key].keys()),p=prob)
+
                     if change==True:
-                        dna_1=dna[:index]
-                        dna_2=dna[index:].replace(key,sub,1)
-                        dna=dna_1+dna_2
-                        Errors.append((index,key,sub))
-                    index=dna.find(key,index+1)
+                        diff_index=np.array(list(key))!=np.array(list(sub))
+                        for j,diff in enumerate(diff_index):
+                            if diff:
+                                Errors.append([i+j,'s',sub[j]])
+                        
 
         ##delete
         del_flag=np.random.choice([False,True],size=len(dna),p=[1-self.probD,self.probD])
@@ -368,17 +359,17 @@ class ErrorAdder_simu:
                     re_dna[0] -= 1
         return re_dnas + new_types
 
-    def __call__(self, dnas, in_place=False, apply=True):
-        if not in_place:
-            out_dnas = copy.deepcopy(dnas)
-        else:
-            out_dnas = dnas
-
+    def __call__(self, dnas, apply=True):
+        out_dnas=dnas
+        t_err_out=time.time()
         for dna in out_dnas:
             dna['re'] = self.run(dna['ori'], dna['re'])
-
+        t_err_mid=time.time()
         if apply:
             out_dnas = self.apply_batch(out_dnas)
+        t_err_batch=time.time()
+        print("Err out:"+str(t_err_mid-t_err_out))
+        print("Err apply:"+str(t_err_batch-t_err_mid))
         return out_dnas
 
     # apply errors to dnas
@@ -427,6 +418,19 @@ def genTm(prob):
         row[base] = 1 - 3* prob
         tm[base]=row
     return tm
+
+def indexstr(str1,str2):
+    '''查找指定字符串str1包含指定子字符串str2的全部位置，
+    以列表形式返回'''
+    lenth2=len(str2)
+    lenth1=len(str1)
+    indexstr2=[]
+    i=0
+    while str2 in str1[i:]:
+        indextmp = str1.index(str2, i, lenth1)
+        indexstr2.append(indextmp)
+        i = (indextmp + lenth2)
+    return indexstr2
 
 def randomPicker(ranges):
     nums=[]

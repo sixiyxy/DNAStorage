@@ -2,7 +2,10 @@ import script.utils.simulation_model as Model
 import numpy as np
 from script.utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
 from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg
-
+# import utils.simulation_model as Model
+# import numpy as np
+# from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+# from utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg
 
 class Simulation():
     def __init__(self,file_uid=None):
@@ -40,7 +43,6 @@ class Simulation():
 
         SYN=Model.Synthesizer_simu(arg)
         self.simu_dna=SYN(self.simu_dna)
-
         reference_link='0'
 
         syn_info={
@@ -171,8 +173,6 @@ class Simulation():
                 n = re[0]
                 nums[n] = nums.get(n, 0) + 1
                 total += 1
-        print(nums)
-        print(total)
         for i in nums:
             nums[i] = nums[i] / total
         nums = sorted(nums.items(), key=lambda e: e[0])
@@ -186,5 +186,10 @@ if __name__ == "__main__":
     # a=get_simu_dec_info(1565536927137009664,24,0.3,'Ecoli',in_dnas)
     # print(a)
     simu=Simulation(1565536927137009664)
-    print(simu.get_simu_synthesis_info(30,0.99,'ErrASE'))
+    simu.get_simu_synthesis_info(25,0.99,"ErrASE")
+    simu.get_simu_dec_info(24,0.3,'WhiteGaussian')
+    # with open('simu.txt','w') as f:
+    #     for k,v in simu.__dict__.items():
+    #         f.write(str(k)+":"+str(v)+"\n")
+    #print(simu.get_simu_synthesis_info(30,0.99,'ErrASE'))
 

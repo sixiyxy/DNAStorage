@@ -1,10 +1,12 @@
 from distutils.command.config import config
 from imp import reload
-from flask import Flask, render_template
+from flask import Flask, render_template,session
 from flask import request
 #from flask_cors import *
 import os
 import json
+import time
+import uuid
 
 from script.utils.utils_basic import get_config,write_yaml
 from script.step11_get_file_uid import get_file_uid
@@ -13,9 +15,49 @@ from script.step21_encoding import Encoding
 from flask_cors import CORS
 from script.step3_simulation_utils import Simulation as Simu
 
+from flask_session import Session
+#session=Session()
 
+inmemory_session_pool = []
+session_survive_time = 60*60
+
+def remove_outdated_session():
+    global inmemory_session_pool
+    cur_time = time.time()
+    inmemory_session_pool = list(filter(lambda x:(cur_time-x['active_time'])<=session_survive_time,inmemory_session_pool))
+
+def set_session(key,value):
+    global inmemory_session_pool
+    remove_outdated_session()
+    found = False
+    for session_item in inmemory_session_pool:
+        if session_item['key'] == key:
+            session_item['active_time'] = time.time()
+            session_item['value'] = value
+            found = True
+            break
+    if not found:
+        inmemory_session_pool.append({
+            'key':key,
+            'active_time':time.time(),
+            'value':value
+        })
+
+def get_session(key):
+    global inmemory_session_pool
+    for session_item in inmemory_session_pool:
+        if session_item['key'] == key:
+            session_item['active_time'] = time.time()
+            return session_item['value']
+    return None
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
+app.config['SESSION_TYPE']='filesystem'
+app.config['SECRET_KEY'] = 'XXXXX'
+app.secret_key='xxxxxxx'
+#session.init_app(app=app)
+Session(app)
+
 CORS(app, resources=r'/*')
 
 backend_dir = os.path.dirname(os.path.abspath(__file__))
@@ -23,6 +65,10 @@ backend_dir = os.path.dirname(os.path.abspath(__file__))
 
 @app.route('/')
 def index():
+    # if 'username' in session:
+    #     print('Logged in as %f'%session["username"])
+    # else:
+    #     print('Not Logged in')
     return render_template('index.html')  
 
 ####################################################
@@ -107,6 +153,7 @@ def file_encode():
 
     return json.dumps(encode_info)
 
+'''
 #if user wants to upload his own dna file instead of generating by us
 # @app.route('/dna_upload',methods=['GET','POST'])
 # def dna_upload():
@@ -116,12 +163,14 @@ def file_encode():
 #     file_uid=get_file_uid()
 #     file_rename='{}_{}'.format(file_uid,filename)
 
-now_simu=Simu()
+'''
+
+#now_simu=Simu()
 @app.route('/simu_synthesis',methods=['GET','POST'])
 def simu_synthesis():
+    t1=time.time()
     front_data = request.data
     front_data = json.loads(front_data)
-
     #### Postman test json ####
     {
         "file_uid":1565536927137009664,
@@ -135,18 +184,26 @@ def simu_synthesis():
     synthesis_yield = front_data['synthesis_yield']
     synthesis_method = front_data['synthesis_method']
 
-    global now_simu
+    #global now_simu
     now_simu=Simu(file_uid)
+    print('start simu_synthesis')
+    t3 = time.time()
     simu_synthesis_settings,density=now_simu.get_simu_synthesis_info(synthesis_number=synthesis_number,
         synthesis_yield=synthesis_yield,
         synthesis_method=synthesis_method
     )
+    print('end simu_synthesis',time.time()-t3)
+    session['uid'] = str(uuid.uuid1())
+    set_session(session['uid'],now_simu)
     simu_synthesis_settings['density']=density
+    t2=time.time()
+    print("Synthesis:"+str(t2-t1))
     return json.dumps(simu_synthesis_settings)
 
 
 @app.route('/simu_dec',methods=['GET','POST'])
 def simu_dec():
+    t1=time.time()
     front_data = request.data
     front_data = json.loads(front_data)
 
@@ -158,19 +215,31 @@ def simu_dec():
     months_of_storage = front_data['months_of_storage']
     loss_rate = front_data['loss_rate']
     storage_host = front_data['storage_host']
-    global now_simu
-    print(now_simu.file_uid)
+
+    if 'uid' not in session:
+        return 'session invalid, uid not found'
+
+    now_simu=get_session(session['uid'])
+    if now_simu is None:
+        return 'session invalid'
+    print('start simu_dec')
+    t3 = time.time()
     simu_dec_settings,syn_density,dec_density=now_simu.get_simu_dec_info(
         months_of_storage=months_of_storage,
         loss_rate=loss_rate,
         storage_host=storage_host
     )
+    print('end simu_dec ',time.time()-t3)
+
     simu_dec_settings["syn_density"]=syn_density
     simu_dec_settings["dec_density"]=dec_density
+    t2=time.time()
+    print("Dec:"+str(t2-t1))
     return json.dumps(simu_dec_settings)
 
 @app.route('/simu_pcr',methods=['GET','POST'])
 def simu_pcr():
+    t1=time.time()
     front_data = request.data
     front_data = json.loads(front_data)
 
@@ -183,17 +252,28 @@ def simu_pcr():
     pcr_prob = front_data['pcr_prob']
     pcr_polymerase = front_data['pcr_polymerase']
 
-    global now_simu
+    if 'uid' not in session:
+        return 'session invalid, uid not found'
+
+    now_simu=get_session(session['uid'])
+    if now_simu is None:
+        return 'session invalid'
+
+    print('start simu_pcr')
+    t3 = time.time()
     simu_pcr_settings=now_simu.get_simu_pcr_info(
         pcr_cycle=pcr_cycle,
         pcr_prob=pcr_prob,
         pcr_polymerase=pcr_polymerase
     )
-
+    print('end simu_pcr ',time.time()-t3)
+    t2=time.time()
+    print("PCR:"+str(t2-t1))
     return json.dumps(simu_pcr_settings)
 
 @app.route('/simu_sam',methods=['GET','POST'])
 def simu_sam():
+    t1=time.time()
     front_data = request.data
     front_data = json.loads(front_data)
 
@@ -202,16 +282,25 @@ def simu_sam():
 
     sam_ratio =front_data['sam_ratio'] 
 
-    global now_simu
+    if 'uid' not in session:
+        return 'session invalid, uid not found'
+    now_simu=get_session(session['uid'])
+    if now_simu is None:
+        return 'session invalid'
+
+    print('start simu_sam')
+    t3 = time.time()
     simu_sam_settings=now_simu.get_simu_sam_info(
         sam_ratio=sam_ratio
     )
-    
-
+    print('end simu_pcr ',time.time()-t3)
+    t2=time.time()
+    print("Sam:"+str(t2-t1))
     return json.dumps(simu_sam_settings)
 
 @app.route('/simu_seq',methods=['GET','POST'])
 def simu_seq():
+    t1=time.time()
     front_data = request.data
     front_data = json.loads(front_data)
 
@@ -222,16 +311,27 @@ def simu_seq():
 
     seq_depth =front_data['seq_depth'] 
     seq_meth=front_data['seq_meth']
-    global now_simu
+
+    if 'uid' not in session:
+        return 'session invalid, uid not found'
+
+    now_simu=get_session(session['uid'])
+    if now_simu is None:
+        return 'session invalid'
+
+    print('start simu_req')
+    t3 = time.time()
     simu_seq_settings=now_simu.get_simu_seq_info(
         seq_depth=seq_depth,
         seq_meth=seq_meth
     )
-
+    print('end simu_seq ',time.time()-t3)
+    t2=time.time()
+    print("Seq:"+str(t2-t1))
     return json.dumps(simu_seq_settings)
 
-print('test github')
-#print(app.url_map)
+#print('test github')
+print(app.url_map)
 
 
 if __name__ == '__main__':
