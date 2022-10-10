@@ -1,4 +1,4 @@
-from urllib.request import ProxyBasicAuthHandler, proxy_bypass
+from urllib.request import HTTPPasswordMgrWithPriorAuth, ProxyBasicAuthHandler, proxy_bypass
 import numpy as np
 from math import sqrt,log
 import copy 
@@ -273,29 +273,25 @@ class ErrorAdder_simu:
                         else:
                             sub=np.random.choice(list(self.TM[key].keys()),p=prob)
 
-                    if change==True:
                         diff_index=np.array(list(key))!=np.array(list(sub))
                         for j,diff in enumerate(diff_index):
                             if diff:
                                 Errors.append([i+j,'s',sub[j]])
                         
-
         ##delete
         del_flag=np.random.choice([False,True],size=len(dna),p=[1-self.probD,self.probD])
         del_count=(np.where(del_flag==True)[0]).size
-        del_random_count=int(del_count*self.del_pos_random)
+        del_random_count=int(del_count*self.del_pos_random)#random/homo seperate
         del_homo_count=del_count-del_random_count
         for i in range(del_random_count):
                 if self.del_pattern:
                     choose_base=np.random.choice(list(self.del_pattern.keys()),p=list(self.del_pattern.values()))
-                    count=0
-                    while count<=5000:
-                        pos=np.random.choice(len(dna))
-                        if dna[pos]==choose_base:
-                            Errors.append([pos,'-',dna[pos]])
-                            break
-                        else:
-                            count+=1
+                    random_pos=np.where(dna==choose_base[0])
+                    try:
+                        pick=random.choice(random_pos[0])
+                        Errors.append([pick,'-',dna[pick]])
+                    except:
+                        pass
                 else:
                     pos=np.random.choice(len(dna))
                     Errors.append([pos,'-',dna[pos]])
@@ -307,6 +303,7 @@ class ErrorAdder_simu:
                 count=0
                 while count<=5000:
                     pos=randomPicker(homos_pos)
+                    print(homos_pos)
                     if dna[pos]==choose_base:
                         Errors.append([pos,'-',dna[pos]])
                         break
@@ -325,21 +322,19 @@ class ErrorAdder_simu:
         for i in range(ins_random_count):
             if self.ins_pattern:
                 choose_base=np.random.choice(list(self.ins_pattern.keys()),p=list(self.ins_pattern.values()))
-                count=0
-                while count<=5000:
-                    pos=np.random.choice((len(dna)))
-                    if dna[pos]==choose_base:
-                        Errors.append([pos,'+',np.random.choice(['A','C','G','T'])])
-                        break
-                    else:
-                        count+=1
+                random_pos=np.where(dna==choose_base[0])
+                try:
+                    pick=random.choice(random_pos[0])
+                    Errors.append([pick,'+',dna[pick]])
+                except:
+                    pass
             else:
                 pos=np.random.choice(len(dna))
                 Errors.append([pos,'+',np.random.choice(['A','C','G','T'])])
         for i in range(ins_homo_count):
             homos=homopolymer.homopolymer(dna)
             homos_pos=[[i['startpos'],i['endpos']] for i in homos]
-            if self.del_pattern:
+            if self.ins_pattern:
                 choose_base=choose_base=np.random.choice(list(self.ins_pattern.keys()),p=list(self.ins_pattern.values()))
                 count=0
                 while count<=5000:
