@@ -1,9 +1,10 @@
-from urllib.request import ProxyBasicAuthHandler
+from urllib.request import ProxyBasicAuthHandler, proxy_bypass
 import numpy as np
 from math import sqrt,log
 import copy 
 import time
 from . import homopolymer
+import random
 #import homopolymer
 
 BASE = np.array(['A','C','G','T'])
@@ -120,8 +121,12 @@ class Sequencer_simu:
         self.err=ErrorAdder_simu(self.probS, self.probD, self.probI,self.raw_rate,self.del_pattern,self.ins_pattern,self.TM,self.TM_Normal,ins_pos=self.ins_pos,del_pos=self.del_pos)
 
     def __call__(self, dnas):
+        t1=time.time()
         dnas = self.sample(dnas)
+        t2=time.time()
+        print("Sample time: ",t2-t1)
         dnas = self.err(dnas)
+        print("Error Adder:",time.time()-t2)
         return dnas
 
     def sample(self, dnas):
@@ -219,6 +224,13 @@ class Sampler_simu:
         
 class ErrorAdder_simu:
     def __init__(self, probS=0.2, probD=0.6, probI=0.2, raw_rate=0.0001,del_pattern=None,ins_pattern=None,TM=None,TM_Normal=True,ins_pos={"homopolymer":0,"random":1},del_pos={"homopolymer":0,"random":1}):  # 替代substitute，删除delete和插入insert
+        if TM != None:
+            self.TM = TM
+            self.all_equal = 0
+        else:
+            self.TM = genTm(1/3)  # 生成替换概率矩阵，A-CGT
+            self.all_equal = 1
+        
         self.probD = probD * raw_rate
         self.probI = probI * raw_rate
         self.probS = probS * raw_rate
@@ -227,13 +239,6 @@ class ErrorAdder_simu:
         self.ins_pattern=ins_pattern
         self.TM_Normal=TM_Normal
 
-        if TM != None:
-            self.TM = TM
-            self.all_equal = 0
-        else:
-            self.TM = genTm(self.probS/3)  # 生成替换概率矩阵，A-CGT
-            self.all_equal = 1
-        
         self.ins_pos_random=ins_pos['random']
         self.ins_pos_homo=ins_pos['homopolymer']
         self.del_pos_random=del_pos['random']
@@ -244,11 +249,13 @@ class ErrorAdder_simu:
         if self.TM_Normal:
             for i, base in enumerate(['A', 'C', 'G', 'T']):
                 Pi = np.where(dna == base)[0]
-                subi = np.random.choice(['A', 'C', 'G', 'T'], size=Pi.size, p=list(self.TM[base].values())) ###
-                subPi = np.where(subi != base)[0]
-                for pos in subPi:
-                    Errors.append((Pi[pos], 's', subi[pos]))
-                    
+                for i in Pi:
+                    prob_try=np.random.uniform(0,1)
+                    if prob_try>self.probS:
+                        break
+                    else:
+                        subi=np.random.choice(['A', 'C', 'G', 'T'], p=list(self.TM[base].values()))
+                        Errors.append((i,'s',subi))
         else:
             TM_keys=list(self.TM.keys())
             for key in TM_keys:
@@ -408,14 +415,13 @@ class ErrorAdder_simu:
             dna['re'] = re
         return dnas
 
-#生成替换概率矩阵，[[0.9997, 0.0001, 0.0001, 0.0001], [0.0001, 0.9997, 0.0001, 0.0001], [0.0001, 0.0001, 0.9997, 0.0001], [0.0001, 0.0001, 0.0001, 0.9997]]
 def genTm(prob):
     tm = dict()
     for i,base in enumerate(['A','C','G','T']):
         row=dict()
         for i,oli in enumerate(['A','C','G','T']):
             row[oli]=prob
-        row[base] = 1 - 3* prob
+        row[base] = 1-prob*3
         tm[base]=row
     return tm
 
