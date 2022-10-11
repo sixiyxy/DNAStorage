@@ -187,8 +187,19 @@ if __name__ == "__main__":
     # print(a)
     simu=Simulation(1565536927137009664)
     simu.get_simu_synthesis_info(25,0.99,"ErrASE")
-    #simu.get_simu_dec_info(24,0.3,'WhiteGaussian')
+    simu.get_simu_dec_info(24,0.3,'WhiteGaussian')
+    simu.get_simu_pcr_info( 12,0.8,"Taq")
+    simu.get_simu_sam_info(0.005)
     simu.get_simu_seq_info(15,"ill_PairedEnd")
+    dic={}
+    for dna in simu.simu_dna:
+        for re in dna['re']:
+            n=len(re[1])
+            dic[n]=dic.get(n,0)+re[0]
+    print(dic)
+
+
+
     # with open('simu.txt','w') as f:
     #     for k,v in simu.__dict__.items():
     #         f.write(str(k)+":"+str(v)+"\n")
