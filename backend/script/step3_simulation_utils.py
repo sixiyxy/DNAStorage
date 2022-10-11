@@ -109,11 +109,16 @@ class Simulation():
         PCR=Model.PCRer_simu(arg)
         self.simu_dna=PCR(self.simu_dna)
 
+        density=self.calculate_density(self.simu_dna,True)
+        error_density=self.error_density(self.simu_dna)
+
         pcr_info={
             "pcr_polymerase":pcr_polymerase,
             "pcr_reference_link":0,
             "pcr_cycle":pcr_cycle,
-            "pcr_prob":pcr_prob
+            "pcr_prob":pcr_prob,
+            "prc_density":density,
+            "pcr_error_density":error_density
         }
         write_yaml(yaml_path=self.file_info_path,data=pcr_info,appending=True)
 
@@ -132,8 +137,13 @@ class Simulation():
         Sam=Model.Sampler_simu(arg=arg)
         self.simu_dna=Sam(self.simu_dna)
 
+        density=self.calculate_density(self.simu_dna,True)
+        error_density=self.error_density(self.simu_dna)
+
         sam_info={
-            "sam_ratio":sam_ratio
+            "sam_ratio":sam_ratio,
+            "sam_density":density,
+            "sam_error_density":error_density
         }
         write_yaml(yaml_path=self.file_info_path,data=sam_info,appending=True)
 
@@ -155,17 +165,23 @@ class Simulation():
         Seq=Model.Sequencer_simu(arg)
         self.simu_dna=Seq(self.simu_dna)
         seq_reference=0
+        
+        density=self.calculate_density(self.simu_dna,True)
+        error_density=self.error_density(self.simu_dna)
 
         seq_info={
             "seq_depth":seq_depth,
             "seq_meth":seq_meth,
-            "seq_reference":seq_reference
+            "seq_reference":seq_reference,
+            "seq_density":density,
+            "seq_error_density":error_density
         }
+
         write_yaml(yaml_path=self.file_info_path,data=seq_info,appending=True)
 
         return seq_info
 
-    def calculate_density(self,dnas):
+    def calculate_density(self,dnas,layer=False):
         nums = {}
         total = 0
         for dna in dnas:
@@ -173,11 +189,38 @@ class Simulation():
                 n = re[0]
                 nums[n] = nums.get(n, 0) + 1
                 total += 1
+
         for i in nums:
             nums[i] = nums[i] / total
         nums = sorted(nums.items(), key=lambda e: e[0])
+        #print(nums)
+        
+
+        if layer:
+            n_group=10
+            n=len(nums)
+            group=int(n/n_group)
+            b={}
+            for i in range(0,n,group):
+                for j in nums[i:i+group]:
+                    b[str(i)+"-"+str(i+group)]=b.get(str(i)+"-"+str(i+group),0)+j[1]
+            nums=b
+
         return nums
 
+    def error_density(self,dnas):
+        dic={}
+        total=0
+        for dna in dnas:
+            for re in dna['re']:
+                n=len(re[1])
+                dic[n]=dic.get(n,0)+re[0]
+                total+=re[0]
+        for i in dic:
+                dic[i] = dic[i] / total
+        return dic
+
+    
 if __name__ == "__main__":
 
     # _,in_dnas=get_simu_synthesis_info(1565536927137009664,

@@ -259,16 +259,14 @@ def simu_pcr():
     if now_simu is None:
         return 'session invalid'
 
-    print('start simu_pcr')
-    t3 = time.time()
     simu_pcr_settings=now_simu.get_simu_pcr_info(
         pcr_cycle=pcr_cycle,
         pcr_prob=pcr_prob,
         pcr_polymerase=pcr_polymerase
     )
-    print('end simu_pcr ',time.time()-t3)
-    t2=time.time()
-    print("PCR:"+str(t2-t1))
+
+    
+    print("PCR:"+str(time.time()-t1))
     return json.dumps(simu_pcr_settings)
 
 @app.route('/simu_sam',methods=['GET','POST'])

@@ -303,7 +303,7 @@ class ErrorAdder_simu:
                 count=0
                 while count<=5000:
                     pos=randomPicker(homos_pos)
-                    print(homos_pos)
+                    #print(homos_pos)
                     if dna[pos]==choose_base:
                         Errors.append([pos,'-',dna[pos]])
                         break
