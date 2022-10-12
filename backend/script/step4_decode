@@ -1,5 +1,5 @@
-from utils.cd_hit.cd_hit  import CD_HIT
-from utils.cd_hit.cd_hit import read_fasta
+from utils.cd_hit  import CD_HIT
+from utils.cd_hit import read_fasta
 from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
 
 
