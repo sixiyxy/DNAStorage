@@ -31,3 +31,8 @@ pcr_cycle: 12
 pcr_polymerase: Taq
 pcr_prob: 0.8
 pcr_reference_link: 0
+decay_loss_rate: 0.3
+decay_reference_link: 0
+months_of_storage: 24
+storage_host: WhiteGaussian
+storage_host_parameter_reference: https://doi.org/10.1093/bioinformatics/btaa140

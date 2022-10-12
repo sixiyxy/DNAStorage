@@ -49,7 +49,7 @@ class Simulation():
             "synthesis_number":int(synthesis_number),
             "synthesis_yield":float(synthesis_yield),
             "synthesis_method":synthesis_method,
-            'synthesis_method_reference':reference_link
+            'synthesis_method_reference':arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=syn_info,appending=True)
         self.syn_density=self.calculate_density(self.simu_dna)
@@ -79,10 +79,11 @@ class Simulation():
         self.simu_dna=DEC(self.simu_dna)
 
         dec_info={
-            "storgae_host":storage_host,
+            "storage_host":storage_host,
             "decay_reference_link":0,
             "months_of_storage":months_of_storage,
-            "decay_loss_rate":loss_rate
+            "decay_loss_rate":loss_rate,
+            "storage_host_parameter_reference":arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=dec_info,appending=True)
         dec_density=self.calculate_density(self.simu_dna)
@@ -118,7 +119,8 @@ class Simulation():
             "pcr_cycle":pcr_cycle,
             "pcr_prob":pcr_prob,
             "prc_density":density,
-            "pcr_error_density":error_density
+            "pcr_error_density":error_density,
+            "pcr_method_reference":arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=pcr_info,appending=True)
 
@@ -174,7 +176,8 @@ class Simulation():
             "seq_meth":seq_meth,
             "seq_reference":seq_reference,
             "seq_density":density,
-            "seq_error_density":error_density
+            "seq_error_density":error_density,
+            "seq_method_reference":arg.reference
         }
 
         write_yaml(yaml_path=self.file_info_path,data=seq_info,appending=True)
