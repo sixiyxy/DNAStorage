@@ -3,6 +3,7 @@ import re
 import os,sys
 import math
 import numpy
+from datetime import datetime
 from .utils_basic import Monitor
 from .encoding_method_rule import *
 
@@ -45,11 +46,11 @@ class AbstractCodingAlgorithm(object):
 
         return {"dna": dna_sequences, "i": information_density, "t": encoding_runtime}
 
-    def carbon_to_silicon(self, dna_sequences):
-        if self.bit_size is None:
+    def carbon_to_silicon(self, dna_sequences,bit_size,segment_length):
+        if bit_size is None:
             raise ValueError("The parameter \"bit_size\" is needed, "
                              + "which guides the number of bits reserved at the end of the digital file!")
-        if self.segment_length is None:
+        if segment_length is None:
             raise ValueError("The parameter \"segment_length\" is needed, "
                              + "which clears the information that may exist in each sequence. "
                              + "For example, assuming that the coding scheme requires an even binary segment length, "
@@ -66,12 +67,12 @@ class AbstractCodingAlgorithm(object):
         bit_segments = self.decode(dna_sequences)
 
         for segment_index, bit_segment in enumerate(bit_segments):
-            if len(bit_segment) != self.segment_length:
-                bit_segments[segment_index] = bit_segment[: self.segment_length]
+            if len(bit_segment) != segment_length:
+                bit_segments[segment_index] = bit_segment[: segment_length]
 
         decoding_runtime = (datetime.now() - start_time).total_seconds()
 
-        return {"bit": bit_segments, "s": self.bit_size, "t": decoding_runtime}
+        return {"bit": bit_segments, 's':bit_size ,"t": decoding_runtime}
 
     def encode(self, bit_segments):
         raise NotImplementedError("\"decode\" interface needs to be implemented!")

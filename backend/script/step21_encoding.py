@@ -37,7 +37,7 @@ class Encoding():
         self.file_info_dict = get_config(yaml_path=self.file_info_path)
 
         # file encode dir
-        self.dna_dir = self.config['dna_dir']
+        self.dna_dir = self.config['encode_dir']
         self.dna_file = '{}/{}/{}.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
 
         # other utils
@@ -115,7 +115,8 @@ class Encoding():
         information_density = round(information_density,3)
 
         index_length = self.file_info_dict['index_length']
-        net_nucleotide_count = len(dna_sequences)*len(dna_sequences[0] - index_length - verify_code_length)
+        
+        net_nucleotide_count = len(dna_sequences)*(len(dna_sequences[0]) - index_length - verify_code_length)
         net_information_density = self.file_info_dict['bit_size']/net_nucleotide_count
         net_information_density = round(net_information_density,3)
 
