@@ -31,6 +31,8 @@ const Graphs: React.FC = (props: any) => {
   //   props.setSeg(props.seg);
   // };
   console.log('graph',props.seg);
+  console.log('graph',props.index);
+  console.log('graph',props.method);
   
   const memoizedValue = useMemo(() => {
       return ([
