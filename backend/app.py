@@ -251,6 +251,8 @@ def decode():
     # {"file_uid":1565536927137009664}
 
     file_uid = front_data['file_uid'] 
+    clust_method = front_data['clust_method']
+    
     if 'encode_key' not in session:
         return 'session invalid, encode_key not found'
 
