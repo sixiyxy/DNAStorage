@@ -17,7 +17,7 @@ class Simulation():
 
             self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
 
-            self.dna_dir = self.config['dna_dir']
+            self.dna_dir = self.config['encode_dir']
             self.dna_file = '{}/{}/{}.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
         
             with open(self.dna_file) as f:

@@ -124,9 +124,9 @@ class Sequencer_simu:
         t1=time.time()
         dnas = self.sample(dnas)
         t2=time.time()
-        print("Sample time: ",t2-t1)
+        # print("Sample time: ",t2-t1)
         dnas = self.err(dnas)
-        print("Error Adder:",time.time()-t2)
+        # print("Error Adder:",time.time()-t2)
         return dnas
 
     def sample(self, dnas):
@@ -370,8 +370,6 @@ class ErrorAdder_simu:
         if apply:
             out_dnas = self.apply_batch(out_dnas)
         t_err_batch=time.time()
-        print("Err out:"+str(t_err_mid-t_err_out))
-        print("Err apply:"+str(t_err_batch-t_err_mid))
         return out_dnas
 
     # apply errors to dnas
