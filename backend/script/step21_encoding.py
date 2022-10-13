@@ -99,25 +99,31 @@ class Encoding():
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print('After add index,add verify code to the bit sequences.\n')
         
-        return bit_segments
+        return bit_segments,verify_code_length
 
     def bit_to_dna(self):
         
         start_time = datetime.now()
-        bit_segments = self.verify_code()
+        bit_segments,verify_code_length = self.verify_code()
         encode_method = encoding_methods[self.file_info_dict['encode_method']]
         dna_sequences = encode_method.encode(bit_segments)
         print('Encode bit segments to DNA sequences by coding scheme.\n')
 
         run_time = (datetime.now() - start_time).total_seconds()
         nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
-
         information_density = self.file_info_dict['bit_size']/nucleotide_count
         information_density = round(information_density,3)
+
+        index_length = self.file_info_dict['index_length']
+        net_nucleotide_count = len(dna_sequences)*len(dna_sequences[0] - index_length - verify_code_length)
+        net_information_density = self.file_info_dict['bit_size']/net_nucleotide_count
+        net_information_density = round(net_information_density,3)
+
         record_info = {"DNA_sequence_length":len(dna_sequences[0]),
                        "nucleotide_counts":nucleotide_count,
                        "encoding_time":run_time,
-                    "information_density":information_density}
+                    "information_density":information_density,
+                    "net_information_density":net_information_density}
 
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         write_dna_file(path=self.dna_file,dna_sequences=dna_sequences,need_logs=True)

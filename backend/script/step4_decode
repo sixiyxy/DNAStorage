@@ -1,8 +1,14 @@
+from re import S
 from utils.cd_hit  import CD_HIT
 from utils.cd_hit import read_fasta
 from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+from utils.verify_methods import Hamming,ReedSolomon
 
-
+verify_methods = {
+    "WithoutVerifycode":False,
+    "Hamming":Hamming(),
+    "ReedSolomon":ReedSolomon()
+}
 
 class ClusterDecode():
     def __init__(self,file_uid,clust_method):
@@ -10,6 +16,9 @@ class ClusterDecode():
         self.clust_method = clust_method
         self.config = get_config(yaml_path='config')
         self.backend_dir = self.config['backend_dir']
+        self.file_dir = '{}/{}'.format(self.backend_dir,self.config['file_save_dir'])
+        self.file_info_path = '{}/{}.yaml'.format(self.file_dir,file_uid)
+        self.file_info_dict = get_config(yaml_path=self.file_info_path)
 
         # cluster
         self.simulation_dir = '{}/{}'.format(self.backend_dir,self.config['simulation_dir'])
@@ -17,7 +26,9 @@ class ClusterDecode():
         self.out_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
 
         # decode
-
+        self.index_length =  self.file_info_dict['index_length']
+        self.verify_method = verify_methods[self.file_info_dict['verify_method']]
+        
 
     def method_cdhit(self):
         cdh=CD_HIT(max_memory=320000,throw_away_sequences_length=60,
@@ -44,11 +55,23 @@ class ClusterDecode():
         return self.simulation_dna_file
 
     def decode(self):
-        pass
+        # get sequences
+        bit_segments = open(self.simulation_dna_file).read().splitlines()[1::2]
+        print(bit_segments)
+        print(len(bit_segments))
+
+        # remove verify code
+        if self.verify_method == False:
+            error_rate = None
+            error_indices = None
+            error_bit_segments = None
+        else:
+            verify_data = self.verify_method.remove(bit_segments)
 
 
 
 if __name__ == '__main__':
     obj = ClusterDecode(file_uid = 1565536927137009664,
                           clust_method= 'cdhit')
-    obj.run_clust()
+    # obj.run_clust()
+    obj.decode()
