@@ -44,6 +44,7 @@ const Encodelists: React.FC = (props: any) => {
   }
 
   const handleClick = () => {
+    props.changeSider("0-0-1");
     axios.all([Request_fileInfo(),Request_fileEncode()])
     .then(axios.spread(function(response_Info,response_Encode){
         console.log('response1',response_Info);
@@ -54,7 +55,7 @@ const Encodelists: React.FC = (props: any) => {
         props.HomoPass(response_Encode.data.homo_plot)
         props.DNAInfoPass(response_Encode.data.DNA_sequence_length,response_Encode.data.encoding_time,response_Encode.data.information_density,response_Encode.data.nucleotide_counts)
     })); 
-    props.changeSider("0-0-1");
+    
   }
 
   return (

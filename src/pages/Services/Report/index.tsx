@@ -1,8 +1,10 @@
 import React from "react";
-//import "./index.less";
+import { Card } from 'antd';
+import { Col, Row } from 'antd';
 import GLgraph from './components/GLgraph'
 import HomoGraph from './components/HomoGraph'
 import Information from './components/Information'
+import DNAinfo from './components/DNAinfo'
 export class ReportProps {
   GC;
   homo;
@@ -15,29 +17,55 @@ export class ReportProps {
 export const Report: React.FC<ReportProps> = (props) => {
   return(
     <div>
-    <div
-        id="information"
-        style={{ paddingLeft: "50px", paddingTop: "30px", fontSize: "15px",width:"600px"}}
-      >
-        {/* <Information info={info} fileId={props.fileId} fileinfo={fileinfo} /> */}
-        <Information dnainfo={props.dnainfo} info={props.info} fileId={props.fileId} fileinfo={props.fileinfo}/>
-      </div>
-    <div
-        id="gcgraph"
-        style={{ paddingLeft: "50px", paddingTop: "30px", fontSize: "15px" }}
-      >
-        <h2>Title:GC_Contact</h2>
-        {/*<GLgraph gc={gc}/>*/}
-        <GLgraph GC={props.GC}/>
-      </div>
-      <div
-        id="homograph"
-        style={{ paddingLeft: "50px", paddingTop: "30px", fontSize: "15px" }}
-      >
-        <h2>Title:Homopolymer Length</h2>
-        {/*<HomoGraph homo={homo}>*/}
-        <HomoGraph homo={props.homo}/>
-      </div>
+      <Row>
+        <Col span={12}>
+            <div
+            id="information"
+            style={{ paddingLeft: "15px", paddingTop: "30px",fontSize: "15px",width:"665px"}}
+          >
+            {/* <Information info={info} fileId={props.fileId} fileinfo={fileinfo} /> */}
+            <Information info={props.info} fileId={props.fileId} fileinfo={props.fileinfo}/>
+          </div>
+        </Col>
+        <Col span={12}>
+            <div
+            id="dnainfo"
+            style={{ paddingLeft: "15px", paddingTop: "15px", fontSize: "15px",width:"665px"}}
+          >
+            {/* <Information info={info} fileId={props.fileId} fileinfo={fileinfo} /> */}
+            <DNAinfo dnainfo={props.dnainfo} info={props.info} />
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={12}>
+            <Card title="Title:GC_Contact" type="inner" style={{ marginLeft:"15px",marginTop:"30px",width:"650px"}}>
+                <div
+                id="gcgraph"
+                style={{ paddingLeft: "50px", paddingTop: "30px", fontSize: "15px" }}
+              > 
+                {/*<GLgraph gc={gc}/>*/}
+                <GLgraph GC={props.GC}/>
+              </div>
+          </Card>
+        </Col>
+        <Col span={12}>
+          <Card title="Title:Homopolymer Length" type="inner" style={{ marginLeft:"15px",marginTop:"30px",width:"650px"}}>
+            <div
+            id="gcgraph"
+            style={{ paddingLeft: "50px", paddingTop: "30px", fontSize: "15px" }}
+          > 
+            {/*<GLgraph gc={gc}/>*/}
+            <HomoGraph homo={props.homo}/>
+          </div>
+          </Card>
+        </Col>
+      </Row>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
     </div>)
   
 };
