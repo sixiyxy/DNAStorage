@@ -65,34 +65,11 @@ backend_dir = os.path.dirname(os.path.abspath(__file__))
 
 @app.route('/')
 def index():
-    # if 'username' in session:
-    #     print('Logged in as %f'%session["username"])
-    # else:
-    #     print('Not Logged in')
     return render_template('index.html')  
-
-####################################################
-#### test route ####
-@app.route('/test_args')
-def get_student():
-    student_name = request.args.get('student')
-    return 'show:{}'.format(student_name)
-
-@app.route('/test_json')
-def get_json():
-    json_data = {'one':1,'two':'xxx'}
-    return json.dumps(json_data)
-
-@app.route('/test_front',methods=["GET","POST"])
-def get_front():
-    front_data = request.data
-    print(front_data)
-    return "success"
-#### test route ####
-######################################################
 
 @app.route('/file_upload',methods=['GET','POST'])
 def file_upload():
+    print('File uploading')
     f = request.files['file']
     filename = f.filename
     filetype = f.mimetype
@@ -111,7 +88,7 @@ def file_upload():
 
 @app.route('/file_info',methods=['GET','POST'])
 def file_information():
-    print('我开始了！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！')
+    print('Getting file information')
     front_data = request.data
     front_data = json.loads(front_data)
 
@@ -132,15 +109,14 @@ def file_information():
     segment_length=segment_length,
     index_length=index_length,
     verify_method=verify_method,
-    encode_method=encode_method
-    )
+    encode_method=encode_method)
 
     return json.dumps(file_info)
 
 
 @app.route('/file_encode',methods=['GET','POST'])
 def file_encode():
-    print('我开始了！')
+    print('File Encoding')
     front_data = request.data
     front_data = json.loads(front_data)
 
@@ -177,12 +153,10 @@ def simu_synthesis():
     front_data = request.data
     front_data = json.loads(front_data)
     #### Postman test json ####
-    {
-        "file_uid":1565536927137009664,
+    { "file_uid":1565536927137009664,
         "synthesis_number":30,
         "synthesis_yield":0.99,
-        "synthesis_method":"ErrASE"
-    }
+        "synthesis_method":"ErrASE"}
 
     file_uid=front_data['file_uid']
     synthesis_number = front_data['synthesis_number']
@@ -309,8 +283,7 @@ def simu_seq():
 
     #### Postman test json ####
     { "seq_depth":15,
-     "seq_meth":"ill_PairedEnd"
-     }
+     "seq_meth":"ill_PairedEnd"}
 
     seq_depth =front_data['seq_depth'] 
     seq_meth=front_data['seq_meth']
@@ -326,14 +299,13 @@ def simu_seq():
     t3 = time.time()
     simu_seq_settings=now_simu.get_simu_seq_info(
         seq_depth=seq_depth,
-        seq_meth=seq_meth
-    )
+        seq_meth=seq_meth)
     print('end simu_seq ',time.time()-t3)
     t2=time.time()
     print("Seq:"+str(t2-t1))
     return json.dumps(simu_seq_settings)
 
-#print('test github')
+
 print(app.url_map)
 
 

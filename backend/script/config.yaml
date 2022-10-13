@@ -13,4 +13,10 @@ file_type:
  - video
 
 # about run
-dna_dir: dna_file
+encode_dir: encode
+
+# about simulation
+simulation_dir: simulation
+
+# decode
+decode_dir: decode

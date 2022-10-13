@@ -1,0 +1,54 @@
+from utils.cd_hit  import CD_HIT
+from utils.cd_hit import read_fasta
+from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+
+
+
+class ClusterDecode():
+    def __init__(self,file_uid,clust_method):
+        self.file_uid = file_uid
+        self.clust_method = clust_method
+        self.config = get_config(yaml_path='config')
+        self.backend_dir = self.config['backend_dir']
+
+        # cluster
+        self.simulation_dir = '{}/{}'.format(self.backend_dir,self.config['simulation_dir'])
+        self.simulation_dna_file = '{}/{}.fasta'.format(self.simulation_dir,self.file_uid)
+        self.out_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
+
+        # decode
+
+
+    def method_cdhit(self):
+        cdh=CD_HIT(max_memory=320000,throw_away_sequences_length=60,
+            length_difference_cutoff=0.7,amino_acid_length_difference_cutoff=60, 
+            long_seq_alignment_coverage=0.7,long_seq_alignment_coverage_control=60,
+            short_seq_alignment_coverage=0.7,short_seq_alignment_coverage_control=70,
+            nthreads=512)       
+        out_file = '{}/{}_cdhit.fasta'.format(self.out_dir,self.file_uid)
+        cdh.from_file(self.simulation_dna_file,out_file,threshold=0.97)
+
+        return out_file
+        
+    def method_xx(self):
+        return 'xx'
+
+    def run_clust(self):
+        if self.clust_method == 'cdhit':
+            out_file = self.method_cdhit()
+        elif self.clust_method == 'xx':
+            out_file = self.method_xx()
+        return out_file
+
+    def stat_base(self):
+        return self.simulation_dna_file
+
+    def decode(self):
+        pass
+
+
+
+if __name__ == '__main__':
+    obj = ClusterDecode(file_uid = 1565536927137009664,
+                          clust_method= 'cdhit')
+    obj.run_clust()
