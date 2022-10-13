@@ -141,7 +141,6 @@ def file_encode():
 
 '''
 
-#now_simu=Simu()
 @app.route('/simu_synthesis',methods=['GET','POST'])
 def simu_synthesis():
     t1=time.time()

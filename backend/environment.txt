@@ -3,3 +3,4 @@ PyYaml
 reedsolo
 pyyaml
 numpy
+flask_session

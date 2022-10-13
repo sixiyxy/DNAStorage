@@ -57,6 +57,7 @@ class ClusterDecode():
     def decode(self):
         # get sequences
         bit_segments = open(self.simulation_dna_file).read().splitlines()[1::2]
+        bit_segments_list = [list(i) for i in bit_segments]
         print(bit_segments)
         print(len(bit_segments))
 
@@ -66,7 +67,7 @@ class ClusterDecode():
             error_indices = None
             error_bit_segments = None
         else:
-            verify_data = self.verify_method.remove(bit_segments)
+            verify_data = self.verify_method.remove(bit_segments_list)
 
 
 
