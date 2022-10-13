@@ -29,7 +29,7 @@ export const Encode = (props) => {
     //setValues(param2); //value
     setSeg(param2[0].Segvalue);
     setIndex(param2[1].Indexvalue);
-    //console.log(seg);
+    console.log("done");
     setMethod(param1); //method
   };
   const GCPass = (param1) => {
@@ -57,6 +57,7 @@ export const Encode = (props) => {
     props.DNAinfos.information_density=param3;
     props.DNAinfos.nucleotide_counts=param4;
     props.setDNAinfo(props.DNAinfos);
+    console.log(props.DNAinfos);
   }
   return (
     <div className="EncodeContainer">
@@ -114,6 +115,7 @@ export const Encode = (props) => {
           InfoPass1={InfoPass1}
           GCPass={GCPass}
           HomoPass={HomoPass}
+          DNAInfoPass ={DNAInfoPass}
           changeSider={props.changeSider}
         />
       </div>

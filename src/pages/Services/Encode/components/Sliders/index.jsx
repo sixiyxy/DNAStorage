@@ -1,5 +1,5 @@
 import { Slider, Switch } from "antd";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Radio } from "antd";
 import { Button, Popconfirm } from "antd";
 import { Link } from "react-router-dom";
@@ -10,9 +10,12 @@ var method = "";
 const Sliders = (props) => {
   const [disabled, setDisabled] = useState(false);
   const [values, setValues] = useState(SaveValue);
+  const [count,setCount] = useState(0) //触发标志
 
   const plainOptions = ["WithoutVerifycode", "Hamming", "ReedSolomon"];
   const onChange1 = ({ target: { value } }) => {
+    setCount(count+1)
+    console.log('count',count)
     method = value;
   };
 
@@ -26,9 +29,10 @@ const Sliders = (props) => {
     setValues(SaveValue);
   };
 
-  const handelClick = ()=>{
+  useEffect(() => {
+    console.log('触发传递')
     props.ParamPass(method, values);
-  }
+  }, [count]);
 
   return (
     <>
@@ -66,13 +70,7 @@ const Sliders = (props) => {
           <Link to="/methods">Method Paper</Link>
         </p>
       </div>
-      <button
-        className="btn btn-danger"
-        style={{ marginLeft: "650px"}}
-        onClick={handelClick}
-      >
-        OK
-      </button>
+
     </>
   );
 };
