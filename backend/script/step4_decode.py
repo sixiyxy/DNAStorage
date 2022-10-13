@@ -1,9 +1,11 @@
 from re import S
-from utils.cd_hit  import CD_HIT
-from utils.cd_hit import read_fasta
-from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from utils.verify_methods import Hamming,ReedSolomon
-from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
+from .utils.cd_hit  import CD_HIT
+from .utils.cd_hit import read_fasta
+from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+from .utils.verify_methods import Hamming,ReedSolomon
+from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
+from .utils.decode_utils import remove_index
+from .step21_encoding import Encoding
 
 verify_methods = {
     "WithoutVerifycode":False,
@@ -21,7 +23,7 @@ encoding_methods = {
 }
 
 class ClusterDecode():
-    def __init__(self,file_uid,clust_method):
+    def __init__(self,file_uid,clust_method,encode_bit_segment):
         self.file_uid = file_uid
         self.clust_method = clust_method
         self.config = get_config(yaml_path='config')
@@ -38,6 +40,7 @@ class ClusterDecode():
         # encode
         self.encode_dir = '{}/{}'.format(self.backend_dir,self.config['encode_dir'])
         self.encode_dna = '{}/{}.dna'.format(self.encode_dir,self.file_uid)
+        self.encode_bitsegment = encode_bit_segment
 
         # decode
         self.index_length =  self.file_info_dict['index_length']
@@ -79,39 +82,55 @@ class ClusterDecode():
         clust_dna_sequences = self.run_clust()
         clust_dna_sequences_list = [list(i) for i in clust_dna_sequences]
 
-        # dna to 01
-        decode_result = self.decode_method.carbon_to_silicon(clust_dna_sequences_list,self.bit_size,self.segment_length)
-        decode_bit_segments = decode_result['bit']
-        decoding_time = decode_result['t']
-
-        # remove verify code
-        if self.verify_method == False:
-            error_rate = None
-            error_indices = None
-            error_bit_segments = None
-        else:
-            verify_data = self.verify_method.remove(decode_bit_segments)
-            verified_segment_01 = verify_data['bit']
-        
         # report dna sequence
         encoding_dna_sequences_set = set(encoding_dna_sequences)
         clust_dna_sequences_set = set(clust_dna_sequences)
         right_dna_number = len(encoding_dna_sequences_set & clust_dna_sequences_set)
 
-        right_dna_rate = round(right_dna_number/len(encoding_dna_sequences_set),2)
-        print(len(encoding_dna_sequences_set),len(clust_dna_sequences_set),right_dna_number,right_dna_rate)
+        right_dna_rate = str(round(right_dna_number/len(encoding_dna_sequences_set)*100,2)) + '%'
+
+        # dna to 01
+        decode_result = self.decode_method.carbon_to_silicon(clust_dna_sequences_list,)
+        decode_bit_segments = decode_result['bit']
+        decoding_time = decode_result['t']
+
+        # remove verify code
+        if self.verify_method == False:
+            error_rate = 0
+            error_indices = []
+            verified_segments = decode_bit_segments
+        else:
+            verified_data = self.verify_method.remove(decode_bit_segments)
+            verified_segments = verified_data['bit']
+            error_indices = verified_data["e_bit"]
+            error_rate = str(round(verified_data["e_r"] * 100, 2)) + "%"
+        
+        # remove index
+        indices, final_bit_segments = remove_index(verified_segments, self.index_length, True)
 
         # report file data  
-        
+        encode_bits = set([str(segment) for segment in self.encode_bitsegment])
+        decode_bits = set([str(segment) for segment in final_bit_segments]) 
+        # after set，so number is less than dna sequence number - error indeice number
+
+
+        recall_bits = encode_bits & decode_bits
+        error_bits_number = len(decode_bits) -  len(recall_bits)
+        error_bits_rate = str(round(error_bits_number/len(decode_bits) * 100, 2)) + "%"
 
         # record
         record_info = {"decode_time":decoding_time,
                         "clust_method":self.clust_method,
                         "encode_dna_sequence_number":len(encoding_dna_sequences) ,
-                        "after_clust_dna_sequence_number":len(clust_dna_sequences_set) ,
+                        "after_clust_dna_sequence_number":len(clust_dna_sequences_set),
                         "recall_dna_sequence_number": right_dna_number,
                         "recall_dna_sequence_rate":right_dna_rate,
-                        "": 1}
+                        "verify_method_remove_bits":len(error_indices),
+                        "encode_bits_number":len(encode_bits),
+                        "final_decode_bits_number":len(decode_bits),
+                        "recall_bits_number": len(recall_bits),
+                        "error_bits_number":error_bits_number,
+                        "error_bits_rate":error_bits_rate}
         print(record_info)
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print('Decoding Done!')
@@ -119,7 +138,9 @@ class ClusterDecode():
         return record_info
 
 if __name__ == '__main__':
-    obj = ClusterDecode(file_uid = 1565536927137009664,
-                          clust_method= 'cdhit')
-    # obj.run_clust()
+    obj = Encoding(1565536927137009664)
+    record_info,bit_segments = obj.bit_to_dna()
+
+    obj = ClusterDecode(file_uid = 1565536927137009664,encode_bit_segment=bit_segments,clust_method= 'cdhit')
+
     obj.decode()

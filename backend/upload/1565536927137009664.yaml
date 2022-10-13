@@ -36,3 +36,11 @@ decay_reference_link: 0
 months_of_storage: 24
 storage_host: WhiteGaussian
 storage_host_parameter_reference: https://doi.org/10.1093/bioinformatics/btaa140
+? ''
+: 1
+after_clust_dna_sequence_number: 5828
+clust_method: cdhit
+decode_time: 0.187457
+encode_dna_sequence_number: 4877
+recall_dna_sequence_number: 4740
+recall_dna_sequence_rate: 0.97

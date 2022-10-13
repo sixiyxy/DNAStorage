@@ -3,7 +3,6 @@ from imp import reload
 import os
 import json
 import time
-import uuid
 
 from flask import Flask, render_template,session
 from flask import request
@@ -15,6 +14,7 @@ from script.step11_get_file_uid import get_file_uid
 from script.step12_get_file_info import get_file_info
 from script.step21_encoding import Encoding
 from script.step3_simulation_utils import Simulation as Simu
+from script.step4_decode import ClusterDecode
 from app_utils import set_session,get_session
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
@@ -84,11 +84,14 @@ def file_encode():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    # {"file_uid":1565237658387615744}
+    # {"file_uid":1565536927137009664}
 
     file_uid = front_data['file_uid']
     obj = Encoding(file_uid)
-    encode_info,dna_sequences,bit_segments = obj.bit_to_dna()
+    encode_info,encode_bits = obj.bit_to_dna()
+    encode_key = 'encode_{}'.format(file_uid)
+    session['encode_key'] = encode_key
+    set_session(encode_key,encode_bits)
 
     return json.dumps(encode_info)
 
@@ -122,7 +125,6 @@ def simu_synthesis():
     simu_synthesis_settings['density']=density
     print("Simulation Synthesis time:"+str(time.time()-t1))
     return json.dumps(simu_synthesis_settings)
-
 
 @app.route('/simu_dec',methods=['GET','POST'])
 def simu_dec():
@@ -164,9 +166,9 @@ def simu_pcr():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    {"pcr_cycle":12,
-    "pcr_prob":0.8,
-    "pcr_polymerase":"Taq"}
+    # {"pcr_cycle":12,
+    # "pcr_prob":0.8,
+    # "pcr_polymerase":"Taq"}
 
     pcr_cycle = front_data['pcr_cycle']
     pcr_prob = front_data['pcr_prob']
@@ -194,7 +196,7 @@ def simu_sam():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    {"sam_ratio":0.005 }
+    # {"sam_ratio":0.005 }
 
     sam_ratio =front_data['sam_ratio'] 
 
@@ -235,10 +237,30 @@ def simu_seq():
         seq_depth=seq_depth,
         seq_meth=seq_meth)
 
-    print("Simulation Seq time:"+str(time.time()-t1))
+    print("Simulation Sequence time:"+str(time.time()-t1))
     return json.dumps(simu_seq_settings)
 
 
+@app.route('/decode',methods=['GET','POST'])
+def decode():
+    print('#'*15,'Decoding','#'*15)
+    front_data = request.data
+    front_data = json.loads(front_data)
+
+    #### Postman test json ####
+    # {"file_uid":1565536927137009664}
+
+    file_uid = front_data['file_uid'] 
+    if 'encode_key' not in session:
+        return 'session invalid, encode_key not found'
+
+    encode_bits=get_session(session['encode_key'])
+    if encode_bits is None:
+        return 'please make sure file encoded!!!'
+    else:
+        Decode_obj = ClusterDecode(file_uid = file_uid,encode_bit_segment=encode_bits,clust_method= 'cdhit')
+        decode_info = Decode_obj.decode()
+        return json.dumps(decode_info)
 
 print(app.url_map)
 

@@ -68,22 +68,22 @@ class Encoding():
         return bit_segments
 
     def connet_index(self):
-        bit_segments = self.segment_file()
+        original_bit_segments = self.segment_file()
         index_length = self.file_info_dict['index_length']
 
         connected_bit_segments = []
-        for index in range(len(bit_segments)):
+        for index in range(len(original_bit_segments)):
             # define index
             index_code = list(map(int, list(str(bin(index))[2:].zfill(index_length))))
-            add_index_seg = index_code + bit_segments[index]
+            add_index_seg = index_code + original_bit_segments[index]
             connected_bit_segments.append(add_index_seg)
-            self.monitor.output(index + 1, len(bit_segments))
+            self.monitor.output(index + 1, len(original_bit_segments))
         print('After segment,add index to the bit sequences.\n')
 
-        return connected_bit_segments
+        return connected_bit_segments,original_bit_segments
         
     def verify_code(self):
-        connected_bit_segments = self.connet_index()
+        connected_bit_segments,original_bit_segments = self.connet_index()
         verify_method = self.file_info_dict['verify_method']
         print(verify_method)
         verify_method = verify_methods[verify_method]
@@ -99,12 +99,12 @@ class Encoding():
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print('After add index,add verify code to the bit sequences.\n')
         
-        return bit_segments,verify_code_length
+        return bit_segments,verify_code_length,original_bit_segments
 
     def bit_to_dna(self):
         
         start_time = datetime.now()
-        bit_segments,verify_code_length = self.verify_code()
+        bit_segments,verify_code_length,original_bit_segments = self.verify_code()
         encode_method = encoding_methods[self.file_info_dict['encode_method']]
         dna_sequences = encode_method.encode(bit_segments)
         print('Encode bit segments to DNA sequences by coding scheme.\n')
@@ -165,7 +165,7 @@ class Encoding():
         record_info['gc_plot'] = front_gc
         record_info['homo_plot'] = front_homo
 
-        return record_info,dna_sequences,bit_segments
+        return record_info,original_bit_segments
 
 
 if __name__ == '__main__':
@@ -173,5 +173,5 @@ if __name__ == '__main__':
     # obj.segment_file()
     # obj.connet_index()
     # obj.verify_code()
-    record_info,dna_sequences,bit_segments = obj.bit_to_dna()
-    
+    record_info,bit_segments = obj.bit_to_dna()
+    print(dna_sequences)
