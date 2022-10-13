@@ -111,7 +111,7 @@ class ClusterDecode():
                         "after_clust_dna_sequence_number":len(clust_dna_sequences_set) ,
                         "recall_dna_sequence_number": right_dna_number,
                         "recall_dna_sequence_rate":right_dna_rate,
-                        "": }
+                        "": 1}
         print(record_info)
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print('Decoding Done!')

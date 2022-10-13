@@ -165,7 +165,7 @@ class Encoding():
         record_info['gc_plot'] = front_gc
         record_info['homo_plot'] = front_homo
 
-        return record_info
+        return record_info,dna_sequences,bit_segments
 
 
 if __name__ == '__main__':
@@ -173,5 +173,5 @@ if __name__ == '__main__':
     # obj.segment_file()
     # obj.connet_index()
     # obj.verify_code()
-    a = obj.bit_to_dna()
-    print(a)
+    record_info,dna_sequences,bit_segments = obj.bit_to_dna()
+    
