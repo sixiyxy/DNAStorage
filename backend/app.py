@@ -153,17 +153,22 @@ def file_encode():
 
     return json.dumps(encode_info)
 
-'''
 #if user wants to upload his own dna file instead of generating by us
-# @app.route('/dna_upload',methods=['GET','POST'])
-# def dna_upload():
-#     f=request.files['file']
-#     filename=f.filename
-#     filetype=f.mimetype
-#     file_uid=get_file_uid()
-#     file_rename='{}_{}'.format(file_uid,filename)
+@app.route('/dna_upload',methods=['GET','POST'])
+def dna_upload():
+    f=request.files['file']
+    filename=f.filename
+    filetype=f.mimetype
+    print(filetype)
+    file_uid=get_file_uid()
+    file_rename='{}_{}'.format(file_uid,filename)
+    save_dir='{}/upload/{}'.format(backend_dir,file_rename)
+    
+    f.save(save_dir)
 
-'''
+
+
+
 
 #now_simu=Simu()
 @app.route('/simu_synthesis',methods=['GET','POST'])
