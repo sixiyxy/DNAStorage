@@ -74,17 +74,17 @@ var infos = {
   segment_number: 0,
   verify_method: "None",
 };
-var DNAinfos={
-  DNA_sequence:0,
-  encoding_time:0,
-  information_density:0,
-  nucleotide_counts:0
-}
+var DNAinfos = {
+  DNA_sequence: 0,
+  encoding_time: 0,
+  information_density: 0,
+  nucleotide_counts: 0,
+};
 var FileValue = {
-    fileId:"None",
-    filerename: "None",
-    filetype: "None",
-  };
+  fileId: "None",
+  filerename: "None",
+  filetype: "None",
+};
 
 export const Services: React.FC<ServicesProps> = (props) => {
   const [siderSelect, setSiderSelect] = useState(["0-0-0"]);
@@ -94,7 +94,7 @@ export const Services: React.FC<ServicesProps> = (props) => {
   const [homo, setHomo] = useState([]);
   const [info, setInfo] = useState(infos);
   const [fileinfo, setFileInfo] = useState(FileValue);
-  const [dnainfo,setDNAinfo] = useState(DNAinfos)
+  const [dnainfo, setDNAinfo] = useState(DNAinfos);
   const items = useMemo(() => {
     return [
       {
@@ -181,12 +181,31 @@ export const Services: React.FC<ServicesProps> = (props) => {
         mode="inline"
         items={items}
       />
-        
+
       {siderSelect[0] === "0-0-0" ? (
-        <Encode setDNAinfo={setDNAinfo} DNAinfos={DNAinfos} changeSider={setSiderSelect} fileId={fileId} setFileId={setFileId} setGC={setGC} setHomo={setHomo} setInfo={setInfo} setFileInfo={setFileInfo} FileValue={FileValue} fileinfo={fileinfo}/>
+        <Encode
+          setDNAinfo={setDNAinfo}
+          DNAinfos={DNAinfos}
+          changeSider={setSiderSelect}
+          fileId={fileId}
+          setFileId={setFileId}
+          setGC={setGC}
+          setHomo={setHomo}
+          setInfo={setInfo}
+          setFileInfo={setFileInfo}
+          FileValue={FileValue}
+          fileinfo={fileinfo}
+        />
       ) : null}
       {siderSelect[0] === "0-0-1" ? (
-        <Report dnainfo={dnainfo} GC={GC} homo={homo} fileinfo={fileinfo} info={info} fileId={fileId}/>
+        <Report
+          dnainfo={dnainfo}
+          GC={GC}
+          homo={homo}
+          fileinfo={fileinfo}
+          info={info}
+          fileId={fileId}
+        />
       ) : null}
       {siderSelect[0] === "0-1-0" ? (
         <Synthesis

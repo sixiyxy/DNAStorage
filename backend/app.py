@@ -8,6 +8,7 @@ from flask import Flask, render_template,session
 from flask import request
 from flask_cors import CORS
 from flask_session import Session
+from Bio import SeqIO
 
 from script.utils.utils_basic import get_config,write_yaml
 from script.step11_get_file_uid import get_file_uid
@@ -25,6 +26,7 @@ Session(app)
 CORS(app, resources=r'/*')
 
 backend_dir = os.path.dirname(os.path.abspath(__file__))
+print("----------------------------------------------------------------",backend_dir)
 
 @app.route('/')
 def index():
@@ -95,7 +97,52 @@ def file_encode():
 
     return json.dumps(encode_info)
 
+#if user wants to upload his own dna file instead of generating by us
+@app.route('/dna_upload',methods=['GET','POST'])
+def dna_upload():
+    f=request.files['file']
+    filename=f.filename
+    file_uid=get_file_uid()
+    file_suffix=filename.split('.')[1]
+    file_rename=file_uid+"_"+filename
+    ori_save_dir='{}/upload/{}'.format(backend_dir,file_rename)
+    #save_dir='{}/upload_dna/{}'.format(backend_dir,file_uid+".dna")
+    f.save(ori_save_dir)
+    try:
+        flag=is_fasta(ori_save_dir)
+    except:
+        print("Invalid file222.")
+        os.remove(ori_save_dir)
+        return "Invalid"
+    if flag:
+        '''
+        # with open (ori_save_dir) as f:
+        #     dna=[]
+        #     for line in f:
+        #         line=str(line).strip('b').strip("'").strip('\\r\\n')
+        #         if line[0]!=">":
+        #             dna.append(line)
+        #     with open(save_dir,'a+') as outfile:
+        #         for n in dna:
+        #             outfile.write(n)
+        '''
+        file_basic_info={
+            "file_uid":file_uid,
+            "file_name":filename,
+            "file_rename":file_rename,
+            'file_type':file_suffix,
+            'upload':True
+            }
+        yaml_file='{}/upload/{}.yaml'.format(backend_dir,file_uid)
+        write_yaml(yaml_path=yaml_file,data=file_basic_info,appending=False)
+    else:
+        print("Invalid file111.")
+        os.remove(ori_save_dir)
+        return "Invalid"
+     
+    return json.dumps(file_basic_info)
 
+#now_simu=Simu()
 @app.route('/simu_synthesis',methods=['GET','POST'])
 def simu_synthesis():
     print('#'*15,'DNA Sequence Simulation','#'*15)
@@ -240,6 +287,33 @@ def simu_seq():
     print("Simulation Sequence time:"+str(time.time()-t1))
     return json.dumps(simu_seq_settings)
 
+def is_fasta(filename):
+    with open(filename,'r') as handle:
+        fasta = SeqIO.parse(handle, "fasta")
+        return any(fasta)  # False when `fasta` is empty, i.e. wasn't a FASTA file
+
+@app.route('/decode',methods=['GET','POST'])
+def decode():
+    print('#'*15,'Decoding','#'*15)
+    front_data = request.data
+    front_data = json.loads(front_data)
+
+    #### Postman test json ####
+    # {"file_uid":1565536927137009664}
+
+    file_uid = front_data['file_uid'] 
+    clust_method = front_data['clust_method']
+    
+    if 'encode_key' not in session:
+        return 'session invalid, encode_key not found'
+
+    encode_bits=get_session(session['encode_key'])
+    if encode_bits is None:
+        return 'please make sure file encoded!!!'
+    else:
+        Decode_obj = ClusterDecode(file_uid = file_uid,encode_bit_segment=encode_bits,clust_method= 'cdhit')
+        decode_info = Decode_obj.decode()
+        return json.dumps(decode_info)
 
 @app.route('/decode',methods=['GET','POST'])
 def decode():

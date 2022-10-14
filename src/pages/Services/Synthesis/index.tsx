@@ -53,7 +53,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     setMethod(value);
   };
   const skipSynthesis = function () {
-    props.changeSider("0-2");
+    props.changeSider(["0-2"]);
   };
   const showModal = () => {
     setIsModalOpen(true);
@@ -75,7 +75,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     props.setIsSynthesis(true);
   };
   const handleContinue = () => {
-    props.changeSider("0-1-1");
+    props.changeSider(["0-1-1"]);
   };
 
   //数据生成
@@ -242,7 +242,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                     </Option>
                     <Option value="ErrASE(Mic)">ErrASE</Option>
                     <Option value="Nuclease">
-                      Nnuclease based error correction
+                      Nuclease based error correction
                     </Option>
                     <Option value="NGS">NGS based error correction</Option>
                   </OptGroup>
