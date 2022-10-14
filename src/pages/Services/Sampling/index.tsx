@@ -44,7 +44,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     setMethod(value);
   };
   const skipDecay = function () {
-    props.changeSider("0-1-4");
+    props.changeSider(["0-1-4"]);
   };
   const showModal = () => {
     setIsModalOpen(true);
@@ -65,7 +65,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
       });
   };
   const handleContinue = () => {
-    props.changeSider("0-1-4");
+    props.changeSider(["0-1-4"]);
   };
 
   //数据生成

@@ -51,7 +51,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     setMethod(value);
   };
   const skipDecay = function () {
-    props.changeSider("0-1-3");
+    props.changeSider(["0-1-3"]);
   };
   const showModal = () => {
     setIsModalOpen(true);
@@ -72,7 +72,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       });
   };
   const handleContinue = () => {
-    props.changeSider("0-1-3");
+    props.changeSider(["0-1-3"]);
   };
 
   //数据生成
@@ -227,11 +227,15 @@ export const Pcr: React.FC<PcrProps> = (props) => {
                   onChange={handleChange}
                   value={method}
                 >
-                  <Option value="None">None</Option>
-                  <Option value="Phusion">Phusion</Option>
-                  <Option value="Taq">Taq</Option>
-                  <Option value="Pwo">Pwo</Option>
-                  <Option value="Pfu">Pfu</Option>
+                  <OptGroup label="None">
+                    <Option value="None">None</Option>
+                  </OptGroup>
+                  <OptGroup label="Polymerases">
+                    <Option value="Phusion">Phusion</Option>
+                    <Option value="Taq">Taq</Option>
+                    <Option value="Pwo">Pwo</Option>
+                    <Option value="Pfu">Pfu</Option>
+                  </OptGroup>
                 </Select>
               </div>
               <div
