@@ -4,3 +4,4 @@ reedsolo
 pyyaml
 numpy
 flask_session
+biopython

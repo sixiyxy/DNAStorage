@@ -8,7 +8,7 @@ from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_ar
 # from utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg
 
 class Simulation():
-    def __init__(self,file_uid=None):
+    def __init__(self,file_uid=None,upload_flag=False,dna=None):
         if file_uid!=None:
             self.file_uid   =   file_uid
             self.config = get_config(yaml_path='config')
@@ -23,6 +23,9 @@ class Simulation():
             with open(self.dna_file) as f:
                 dnas=f.readlines()
             self.simu_dna=[dna.split('\n')[0] for dna in dnas]
+            self.syn_density=0
+        if upload_flag:
+            self.simu_dna=dna
             self.syn_density=0
 
     def get_simu_synthesis_info(self,synthesis_number,

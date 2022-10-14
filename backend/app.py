@@ -105,9 +105,21 @@ def dna_upload():
     file_uid=get_file_uid()
     file_suffix=filename.split('.')[1]
     file_rename=file_uid+"_"+filename
-    ori_save_dir='{}/upload/{}'.format(backend_dir,file_rename)
+    ori_save_dir='{}/upload_dna/{}'.format(backend_dir,file_rename)
     #save_dir='{}/upload_dna/{}'.format(backend_dir,file_uid+".dna")
     f.save(ori_save_dir)
+
+    '''
+    Postman Test Content
+    1. a .fasta file with key 'file'
+    2. json with key 'data'
+    {
+        "synthesis_number":30,
+        "synthesis_yield":0.99,
+        "synthesis_method":"ErrASE"
+        }
+    '''
+    
     try:
         flag=is_fasta(ori_save_dir)
     except:
@@ -115,17 +127,28 @@ def dna_upload():
         os.remove(ori_save_dir)
         return "Invalid"
     if flag:
-        '''
-        # with open (ori_save_dir) as f:
-        #     dna=[]
-        #     for line in f:
-        #         line=str(line).strip('b').strip("'").strip('\\r\\n')
-        #         if line[0]!=">":
-        #             dna.append(line)
-        #     with open(save_dir,'a+') as outfile:
-        #         for n in dna:
-        #             outfile.write(n)
-        '''
+        with open (ori_save_dir) as f:
+            dna=[]
+            for line in f:
+                line=str(line).strip('b').strip("'").strip('\\r\\n')
+                if line[0]!=">":
+                    dna.append(line)
+        front_data=json.loads(request.form.get('data'))
+        synthesis_number = front_data['synthesis_number']
+        synthesis_yield = front_data['synthesis_yield']
+        synthesis_method = front_data['synthesis_method']
+        
+        now_simu=Simu(upload_flag=True,dna=dna)
+        simu_synthesis_settings,density=now_simu.get_simu_synthesis_info(synthesis_number=synthesis_number,
+        synthesis_yield=synthesis_yield,
+        synthesis_method=synthesis_method)
+    
+        simulation_key = 'simulation_{}'.format(file_uid)
+        session['simulation_key'] = simulation_key
+        set_session(simulation_key,now_simu)
+        simu_synthesis_settings['density']=density
+
+
         file_basic_info={
             "file_uid":file_uid,
             "file_name":filename,
@@ -140,7 +163,7 @@ def dna_upload():
         os.remove(ori_save_dir)
         return "Invalid"
      
-    return json.dumps(file_basic_info)
+    return json.dumps(file_basic_info,simu_synthesis_settings)
 
 #now_simu=Simu()
 @app.route('/simu_synthesis',methods=['GET','POST'])
@@ -149,12 +172,13 @@ def simu_synthesis():
     t1=time.time()
     front_data = request.data
     front_data = json.loads(front_data)
+    '''
     #### Postman test json ####
     # { "file_uid":1565536927137009664,
     #     "synthesis_number":30,
     #     "synthesis_yield":0.99,
     #     "synthesis_method":"ErrASE"}
-
+    '''
     file_uid=front_data['file_uid']
     synthesis_number = front_data['synthesis_number']
     synthesis_yield = front_data['synthesis_yield']
@@ -315,28 +339,6 @@ def decode():
         decode_info = Decode_obj.decode()
         return json.dumps(decode_info)
 
-@app.route('/decode',methods=['GET','POST'])
-def decode():
-    print('#'*15,'Decoding','#'*15)
-    front_data = request.data
-    front_data = json.loads(front_data)
-
-    #### Postman test json ####
-    # {"file_uid":1565536927137009664}
-
-    file_uid = front_data['file_uid'] 
-    clust_method = front_data['clust_method']
-    
-    if 'encode_key' not in session:
-        return 'session invalid, encode_key not found'
-
-    encode_bits=get_session(session['encode_key'])
-    if encode_bits is None:
-        return 'please make sure file encoded!!!'
-    else:
-        Decode_obj = ClusterDecode(file_uid = file_uid,encode_bit_segment=encode_bits,clust_method= 'cdhit')
-        decode_info = Decode_obj.decode()
-        return json.dumps(decode_info)
 
 print(app.url_map)
 
