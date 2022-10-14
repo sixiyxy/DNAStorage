@@ -7,6 +7,7 @@ import os
 import json
 import time
 import uuid
+from Bio import SeqIO
 
 from script.utils.utils_basic import get_config,write_yaml
 from script.step11_get_file_uid import get_file_uid
@@ -138,33 +139,41 @@ def dna_upload():
     file_uid=get_file_uid()
     file_suffix=filename.split('.')[1]
     file_rename=file_uid+"_"+filename
-    ori_save_dir='{}/upload_dna_info/{}'.format(backend_dir,file_rename)
- 
-    save_dir='{}/upload_dna/{}'.format(backend_dir,file_uid+".dna")
+    ori_save_dir='{}/upload/{}'.format(backend_dir,file_rename)
+    #save_dir='{}/upload_dna/{}'.format(backend_dir,file_uid+".dna")
     f.save(ori_save_dir)
-    if file_suffix=='fasta' or file_suffix=='fa':
-        with open (ori_save_dir) as f:
-            dna=[]
-            for line in f:
-                line=str(line).strip('b').strip("'").strip('\\r\\n')
-                if line[0]!=">":
-                    dna.append(line)
-            with open(save_dir,'a+') as outfile:
-                for n in dna:
-                    outfile.write(n)
+    try:
+        flag=is_fasta(ori_save_dir)
+    except:
+        print("Invalid file222.")
+        os.remove(ori_save_dir)
+        return "Invalid"
+    if flag:
+        '''
+        # with open (ori_save_dir) as f:
+        #     dna=[]
+        #     for line in f:
+        #         line=str(line).strip('b').strip("'").strip('\\r\\n')
+        #         if line[0]!=">":
+        #             dna.append(line)
+        #     with open(save_dir,'a+') as outfile:
+        #         for n in dna:
+        #             outfile.write(n)
+        '''
+        file_basic_info={
+            "file_uid":file_uid,
+            "file_name":filename,
+            "file_rename":file_rename,
+            'file_type':file_suffix,
+            'upload':True
+            }
+        yaml_file='{}/upload/{}.yaml'.format(backend_dir,file_uid)
+        write_yaml(yaml_path=yaml_file,data=file_basic_info,appending=False)
     else:
-         print("Invalid file type.")
-         return 0
-    
-    file_basic_info={
-        "file_uid":file_uid,
-        "file_name":filename,
-        "file_rename":file_rename,
-        'file_type':file_suffix
-        }
-    yaml_file='{}/upload_dna_info/{}.yaml'.format(backend_dir,file_uid)
-    write_yaml(yaml_path=yaml_file,data=file_basic_info,appending=False)
-
+        print("Invalid file111.")
+        os.remove(ori_save_dir)
+        return "Invalid"
+     
     return json.dumps(file_basic_info)
 
 #now_simu=Simu()
@@ -326,6 +335,10 @@ def simu_seq():
     print("Seq:"+str(t2-t1))
     return json.dumps(simu_seq_settings)
 
+def is_fasta(filename):
+    with open(filename,'r') as handle:
+        fasta = SeqIO.parse(handle, "fasta")
+        return any(fasta)  # False when `fasta` is empty, i.e. wasn't a FASTA file
 
 print(app.url_map)
 
