@@ -46,7 +46,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     setMethod(value);
   };
   const skipDecay = function () {
-    props.changeSider("0-2");
+    props.changeSider(["0-2"]);
   };
   const showModal = () => {
     setIsModalOpen(true);
@@ -67,7 +67,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       });
   };
   const handleContinue = () => {
-    props.changeSider("0-2");
+    props.changeSider(["0-2"]);
   };
 
   //数据生成

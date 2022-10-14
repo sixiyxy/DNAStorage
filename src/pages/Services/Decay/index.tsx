@@ -52,7 +52,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
     setMethod(value);
   };
   const skipDecay = function () {
-    props.changeSider("0-1-2");
+    props.changeSider(["0-1-2"]);
   };
   const showModal = () => {
     setIsModalOpen(true);
@@ -73,7 +73,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
       });
   };
   const handleContinue = () => {
-    props.changeSider("0-1-2");
+    props.changeSider(["0-1-2"]);
   };
 
   //数据生成
@@ -158,20 +158,12 @@ export const Decay: React.FC<DecayProps> = (props) => {
                   ></i>
                 </Tooltip>
                 <Row>
-                  <Col span={12}>
-                    <Slider
-                      min={1}
-                      max={24}
-                      onChange={monthChange}
-                      value={typeof monthValue === "number" ? monthValue : 0}
-                    />
-                  </Col>
-                  <Col span={4}>
+                  <Col>
                     <InputNumber
                       min={1}
-                      max={24}
                       style={{
-                        margin: "0 16px",
+                        margin: "5px 0px",
+                        width: "150px",
                       }}
                       value={monthValue}
                       onChange={monthChange}
@@ -236,7 +228,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
                       Erasure Channel with an error probability of 0.5 percent
                     </Option>
                     <Option value="WhiteGaussian">
-                      White Gaussian Noise with an_error probability of 0.5
+                      White Gaussian Noise with an error probability of 0.5
                       percent
                     </Option>
                     <Option value="Dep_ph8_293.15k">
