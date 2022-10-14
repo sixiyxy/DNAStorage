@@ -1,0 +1,17 @@
+{
+  "arch": "x86_64",
+  "build": "h8b12597_3",
+  "build_number": 3,
+  "depends": [
+    "libgcc-ng >=7.3.0",
+    "libstdcxx-ng >=7.3.0",
+    "openmp",
+    "zlib >=1.2.11,<1.3.0a0"
+  ],
+  "license": "GPLv2",
+  "name": "cd-hit",
+  "platform": "linux",
+  "subdir": "linux-64",
+  "timestamp": 1572101522311,
+  "version": "4.8.1"
+}

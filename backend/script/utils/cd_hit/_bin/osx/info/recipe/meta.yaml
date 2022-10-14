@@ -1,0 +1,49 @@
+# This file created by conda-build 3.18.9
+# meta.yaml template originally from:
+# /Users/runner/runners/2.159.2/work/bioconda-recipes/bioconda-recipes/recipes/cd-hit, last modified Sat Oct 26 11:48:21 2019
+# ------------------------------------------------
+
+package:
+    name: cd-hit
+    version: 4.8.1
+source:
+    sha256: f8bc3cdd7aebb432fcd35eed0093e7a6413f1e36bbd2a837ebc06e57cdb20b70
+    url: https://github.com/weizhongli/cdhit/archive/V4.8.1.tar.gz
+build:
+    number: '3'
+    string: hfbae3c0_3
+requirements:
+    build:
+        - cctools 895 h7512d6f_0
+        - clang 4.0.1 h662ec87_0
+        - clang_osx-64 4.0.1 h1ce6c1d_17
+        - clangxx 4.0.1 hc9b4283_0
+        - clangxx_osx-64 4.0.1 h22b1bf0_17
+        - compiler-rt 4.0.1 h5487866_0
+        - ld64 274.2 h7c2db76_0
+        - libcxx 4.0.1 h579ed51_0
+        - libcxxabi 4.0.1 hebd6815_0
+        - llvm 4.0.1 hc748206_0
+        - llvm-lto-tapi 4.0.1 h6701bc3_0
+        - llvm-openmp 8.0.1 h770b8ee_0
+    host:
+        - libcxx 9.0.0 h89e68fa_1
+        - llvm-openmp 8.0.1 h770b8ee_0
+        - openmp 8.0.1 0
+        - zlib 1.2.11 h0b31af3_1006
+    run:
+        - libcxx >=4.0.1
+        - llvm-openmp >=8.0.1
+        - openmp
+        - zlib >=1.2.11,<1.3.0a0
+        - zlib >=1.2.11,<1.3.0a0
+test:
+    commands:
+        - cd-hit --help | grep 'Usage' > /dev/null
+about:
+    home: https://github.com/weizhongli/cdhit
+    license: GPLv2
+    summary: Clusters and compares protein or nucleotide sequences
+extra:
+    copy_test_source_files: true
+    final: true

@@ -1,0 +1,7 @@
+{
+  "cxx_compiler": "clangxx",
+  "cxx_compiler_version": "4",
+  "zlib": "1.2",
+  "c_compiler_version": "4",
+  "c_compiler": "clang"
+}

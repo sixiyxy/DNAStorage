@@ -1,0 +1,17 @@
+{
+  "arch": "x86_64",
+  "build": "hfbae3c0_3",
+  "build_number": 3,
+  "depends": [
+    "libcxx >=4.0.1",
+    "llvm-openmp >=8.0.1",
+    "openmp",
+    "zlib >=1.2.11,<1.3.0a0"
+  ],
+  "license": "GPLv2",
+  "name": "cd-hit",
+  "platform": "osx",
+  "subdir": "osx-64",
+  "timestamp": 1572092157850,
+  "version": "4.8.1"
+}
