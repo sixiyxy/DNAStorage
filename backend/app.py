@@ -138,7 +138,7 @@ def dna_upload():
         synthesis_yield = front_data['synthesis_yield']
         synthesis_method = front_data['synthesis_method']
         
-        now_simu=Simu(upload_flag=True,dna=dna)
+        now_simu=Simu(file_uid=file_uid,upload_flag=True,dna=dna)
         simu_synthesis_settings,density=now_simu.get_simu_synthesis_info(synthesis_number=synthesis_number,
         synthesis_yield=synthesis_yield,
         synthesis_method=synthesis_method)
@@ -156,8 +156,9 @@ def dna_upload():
             'file_type':file_suffix,
             'upload':True
             }
-        yaml_file='{}/upload/{}.yaml'.format(backend_dir,file_uid)
+        yaml_file='{}/upload_dna/{}.yaml'.format(backend_dir,file_uid)
         write_yaml(yaml_path=yaml_file,data=file_basic_info,appending=False)
+        simu_synthesis_settings['density']=density
     else:
         print("Invalid file111.")
         os.remove(ori_save_dir)

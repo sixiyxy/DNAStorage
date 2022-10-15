@@ -56,7 +56,7 @@ class Synthesizer_simu:
         self.del_pos=arg.syn_del_pos
         self.syn = Syn_D(self.Yield, self.N)
         self.err = ErrorAdder_simu(self.probS, self.probD, self.probI,self.raw_rate,self.del_pattern,self.ins_pattern,TM=self.TM,TM_Normal=self.TM_Normal,ins_pos=self.ins_pos,del_pos=self.del_pos)
-
+        
     def __call__(self, dnas):
         dnas = self.syn(dnas)
         dnas = self.err(dnas)
@@ -247,15 +247,21 @@ class ErrorAdder_simu:
     def genNewError(self, dna):
         Errors = []
         if self.TM_Normal:
-            for i, base in enumerate(['A', 'C', 'G', 'T']):
-                Pi = np.where(dna == base)[0]
-                for i in Pi:
-                    prob_try=np.random.uniform(0,1)
-                    if prob_try>self.probS:
-                        break
-                    else:
-                        subi=np.random.choice(['A', 'C', 'G', 'T'], p=list(self.TM[base].values()))
-                        Errors.append((i,'s',subi))
+            sub_flag=np.random.choice([False,True],size=len(dna),p=[1-self.probS,self.probS])
+            sub_true=np.where(sub_flag==True)[0]
+            for pos in sub_true:
+                base=dna[pos]
+                subi=np.random.choice(['A','C','G','T'],p=list(self.TM[base].values()))
+                Errors.append((pos,'s',subi))
+            # for i, base in enumerate(['A', 'C', 'G', 'T']):
+            #     Pi = np.where(dna == base)[0]
+            #     for i in Pi:
+            #         prob_try=np.random.uniform(0,1)
+            #         if prob_try>self.probS:
+            #             break
+            #         else:
+            #             subi=np.random.choice(['A', 'C', 'G', 'T'], p=list(self.TM[base].values()))
+            #             Errors.append((i,'s',subi))
         else:
             TM_keys=list(self.TM.keys())
             for key in TM_keys:
@@ -276,8 +282,7 @@ class ErrorAdder_simu:
                         diff_index=np.array(list(key))!=np.array(list(sub))
                         for j,diff in enumerate(diff_index):
                             if diff:
-                                Errors.append([i+j,'s',sub[j]])
-                        
+                                Errors.append([i+j,'s',sub[j]])               
         ##delete
         del_flag=np.random.choice([False,True],size=len(dna),p=[1-self.probD,self.probD])
         del_count=(np.where(del_flag==True)[0]).size
@@ -313,7 +318,6 @@ class ErrorAdder_simu:
                 pos=randomPicker(homos_pos)
                 Errors.append([pos,'-',dna[pos]])
 
-
         #insert
         ins_flag=np.random.choice([False,True],size=len(dna),p=[1-self.probI,self.probI])
         ins_count=(np.where(ins_flag==True)[0]).size
@@ -347,7 +351,6 @@ class ErrorAdder_simu:
             else:
                 pos=randomPicker(homos_pos)
                 Errors.append([pos,'+',dna[pos]])
-        
         return Errors
 
     def run(self, ori_dna, re_dnas):

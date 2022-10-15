@@ -13,25 +13,27 @@ class Simulation():
             self.file_uid   =   file_uid
             self.config = get_config(yaml_path='config')
             self.backend_dir = self.config['backend_dir']
-            self.file_dir=self.config['file_save_dir']
 
-            self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
-
-            self.dna_dir = self.config['encode_dir']
-            self.dna_file = '{}/{}/{}.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
-        
-            with open(self.dna_file) as f:
-                dnas=f.readlines()
-            self.simu_dna=[dna.split('\n')[0] for dna in dnas]
-            self.syn_density=0
-        if upload_flag:
-            self.simu_dna=dna
-            self.syn_density=0
+            if not upload_flag:
+                self.file_dir=self.config['file_save_dir']
+                self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
+                self.dna_dir = self.config['encode_dir']
+                self.dna_file = '{}/{}/{}.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
+            
+                with open(self.dna_file) as f:
+                    dnas=f.readlines()
+                self.simu_dna=[dna.split('\n')[0] for dna in dnas]
+                self.syn_density=0
+            else:
+                self.file_dir=self.config['upload_dna_save_dir']
+                self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
+                self.simu_dna=dna
+                self.syn_density=0
 
     def get_simu_synthesis_info(self,synthesis_number,
         synthesis_yield,
         synthesis_method):
-
+        print("Get simu synthesis")
         '''
         Input:
             synthesis_number
@@ -46,7 +48,6 @@ class Simulation():
 
         SYN=Model.Synthesizer_simu(arg)
         self.simu_dna=SYN(self.simu_dna)
-        reference_link='0'
 
         syn_info={
             "synthesis_number":int(synthesis_number),

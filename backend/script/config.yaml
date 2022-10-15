@@ -4,6 +4,7 @@ script_dir: script
 
 # about file
 file_save_dir: upload
+upload_dna_save_dir: upload
 
 file_type:
  - picture
