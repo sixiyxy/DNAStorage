@@ -47,7 +47,9 @@ class Encoding():
         self.file_path = '{}/{}_{}'.format(self.file_dir,file_uid,self.file_name)
 
         # define useful value
+        self.byte_size = 0
         self.bit_size = 0
+        self.segment_number = 0
         self.verify_code_length = 0
 
         # file encode dir
@@ -74,25 +76,16 @@ class Encoding():
         if len(matrix) % self.segment_length != 0:
             matrix += [0] * (self.segment_length - len(matrix) % self.segment_length)
 
-        byte_size = len(values)
+        self.byte_size = len(values)
         self.bit_size = len(matrix)
         matrix = array(matrix)
         matrix = matrix.reshape(int(len(matrix) / self.segment_length), self.segment_length)
         bit_segments =matrix.tolist()
-        segment_number = len(bit_segments)
+        self.segment_number = len(bit_segments)
 
         print('Segment the unload file....')
         print("There are " + str(len(values) * 8) + " bits in the inputted file. ")
         print("There are " + str(len(bit_segments)) + " bits sequences.\n ")
-
-        file_info = {"byte_size":byte_size,
-                    "bit_size":self.bit_size,
-                    "segment_length":self.segment_length,
-                    "segment_number":segment_number,
-                    "index_length":self.index_length,
-                    "verify_method":self.verify_method,
-                    "encode_method":self.encode_method}
-        write_yaml(yaml_path=self.file_info_path,data=file_info,appending=True)
 
         return bit_segments
 
@@ -148,9 +141,16 @@ class Encoding():
         net_information_density = self.bit_size/net_nucleotide_count
         net_information_density = round(net_information_density,3)
 
-        record_info = {"DNA_sequence_length":len(dna_sequences[0]),
-                       "nucleotide_counts":nucleotide_count,
-                       "encoding_time":run_time,
+        record_info = {"byte_size":self.byte_size,
+                    "bit_size":self.bit_size,
+                    "segment_length":self.segment_length,
+                    "segment_number":self.segment_number,
+                    "index_length":self.index_length,
+                    "verify_method":self.verify_method,
+                    "encode_method":self.encode_method,
+                    "DNA_sequence_length":len(dna_sequences[0]),
+                    "nucleotide_counts":nucleotide_count,
+                    "encoding_time":run_time,
                     "information_density":information_density,
                     "net_information_density":net_information_density}
 
