@@ -11,9 +11,8 @@ from flask_session import Session
 from Bio import SeqIO
 
 from script.utils.utils_basic import get_config,write_yaml
-from script.step11_get_file_uid import get_file_uid
-from script.step12_get_file_info import get_file_info
-from script.step21_encoding import Encoding
+from script.step1_get_file_uid import get_file_uid
+from script.step2_encoding import Encoding
 from script.step3_simulation_utils import Simulation as Simu
 from script.step4_decode import ClusterDecode
 from app_utils import set_session,get_session
@@ -51,9 +50,9 @@ def file_upload():
 
     return json.dumps(file_base_info)
 
-@app.route('/file_info',methods=['GET','POST'])
-def file_information():
-    print('#'*15,'Get file information','#'*15)
+@app.route('/file_encode',methods=['GET','POST'])
+def file_encode():
+    print('#'*15,'File Encoding','#'*15)
     front_data = request.data
     front_data = json.loads(front_data)
 
@@ -70,26 +69,12 @@ def file_information():
     verify_method = front_data['verify_method'] #'HammingCode'
     encode_method = front_data['encode_method'] #'Basic'
 
-    file_info = get_file_info(file_uid=file_uid,
-    segment_length=segment_length,
-    index_length=index_length,
-    verify_method=verify_method,
-    encode_method=encode_method)
-
-    return json.dumps(file_info)
-
-
-@app.route('/file_encode',methods=['GET','POST'])
-def file_encode():
-    print('#'*15,'File Encoding','#'*15)
-    front_data = request.data
-    front_data = json.loads(front_data)
-
-    #### Postman test json ####
-    # {"file_uid":1565536927137009664}
-
-    file_uid = front_data['file_uid']
-    obj = Encoding(file_uid)
+    obj = Encoding(file_uid=file_uid,
+                  encode_method=encode_method,
+                  segment_length=segment_length,
+                  index_length=index_length,
+                  verify_method=verify_method)
+                  
     encode_info,encode_bits = obj.bit_to_dna()
     encode_key = 'encode_{}'.format(file_uid)
     session['encode_key'] = encode_key
