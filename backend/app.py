@@ -50,7 +50,7 @@ def file_upload():
 
     return json.dumps(file_base_info)
 
-@app.route('/file_encode',methods=['GET','POST'])
+@app.route('/encode',methods=['GET','POST'])
 def file_encode():
     print('#'*15,'File Encoding','#'*15)
     front_data = request.data
@@ -308,7 +308,8 @@ def decode():
     front_data = json.loads(front_data)
 
     #### Postman test json ####
-    # {"file_uid":1565536927137009664}
+    # {"file_uid":1565536927137009664,
+    # "clust_method":"cdhit"}
 
     file_uid = front_data['file_uid'] 
     clust_method = front_data['clust_method']
@@ -320,7 +321,8 @@ def decode():
     if encode_bits is None:
         return 'please make sure file encoded!!!'
     else:
-        Decode_obj = ClusterDecode(file_uid = file_uid,encode_bit_segment=encode_bits,clust_method= 'cdhit')
+        Decode_obj = ClusterDecode(file_uid = file_uid,encode_bit_segment=encode_bits,
+        clust_method= 'cdhit')
         decode_info = Decode_obj.decode()
         return json.dumps(decode_info)
 
