@@ -33,7 +33,7 @@ def index():
 
 @app.route('/file_upload',methods=['GET','POST'])
 def file_upload():
-    print('#'*15,'File Uploading','#'*15)
+    print('\n','#'*25,'File Uploading','#'*25,'\n','#'*60)
     f = request.files['file']
     filename = f.filename
     filetype = f.mimetype
@@ -52,7 +52,8 @@ def file_upload():
 
 @app.route('/encode',methods=['GET','POST'])
 def file_encode():
-    print('#'*15,'File Encoding','#'*15)
+    print('\n','#'*25,'Encoding','#'*25,'\n','#'*60)
+
     front_data = request.data
     front_data = json.loads(front_data)
 
@@ -85,6 +86,8 @@ def file_encode():
 #if user wants to upload his own dna file instead of generating by us
 @app.route('/dna_upload',methods=['GET','POST'])
 def dna_upload():
+    print('\n','#'*25,'Simulation Upload DNA','#'*25,'\n','#'*60)
+
     f=request.files['file']
     filename=f.filename
     file_uid=get_file_uid()
@@ -153,7 +156,7 @@ def dna_upload():
 #now_simu=Simu()
 @app.route('/simu_synthesis',methods=['GET','POST'])
 def simu_synthesis():
-    print('#'*15,'DNA Sequence Simulation','#'*15)
+    print('\n','#'*25,'Simulation File Encode DNA','#'*25,'\n','#'*60)
     t1=time.time()
     front_data = request.data
     front_data = json.loads(front_data)
@@ -303,7 +306,8 @@ def is_fasta(filename):
 
 @app.route('/decode',methods=['GET','POST'])
 def decode():
-    print('#'*15,'Decoding','#'*15)
+    print('\n','#'*25,'Decoding','#'*25,'\n','#'*60)
+    
     front_data = request.data
     front_data = json.loads(front_data)
 
