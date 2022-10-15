@@ -11,8 +11,7 @@ from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Bla
 verify_methods = {
     "WithoutVerifycode":False,
     "Hamming":Hamming(),
-    "ReedSolomon":ReedSolomon()
-}
+    "ReedSolomon":ReedSolomon()}
 
 encoding_methods = {
     "Basic":BaseCodingAlgorithm(need_logs=True),
@@ -21,8 +20,7 @@ encoding_methods = {
     "Grass":Grass(need_logs=True),
     "Blawat":Blawat(need_logs=True),
     "DNAFountain":DNAFountain(need_logs=True),
-    "YinYang":YinYangCode(need_logs=True)
-}
+    "YinYang":YinYangCode(need_logs=True)}
 
     # {"file_uid":1565237658387615744,
     # "segment_length":160,
@@ -202,7 +200,6 @@ class Encoding():
         record_data['DNA_sequence'] = dna_sequences
         record_data.to_csv(self.user_download_file) 
         
-        
         record_info['user_encode_file'] = self.user_download_file
         record_info['user_file_infofile'] = self.file_info_path
 
@@ -215,7 +212,6 @@ if __name__ == '__main__':
                   segment_length=160,
                   index_length=20,
                   verify_method='Hamming')
-    # obj.get_file_info()
     # obj.connet_index()
     # obj.verify_code()
     record_info,bit_segments = obj.bit_to_dna()
