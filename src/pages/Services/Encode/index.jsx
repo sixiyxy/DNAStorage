@@ -19,12 +19,10 @@ export const Encode = (props) => {
   const [seg, setSeg] = useState(160);
   const [index, setIndex] = useState(16);
   const [method, setMethod] = useState("None");
+  const [btnflag,setBtn] = useState(true)
+ 
 
-  //const [flag, setFlag] = useState(false); //设置标志位 如果axios得到返回值 就置为True 显示新的组件
-
-  //获取Slider中的参数信息传递给Graph
   const ParamPass = (param1, param2) => {
-    //setValues(param2); //value
     setSeg(param2[0].Segvalue);
     setIndex(param2[1].Indexvalue);
     console.log("done");
@@ -32,14 +30,19 @@ export const Encode = (props) => {
   };
   const GCPass = (param1) => {
     props.setGC(param1);
-    //console.log("GCPass", gc);
   };
   const HomoPass = (param1) => {
     props.setHomo(param1);
-    //console.log("HomoPass", homo);
   };
-  const InfoPass1 = (param1) => {
-    props.setInfo(param1);
+  const InfoPass1 = (param1,param2,param3,param4,param5,param6,param7) => {
+    props.infos.bit_size=param1
+    props.infos.byte_size=param2
+    props.infos.encode_method=param3
+    props.infos.index_length=param4
+    props.infos.segment_length=param5
+    props.infos.segment_number=param6
+    props.infos.verify_method=param7
+    props.setInfo(props.infos);
     //console.log("InfoPass1", info);
   };
   const FileInfoPass = (param1, param2, param3) => {
@@ -83,7 +86,7 @@ export const Encode = (props) => {
             <p>
               <strong>Please upload the storage files:</strong>
             </p>
-            <Uploads GetFileID={props.setFileId} FileInfoPass={FileInfoPass} />
+            <Uploads GetFileID={props.setFileId} FileInfoPass={FileInfoPass} setBtn={setBtn}/>
           </div>
           <div
             id="sliders"
@@ -129,6 +132,9 @@ export const Encode = (props) => {
               HomoPass={HomoPass}
               DNAInfoPass={DNAInfoPass}
               changeSider={props.changeSider}
+              btnflag={btnflag}
+              setIsSynthesis={props.setIsSynthesis}
+              setSpin={props.setSpin}
             />
           </div>
           <br />

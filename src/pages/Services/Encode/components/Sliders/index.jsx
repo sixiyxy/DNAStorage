@@ -1,18 +1,17 @@
-import { Slider, Switch } from "antd";
+import { Slider} from "antd";
 import React, { useState, useEffect } from "react";
-import { Radio } from "antd";
-import { Button, Popconfirm } from "antd";
+import { Radio,Space } from "antd";
 import { Link } from "react-router-dom";
 
 const SaveValue = [{ Segvalue: 160 }, { Indexvalue: 16 }];
-var method = "";
+var method = "WithoutVerifycode";
 
 const Sliders = (props) => {
   const [disabled, setDisabled] = useState(false);
   const [values, setValues] = useState(SaveValue);
   const [count,setCount] = useState(0) //触发标志
-
-  const plainOptions = ["WithoutVerifycode", "Hamming", "ReedSolomon"];
+  const [value, setValue] = useState("");
+ 
   const onChange1 = ({ target: { value } }) => {
     setCount(count+1)
     console.log('count',count)
@@ -30,7 +29,6 @@ const Sliders = (props) => {
   };
 
   useEffect(() => {
-    console.log('触发传递')
     props.ParamPass(method, values);
   }, [count]);
 
@@ -64,7 +62,13 @@ const Sliders = (props) => {
       </div>
       <div style={{ paddingLeft: "0px", paddingTop: "20px", fontSize: "16px" }}>
         <strong>Verify Method: </strong>
-        <Radio.Group options={plainOptions} onChange={onChange1} />
+        <Radio.Group onChange={onChange1} value={value} defaultValue={"WithoutVerifycode"}>
+            <Space direction="vertical">
+              <Radio value={"WithoutVerifycode"}>WithoutVerifycode</Radio>
+              <Radio value={"Hamming"}>Hamming</Radio>
+              <Radio value={"ReedSolomon"}>ReedSolomon</Radio>
+            </Space>
+          </Radio.Group>
         <p style={{ fontSize: "14px",marginTop:"10px"}}>
           Tips: Method details please click the{" "}
           <Link to="/methods">Method Paper</Link>

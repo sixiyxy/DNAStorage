@@ -5,6 +5,7 @@ import GLgraph from './components/GLgraph'
 import HomoGraph from './components/HomoGraph'
 import Information from './components/Information'
 import DNAinfo from './components/DNAinfo'
+import { Spin } from 'antd';
 export class ReportProps {
   GC;
   homo;
@@ -12,11 +13,15 @@ export class ReportProps {
   fileinfo;
   fileId;
   dnainfo;
+  spinflag;
 }
 
 export const Report: React.FC<ReportProps> = (props) => {
   return(
     <div>
+      <div className="spinstyle" style={{paddingLeft:"1400px"}}>
+        <Spin spinning={props.spinflag} delay={10} size="large"/> 
+      </div>
       <Row>
         <Col span={12}>
             <div

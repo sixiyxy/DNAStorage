@@ -1,9 +1,11 @@
 import type { RadioChangeEvent } from "antd";
 import { Input, Radio, Space } from "antd";
+import { Button } from 'antd';
 import React, { useState } from "react";
 import axios from "axios";
 import "./index.less";
 import { Link } from "react-router-dom";
+
 
 var encodeMethod = "";
 
@@ -22,47 +24,42 @@ const Encodelists: React.FC = (props: any) => {
     verify_method: "Hamming",
     encode_method: "Basic",
   };
-  var params2 = {
-    file_uid: "1565536927137009664",
-  };
-  //console.log(props);
-
-  function Request_fileInfo() {
-    params1.file_uid = props.fileId;
-    params1.segment_length = props.seg;
-    params1.index_length = props.index;
-    params1.verify_method = props.method;
-    params1.encode_method = encodeMethod;
-    console.log(params1);
-    return axios.post("http://127.0.0.1:5000//file_info", params1);
-  }
-
-  function Request_fileEncode() {
-    params2.file_uid = props.fileId;
-    console.log(params2);
-    return axios.post("http://127.0.0.1:5000//file_encode", params2);
-  }
-
   const handleClick = () => {
-    props.changeSider(["0-0-1"]);
-    axios.all([Request_fileInfo(), Request_fileEncode()]).then(
-      axios.spread(function (response_Info, response_Encode) {
-        console.log("response1", response_Info);
-        console.log("response2", response_Encode);
+        props.setIsSynthesis(true)
+        props.changeSider(["0-0-1"]); 
+        params1.file_uid = props.fileId;
+        params1.segment_length = props.seg;
+        params1.index_length = props.index;
+        params1.verify_method = props.method;
+        params1.encode_method = encodeMethod;
 
-        props.InfoPass1(response_Info.data);
-        props.GCPass(response_Encode.data.gc_plot);
-        props.HomoPass(response_Encode.data.homo_plot);
-        props.DNAInfoPass(
-          response_Encode.data.DNA_sequence_length,
-          response_Encode.data.encoding_time,
-          response_Encode.data.information_density,
-          response_Encode.data.nucleotide_counts
+    axios.post('http://127.0.0.1:5000//encode',params1)
+      .then(function (response) {
+          console.log("Encode-response: ",response.data);
+          props.setSpin(false)
+          props.InfoPass1(
+            response.data.bit_size,
+            response.data.byte_size,
+            response.data.encode_method,
+            response.data.index_length,
+            response.data.segment_length,
+            response.data.segment_number,
+            response.data.verify_method
+          )
+          props.GCPass(response.data.gc_plot);
+          props.HomoPass(response.data.homo_plot);
+          props.DNAInfoPass(
+          response.data.DNA_sequence_length,
+          response.data.encoding_time,
+          response.data.information_density,
+          response.data.nucleotide_counts
         );
       })
-    );
-  };
-
+        .catch(function (error) {
+          console.log(error)
+      })
+    }
+    console.log(props.btnflag);
   return (
     <div className="todo-container">
       <div>
@@ -84,14 +81,8 @@ const Encodelists: React.FC = (props: any) => {
           <div style={{ marginTop: "20px" }}>
             Method details please click the :{" "}
             <Link to="/methods">Method Paper</Link>
-          </div>
-          <button
-            className="btn btn-danger"
-            style={{ marginLeft: "650px" }}
-            onClick={handleClick}
-          >
-            Run
-          </button>
+        </div>
+          <Button type="primary" onClick={handleClick} style={{marginLeft:"400px"}} disabled={props.btnflag}>Run</Button>
         </div>
       </div>
     </div>

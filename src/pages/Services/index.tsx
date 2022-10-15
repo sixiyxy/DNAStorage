@@ -95,6 +95,7 @@ export const Services: React.FC<ServicesProps> = (props) => {
   const [info, setInfo] = useState(infos);
   const [fileinfo, setFileInfo] = useState(FileValue);
   const [dnainfo, setDNAinfo] = useState(DNAinfos);
+  const [spinflag,setSpin] = useState(true)
   const items = useMemo(() => {
     return [
       {
@@ -114,6 +115,7 @@ export const Services: React.FC<ServicesProps> = (props) => {
           {
             label: "Report",
             key: "0-0-1",
+            disabled:!isSynthesis,
           },
         ],
       },
@@ -184,6 +186,7 @@ export const Services: React.FC<ServicesProps> = (props) => {
 
       {siderSelect[0] === "0-0-0" ? (
         <Encode
+          infos={infos}
           setDNAinfo={setDNAinfo}
           DNAinfos={DNAinfos}
           changeSider={setSiderSelect}
@@ -195,6 +198,8 @@ export const Services: React.FC<ServicesProps> = (props) => {
           setFileInfo={setFileInfo}
           FileValue={FileValue}
           fileinfo={fileinfo}
+          setIsSynthesis={setIsSynthesis}
+          setSpin={setSpin}
         />
       ) : null}
       {siderSelect[0] === "0-0-1" ? (
@@ -205,6 +210,7 @@ export const Services: React.FC<ServicesProps> = (props) => {
           fileinfo={fileinfo}
           info={info}
           fileId={fileId}
+          spinflag={spinflag}
         />
       ) : null}
       {siderSelect[0] === "0-1-0" ? (
