@@ -324,8 +324,9 @@ def decode():
     if encode_bits is None:
         return 'please make sure file encoded!!!'
     else:
-        Decode_obj = ClusterDecode(file_uid = file_uid,encode_bit_segment=encode_bits,
-        clust_method= 'cdhit')
+        Decode_obj = ClusterDecode(file_uid = file_uid,
+                                    encode_bit_segment=encode_bits,
+                                    clust_method= 'cdhit')
         decode_info = Decode_obj.decode()
         return json.dumps(decode_info)
 
