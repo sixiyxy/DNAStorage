@@ -33,7 +33,6 @@ class Simulation():
     def get_simu_synthesis_info(self,synthesis_number,
         synthesis_yield,
         synthesis_method):
-        print("Get simu synthesis")
         '''
         Input:
             synthesis_number

@@ -92,7 +92,7 @@ def dna_upload():
     filename=f.filename
     file_uid=get_file_uid()
     file_suffix=filename.split('.')[1]
-    file_rename=file_uid+"_"+filename
+    file_rename=file_uid+".fasta"
     ori_save_dir='{}/upload_dna/{}'.format(backend_dir,file_rename)
     #save_dir='{}/upload_dna/{}'.format(backend_dir,file_uid+".dna")
     f.save(ori_save_dir)
@@ -114,12 +114,22 @@ def dna_upload():
         os.remove(ori_save_dir)
         return "Invalid"
     if flag:
+        file_basic_info={
+            "file_uid":file_uid,
+            "file_name":filename,
+            "file_rename":file_rename,
+            'file_type':file_suffix,
+            'upload':True
+            }
+        yaml_file='{}/upload_dna/{}.yaml'.format(backend_dir,file_uid)
+        write_yaml(yaml_path=yaml_file,data=file_basic_info,appending=False)
         with open (ori_save_dir) as f:
             dna=[]
             for line in f:
                 line=str(line).strip('b').strip("'").strip('\\r\\n')
                 if line[0]!=">":
-                    dna.append(line)
+                    dna.append(line.strip('\n'))
+        print(request.form.get('data'))
         front_data=json.loads(request.form.get('data'))
         synthesis_number = front_data['synthesis_number']
         synthesis_yield = front_data['synthesis_yield']
@@ -134,24 +144,12 @@ def dna_upload():
         session['simulation_key'] = simulation_key
         set_session(simulation_key,now_simu)
         simu_synthesis_settings['density']=density
-
-
-        file_basic_info={
-            "file_uid":file_uid,
-            "file_name":filename,
-            "file_rename":file_rename,
-            'file_type':file_suffix,
-            'upload':True
-            }
-        yaml_file='{}/upload_dna/{}.yaml'.format(backend_dir,file_uid)
-        write_yaml(yaml_path=yaml_file,data=file_basic_info,appending=False)
-        simu_synthesis_settings['density']=density
     else:
         print("Invalid file111.")
         os.remove(ori_save_dir)
         return "Invalid"
-     
-    return json.dumps(file_basic_info,simu_synthesis_settings)
+    file_basic_info['synthesis_info']=simu_synthesis_settings
+    return json.dumps(file_basic_info)
 
 #now_simu=Simu()
 @app.route('/simu_synthesis',methods=['GET','POST'])
