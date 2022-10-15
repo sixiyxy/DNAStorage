@@ -145,7 +145,7 @@ class Encoding():
         information_density = round(information_density,3)
 
         net_nucleotide_count = len(dna_sequences)*(len(dna_sequences[0]) - self.index_length - self.verify_code_length)
-        net_information_density = self.file_info_dict['bit_size']/net_nucleotide_count
+        net_information_density = self.bit_size/net_nucleotide_count
         net_information_density = round(net_information_density,3)
 
         record_info = {"DNA_sequence_length":len(dna_sequences[0]),
