@@ -101,8 +101,7 @@ def dna_upload():
     Postman Test Content
     1. a .fasta file with key 'file'
     2. json with key 'data'
-    {
-        "synthesis_number":30,
+    {  "synthesis_number":30,
         "synthesis_yield":0.99,
         "synthesis_method":"ErrASE"
         }
