@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./index.less";
 import { Breadcrumb, Col, Row,Spin} from "antd";
-
 import Encodelists from "./components/Encodelists";
 import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
@@ -19,7 +18,7 @@ export const Encode = (props) => {
   const [seg, setSeg] = useState(160);
   const [index, setIndex] = useState(16);
   const [method, setMethod] = useState("None");
-  const [btnflag,setBtn] = useState(true)
+  const [btnflag,setBtn] = useState(false)
  
   useEffect(()=>{
     props.setIsSynthesis(false)
