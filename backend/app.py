@@ -151,10 +151,10 @@ def simu_synthesis():
     front_data = json.loads(front_data)
     '''
     #### Postman test json ####
-    # { "file_uid":1565536927137009664,
-    #     "synthesis_number":30,
-    #     "synthesis_yield":0.99,
-    #     "synthesis_method":"ErrASE"}
+     { "file_uid":1565536927137009664,
+         "synthesis_number":30,
+         "synthesis_yield":0.99,
+         "synthesis_method":"ErrASE"}
     '''
     file_uid=front_data['file_uid']
     synthesis_number = front_data['synthesis_number']
@@ -180,11 +180,12 @@ def simu_dec():
     front_data = request.data
     front_data = json.loads(front_data)
 
+    '''
     #### Postman test json ####
-    # {"months_of_storage":24,
-    # "loss_rate":0.3,
-    # "storage_host":"WhiteGaussian"}
-
+     {"months_of_storage":24,
+     "loss_rate":0.3,
+     "storage_host":"WhiteGaussian"}
+    '''
     months_of_storage = front_data['months_of_storage']
     loss_rate = front_data['loss_rate']
     storage_host = front_data['storage_host']
@@ -212,12 +213,12 @@ def simu_pcr():
     t1=time.time()
     front_data = request.data
     front_data = json.loads(front_data)
-
+    '''
     #### Postman test json ####
-    # {"pcr_cycle":12,
-    # "pcr_prob":0.8,
-    # "pcr_polymerase":"Taq"}
-
+     {"pcr_cycle":12,
+     "pcr_prob":0.8,
+     "pcr_polymerase":"Taq"}
+    '''
     pcr_cycle = front_data['pcr_cycle']
     pcr_prob = front_data['pcr_prob']
     pcr_polymerase = front_data['pcr_polymerase']

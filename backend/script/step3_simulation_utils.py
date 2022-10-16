@@ -86,8 +86,8 @@ class Simulation():
         arg.dec_loss_rate=loss_rate
 
         DEC=Model.Decayer_simu(arg)
-        self.simu_dna=DEC(self.simu_dna)
-
+        self.simu_dna,self.dec_error_recorder=DEC(self.simu_dna)
+        print(self.simu_dna)
         dec_info={
             "storage_host":storage_host,
             "decay_reference_link":0,
@@ -118,7 +118,7 @@ class Simulation():
         arg.pcrp=pcr_prob
 
         PCR=Model.PCRer_simu(arg)
-        self.simu_dna=PCR(self.simu_dna)
+        self.simu_dna,self.pcr_error_recorder=PCR(self.simu_dna)
 
         density=self.calculate_density(self.simu_dna,True)
         error_density=self.error_density(self.simu_dna)
@@ -175,7 +175,7 @@ class Simulation():
         arg.seq_depth=seq_depth
 
         Seq=Model.Sequencer_simu(arg)
-        self.simu_dna=Seq(self.simu_dna)
+        self.simu_dna,self.seq_error_decorder=Seq(self.simu_dna)
         seq_reference=0
         
         density=self.calculate_density(self.simu_dna,True)
