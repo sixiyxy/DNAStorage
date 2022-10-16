@@ -78,7 +78,7 @@ const Encodelists: React.FC = (props: any) => {
   return (
     <div className="todo-container">
       <div>
-        <h2>Choose Decode Method</h2>
+        <h2>Choose Encode Method</h2>
         <div style={{ paddingLeft: "20px" }}>
           <Radio.Group onChange={onChange} value={value}>
             <Space direction="vertical">
