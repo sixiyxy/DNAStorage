@@ -93,7 +93,6 @@ def dna_upload():
     file_uid=get_file_uid()
     file_rename=file_uid+".fasta"
     ori_save_dir='{}/upload_dna/{}'.format(backend_dir,file_rename)
-    #save_dir='{}/upload_dna/{}'.format(backend_dir,file_uid+".dna")
     f.save(ori_save_dir)
 
     '''

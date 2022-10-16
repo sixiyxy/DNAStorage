@@ -59,8 +59,8 @@ class Synthesizer_simu:
         
     def __call__(self, dnas):
         dnas = self.syn(dnas)
-        dnas = self.err(dnas)
-        return dnas
+        dnas,error_recorder = self.err(dnas)
+        return dnas,error_recorder
 
 class Decayer_simu:
     def __init__(self, arg):
@@ -365,18 +365,14 @@ class ErrorAdder_simu:
 
     def __call__(self, dnas, apply=True):
         out_dnas=dnas
-        t_err_out=time.time()
         for dna in out_dnas:
             dna['re'] = self.run(dna['ori'], dna['re'])
-        t_err_mid=time.time()
         if apply:
-            out_dnas = self.apply_batch(out_dnas)
-        t_err_batch=time.time()
-        return out_dnas
+            out_dnas,error_recorder = self.apply_batch(out_dnas)
+        return out_dnas,error_recorder
 
     # apply errors to dnas
     def apply(self, ori_dna, errors):
-        recorder=[]
         dna = list(ori_dna)
         errors.sort(key=lambda x: x[0])
         # substitutions
@@ -414,7 +410,7 @@ class ErrorAdder_simu:
                         recorder[tmp[1]]=recorder.get(tmp[1],0)+re_dna[0]
                     except:
                         pass
-        return dnas
+        return dnas,recorder
 
 def genTm(prob):
     tm = dict()
