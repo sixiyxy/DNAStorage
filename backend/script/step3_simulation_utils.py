@@ -2,10 +2,12 @@ import script.utils.simulation_model as Model
 import numpy as np
 from script.utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
 from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg
+import os
 # import utils.simulation_model as Model
 # import numpy as np
 # from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
 # from utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg
+
 
 class Simulation():
     def __init__(self,file_uid=None,upload_flag=False,dna=None):

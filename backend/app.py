@@ -8,7 +8,7 @@ from flask import Flask, render_template,session
 from flask import request
 from flask_cors import CORS
 from flask_session import Session
-from Bio import SeqIO
+from script.utils.simulation_utils import is_fasta,fasta_to_dna
 
 from script.utils.utils_basic import get_config,write_yaml
 from script.step1_get_file_uid import get_file_uid
@@ -91,7 +91,6 @@ def dna_upload():
     f=request.files['file']
     filename=f.filename
     file_uid=get_file_uid()
-    file_suffix=filename.split('.')[1]
     file_rename=file_uid+".fasta"
     ori_save_dir='{}/upload_dna/{}'.format(backend_dir,file_rename)
     #save_dir='{}/upload_dna/{}'.format(backend_dir,file_uid+".dna")
@@ -110,26 +109,20 @@ def dna_upload():
     try:
         flag=is_fasta(ori_save_dir)
     except:
-        print("Invalid file222.")
         os.remove(ori_save_dir)
         return "Invalid"
+
     if flag:
         file_basic_info={
             "file_uid":file_uid,
             "file_name":filename,
             "file_rename":file_rename,
-            'file_type':file_suffix,
             'upload':True
             }
         yaml_file='{}/upload_dna/{}.yaml'.format(backend_dir,file_uid)
         write_yaml(yaml_path=yaml_file,data=file_basic_info,appending=False)
-        with open (ori_save_dir) as f:
-            dna=[]
-            for line in f:
-                line=str(line).strip('b').strip("'").strip('\\r\\n')
-                if line[0]!=">":
-                    dna.append(line.strip('\n'))
-        print(request.form.get('data'))
+
+        dna=fasta_to_dna(ori_save_dir)
         front_data=json.loads(request.form.get('data'))
         synthesis_number = front_data['synthesis_number']
         synthesis_yield = front_data['synthesis_yield']
@@ -145,7 +138,6 @@ def dna_upload():
         set_session(simulation_key,now_simu)
         simu_synthesis_settings['density']=density
     else:
-        print("Invalid file111.")
         os.remove(ori_save_dir)
         return "Invalid"
     file_basic_info['synthesis_info']=simu_synthesis_settings
@@ -297,10 +289,6 @@ def simu_seq():
     print("Simulation Sequence time:"+str(time.time()-t1))
     return json.dumps(simu_seq_settings)
 
-def is_fasta(filename):
-    with open(filename,'r') as handle:
-        fasta = SeqIO.parse(handle, "fasta")
-        return any(fasta)  # False when `fasta` is empty, i.e. wasn't a FASTA file
 
 @app.route('/decode',methods=['GET','POST'])
 def decode():
