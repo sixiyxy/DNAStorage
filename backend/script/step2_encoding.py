@@ -4,7 +4,7 @@ from datetime import datetime
 import pandas as pd
 from numpy import fromfile, array, uint8
 
-from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+from .utils.utils_basic import get_config,write_yaml,write_dna_file,write_dna_sample_file,Monitor
 from .utils.verify_methods import Hamming,ReedSolomon
 from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
 
@@ -55,6 +55,7 @@ class Encoding():
         # file encode dir
         self.dna_dir = self.config['encode_dir']
         self.dna_file = '{}/{}/{}.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
+        self.dna_demo_file = '{}/{}/{}_demo.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
 
         # user download file
         self.user_download_file = '{}/{}/{}.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
@@ -156,7 +157,7 @@ class Encoding():
 
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         write_dna_file(path=self.dna_file,dna_sequences=dna_sequences,need_logs=True)
-
+        write_dna_file(path=self.dna_demo_file,dna_sequences=dna_sequences,need_logs=True)
 
         # record plot data
         gc_distribution = [0 for _ in range(101)]
@@ -191,7 +192,6 @@ class Encoding():
         record_info['homo_plot'] = front_homo
 
         # record dowdload file
-
         record_data = pd.DataFrame()
         record_data['payload'] = original_bit_segments
         record_data['index'] = record_index
