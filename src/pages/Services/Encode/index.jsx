@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./index.less";
-import { Breadcrumb, Col, Row } from "antd";
+import { Breadcrumb, Col, Row,Spin} from "antd";
 
 import Encodelists from "./components/Encodelists";
 import Uploads from "./components/Uploads";
@@ -21,7 +21,9 @@ export const Encode = (props) => {
   const [method, setMethod] = useState("None");
   const [btnflag,setBtn] = useState(true)
  
-
+  useEffect(()=>{
+    props.setIsSynthesis(false)
+  },[])
   const ParamPass = (param1, param2) => {
     setSeg(param2[0].Segvalue);
     setIndex(param2[1].Indexvalue);
@@ -62,6 +64,7 @@ export const Encode = (props) => {
   };
   return (
     <div className="EncodeContainer">
+     
       <div style={{ paddingLeft: "30px", paddingTop: "20px" }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
@@ -154,6 +157,7 @@ export const Encode = (props) => {
           </div>
         </Col>
       </Row>
+
     </div>
   );
 };

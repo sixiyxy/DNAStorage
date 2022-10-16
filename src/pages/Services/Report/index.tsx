@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect,useState}from "react";
 import { Card } from 'antd';
 import { Col, Row } from 'antd';
 import GLgraph from './components/GLgraph'
@@ -14,14 +14,18 @@ export class ReportProps {
   fileId;
   dnainfo;
   spinflag;
+
 }
 
 export const Report: React.FC<ReportProps> = (props) => {
+
+  // useEffect(() => {
+  //   props.setSpin(false)
+  // }, [props.homo]);
+
   return(
     <div>
-      <div className="spinstyle" style={{paddingLeft:"1400px"}}>
-        <Spin spinning={props.spinflag} delay={10} size="large"/> 
-      </div>
+      <Spin tip="Loading..." size="large" style={{marginTop:"450px"}} spinning={props.spinflag} delay={10}>
       <Row>
         <Col span={12}>
             <div
@@ -61,7 +65,7 @@ export const Report: React.FC<ReportProps> = (props) => {
             style={{ paddingLeft: "50px", paddingTop: "30px", fontSize: "15px" }}
           > 
             {/*<GLgraph gc={gc}/>*/}
-            <HomoGraph homo={props.homo}/>
+            <HomoGraph homo={props.homo} />
           </div>
           </Card>
         </Col>
@@ -71,6 +75,7 @@ export const Report: React.FC<ReportProps> = (props) => {
       <br/>
       <br/>
       <br/>
+      </Spin>
     </div>)
   
 };

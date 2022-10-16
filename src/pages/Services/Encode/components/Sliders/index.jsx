@@ -10,12 +10,13 @@ const Sliders = (props) => {
   const [disabled, setDisabled] = useState(false);
   const [values, setValues] = useState(SaveValue);
   const [count,setCount] = useState(0) //触发标志
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState("WithoutVerifycode");
  
-  const onChange1 = ({ target: { value } }) => {
+  const onChange1 = (e) => {
     setCount(count+1)
+    setValue(e.target.value)
     console.log('count',count)
-    method = value;
+    method = e.target.value;
   };
 
   //获取segment和index的值

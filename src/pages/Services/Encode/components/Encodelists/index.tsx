@@ -25,18 +25,19 @@ const Encodelists: React.FC = (props: any) => {
     encode_method: "Basic",
   };
   const handleClick = () => {
-        props.setIsSynthesis(true)
-        props.changeSider(["0-0-1"]); 
-        params1.file_uid = props.fileId;
-        params1.segment_length = props.seg;
-        params1.index_length = props.index;
-        params1.verify_method = props.method;
-        params1.encode_method = encodeMethod;
+    console.log("加载中");
+    props.setIsSynthesis(true)
+    props.changeSider(["0-0-1"]); 
+    props.setSpin(true)
+    params1.file_uid = props.fileId;
+    params1.segment_length = props.seg;
+    params1.index_length = props.index;
+    params1.verify_method = props.method;
+    params1.encode_method = encodeMethod;
 
     axios.post('http://127.0.0.1:5000//encode',params1)
       .then(function (response) {
           console.log("Encode-response: ",response.data);
-          props.setSpin(false)
           props.InfoPass1(
             response.data.bit_size,
             response.data.byte_size,
@@ -54,12 +55,12 @@ const Encodelists: React.FC = (props: any) => {
           response.data.information_density,
           response.data.nucleotide_counts
         );
+        props.setSpin(false)
       })
         .catch(function (error) {
           console.log(error)
-      })
+      })  
     }
-    console.log(props.btnflag);
   return (
     <div className="todo-container">
       <div>
