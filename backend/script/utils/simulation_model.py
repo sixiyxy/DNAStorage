@@ -90,8 +90,8 @@ class Decayer_simu:
     
     def __call__(self, dnas):
         dnas = self.sam(dnas)
-        dnas = self.err(dnas)
-        return dnas
+        dnas,error_recorder = self.err(dnas)
+        return dnas,error_recorder
 
 class Sequencer_simu:
     def __init__(self, arg):
@@ -121,13 +121,9 @@ class Sequencer_simu:
         self.err=ErrorAdder_simu(self.probS, self.probD, self.probI,self.raw_rate,self.del_pattern,self.ins_pattern,self.TM,self.TM_Normal,ins_pos=self.ins_pos,del_pos=self.del_pos)
 
     def __call__(self, dnas):
-        t1=time.time()
         dnas = self.sample(dnas)
-        t2=time.time()
-        # print("Sample time: ",t2-t1)
-        dnas = self.err(dnas)
-        # print("Error Adder:",time.time()-t2)
-        return dnas
+        dnas,error_recorder = self.err(dnas)
+        return dnas,error_recorder
 
     def sample(self, dnas):
         rNs = [dna['num'] for dna in dnas]
@@ -176,24 +172,28 @@ class PCRer_simu:
         sigma0 = np.sqrt((1 - p) / (1 + p) * ((1 + p) ** (2 * N) - (1 + p) ** N))
         return max(int(np.random.normal(u0 * ori, sigma0 * sqrt(ori))), 0)  # 从高斯分布中随机抽取样本，最小为0
 
-    def run(self, re_dnas):
+    def run(self, re_dnas,error_recorder):
         out = []
         for dna in re_dnas:
            # print("before:"+str(dna[0]))
             if dna[0]>0:
+                tmp=dna[0]
                 dna[0] = self.distribution(dna[0])
             #print("after:"+str(dna[0]))
             if dna[0] > 0:
+                for err in dna[1]:
+                    error_recorder[err[1]]=error_recorder.get(err[1],0)+dna[0]-tmp    
                 out.append(dna)
-        return out
+        return out,error_recorder
 
     def __call__(self, dnas):
         out_dnas=dnas
-        out_dnas=self.err(out_dnas)
+        out_dnas,error_recorder=self.err(out_dnas)
         for dna in out_dnas:
-            dna['re'] = self.run(dna['re'])
+            dna['re'],error_recorder = self.run(dna['re'],error_recorder)
             dna['num'] = sum([tp[0] for tp in dna['re']])
-        return out_dnas
+        print(error_recorder)
+        return out_dnas,error_recorder
 
 class Sampler_simu:
     def __init__(self, p=0.01,arg = None):
@@ -234,7 +234,7 @@ class ErrorAdder_simu:
         self.probD = probD * raw_rate
         self.probI = probI * raw_rate
         self.probS = probS * raw_rate
-
+        print(self.probS)
         self.del_pattern=del_pattern
         self.ins_pattern=ins_pattern
         self.TM_Normal=TM_Normal
@@ -253,15 +253,6 @@ class ErrorAdder_simu:
                 base=dna[pos]
                 subi=np.random.choice(['A','C','G','T'],p=list(self.TM[base].values()))
                 Errors.append((pos,'s',subi))
-            # for i, base in enumerate(['A', 'C', 'G', 'T']):
-            #     Pi = np.where(dna == base)[0]
-            #     for i in Pi:
-            #         prob_try=np.random.uniform(0,1)
-            #         if prob_try>self.probS:
-            #             break
-            #         else:
-            #             subi=np.random.choice(['A', 'C', 'G', 'T'], p=list(self.TM[base].values()))
-            #             Errors.append((i,'s',subi))
         else:
             TM_keys=list(self.TM.keys())
             for key in TM_keys:
@@ -410,6 +401,8 @@ class ErrorAdder_simu:
                         recorder[tmp[1]]=recorder.get(tmp[1],0)+re_dna[0]
                     except:
                         pass
+            dna['re']=re
+        print(recorder)
         return dnas,recorder
 
 def genTm(prob):
