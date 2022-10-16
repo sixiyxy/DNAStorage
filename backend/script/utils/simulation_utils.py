@@ -1,4 +1,5 @@
 from .simulation_arg import synthMeth, decHost,pcrPoly,seqMeth
+from Bio import SeqIO
 
 
 class ArgumentPasser:
@@ -28,3 +29,16 @@ def Seq_arg(seq_meth):
     dic=seqMeth[seq_meth]
     return ArgumentPasser(dic)
 
+def is_fasta(filename):
+    with open(filename,'r') as handle:
+        fasta = SeqIO.parse(handle, "fasta")
+        return any(fasta)  # False when `fasta` is empty, i.e. wasn't a FASTA file
+
+def fasta_to_dna(ori_save_dir):
+    with open (ori_save_dir) as f:
+                dna=[]
+                for line in f:
+                    line=str(line).strip('b').strip("'").strip('\\r\\n')
+                    if line[0]!=">":
+                        dna.append(line.strip('\n'))
+    return dna

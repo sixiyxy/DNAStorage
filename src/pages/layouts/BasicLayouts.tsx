@@ -74,13 +74,15 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       <Footer
         style={{
           textAlign: "center",
-          position: "fixed",
-          bottom: 0,
-          left: 1400,
-          height: 10,
+          verticalAlign: "center",
+          margin: "10px auto",
         }}
       >
-        Ant Design ©2018 Created by Ant UED
+        Contact us: xrliu@xmu.edu.cn
+        <br />
+        | jianglikun@stu.xmu.edu.cn
+        <br />
+        This website is free to all users and there is no login requirement.
       </Footer>
     </Layout>
   );

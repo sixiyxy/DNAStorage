@@ -1,6 +1,6 @@
 import type { RadioChangeEvent } from "antd";
 import { Input, Radio, Space } from "antd";
-import { Button } from 'antd';
+import { Button,notification } from 'antd';
 import React, { useState } from "react";
 import axios from "axios";
 import "./index.less";
@@ -61,10 +61,24 @@ const Encodelists: React.FC = (props: any) => {
           console.log(error)
       })  
     }
+    const scrollToAnchor = () => {
+      const args = {
+        message: 'Please make sure you complete the uploading and selection above!',
+        description:
+          'Confirm whether the file is uploaded and whether the encoding method is selected.',
+        duration: 4.5,
+      };
+      notification.open(args);
+      if ('uploads') {
+          let anchorElement = document.getElementById('uploads');
+          if (anchorElement) { anchorElement.scrollIntoView(); }
+      }
+  }
+
   return (
     <div className="todo-container">
       <div>
-        <h2>Choose Decode Method</h2>
+        <h2>Choose Encode Method</h2>
         <div style={{ paddingLeft: "20px" }}>
           <Radio.Group onChange={onChange} value={value}>
             <Space direction="vertical">
@@ -83,7 +97,7 @@ const Encodelists: React.FC = (props: any) => {
             Method details please click the :{" "}
             <Link to="/methods">Method Paper</Link>
         </div>
-          <Button type="primary" onClick={handleClick} style={{marginLeft:"400px"}} disabled={props.btnflag}>Run</Button>
+          <Button type="primary" onClick={props.btnflag?handleClick:scrollToAnchor} style={{marginLeft:"400px"}}>Run</Button>
         </div>
       </div>
     </div>
