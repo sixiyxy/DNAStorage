@@ -376,6 +376,7 @@ class ErrorAdder_simu:
 
     # apply errors to dnas
     def apply(self, ori_dna, errors):
+        recorder=[]
         dna = list(ori_dna)
         errors.sort(key=lambda x: x[0])
         # substitutions
@@ -401,13 +402,18 @@ class ErrorAdder_simu:
         return dna
 
     def apply_batch(self, dnas):
+        recorder={}
         for dna in dnas:
             ori_dna = dna['ori']
             re = []
             for re_dna in dna['re']:
                 if re_dna[0] == 0: pass
                 re.append([re_dna[0], re_dna[1], self.apply(ori_dna, re_dna[1])])
-            dna['re'] = re
+                for tmp in re_dna[1]:
+                    try:
+                        recorder[tmp[1]]=recorder.get(tmp[1],0)+re_dna[0]
+                    except:
+                        pass
         return dnas
 
 def genTm(prob):
