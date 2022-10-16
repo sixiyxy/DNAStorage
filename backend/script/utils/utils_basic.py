@@ -1,7 +1,9 @@
 from distutils.command.config import config
+import imp
 import os,sys
 from webbrowser import get
 import yaml
+import random
 from datetime import datetime
 
 
@@ -11,13 +13,11 @@ def get_config(yaml_path=''):
     print(yaml_path)
     # read file yaml
     if yaml_path !='config':
-        print("Here1")
         f = open(yaml_path)
         config_data = f.read()
         config = yaml.load(config_data,Loader=yaml.FullLoader)
     # read config yaml
     elif yaml_path == 'config':
-        print("here2")
         config_file = '{}/script/config.yaml'.format(backend_dir)
         f = open(config_file)
         config_data = f.read()
@@ -49,6 +49,19 @@ def write_dna_file(path, dna_sequences, need_logs=False):
                 monitor.output(index + 1, len(dna_sequences))
         if need_logs:
             print("Write DNA sequences to file: " + path + '\n')
+    return True
+
+def write_dna_sample_file(path, dna_sequences, need_logs=False):
+    monitor = Monitor()
+    demo_dna_sequences = random.sample(dna_sequences,1000)
+    with open(path, "w") as file:
+        for index, dna_sequence in enumerate(demo_dna_sequences):
+            file.write("".join(dna_sequence) + "\n")
+
+            if need_logs:
+                monitor.output(index + 1, len(dna_sequences))
+        if need_logs:
+            print("Write 1000 demo DNA sequences to file: " + path + '\n')
     return True
 
 class Monitor:

@@ -78,7 +78,10 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           margin: "10px auto",
         }}
       >
-        Contact us: xxxx@xxx.com <br />
+        Contact us: xrliu@xmu.edu.cn
+        <br />
+        | jianglikun@stu.xmu.edu.cn
+        <br />
         This website is free to all users and there is no login requirement.
       </Footer>
     </Layout>

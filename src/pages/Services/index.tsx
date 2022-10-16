@@ -95,8 +95,12 @@ export const Services: React.FC<ServicesProps> = (props) => {
   const [info, setInfo] = useState(infos);
   const [fileinfo, setFileInfo] = useState(FileValue);
   const [dnainfo, setDNAinfo] = useState(DNAinfos);
-  const [spinflag,setSpin] = useState(true)
-  const items = useMemo(() => {
+  const [spinflag, setSpin] = useState(true);
+
+  let url = new URL(window.location.href);
+  const pathname = url?.pathname;
+
+  const items1 = useMemo(() => {
     return [
       {
         label: "Encode",
@@ -115,7 +119,7 @@ export const Services: React.FC<ServicesProps> = (props) => {
           {
             label: "Report",
             key: "0-0-1",
-            disabled:!isSynthesis,
+            disabled: !isSynthesis,
           },
         ],
       },
@@ -168,21 +172,75 @@ export const Services: React.FC<ServicesProps> = (props) => {
     ];
   }, [isSynthesis]);
 
+  const items2 = useMemo(() => {
+    return [
+      {
+        label: "Simulation",
+        key: "0-1",
+        icon: (
+          <i
+            className="iconfont icon-monidanping"
+            style={{ display: "inline" }}
+          ></i>
+        ),
+        children: [
+          {
+            label: "Synthesis",
+            key: "0-1-0",
+          },
+          {
+            label: "Decay",
+            key: "0-1-1",
+            disabled: !isSynthesis,
+          },
+          {
+            label: "PCR",
+            key: "0-1-2",
+            disabled: !isSynthesis,
+          },
+          {
+            label: "Sampling",
+            key: "0-1-3",
+            disabled: !isSynthesis,
+          },
+          {
+            label: "Sequencing",
+            key: "0-1-4",
+            disabled: !isSynthesis,
+          },
+        ],
+      },
+    ];
+  }, [isSynthesis]);
+
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
   };
 
   return (
     <div className="service-content">
-      <Menu
-        onClick={onClick}
-        style={{
-          width: 256,
-        }}
-        selectedKeys={siderSelect}
-        mode="inline"
-        items={items}
-      />
+      {pathname === "/services/encode" ? null : pathname ===
+        "/services/simulation" ? (
+        <Menu
+          onClick={onClick}
+          style={{
+            width: 256,
+          }}
+          selectedKeys={siderSelect}
+          mode="inline"
+          items={items2}
+        />
+      ) : (
+        <Menu
+          onClick={onClick}
+          style={{
+            width: 256,
+          }}
+          selectedKeys={siderSelect}
+          mode="inline"
+          items={items1}
+        />
+      )}
 
       {siderSelect[0] === "0-0-0" ? (
         <Encode
