@@ -7,10 +7,13 @@ import {
   Space,
   Table,
 } from "antd";
+import axios from "axios";
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import "./index.less";
-export class DecodeProps {}
+export class DecodeProps {
+  fileId;
+}
 
 export const Decode: React.FC<DecodeProps> = (props) => {
   const [value, setValue] = useState("");
@@ -90,6 +93,22 @@ export const Decode: React.FC<DecodeProps> = (props) => {
       value2: 111,
     },
   ];
+
+  const params = useMemo(() => {
+    return {
+      file_uid: props.fileId,
+      clust_method: "cdhit",
+    };
+  }, [value]);
+
+  const onDecode = function () {
+    axios
+      .post("http://127.0.0.1:5000/decode", params)
+      .then(function (response) {
+        console.log("decode", response);
+      });
+  };
+
   return (
     <div>
       <div style={{ paddingLeft: "30px", paddingTop: "20px" }}>
@@ -114,7 +133,11 @@ export const Decode: React.FC<DecodeProps> = (props) => {
           </Radio.Group>
         </div>
         <div>
-          <Button type="primary" style={{ margin: "30px 20px 0" }}>
+          <Button
+            type="primary"
+            style={{ margin: "30px 20px 0" }}
+            onClick={onDecode}
+          >
             Run
           </Button>
         </div>

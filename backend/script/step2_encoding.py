@@ -3,7 +3,7 @@ import os,sys
 from datetime import datetime
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+
 from numpy import fromfile, array, uint8
 
 from .utils.utils_basic import get_config,write_yaml,write_dna_file,write_dna_sample_file,Monitor
