@@ -25,12 +25,17 @@ class Simulation():
                 with open(self.dna_file) as f:
                     dnas=f.readlines()
                 self.simu_dna=[dna.split('\n')[0] for dna in dnas]
-                self.syn_density=0
+                
             else:
                 self.file_dir=self.config['upload_dna_save_dir']
                 self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
                 self.simu_dna=dna
-                self.syn_density=0
+            
+            self.syn_density=0
+            self.syn_error_recorder=[]
+
+            
+
 
     def get_simu_synthesis_info(self,synthesis_number,
         synthesis_yield,
@@ -48,8 +53,8 @@ class Simulation():
         arg.syn_yield=synthesis_yield
 
         SYN=Model.Synthesizer_simu(arg)
-        self.simu_dna=SYN(self.simu_dna)
-
+        self.simu_dna,self.syn_error_recorder=SYN(self.simu_dna)
+        print(self.syn_error_recorder)
         syn_info={
             "synthesis_number":int(synthesis_number),
             "synthesis_yield":float(synthesis_yield),
@@ -81,8 +86,8 @@ class Simulation():
         arg.dec_loss_rate=loss_rate
 
         DEC=Model.Decayer_simu(arg)
-        self.simu_dna=DEC(self.simu_dna)
-
+        self.simu_dna,self.dec_error_recorder=DEC(self.simu_dna)
+        print(self.simu_dna)
         dec_info={
             "storage_host":storage_host,
             "decay_reference_link":0,
@@ -113,7 +118,7 @@ class Simulation():
         arg.pcrp=pcr_prob
 
         PCR=Model.PCRer_simu(arg)
-        self.simu_dna=PCR(self.simu_dna)
+        self.simu_dna,self.pcr_error_recorder=PCR(self.simu_dna)
 
         density=self.calculate_density(self.simu_dna,True)
         error_density=self.error_density(self.simu_dna)
@@ -170,7 +175,7 @@ class Simulation():
         arg.seq_depth=seq_depth
 
         Seq=Model.Sequencer_simu(arg)
-        self.simu_dna=Seq(self.simu_dna)
+        self.simu_dna,self.seq_error_decorder=Seq(self.simu_dna)
         seq_reference=0
         
         density=self.calculate_density(self.simu_dna,True)

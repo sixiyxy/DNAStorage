@@ -7,6 +7,7 @@ import { Publications } from "../pages/Publications";
 import { Methods } from "../pages/Methods";
 import { RouteObject } from "react-router-dom";
 import { BasicLayout } from "../pages/Layouts/BasicLayouts";
+import { ServiceChose } from "../pages/ServiceChose";
 export const router: RouteObject[] = [
   {
     path: "/",
@@ -18,7 +19,10 @@ export const router: RouteObject[] = [
     children: [
       { path: "/publications", element: <Publications /> },
       { path: "/resources", element: <Resources /> },
-      { path: "/services", element: <Services /> },
+      { path: "/services", element: <ServiceChose /> },
+      { path: "/services/encode", element: <Services /> },
+      { path: "/services/simulation", element: <Services /> },
+      { path: "/services/wholeprocess", element: <Services /> },
       { path: "/tutorial", element: <Tutorial /> },
       { path: "/methods", element: <Methods /> },
       { path: "/contact", element: <Contact /> },
