@@ -222,7 +222,7 @@ class Encoding():
         for idx in range(len(interval_cate)):
             x_value = interval[idx].mid
             x_value = str(round(x_value,1))
-            range_label = '{}_{}'.format(interval[idx].left,interval[idx].right)
+            range_label = '{} - {}'.format(interval[idx].left,interval[idx].right)
             data = {'x':x_value,'y':str(interval_value[idx]),'range':range_label}
             free_energy_plotdata.append(data)
 
