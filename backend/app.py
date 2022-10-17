@@ -289,6 +289,20 @@ def simu_seq():
     print("Simulation Sequence time:"+str(time.time()-t1))
     return json.dumps(simu_seq_settings)
 
+@app.route('/simu_repo',methods=['GET','POST'])
+def simu_repo():
+    if 'simulation_key' not in session:
+        return 'session invalid, simulation_key not found'
+
+    now_simu=get_session(session['simulation_key'])
+    if now_simu is None:
+        return 'session invalid'
+    
+    simu_repo=now_simu.get_simu_repo()
+
+
+    return json.dumps(simu_repo)
+    
 
 @app.route('/decode',methods=['GET','POST'])
 def decode():
