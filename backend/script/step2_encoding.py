@@ -2,6 +2,8 @@ from math import inf
 import os,sys
 from datetime import datetime
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 from numpy import fromfile, array, uint8
 
 from .utils.utils_basic import get_config,write_yaml,write_dna_file,write_dna_sample_file,Monitor
@@ -55,7 +57,12 @@ class Encoding():
         # file encode dir
         self.dna_dir = self.config['encode_dir']
         self.dna_file = '{}/{}/{}.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
+
+        # min free energy
         self.dna_demo_file = '{}/{}/{}_demo.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
+        # self.free_enerfy_file = '{}/{}/{}_min_free_energy.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
+        self.free_enerfy_file = '{}/{}/1565536927137009664_min_free_energy.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
+
 
         # user download file
         self.user_download_file = '{}/{}/{}.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
@@ -190,6 +197,38 @@ class Encoding():
 
         record_info['gc_plot'] = front_gc
         record_info['homo_plot'] = front_homo
+
+        # min free energy
+        min_free_energy_list = []
+        min_free_energy_30 = []
+        with open(self.free_enerfy_file) as f:
+            for line in f.readlines():
+                if '(' in line:
+                    value = line.split('(')[-1]
+                    value = float(value.replace(')',''))
+                    min_free_energy_list.append(value)
+                    if value < -30:
+                        min_free_energy_30.append(value)
+        avg_free_energy = round(np.mean(min_free_energy_list),2)
+        free_energy_30 = round(len(min_free_energy_30)/len(min_free_energy_list)*100,2)
+        bins = np.linspace(min(min_free_energy_list),max(min_free_energy_list),31)
+
+        interval = pd.cut(min_free_energy_list,bins)
+        interval_cate = interval.categories
+        interval_value = interval.value_counts().values
+
+        bins = [round(i,1) for i in bins]
+        free_energy_plotdata = []
+        for idx in range(len(interval_cate)):
+            x_value = interval[idx].mid
+            x_value = str(round(x_value,1))
+            range_label = '{}_{}'.format(interval[idx].left,interval[idx].right)
+            data = {'x':x_value,'y':str(interval_value[idx]),'range':range_label}
+            free_energy_plotdata.append(data)
+
+        record_info['min_free_energy'] = avg_free_energy
+        record_info['min_free_energy_below_30kj/mol'] = str(free_energy_30)+'%'
+        record_info['energy_plot'] =free_energy_plotdata
 
         # record dowdload file
         record_data = pd.DataFrame()
