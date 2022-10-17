@@ -141,6 +141,7 @@ if __name__ == '__main__':
     obj = Encoding(1565536927137009664)
     record_info,bit_segments = obj.bit_to_dna()
 
-    obj = ClusterDecode(file_uid = 1565536927137009664,encode_bit_segment=bit_segments,clust_method= 'cdhit')
+    obj = ClusterDecode(file_uid = 1565536927137009664,encode_bit_segment=bit_segments,
+    clust_method= 'cdhit')
 
     obj.decode()
