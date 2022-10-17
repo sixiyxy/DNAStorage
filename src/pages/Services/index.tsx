@@ -290,7 +290,7 @@ export const Services: React.FC<ServicesProps> = (props) => {
       {siderSelect[0] === "0-1-4" ? (
         <Sequencing changeSider={setSiderSelect} fileId={fileId} />
       ) : null}
-      {siderSelect[0] === "0-2" ? <Decode /> : null}
+      {siderSelect[0] === "0-2" ? <Decode fileId={fileId} /> : null}
     </div>
   );
 };

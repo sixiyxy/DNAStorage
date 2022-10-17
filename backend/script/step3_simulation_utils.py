@@ -1,3 +1,4 @@
+from symbol import pass_stmt
 import script.utils.simulation_model as Model
 import numpy as np
 from script.utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
@@ -15,7 +16,7 @@ class Simulation():
             self.file_uid   =   file_uid
             self.config = get_config(yaml_path='config')
             self.backend_dir = self.config['backend_dir']
-
+            self.simulation_dir =   self.config['simulation_dir']
             if not upload_flag:
                 self.file_dir=self.config['file_save_dir']
                 self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
@@ -32,9 +33,7 @@ class Simulation():
                 self.simu_dna=dna
             
             self.syn_density=0
-            self.syn_error_recorder=[]
-
-            
+            #self.syn_error_recorder=[]
 
 
     def get_simu_synthesis_info(self,synthesis_number,
@@ -63,7 +62,8 @@ class Simulation():
         }
         write_yaml(yaml_path=self.file_info_path,data=syn_info,appending=True)
         self.syn_density=self.calculate_density(self.simu_dna)
-
+        self.syn_info=syn_info
+        self.syn_info['syn_density']=self.syn_density
         return syn_info,self.syn_density
 
     def get_simu_dec_info(self,
@@ -87,7 +87,6 @@ class Simulation():
 
         DEC=Model.Decayer_simu(arg)
         self.simu_dna,self.dec_error_recorder=DEC(self.simu_dna)
-        print(self.simu_dna)
         dec_info={
             "storage_host":storage_host,
             "decay_reference_link":0,
@@ -97,7 +96,8 @@ class Simulation():
         }
         write_yaml(yaml_path=self.file_info_path,data=dec_info,appending=True)
         dec_density=self.calculate_density(self.simu_dna)
-
+        self.dec_info=dec_info
+        self.dec_info['dec_density']=dec_density
         return dec_info,self.syn_density,dec_density
 
     def get_simu_pcr_info(self,
@@ -132,6 +132,7 @@ class Simulation():
             "pcr_error_density":error_density,
             "pcr_method_reference":arg.reference
         }
+        self.pcr_info=pcr_info
         write_yaml(yaml_path=self.file_info_path,data=pcr_info,appending=True)
 
         return pcr_info
@@ -149,7 +150,7 @@ class Simulation():
         Sam=Model.Sampler_simu(arg=arg)
         self.simu_dna=Sam(self.simu_dna)
 
-        density=self.calculate_density(self.simu_dna,True)
+        density=self.calculate_density(self.simu_dna)
         error_density=self.error_density(self.simu_dna)
 
         sam_info={
@@ -157,6 +158,7 @@ class Simulation():
             "sam_density":density,
             "sam_error_density":error_density
         }
+        self.sample_info=sam_info
         write_yaml(yaml_path=self.file_info_path,data=sam_info,appending=True)
 
         return sam_info
@@ -189,10 +191,47 @@ class Simulation():
             "seq_error_density":error_density,
             "seq_method_reference":arg.reference
         }
-
+        self.sequence_info=seq_info
         write_yaml(yaml_path=self.file_info_path,data=seq_info,appending=True)
 
         return seq_info
+
+    def get_simu_repo(self):
+        simu_repo={}
+        #file_name
+        # try:
+        #     simu_repo['Synthesis']=self.syn_info
+        # except:
+        #     pass
+        # try:
+        #     simu_repo['Decay']=self.dec_info
+        # except:
+        #     pass
+        # try:
+        #     simu_repo['PCR']=self.pcr_info
+        # except:
+        #     pass
+        # try:
+        #     simu_repo['Sampling']=self.sample_info
+        # except:
+        #     pass
+        # try:
+        #     simu_repo['Sequencing']=self.sequence_info
+        # except:
+        #     pass
+        simu_repo={"111:222"}
+        simulation_repo_dir=os.path.join(self.backend_dir+'/'+str(self.simulation_dir)+'/'+str(self.file_uid)+".fasta")
+        with open(simulation_repo_dir,'a+') as f:
+            index=0
+            for dna in self.simu_dna:
+                for re in dna['re']:
+                    for i in range(re[0]): 
+                        f.write('>'+str(index)+'|'+str(re[1])+"\n") #index | errors
+                        index+=1
+                        f.write(str(re[2])+"\n") # dna sequence
+
+
+        return 0
 
     def calculate_density(self,dnas,layer=False):
         nums = {}
@@ -208,8 +247,7 @@ class Simulation():
         nums = sorted(nums.items(), key=lambda e: e[0])
         #print(nums)
         
-
-        if layer:
+        if layer: #分层，针对pcr后等数据量大的阶段
             n_group=10
             n=len(nums)
             group=int(n/n_group)
@@ -231,6 +269,7 @@ class Simulation():
                 total+=re[0]
         for i in dic:
                 dic[i] = dic[i] / total
+        dic = sorted(dic.items(), key=lambda e: e[0])
         return dic
 
     

@@ -67,6 +67,7 @@ def file_encode():
     # "encode_method":"Basic"}
 
     file_uid = front_data['file_uid'] #'1566....'
+    
     segment_length = front_data['segment_length'] #4
     index_length = front_data['index_length'] #128
     verify_method = front_data['verify_method'] #'HammingCode'
@@ -82,7 +83,7 @@ def file_encode():
     encode_key = 'encode_{}'.format(file_uid)
     session['encode_key'] = encode_key
     set_session(encode_key,encode_bits)
-
+    print(file_uid, "\n")
     return json.dumps(encode_info)
 
 #if user wants to upload his own dna file instead of generating by us
@@ -291,6 +292,20 @@ def simu_seq():
     print("Simulation Sequence time:"+str(time.time()-t1))
     return json.dumps(simu_seq_settings)
 
+@app.route('/simu_repo',methods=['GET','POST'])
+def simu_repo():
+    if 'simulation_key' not in session:
+        return 'session invalid, simulation_key not found'
+
+    now_simu=get_session(session['simulation_key'])
+    if now_simu is None:
+        return 'session invalid'
+    
+    simu_repo=now_simu.get_simu_repo()
+
+
+    return json.dumps(simu_repo)
+    
 
 @app.route('/decode',methods=['GET','POST'])
 def decode():
@@ -305,11 +320,12 @@ def decode():
 
     file_uid = front_data['file_uid'] 
     clust_method = front_data['clust_method']
-    
+    print(file_uid, "\n")
     if 'encode_key' not in session:
         return 'session invalid, encode_key not found'
 
     encode_bits=get_session(session['encode_key'])
+    print(encode_bits,"\n")
     if encode_bits is None:
         return 'please make sure file encoded!!!'
     else:
