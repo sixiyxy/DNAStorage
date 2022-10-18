@@ -213,8 +213,18 @@ class Sampler_simu:
             dna[0] = self.distribution(dna[0])
             if dna[0] > 0: 
                 markers.append(i)
+                flags={'+':0,'-':0,'s':0}
+                flag=0
                 for err in dna[1]:
-                    recorder[err[1]]=recorder.get(err[1],0)+dna[0]
+                    if not flags[err[1]]:
+                        try:
+                            recorder[err[1]]=recorder.get(err[1],0)+dna[0]
+                            flags[err[1]]=1
+                            flag+=1
+                            if flag==3:
+                                pass
+                        except:
+                            pass
 
         re_dnas = [re_dnas[i] for i in markers]
         return re_dnas,recorder
@@ -402,13 +412,20 @@ class ErrorAdder_simu:
             for re_dna in dna['re']:
                 if re_dna[0] == 0: pass
                 re.append([re_dna[0], re_dna[1], self.apply(ori_dna, re_dna[1])])
+                flags={'+':0,'-':0,'s':0}
+                flag=0
                 for tmp in re_dna[1]:
-                    try:
-                        recorder[tmp[1]]=recorder.get(tmp[1],0)+re_dna[0]
-                    except:
-                        pass
+                    if not flags[tmp[1]]:
+                        try:
+                            recorder[tmp[1]]=recorder.get(tmp[1],0)+re_dna[0]
+                            flags[tmp[1]]=1
+                            flag+=1
+                            if flag==3:
+                                pass
+                        except:
+                            pass
             dna['re']=re
-        print(recorder)
+        #print(recorder)
         return dnas,recorder
 
 def genTm(prob):
