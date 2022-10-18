@@ -951,8 +951,6 @@ class YinYangCode(AbstractCodingAlgorithm):
         else:
             same = [0, 3, 1, 2]
 
-
-        print('ssss',same)
         for index in range(len(self.yin_rule)):
             if self.yin_rule[index][same[0]] + self.yin_rule[index][same[1]] != 1 \
                     or self.yin_rule[index][same[0]] * self.yin_rule[index][same[1]] != 0:

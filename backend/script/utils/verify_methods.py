@@ -15,7 +15,7 @@ class AbstractErrorCorrectionCode(object):
         self.segment_length = len(bit_segments[0])
         for index, bit_segment in enumerate(bit_segments):
             verified_bit_segments.append(self.insert_one(bit_segment))
-            self.monitor.output(index + 1, len(bit_segments))
+            # self.monitor.output(index + 1, len(bit_segments))
 
         return verified_bit_segments, len(verified_bit_segments[0]) - len(bit_segments[0])
 
