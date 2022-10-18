@@ -123,7 +123,7 @@ decHost={
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
             "dec_ins_pos":{"homopolymer":0,"random":1},
-            "reference":{"https://doi.org/10.1186/s12859-016-0976-y","https://doi.org/10.1073/pnas.1210309109"}
+            "reference":["https://doi.org/10.1186/s12859-016-0976-y","https://doi.org/10.1073/pnas.1210309109"]
         },
 
         "Hsapiens":{
@@ -135,7 +135,7 @@ decHost={
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
             "dec_ins_pos":{"homopolymer":0,"random":1},
-            "reference":{"https://doi.org/10.1186/s12859-016-0976-y","https://doi.org/10.1093/genetics/156.1.297"}
+            "reference":["https://doi.org/10.1186/s12859-016-0976-y","https://doi.org/10.1093/genetics/156.1.297"]
         },
 
         "Mmusculus":{
@@ -147,7 +147,7 @@ decHost={
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
             "dec_ins_pos":{"homopolymer":0,"random":1},
-            "reference":{"https://doi.org/10.1186/s12859-016-0976-y","https://doi.org/10.1093%2Fgenetics%2F148.4.1667"}
+            "reference":["https://doi.org/10.1186/s12859-016-0976-y","https://doi.org/10.1093%2Fgenetics%2F148.4.1667"]
         },
 
         "Dmelanogaster":{
@@ -171,7 +171,7 @@ decHost={
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
             "dec_ins_pos":{"homopolymer":0,"random":1},
-            "reference":{"https://doi.org/10.1186/s12859-016-0976-y","https://doi.org/10.1093%2Fgenetics%2F148.4.1667"}
+            "reference":["https://doi.org/10.1186/s12859-016-0976-y","https://doi.org/10.1093%2Fgenetics%2F148.4.1667"]
         },
 
         "Erasure":{
