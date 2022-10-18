@@ -4,6 +4,9 @@ export class MethodsProps {}
 import { Anchor } from 'antd';
 import { useEffect, useState } from 'react';
 import { Breadcrumb } from 'antd';
+import {
+  ContainerTwoTone,
+} from '@ant-design/icons';
 const { Link } = Anchor;
 export const Methods: React.FC<MethodsProps> = (props) => {
   const [targetOffset, setTargetOffset] = useState<number | undefined>(undefined);
@@ -24,7 +27,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               </Breadcrumb>
           </div>
           <br/>
-          <h1 id = "infotitle">Basic Information</h1>
+          <h1 id = "infotitle"> <ContainerTwoTone /> Basic Information</h1>
             <p>There are many checksum coding methods for DNA. Here we introduce the following two checksum codes and nine coding methods...</p>
           <h1 id="checkcode">Check Codes</h1>
             <h2 id="hamming">1.Hamming code</h2>
