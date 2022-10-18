@@ -359,7 +359,7 @@ class ErrorAdder_simu:
                 Errors.append([pos,'+',dna[pos]])
         return Errors
 
-    def run(self, ori_dna, re_dnas):
+    def run(self, ori_dna, re_dnas,new_error_recorder):
         ori_dna = np.array(list(ori_dna))
         new_types = []
         for re_dna in re_dnas:
@@ -367,13 +367,18 @@ class ErrorAdder_simu:
                 new_error = self.genNewError(ori_dna)
                 if len(new_error) > 0:
                     new_types.append([1, re_dna[1] + new_error])
+                    for err in new_error:
+                        new_error_recorder[err[1]]+=1
                     re_dna[0] -= 1
-        return re_dnas + new_types
+       
+        return re_dnas + new_types,new_error_recorder
 
     def __call__(self, dnas, apply=True):
         out_dnas=dnas
+        new_error_recorder={'+':0,'-':0,'s':0}
         for dna in out_dnas:
-            dna['re'] = self.run(dna['ori'], dna['re'])
+            dna['re'],new_error_recorder = self.run(dna['ori'], dna['re'],new_error_recorder)
+        print(new_error_recorder)
         if apply:
             out_dnas,error_recorder = self.apply_batch(out_dnas)
         return out_dnas,error_recorder
