@@ -263,7 +263,7 @@ class Simulation():
                     b[str(i)+"-"+str(i+group)]=b.get(str(i)+"-"+str(i+group),0)+j[1]
             nums=[]
             for i in b.items():
-                nums.append({str(i[0]):float(i[1])})
+                nums.append([i[0],float(i[1])])
 
         return nums
 
