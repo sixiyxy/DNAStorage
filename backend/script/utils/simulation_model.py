@@ -89,7 +89,7 @@ class Decayer_simu:
 
     
     def __call__(self, dnas):
-        dnas = self.sam(dnas)
+        dnas,_ = self.sam(dnas)
         dnas,error_recorder = self.err(dnas)
         return dnas,error_recorder
 
@@ -121,7 +121,7 @@ class Sequencer_simu:
         self.err=ErrorAdder_simu(self.probS, self.probD, self.probI,self.raw_rate,self.del_pattern,self.ins_pattern,self.TM,self.TM_Normal,ins_pos=self.ins_pos,del_pos=self.del_pos)
 
     def __call__(self, dnas):
-        dnas = self.sample(dnas)
+        dnas,_ = self.sample(dnas)
         dnas,error_recorder = self.err(dnas)
         return dnas,error_recorder
 
@@ -207,20 +207,26 @@ class Sampler_simu:
             return N
         return np.random.binomial(int(N),self.p)
 
-    def run(self,re_dnas):
+    def run(self,re_dnas,recorder):
         markers = []
         for i,dna in enumerate(re_dnas):
             dna[0] = self.distribution(dna[0])
-            if dna[0] > 0: markers.append(i)
+            if dna[0] > 0: 
+                markers.append(i)
+                for err in dna[1]:
+                    recorder[err[1]]=recorder.get(err[1],0)+dna[0]
+
         re_dnas = [re_dnas[i] for i in markers]
-        return re_dnas
+        return re_dnas,recorder
     
     def __call__(self,dnas):
         out_dnas = dnas
+        error_recorder={}
         for dna in out_dnas:
-            dna['re'] = self.run(dna['re'])
+            dna['re'],error_recorder = self.run(dna['re'],error_recorder)
             dna['num'] = sum([tp[0] for tp in dna['re']])
-        return out_dnas
+        print(error_recorder)
+        return out_dnas,error_recorder
         
 class ErrorAdder_simu:
     def __init__(self, probS=0.2, probD=0.6, probI=0.2, raw_rate=0.0001,del_pattern=None,ins_pattern=None,TM=None,TM_Normal=True,ins_pos={"homopolymer":0,"random":1},del_pos={"homopolymer":0,"random":1}):  # 替代substitute，删除delete和插入insert

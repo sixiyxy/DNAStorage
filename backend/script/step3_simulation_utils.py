@@ -16,7 +16,7 @@ class Simulation():
             self.file_uid   =   file_uid
             self.config = get_config(yaml_path='config')
             self.backend_dir = self.config['backend_dir']
-            self.simulation_dir =   self.config['simulation_dir']
+            self.simulation_dir =   self.config['simulation_dir'] #to save simulated files
             if not upload_flag:
                 self.file_dir=self.config['file_save_dir']
                 self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
@@ -34,7 +34,6 @@ class Simulation():
                 self.simu_dna=fasta_to_dna(self.file_path)
             
             self.syn_density=0
-            #self.syn_error_recorder=[]
 
 
     def get_simu_synthesis_info(self,synthesis_number,
@@ -148,8 +147,8 @@ class Simulation():
         arg=Sampler_arg(sam_ratio)
 
         Sam=Model.Sampler_simu(arg=arg)
-        self.simu_dna=Sam(self.simu_dna)
-
+        self.simu_dna,error_recorder=Sam(self.simu_dna)
+        print("sample:",error_recorder)
         density=self.calculate_density(self.simu_dna)
         error_density=self.error_density(self.simu_dna)
 
@@ -231,7 +230,7 @@ class Simulation():
                         f.write(str(re[2])+"\n") # dna sequence
 
 
-        return 0
+        return simu_repo
 
     def calculate_density(self,dnas,layer=False):
         nums = {}
@@ -244,11 +243,14 @@ class Simulation():
 
         for i in nums:
             nums[i] = nums[i] / total
+        
+        n_group=10
+        if len(nums.items())>n_group:
+            layer=True
         nums = sorted(nums.items(), key=lambda e: e[0])
         #print(nums)
         
-        if layer: #分层，针对pcr后等数据量大的阶段
-            n_group=10
+        if layer: #分层，针对pcr后等数据多样化的阶段
             n=len(nums)
             group=int(n/n_group)
             b={}
