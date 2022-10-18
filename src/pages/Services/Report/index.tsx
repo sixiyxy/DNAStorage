@@ -1,7 +1,9 @@
 import React,{useEffect,useState}from "react";
 import { Card,Table} from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { Col, Row,Breadcrumb } from 'antd';
+import { Col, Row,Breadcrumb,Button } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
+import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import GLgraph from './components/GLgraph'
 import HomoGraph from './components/HomoGraph'
 import EnergyGraph from './components/EnergyGraph'
@@ -18,6 +20,8 @@ export class ReportProps {
   dnainfo;
   spinflag;
   energy;
+  encodeurl;
+  fileURL;
 }
 interface DataType {
   key: string;
@@ -27,6 +31,7 @@ interface DataType {
   value2:any;
 }
 export const Report: React.FC<ReportProps> = (props) => {
+  const [size, setSize] = useState<SizeType>('large');
   const columns1: ColumnsType<DataType> = [
     {
       title: 'Name',
@@ -123,10 +128,27 @@ export const Report: React.FC<ReportProps> = (props) => {
     },
     
   ];
-
+  const DownloadURL=()=>{
+    console.log(props.encodeurl);
+    console.log(props.fileURL);
+    var a = document.createElement('a');
+        a.download = 'filename'; //下载后文件名
+        a.style.display = 'none';
+        var blob = new Blob([props.encodeurl]);  // 字符内容转变成blob地址 二进制地址
+        a.href = URL.createObjectURL(blob);
+        document.body.appendChild(a);
+        a.click();                        // 触发点击
+        document.body.removeChild(a);    // 然后移除
+  }
   return(
     <div className="reportContainer">
-      <Spin tip="Loading..." size="large" style={{marginTop:"250px",marginLeft:"200px"}} spinning={props.spinflag} delay={10}>
+      <Spin 
+        tip="Loading..." 
+        size="large" 
+        style={{marginTop:"250px",marginLeft:"200px"}} 
+        spinning={props.spinflag} 
+        delay={10}
+      >
       <div style={{ paddingLeft: "300px", paddingTop: "20px" }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
@@ -159,7 +181,10 @@ export const Report: React.FC<ReportProps> = (props) => {
         </div>
       
 
-    <Card title="Title:GC_Contact" type="inner" style={{ marginLeft:"300px",marginTop:"10px",width:"800px"}}>
+    <Card 
+      title="Title:GC_Contact" 
+      type="inner" 
+      style={{ marginLeft:"300px",marginTop:"10px",width:"800px"}}>
         <div
             id="gcgraph"
             style={{ paddingLeft: "50px", paddingTop: "30px", fontSize: "15px",width:"750px"}}
@@ -168,7 +193,11 @@ export const Report: React.FC<ReportProps> = (props) => {
         </div>
     </Card>
     
-    <Card title="Title:Homopolymer Length" type="inner" style={{ marginLeft:"300px",marginTop:"30px",width:"800px"}}>
+    <Card 
+      title="Title:Homopolymer Length" 
+      type="inner" 
+      style={{ marginLeft:"300px",marginTop:"30px",width:"800px"}}
+    >
         <div
             id="homograph"
             style={{ paddingLeft: "50px", paddingTop: "30px", fontSize: "15px",width:"750px"}}
@@ -186,6 +215,17 @@ export const Report: React.FC<ReportProps> = (props) => {
         </div>
     </Card> */}
 
+        <div style={{ marginLeft:"650px",marginTop:"100px"}}>
+            <Button 
+              type="primary" 
+              shape="round" 
+              icon={<DownloadOutlined />} 
+              size={size}
+              onClick={DownloadURL}
+            >
+              Download
+            </Button>
+        </div>
       <br/>
       <br/>
       <br/>

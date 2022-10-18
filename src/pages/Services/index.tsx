@@ -96,6 +96,8 @@ export const Services: React.FC<ServicesProps> = (props) => {
   const [info, setInfo] = useState(infos);
   const [fileinfo, setFileInfo] = useState(FileValue);
   const [dnainfo, setDNAinfo] = useState(DNAinfos);
+  const [encodeurl,setEncodeURL]=useState("");
+  const [fileURL,setFileURL]=useState("");
   const [spinflag, setSpin] = useState(true);
 
   let url = new URL(window.location.href);
@@ -253,6 +255,8 @@ export const Services: React.FC<ServicesProps> = (props) => {
           setFileId={setFileId}
           setGC={setGC}
           setHomo={setHomo}
+          setEncodeURL={setEncodeURL}
+          setFileURL={setFileURL}
           setEnergy={setEnergy}
           setInfo={setInfo}
           setFileInfo={setFileInfo}
@@ -267,6 +271,8 @@ export const Services: React.FC<ServicesProps> = (props) => {
           dnainfo={dnainfo}
           GC={GC}
           homo={homo}
+          encodeurl={encodeurl}
+          fileURL={fileURL}
           energy={energy}
           fileinfo={fileinfo}
           info={info}

@@ -38,6 +38,12 @@ export const Encode = (props) => {
   const EnergyPass = (param1)=>{
     props.setEnergy(param1)
   }
+  const EncodeURLPass=(param1)=>{
+    props.setEncodeURL(param1)
+  }
+  const FileURLPass=(param1)=>{
+    props.setFileURL(param1)
+  }
   const InfoPass1 = (param1,param2,param3,param4,param5,param6,param7) => {
     props.infos.bit_size=param1
     props.infos.byte_size=param2
@@ -135,6 +141,8 @@ export const Encode = (props) => {
               InfoPass1={InfoPass1}
               GCPass={GCPass}
               EnergyPass={EnergyPass}
+              EncodeURLPass={EncodeURLPass}
+              FileURLPass={FileURLPass}
               HomoPass={HomoPass}
               DNAInfoPass={DNAInfoPass}
               changeSider={props.changeSider}
@@ -147,7 +155,7 @@ export const Encode = (props) => {
           <br />
           <br />
         </Col>
-        <Col>
+        {/* <Col>
           <div
             style={{ marginLeft: "50px", marginTop: "20px", fontSize: "18px" }}
           >
@@ -158,7 +166,7 @@ export const Encode = (props) => {
               <Link href="#encodelist" title="Choose decode method" />
             </Anchor>
           </div>
-        </Col>
+        </Col> */}
       </Row>
 
     </div>
