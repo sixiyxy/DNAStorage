@@ -35,7 +35,7 @@ const Encodelists: React.FC = (props: any) => {
     params1.verify_method = props.method;
     params1.encode_method = encodeMethod;
 
-    axios.post('http://127.0.0.1:5000//encode',params1)
+    axios.post('http://localhost:5000/encode',params1)
       .then(function (response) {
           console.log("Encode-response: ",response.data);
           props.InfoPass1(

@@ -15,6 +15,7 @@ export class DecodeProps {
   fileId;
 }
 
+
 export const Decode: React.FC<DecodeProps> = (props) => {
   const [value, setValue] = useState("");
   const onChange = (e: RadioChangeEvent) => {
@@ -103,7 +104,7 @@ export const Decode: React.FC<DecodeProps> = (props) => {
 
   const onDecode = function () {
     axios
-      .post("http://127.0.0.1:5000/decode", params)
+      .post("http://localhost:5000/decode", params)
       .then(function (response) {
         console.log("decode", response);
       });
