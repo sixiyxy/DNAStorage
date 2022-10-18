@@ -92,6 +92,7 @@ export const Services: React.FC<ServicesProps> = (props) => {
   const [isSynthesis, setIsSynthesis] = useState(false);
   const [GC, setGC] = useState([]);
   const [homo, setHomo] = useState([]);
+  const [energy,setEnergy]=useState([]);
   const [info, setInfo] = useState(infos);
   const [fileinfo, setFileInfo] = useState(FileValue);
   const [dnainfo, setDNAinfo] = useState(DNAinfos);
@@ -252,6 +253,7 @@ export const Services: React.FC<ServicesProps> = (props) => {
           setFileId={setFileId}
           setGC={setGC}
           setHomo={setHomo}
+          setEnergy={setEnergy}
           setInfo={setInfo}
           setFileInfo={setFileInfo}
           FileValue={FileValue}
@@ -265,6 +267,7 @@ export const Services: React.FC<ServicesProps> = (props) => {
           dnainfo={dnainfo}
           GC={GC}
           homo={homo}
+          energy={energy}
           fileinfo={fileinfo}
           info={info}
           fileId={fileId}
