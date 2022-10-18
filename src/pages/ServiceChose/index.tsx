@@ -30,14 +30,14 @@ export const ServiceChose: React.FC<ServiceChoseProps> = (props) => {
         </Link>
       </Card>
       <Card style={{ width: 300, height: 500, margin: "30px 0" }}>
-        <h1>Simulation</h1>
-        <Link to="/services/simulation">
+        <h1>Whole Process</h1>
+        <Link to="/services/wholeprocess">
           <Button type="primary">Start</Button>
         </Link>
       </Card>
       <Card style={{ width: 300, height: 500, margin: "30px 0" }}>
-        <h1>Whole Process</h1>
-        <Link to="/services/wholeprocess">
+        <h1>Simulation</h1>
+        <Link to="/services/simulation">
           <Button type="primary">Start</Button>
         </Link>
       </Card>
