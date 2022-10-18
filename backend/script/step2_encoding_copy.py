@@ -119,7 +119,7 @@ class Encoding():
 
         for c in cuts:
             for t in ts:
-                cut_file_list = self.cut_file(4000)
+                cut_file_list = self.cut_file(c)
                 # print(len(cut_file_list))
                 # print(cut_file_list[0])
                 from time import time
