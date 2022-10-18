@@ -321,6 +321,7 @@ def decode():
     file_uid = front_data['file_uid'] 
     clust_method = front_data['clust_method']
     print(file_uid, "\n")
+    # print(session['encode_key'])
     if 'encode_key' not in session:
         return 'session invalid, encode_key not found'
 
@@ -339,5 +340,6 @@ def decode():
 print(app.url_map)
 
 if __name__ == '__main__':
+    CORS(app,supports_credentials=True)
     app.run('127.0.0.1', port=5000, debug=True)
    
