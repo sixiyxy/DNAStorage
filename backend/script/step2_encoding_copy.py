@@ -11,19 +11,21 @@ from utils.utils_basic import get_config,write_yaml,write_dna_file,write_dna_sam
 from utils.verify_methods import Hamming,ReedSolomon
 from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
 
+
+
 verify_methods = {
     "WithoutVerifycode":False,
-    "Hamming":Hamming(),
-    "ReedSolomon":ReedSolomon()}
+    "Hamming":Hamming(need_logs=False),
+    "ReedSolomon":ReedSolomon(need_logs=False)}
 
 encoding_methods = {
-    "Basic":BaseCodingAlgorithm(need_logs=True),
-    "Church":Church(need_logs=True),
-    "Goldman":Goldman(need_logs=True),
-    "Grass":Grass(need_logs=True),
-    "Blawat":Blawat(need_logs=True),
-    "DNAFountain":DNAFountain(need_logs=True),
-    "YinYang":YinYangCode(need_logs=True)}
+    "Basic":BaseCodingAlgorithm(need_logs=False),
+    "Church":Church(need_logs=False),
+    "Goldman":Goldman(need_logs=False),
+    "Grass":Grass(need_logs=False),
+    "Blawat":Blawat(need_logs=False),
+    "DNAFountain":DNAFountain(need_logs=False),
+    "YinYang":YinYangCode(need_logs=False)}
 
     # {"file_uid":1565237658387615744,
     # "segment_length":160,
@@ -71,10 +73,10 @@ class Encoding():
         # other utils
         self.monitor = Monitor()
     
-    def cut_file(self):
-        print("Read binary matrix from file: " + self.file_path)
+    def cut_file(self,cut_size):
+        # print("Read binary matrix from file: " + self.file_path)
         file_data = fromfile(file=self.file_path, dtype=uint8)
-        cut_size = 4000
+        cut_size = cut_size
         cut_file_data = []
         for i in range(file_data.shape[0]//cut_size):
             if i != file_data.shape[0]//cut_size:
@@ -88,12 +90,12 @@ class Encoding():
 
     def segment_file(self,data):
         # compute file size
+
         matrix, values = [], data
-        print(values)
 
         for current, value in enumerate(values):
             matrix += list(map(int, list(str(bin(value))[2:].zfill(8))))
-            self.monitor.output(current + 1, len(values))
+            # self.monitor.output(current + 1, len(values))
 
         if len(matrix) % self.segment_length != 0:
             matrix += [0] * (self.segment_length - len(matrix) % self.segment_length)
@@ -105,14 +107,36 @@ class Encoding():
         bit_segments =matrix.tolist()
         self.segment_number = len(bit_segments)
 
-        print('Segment the unload file....')
-        print("There are " + str(len(values) * 8) + " bits in the inputted file. ")
-        print("There are " + str(len(bit_segments)) + " bits sequences.\n ")
+        # print('Segment the unload file....')
+        # print("There are " + str(len(values) * 8) + " bits in the inputted file. ")
+        # print("There are " + str(len(bit_segments)) + " bits sequences.\n ")
 
         return bit_segments
 
-    def connet_index(self):
-        original_bit_segments = self.segment_file()
+    def parallel_test(self):
+        cuts = [2000,4000,8000,12000,20000]
+        ts = [1,4,8,16,32,64]
+
+        for c in cuts:
+            for t in ts:
+                cut_file_list = self.cut_file(4000)
+                # print(len(cut_file_list))
+                # print(cut_file_list[0])
+                from time import time
+                t1 = time()
+                with Pool(t) as pool:
+                    # r = tqdm(pool.imap(self.bit_to_dna,cut_file_list),total=len(cut_file_list))
+                    r = pool.imap(self.bit_to_dna,cut_file_list)
+                    for i in r:
+                        pass
+                t2 = time()
+                for data in cut_file_list:
+                    self.bit_to_dna(data)
+                t3 = time()
+                print('cut size {},threads {}, pool time {}, for time {}'.format(c,t,t2-t1,t3-t2))
+
+    def connet_index(self,data):
+        original_bit_segments = self.segment_file(data)
 
         connected_bit_segments = []
         record_index = []
@@ -122,13 +146,13 @@ class Encoding():
             record_index.append(index_code)
             add_index_seg = index_code + original_bit_segments[index]
             connected_bit_segments.append(add_index_seg)
-            self.monitor.output(index + 1, len(original_bit_segments))
-        print('After segment,add index to the bit sequences.\n')
+ 
+        # print('After segment,add index to the bit sequences.\n')
 
         return connected_bit_segments,original_bit_segments,record_index
         
-    def verify_code(self):
-        connected_bit_segments,original_bit_segments,record_index = self.connet_index()
+    def verify_code(self,data):
+        connected_bit_segments,original_bit_segments,record_index = self.connet_index(data)
 
         verify_method = verify_methods[self.verify_method]
         if verify_method == False:
@@ -142,16 +166,16 @@ class Encoding():
                         "final_segment_bit_length":len(final_bit_segments[0])}
 
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
-        print('After add index,add verify code to the bit sequences.\n')
+        # print('After add index,add verify code to the bit sequences.\n')
 
         return original_bit_segments,record_index,connected_bit_segments,final_bit_segments
 
-    def bit_to_dna(self): 
+    def bit_to_dna(self,data): 
         start_time = datetime.now()
-        original_bit_segments,record_index,connected_bit_segments,final_bit_segments = self.verify_code()
+        original_bit_segments,record_index,connected_bit_segments,final_bit_segments = self.verify_code(data)
         encode_method = encoding_methods[self.encode_method]
         dna_sequences = encode_method.encode(final_bit_segments)
-        print('Encode bit segments to DNA sequences by coding scheme.\n')
+        # print('Encode bit segments to DNA sequences by coding scheme.\n')
 
         # record encode value
         run_time = (datetime.now() - start_time).total_seconds()
@@ -177,12 +201,13 @@ class Encoding():
                     "net_information_density":net_information_density}
 
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
-        write_dna_file(path=self.dna_file,dna_sequences=dna_sequences,need_logs=True)
-        write_dna_file(path=self.dna_demo_file,dna_sequences=dna_sequences,need_logs=True)
+        write_dna_file(path=self.dna_file,dna_sequences=dna_sequences,need_logs=False)
+        write_dna_file(path=self.dna_demo_file,dna_sequences=dna_sequences,need_logs=False)
 
         # record plot data
         gc_distribution = [0 for _ in range(101)]
         homo_distribution = [0 for _ in range(max(list(map(len, dna_sequences))))]
+        
 
         for dna_sequence in dna_sequences:
             dna_segment = "".join(dna_sequence)
@@ -194,7 +219,10 @@ class Encoding():
                 for missing_segment in missing_segments:
                     if missing_segment in dna_segment:
                         is_find = True
-                        homo_distribution[homo_length] += 1
+                        # print(missing_segment,dna_segment)
+                        # print('kkk',homo_length,len(homo_distribution))
+                        # print(homo_distribution)
+                        homo_distribution[homo_length-1] += 1
                         break
                     if is_find:
                         break
@@ -206,7 +234,7 @@ class Encoding():
             plot_dict = {'x_value':i,'y_value':gc_distribution[i]}
             front_gc.append(plot_dict)
         for i in range(max(list(map(len, dna_sequences)))):
-            plot_dict = {'x_value':i,'y_value':gc_distribution[i]}
+            plot_dict = {'x_value':i+1,'y_value':gc_distribution[i]}
             front_homo.append(plot_dict)
 
         record_info['gc_plot'] = front_gc
@@ -260,12 +288,15 @@ class Encoding():
 
 
 if __name__ == '__main__':
-    obj = Encoding(file_uid=1565536927137009664,
-    encode_method='Basic',
+    # 1565536927137009664
+    # 1582258845189804032
+    obj = Encoding(file_uid=1582258845189804032,
+                  encode_method='Basic',
                   segment_length=160,
                   index_length=20,
                   verify_method='Hamming')
+    obj.parallel_test()
     # obj.connet_index()
     # obj.verify_code()
-    record_info,bit_segments = obj.bit_to_dna()
+    # record_info,bit_segments = obj.bit_to_dna()
     # print(dna_sequences)

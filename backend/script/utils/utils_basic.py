@@ -10,7 +10,7 @@ from datetime import datetime
 def get_config(yaml_path=''):
     now_dir = os.path.dirname(os.path.abspath(__file__))
     backend_dir = os.path.dirname(os.path.dirname(now_dir))
-    print(yaml_path)
+    # print(yaml_path)
     # read file yaml
     if yaml_path !='config':
         f = open(yaml_path)
@@ -30,7 +30,6 @@ def write_yaml(yaml_path,data,appending):
         with open(yaml_path,"w",encoding="utf-8") as f:
             yaml.dump(data,f)
     elif appending==True:
-        print(yaml_path)
         yaml_data = get_config(yaml_path=yaml_path)
         data_keys = list(data.keys())
         # print(data_keys)
