@@ -64,7 +64,7 @@ class Simulation():
         self.syn_density=self.calculate_density(self.simu_dna)
         self.syn_info=syn_info
         self.syn_info['syn_density']=self.syn_density
-        return syn_info,self.syn_density
+        return syn_info
 
     def get_simu_dec_info(self,
         months_of_storage,
@@ -89,15 +89,14 @@ class Simulation():
         self.simu_dna,self.dec_error_recorder=DEC(self.simu_dna)
         dec_info={
             "storage_host":storage_host,
-            "decay_reference_link":0,
             "months_of_storage":months_of_storage,
             "decay_loss_rate":loss_rate,
             "storage_host_parameter_reference":arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=dec_info,appending=True)
         dec_density=self.calculate_density(self.simu_dna)
-        self.dec_info=dec_info
-        self.dec_info['dec_density']=dec_density
+        #self.dec_info=dec_info
+        #self.dec_info['dec_density']=dec_density
         return dec_info,self.syn_density,dec_density
 
     def get_simu_pcr_info(self,

@@ -163,14 +163,14 @@ def simu_synthesis():
 
     #global now_simu
     now_simu=Simu(file_uid)
-    simu_synthesis_settings,density=now_simu.get_simu_synthesis_info(synthesis_number=synthesis_number,
+    simu_synthesis_settings=now_simu.get_simu_synthesis_info(synthesis_number=synthesis_number,
         synthesis_yield=synthesis_yield,
         synthesis_method=synthesis_method)
     
     simulation_key = 'simulation_{}'.format(file_uid)
     session['simulation_key'] = simulation_key
     set_session(simulation_key,now_simu)
-    simu_synthesis_settings['density']=density
+    #simu_synthesis_settings['density']=density
     print("Simulation Synthesis time:"+str(time.time()-t1))
     return json.dumps(simu_synthesis_settings)
 
@@ -184,7 +184,7 @@ def simu_dec():
     #### Postman test json ####
      {"months_of_storage":24,
      "loss_rate":0.3,
-     "storage_host":"WhiteGaussian"}
+     "storage_host":"Hsapiens"}
     '''
     months_of_storage = front_data['months_of_storage']
     loss_rate = front_data['loss_rate']
@@ -204,8 +204,8 @@ def simu_dec():
 
     simu_dec_settings["syn_density"]=syn_density
     simu_dec_settings["dec_density"]=dec_density
-
     print("Simulation Decay time:"+str(time.time()-t1))
+
     return json.dumps(simu_dec_settings)
 
 @app.route('/simu_pcr',methods=['GET','POST'])
@@ -268,10 +268,11 @@ def simu_seq():
     front_data = request.data
     front_data = json.loads(front_data)
 
+    '''
     #### Postman test json ####
-    # { "seq_depth":15,
-    #  "seq_meth":"ill_PairedEnd"}
-
+     { "seq_depth":15,
+      "seq_meth":"ill_PairedEnd"}
+    '''
     seq_depth =front_data['seq_depth'] 
     seq_meth=front_data['seq_meth']
 
