@@ -17,6 +17,7 @@ class Simulation():
             self.config = get_config(yaml_path='config')
             self.backend_dir = self.config['backend_dir']
             self.simulation_dir =   self.config['simulation_dir'] #to save simulated files
+            
             if not upload_flag:
                 self.file_dir=self.config['file_save_dir']
                 self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
@@ -34,7 +35,7 @@ class Simulation():
                 self.simu_dna=fasta_to_dna(self.file_path)
             
             self.syn_density=0
-
+            self.simu_repo=[]
 
     def get_simu_synthesis_info(self,synthesis_number,
         synthesis_yield,
@@ -53,7 +54,7 @@ class Simulation():
 
         SYN=Model.Synthesizer_simu(arg)
         self.simu_dna,self.syn_error_recorder=SYN(self.simu_dna)
-        print(self.syn_error_recorder)
+        print("Syn Error Recorder",self.syn_error_recorder)
         syn_info={
             "synthesis_number":int(synthesis_number),
             "synthesis_yield":float(synthesis_yield),
@@ -62,8 +63,7 @@ class Simulation():
         }
         write_yaml(yaml_path=self.file_info_path,data=syn_info,appending=True)
         self.syn_density=self.calculate_density(self.simu_dna)
-        self.syn_info=syn_info
-        self.syn_info['syn_density']=self.syn_density
+        syn_info['syn_density']=self.syn_density
         return syn_info
 
     def get_simu_dec_info(self,
@@ -87,6 +87,7 @@ class Simulation():
 
         DEC=Model.Decayer_simu(arg)
         self.simu_dna,self.dec_error_recorder=DEC(self.simu_dna)
+        print("Dec Error Recorder",self.dec_error_recorder)
         dec_info={
             "storage_host":storage_host,
             "months_of_storage":months_of_storage,
@@ -95,8 +96,7 @@ class Simulation():
         }
         write_yaml(yaml_path=self.file_info_path,data=dec_info,appending=True)
         dec_density=self.calculate_density(self.simu_dna)
-        #self.dec_info=dec_info
-        #self.dec_info['dec_density']=dec_density
+        
         return dec_info,self.syn_density,dec_density
 
     def get_simu_pcr_info(self,
@@ -118,7 +118,7 @@ class Simulation():
 
         PCR=Model.PCRer_simu(arg)
         self.simu_dna,self.pcr_error_recorder=PCR(self.simu_dna)
-
+        print("PCR Error Recorder",self.pcr_error_recorder)
         density=self.calculate_density(self.simu_dna,True)
         error_density=self.error_density(self.simu_dna)
 
@@ -148,7 +148,7 @@ class Simulation():
 
         Sam=Model.Sampler_simu(arg=arg)
         self.simu_dna,error_recorder=Sam(self.simu_dna)
-        print("sample:",error_recorder)
+        print("Sample Error Recorder:",error_recorder)
         density=self.calculate_density(self.simu_dna)
         error_density=self.error_density(self.simu_dna)
 
@@ -178,7 +178,7 @@ class Simulation():
         Seq=Model.Sequencer_simu(arg)
         self.simu_dna,self.seq_error_decorder=Seq(self.simu_dna)
         seq_reference=0
-        
+        print("Seq Error Recorder",self.seq_error_decorder)
         density=self.calculate_density(self.simu_dna,True)
         error_density=self.error_density(self.simu_dna)
 
@@ -197,6 +197,7 @@ class Simulation():
 
     def get_simu_repo(self):
         simu_repo={}
+        '''
         #file_name
         # try:
         #     simu_repo['Synthesis']=self.syn_info
@@ -218,9 +219,12 @@ class Simulation():
         #     simu_repo['Sequencing']=self.sequence_info
         # except:
         #     pass
+        '''
         simu_repo={"111:222"}
-        simulation_repo_dir=os.path.join(self.backend_dir+'/'+str(self.simulation_dir)+'/'+str(self.file_uid)+".fasta")
-        with open(simulation_repo_dir,'a+') as f:
+
+        ### for following decoding; do not need to download
+        simulation_result_dir=os.path.join(self.backend_dir+'/'+str(self.simulation_dir)+'/'+str(self.file_uid)+".fasta")
+        with open(simulation_result_dir,'a+') as f:
             index=0
             for dna in self.simu_dna:
                 for re in dna['re']:

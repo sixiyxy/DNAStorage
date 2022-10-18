@@ -30,7 +30,6 @@ def write_yaml(yaml_path,data,appending):
         with open(yaml_path,"w",encoding="utf-8") as f:
             yaml.dump(data,f)
     elif appending==True:
-        print(yaml_path)
         yaml_data = get_config(yaml_path=yaml_path)
         data_keys = list(data.keys())
         # print(data_keys)
