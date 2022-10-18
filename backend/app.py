@@ -1,4 +1,5 @@
 from distutils.command.config import config
+from distutils.command.upload import upload
 from imp import reload
 import os
 import json
@@ -99,13 +100,8 @@ def dna_upload():
     f.save(ori_save_dir)
 
     '''
-    Postman Test Content
-    1. a .fasta file with key 'file'
-    2. json with key 'data'
-    {  "synthesis_number":30,
-        "synthesis_yield":0.99,
-        "synthesis_method":"ErrASE"
-        }
+    #### Postman Test Content
+    a .fasta file with key 'file'
     '''
     
     try:
@@ -114,35 +110,15 @@ def dna_upload():
         os.remove(ori_save_dir)
         return "Invalid"
 
-    if flag:
-        file_basic_info={
-            "file_uid":file_uid,
-            "file_name":filename,
-            "file_rename":file_rename,
-            'upload':True
-            }
-        yaml_file='{}/upload_dna/{}.yaml'.format(backend_dir,file_uid)
-        write_yaml(yaml_path=yaml_file,data=file_basic_info,appending=False)
+    file_basic_info={
+        "file_uid":file_uid,
+        "file_name":filename,
+        "file_rename":file_rename,
+        'upload':True
+        }
+    yaml_file='{}/upload_dna/{}.yaml'.format(backend_dir,file_uid)
+    write_yaml(yaml_path=yaml_file,data=file_basic_info,appending=False)
 
-        dna=fasta_to_dna(ori_save_dir)
-        front_data=json.loads(request.form.get('data'))
-        synthesis_number = front_data['synthesis_number']
-        synthesis_yield = front_data['synthesis_yield']
-        synthesis_method = front_data['synthesis_method']
-        
-        now_simu=Simu(file_uid=file_uid,upload_flag=True,dna=dna)
-        simu_synthesis_settings,density=now_simu.get_simu_synthesis_info(synthesis_number=synthesis_number,
-        synthesis_yield=synthesis_yield,
-        synthesis_method=synthesis_method)
-    
-        simulation_key = 'simulation_{}'.format(file_uid)
-        session['simulation_key'] = simulation_key
-        set_session(simulation_key,now_simu)
-        simu_synthesis_settings['density']=density
-    else:
-        os.remove(ori_save_dir)
-        return "Invalid"
-    file_basic_info['synthesis_info']=simu_synthesis_settings
     return json.dumps(file_basic_info)
 
 #now_simu=Simu()
@@ -154,18 +130,35 @@ def simu_synthesis():
     front_data = json.loads(front_data)
     '''
     #### Postman test json ####
+    #### for normal files
      { "file_uid":1565536927137009664,
          "synthesis_number":30,
          "synthesis_yield":0.99,
-         "synthesis_method":"ErrASE"}
+         "synthesis_method":"ErrASE"
+         }
+     #### for upload dna file
+     {
+        "file_uid":1582175684011364352,
+        "synthesis_number":30,
+        "synthesis_yield":0.99,
+        "synthesis_method":"ErrASE",
+        "upload_flag":"True"
+     }
     '''
+    try:
+        upload_flag=front_data['upload_flag']
+    except:
+        upload_flag=False
+    
     file_uid=front_data['file_uid']
     synthesis_number = front_data['synthesis_number']
     synthesis_yield = front_data['synthesis_yield']
     synthesis_method = front_data['synthesis_method']
 
-    #global now_simu
-    now_simu=Simu(file_uid)
+    if not upload_flag:
+        now_simu=Simu(file_uid)
+    else:
+        now_simu=Simu(file_uid=file_uid,upload_flag=upload_flag)
     simu_synthesis_settings=now_simu.get_simu_synthesis_info(synthesis_number=synthesis_number,
         synthesis_yield=synthesis_yield,
         synthesis_method=synthesis_method)

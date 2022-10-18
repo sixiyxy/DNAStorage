@@ -2,7 +2,7 @@ from symbol import pass_stmt
 import script.utils.simulation_model as Model
 import numpy as np
 from script.utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg
+from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna
 import os
 # import utils.simulation_model as Model
 # import numpy as np
@@ -11,7 +11,7 @@ import os
 
 
 class Simulation():
-    def __init__(self,file_uid=None,upload_flag=False,dna=None):
+    def __init__(self,file_uid=None,upload_flag=False):
         if file_uid!=None:
             self.file_uid   =   file_uid
             self.config = get_config(yaml_path='config')
@@ -30,7 +30,8 @@ class Simulation():
             else:
                 self.file_dir=self.config['upload_dna_save_dir']
                 self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
-                self.simu_dna=dna
+                self.file_path='{}/{}/{}.fasta'.format(self.backend_dir,self.file_dir,self.file_uid)
+                self.simu_dna=fasta_to_dna(self.file_path)
             
             self.syn_density=0
             #self.syn_error_recorder=[]
