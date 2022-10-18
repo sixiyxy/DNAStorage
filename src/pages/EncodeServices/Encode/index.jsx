@@ -173,3 +173,4 @@ export const Encode = (props) => {
   );
 };
 //Encode.defaultProps = new EncodeProps();
+export default Encode;

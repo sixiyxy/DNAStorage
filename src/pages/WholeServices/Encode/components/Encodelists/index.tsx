@@ -105,8 +105,7 @@ const Encodelists: React.FC = (props: any) => {
           <Button type="primary" onClick={props.btnflag?handleClick:scrollToAnchor} style={{marginLeft:"400px"}}>Run</Button>
         </div>
       </div>
-    </div>
-  );
+</div>)
 };
-
 export default Encodelists;
+

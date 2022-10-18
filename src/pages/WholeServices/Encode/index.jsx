@@ -5,9 +5,6 @@ import Encodelists from "./components/Encodelists";
 import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
 import Graphs from "./components/Graphs";
-import {
-  FolderAddTwoTone,
-} from '@ant-design/icons';
 import { Anchor } from "antd";
 const { Link } = Anchor;
 
@@ -76,7 +73,7 @@ export const Encode = (props) => {
   return (
     <div className="EncodeContainer">
      
-      <div style={{ paddingLeft: "150px", paddingTop: "20px"}}>
+      <div style={{ paddingLeft: "30px", paddingTop: "20px" }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
             <a href="/">Home</a>
@@ -98,7 +95,7 @@ export const Encode = (props) => {
             }}
           >
             <p>
-              <strong> <FolderAddTwoTone />  Please upload the storage files:</strong>
+              <strong>Please upload the storage files:</strong>
             </p>
             <Uploads GetFileID={props.setFileId} FileInfoPass={FileInfoPass} setBtn={setBtn}/>
           </div>
@@ -176,3 +173,4 @@ export const Encode = (props) => {
   );
 };
 //Encode.defaultProps = new EncodeProps();
+export default Encode;

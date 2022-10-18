@@ -8,7 +8,7 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Encode } from "./Encode";
+import  Encode  from "./Encode";
 import { Report } from "./Report";
 const { Header, Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];

@@ -61,6 +61,7 @@ const Sliders = (props) => {
         Tips:According to the existing synthesis and sequencing technology, the
         recommended length is 16bits.
       </div>
+
       <div style={{ paddingLeft: "0px", paddingTop: "20px", fontSize: "16px" }}>
         <strong>Verify Method: </strong>
         <Radio.Group onChange={onChange1} value={value} defaultValue={"WithoutVerifycode"}>
@@ -79,5 +80,6 @@ const Sliders = (props) => {
     </>
   );
 };
+
 
 export default Sliders;
