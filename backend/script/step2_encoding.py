@@ -216,13 +216,14 @@ class Encoding():
         interval_cate = interval.categories
         interval_value = interval.value_counts().values
 
+
         bins = [round(i,1) for i in bins]
         free_energy_plotdata = []
         for idx in range(len(interval_cate)):
-            x_value = interval[idx].mid
-            x_value = str(round(x_value,1))
-            range_label = '{} - {}'.format(interval[idx].left,interval[idx].right)
-            data = {'x':x_value,'y':str(interval_value[idx]),'range':range_label}
+            x_value = interval_cate[idx].mid
+            x_value = round(x_value,1)
+            range_label = '{} - {}'.format(interval_cate[idx].left,interval_cate[idx].right)
+            data = {'x':x_value,'y':int(interval_value[idx]),'range':range_label}
             free_energy_plotdata.append(data)
 
         record_info['min_free_energy'] = avg_free_energy

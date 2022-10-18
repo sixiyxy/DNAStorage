@@ -114,8 +114,8 @@ class Encoding():
         return bit_segments
 
     def parallel_test(self):
-        cuts = [2000,4000,8000,12000,20000]
-        ts = [1,4,8,16,32,64]
+        cuts = [2000,4000,8000,12000,20000,40000]
+        ts = [1,4,8,16,32,64,128]
 
         for c in cuts:
             for t in ts:

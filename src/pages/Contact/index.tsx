@@ -1,45 +1,58 @@
 import React from "react";
 import "./index.less";
+import { Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { Image } from 'antd';
+import { Breadcrumb } from 'antd';
+import logo from './professor-img-3.png'
 export class ContactProps {}
 
 export const Contact: React.FC<ContactProps> = (props) => {
   return (
-    <div id="page">
-      <div id="people">
-        <h1>People involved in the DNA Storage project:</h1>
-        <ul>
-          <li>Likun Jiang,Xiamen University</li>
-          <li>Changzhi Jiang,Xiamen University</li>
-          <li>Ziyun Zou,Xiamen University</li>
-          <li>Xinyu Yu,Xiamen University</li>
-          <li>Yanni Xu,Xiamen University</li>
-          <li>Xinru Ruan,Xiamen University</li>
-          <li>Xinyi Zhang,Xiamen University</li>
-        </ul>
-      </div>
-
-      <div id="Correspondence">
-        <h1>Correspondence</h1>
-        <div id="tableContainer">
-          <div id="tableRow">
-            <div id="tableCell">
-              <p id="teacher">Dr.Xiangrong Liu</p>
-              <a href="">xrliu@xmu.edu.cn</a>
-              <p>Professor</p>
-              <p>Xiamen University,</p>
-              <p>Xiamen,China</p>
-            </div>
-            <div id="tableCell">
-              <img
-                id="professorpic"
-                src="src\pages\Contact\professor-img-3.png"
-                alt="professorLiu img"
-                width="130px"
-              />
-            </div>
+    <div className="Contact_Container">
+        <div className="contact">
+          <div className="contact_inner">
+          <div style={{paddingTop:"30px"}}>
+            <Breadcrumb separator=">">
+                  <Breadcrumb.Item>
+                    <a href="/">Home</a>
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item>Contact</Breadcrumb.Item>
+              </Breadcrumb>
           </div>
+              <h1 style={{paddingTop:"30px"}}>Information</h1>
+                <p>Our project...xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                </p>
+                <h1 style={{paddingTop:"30px",paddingBottom:"10px"}}>People involved in the DNA Storage project:</h1>
+                <p><Avatar size="small" icon={<UserOutlined />} />  Likun Jiang, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
+                <p><Avatar size="small" icon={<UserOutlined />} />  Ziyun Zou, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
+                <p><Avatar size="small" icon={<UserOutlined />} />  Xinyu Yu, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
+                <p><Avatar size="small" icon={<UserOutlined />} />  Xinru Ruan, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
+                <p><Avatar size="small" icon={<UserOutlined />} />  Xinyi Zhang, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
+                <p><Avatar size="small" icon={<UserOutlined />} />  Yanni Xu, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
+                <p><Avatar size="small" icon={<UserOutlined />} />  Changzhi Jiang, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
+              <h1 style={{paddingTop:"30px"}}>Correspondence</h1>
+              <p style={{paddingBottom:"200px",paddingTop:"30px"}}>
+                {/* Dr.Xiangrong Liu<br/>xrliu@xmu.edu.cn<br/>Professor Xiamen University */}
+                <Image
+                width={150}
+                src={logo}
+                
+              />
+              </p>
+              
+          </div>
+            
+
         </div>
-      </div>
     </div>
   );
 };
