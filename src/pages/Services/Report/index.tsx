@@ -182,7 +182,7 @@ export const Report: React.FC<ReportProps> = (props) => {
       
 
     <Card 
-      title="Title:GC_Contact" 
+      title="Title: GC_Contact" 
       type="inner" 
       style={{ marginLeft:"300px",marginTop:"10px",width:"800px"}}>
         <div
@@ -194,7 +194,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     </Card>
     
     <Card 
-      title="Title:Homopolymer Length" 
+      title="Title: Homopolymer Length" 
       type="inner" 
       style={{ marginLeft:"300px",marginTop:"30px",width:"800px"}}
     >
@@ -206,14 +206,18 @@ export const Report: React.FC<ReportProps> = (props) => {
         </div>
     </Card>
 
-    {/* <Card title="Title:Energy Length" type="inner" style={{ marginLeft:"300px",marginTop:"30px",width:"650px"}}>
+    <Card 
+      title="Title: Sequence Min Free Energy " 
+      type="inner" 
+      style={{ marginLeft:"300px",marginTop:"30px",width:"800px"}}
+    >
         <div
             id="energygraph"
-            style={{ paddingLeft: "50px", paddingTop: "30px", fontSize: "15px" }}
+            style={{ paddingLeft: "50px", paddingTop: "30px", fontSize: "15px",width:"750px"}}
         > 
           <EnergyGraph energy={props.energy} />
         </div>
-    </Card> */}
+    </Card>
 
         <div style={{ marginLeft:"650px",marginTop:"100px"}}>
             <Button 
