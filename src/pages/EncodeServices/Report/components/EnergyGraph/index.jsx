@@ -13,6 +13,7 @@ const EnergyGraph = (props) => {
     xField: 'x',
     yField: 'y',
     width:400,
+    intervalPadding:0,
     label: {
       // 可手动配置 label 数据标签位置
       position: 'top',
@@ -30,12 +31,19 @@ const EnergyGraph = (props) => {
       },
     },
     meta: {
-      type: {
+      x: {
         alias: 'x',
       },
-      sales: {
+      y: {
         alias: 'y',
       },
+      range:{
+        alias:'range'
+      }
+    },
+    tooltip: {
+      showTitle:false,
+      fields: ["y","range"],
     },
   };
   return <Column {...config} />;
