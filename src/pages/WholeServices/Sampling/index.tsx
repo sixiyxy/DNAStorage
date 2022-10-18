@@ -15,44 +15,36 @@ import {
 } from "antd";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
-
 import axios from "axios";
 
-export class DecayProps {
+export class SamplingProps {
   changeSider;
   fileId;
 }
 
-export const Decay: React.FC<DecayProps> = (props) => {
-  const { Option, OptGroup } = Select;
+export const Sampling: React.FC<SamplingProps> = (props) => {
+  const [samplingRatio, setSamplingRatio] = useState(0.005);
 
-  const [lossValue, setLossValue] = useState(0.3);
-  const [monthValue, setMonthValue] = useState(24);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
   const [hrefLink, setHrefLink] = useState("");
-  const [method, setMethod] = useState("Hsapiens");
+  const [method, setMethod] = useState("Taq");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   //处理函数
-  const monthChange = (value: number) => {
-    if (isNaN(value)) {
-      return;
-    }
-    setMonthValue(value);
-  };
+
   const lossChange = (value: number) => {
     if (isNaN(value)) {
       return;
     }
-    setLossValue(value);
+    setSamplingRatio(value);
   };
   const handleChange = (value: string) => {
     setMethod(value);
   };
   const skipDecay = function () {
-    props.changeSider(["0-1-2"]);
+    props.changeSider(["0-1-4"]);
   };
   const showModal = () => {
     setIsModalOpen(true);
@@ -64,7 +56,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_dec", params)
+      .post("http://127.0.0.1:5000/simu_sam", params)
       .then(function (response) {
         //console.log(response);
         setData(response?.data?.density);
@@ -73,7 +65,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
       });
   };
   const handleContinue = () => {
-    props.changeSider(["0-1-2"]);
+    props.changeSider(["0-1-4"]);
   };
 
   //数据生成
@@ -89,11 +81,9 @@ export const Decay: React.FC<DecayProps> = (props) => {
     return {
       // file_uid: props.fileId,
       file_uid: "1565536927137009664",
-      months_of_storage: monthValue,
-      loss_rate: lossValue,
-      storage_host: method,
+      sam_ratio: samplingRatio,
     };
-  }, [monthValue, lossValue, method]);
+  }, [samplingRatio, method]);
   console.log("params", params);
   const config = {
     data: chartData,
@@ -117,7 +107,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
   };
 
   return (
-    <div className="decay-content">
+    <div className="sampling-content">
       <div style={{ margin: 20 }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
@@ -127,7 +117,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
             <a href="/Services">Service</a>
           </Breadcrumb.Item>
           <Breadcrumb.Item>Simulation</Breadcrumb.Item>
-          <Breadcrumb.Item>Decay</Breadcrumb.Item>
+          <Breadcrumb.Item>Sampling</Breadcrumb.Item>
         </Breadcrumb>
       </div>
       <Row wrap={false}>
@@ -150,30 +140,8 @@ export const Decay: React.FC<DecayProps> = (props) => {
           <div className="function-content">
             <Card>
               <div className="function-bar">
-                <span>Month of Storage:</span>
-                <Tooltip title="During storage, depurination and deamination are the two main factors of the decay of strands, where the ratio could be computed with temperature, PH, and storage time. Other factors relate to the storage host you choose. ">
-                  <i
-                    className="iconfont icon-wenhao"
-                    style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
-                  ></i>
-                </Tooltip>
-                <Row>
-                  <Col>
-                    <InputNumber
-                      min={1}
-                      style={{
-                        margin: "5px 0px",
-                        width: "150px",
-                      }}
-                      value={monthValue}
-                      onChange={monthChange}
-                    />
-                  </Col>
-                </Row>
-              </div>
-              <div className="function-bar">
-                <span>Loss Rate: </span>
-                <Tooltip title="Total loss rate during storage. ">
+                <span>Sampling Ratio:</span>
+                <Tooltip title="The ratio of each oligo to be sampled.">
                   <i
                     className="iconfont icon-wenhao"
                     style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
@@ -185,8 +153,10 @@ export const Decay: React.FC<DecayProps> = (props) => {
                       min={0}
                       max={1.0}
                       onChange={lossChange}
-                      value={typeof lossValue === "number" ? lossValue : 0}
-                      step={0.1}
+                      value={
+                        typeof samplingRatio === "number" ? samplingRatio : 0
+                      }
+                      step={0.001}
                     />
                   </Col>
                   <Col span={4}>
@@ -196,65 +166,14 @@ export const Decay: React.FC<DecayProps> = (props) => {
                       style={{
                         margin: "0 16px",
                       }}
-                      step={0.1}
-                      value={lossValue}
+                      step={0.001}
+                      value={samplingRatio}
                       onChange={lossChange}
                     />
                   </Col>
                 </Row>
               </div>
-              <div className="function-bar">
-                <span>Storage Host :</span>
-                {/* <Tooltip title="prompt text">
-                  <i
-                    className="iconfont icon-wenhao"
-                    style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
-                  ></i>
-                </Tooltip> */}
-                <Select
-                  style={{ width: 320, marginLeft: 20 }}
-                  onChange={handleChange}
-                  value={method}
-                >
-                  <OptGroup label="Eukaryotic">
-                    <Option value="Hsapiens">H sapiens</Option>
-                    <Option value="Mmusculus">M musculus </Option>
-                    <Option value="Dmelanogaster">D melanogaster</Option>
-                    <Option value="Scerevisiae">S cerevisiae</Option>
-                  </OptGroup>
 
-                  <OptGroup label="In-vitro">
-                    <Option value="Erasure">
-                      Erasure Channel with an error probability of 0.5 percent
-                    </Option>
-                    <Option value="WhiteGaussian">
-                      White Gaussian Noise with an error probability of 0.5
-                      percent
-                    </Option>
-                    <Option value="Dep_ph8_293.15k">
-                      Depurination at pH 8 and 293.15K
-                    </Option>
-                    <Option value="Dep_ph8_253.15k">
-                      Depurination at pH 8 and 253.15K
-                    </Option>
-                    <Option value="Dep_ph8_193.15k">
-                      Depurination at pH 8 and 193.15K
-                    </Option>
-                    <Option value="Dep_ph7_193.15k">
-                      Depurination at pH 7 and 193.15K
-                    </Option>
-                    <Option value="Dep_ph7_253.15k">
-                      Depurination at pH 7 and 253.15K
-                    </Option>
-                    <Option value="jukes_q1">
-                      Jukes-Cantor model with q=1
-                    </Option>
-                  </OptGroup>
-                  <OptGroup label="Prokaryotes">
-                    <Option value="Ecoli">E Coli</Option>
-                  </OptGroup>
-                </Select>
-              </div>
               <div
                 style={{
                   display: "flex",
@@ -279,7 +198,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
                     className="iconfont icon-warning-circle"
                     style={{ fontSize: 40, color: "red" }}
                   ></i>
-                  <p>Do you want to skip Decay?</p>
+                  <p>Do you want to skip Sampling?</p>
                 </Modal>
               </div>
             </Card>
@@ -344,4 +263,4 @@ export const Decay: React.FC<DecayProps> = (props) => {
   );
 };
 
-Decay.defaultProps = new DecayProps();
+Sampling.defaultProps = new SamplingProps();

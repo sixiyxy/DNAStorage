@@ -1,13 +1,15 @@
 import { Home } from "../pages/Home";
 import { Contact } from "../pages/Contact";
 import { Resources } from "../pages/Resources";
-import { Services } from "../pages/Services";
+import { WholeServices } from "../pages/WholeServices";
 import { Tutorial } from "../pages/Tutorial";
 import { Publications } from "../pages/Publications";
 import { Methods } from "../pages/Methods";
 import { RouteObject } from "react-router-dom";
 import { BasicLayout } from "../pages/Layouts/BasicLayouts";
 import { ServiceChose } from "../pages/ServiceChose";
+import { EncodeServices } from "../pages/EncodeServices";
+import { SimulationServices } from "../pages/SimulationServices";
 export const router: RouteObject[] = [
   {
     path: "/",
@@ -20,9 +22,9 @@ export const router: RouteObject[] = [
       { path: "/publications", element: <Publications /> },
       { path: "/resources", element: <Resources /> },
       { path: "/services", element: <ServiceChose /> },
-      { path: "/services/encode", element: <Services /> },
-      { path: "/services/simulation", element: <Services /> },
-      { path: "/services/wholeprocess", element: <Services /> },
+      { path: "/services/encode", element: <EncodeServices /> },
+      { path: "/services/simulation", element: <SimulationServices /> },
+      { path: "/services/wholeprocess", element: <WholeServices /> },
       { path: "/tutorial", element: <Tutorial /> },
       { path: "/methods", element: <Methods /> },
       { path: "/contact", element: <Contact /> },
