@@ -2,16 +2,16 @@ import React, { useState, useEffect,useMemo } from 'react';
 import { Column } from '@ant-design/plots';
 import { useParams } from 'react-router-dom';
 
-const GLgraph = (props) => {
+const EnergyGraph = (props) => {
 
   const data =useMemo(() => {
-    return props.GC
-}, [props.GC]);
+    return props.energy
+}, [props.energy]);
 
   const config = {
     data,
-    xField: 'x_value',
-    yField: 'y_value',
+    xField: 'x',
+    yField: 'y',
     width:400,
     label: {
       // 可手动配置 label 数据标签位置
@@ -31,14 +31,14 @@ const GLgraph = (props) => {
     },
     meta: {
       type: {
-        alias: 'x_value',
+        alias: 'x',
       },
       sales: {
-        alias: 'y_value',
+        alias: 'y',
       },
     },
   };
   return <Column {...config} />;
 };
 
-export default GLgraph;
+export default EnergyGraph;

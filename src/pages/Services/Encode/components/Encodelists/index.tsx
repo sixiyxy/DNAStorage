@@ -49,6 +49,7 @@ const Encodelists: React.FC = (props: any) => {
           )
           props.GCPass(response.data.gc_plot);
           props.HomoPass(response.data.homo_plot);
+          props.EnergyPass(response.data.energy_plot);
           props.DNAInfoPass(
           response.data.DNA_sequence_length,
           response.data.encoding_time,

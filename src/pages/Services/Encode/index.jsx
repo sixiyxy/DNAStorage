@@ -35,6 +35,9 @@ export const Encode = (props) => {
   const HomoPass = (param1) => {
     props.setHomo(param1);
   };
+  const EnergyPass = (param1)=>{
+    props.setEnergy(param1)
+  }
   const InfoPass1 = (param1,param2,param3,param4,param5,param6,param7) => {
     props.infos.bit_size=param1
     props.infos.byte_size=param2
@@ -131,6 +134,7 @@ export const Encode = (props) => {
               method={method}
               InfoPass1={InfoPass1}
               GCPass={GCPass}
+              EnergyPass={EnergyPass}
               HomoPass={HomoPass}
               DNAInfoPass={DNAInfoPass}
               changeSider={props.changeSider}
