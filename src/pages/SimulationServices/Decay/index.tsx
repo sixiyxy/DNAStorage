@@ -18,42 +18,41 @@ import "./index.less";
 
 import axios from "axios";
 
-export class SynthesisProps {
+export class DecayProps {
   changeSider;
   fileId;
-  setIsSynthesis;
 }
 
-export const Synthesis: React.FC<SynthesisProps> = (props) => {
+export const Decay: React.FC<DecayProps> = (props) => {
   const { Option, OptGroup } = Select;
 
-  const [yieldValue, setYieldValue] = useState(0.99);
-  const [cycleValue, setCycleValue] = useState(30);
+  const [lossValue, setLossValue] = useState(0.3);
+  const [monthValue, setMonthValue] = useState(24);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
   const [hrefLink, setHrefLink] = useState("");
-  const [method, setMethod] = useState("ErrASE");
+  const [method, setMethod] = useState("Hsapiens");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   //处理函数
-  const cycleChange = (value: number) => {
+  const monthChange = (value: number) => {
     if (isNaN(value)) {
       return;
     }
-    setCycleValue(value);
+    setMonthValue(value);
   };
-  const yieldChange = (value: number) => {
+  const lossChange = (value: number) => {
     if (isNaN(value)) {
       return;
     }
-    setYieldValue(value);
+    setLossValue(value);
   };
   const handleChange = (value: string) => {
     setMethod(value);
   };
-  const skipSynthesis = function () {
-    props.changeSider(["0-2"]);
+  const skipDecay = function () {
+    props.changeSider(["0-1-2"]);
   };
   const showModal = () => {
     setIsModalOpen(true);
@@ -65,18 +64,16 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_synthesis", params)
+      .post("http://127.0.0.1:5000/simu_dec", params)
       .then(function (response) {
         //console.log(response);
-        console.log("syn_density", response?.data?.syn_density);
-        setData(response?.data?.syn_density);
+        setData(response?.data?.density);
         setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
       });
-    props.setIsSynthesis(true);
   };
   const handleContinue = () => {
-    props.changeSider(["0-1-1"]);
+    props.changeSider(["0-1-2"]);
   };
 
   //数据生成
@@ -90,13 +87,13 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   }, [data]);
   const params = useMemo(() => {
     return {
-      // file_uid: props.fileId,
-      file_uid: "1565536927137009664",
-      synthesis_number: cycleValue,
-      synthesis_yield: yieldValue,
-      synthesis_method: method,
+      file_uid: props.fileId,
+      //file_uid: "1565536927137009664",
+      months_of_storage: monthValue,
+      loss_rate: lossValue,
+      storage_host: method,
     };
-  }, [cycleValue, yieldChange, method]);
+  }, [monthValue, lossValue, method]);
   console.log("params", params);
   const config = {
     data: chartData,
@@ -120,7 +117,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   };
 
   return (
-    <div className="synthesis-content">
+    <div className="decay-content">
       <div style={{ margin: 20 }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
@@ -130,7 +127,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
             <a href="/Services">Service</a>
           </Breadcrumb.Item>
           <Breadcrumb.Item>Simulation</Breadcrumb.Item>
-          <Breadcrumb.Item>Synthesis</Breadcrumb.Item>
+          <Breadcrumb.Item>Decay</Breadcrumb.Item>
         </Breadcrumb>
       </div>
       <Row wrap={false}>
@@ -153,8 +150,30 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
           <div className="function-content">
             <Card>
               <div className="function-bar">
-                <span>Synthesis Cycle:</span>
-                <Tooltip title="The copied number of each oligo you want it to have.">
+                <span>Month of Storage:</span>
+                <Tooltip title="During storage, depurination and deamination are the two main factors of the decay of strands, where the ratio could be computed with temperature, PH, and storage time. Other factors relate to the storage host you choose. ">
+                  <i
+                    className="iconfont icon-wenhao"
+                    style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
+                  ></i>
+                </Tooltip>
+                <Row>
+                  <Col>
+                    <InputNumber
+                      min={1}
+                      style={{
+                        margin: "5px 0px",
+                        width: "150px",
+                      }}
+                      value={monthValue}
+                      onChange={monthChange}
+                    />
+                  </Col>
+                </Row>
+              </div>
+              <div className="function-bar">
+                <span>Loss Rate: </span>
+                <Tooltip title="Total loss rate during storage. ">
                   <i
                     className="iconfont icon-wenhao"
                     style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
@@ -163,59 +182,29 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 <Row>
                   <Col span={12}>
                     <Slider
-                      min={10}
-                      max={50}
-                      onChange={cycleChange}
-                      value={typeof cycleValue === "number" ? cycleValue : 0}
+                      min={0}
+                      max={1.0}
+                      onChange={lossChange}
+                      value={typeof lossValue === "number" ? lossValue : 0}
+                      step={0.1}
                     />
                   </Col>
                   <Col span={4}>
                     <InputNumber
-                      min={10}
-                      max={50}
+                      min={0}
+                      max={1.0}
                       style={{
                         margin: "0 16px",
                       }}
-                      value={cycleValue}
-                      onChange={cycleChange}
+                      step={0.1}
+                      value={lossValue}
+                      onChange={lossChange}
                     />
                   </Col>
                 </Row>
               </div>
               <div className="function-bar">
-                <span>Synthesis Yield :</span>
-                <Tooltip title="The possibility of adding one nucleoside to the current synthesizing strand is defined as coupling efficiency. The process might be terminated because of unsuccessful coupling so imperfect coupling efficiency limits the length of the final sequence. Typically, it ranges about 98-99.5.">
-                  <i
-                    className="iconfont icon-wenhao"
-                    style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
-                  ></i>
-                </Tooltip>
-                <Row>
-                  <Col span={12}>
-                    <Slider
-                      min={0.98}
-                      max={0.995}
-                      onChange={yieldChange}
-                      value={typeof yieldValue === "number" ? yieldValue : 0}
-                      step={0.001}
-                    />
-                  </Col>
-                  <Col span={4}>
-                    <InputNumber
-                      min={0.98}
-                      max={0.995}
-                      style={{
-                        margin: "0 16px",
-                      }}
-                      step={0.001}
-                      value={yieldValue}
-                      onChange={yieldChange}
-                    />
-                  </Col>
-                </Row>
-              </div>
-              <div className="function-bar">
-                <span>Synthesis Method :</span>
+                <span>Storage Host :</span>
                 {/* <Tooltip title="prompt text">
                   <i
                     className="iconfont icon-wenhao"
@@ -227,28 +216,42 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   onChange={handleChange}
                   value={method}
                 >
-                  <OptGroup label="Column Synthesized Oligos">
-                    <Option value="ErrASE">ErrASE</Option>
-                    <Option value="MutS">MutS</Option>
-                    <Option value="ConsensusShuffle">Consensus Shuffle</Option>
+                  <OptGroup label="Eukaryotic">
+                    <Option value="Hsapiens">H sapiens</Option>
+                    <Option value="Mmusculus">M musculus </Option>
+                    <Option value="Dmelanogaster">D melanogaster</Option>
+                    <Option value="Scerevisiae">S cerevisiae</Option>
                   </OptGroup>
 
-                  <OptGroup label="Microarray based Oligo Pools">
-                    <Option value="Oligo">
-                      Oligo Hybridization based error correction
+                  <OptGroup label="In-vitro">
+                    <Option value="Erasure">
+                      Erasure Channel with an error probability of 0.5 percent
                     </Option>
-                    <Option value="HighTemperature">
-                      High temperature ligation/hybridization based error
-                      correction
+                    <Option value="WhiteGaussian">
+                      White Gaussian Noise with an error probability of 0.5
+                      percent
                     </Option>
-                    <Option value="ErrASE(Mic)">ErrASE</Option>
-                    <Option value="Nuclease">
-                      Nuclease based error correction
+                    <Option value="Dep_ph8_293.15k">
+                      Depurination at pH 8 and 293.15K
                     </Option>
-                    <Option value="NGS">NGS based error correction</Option>
+                    <Option value="Dep_ph8_253.15k">
+                      Depurination at pH 8 and 253.15K
+                    </Option>
+                    <Option value="Dep_ph8_193.15k">
+                      Depurination at pH 8 and 193.15K
+                    </Option>
+                    <Option value="Dep_ph7_193.15k">
+                      Depurination at pH 7 and 193.15K
+                    </Option>
+                    <Option value="Dep_ph7_253.15k">
+                      Depurination at pH 7 and 253.15K
+                    </Option>
+                    <Option value="jukes_q1">
+                      Jukes-Cantor model with q=1
+                    </Option>
                   </OptGroup>
-                  <OptGroup label="None">
-                    <Option value="None">None</Option>
+                  <OptGroup label="Prokaryotes">
+                    <Option value="Ecoli">E Coli</Option>
                   </OptGroup>
                 </Select>
               </div>
@@ -268,7 +271,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 <Modal
                   title="Warning"
                   visible={isModalOpen}
-                  onOk={skipSynthesis}
+                  onOk={skipDecay}
                   onCancel={handleCancel}
                   okText="Skip"
                 >
@@ -276,12 +279,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                     className="iconfont icon-warning-circle"
                     style={{ fontSize: 40, color: "red" }}
                   ></i>
-                  <p>
-                    Synthesis is the basic process of the error simulation
-                    stage.
-                  </p>
-                  <p>Skipping this step means skipping the whole stage. </p>
-                  <p>Do you still want to skip it?</p>
+                  <p>Do you want to skip Decay?</p>
                 </Modal>
               </div>
             </Card>
@@ -346,4 +344,4 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   );
 };
 
-Synthesis.defaultProps = new SynthesisProps();
+Decay.defaultProps = new DecayProps();

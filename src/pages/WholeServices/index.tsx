@@ -86,18 +86,18 @@ var FileValue = {
   filetype: "None",
 };
 
-export const Services: React.FC<ServicesProps> = (props) => {
+export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [siderSelect, setSiderSelect] = useState(["0-0-0"]);
   const [fileId, setFileId] = useState("");
   const [isSynthesis, setIsSynthesis] = useState(false);
   const [GC, setGC] = useState([]);
   const [homo, setHomo] = useState([]);
-  const [energy,setEnergy]=useState([]);
+  const [energy, setEnergy] = useState([]);
   const [info, setInfo] = useState(infos);
   const [fileinfo, setFileInfo] = useState(FileValue);
   const [dnainfo, setDNAinfo] = useState(DNAinfos);
-  const [encodeurl,setEncodeURL]=useState("");
-  const [fileURL,setFileURL]=useState("");
+  const [encodeurl, setEncodeURL] = useState("");
+  const [fileURL, setFileURL] = useState("");
   const [spinflag, setSpin] = useState(true);
 
   let url = new URL(window.location.href);
