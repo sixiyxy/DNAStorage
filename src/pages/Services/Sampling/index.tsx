@@ -70,7 +70,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
 
   //数据生成
   const chartData = useMemo(() => {
-    return data.map((item) => {
+    return data?.map((item) => {
       return {
         copyNumber: item[0],
         density: Number(item[1].toFixed(3)),

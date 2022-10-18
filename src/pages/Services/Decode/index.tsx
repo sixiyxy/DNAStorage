@@ -15,9 +15,9 @@ export class DecodeProps {
   fileId;
 }
 
-
 export const Decode: React.FC<DecodeProps> = (props) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState("cdhit");
+  const [data, setData] = useState();
   const onChange = (e: RadioChangeEvent) => {
     setValue(e.target.value);
   };
@@ -45,60 +45,58 @@ export const Decode: React.FC<DecodeProps> = (props) => {
     },
   ];
 
-  // const data = useMemo(() => {
-  //   //
-  // }, [])
+  const tableData = useMemo(() => {
+    return [
+      {
+        key: "1",
+        name1: "decode_time",
+        value1: data?.decode_time || "",
+        name2: "clust_method",
+        value2: data?.clust_method || "",
+      },
+      {
+        key: "2",
+        name1: "encode_dna_sequence_number",
+        value1: data?.encode_dna_sequence_number || "",
+        name2: "after_clust_dna_sequence_number",
+        value2: data?.after_clust_dna_sequence_number || "",
+      },
+      {
+        key: "3",
+        name1: "recall_dna_sequence_number",
+        value1: data?.recall_dna_sequence_number || "",
+        name2: "recall_dna_sequence_rate",
+        value2: data?.recall_dna_sequence_rate || "",
+      },
+      {
+        key: "4",
+        name1: "verify_method_remove_bits",
+        value1: data?.verify_method_remove_bits || "",
+        name2: "encode_bits_number",
+        value2: data?.encode_bits_number || "",
+      },
+      {
+        key: "5",
 
-  const data = [
-    {
-      key: "1",
-      name1: "decode_time",
-      value1: 111,
-      name2: "clust_method",
-      value2: 111,
-    },
-    {
-      key: "2",
-      name1: "encode_dna_sequence_number",
-      value1: 111,
-      name2: "after_clust_dna_sequence_number",
-      value2: 111,
-    },
-    {
-      key: "3",
-      name1: "recall_dna_sequence_number",
-      value1: 111,
-      name2: "recall_dna_sequence_rate",
-      value2: 111,
-    },
-    {
-      key: "4",
-      name1: "verify_method_remove_bits",
-      value1: 111,
-      name2: "encode_bits_number",
-      value2: 111,
-    },
-    {
-      key: "5",
-
-      name1: "final_decode_bits_number",
-      value1: 111,
-      name2: "recall_bits_number",
-      value2: 111,
-    },
-    {
-      key: "6",
-      name1: "error_bits_number",
-      value1: 111,
-      name2: "error_bits_rate",
-      value2: 111,
-    },
-  ];
+        name1: "final_decode_bits_number",
+        value1: data?.final_decode_bits_number || "",
+        name2: "recall_bits_number",
+        value2: data?.recall_bits_number || "",
+      },
+      {
+        key: "6",
+        name1: "error_bits_number",
+        value1: data?.error_bits_number || "",
+        name2: "error_bits_rate",
+        value2: data?.error_bits_rate || "",
+      },
+    ];
+  }, [data]);
 
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
-      clust_method: "cdhit",
+      clust_method: value,
     };
   }, [value]);
 
@@ -107,6 +105,7 @@ export const Decode: React.FC<DecodeProps> = (props) => {
       .post("http://localhost:5000/decode", params)
       .then(function (response) {
         console.log("decode", response);
+        setData(response?.data);
       });
   };
 
@@ -128,7 +127,7 @@ export const Decode: React.FC<DecodeProps> = (props) => {
         <div style={{ paddingLeft: "20px" }}>
           <Radio.Group onChange={onChange} value={value}>
             <Space direction="vertical">
-              <Radio value={"Cdhit"}>Cdhit</Radio>
+              <Radio value={"cdhit"}>Cdhit</Radio>
               <Radio value={"xxx"}>xxx</Radio>
             </Space>
           </Radio.Group>
@@ -146,7 +145,7 @@ export const Decode: React.FC<DecodeProps> = (props) => {
       <div style={{ marginTop: "30px", marginLeft: "30px" }}>
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={tableData}
           pagination={{ position: ["none"] }}
         />
       </div>

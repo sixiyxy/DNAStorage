@@ -68,7 +68,8 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       .post("http://127.0.0.1:5000/simu_synthesis", params)
       .then(function (response) {
         //console.log(response);
-        setData(response?.data?.density);
+        console.log("syn_density", response?.data?.syn_density);
+        setData(response?.data?.syn_density);
         setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
       });
@@ -80,7 +81,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
 
   //数据生成
   const chartData = useMemo(() => {
-    return data.map((item) => {
+    return data?.map((item) => {
       return {
         copyNumber: item[0],
         density: Number(item[1].toFixed(3)),
