@@ -3,11 +3,13 @@ import os,sys
 from datetime import datetime
 import pandas as pd
 import numpy as np
+from multiprocessing import Pool
+from tqdm import tqdm
 from numpy import fromfile, array, uint8
 
-from .utils.utils_basic import get_config,write_yaml,write_dna_file,write_dna_sample_file,Monitor
-from .utils.verify_methods import Hamming,ReedSolomon
-from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
+from utils.utils_basic import get_config,write_yaml,write_dna_file,write_dna_sample_file,Monitor
+from utils.verify_methods import Hamming,ReedSolomon
+from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
 
 verify_methods = {
     "WithoutVerifycode":False,
@@ -68,12 +70,25 @@ class Encoding():
 
         # other utils
         self.monitor = Monitor()
-
-    def segment_file(self):
-        # compute file size
+    
+    def cut_file(self):
         print("Read binary matrix from file: " + self.file_path)
+        file_data = fromfile(file=self.file_path, dtype=uint8)
+        cut_size = 4000
+        cut_file_data = []
+        for i in range(file_data.shape[0]//cut_size):
+            if i != file_data.shape[0]//cut_size:
+                cut_data = file_data[i*cut_size:(i+1)*cut_size]
+            else:
+                cut_data = file_data[i*cut_size:]
+            cut_file_data.append(cut_data)
 
-        matrix, values = [], fromfile(file=self.file_path, dtype=uint8)
+        return cut_file_data
+
+
+    def segment_file(self,data):
+        # compute file size
+        matrix, values = [], data
         print(values)
 
         for current, value in enumerate(values):

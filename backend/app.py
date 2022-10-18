@@ -4,6 +4,8 @@ import os
 import json
 import time
 
+
+
 from flask import Flask, render_template,session
 from flask import request
 from flask_cors import CORS
@@ -65,6 +67,7 @@ def file_encode():
     # "encode_method":"Basic"}
 
     file_uid = front_data['file_uid'] #'1566....'
+    
     segment_length = front_data['segment_length'] #4
     index_length = front_data['index_length'] #128
     verify_method = front_data['verify_method'] #'HammingCode'
@@ -80,7 +83,7 @@ def file_encode():
     encode_key = 'encode_{}'.format(file_uid)
     session['encode_key'] = encode_key
     set_session(encode_key,encode_bits)
-
+    print(file_uid, "\n")
     return json.dumps(encode_info)
 
 #if user wants to upload his own dna file instead of generating by us
@@ -318,11 +321,12 @@ def decode():
 
     file_uid = front_data['file_uid'] 
     clust_method = front_data['clust_method']
-    
+    print(file_uid, "\n")
     if 'encode_key' not in session:
         return 'session invalid, encode_key not found'
 
     encode_bits=get_session(session['encode_key'])
+    print(encode_bits,"\n")
     if encode_bits is None:
         return 'please make sure file encoded!!!'
     else:
