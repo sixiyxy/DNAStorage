@@ -10,7 +10,7 @@ synthMeth={
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
             "syn_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
         "MutS":{
@@ -22,7 +22,7 @@ synthMeth={
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
             "syn_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
         "ConsensusShuffle":{
@@ -34,7 +34,7 @@ synthMeth={
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
             "syn_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
         "Oligo":{
@@ -46,7 +46,7 @@ synthMeth={
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
             "syn_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
         "HighTemperature":{
@@ -58,7 +58,7 @@ synthMeth={
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
             "syn_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
         "ErrASE(Mic)":{
@@ -70,7 +70,7 @@ synthMeth={
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
             "syn_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
         "Nuclease":{
@@ -82,7 +82,7 @@ synthMeth={
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
             "syn_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
          "NGS":{
@@ -94,7 +94,7 @@ synthMeth={
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
             "syn_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
          "None":{
@@ -106,7 +106,7 @@ synthMeth={
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "syn_del_pos":{"homopolymer":0,"random":1},
             "syn_ins_pos":{"homopolymer":0,"random":1},
-            "reference":None
+            "reference":[]
         }
 
 }
@@ -159,7 +159,7 @@ decHost={
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
             "dec_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1093/bioinformatics/btaa140"
+            "reference":["https://doi.org/10.1093/bioinformatics/btaa140"]
         },
 
         "Scerevisiae":{
@@ -183,7 +183,7 @@ decHost={
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
             "dec_ins_pos":{"homopolymer":0.5,"random":0.5},
-            "reference":"https://doi.org/10.1093/bioinformatics/btaa140"
+            "reference":["https://doi.org/10.1093/bioinformatics/btaa140"]
         },
 
         "WhiteGaussian":{
@@ -200,7 +200,7 @@ decHost={
                                 },
             "dec_del_pos":{"homopolymer":0.5,"random":0.5},
             "dec_ins_pos":{"homopolymer":0.5,"random":0.5},
-            "reference":"https://doi.org/10.1093/bioinformatics/btaa140"
+            "reference":["https://doi.org/10.1093/bioinformatics/btaa140"]
         },
 
         "Dep_ph8_293.15k":{
@@ -212,7 +212,7 @@ decHost={
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
             "dec_ins_pos":{"homopolymer":0.5,"random":0.5},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
         "Dep_ph8_253.15k":{
@@ -224,7 +224,7 @@ decHost={
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
             "dec_ins_pos":{"homopolymer":0.5,"random":0.5},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
         "Dep_ph8_193.15k":{
@@ -236,7 +236,7 @@ decHost={
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0.5,"random":0.5},
             "dec_ins_pos":{"homopolymer":0.5,"random":0.5},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
         "Dep_ph7_193.15k":{
@@ -248,7 +248,7 @@ decHost={
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
             "dec_ins_pos":{"homopolymer":0.5,"random":0.5},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
         "Dep_ph7_253.15k":{
@@ -260,7 +260,7 @@ decHost={
             "dec_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "dec_del_pos":{"homopolymer":0,"random":1},
             "dec_ins_pos":{"homopolymer":0.5,"random":0.5},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
         "jukes_q1":{
@@ -277,7 +277,7 @@ decHost={
                                 },
             "dec_del_pos":{"homopolymer":0.5,"random":0.5},
             "dec_ins_pos":{"homopolymer":0.5,"random":0.5},
-            "reference":"https://doi.org/10.1093/bioinformatics/btaa140"
+            "reference":["https://doi.org/10.1093/bioinformatics/btaa140"]
         },
 
 
@@ -300,7 +300,7 @@ pcrPoly={
                                 },
             "pcr_del_pos":{"homopolymer":0,"random":1},
             "pcr_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
         "Phusion":{
@@ -318,7 +318,7 @@ pcrPoly={
                                 },
             "pcr_del_pos":{"homopolymer":0,"random":1},
             "pcr_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
          "Pwo":{
@@ -336,7 +336,7 @@ pcrPoly={
                                 },
             "pcr_del_pos":{"homopolymer":0,"random":1},
             "pcr_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
 
         },
 
@@ -355,7 +355,7 @@ pcrPoly={
                                 },
             "pcr_del_pos":{"homopolymer":0,"random":1},
             "pcr_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
         "None":{
@@ -367,7 +367,7 @@ pcrPoly={
             "pcr_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "pcr_del_pos":{"homopolymer":0,"random":1},
             "pcr_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1371/journal.pone.0115950"
+            "reference":["https://doi.org/10.1371/journal.pone.0115950"]
         },
 
 
@@ -389,7 +389,7 @@ seqMeth={
                                 },
             "seq_del_pos":{"homopolymer":0,"random":1},
             "seq_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1186/s12859-016-0976-y"
+            "reference":["https://doi.org/10.1186/s12859-016-0976-y"]
             
         },
         "ill_PairedEnd":{
@@ -407,7 +407,7 @@ seqMeth={
                                 },
             "seq_del_pos":{"homopolymer":0,"random":1},
             "seq_ins_pos":{"homopolymer":0,"random":1},
-            "reference":"https://doi.org/10.1186/s12859-016-0976-y"
+            "reference":["https://doi.org/10.1186/s12859-016-0976-y"]
         
         },
         "nano_1D":{
@@ -425,7 +425,7 @@ seqMeth={
                                 },
             "seq_del_pos":{"homopolymer":0.46,"random":0.54},
             "seq_ins_pos":{"homopolymer":0.46,"random":0.54},
-            "reference":"https://doi.org/10.12688/f1000research.10571.2"
+            "reference":["https://doi.org/10.12688/f1000research.10571.2"]
             
         },
 
@@ -443,7 +443,7 @@ seqMeth={
             "seq_del_pos":{"homopolymer":0.46,"random":0.54},
             "seq_ins_pos":{"homopolymer":0.46,"random":0.54},
             "TM_Normal":False,
-            "reference":"https://doi.org/10.12688/f1000research.10571.2"
+            "reference":["https://doi.org/10.12688/f1000research.10571.2"]
         },
 
         "None":{
@@ -459,7 +459,7 @@ seqMeth={
             "seq_del_pos":{"homopolymer":0.85,"random":0.15},
             "seq_ins_pos":{"homopolymer":0.85,"random":0.15},
             "TM_Normal":False,
-            "reference":None
+            "reference":[]
         },
 
         "Pac_subread":{
@@ -475,7 +475,7 @@ seqMeth={
             "seq_del_pos":{"homopolymer":0.85,"random":0.15},
             "seq_ins_pos":{"homopolymer":0.85,"random":0.15},
             "TM_Normal":False,
-            "reference":"https://doi.org/10.12688/f1000research.10571.2"
+            "reference":["https://doi.org/10.12688/f1000research.10571.2"]
         },
         "Pac_CCS":{
             "seq_sub_prob":0.37,
@@ -490,6 +490,6 @@ seqMeth={
             "seq_del_pos":{"homopolymer":0.85,"random":0.15},
             "seq_ins_pos":{"homopolymer":0.85,"random":0.15},
             "TM_Normal":False,
-            "reference":"https://doi.org/10.12688/f1000research.10571.2"
+            "reference":["https://doi.org/10.12688/f1000research.10571.2"]
         },
 }
