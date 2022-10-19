@@ -163,7 +163,7 @@ class Simulation():
         }
         write_yaml(yaml_path=self.file_info_path,data=sam_info,appending=True)
         self.simu_repo["sample"]=sam_info
-        self.simu_repo["Error_Recorder"]=sam_error_recorder
+        self.simu_repo["Error_Recorder"].append(sam_error_recorder)
         return sam_info
 
     def get_simu_seq_info(self,
