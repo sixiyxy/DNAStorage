@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./index.less";
-import { Breadcrumb, Col, Row,Spin} from "antd";
+import { Breadcrumb, Col, Row, Spin } from "antd";
 import Encodelists from "./components/Encodelists";
 import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
 import Graphs from "./components/Graphs";
 import { Anchor } from "antd";
-import {
-  FolderAddTwoTone,
-  
-} from '@ant-design/icons';
+import { FolderAddTwoTone } from "@ant-design/icons";
 const { Link } = Anchor;
 
 export const Encode = (props) => {
@@ -22,15 +19,15 @@ export const Encode = (props) => {
   const [seg, setSeg] = useState(160);
   const [index, setIndex] = useState(16);
   const [method, setMethod] = useState("None");
-  const [btnflag,setBtn] = useState(false)
- 
-  useEffect(()=>{
-    props.setIsSynthesis(false)
-  },[])
+  const [btnflag, setBtn] = useState(false);
+
+  useEffect(() => {
+    props.setIsSynthesis(false);
+  }, []);
   const ParamPass = (param1, param2) => {
     setSeg(param2[0].Segvalue);
     setIndex(param2[1].Indexvalue);
-    console.log("done");
+    // console.log("done");
     setMethod(param1); //method
   };
   const GCPass = (param1) => {
@@ -39,23 +36,31 @@ export const Encode = (props) => {
   const HomoPass = (param1) => {
     props.setHomo(param1);
   };
-  const EnergyPass = (param1)=>{
-    props.setEnergy(param1)
-  }
-  const EncodeURLPass=(param1)=>{
-    props.setEncodeURL(param1)
-  }
-  const FileURLPass=(param1)=>{
-    props.setFileURL(param1)
-  }
-  const InfoPass1 = (param1,param2,param3,param4,param5,param6,param7) => {
-    props.infos.bit_size=param1
-    props.infos.byte_size=param2
-    props.infos.encode_method=param3
-    props.infos.index_length=param4
-    props.infos.segment_length=param5
-    props.infos.segment_number=param6
-    props.infos.verify_method=param7
+  const EnergyPass = (param1) => {
+    props.setEnergy(param1);
+  };
+  const EncodeURLPass = (param1) => {
+    props.setEncodeURL(param1);
+  };
+  const FileURLPass = (param1) => {
+    props.setFileURL(param1);
+  };
+  const InfoPass1 = (
+    param1,
+    param2,
+    param3,
+    param4,
+    param5,
+    param6,
+    param7
+  ) => {
+    props.infos.bit_size = param1;
+    props.infos.byte_size = param2;
+    props.infos.encode_method = param3;
+    props.infos.index_length = param4;
+    props.infos.segment_length = param5;
+    props.infos.segment_number = param6;
+    props.infos.verify_method = param7;
     props.setInfo(props.infos);
     //console.log("InfoPass1", info);
   };
@@ -72,11 +77,10 @@ export const Encode = (props) => {
     props.DNAinfos.information_density = param3;
     props.DNAinfos.nucleotide_counts = param4;
     props.setDNAinfo(props.DNAinfos);
-    console.log(props.DNAinfos);
+    //console.log(props.DNAinfos);
   };
   return (
     <div className="EncodeContainer">
-     
       <div style={{ paddingLeft: "200px", paddingTop: "20px" }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
@@ -99,9 +103,16 @@ export const Encode = (props) => {
             }}
           >
             <p>
-              <strong> <FolderAddTwoTone /> Please upload the storage files:</strong>
+              <strong>
+                {" "}
+                <FolderAddTwoTone /> Please upload the storage files:
+              </strong>
             </p>
-            <Uploads GetFileID={props.setFileId} FileInfoPass={FileInfoPass} setBtn={setBtn}/>
+            <Uploads
+              GetFileID={props.setFileId}
+              FileInfoPass={FileInfoPass}
+              setBtn={setBtn}
+            />
           </div>
           <div
             id="sliders"
@@ -172,7 +183,6 @@ export const Encode = (props) => {
           </div>
         </Col> */}
       </Row>
-
     </div>
   );
 };

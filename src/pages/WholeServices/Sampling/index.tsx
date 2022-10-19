@@ -58,7 +58,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     axios
       .post("http://localhost:5000/simu_sam", params)
       .then(function (response) {
-        console.log("sampling response", response);
+        //console.log("sampling response", response);
         setErrorData(response?.data?.sam_error_density);
         setDensityData(response?.data?.sam_density);
         setHrefLink(response?.data?.synthesis_method_reference);

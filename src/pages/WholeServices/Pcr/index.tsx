@@ -66,7 +66,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     axios
       .post("http://localhost:5000/simu_pcr", params)
       .then(function (response) {
-        console.log("response", response);
+        //console.log("response", response);
         setErrorData(response?.data?.pcr_error_density);
         setDensityData(response?.data?.prc_density);
         setHrefLink(response?.data?.synthesis_method_reference);
@@ -116,7 +116,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       pcr_polymerase: method,
     };
   }, [pcrCycleValue, pcrProbability, method]);
-  console.log("params", params);
+  //console.log("params", params);
   const config1 = {
     data: chart1Data,
     width: 200,

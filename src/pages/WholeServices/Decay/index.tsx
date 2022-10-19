@@ -66,7 +66,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
     axios
       .post("http://localhost:5000/simu_dec", params)
       .then(function (response) {
-        console.log(response?.data);
+        //console.log(response?.data);
         setData(response?.data?.density);
         setHrefLink(response?.data?.storage_host_parameter_reference);
         setLoading(false);
@@ -95,7 +95,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
       storage_host: method,
     };
   }, [monthValue, lossValue, method]);
-  console.log("params", params);
+  //console.log("params", params);
   const config = {
     data: chartData,
     width: 200,

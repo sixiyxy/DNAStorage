@@ -84,7 +84,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
       sam_ratio: samplingRatio,
     };
   }, [samplingRatio, method]);
-  console.log("params", params);
+  //console.log("params", params);
   const config = {
     data: chartData,
     width: 200,

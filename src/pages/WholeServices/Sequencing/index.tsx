@@ -58,9 +58,9 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_seq", params)
+      .post("http://localhost:5000/simu_seq", params)
       .then(function (response) {
-        //console.log(response);
+        console.log("sequencing response", response);
         setData(response?.data?.density);
         setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
@@ -88,7 +88,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       seq_meth: method,
     };
   }, [sequencingDepth, method]);
-  console.log("params", params);
+  //console.log("params", params);
   const config = {
     data: chartData,
     width: 200,

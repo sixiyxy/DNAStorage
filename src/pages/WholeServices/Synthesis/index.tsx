@@ -97,7 +97,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       synthesis_method: method,
     };
   }, [cycleValue, yieldChange, method]);
-  console.log("params", params);
+  //console.log("params", params);
   const config = {
     data: chartData,
     width: 200,
