@@ -26,7 +26,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   const [samplingRatio, setSamplingRatio] = useState(0.005);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
   const [hrefLink, setHrefLink] = useState("");
-  const [method, setMethod] = useState("Taq");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [densityData, setDensityData] = useState([]);
   const [errorData, setErrorData] = useState([]);
@@ -40,9 +40,10 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     }
     setSamplingRatio(value);
   };
-  const handleChange = (value: string) => {
-    setMethod(value);
+  const handleReset = function () {
+    setSamplingRatio(0.005);
   };
+
   const skipDecay = function () {
     props.changeSider(["0-1-4"]);
   };
@@ -92,7 +93,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
       // file_uid: "1565536927137009664",
       sam_ratio: samplingRatio,
     };
-  }, [samplingRatio, method]);
+  }, [samplingRatio]);
   // console.log("params", params);
   const densityConfig = {
     data: densityChartData,
@@ -216,6 +217,13 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
                 </Button>
                 <Button size="large" style={{ width: 100 }} onClick={showModal}>
                   Skip
+                </Button>
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={handleReset}
+                >
+                  Reset
                 </Button>
                 <Modal
                   title="Warning"

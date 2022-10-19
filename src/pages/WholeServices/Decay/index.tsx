@@ -54,6 +54,11 @@ export const Decay: React.FC<DecayProps> = (props) => {
   const skipDecay = function () {
     props.changeSider(["0-1-2"]);
   };
+  const handleReset = function () {
+    setMethod("Hsapiens");
+    setLossValue(0.3);
+    setMonthValue(24);
+  };
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -283,6 +288,13 @@ export const Decay: React.FC<DecayProps> = (props) => {
                 </Button>
                 <Button size="large" style={{ width: 100 }} onClick={showModal}>
                   Skip
+                </Button>
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={handleReset}
+                >
+                  Reset
                 </Button>
                 <Modal
                   title="Warning"

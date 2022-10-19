@@ -1,4 +1,4 @@
-import { Area, Datum } from "@ant-design/charts";
+import { Area, Datum, FUNNEL_CONVERSATION_FIELD } from "@ant-design/charts";
 import {
   Breadcrumb,
   Button,
@@ -51,6 +51,11 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   };
   const handleChange = (value: string) => {
     setMethod(value);
+  };
+  const handleReset = function () {
+    setCycleValue(30);
+    setMethod("ErrASE");
+    setYieldValue(0.99);
   };
   const skipSynthesis = function () {
     props.changeSider(["0-2"]);
@@ -265,6 +270,13 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 </Button>
                 <Button size="large" style={{ width: 100 }} onClick={showModal}>
                   Skip
+                </Button>
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={handleReset}
+                >
+                  Reset
                 </Button>
                 <Modal
                   title="Warning"

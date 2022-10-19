@@ -42,6 +42,11 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     }
     setPcrCycleValue(value);
   };
+  const handleReset = function () {
+    setPcrCycleValue(12);
+    setPcrProbability(0.8);
+    setMethod("Taq");
+  };
   const lossChange = (value: number) => {
     if (isNaN(value)) {
       return;
@@ -294,6 +299,13 @@ export const Pcr: React.FC<PcrProps> = (props) => {
                 </Button>
                 <Button size="large" style={{ width: 100 }} onClick={showModal}>
                   Skip
+                </Button>
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={handleReset}
+                >
+                  Reset
                 </Button>
                 <Modal
                   title="Warning"

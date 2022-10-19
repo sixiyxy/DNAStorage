@@ -54,6 +54,10 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const handleReset = () => {
+    setMethod("ill_PairedEnd");
+    setSequencingDepth(1);
+  };
   const handleOk = () => {
     setLoading(true);
     setNoDataTipsShow(false);
@@ -221,6 +225,13 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                 </Button>
                 <Button size="large" style={{ width: 100 }} onClick={showModal}>
                   Skip
+                </Button>
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={handleReset}
+                >
+                  Reset
                 </Button>
                 <Modal
                   title="Warning"
