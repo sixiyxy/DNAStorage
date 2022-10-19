@@ -91,6 +91,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
   const [encodeurl, setEncodeURL] = useState("");
   const [fileURL, setFileURL] = useState("");
   const [spinflag, setSpin] = useState(true);
+  const [collflag,setColl] = useState("disabled")
 
   let url = new URL(window.location.href);
   const pathname = url?.pathname;
@@ -115,6 +116,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
         fileinfo={fileinfo}
         setIsSynthesis={setIsSynthesis}
         setSpin={setSpin}
+        setColl={setColl}
       />
 
       <Report
@@ -128,6 +130,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
         info={info}
         fileId={fileId}
         spinflag={spinflag}
+        collflag={collflag}
       />
     </div>
   );

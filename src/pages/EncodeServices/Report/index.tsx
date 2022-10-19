@@ -1,5 +1,5 @@
 import React,{useEffect,useState}from "react";
-import { Card,Table} from 'antd';
+import { Card,Table,Collapse} from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { Col, Row,Breadcrumb,Button } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
@@ -22,6 +22,7 @@ export class ReportProps {
   energy;
   encodeurl;
   fileURL;
+  collflag;
 }
 interface DataType {
   key: string;
@@ -30,6 +31,7 @@ interface DataType {
   name2: string;
   value2:any;
 }
+const { Panel } = Collapse;
 export const Report: React.FC<ReportProps> = (props) => {
   const [size, setSize] = useState<SizeType>('large');
   const columns1: ColumnsType<DataType> = [
@@ -140,16 +142,21 @@ export const Report: React.FC<ReportProps> = (props) => {
         a.click();                        // 触发点击
         document.body.removeChild(a);    // 然后移除
   }
+  const onChange = (key: string | string[]) => {
+    console.log(key);
+  };
   return(
     <div className="reportContainer">
+      <Collapse defaultActiveKey={['1']} onChange={onChange} style={{marginLeft:"300px"}}> 
+      <Panel header="Click me show the information" key="1">
       <Spin 
         tip="Loading..." 
         size="large" 
-        style={{marginTop:"250px",marginLeft:"200px"}} 
+        style={{marginTop:"250px"}} 
         spinning={props.spinflag} 
         delay={10}
       >
-      <div style={{ paddingLeft: "300px", paddingTop: "20px" }}>
+      {/* <div style={{ paddingLeft: "300px", paddingTop: "20px" }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
             <a href="/">Home</a>
@@ -159,8 +166,8 @@ export const Report: React.FC<ReportProps> = (props) => {
           </Breadcrumb.Item>
           <Breadcrumb.Item>Report</Breadcrumb.Item>
         </Breadcrumb>
-      </div>
-        <div style={{marginTop:"30px",marginLeft:"300px",width:"800px"}}>
+      </div> */}
+        <div style={{marginTop:"30px",marginLeft:"50px",width:"800px"}}>
           <Card title="File Information">
               <Table
                 columns={columns1}
@@ -170,7 +177,7 @@ export const Report: React.FC<ReportProps> = (props) => {
           </Card>
         </div>
 
-        <div style={{marginTop:"30px",marginLeft:"300px"}}>
+        <div style={{marginTop:"30px",marginLeft:"50px"}}>
           <Card title="DNA Information">
             <Table
               columns={columns2}
@@ -184,7 +191,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     <Card 
       title="Title: GC_Contact" 
       type="inner" 
-      style={{ marginLeft:"300px",marginTop:"10px",width:"800px"}}>
+      style={{ marginLeft:"50px",marginTop:"10px",width:"800px"}}>
         <div
             id="gcgraph"
             style={{ paddingLeft: "50px", paddingTop: "30px", fontSize: "15px",width:"750px"}}
@@ -196,7 +203,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     <Card 
       title="Title: Homopolymer Length" 
       type="inner" 
-      style={{ marginLeft:"300px",marginTop:"30px",width:"800px"}}
+      style={{ marginLeft:"50px",marginTop:"30px",width:"800px"}}
     >
         <div
             id="homograph"
@@ -209,7 +216,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     <Card 
       title="Title: Sequence Min Free Energy " 
       type="inner" 
-      style={{ marginLeft:"300px",marginTop:"30px",width:"800px"}}
+      style={{ marginLeft:"50px",marginTop:"30px",width:"800px"}}
     >
         <div
             id="energygraph"
@@ -219,7 +226,7 @@ export const Report: React.FC<ReportProps> = (props) => {
         </div>
     </Card>
 
-        <div style={{ marginLeft:"650px",marginTop:"100px"}}>
+        <div style={{ marginLeft:"350px",marginTop:"100px"}}>
             <Button 
               type="primary" 
               shape="round" 
@@ -236,6 +243,8 @@ export const Report: React.FC<ReportProps> = (props) => {
       <br/>
       <br/>
       </Spin>
+      </Panel>
+      </Collapse>
     </div>)
   
 };

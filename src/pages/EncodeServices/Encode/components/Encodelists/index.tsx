@@ -5,7 +5,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./index.less";
 import { Link } from "react-router-dom";
-
+import {
+  CheckCircleTwoTone,
+  
+} from '@ant-design/icons';
 
 var encodeMethod = "";
 
@@ -79,9 +82,9 @@ const Encodelists: React.FC = (props: any) => {
   }
 
   return (
-    <div className="todo-container">
+    <div className="todo-container" style={{marginLeft: "150px" }}>
       <div>
-        <h2>Choose Encode Method</h2>
+        <h2> <CheckCircleTwoTone />  Choose Encode Method</h2>
         <div style={{ paddingLeft: "20px" }}>
           <Radio.Group onChange={onChange} value={value}>
             <Space direction="vertical">

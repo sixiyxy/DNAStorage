@@ -6,6 +6,10 @@ import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
 import Graphs from "./components/Graphs";
 import { Anchor } from "antd";
+import {
+  FolderAddTwoTone,
+  
+} from '@ant-design/icons';
 const { Link } = Anchor;
 
 export const Encode = (props) => {
@@ -73,7 +77,7 @@ export const Encode = (props) => {
   return (
     <div className="EncodeContainer">
      
-      <div style={{ paddingLeft: "30px", paddingTop: "20px" }}>
+      <div style={{ paddingLeft: "200px", paddingTop: "20px" }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
             <a href="/">Home</a>
@@ -81,7 +85,7 @@ export const Encode = (props) => {
           <Breadcrumb.Item>
             <a href="/Services">Service</a>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>Encode</Breadcrumb.Item>
+          <Breadcrumb.Item>EncodeServices</Breadcrumb.Item>
         </Breadcrumb>
       </div>
       <Row>
@@ -89,20 +93,20 @@ export const Encode = (props) => {
           <div
             id="uploads"
             style={{
-              marginLeft: "150px",
+              marginLeft: "300px",
               marginTop: "20px",
               fontSize: "18px",
             }}
           >
             <p>
-              <strong>Please upload the storage files:</strong>
+              <strong> <FolderAddTwoTone /> Please upload the storage files:</strong>
             </p>
             <Uploads GetFileID={props.setFileId} FileInfoPass={FileInfoPass} setBtn={setBtn}/>
           </div>
           <div
             id="sliders"
             style={{
-              paddingLeft: "150px",
+              marginLeft: "300px",
               paddingTop: "50px",
               fontSize: "14px",
             }}
@@ -110,7 +114,7 @@ export const Encode = (props) => {
             <hr />
             <Sliders ParamPass={ParamPass} />
           </div>
-          <div id="graphs" style={{ paddingLeft: "150px", paddingTop: "20px" }}>
+          <div id="graphs" style={{ marginLeft: "300px", paddingTop: "20px" }}>
             <hr />
             <Graphs
               seg={seg}
@@ -130,7 +134,7 @@ export const Encode = (props) => {
               fontSize: "15px",
             }}
           >
-            <p style={{ paddingLeft: "100px", fontSize: "17px" }}>
+            <p style={{ marginLeft: "300px", fontSize: "17px" }}>
               <hr />
             </p>
             <Encodelists
