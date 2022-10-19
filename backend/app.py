@@ -195,9 +195,15 @@ def simu_dec():
         months_of_storage=months_of_storage,
         loss_rate=loss_rate,
         storage_host=storage_host)
-
-    simu_dec_settings["syn_density"]=syn_density
-    simu_dec_settings["dec_density"]=dec_density
+    
+    simu_dec_settings["density"]=[]
+    for i in syn_density:
+            simu_dec_settings["density"].append(["syn",i[0],i[1]])
+    for j in dec_density:
+        simu_dec_settings['density'].append(['dec',j[0],j[1]])
+    # simu_dec_settings["density"]=[]
+    # simu_dec_settings["density"].append(["syn",syn_density])
+    # simu_dec_settings["density"].append(["dec",dec_density])
     print("Simulation Decay time:"+str(time.time()-t1))
 
     return json.dumps(simu_dec_settings)
