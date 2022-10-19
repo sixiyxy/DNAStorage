@@ -30,7 +30,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const [yieldValue, setYieldValue] = useState(0.99);
   const [cycleValue, setCycleValue] = useState(30);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  const [hrefLink, setHrefLink] = useState("");
+  const [hrefLink, setHrefLink] = useState();
   const [method, setMethod] = useState("ErrASE");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
@@ -83,6 +83,19 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const handleContinue = () => {
     props.changeSider(["0-1-1"]);
   };
+
+  const methodLink = useMemo(() => {
+    return hrefLink?.map((link, index) => {
+      return (
+        <>
+          <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank">
+            {link}
+          </a>
+          <br />
+        </>
+      );
+    });
+  }, [hrefLink]);
 
   //数据生成
   const chartData = useMemo(() => {
@@ -304,13 +317,8 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
           <Card style={{ marginLeft: 10, marginTop: 20, height: 560 }}>
             <div>
               <span>The parameter settings are referenced from :</span>
-              <a
-                style={{ margin: "0 0 0 5px" }}
-                href={hrefLink}
-                target="_blank"
-              >
-                Method Paper
-              </a>
+              <br />
+              {methodLink}
             </div>
             <div style={{ margin: "0 0 30px 0" }}>
               After synthesis simulation, the situation of oligonucleotides pool

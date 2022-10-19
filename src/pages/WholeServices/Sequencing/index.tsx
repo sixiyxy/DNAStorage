@@ -28,12 +28,25 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
 
   const [sequencingDepth, setSequencingDepth] = useState(1);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  const [hrefLink, setHrefLink] = useState("");
+  const [hrefLink, setHrefLink] = useState();
   const [method, setMethod] = useState("ill_PairedEnd");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [densityData, setDensityData] = useState([]);
+  const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const methodLink = useMemo(() => {
+    return hrefLink?.map((link, index) => {
+      return (
+        <>
+          <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank">
+            {link}
+          </a>
+          <br />
+        </>
+      );
+    });
+  }, [hrefLink]);
   //处理函数
   const monthChange = (value: number) => {
     if (isNaN(value)) {
@@ -65,7 +78,8 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       .post("http://localhost:5000/simu_seq", params)
       .then(function (response) {
         console.log("sequencing response", response);
-        setData(response?.data?.density);
+        setErrorData(response?.data?.seq_error_density);
+        setDensityData(response?.data?.seq_density);
         setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
       });
@@ -75,14 +89,22 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
   };
 
   //数据生成
-  const chartData = useMemo(() => {
-    return data?.map((item) => {
+  const densityChartData = useMemo(() => {
+    return densityData?.map((item) => {
       return {
         copyNumber: item[0],
         density: Number(item[1].toFixed(3)),
       };
     });
-  }, [data]);
+  }, [densityData]);
+  const errorChartData = useMemo(() => {
+    return errorData?.map((item) => {
+      return {
+        copyNumber: item[0],
+        density: Number(item[1].toFixed(3)),
+      };
+    });
+  }, [errorData]);
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
@@ -93,10 +115,33 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     };
   }, [sequencingDepth, method]);
   //console.log("params", params);
-  const config = {
-    data: chartData,
+  const densityConfig = {
+    data: densityChartData,
     width: 200,
-    height: 300,
+    height: 150,
+    xField: "copyNumber",
+    yField: "density",
+    autoFit: true,
+    smooth: true,
+    xAxis: {
+      // range: [0, 200],
+      title: {
+        text: "Copy Number",
+      },
+    },
+    yAxis: {
+      // range: [0, 0.5],
+      title: {
+        text: "Density",
+      },
+    },
+  };
+
+  const errorConfig = {
+    data: errorChartData,
+    smooth: true,
+    width: 200,
+    height: 150,
     xField: "copyNumber",
     yField: "density",
     autoFit: true,
@@ -113,7 +158,6 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       },
     },
   };
-
   return (
     <div className="sequencing-content">
       <div style={{ margin: 20 }}>
@@ -254,13 +298,8 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
           <Card style={{ marginLeft: 10, marginTop: 20, height: 560 }}>
             <div>
               <span>The parameter settings are referenced from :</span>
-              <a
-                style={{ margin: "0 0 0 5px" }}
-                href={hrefLink}
-                target="_blank"
-              >
-                Method Paper
-              </a>
+              <br />
+              {methodLink}
             </div>
             <div style={{ margin: "0 0 30px 0" }}>
               After synthesis simulation, the situation of oligonucleotides pool
@@ -290,7 +329,8 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
               ) : (
                 <div style={{ margin: "60px 0 0 0" }}>
                   <div style={{ margin: "0 0 20px 0" }}>copies:</div>
-                  <Area {...config} />
+                  <Area {...densityConfig} />
+                  <Area {...errorConfig} />
                 </div>
               )}
             </div>

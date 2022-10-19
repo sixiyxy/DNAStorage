@@ -65,6 +65,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   const handleOk = () => {
     setLoading(true);
     setNoDataTipsShow(false);
