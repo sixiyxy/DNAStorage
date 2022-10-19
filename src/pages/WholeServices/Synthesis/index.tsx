@@ -65,10 +65,10 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_synthesis", params)
+      .post("http://localhost:5000/simu_synthesis", params)
       .then(function (response) {
         //console.log(response);
-        console.log("syn_density", response?.data?.syn_density);
+
         setData(response?.data?.syn_density);
         setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);

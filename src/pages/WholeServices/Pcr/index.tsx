@@ -63,7 +63,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_pcr", params)
+      .post("http://localhost:5000/simu_pcr", params)
       .then(function (response) {
         //console.log(response);
         setData(response?.data?.density);
