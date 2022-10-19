@@ -6,12 +6,12 @@ import json
 import time
 
 from flask import Flask, render_template,session
-from flask import request
+from flask import request,send_from_directory
 from flask_cors import CORS
 from flask_session import Session
 from script.utils.simulation_utils import is_fasta,fasta_to_dna
 
-from script.utils.utils_basic import get_config,write_yaml
+from script.utils.utils_basic import get_config,write_yaml,get_download_path
 from script.step1_get_file_uid import get_file_uid
 from script.step2_encoding import Encoding
 from script.step3_simulation_utils import Simulation as Simu
@@ -327,13 +327,22 @@ def decode():
 
 @app.route('/download',methods=['GET','POST'])
 def download():
-    front_data = request.data
-    file_uid = front_data.json['file_uid']
-    type = front_data.json['type']
+    #### test postman ####
+    # {{"file_uid":1565536927137009664,"type":"encode"}
+    print('\n','#'*25,'Downloading Files','#'*25,'\n','#'*60)
+    front_data = json.loads(request.data)
+    file_uid = front_data['file_uid']
+    type = front_data['type']
     if type == 'encode':
-        filepath = 'a'
+        dna_dir,downfile_name = get_download_path(type='encode',file_uid=file_uid)
+        print(dna_dir,downfile_name)
+        response = send_from_directory(dna_dir,downfile_name,as_attachment=True)
+        return response
+
     elif type == 'simulation':
-        filepath = 'b'
+        filepath = get_download_path(type='encode',file_uid=file_uid)
+        response = send_from_directory(filepath,filepath.encode('utf-8').decode('utf-8'),as_attachment=True)
+        return response
     else:
         return "Please make sure the uid has been encode or simulation!"
 
