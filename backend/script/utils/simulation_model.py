@@ -59,7 +59,7 @@ class Synthesizer_simu:
         
     def __call__(self, dnas):
         dnas = self.syn(dnas)
-        dnas,error_recorder = self.err(dnas)
+        dnas,error_recorder= self.err(dnas)
         return dnas,error_recorder
 
 class Decayer_simu:
@@ -181,6 +181,7 @@ class PCRer_simu:
                 dna[0] = self.distribution(dna[0])
             #print("after:"+str(dna[0]))
             if dna[0] > 0:
+                error_recorder['n']=error_recorder.get('n',0)+dna[0]-tmp
                 for err in dna[1]:
                     error_recorder[err[1]]=error_recorder.get(err[1],0)+dna[0]-tmp    
                 out.append(dna)
@@ -213,6 +214,7 @@ class Sampler_simu:
             dna[0] = self.distribution(dna[0])
             if dna[0] > 0: 
                 markers.append(i)
+                recorder['n']=recorder.get('n',0)+dna[0]
                 flags={'+':0,'-':0,'s':0}
                 flag=0
                 for err in dna[1]:
@@ -231,7 +233,7 @@ class Sampler_simu:
     
     def __call__(self,dnas):
         out_dnas = dnas
-        error_recorder={}
+        error_recorder={"+":0,"-":0,"s":0,"n":0}
         for dna in out_dnas:
             dna['re'],error_recorder = self.run(dna['re'],error_recorder)
             dna['num'] = sum([tp[0] for tp in dna['re']])
@@ -378,7 +380,6 @@ class ErrorAdder_simu:
         new_error_recorder={'+':0,'-':0,'s':0}
         for dna in out_dnas:
             dna['re'],new_error_recorder = self.run(dna['ori'], dna['re'],new_error_recorder)
-        print(new_error_recorder)
         if apply:
             out_dnas,error_recorder = self.apply_batch(out_dnas)
         return out_dnas,error_recorder
@@ -410,13 +411,14 @@ class ErrorAdder_simu:
         return dna
 
     def apply_batch(self, dnas):
-        recorder={}
+        recorder={"+":0,"-":0,"s":0,"n":0} #n: count total num of dnas
         for dna in dnas:
             ori_dna = dna['ori']
             re = []
             for re_dna in dna['re']:
                 if re_dna[0] == 0: pass
                 re.append([re_dna[0], re_dna[1], self.apply(ori_dna, re_dna[1])])
+                recorder["n"]=recorder.get("n",0)+re_dna[0]
                 flags={'+':0,'-':0,'s':0}
                 flag=0
                 for tmp in re_dna[1]:
