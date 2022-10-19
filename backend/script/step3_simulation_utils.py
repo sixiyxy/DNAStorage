@@ -64,6 +64,7 @@ class Simulation():
         write_yaml(yaml_path=self.file_info_path,data=syn_info,appending=True)
         self.syn_density=self.calculate_density(self.simu_dna)
         syn_info['syn_density']=self.syn_density
+        self.simu_repo.append(syn_info)
         return syn_info
 
     def get_simu_dec_info(self,
@@ -96,7 +97,7 @@ class Simulation():
         }
         write_yaml(yaml_path=self.file_info_path,data=dec_info,appending=True)
         dec_density=self.calculate_density(self.simu_dna)
-        
+        self.simu_repo.append(dec_info)
         return dec_info,self.syn_density,dec_density
 
     def get_simu_pcr_info(self,
@@ -131,9 +132,8 @@ class Simulation():
             "pcr_error_density":error_density,
             "pcr_method_reference":arg.reference
         }
-        self.pcr_info=pcr_info
         write_yaml(yaml_path=self.file_info_path,data=pcr_info,appending=True)
-
+        self.simu_repo.append(pcr_info)
         return pcr_info
 
     def get_simu_sam_info(self,
@@ -157,9 +157,8 @@ class Simulation():
             "sam_density":density,
             "sam_error_density":error_density
         }
-        self.sample_info=sam_info
         write_yaml(yaml_path=self.file_info_path,data=sam_info,appending=True)
-
+        self.simu_repo.append(sam_info)
         return sam_info
 
     def get_simu_seq_info(self,
@@ -190,37 +189,12 @@ class Simulation():
             "seq_error_density":error_density,
             "seq_method_reference":arg.reference
         }
-        self.sequence_info=seq_info
         write_yaml(yaml_path=self.file_info_path,data=seq_info,appending=True)
-
+        self.simu_repo.append(seq_info)
         return seq_info
 
     def get_simu_repo(self):
-        simu_repo={}
-        '''
-        #file_name
-        # try:
-        #     simu_repo['Synthesis']=self.syn_info
-        # except:
-        #     pass
-        # try:
-        #     simu_repo['Decay']=self.dec_info
-        # except:
-        #     pass
-        # try:
-        #     simu_repo['PCR']=self.pcr_info
-        # except:
-        #     pass
-        # try:
-        #     simu_repo['Sampling']=self.sample_info
-        # except:
-        #     pass
-        # try:
-        #     simu_repo['Sequencing']=self.sequence_info
-        # except:
-        #     pass
-        '''
-        simu_repo={"111:222"}
+        simu_repo=self.simu_repo
 
         ### for following decoding; do not need to download
         simulation_result_dir=os.path.join(self.backend_dir+'/'+str(self.simulation_dir)+'/'+str(self.file_uid)+".fasta")
