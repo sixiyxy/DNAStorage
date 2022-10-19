@@ -71,7 +71,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       .post("http://127.0.0.1:5000/simu_synthesis", params)
       .then(function (response) {
         //console.log(response);
-        console.log("syn_density", response?.data?.syn_density);
+        //console.log("syn_density", response?.data?.syn_density);
         setData(response?.data?.syn_density);
         setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
@@ -89,7 +89,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
-        console.log(info.file, info.fileList);
+        //console.log(info.file, info.fileList);
       }
       if (status === "done") {
         message.success(`${info.file.name} file uploaded successfully.`);
@@ -98,7 +98,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       }
     },
     onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
+      //console.log("Dropped files", e.dataTransfer.files);
     },
   };
 
@@ -120,7 +120,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       synthesis_method: method,
     };
   }, [cycleValue, yieldChange, method]);
-  console.log("params", params);
+  //console.log("params", params);
   const config = {
     data: chartData,
     width: 200,

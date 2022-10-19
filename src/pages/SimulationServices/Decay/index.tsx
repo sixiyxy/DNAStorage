@@ -94,7 +94,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
       storage_host: method,
     };
   }, [monthValue, lossValue, method]);
-  console.log("params", params);
+  // console.log("params", params);
   const config = {
     data: chartData,
     width: 200,

@@ -29,7 +29,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
   const [sequencingDepth, setSequencingDepth] = useState(1);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
   const [hrefLink, setHrefLink] = useState("");
-  const [method, setMethod] = useState("PairedEnd");
+  const [method, setMethod] = useState("ill_PairedEnd");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -58,9 +58,9 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_seq", params)
+      .post("http://localhost:5000/simu_seq", params)
       .then(function (response) {
-        //console.log(response);
+        console.log("sequencing response", response);
         setData(response?.data?.density);
         setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
@@ -81,14 +81,14 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
   }, [data]);
   const params = useMemo(() => {
     return {
-      // file_uid: props.fileId,
-      file_uid: "1565536927137009664",
+      file_uid: props.fileId,
+      // file_uid: "1565536927137009664",
       seq_depth: sequencingDepth,
 
       seq_meth: method,
     };
   }, [sequencingDepth, method]);
-  console.log("params", params);
+  //console.log("params", params);
   const config = {
     data: chartData,
     width: 200,
@@ -192,17 +192,20 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                   value={method}
                 >
                   <OptGroup label="Illumina">
-                    <Option value="PairedEnd">PairedEnd</Option>
-                    <Option value="SingleEnd">SingleEnd</Option>
+                    <Option value="ill_PairedEnd">PairedEnd</Option>
+                    <Option value="ill_SingleEnd">SingleEnd</Option>
                   </OptGroup>
 
                   <OptGroup label="Nanopore">
-                    <Option value="1D">1D</Option>
-                    <Option value="2D">2D</Option>
+                    <Option value="nano_1D">1D</Option>
+                    <Option value="nano_2D">2D</Option>
                   </OptGroup>
                   <OptGroup label="PacBio">
-                    <Option value="Subread">Subread</Option>
-                    <Option value="CCS">CCS</Option>
+                    <Option value="Pac_subread">Subread</Option>
+                    <Option value="Pac_CCS">CCS</Option>
+                  </OptGroup>
+                  <OptGroup label="None">
+                    <Option value="None">None</Option>
                   </OptGroup>
                 </Select>
               </div>

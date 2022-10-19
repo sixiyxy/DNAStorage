@@ -58,7 +58,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     axios
       .post("http://localhost:5000/simu_sam", params)
       .then(function (response) {
-        console.log("sampling response", response);
+        //console.log("sampling response", response);
         setErrorData(response?.data?.sam_error_density);
         setDensityData(response?.data?.sam_density);
         setHrefLink(response?.data?.synthesis_method_reference);
@@ -88,8 +88,8 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   }, [errorData]);
   const params = useMemo(() => {
     return {
-      // file_uid: props.fileId,
-      file_uid: "1565536927137009664",
+      file_uid: props.fileId,
+      // file_uid: "1565536927137009664",
       sam_ratio: samplingRatio,
     };
   }, [samplingRatio, method]);

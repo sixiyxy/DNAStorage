@@ -1,9 +1,8 @@
-import React, { useState, useEffect,useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import ReactDOM from "react-dom";
 import { Bar } from "@ant-design/plots";
 
 const Graphs: React.FC = (props: any) => {
-
   //const [dataobj, setData] = useState(data);
   //const [setData,setMethod] = props
   // const handleClick = () => {
@@ -30,25 +29,25 @@ const Graphs: React.FC = (props: any) => {
   //   }
   //   props.setSeg(props.seg);
   // };
-  console.log('graph',props.seg);
-  console.log('graph',props.index);
-  console.log('graph',props.method);
-  
+  // console.log('graph',props.seg);
+  // console.log('graph',props.index);
+  // console.log('graph',props.method);
+
   const memoizedValue = useMemo(() => {
-      return ([
-        {
-          name: props.method,
-          value: props.seg,
-          type: "索引区",
-        },
-        
-        {
-          name: props.method,
-          value: props.index,
-          type: "信息区",
-        }
-      ])
-  }, [props.seg,props.index,props.method]);
+    return [
+      {
+        name: props.method,
+        value: props.seg,
+        type: "索引区",
+      },
+
+      {
+        name: props.method,
+        value: props.index,
+        type: "信息区",
+      },
+    ];
+  }, [props.seg, props.index, props.method]);
 
   const config: any = {
     data: memoizedValue,
@@ -56,8 +55,8 @@ const Graphs: React.FC = (props: any) => {
     xField: "value",
     yField: "name",
     seriesField: "type",
-    maxBarWidth:40,
-    height:200,
+    maxBarWidth: 40,
+    height: 200,
     label: {
       // 可手动配置 label 数据标签位置
       position: "middle",

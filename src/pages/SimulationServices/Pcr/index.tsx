@@ -93,7 +93,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       pcr_polymerase: method,
     };
   }, [pcrCycleValue, pcrProbability, method]);
-  console.log("params", params);
+  // console.log("params", params);
   const config = {
     data: chartData,
     width: 200,

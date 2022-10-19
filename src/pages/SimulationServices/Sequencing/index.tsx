@@ -88,7 +88,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       seq_meth: method,
     };
   }, [sequencingDepth, method]);
-  console.log("params", params);
+  //console.log("params", params);
   const config = {
     data: chartData,
     width: 200,

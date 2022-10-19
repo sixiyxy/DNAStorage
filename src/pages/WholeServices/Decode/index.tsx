@@ -104,7 +104,7 @@ export const Decode: React.FC<DecodeProps> = (props) => {
     axios
       .post("http://localhost:5000/decode", params)
       .then(function (response) {
-        console.log("decode", response);
+        //console.log("decode", response);
         setData(response?.data);
       });
   };

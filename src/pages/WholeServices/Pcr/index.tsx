@@ -66,7 +66,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     axios
       .post("http://localhost:5000/simu_pcr", params)
       .then(function (response) {
-        console.log("response", response);
+        //console.log("response", response);
         setErrorData(response?.data?.pcr_error_density);
         setDensityData(response?.data?.prc_density);
         setHrefLink(response?.data?.synthesis_method_reference);
@@ -109,14 +109,14 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   }, [errorData]);
   const params = useMemo(() => {
     return {
-      // file_uid: props.fileId,
-      file_uid: "1565536927137009664",
+      file_uid: props.fileId,
+      // file_uid: "1565536927137009664",
       pcr_cycle: pcrCycleValue,
       pcr_prob: pcrProbability,
       pcr_polymerase: method,
     };
   }, [pcrCycleValue, pcrProbability, method]);
-  console.log("params", params);
+  //console.log("params", params);
   const config1 = {
     data: chart1Data,
     width: 200,
