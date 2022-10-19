@@ -24,12 +24,12 @@ export class SamplingProps {
 
 export const Sampling: React.FC<SamplingProps> = (props) => {
   const [samplingRatio, setSamplingRatio] = useState(0.005);
-
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
   const [hrefLink, setHrefLink] = useState("");
   const [method, setMethod] = useState("Taq");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [densityData, setDensityData] = useState([]);
+  const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   //处理函数
@@ -56,10 +56,11 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_sam", params)
+      .post("http://localhost:5000/simu_sam", params)
       .then(function (response) {
-        //console.log(response);
-        setData(response?.data?.density);
+        console.log("sampling response", response);
+        setErrorData(response?.data?.sam_error_density);
+        setDensityData(response?.data?.sam_density);
         setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
       });
@@ -69,14 +70,22 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   };
 
   //数据生成
-  const chartData = useMemo(() => {
-    return data?.map((item) => {
+  const densityChartData = useMemo(() => {
+    return densityData?.map((item) => {
       return {
         copyNumber: item[0],
         density: Number(item[1].toFixed(3)),
       };
     });
-  }, [data]);
+  }, [densityData]);
+  const errorChartData = useMemo(() => {
+    return errorData?.map((item) => {
+      return {
+        copyNumber: item[0],
+        density: Number(item[1].toFixed(3)),
+      };
+    });
+  }, [errorData]);
   const params = useMemo(() => {
     return {
       // file_uid: props.fileId,
@@ -84,14 +93,15 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
       sam_ratio: samplingRatio,
     };
   }, [samplingRatio, method]);
-  console.log("params", params);
-  const config = {
-    data: chartData,
+  // console.log("params", params);
+  const densityConfig = {
+    data: densityChartData,
     width: 200,
-    height: 300,
+    height: 150,
     xField: "copyNumber",
     yField: "density",
     autoFit: true,
+    smooth: true,
     xAxis: {
       // range: [0, 200],
       title: {
@@ -105,7 +115,27 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
       },
     },
   };
-
+  const errorConfig = {
+    data: errorChartData,
+    width: 200,
+    height: 150,
+    xField: "copyNumber",
+    yField: "density",
+    autoFit: true,
+    smooth: true,
+    xAxis: {
+      // range: [0, 200],
+      title: {
+        text: "Copy Number",
+      },
+    },
+    yAxis: {
+      // range: [0, 0.5],
+      title: {
+        text: "Density",
+      },
+    },
+  };
   return (
     <div className="sampling-content">
       <div style={{ margin: 20 }}>
@@ -244,7 +274,8 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
               ) : (
                 <div style={{ margin: "60px 0 0 0" }}>
                   <div style={{ margin: "0 0 20px 0" }}>copies:</div>
-                  <Area {...config} />
+                  <Area {...densityConfig} />
+                  <Area {...errorConfig} />
                 </div>
               )}
             </div>
