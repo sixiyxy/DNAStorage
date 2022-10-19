@@ -5,8 +5,6 @@ import os
 import json
 import time
 
-
-
 from flask import Flask, render_template,session
 from flask import request
 from flask_cors import CORS
@@ -300,22 +298,18 @@ def simu_repo():
 
     return json.dumps(simu_repo)
     
-
 @app.route('/decode',methods=['GET','POST'])
 def decode():
-    print('\n','#'*25,'Decoding','#'*25,'\n','#'*60)
-    
-    front_data = request.data
-    front_data = json.loads(front_data)
-
     #### Postman test json ####
     # {"file_uid":1565536927137009664,
     # "clust_method":"cdhit"}
+    print('\n','#'*25,'Decoding','#'*25,'\n','#'*60)
 
+    front_data = request.data
+    front_data = json.loads(front_data)
     file_uid = front_data['file_uid'] 
     clust_method = front_data['clust_method']
-    print(file_uid, "\n")
-    # print(session['encode_key'])
+
     if 'encode_key' not in session:
         return 'session invalid, encode_key not found'
 
@@ -329,6 +323,19 @@ def decode():
                                     clust_method= 'cdhit')
         decode_info = Decode_obj.decode()
         return json.dumps(decode_info)
+
+
+@app.route('/download',methods=['GET','POST'])
+def download():
+    front_data = request.data
+    file_uid = front_data.json['file_uid']
+    type = front_data.json['type']
+    if type == 'encode':
+        filepath = 'a'
+    elif type == 'simulation':
+        filepath = 'b'
+    else:
+        return "Please make sure the uid has been encode or simulation!"
 
 
 print(app.url_map)
