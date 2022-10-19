@@ -1,16 +1,16 @@
-from distutils.command.config import config
-import imp
+
 import os,sys
-from webbrowser import get
+import re
 import yaml
 import random
+import tarfile
 from datetime import datetime
 
 
 def get_config(yaml_path=''):
     now_dir = os.path.dirname(os.path.abspath(__file__))
     backend_dir = os.path.dirname(os.path.dirname(now_dir))
-    # print(yaml_path)
+
     # read file yaml
     if yaml_path !='config':
         f = open(yaml_path)
@@ -63,6 +63,36 @@ def write_dna_sample_file(path, dna_sequences, need_logs=False):
             print("Write 1000 demo DNA sequences to file: " + path + '\n')
     return True
 
+def get_download_path(type,file_uid):
+    current_dir = os.getcwd()
+    config = get_config(yaml_path='config')
+    backend_dir = config['backend_dir']
+    
+    # file save dir and file information
+    file_dir = os.path.join(backend_dir,config['file_save_dir'])
+    file_info_name = '{}.yaml'.format(file_uid)
+
+    # file encode dir
+    dna_dir = os.path.join(backend_dir,config['encode_dir'])
+    dna_file = '{}.dna'.format(file_uid)
+    if type == 'encode':
+        os.chdir(dna_dir)
+        downfile_name = '{}.tar.gz'.format(file_uid)
+        file_obj = tarfile.open(downfile_name,'w:gz')
+        file_obj.add(dna_file)
+        os.chdir(file_dir)
+        file_obj.add(file_info_name)
+        os.chdir(current_dir)
+        file_obj.close()
+        
+        downloadfile_path = os.path.join(dna_dir,downfile_name)
+        return dna_dir,downfile_name
+
+    elif type =='simulation':
+        pass
+
+
+
 class Monitor:
 
     def __init__(self):
@@ -112,3 +142,7 @@ class Monitor:
         if current_state == total_state:
             self.last_time = None
             print()
+
+
+if __name__ == '__main__':
+    get_download_path(type='encode',file_uid=1565536927137009664)
