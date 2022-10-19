@@ -109,8 +109,8 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   }, [errorData]);
   const params = useMemo(() => {
     return {
-      // file_uid: props.fileId,
-      file_uid: "1565536927137009664",
+      file_uid: props.fileId,
+      // file_uid: "1565536927137009664",
       pcr_cycle: pcrCycleValue,
       pcr_prob: pcrProbability,
       pcr_polymerase: method,

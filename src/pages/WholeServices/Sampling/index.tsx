@@ -88,8 +88,8 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   }, [errorData]);
   const params = useMemo(() => {
     return {
-      // file_uid: props.fileId,
-      file_uid: "1565536927137009664",
+      file_uid: props.fileId,
+      // file_uid: "1565536927137009664",
       sam_ratio: samplingRatio,
     };
   }, [samplingRatio, method]);
