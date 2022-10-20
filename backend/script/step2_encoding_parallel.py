@@ -4,7 +4,7 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 from multiprocessing import Pool
-from tqdm import tqdm
+#from tqdm import tqdm
 from numpy import fromfile, array, uint8
 
 from .utils.utils_basic import get_config,write_yaml,write_dna_file

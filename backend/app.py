@@ -331,6 +331,7 @@ def decode():
 def download():
     #### test postman ####
     # {{"file_uid":1565536927137009664,"type":"encode"}
+    # {"file_uid":1582175684011364352,"type":"simulation"}
     print('\n','#'*25,'Downloading Files','#'*25,'\n','#'*60)
     front_data = json.loads(request.data)
     file_uid = front_data['file_uid']
@@ -342,8 +343,8 @@ def download():
         return response
 
     elif type == 'simulation':
-        filepath = get_download_path(type='encode',file_uid=file_uid)
-        response = send_from_directory(filepath,filepath.encode('utf-8').decode('utf-8'),as_attachment=True)
+        dna_dir,downfile_name = get_download_path(type='simulation',file_uid=file_uid)
+        response = send_from_directory(dna_dir,downfile_name.encode('utf-8').decode('utf-8'),as_attachment=True)
         return response
     else:
         return "Please make sure the uid has been encode or simulation!"

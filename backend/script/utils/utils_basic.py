@@ -60,28 +60,34 @@ def get_download_path(type,file_uid):
     config = get_config(yaml_path='config')
     backend_dir = config['backend_dir']
     
-    # file save dir and file information
-    file_dir = os.path.join(backend_dir,config['file_save_dir'])
-    file_info_name = '{}.yaml'.format(file_uid)
-
-    # file encode dir
-    dna_dir = os.path.join(backend_dir,config['encode_dir'])
-    dna_file = '{}.dna'.format(file_uid)
     if type == 'encode':
-        os.chdir(dna_dir)
-        downfile_name = '{}.tar.gz'.format(file_uid)
-        file_obj = tarfile.open(downfile_name,'w:gz')
-        file_obj.add(dna_file)
-        os.chdir(file_dir)
-        file_obj.add(file_info_name)
-        os.chdir(current_dir)
-        file_obj.close()
-        
-        downloadfile_path = os.path.join(dna_dir,downfile_name)
-        return dna_dir,downfile_name
+        # file save dir and file information
+        file_dir = os.path.join(backend_dir,config['file_save_dir'])
+        file_info_name = '{}.yaml'.format(file_uid)
+
+        # file encode dir
+        dna_dir = os.path.join(backend_dir,config['encode_dir'])
+        dna_file = '{}.dna'.format(file_uid)
 
     elif type =='simulation':
-        pass
+        file_dir = os.path.join(backend_dir,config['upload_dna_save_dir'])
+        file_info_name = '{}.yaml'.format(file_uid)
+
+        dna_dir =   os.path.join(backend_dir,config['simulation_dir'])
+        dna_file = '{}.fasta'.format(file_uid)
+    
+    
+    os.chdir(dna_dir)
+    downfile_name = '{}.tar.gz'.format(file_uid)
+    file_obj = tarfile.open(downfile_name,'w:gz')
+    file_obj.add(dna_file)
+    os.chdir(file_dir)
+    file_obj.add(file_info_name)
+    os.chdir(current_dir)
+    file_obj.close()
+    downloadfile_path = os.path.join(dna_dir,downfile_name)
+    print(dna_dir,downfile_name)
+    return dna_dir,downfile_name
 
 
 
