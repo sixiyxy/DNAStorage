@@ -113,7 +113,6 @@ class ClusterDecode():
         decode_bits = set([str(segment) for segment in final_bit_segments]) 
         # after set，so number is less than dna sequence number - error indeice number
 
-
         recall_bits = encode_bits & decode_bits
         error_bits_number = len(decode_bits) -  len(recall_bits)
         error_bits_rate = str(round(error_bits_number/len(decode_bits) * 100, 2)) + "%"
@@ -131,7 +130,6 @@ class ClusterDecode():
                         "recall_bits_number": len(recall_bits),
                         "error_bits_number":error_bits_number,
                         "error_bits_rate":error_bits_rate}
-        print(record_info)
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print('Decoding Done!')
 

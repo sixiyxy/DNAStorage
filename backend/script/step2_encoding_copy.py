@@ -27,11 +27,6 @@ encoding_methods = {
     "DNAFountain":DNAFountain(need_logs=False),
     "YinYang":YinYangCode(need_logs=False)}
 
-    # {"file_uid":1565237658387615744,
-    # "segment_length":160,
-    # "index_length":20,
-    # "verify_method":"Hamming",
-    # "encode_method":"Basic"}
 
 class Encoding():
     def __init__(self,file_uid,segment_length,index_length,verify_method,encode_method):
@@ -70,32 +65,10 @@ class Encoding():
         # user download file
         self.user_download_file = '{}/{}/{}.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
 
-        # other utils
-        self.monitor = Monitor()
-    
-    def cut_file(self,cut_size):
-        # print("Read binary matrix from file: " + self.file_path)
-        file_data = fromfile(file=self.file_path, dtype=uint8)
-        cut_size = cut_size
-        cut_file_data = []
-        for i in range(file_data.shape[0]//cut_size):
-            if i != file_data.shape[0]//cut_size:
-                cut_data = file_data[i*cut_size:(i+1)*cut_size]
-            else:
-                cut_data = file_data[i*cut_size:]
-            cut_file_data.append(cut_data)
-
-        return cut_file_data
-
-
     def segment_file(self,data):
-        # compute file size
-
         matrix, values = [], data
-
         for current, value in enumerate(values):
             matrix += list(map(int, list(str(bin(value))[2:].zfill(8))))
-            # self.monitor.output(current + 1, len(values))
 
         if len(matrix) % self.segment_length != 0:
             matrix += [0] * (self.segment_length - len(matrix) % self.segment_length)
@@ -107,33 +80,7 @@ class Encoding():
         bit_segments =matrix.tolist()
         self.segment_number = len(bit_segments)
 
-        # print('Segment the unload file....')
-        # print("There are " + str(len(values) * 8) + " bits in the inputted file. ")
-        # print("There are " + str(len(bit_segments)) + " bits sequences.\n ")
-
         return bit_segments
-
-    def parallel_test(self):
-        cuts = [2000,4000,8000,12000,20000,40000]
-        ts = [1,4,8,16,32,64,128]
-
-        for c in cuts:
-            for t in ts:
-                cut_file_list = self.cut_file(c)
-                # print(len(cut_file_list))
-                # print(cut_file_list[0])
-                from time import time
-                t1 = time()
-                with Pool(t) as pool:
-                    # r = tqdm(pool.imap(self.bit_to_dna,cut_file_list),total=len(cut_file_list))
-                    r = pool.imap(self.bit_to_dna,cut_file_list)
-                    for i in r:
-                        pass
-                t2 = time()
-                for data in cut_file_list:
-                    self.bit_to_dna(data)
-                t3 = time()
-                print('cut size {},threads {}, pool time {}, for time {}'.format(c,t,t2-t1,t3-t2))
 
     def connet_index(self,data):
         original_bit_segments = self.segment_file(data)
@@ -146,8 +93,6 @@ class Encoding():
             record_index.append(index_code)
             add_index_seg = index_code + original_bit_segments[index]
             connected_bit_segments.append(add_index_seg)
- 
-        # print('After segment,add index to the bit sequences.\n')
 
         return connected_bit_segments,original_bit_segments,record_index
         
@@ -160,43 +105,34 @@ class Encoding():
         else:
             final_bit_segments, error_correction_length = verify_method.insert(connected_bit_segments)
         
-        # verify_code_length = len(bit_segments[0]) - len(connected_bit_segments[0])
         self.verify_code_length = error_correction_length
         record_info = {"verify_code_length":error_correction_length,
                         "final_segment_bit_length":len(final_bit_segments[0])}
 
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
-        # print('After add index,add verify code to the bit sequences.\n')
 
         return original_bit_segments,record_index,connected_bit_segments,final_bit_segments
 
     def bit_to_dna(self,data): 
-        start_time = datetime.now()
+        
         original_bit_segments,record_index,connected_bit_segments,final_bit_segments = self.verify_code(data)
         encode_method = encoding_methods[self.encode_method]
         dna_sequences = encode_method.encode(final_bit_segments)
-        # print('Encode bit segments to DNA sequences by coding scheme.\n')
 
         # record encode value
-        run_time = (datetime.now() - start_time).total_seconds()
+       
         nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
         information_density = self.bit_size/nucleotide_count
-        information_density = round(information_density,3)
+
 
         net_nucleotide_count = len(dna_sequences)*(len(dna_sequences[0]) - self.index_length - self.verify_code_length)
         net_information_density = self.bit_size/net_nucleotide_count
-        net_information_density = round(net_information_density,3)
+        
 
-        record_info = {"byte_size":self.byte_size,
-                    "bit_size":self.bit_size,
-                    "segment_length":self.segment_length,
+        record_info = {"bit_size":self.bit_size,
                     "segment_number":self.segment_number,
-                    "index_length":self.index_length,
-                    "verify_method":self.verify_method,
-                    "encode_method":self.encode_method,
                     "DNA_sequence_length":len(dna_sequences[0]),
                     "nucleotide_counts":nucleotide_count,
-                    "encoding_time":run_time,
                     "information_density":information_density,
                     "net_information_density":net_information_density}
 
@@ -219,9 +155,6 @@ class Encoding():
                 for missing_segment in missing_segments:
                     if missing_segment in dna_segment:
                         is_find = True
-                        # print(missing_segment,dna_segment)
-                        # print('kkk',homo_length,len(homo_distribution))
-                        # print(homo_distribution)
                         homo_distribution[homo_length-1] += 1
                         break
                     if is_find:
@@ -238,9 +171,24 @@ class Encoding():
             front_homo.append(plot_dict)
 
         record_info['gc_plot'] = front_gc
-        record_info['homo_plot'] = front_homo
+        record_info['homo_plot'] = front_homo 
 
-        # min free energy
+        # record dowdload file
+        record_data = pd.DataFrame()
+        record_data['payload'] = original_bit_segments
+        record_data['index'] = record_index
+        record_data['index_payload'] = connected_bit_segments
+        record_data['index_payload_verfiycode'] = final_bit_segments
+        record_data['DNA_sequence'] = dna_sequences
+        record_data.to_csv(self.user_download_file) 
+        
+        record_info['user_encode_file'] = self.user_download_file
+        record_info['user_file_infofile'] = self.file_info_path
+
+        return record_info
+
+    def get_min_free_energydata(self):
+         # min free energy
         min_free_energy_list = []
         min_free_energy_30 = []
         with open(self.free_enerfy_file) as f:
@@ -268,34 +216,77 @@ class Encoding():
             data = {'x':x_value,'y':str(interval_value[idx]),'range':range_label}
             free_energy_plotdata.append(data)
 
-        record_info['min_free_energy'] = avg_free_energy
-        record_info['min_free_energy_below_30kj/mol'] = str(free_energy_30)+'%'
-        record_info['energy_plot'] =free_energy_plotdata
+        return avg_free_energy,str(free_energy_30)+'%',free_energy_plotdata
 
-        # record dowdload file
-        record_data = pd.DataFrame()
-        record_data['payload'] = original_bit_segments
-        record_data['index'] = record_index
-        record_data['index_payload'] = connected_bit_segments
-        record_data['index_payload_verfiycode'] = final_bit_segments
-        record_data['DNA_sequence'] = dna_sequences
-        record_data.to_csv(self.user_download_file) 
+
+    def parallel_run(self):
+        file_data = fromfile(file=self.file_path, dtype=uint8)
+        file_size = file_data.shape[0]
+        if file_size <= 1000000000:
+            cut_size = 4000
+        else:
+            cut_size = 12000 
+
+        cut_file_data = []
+        for i in range(file_size//cut_size):
+            if i != file_size//cut_size:
+                cut_data = file_data[i*cut_size:(i+1)*cut_size]
+            else:
+                cut_data = file_data[i*cut_size:]
+            cut_file_data.append(cut_data)
         
-        record_info['user_encode_file'] = self.user_download_file
-        record_info['user_file_infofile'] = self.file_info_path
+        start_time = datetime.now()
+        with Pool(8) as pool:
+            parallel_results = list(tqdm(pool.imap(self.bit_to_dna,cut_file_data),total=len(cut_file_data)))
 
-        return record_info,original_bit_segments
+        bit_szie_all = 0
+        segment_number_all = 0
+        nucleotide_counts_all = 0
+        information_density_all = 0
+        net_information_density_all = 0
+
+        result_number = len(parallel_results)
+        for one_result in len(result_number):  
+            bit_szie_all += one_result['bit_size']
+            segment_number_all += one_result['segment_number'], 
+            DNA_sequence_length = one_result['DNA_sequence_length']
+            nucleotide_counts_all += one_result['nucleotide_counts']
+            information_density_all +=one_result['information_density']
+            net_information_density_all += one_result['net_information_density']
+            gc_plot = one_result['gc_plot']
+            homo_plot = one_result['homo_plot']
+
+        
+
+        run_time = (datetime.now() - start_time).total_seconds()
+        final_record_info = {"byte_size":file_size,
+                    "bit_size":bit_szie_all,
+                    "segment_number":segment_number_all,
+                    "segment_length":self.segment_length,
+                    "index_length":self.index_length,
+                    "verify_method":self.verify_method,
+                    "encode_method":self.encode_method,
+                    "encoding_time":run_time,
+                    "DNA_sequence_length":DNA_sequence_length,
+                    "nucleotide_counts":nucleotide_counts_all,
+                    "information_density":round(information_density_all/result_number,3),
+                     "net_information_density":round(net_information_density_all/result_number,3)
+                    }
+
+
+        return final_record_info
+
 
 
 if __name__ == '__main__':
     # 1565536927137009664
     # 1582258845189804032
-    obj = Encoding(file_uid=1582258845189804032,
+    obj = Encoding(file_uid=1565536927137009664,
                   encode_method='Basic',
                   segment_length=160,
                   index_length=20,
                   verify_method='Hamming')
-    obj.parallel_test()
+    obj.parallel_run()
     # obj.connet_index()
     # obj.verify_code()
     # record_info,bit_segments = obj.bit_to_dna()
