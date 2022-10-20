@@ -1,5 +1,3 @@
-from distutils.command.config import config
-from distutils.command.upload import upload
 import os
 import json
 import time
@@ -328,7 +326,6 @@ def decode():
                                     clust_method= 'cdhit')
         decode_info = Decode_obj.decode()
         return json.dumps(decode_info)
-
 
 @app.route('/download',methods=['GET','POST'])
 def download():
