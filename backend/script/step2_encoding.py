@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 from numpy import fromfile, array, uint8
 
-from .utils.utils_basic import get_config,write_yaml,write_dna_file,write_dna_sample_file,Monitor
+from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
 from .utils.verify_methods import Hamming,ReedSolomon
 from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
 
@@ -169,8 +169,7 @@ class Encoding():
                     "net_information_density":net_information_density}
 
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
-        write_dna_file(path=self.dna_file,dna_sequences=dna_sequences,need_logs=True)
-        write_dna_file(path=self.dna_demo_file,dna_sequences=dna_sequences,need_logs=True)
+        write_dna_file(path=self.dna_file,demo_path=self.dna_demo_file,dna_sequences=dna_sequences)
 
         # record plot data
         gc_distribution = [0 for _ in range(101)]

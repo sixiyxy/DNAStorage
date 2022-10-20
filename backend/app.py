@@ -1,6 +1,5 @@
 from distutils.command.config import config
 from distutils.command.upload import upload
-from imp import reload
 import os
 import json
 import time
@@ -9,13 +8,13 @@ from flask import Flask, render_template,session
 from flask import request,send_from_directory
 from flask_cors import CORS
 from flask_session import Session
-from script.utils.simulation_utils import is_fasta,fasta_to_dna
 
-from script.utils.utils_basic import get_config,write_yaml,get_download_path
 from script.step1_get_file_uid import get_file_uid
-from script.step2_encoding import Encoding
+from script.step2_encoding_parallel import Encoding
 from script.step3_simulation_utils import Simulation as Simu
 from script.step4_decode import ClusterDecode
+from script.utils.simulation_utils import is_fasta,fasta_to_dna
+from script.utils.utils_basic import get_config,write_yaml,get_download_path
 from app_utils import set_session,get_session
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
@@ -67,7 +66,6 @@ def file_encode():
     # "encode_method":"Basic"}
 
     file_uid = front_data['file_uid'] #'1566....'
-    
     segment_length = front_data['segment_length'] #4
     index_length = front_data['index_length'] #128
     verify_method = front_data['verify_method'] #'HammingCode'
@@ -79,11 +77,11 @@ def file_encode():
                   index_length=index_length,
                   verify_method=verify_method)
                   
-    encode_info,encode_bits = obj.bit_to_dna()
+    encode_info,encode_bits = obj.parallel_run()
     encode_key = 'encode_{}'.format(file_uid)
     session['encode_key'] = encode_key
     set_session(encode_key,encode_bits)
-    print(file_uid, "\n")
+
     return json.dumps(encode_info)
 
 #if user wants to upload his own dna file instead of generating by us
@@ -354,7 +352,6 @@ def download():
         return "Please make sure the uid has been encode or simulation!"
 
 
-print(app.url_map)
 
 if __name__ == '__main__':
     CORS(app,supports_credentials=True)

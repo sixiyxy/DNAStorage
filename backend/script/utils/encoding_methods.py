@@ -9,7 +9,7 @@ from .encoding_method_rule import *
 
 class AbstractCodingAlgorithm(object):
 
-    def __init__(self, need_logs):
+    def __init__(self, need_logs=False):
         self.bit_size = None
         self.need_logs = need_logs
         self.monitor = Monitor()

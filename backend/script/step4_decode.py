@@ -5,22 +5,21 @@ from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
 from .utils.verify_methods import Hamming,ReedSolomon
 from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
 from .utils.decode_utils import remove_index
-from .step2_encoding import Encoding
+from .step2_encoding_parallel import Encoding
 
 verify_methods = {
     "WithoutVerifycode":False,
-    "Hamming":Hamming(),
-    "ReedSolomon":ReedSolomon()
-}
+    "Hamming":Hamming(need_logs=False),
+    "ReedSolomon":ReedSolomon(need_logs=False)}
+
 encoding_methods = {
-    "Basic":BaseCodingAlgorithm(need_logs=True),
-    "Church":Church(need_logs=True),
-    "Goldman":Goldman(need_logs=True),
-    "Grass":Grass(need_logs=True),
-    "Blawat":Blawat(need_logs=True),
-    "DNAFountain":DNAFountain(need_logs=True),
-    "YinYang":YinYangCode(need_logs=True)
-}
+    "Basic":BaseCodingAlgorithm(need_logs=False),
+    "Church":Church(need_logs=False),
+    "Goldman":Goldman(need_logs=False),
+    "Grass":Grass(need_logs=False),
+    "Blawat":Blawat(need_logs=False),
+    "DNAFountain":DNAFountain(need_logs=False),
+    "YinYang":YinYangCode(need_logs=False)}
 
 class ClusterDecode():
     def __init__(self,file_uid,clust_method,encode_bit_segment):

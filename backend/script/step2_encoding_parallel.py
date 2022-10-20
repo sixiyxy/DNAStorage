@@ -7,11 +7,9 @@ from multiprocessing import Pool
 from tqdm import tqdm
 from numpy import fromfile, array, uint8
 
-from utils.utils_basic import get_config,write_yaml,write_dna_file,write_dna_sample_file,Monitor
-from utils.verify_methods import Hamming,ReedSolomon
-from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
-
-
+from .utils.utils_basic import get_config,write_yaml,write_dna_file
+from .utils.verify_methods import Hamming,ReedSolomon
+from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
 
 verify_methods = {
     "WithoutVerifycode":False,
@@ -121,6 +119,9 @@ class Encoding():
         encode_method = encoding_methods[self.encode_method]
         dna_sequences = encode_method.encode(final_bit_segments)
 
+        # record file
+        write_dna_file(path=self.dna_file,demo_path=self.dna_demo_file,dna_sequences=dna_sequences)
+
         # record encode value
         nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
         information_density = self.bit_size/nucleotide_count
@@ -173,9 +174,9 @@ class Encoding():
                 DNA_sequence = DNA_sequence))
         f.close()
 
-        return record_info
+        return record_info,original_bit_segments
 
-    def get_min_free_energydata(self,final_record_info):
+    def add_min_free_energydata(self,final_record_info):
          # min free energy
         min_free_energy_list = []
         min_free_energy_30 = []
@@ -209,7 +210,6 @@ class Encoding():
 
         return final_record_info
 
-
     def parallel_run(self):
         file_data = fromfile(file=self.file_path, dtype=uint8)
         file_size = file_data.shape[0]
@@ -239,8 +239,11 @@ class Encoding():
         gc_dict = {}
         homo_dict = {}
 
+        original_bit_segments = []
+
         result_number = len(parallel_results)
-        for one_result in parallel_results:  
+        for one_result,one_original_bit_segments in parallel_results:  
+            original_bit_segments += one_original_bit_segments
             bit_szie_all += one_result['bit_size']
             segment_number_all += int(one_result['segment_number'])
             DNA_sequence_length = one_result['DNA_sequence_length']
@@ -248,14 +251,14 @@ class Encoding():
             information_density_all +=one_result['information_density']
             net_information_density_all += one_result['net_information_density']
         
-            gc_data = one_result['gc_plot']
+            gc_data = one_result['gc_data']
             for idx in range(len(gc_data)):
                 if idx not in gc_dict:
                     gc_dict[idx] = gc_data[idx]
                 else:
                     gc_dict[idx] += gc_data[idx]
 
-            homo_data = one_result['homo_plot']
+            homo_data = one_result['homo_data']
             for idx in range(len(homo_data)):
                 if idx not in homo_dict:
                     homo_dict[idx] = homo_data[idx]
@@ -280,13 +283,10 @@ class Encoding():
                     'gc_plot' : front_gc,
                     'homo_plot' :front_homo}
 
-        write_yaml(yaml_path=self.file_info_path,data=final_record_info,appending=True)
-        write_dna_file(path=self.dna_file,dna_sequences=dna_sequences,need_logs=False)
-        write_dna_file(path=self.dna_demo_file,dna_sequences=dna_sequences,need_logs=False)
-
         final_record_info = self.add_min_free_energydata(final_record_info)
+        write_yaml(yaml_path=self.file_info_path,data=final_record_info,appending=True)
         
-        return final_record_info
+        return final_record_info,original_bit_segments
 
 
 
