@@ -45,6 +45,7 @@ def file_upload():
     file_base_info = {'file_uid':file_uid,
                 'file_name':filename,
                 'file_rename':file_rename,
+                'upload_file_szie':os.path.getsize(save_dir),
                 'file_type':filetype}
     yaml_file = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
     write_yaml(yaml_path=yaml_file,data=file_base_info,appending=False)
