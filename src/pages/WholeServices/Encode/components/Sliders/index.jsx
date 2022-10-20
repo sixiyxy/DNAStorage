@@ -35,11 +35,13 @@ const Sliders = (props) => {
 
   return (
     <>
+
       <div>
         {/*Segment length阈值设置条*/}
         <strong style={{ fontSize: "16px" }}>Segment length:</strong>{" "}
         <Slider
           max={200}
+
           min={120}
           step={8}
           defaultValue={160}
@@ -55,13 +57,13 @@ const Sliders = (props) => {
         <Slider
           max={50}
           defaultValue={16}
+
           disabled={disabled}
           onAfterChange={onAfterChange_index}
         />
         Tips:According to the existing synthesis and sequencing technology, the
         recommended length is 16bits.
       </div>
-
       <div style={{ paddingLeft: "0px", paddingTop: "20px", fontSize: "16px" }}>
         <strong>Verify Method: </strong>
         <Radio.Group
@@ -83,5 +85,4 @@ const Sliders = (props) => {
     </>
   );
 };
-
 export default Sliders;
