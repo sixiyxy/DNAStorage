@@ -1,7 +1,6 @@
 import React, { createContext, useMemo, useState } from "react";
 import "./index.less";
 import { Breadcrumb, Layout, Menu } from "antd";
-
 import {
   AppstoreOutlined,
   MailOutlined,
@@ -10,53 +9,12 @@ import {
 import type { MenuProps } from "antd";
 import  Encode  from "./Encode";
 import { Report } from "./Report";
+
 const { Header, Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
 
 export class ServicesProps {}
 import "./index.less";
-
-//   label: React.ReactNode,
-//   key: React.Key,
-//   icon?: React.ReactNode,
-//   children?: MenuItem[],
-//   type?: "group",
-//   disabled?: boolean
-// ): MenuItem {
-//   return {
-//     key,
-//     icon,
-//     children,
-//     label,
-//     type,
-//     disabled,
-//   } as MenuItem;
-// }
-
-// const items = [
-// getItem(
-//   "Encode Data",
-//   "0-0",
-//   <i className="iconfont icon-Encode-File" style={{ display: "inline" }}></i>
-// ),
-//   getItem(
-//     "Simulation",
-//     "0-1",
-//     <i className="iconfont icon-monidanping" style={{ display: "inline" }}></i>,
-//     [
-//       getItem("Synthesis", "0-1-0"),
-//       getItem("Decay", "0-1-1"),
-//       getItem("PCR", "0-1-2"),
-//       getItem("Sampling", "0-1-3"),
-//       getItem("Sequencing", "0-1-4"),
-//     ]
-//   ),
-//   getItem(
-//     "Decode",
-//     "0-2",
-//     <i className="iconfont icon-Decode-File" style={{ display: "inline" }}></i>
-//   ),
-// ];
 var infos = {
   bit_size: 0,
   byte_size: 0,
@@ -91,13 +49,53 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
   const [encodeurl, setEncodeURL] = useState("");
   const [fileURL, setFileURL] = useState("");
   const [spinflag, setSpin] = useState(true);
-  const [collflag,setColl] = useState("disabled")
+  const [exam,setExam] = useState(false)
 
   let url = new URL(window.location.href);
   const pathname = url?.pathname;
-
+  const items1 = useMemo(() => {
+    return [
+      {
+        label: "Encode",
+        key: "0-0",
+        icon: (
+          <i
+            className="iconfont icon-Encode-File"
+            style={{ display: "inline" }}
+          ></i>
+        ),
+        children: [
+          {
+            label: "Setting",
+            key: "0-0-0",
+          },
+          {
+            label: "Report",
+            key: "0-0-1",
+            disabled: !isSynthesis,
+          },
+        ],
+      }   
+    ];
+  }, [isSynthesis]);
+  const onClick: MenuProps["onClick"] = (e) => {
+    setSiderSelect([e?.key]);
+  };
   return (
     <div className="encode-service-content">
+      <div className="service-content">
+      
+        <Menu
+          onClick={onClick}
+          style={{
+            width: 256,
+          }}
+          selectedKeys={siderSelect}
+          mode="inline"
+          items={items1}
+        />
+      
+      {siderSelect[0] === "0-0-0" ? (
       <Encode
         infos={infos}
         setDNAinfo={setDNAinfo}
@@ -116,22 +114,31 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
         fileinfo={fileinfo}
         setIsSynthesis={setIsSynthesis}
         setSpin={setSpin}
-        setColl={setColl}
+        setExam={setExam}
+    />
+      ) : null}
+      {siderSelect[0] === "0-0-1" ? (
+        <Report
+          dnainfo={dnainfo}
+          GC={GC}
+          homo={homo}
+          encodeurl={encodeurl}
+          fileURL={fileURL}
+          energy={energy}
+          fileinfo={fileinfo}
+          info={info}
+          fileId={fileId}
+          spinflag={spinflag}
+          exam={exam}
       />
+    
+      ) : null}
+      
+    </div>
+  );
 
-      <Report
-        dnainfo={dnainfo}
-        GC={GC}
-        homo={homo}
-        encodeurl={encodeurl}
-        fileURL={fileURL}
-        energy={energy}
-        fileinfo={fileinfo}
-        info={info}
-        fileId={fileId}
-        spinflag={spinflag}
-        collflag={collflag}
-      />
+
+
     </div>
   );
 };

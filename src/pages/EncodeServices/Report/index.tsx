@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table, Collapse } from "antd";
+import { Card, Table} from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { Col, Row, Breadcrumb, Button } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
@@ -7,9 +7,9 @@ import type { SizeType } from "antd/es/config-provider/SizeContext";
 import GLgraph from "./components/GLgraph";
 import HomoGraph from "./components/HomoGraph";
 import EnergyGraph from "./components/EnergyGraph";
+import axios from "axios";
 import "./index.less";
-// import Information from './components/Information'
-// import DNAinfo from './components/DNAinfo'
+
 import { Spin } from "antd";
 export class ReportProps {
   GC;
@@ -22,7 +22,7 @@ export class ReportProps {
   energy;
   encodeurl;
   fileURL;
-  collflag;
+  exam;
 }
 interface DataType {
   key: string;
@@ -31,9 +31,13 @@ interface DataType {
   name2: string;
   value2: any;
 }
-const { Panel } = Collapse;
+
 export const Report: React.FC<ReportProps> = (props) => {
   const [size, setSize] = useState<SizeType>("large");
+  var params1 ={
+    "file_uid":props.exam?"1565536927137009664":props.fileId,
+    "type":"encode"
+  }
   const columns1: ColumnsType<DataType> = [
     {
       title: "Name",
@@ -78,14 +82,14 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "1",
       name1: "Job ID",
-      value1: props.fileinfo.fileId,
+      value1: props.exam?"1565536927137009664":props.fileinfo.fileId,
       name2: "File type",
-      value2: props.fileinfo.filetype,
+      value2: props.exam?"jpg":props.fileinfo.filetype,
     },
     {
       key: "2",
       name1: "File name",
-      value1: props.fileinfo.filerename,
+      value1: props.exam?"Picture Demo":props.fileinfo.filerename,
       name2: "File bites",
       value2: props.info.bit_size,
     },
@@ -130,26 +134,30 @@ export const Report: React.FC<ReportProps> = (props) => {
   const DownloadURL = () => {
     // console.log(props.encodeurl);
     // console.log(props.fileURL);
-    var a = document.createElement("a");
-    a.download = "filename"; //下载后文件名
-    a.style.display = "none";
-    var blob = new Blob([props.encodeurl]); // 字符内容转变成blob地址 二进制地址
-    a.href = URL.createObjectURL(blob);
-    document.body.appendChild(a);
-    a.click(); // 触发点击
-    document.body.removeChild(a); // 然后移除
+    axios
+      .post("http://localhost:5000/download", params1,{responseType: 'blob'})
+      .then(function (response) {
+        console.log(response.data);
+        const link = document.createElement('a');  //创建一个a标签
+        const blob = new Blob([response.data]);             //实例化一个blob出来
+        link.style.display = 'none';       
+        link.href = URL.createObjectURL(blob);    //将后端返回的数据通过blob转换为一个地址
+    //设置下载下来后文件的名字以及文件格式
+        link.setAttribute(
+      'download',
+      `${'Report'}.` + `${'zip'}`,     //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
+    );
+    document.body.appendChild(link);
+    link.click();                            //下载该文件
+    document.body.removeChild(link);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
-  const onChange = (key: string | string[]) => {
-    //console.log(key);
-  };
+
   return (
-    <div className="reportContainer">
-      <Collapse
-        defaultActiveKey={["1"]}
-        onChange={onChange}
-        style={{ marginLeft: "300px" }}
-      >
-        <Panel header="Click me show the information" key="1">
+    <div className="reportContainer">   
           <Spin
             tip="Loading..."
             size="large"
@@ -261,8 +269,6 @@ export const Report: React.FC<ReportProps> = (props) => {
             <br />
             <br />
           </Spin>
-        </Panel>
-      </Collapse>
     </div>
   );
 };

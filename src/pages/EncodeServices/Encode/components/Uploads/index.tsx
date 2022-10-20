@@ -13,7 +13,7 @@ const Uploads: React.FC = (props: any) => {
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
-        //console.log('文件上传后端返回值',info.file);
+        console.log('文件上传后端返回值',info.file);
         props.setBtn(true);
         props.GetFileID(info.file.response.file_uid);
         props.FileInfoPass(

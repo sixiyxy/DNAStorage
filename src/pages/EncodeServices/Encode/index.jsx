@@ -81,7 +81,7 @@ export const Encode = (props) => {
   };
   return (
     <div className="EncodeContainer">
-      <div style={{ paddingLeft: "200px", paddingTop: "20px" }}>
+      <div style={{ paddingLeft: "100px", paddingTop: "20px" }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
             <a href="/">Home</a>
@@ -97,7 +97,7 @@ export const Encode = (props) => {
           <div
             id="uploads"
             style={{
-              marginLeft: "300px",
+              marginLeft: "100px",
               marginTop: "20px",
               fontSize: "18px",
             }}
@@ -117,7 +117,7 @@ export const Encode = (props) => {
           <div
             id="sliders"
             style={{
-              marginLeft: "300px",
+              marginLeft: "100px",
               paddingTop: "50px",
               fontSize: "14px",
             }}
@@ -125,7 +125,7 @@ export const Encode = (props) => {
             <hr />
             <Sliders ParamPass={ParamPass} />
           </div>
-          <div id="graphs" style={{ marginLeft: "300px", paddingTop: "20px" }}>
+          <div id="graphs" style={{ marginLeft: "100px", paddingTop: "20px" }}>
             <hr />
             <Graphs
               seg={seg}
@@ -145,7 +145,7 @@ export const Encode = (props) => {
               fontSize: "15px",
             }}
           >
-            <p style={{ marginLeft: "300px", fontSize: "17px" }}>
+            <p style={{ marginLeft: "50px", fontSize: "17px" }}>
               <hr />
             </p>
             <Encodelists
@@ -164,6 +164,7 @@ export const Encode = (props) => {
               btnflag={btnflag}
               setIsSynthesis={props.setIsSynthesis}
               setSpin={props.setSpin}
+              setExam={props.setExam}
             />
           </div>
           <br />
