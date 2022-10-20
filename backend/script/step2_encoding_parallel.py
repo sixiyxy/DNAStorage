@@ -205,7 +205,7 @@ class Encoding():
             data = {'x':x_value,'y':str(interval_value[idx]),'range':range_label}
             free_energy_plotdata.append(data)
         final_record_info['min_free_energy'] = avg_free_energy
-        final_record_info['min_free_energy_below_30kj/mol'] = str(free_energy_30)+'%'
+        final_record_info['min_free_energy_below_30kj_mol'] = str(free_energy_30)+'%'
         final_record_info['energy_plot'] =free_energy_plotdata
 
         return final_record_info
