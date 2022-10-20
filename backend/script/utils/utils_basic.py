@@ -37,30 +37,22 @@ def write_yaml(yaml_path,data,appending):
             with open(yaml_path,"a",encoding="utf-8") as f:
                 yaml.dump(data,f)
 
-def write_dna_file(path, dna_sequences, need_logs=False):
-    monitor = Monitor()
-
-    with open(path, "w") as file:
-        for index, dna_sequence in enumerate(dna_sequences):
-            file.write("".join(dna_sequence) + "\n")
-
-            if need_logs:
-                monitor.output(index + 1, len(dna_sequences))
-        if need_logs:
-            print("Write DNA sequences to file: " + path + '\n')
-    return True
-
-def write_dna_sample_file(path, dna_sequences, need_logs=False):
-    monitor = Monitor()
-    demo_dna_sequences = random.sample(dna_sequences,1000)
-    with open(path, "w") as file:
+def write_dna_file(path,demo_path, dna_sequences):
+   
+    with open(path, "a+") as file:
         for index, dna_sequence in enumerate(demo_dna_sequences):
             file.write("".join(dna_sequence) + "\n")
-
-            if need_logs:
-                monitor.output(index + 1, len(dna_sequences))
-        if need_logs:
-            print("Write 1000 demo DNA sequences to file: " + path + '\n')
+    
+    if not os.path.exists(demo_path):
+        if len(dna_sequence)<=1000:
+            demo_dna_sequences =dna_sequence
+        else:
+            demo_dna_sequences = random.sample(dna_sequences,1000)
+        
+        with open(demo_path, "a+") as demo_file:
+                for index, dna_sequence in enumerate(demo_dna_sequences):
+                    demo_file.write("".join(dna_sequence) + "\n")
+        print("Write 1000 demo DNA sequences to file: " + path + '\n')
     return True
 
 def get_download_path(type,file_uid):
