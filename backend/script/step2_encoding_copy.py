@@ -64,6 +64,9 @@ class Encoding():
 
         # user download file
         self.user_download_file = '{}/{}/{}.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
+        f = open(self.user_download_file,'w')
+        f.write('payload,index,index_payload,index_payload_verfiycode,DNA_sequence\n')
+        f.close()
 
     def segment_file(self,data):
         matrix, values = [], data
@@ -114,21 +117,17 @@ class Encoding():
         return original_bit_segments,record_index,connected_bit_segments,final_bit_segments
 
     def bit_to_dna(self,data): 
-        
         original_bit_segments,record_index,connected_bit_segments,final_bit_segments = self.verify_code(data)
         encode_method = encoding_methods[self.encode_method]
         dna_sequences = encode_method.encode(final_bit_segments)
 
         # record encode value
-       
         nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
         information_density = self.bit_size/nucleotide_count
-
 
         net_nucleotide_count = len(dna_sequences)*(len(dna_sequences[0]) - self.index_length - self.verify_code_length)
         net_information_density = self.bit_size/net_nucleotide_count
         
-
         record_info = {"bit_size":self.bit_size,
                     "segment_number":self.segment_number,
                     "DNA_sequence_length":len(dna_sequences[0]),
@@ -136,9 +135,6 @@ class Encoding():
                     "information_density":information_density,
                     "net_information_density":net_information_density}
 
-        write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
-        write_dna_file(path=self.dna_file,dna_sequences=dna_sequences,need_logs=False)
-        write_dna_file(path=self.dna_demo_file,dna_sequences=dna_sequences,need_logs=False)
 
         # record plot data
         gc_distribution = [0 for _ in range(101)]
@@ -160,34 +156,26 @@ class Encoding():
                     if is_find:
                         break
 
-        front_gc = []
-        front_homo = []
-
-        for i in range(101):
-            plot_dict = {'x_value':i,'y_value':gc_distribution[i]}
-            front_gc.append(plot_dict)
-        for i in range(max(list(map(len, dna_sequences)))):
-            plot_dict = {'x_value':i+1,'y_value':gc_distribution[i]}
-            front_homo.append(plot_dict)
-
-        record_info['gc_plot'] = front_gc
-        record_info['homo_plot'] = front_homo 
+        record_info['gc_data'] = gc_distribution
+        record_info['homo_data'] = gc_distribution
 
         # record dowdload file
-        record_data = pd.DataFrame()
-        record_data['payload'] = original_bit_segments
-        record_data['index'] = record_index
-        record_data['index_payload'] = connected_bit_segments
-        record_data['index_payload_verfiycode'] = final_bit_segments
-        record_data['DNA_sequence'] = dna_sequences
-        record_data.to_csv(self.user_download_file) 
-        
-        record_info['user_encode_file'] = self.user_download_file
-        record_info['user_file_infofile'] = self.file_info_path
+        f = open(self.user_download_file,'a+')
+        for idx in range(self.segment_number):
+            payload = ''.join(map(str,original_bit_segments[idx]))
+            index = ''.join(map(str,record_index[idx]))
+            index_payload  = ''.join(map(str,connected_bit_segments[idx]))
+            index_payload_verfiycode= ''.join(map(str,final_bit_segments[idx]))
+            DNA_sequence= ''.join(map(str,dna_sequences[idx]))
+            f.write('{payload},{index},{index_payload},{index_payload_verfiycode},{DNA_sequence}\n'.format(
+                payload=payload,index=index,index_payload=index_payload,
+                index_payload_verfiycode=index_payload_verfiycode,
+                DNA_sequence = DNA_sequence))
+        f.close()
 
         return record_info
 
-    def get_min_free_energydata(self):
+    def get_min_free_energydata(self,final_record_info):
          # min free energy
         min_free_energy_list = []
         min_free_energy_30 = []
@@ -215,8 +203,11 @@ class Encoding():
             range_label = '{} - {}'.format(interval[idx].left,interval[idx].right)
             data = {'x':x_value,'y':str(interval_value[idx]),'range':range_label}
             free_energy_plotdata.append(data)
+        final_record_info['min_free_energy'] = avg_free_energy
+        final_record_info['min_free_energy_below_30kj/mol'] = str(free_energy_30)+'%'
+        final_record_info['energy_plot'] =free_energy_plotdata
 
-        return avg_free_energy,str(free_energy_30)+'%',free_energy_plotdata
+        return final_record_info
 
 
     def parallel_run(self):
@@ -245,19 +236,34 @@ class Encoding():
         information_density_all = 0
         net_information_density_all = 0
 
+        gc_dict = {}
+        homo_dict = {}
+
         result_number = len(parallel_results)
-        for one_result in len(result_number):  
+        for one_result in parallel_results:  
             bit_szie_all += one_result['bit_size']
-            segment_number_all += one_result['segment_number'], 
+            segment_number_all += int(one_result['segment_number'])
             DNA_sequence_length = one_result['DNA_sequence_length']
             nucleotide_counts_all += one_result['nucleotide_counts']
             information_density_all +=one_result['information_density']
             net_information_density_all += one_result['net_information_density']
-            gc_plot = one_result['gc_plot']
-            homo_plot = one_result['homo_plot']
-
         
+            gc_data = one_result['gc_plot']
+            for idx in range(len(gc_data)):
+                if idx not in gc_dict:
+                    gc_dict[idx] = gc_data[idx]
+                else:
+                    gc_dict[idx] += gc_data[idx]
 
+            homo_data = one_result['homo_plot']
+            for idx in range(len(homo_data)):
+                if idx not in homo_dict:
+                    homo_dict[idx] = homo_data[idx]
+                else:
+                    homo_dict[idx] += homo_data[idx]
+
+        front_gc = [{'x_value':i,'y_value':gc_dict[i]} for i in gc_dict]
+        front_homo = [{'x_value':i,'y_value':homo_dict[i]} for i in homo_data]
         run_time = (datetime.now() - start_time).total_seconds()
         final_record_info = {"byte_size":file_size,
                     "bit_size":bit_szie_all,
@@ -270,10 +276,16 @@ class Encoding():
                     "DNA_sequence_length":DNA_sequence_length,
                     "nucleotide_counts":nucleotide_counts_all,
                     "information_density":round(information_density_all/result_number,3),
-                     "net_information_density":round(net_information_density_all/result_number,3)
-                    }
+                    "net_information_density":round(net_information_density_all/result_number,3),
+                    'gc_plot' : front_gc,
+                    'homo_plot' :front_homo}
 
+        write_yaml(yaml_path=self.file_info_path,data=final_record_info,appending=True)
+        write_dna_file(path=self.dna_file,dna_sequences=dna_sequences,need_logs=False)
+        write_dna_file(path=self.dna_demo_file,dna_sequences=dna_sequences,need_logs=False)
 
+        final_record_info = self.add_min_free_energydata(final_record_info)
+        
         return final_record_info
 
 

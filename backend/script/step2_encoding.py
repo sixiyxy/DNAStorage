@@ -29,6 +29,10 @@ encoding_methods = {
     # "verify_method":"Hamming",
     # "encode_method":"Basic"}
 
+def join_list(l):
+    return [''.join(map(str,i)) for i in l]
+
+
 class Encoding():
     def __init__(self,file_uid,segment_length,index_length,verify_method,encode_method):
         self.file_uid = file_uid
@@ -65,6 +69,9 @@ class Encoding():
 
         # user download file
         self.user_download_file = '{}/{}/{}.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
+        f = open(self.user_download_file,'w')
+        f.write('payload,index,index_payload,index_payload_verfiycode,DNA_sequence\n')
+        f.close()
 
         # other utils
         self.monitor = Monitor()
@@ -231,17 +238,19 @@ class Encoding():
         record_info['energy_plot'] =free_energy_plotdata
 
         # record dowdload file
-        record_data = pd.DataFrame()
-        record_data['payload'] = original_bit_segments
-        record_data['index'] = record_index
-        record_data['index_payload'] = connected_bit_segments
-        record_data['index_payload_verfiycode'] = final_bit_segments
-        record_data['DNA_sequence'] = dna_sequences
-        record_data.to_csv(self.user_download_file) 
+        f = open(self.user_download_file,'a+')
+        for idx in range(self.segment_number):
+            payload = ''.join(map(str,original_bit_segments[idx]))
+            index = ''.join(map(str,record_index[idx]))
+            index_payload  = ''.join(map(str,connected_bit_segments[idx]))
+            index_payload_verfiycode= ''.join(map(str,final_bit_segments[idx]))
+            DNA_sequence= ''.join(map(str,dna_sequences[idx]))
+            f.write('{payload},{index},{index_payload},{index_payload_verfiycode},{DNA_sequence}\n'.format(
+                payload=payload,index=index,index_payload=index_payload,
+                index_payload_verfiycode=index_payload_verfiycode,
+                DNA_sequence = DNA_sequence))
+        f.close()
         
-        record_info['user_encode_file'] = self.user_download_file
-        record_info['user_file_infofile'] = self.file_info_path
-
         return record_info,original_bit_segments
 
 
