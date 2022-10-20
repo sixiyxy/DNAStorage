@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Table } from "antd";
+import { Card, Table} from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { Col, Row, Breadcrumb, Button } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
@@ -7,9 +7,9 @@ import type { SizeType } from "antd/es/config-provider/SizeContext";
 import GLgraph from "./components/GLgraph";
 import HomoGraph from "./components/HomoGraph";
 import EnergyGraph from "./components/EnergyGraph";
+import axios from "axios";
 import "./index.less";
-// import Information from './components/Information'
-// import DNAinfo from './components/DNAinfo'
+
 import { Spin } from "antd";
 export class ReportProps {
   GC;
@@ -22,6 +22,7 @@ export class ReportProps {
   energy;
   encodeurl;
   fileURL;
+  exam;
 }
 interface DataType {
   key: string;
@@ -30,8 +31,13 @@ interface DataType {
   name2: string;
   value2: any;
 }
+
 export const Report: React.FC<ReportProps> = (props) => {
   const [size, setSize] = useState<SizeType>("large");
+  var params1 ={
+    "file_uid":props.exam?"1565536927137009664":props.fileId,
+    "type":"encode"
+  }
   const columns1: ColumnsType<DataType> = [
     {
       title: "Name",
@@ -76,14 +82,14 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "1",
       name1: "Job ID",
-      value1: props.fileinfo.fileId,
+      value1: props.exam?"1565536927137009664":props.fileinfo.fileId,
       name2: "File type",
-      value2: props.fileinfo.filetype,
+      value2: props.exam?"jpg":props.fileinfo.filetype,
     },
     {
       key: "2",
       name1: "File name",
-      value1: props.fileinfo.filerename,
+      value1: props.exam?"Picture Demo":props.fileinfo.filerename,
       name2: "File bites",
       value2: props.info.bit_size,
     },
@@ -128,117 +134,141 @@ export const Report: React.FC<ReportProps> = (props) => {
   const DownloadURL = () => {
     // console.log(props.encodeurl);
     // console.log(props.fileURL);
-    var a = document.createElement("a");
-    a.download = "filename"; //下载后文件名
-    a.style.display = "none";
-    var blob = new Blob([props.encodeurl]); // 字符内容转变成blob地址 二进制地址
-    a.href = URL.createObjectURL(blob);
-    document.body.appendChild(a);
-    a.click(); // 触发点击
-    document.body.removeChild(a); // 然后移除
+    axios
+      .post("http://localhost:5000/download", params1,{responseType: 'blob'})
+      .then(function (response) {
+        console.log(response.data);
+        const link = document.createElement('a');  //创建一个a标签
+        const blob = new Blob([response.data]);             //实例化一个blob出来
+        link.style.display = 'none';       
+        link.href = URL.createObjectURL(blob);    //将后端返回的数据通过blob转换为一个地址
+    //设置下载下来后文件的名字以及文件格式
+        link.setAttribute(
+      'download',
+      `${'Report'}.` + `${'zip'}`,     //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
+    );
+    document.body.appendChild(link);
+    link.click();                            //下载该文件
+    document.body.removeChild(link);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
+
   return (
-    <div className="reportContainer">
-      <Spin
-        tip="Loading..."
-        size="large"
-        style={{ marginTop: "250px", marginLeft: "200px" }}
-        spinning={props.spinflag}
-        delay={10}
-      >
-        <div style={{ paddingLeft: "300px", paddingTop: "20px" }}>
-          <Breadcrumb separator=">">
-            <Breadcrumb.Item>
-              <a href="/">Home</a>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <a href="/Services">Service</a>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>Report</Breadcrumb.Item>
-          </Breadcrumb>
-        </div>
-        <div style={{ marginTop: "30px", marginLeft: "300px", width: "800px" }}>
-          <Card title="File Information">
-            <Table
-              columns={columns1}
-              dataSource={data1}
-              pagination={{ position: ["none"] }}
-            />
-          </Card>
-        </div>
-
-        <div style={{ marginTop: "30px", marginLeft: "300px" }}>
-          <Card title="DNA Information">
-            <Table
-              columns={columns2}
-              dataSource={data2}
-              pagination={{ position: ["none"] }}
-            />
-          </Card>
-        </div>
-
-        <Card
-          title="Title:GC_Contact"
-          type="inner"
-          style={{ marginLeft: "300px", marginTop: "10px", width: "800px" }}
-        >
-          <div
-            id="gcgraph"
-            style={{
-              paddingLeft: "50px",
-              paddingTop: "30px",
-              fontSize: "15px",
-              width: "750px",
-            }}
+    <div className="reportContainer">   
+          <Spin
+            tip="Loading..."
+            size="large"
+            style={{ marginTop: "250px" }}
+            spinning={props.spinflag}
+            delay={10}
           >
-            <GLgraph GC={props.GC} />
-          </div>
-        </Card>
+            {/* <div style={{ paddingLeft: "300px", paddingTop: "20px" }}>
+        <Breadcrumb separator=">">
+          <Breadcrumb.Item>
+            <a href="/">Home</a>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a href="/Services">Service</a>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>Report</Breadcrumb.Item>
+        </Breadcrumb>
+      </div> */}
+            <div
+              style={{ marginTop: "30px", marginLeft: "50px", width: "800px" }}
+            >
+              <Card title="File Information">
+                <Table
+                  columns={columns1}
+                  dataSource={data1}
+                  pagination={{ position: ["none"] }}
+                />
+              </Card>
+            </div>
 
-        <Card
-          title="Title:Homopolymer Length"
-          type="inner"
-          style={{ marginLeft: "300px", marginTop: "30px", width: "800px" }}
-        >
-          <div
-            id="homograph"
-            style={{
-              paddingLeft: "50px",
-              paddingTop: "30px",
-              fontSize: "15px",
-              width: "750px",
-            }}
-          >
-            <HomoGraph homo={props.homo} />
-          </div>
-        </Card>
+            <div style={{ marginTop: "30px", marginLeft: "50px" }}>
+              <Card title="DNA Information">
+                <Table
+                  columns={columns2}
+                  dataSource={data2}
+                  pagination={{ position: ["none"] }}
+                />
+              </Card>
+            </div>
 
-        {/* <Card title="Title:Energy Length" type="inner" style={{ marginLeft:"300px",marginTop:"30px",width:"650px"}}>
-        <div
-            id="energygraph"
-            style={{ paddingLeft: "50px", paddingTop: "30px", fontSize: "15px" }}
-        > 
-          <EnergyGraph energy={props.energy} />
-        </div>
-    </Card> */}
+            <Card
+              title="Title: GC_Contact"
+              type="inner"
+              style={{ marginLeft: "50px", marginTop: "10px", width: "800px" }}
+            >
+              <div
+                id="gcgraph"
+                style={{
+                  paddingLeft: "50px",
+                  paddingTop: "30px",
+                  fontSize: "15px",
+                  width: "750px",
+                }}
+              >
+                <GLgraph GC={props.GC} />
+              </div>
+            </Card>
 
-        <div style={{ marginLeft: "650px", marginTop: "100px" }}>
-          <Button
-            type="primary"
-            shape="round"
-            icon={<DownloadOutlined />}
-            size={size}
-            onClick={DownloadURL}
-          >
-            Download
-          </Button>
-        </div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-      </Spin>
+            <Card
+              title="Title: Homopolymer Length"
+              type="inner"
+              style={{ marginLeft: "50px", marginTop: "30px", width: "800px" }}
+            >
+              <div
+                id="homograph"
+                style={{
+                  paddingLeft: "50px",
+                  paddingTop: "30px",
+                  fontSize: "15px",
+                  width: "750px",
+                }}
+              >
+                <HomoGraph homo={props.homo} />
+              </div>
+            </Card>
+
+            <Card
+              title="Title: Sequence Min Free Energy "
+              type="inner"
+              style={{ marginLeft: "50px", marginTop: "30px", width: "800px" }}
+            >
+              <div
+                id="energygraph"
+                style={{
+                  paddingLeft: "50px",
+                  paddingTop: "30px",
+                  fontSize: "15px",
+                  width: "750px",
+                }}
+              >
+                <EnergyGraph energy={props.energy} />
+              </div>
+            </Card>
+
+            <div style={{ marginLeft: "350px", marginTop: "100px" }}>
+              <Button
+                type="primary"
+                shape="round"
+                icon={<DownloadOutlined />}
+                size={size}
+                onClick={DownloadURL}
+              >
+                Download
+              </Button>
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+          </Spin>
     </div>
   );
 };

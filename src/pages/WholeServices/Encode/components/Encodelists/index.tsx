@@ -1,6 +1,5 @@
-
 import type { RadioChangeEvent } from "antd";
-import { Input, Radio, Space } from "antd";
+import { Input, Radio, Space,Col, Row} from "antd";
 import { Button, notification } from "antd";
 import React, { useState } from "react";
 import axios from "axios";
@@ -21,8 +20,8 @@ const Encodelists: React.FC = (props: any) => {
   var params1 = {
     file_uid: "1565536927137009664",
     segment_length: 160,
-    index_length: 20,
-    verify_method: "Hamming",
+    index_length: 16,
+    verify_method: "WithoutVerifycode",
     encode_method: "Basic",
   };
   const handleClick = () => {
@@ -82,9 +81,43 @@ const Encodelists: React.FC = (props: any) => {
       }
     }
   };
-
+  const handleExm=()=>{
+    props.setIsSynthesis(true);
+    props.changeSider(["0-0-1"]);
+    props.setSpin(true);
+    props.setExam(true);
+    axios
+      .post("http://localhost:5000/encode", params1)
+      .then(function (response) {
+        //console.log("Encode-response: ", response.data);
+        props.InfoPass1(
+          response.data.bit_size,
+          response.data.byte_size,
+          response.data.encode_method,
+          response.data.index_length,
+          response.data.segment_length,
+          response.data.segment_number,
+          response.data.verify_method
+        );
+        props.GCPass(response.data.gc_plot);
+        props.HomoPass(response.data.homo_plot);
+        props.EnergyPass(response.data.energy_plot);
+        props.EncodeURLPass(response.data.user_encode_file);
+        props.FileURLPass(response.data.user_file_infofile);
+        props.DNAInfoPass(
+          response.data.DNA_sequence_length,
+          response.data.encoding_time,
+          response.data.information_density,
+          response.data.nucleotide_counts
+        );
+        props.setSpin(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      }); 
+  }
   return (
-    <div className="todo-container">
+    <div className="todo-container" >
       <div>
         <h2>
           {" "}
@@ -108,16 +141,33 @@ const Encodelists: React.FC = (props: any) => {
             Method details please click the :{" "}
             <Link to="/methods">Method Paper</Link>
           </div>
-          <Button
-            type="primary"
-            onClick={props.btnflag ? handleClick : scrollToAnchor}
-            style={{ marginLeft: "400px" }}
-          >
-            Run
-          </Button>
+        <div>
+        <Row>
+          <Col span={12}>
+              <Button
+                type="primary"
+                onClick={props.btnflag ? handleClick : scrollToAnchor}
+              >
+                Run
+              </Button>
+          </Col>
+          <Col span={12}>
+              <Button
+                type="primary"
+                onClick={handleExm}
+              >
+                Example
+              </Button>
+          </Col>
+        </Row>
+            
+              
+        </div>
+          
         </div>
       </div>
     </div>
   );
 };
+
 export default Encodelists;

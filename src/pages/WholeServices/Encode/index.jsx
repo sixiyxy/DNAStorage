@@ -159,6 +159,7 @@ export const Encode = (props) => {
               btnflag={btnflag}
               setIsSynthesis={props.setIsSynthesis}
               setSpin={props.setSpin}
+              setExam={props.setExam}
             />
           </div>
           <br />

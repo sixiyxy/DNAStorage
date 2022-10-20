@@ -99,7 +99,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [encodeurl, setEncodeURL] = useState("");
   const [fileURL, setFileURL] = useState("");
   const [spinflag, setSpin] = useState(true);
-
+  const [exam,setExam] = useState(false)
   let url = new URL(window.location.href);
   const pathname = url?.pathname;
 
@@ -264,6 +264,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           fileinfo={fileinfo}
           setIsSynthesis={setIsSynthesis}
           setSpin={setSpin}
+          setExam={setExam}
         />
       ) : null}
       {siderSelect[0] === "0-0-1" ? (
@@ -278,6 +279,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           info={info}
           fileId={fileId}
           spinflag={spinflag}
+          exam={exam}
         />
       ) : null}
       {siderSelect[0] === "0-1-0" ? (
