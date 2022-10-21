@@ -24,12 +24,12 @@ export class SamplingProps {
 
 export const Sampling: React.FC<SamplingProps> = (props) => {
   const [samplingRatio, setSamplingRatio] = useState(0.005);
-
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  const [hrefLink, setHrefLink] = useState("");
-  const [method, setMethod] = useState("Taq");
+  const [hrefLink, setHrefLink] = useState();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [densityData, setDensityData] = useState([]);
+  const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   //处理函数
@@ -40,9 +40,10 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     }
     setSamplingRatio(value);
   };
-  const handleChange = (value: string) => {
-    setMethod(value);
+  const handleReset = function () {
+    setSamplingRatio(0.005);
   };
+
   const skipDecay = function () {
     props.changeSider(["0-1-4"]);
   };
@@ -56,10 +57,11 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_sam", params)
+      .post("http://localhost:5000/simu_sam", params)
       .then(function (response) {
-        //console.log(response);
-        setData(response?.data?.density);
+        //console.log("sampling response", response);
+        setErrorData(response?.data?.sam_error_density);
+        setDensityData(response?.data?.sam_density);
         setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
       });
@@ -68,30 +70,52 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     props.changeSider(["0-1-4"]);
   };
 
+  const methodLink = useMemo(() => {
+    return hrefLink?.map((link, index) => {
+      return (
+        <>
+          <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank">
+            {link}
+          </a>
+          <br />
+        </>
+      );
+    });
+  }, [hrefLink]);
+
   //数据生成
-  const chartData = useMemo(() => {
-    return data?.map((item) => {
+  const densityChartData = useMemo(() => {
+    return densityData?.map((item) => {
       return {
         copyNumber: item[0],
         density: Number(item[1].toFixed(3)),
       };
     });
-  }, [data]);
+  }, [densityData]);
+  const errorChartData = useMemo(() => {
+    return errorData?.map((item) => {
+      return {
+        copyNumber: item[0],
+        density: Number(item[1].toFixed(3)),
+      };
+    });
+  }, [errorData]);
   const params = useMemo(() => {
     return {
-      // file_uid: props.fileId,
-      file_uid: "1565536927137009664",
+      file_uid: props.fileId,
+      // file_uid: "1565536927137009664",
       sam_ratio: samplingRatio,
     };
-  }, [samplingRatio, method]);
-  //console.log("params", params);
-  const config = {
-    data: chartData,
+  }, [samplingRatio]);
+  // console.log("params", params);
+  const densityConfig = {
+    data: densityChartData,
     width: 200,
     height: 300,
     xField: "copyNumber",
     yField: "density",
     autoFit: true,
+    smooth: true,
     xAxis: {
       // range: [0, 200],
       title: {
@@ -105,7 +129,27 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
       },
     },
   };
-
+  const errorConfig = {
+    data: errorChartData,
+    width: 200,
+    height: 150,
+    xField: "copyNumber",
+    yField: "density",
+    autoFit: true,
+    smooth: true,
+    xAxis: {
+      // range: [0, 200],
+      title: {
+        text: "Copy Number",
+      },
+    },
+    yAxis: {
+      // range: [0, 0.5],
+      title: {
+        text: "Density",
+      },
+    },
+  };
   return (
     <div className="sampling-content">
       <div style={{ margin: 20 }}>
@@ -187,6 +231,13 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
                 <Button size="large" style={{ width: 100 }} onClick={showModal}>
                   Skip
                 </Button>
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={handleReset}
+                >
+                  Reset
+                </Button>
                 <Modal
                   title="Warning"
                   visible={isModalOpen}
@@ -208,13 +259,8 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
           <Card style={{ marginLeft: 10, marginTop: 20, height: 560 }}>
             <div>
               <span>The parameter settings are referenced from :</span>
-              <a
-                style={{ margin: "0 0 0 5px" }}
-                href={hrefLink}
-                target="_blank"
-              >
-                Method Paper
-              </a>
+              <br />
+              {methodLink}
             </div>
             <div style={{ margin: "0 0 30px 0" }}>
               After synthesis simulation, the situation of oligonucleotides pool
@@ -244,7 +290,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
               ) : (
                 <div style={{ margin: "60px 0 0 0" }}>
                   <div style={{ margin: "0 0 20px 0" }}>copies:</div>
-                  <Area {...config} />
+                  <Area {...densityConfig} />
                 </div>
               )}
             </div>

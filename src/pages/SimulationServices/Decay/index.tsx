@@ -29,7 +29,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
   const [lossValue, setLossValue] = useState(0.3);
   const [monthValue, setMonthValue] = useState(24);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  const [hrefLink, setHrefLink] = useState("");
+  const [hrefLink, setHrefLink] = useState();
   const [method, setMethod] = useState("Hsapiens");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
@@ -54,6 +54,11 @@ export const Decay: React.FC<DecayProps> = (props) => {
   const skipDecay = function () {
     props.changeSider(["0-1-2"]);
   };
+  const handleReset = function () {
+    setMethod("Hsapiens");
+    setLossValue(0.3);
+    setMonthValue(24);
+  };
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -64,11 +69,11 @@ export const Decay: React.FC<DecayProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_dec", params)
+      .post("http://localhost:5000/simu_dec", params)
       .then(function (response) {
-        //console.log(response);
+        //console.log(response?.data);
         setData(response?.data?.density);
-        setHrefLink(response?.data?.synthesis_method_reference);
+        setHrefLink(response?.data?.storage_host_parameter_reference);
         setLoading(false);
       });
   };
@@ -80,8 +85,9 @@ export const Decay: React.FC<DecayProps> = (props) => {
   const chartData = useMemo(() => {
     return data?.map((item) => {
       return {
-        copyNumber: item[0],
-        density: Number(item[1].toFixed(3)),
+        type: item[0],
+        copyNumber: item[1],
+        density: Number(item[2].toFixed(3)),
       };
     });
   }, [data]);
@@ -94,7 +100,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
       storage_host: method,
     };
   }, [monthValue, lossValue, method]);
-  // console.log("params", params);
+  //console.log("params", params);
   const config = {
     data: chartData,
     width: 200,
@@ -102,6 +108,9 @@ export const Decay: React.FC<DecayProps> = (props) => {
     xField: "copyNumber",
     yField: "density",
     autoFit: true,
+    smooth: true,
+    seriesField: "type",
+    isStack: false,
     xAxis: {
       // range: [0, 200],
       title: {
@@ -116,6 +125,18 @@ export const Decay: React.FC<DecayProps> = (props) => {
     },
   };
 
+  const methodLink = useMemo(() => {
+    return hrefLink?.map((link, index) => {
+      return (
+        <>
+          <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank">
+            {link}
+          </a>
+          <br />
+        </>
+      );
+    });
+  }, [hrefLink]);
   return (
     <div className="decay-content">
       <div style={{ margin: 20 }}>
@@ -268,6 +289,13 @@ export const Decay: React.FC<DecayProps> = (props) => {
                 <Button size="large" style={{ width: 100 }} onClick={showModal}>
                   Skip
                 </Button>
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={handleReset}
+                >
+                  Reset
+                </Button>
                 <Modal
                   title="Warning"
                   visible={isModalOpen}
@@ -289,15 +317,10 @@ export const Decay: React.FC<DecayProps> = (props) => {
           <Card style={{ marginLeft: 10, marginTop: 20, height: 560 }}>
             <div>
               <span>The parameter settings are referenced from :</span>
-              <a
-                style={{ margin: "0 0 0 5px" }}
-                href={hrefLink}
-                target="_blank"
-              >
-                Method Paper
-              </a>
+              <br />
+              {methodLink}
             </div>
-            <div style={{ margin: "0 0 30px 0" }}>
+            <div style={{ margin: "0 0 0 0" }}>
               After synthesis simulation, the situation of oligonucleotides pool
               as follows:
             </div>
@@ -323,7 +346,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
                   <Spin size={"large"} />
                 </div>
               ) : (
-                <div style={{ margin: "60px 0 0 0" }}>
+                <div style={{ margin: "15px 0 0 0" }}>
                   <div style={{ margin: "0 0 20px 0" }}>copies:</div>
                   <Area {...config} />
                 </div>

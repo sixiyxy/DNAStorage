@@ -28,12 +28,25 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
 
   const [sequencingDepth, setSequencingDepth] = useState(1);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  const [hrefLink, setHrefLink] = useState("");
-  const [method, setMethod] = useState("PairedEnd");
+  const [hrefLink, setHrefLink] = useState();
+  const [method, setMethod] = useState("ill_PairedEnd");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [densityData, setDensityData] = useState([]);
+  const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const methodLink = useMemo(() => {
+    return hrefLink?.map((link, index) => {
+      return (
+        <>
+          <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank">
+            {link}
+          </a>
+          <br />
+        </>
+      );
+    });
+  }, [hrefLink]);
   //处理函数
   const monthChange = (value: number) => {
     if (isNaN(value)) {
@@ -54,14 +67,19 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const handleReset = () => {
+    setMethod("ill_PairedEnd");
+    setSequencingDepth(1);
+  };
   const handleOk = () => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_seq", params)
+      .post("http://localhost:5000/simu_seq", params)
       .then(function (response) {
-        //console.log(response);
-        setData(response?.data?.density);
+        console.log("sequencing response", response);
+        setErrorData(response?.data?.seq_error_density);
+        setDensityData(response?.data?.seq_density);
         setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
       });
@@ -71,28 +89,59 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
   };
 
   //数据生成
-  const chartData = useMemo(() => {
-    return data?.map((item) => {
+  const densityChartData = useMemo(() => {
+    return densityData?.map((item) => {
       return {
         copyNumber: item[0],
         density: Number(item[1].toFixed(3)),
       };
     });
-  }, [data]);
+  }, [densityData]);
+  const errorChartData = useMemo(() => {
+    return errorData?.map((item) => {
+      return {
+        copyNumber: item[0],
+        density: Number(item[1].toFixed(3)),
+      };
+    });
+  }, [errorData]);
   const params = useMemo(() => {
     return {
-      // file_uid: props.fileId,
-      file_uid: "1565536927137009664",
+      file_uid: props.fileId,
+      // file_uid: "1565536927137009664",
       seq_depth: sequencingDepth,
 
       seq_meth: method,
     };
   }, [sequencingDepth, method]);
   //console.log("params", params);
-  const config = {
-    data: chartData,
+  const densityConfig = {
+    data: densityChartData,
     width: 200,
     height: 300,
+    xField: "copyNumber",
+    yField: "density",
+    autoFit: true,
+    smooth: true,
+    xAxis: {
+      // range: [0, 200],
+      title: {
+        text: "Copy Number",
+      },
+    },
+    yAxis: {
+      // range: [0, 0.5],
+      title: {
+        text: "Density",
+      },
+    },
+  };
+
+  const errorConfig = {
+    data: errorChartData,
+    smooth: true,
+    width: 200,
+    height: 150,
     xField: "copyNumber",
     yField: "density",
     autoFit: true,
@@ -109,7 +158,6 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       },
     },
   };
-
   return (
     <div className="sequencing-content">
       <div style={{ margin: 20 }}>
@@ -192,17 +240,20 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                   value={method}
                 >
                   <OptGroup label="Illumina">
-                    <Option value="PairedEnd">PairedEnd</Option>
-                    <Option value="SingleEnd">SingleEnd</Option>
+                    <Option value="ill_PairedEnd">PairedEnd</Option>
+                    <Option value="ill_SingleEnd">SingleEnd</Option>
                   </OptGroup>
 
                   <OptGroup label="Nanopore">
-                    <Option value="1D">1D</Option>
-                    <Option value="2D">2D</Option>
+                    <Option value="nano_1D">1D</Option>
+                    <Option value="nano_2D">2D</Option>
                   </OptGroup>
                   <OptGroup label="PacBio">
-                    <Option value="Subread">Subread</Option>
-                    <Option value="CCS">CCS</Option>
+                    <Option value="Pac_subread">Subread</Option>
+                    <Option value="Pac_CCS">CCS</Option>
+                  </OptGroup>
+                  <OptGroup label="None">
+                    <Option value="None">None</Option>
                   </OptGroup>
                 </Select>
               </div>
@@ -218,6 +269,13 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                 </Button>
                 <Button size="large" style={{ width: 100 }} onClick={showModal}>
                   Skip
+                </Button>
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={handleReset}
+                >
+                  Reset
                 </Button>
                 <Modal
                   title="Warning"
@@ -240,13 +298,8 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
           <Card style={{ marginLeft: 10, marginTop: 20, height: 560 }}>
             <div>
               <span>The parameter settings are referenced from :</span>
-              <a
-                style={{ margin: "0 0 0 5px" }}
-                href={hrefLink}
-                target="_blank"
-              >
-                Method Paper
-              </a>
+              <br />
+              {methodLink}
             </div>
             <div style={{ margin: "0 0 30px 0" }}>
               After synthesis simulation, the situation of oligonucleotides pool
@@ -276,7 +329,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
               ) : (
                 <div style={{ margin: "60px 0 0 0" }}>
                   <div style={{ margin: "0 0 20px 0" }}>copies:</div>
-                  <Area {...config} />
+                  <Area {...densityConfig} />
                 </div>
               )}
             </div>

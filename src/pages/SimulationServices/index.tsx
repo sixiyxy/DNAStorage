@@ -89,6 +89,7 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
       {siderSelect[0] === "0-1-0" ? (
         <Synthesis
           changeSider={setSiderSelect}
+          setFileId={setFileId}
           fileId={fileId}
           setIsSynthesis={setIsSynthesis}
         />

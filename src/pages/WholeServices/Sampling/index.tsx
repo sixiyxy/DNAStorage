@@ -111,7 +111,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   const densityConfig = {
     data: densityChartData,
     width: 200,
-    height: 150,
+    height: 300,
     xField: "copyNumber",
     yField: "density",
     autoFit: true,
@@ -291,7 +291,6 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
                 <div style={{ margin: "60px 0 0 0" }}>
                   <div style={{ margin: "0 0 20px 0" }}>copies:</div>
                   <Area {...densityConfig} />
-                  <Area {...errorConfig} />
                 </div>
               )}
             </div>

@@ -28,10 +28,11 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   const [pcrProbability, setPcrProbability] = useState(0.8);
   const [pcrCycleValue, setPcrCycleValue] = useState(12);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  const [hrefLink, setHrefLink] = useState("");
+  const [hrefLink, setHrefLink] = useState();
   const [method, setMethod] = useState("Taq");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [densityData, setDensityData] = useState([]);
+  const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   //处理函数
@@ -40,6 +41,11 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       return;
     }
     setPcrCycleValue(value);
+  };
+  const handleReset = function () {
+    setPcrCycleValue(12);
+    setPcrProbability(0.8);
+    setMethod("Taq");
   };
   const lossChange = (value: number) => {
     if (isNaN(value)) {
@@ -59,14 +65,16 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   const handleOk = () => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_pcr", params)
+      .post("http://localhost:5000/simu_pcr", params)
       .then(function (response) {
-        //console.log(response);
-        setData(response?.data?.density);
+        //console.log("response", response);
+        setErrorData(response?.data?.pcr_error_density);
+        setDensityData(response?.data?.prc_density);
         setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
       });
@@ -75,29 +83,71 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     props.changeSider(["0-1-3"]);
   };
 
+  const methodLink = useMemo(() => {
+    return hrefLink?.map((link, index) => {
+      return (
+        <>
+          <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank">
+            {link}
+          </a>
+          <br />
+        </>
+      );
+    });
+  }, [hrefLink]);
+
   //数据生成
-  const chartData = useMemo(() => {
-    return data?.map((item) => {
+  const chart1Data = useMemo(() => {
+    return densityData?.map((item) => {
       return {
         copyNumber: item[0],
         density: Number(item[1].toFixed(3)),
       };
     });
-  }, [data]);
+  }, [densityData]);
+  const chart2Data = useMemo(() => {
+    return errorData?.map((item) => {
+      return {
+        copyNumber: item[0],
+        density: Number(item[1].toFixed(3)),
+      };
+    });
+  }, [errorData]);
   const params = useMemo(() => {
     return {
-      // file_uid: props.fileId,
-      file_uid: "1565536927137009664",
+      file_uid: props.fileId,
+      // file_uid: "1565536927137009664",
       pcr_cycle: pcrCycleValue,
       pcr_prob: pcrProbability,
       pcr_polymerase: method,
     };
   }, [pcrCycleValue, pcrProbability, method]);
-  // console.log("params", params);
-  const config = {
-    data: chartData,
+  //console.log("params", params);
+  const config1 = {
+    data: chart1Data,
     width: 200,
     height: 300,
+    xField: "copyNumber",
+    yField: "density",
+    autoFit: true,
+    xAxis: {
+      // range: [0, 200],
+      title: {
+        text: "Copy Number",
+      },
+    },
+    yAxis: {
+      // range: [0, 0.5],
+      title: {
+        text: "Density",
+      },
+    },
+  };
+
+  const config2 = {
+    data: chart2Data,
+    width: 200,
+    height: 150,
     xField: "copyNumber",
     yField: "density",
     autoFit: true,
@@ -251,6 +301,13 @@ export const Pcr: React.FC<PcrProps> = (props) => {
                 <Button size="large" style={{ width: 100 }} onClick={showModal}>
                   Skip
                 </Button>
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={handleReset}
+                >
+                  Reset
+                </Button>
                 <Modal
                   title="Warning"
                   visible={isModalOpen}
@@ -272,13 +329,8 @@ export const Pcr: React.FC<PcrProps> = (props) => {
           <Card style={{ marginLeft: 10, marginTop: 20, height: 560 }}>
             <div>
               <span>The parameter settings are referenced from :</span>
-              <a
-                style={{ margin: "0 0 0 5px" }}
-                href={hrefLink}
-                target="_blank"
-              >
-                Method Paper
-              </a>
+              <br />
+              {methodLink}
             </div>
             <div style={{ margin: "0 0 30px 0" }}>
               After synthesis simulation, the situation of oligonucleotides pool
@@ -308,7 +360,9 @@ export const Pcr: React.FC<PcrProps> = (props) => {
               ) : (
                 <div style={{ margin: "60px 0 0 0" }}>
                   <div style={{ margin: "0 0 20px 0" }}>copies:</div>
-                  <Area {...config} />
+                  <Area {...config1} />
+
+                  <div style={{ margin: "0 0 20px 0" }}>copies:</div>
                 </div>
               )}
             </div>

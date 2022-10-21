@@ -109,13 +109,13 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
-      //file_uid: "1565536927137009664",
+      // file_uid: "1565536927137009664",
       synthesis_number: cycleValue,
       synthesis_yield: yieldValue,
       synthesis_method: method,
     };
   }, [cycleValue, yieldChange, method]);
-  //console.log("params", params);
+  console.log("params", params);
   const config = {
     data: chartData,
     width: 200,

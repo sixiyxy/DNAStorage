@@ -25,6 +25,7 @@ export class SynthesisProps {
   changeSider;
   fileId;
   setIsSynthesis;
+  setFileId;
 }
 
 export const Synthesis: React.FC<SynthesisProps> = (props) => {
@@ -68,7 +69,28 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
-      .post("http://127.0.0.1:5000/simu_synthesis", params)
+      .post("http://localhost:5000/simu_synthesis", params)
+      .then(function (response) {
+        //console.log(response);
+        //console.log("syn_density", response?.data?.syn_density);
+        setData(response?.data?.syn_density);
+        setHrefLink(response?.data?.synthesis_method_reference);
+        setLoading(false);
+      });
+    props.setIsSynthesis(true);
+  };
+
+  const handleExample = () => {
+    setLoading(true);
+    setNoDataTipsShow(false);
+    axios
+      .post("http://localhost:5000/simu_synthesis", {
+        file_uid: "1582175684011364352", //待确认
+        synthesis_number: 30,
+        synthesis_yield: 0.99,
+        synthesis_method: "ErrASE",
+        upload_flag: "True",
+      })
       .then(function (response) {
         //console.log(response);
         //console.log("syn_density", response?.data?.syn_density);
@@ -85,13 +107,15 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const uploadProps = {
     name: "file",
     multiple: true,
-    action: "http://127.0.0.1:5000/dna_upload",
+    action: "http://localhost:5000/dna_upload",
     onChange(info) {
-      const { status } = info.file;
+      const { status, response } = info.file;
+
       if (status !== "uploading") {
-        //console.log(info.file, info.fileList);
+        console.log(info.file, info.fileList);
       }
       if (status === "done") {
+        props.setFileId(response.file_uid);
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
@@ -102,6 +126,17 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     },
   };
 
+  const beforeUpload = (file) => {
+    const { name } = file;
+    const type = name.split(".")[1];
+
+    const isFasta = type === "fasta";
+    if (!isFasta) {
+      message.error("You can only upload fasta file!");
+    }
+
+    return isFasta;
+  };
   //数据生成
   const chartData = useMemo(() => {
     return data?.map((item) => {
@@ -111,6 +146,11 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       };
     });
   }, [data]);
+  const handleReset = function () {
+    setCycleValue(30);
+    setMethod("ErrASE");
+    setYieldValue(0.99);
+  };
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
@@ -118,6 +158,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       synthesis_number: cycleValue,
       synthesis_yield: yieldValue,
       synthesis_method: method,
+      upload_flag: "True",
     };
   }, [cycleValue, yieldChange, method]);
   //console.log("params", params);
@@ -164,13 +205,16 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
             bordered={false}
             style={{ marginLeft: 20, marginTop: 20 }}
           >
-            <Dragger {...uploadProps} style={{ width: 500 }}>
+            <Dragger
+              {...uploadProps}
+              beforeUpload={beforeUpload}
+              accept=".fasta"
+              style={{ width: 500 }}
+            >
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
               </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to upload
-              </p>
+              <p className="ant-upload-text">Click this area to upload</p>
               <p className="ant-upload-hint">
                 Support for a single or bulk upload. Strictly prohibit from
                 uploading company data or other band files
@@ -286,11 +330,25 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   margin: "20px 0",
                 }}
               >
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={handleExample}
+                >
+                  Example
+                </Button>
                 <Button size="large" style={{ width: 100 }} onClick={handleOk}>
                   OK
                 </Button>
                 <Button size="large" style={{ width: 100 }} onClick={showModal}>
                   Skip
+                </Button>
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={handleReset}
+                >
+                  Reset
                 </Button>
                 <Modal
                   title="Warning"

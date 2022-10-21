@@ -126,7 +126,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   const config1 = {
     data: chart1Data,
     width: 200,
-    height: 150,
+    height: 300,
     xField: "copyNumber",
     yField: "density",
     autoFit: true,
@@ -363,7 +363,6 @@ export const Pcr: React.FC<PcrProps> = (props) => {
                   <Area {...config1} />
 
                   <div style={{ margin: "0 0 20px 0" }}>copies:</div>
-                  <Area {...config2} />
                 </div>
               )}
             </div>
