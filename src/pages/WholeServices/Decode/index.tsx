@@ -25,23 +25,13 @@ export const Decode: React.FC<DecodeProps> = (props) => {
   const columns = [
     {
       title: "Name",
-      dataIndex: "name1",
-      key: "name1",
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: "Value",
-      dataIndex: "value1",
-      key: "value1",
-    },
-    {
-      title: "Name",
-      dataIndex: "name2",
-      key: "name2",
-    },
-    {
-      title: "Value",
-      dataIndex: "value2",
-      key: "value2",
+      dataIndex: "value",
+      key: "value",
     },
   ];
 
@@ -49,46 +39,63 @@ export const Decode: React.FC<DecodeProps> = (props) => {
     return [
       {
         key: "1",
-        name1: "decode_time",
-        value1: data?.decode_time || "",
-        name2: "clust_method",
-        value2: data?.clust_method || "",
+        name: "decode_time",
+        value: data?.decode_time || "",
       },
       {
         key: "2",
-        name1: "encode_dna_sequence_number",
-        value1: data?.encode_dna_sequence_number || "",
-        name2: "after_clust_dna_sequence_number",
-        value2: data?.after_clust_dna_sequence_number || "",
+        name: "clust_method",
+        value: data?.clust_method || "",
       },
       {
         key: "3",
-        name1: "recall_dna_sequence_number",
-        value1: data?.recall_dna_sequence_number || "",
-        name2: "recall_dna_sequence_rate",
-        value2: data?.recall_dna_sequence_rate || "",
+        name: "encode_dna_sequence_number",
+        value: data?.encode_dna_sequence_number || "",
       },
       {
         key: "4",
-        name1: "verify_method_remove_bits",
-        value1: data?.verify_method_remove_bits || "",
-        name2: "encode_bits_number",
-        value2: data?.encode_bits_number || "",
+        name: "after_clust_dna_sequence_number",
+        value: data?.after_clust_dna_sequence_number || "",
       },
       {
         key: "5",
-
-        name1: "final_decode_bits_number",
-        value1: data?.final_decode_bits_number || "",
-        name2: "recall_bits_number",
-        value2: data?.recall_bits_number || "",
+        name: "recall_dna_sequence_number",
+        value: data?.recall_dna_sequence_number || "",
       },
       {
         key: "6",
-        name1: "error_bits_number",
-        value1: data?.error_bits_number || "",
-        name2: "error_bits_rate",
-        value2: data?.error_bits_rate || "",
+        name: "recall_dna_sequence_rate",
+        value: data?.recall_dna_sequence_rate || "",
+      },
+      {
+        key: "7",
+        name: "verify_method_remove_bits",
+        value: data?.verify_method_remove_bits || "",
+      },
+      {
+        key: "8",
+        name: "encode_bits_number",
+        value: data?.encode_bits_number || "",
+      },
+      {
+        key: "9",
+        name: "final_decode_bits_number",
+        value: data?.final_decode_bits_number || "",
+      },
+      {
+        key: "10",
+        name: "recall_bits_number",
+        value: data?.recall_bits_number || "",
+      },
+      {
+        key: "11",
+        name: "error_bits_number",
+        value: data?.error_bits_number || "",
+      },
+      {
+        key: "12",
+        name: "error_bits_rate",
+        value: data?.error_bits_rate || "",
       },
     ];
   }, [data]);
@@ -110,7 +117,7 @@ export const Decode: React.FC<DecodeProps> = (props) => {
   };
 
   return (
-    <div>
+    <div className="decode-content">
       <div style={{ paddingLeft: "30px", paddingTop: "20px" }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>

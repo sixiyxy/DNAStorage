@@ -21,6 +21,7 @@ type MenuItem = Required<MenuProps>["items"][number];
 
 export class ServicesProps {}
 import "./index.less";
+import { SimulationReport } from "./SimulationReport";
 
 const siderLabel = ["Encode Data", "Simulation", "Decode"];
 // function getItem(
@@ -99,7 +100,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [encodeurl, setEncodeURL] = useState("");
   const [fileURL, setFileURL] = useState("");
   const [spinflag, setSpin] = useState(true);
-  const [exam,setExam] = useState(false)
+  const [exam, setExam] = useState(false);
   let url = new URL(window.location.href);
   const pathname = url?.pathname;
 
@@ -158,6 +159,11 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           {
             label: "Sequencing",
             key: "0-1-4",
+            disabled: !isSynthesis,
+          },
+          {
+            label: "Report",
+            key: "0-1-5",
             disabled: !isSynthesis,
           },
         ],
@@ -300,6 +306,9 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
       ) : null}
       {siderSelect[0] === "0-1-4" ? (
         <Sequencing changeSider={setSiderSelect} fileId={fileId} />
+      ) : null}
+      {siderSelect[0] === "0-1-5" ? (
+        <SimulationReport changeSider={setSiderSelect} fileId={fileId} />
       ) : null}
       {siderSelect[0] === "0-2" ? <Decode fileId={fileId} /> : null}
     </div>
