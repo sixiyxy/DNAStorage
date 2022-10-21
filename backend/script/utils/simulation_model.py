@@ -60,6 +60,7 @@ class Synthesizer_simu:
     def __call__(self, dnas):
         dnas = self.syn(dnas)
         dnas,error_recorder= self.err(dnas)
+        #print(error_recorder)
         return dnas,error_recorder
 
 class Decayer_simu:
@@ -432,6 +433,7 @@ class ErrorAdder_simu:
                         except:
                             pass
             dna['re']=re
+        recorder["n"]=recorder['n']-recorder['+']-recorder['-']-recorder['s']
         #print(recorder)
         return dnas,recorder
 
