@@ -201,8 +201,8 @@ class Encoding():
         for idx in range(len(interval_cate)):
             x_value = interval[idx].mid
             x_value = str(round(x_value,1))
-            range_label = '{} - {}'.format(interval[idx].left,interval[idx].right)
-            data = {'x':x_value,'y':str(interval_value[idx]),'range':range_label}
+            range_label = '{} : {}'.format(interval[idx].left,interval[idx].right)
+            data = {'x_value':x_value,'y_value':str(interval_value[idx]),'range':range_label}
             free_energy_plotdata.append(data)
 
         final_record_info['min_free_energy'] = float(avg_free_energy)
@@ -259,6 +259,7 @@ class Encoding():
                     gc_dict[idx] += gc_data[idx]
 
             homo_data = one_result['homo_data']
+
             for idx in range(len(homo_data)):
                 if idx not in homo_dict:
                     homo_dict[idx] = homo_data[idx]
@@ -266,7 +267,8 @@ class Encoding():
                     homo_dict[idx] += homo_data[idx]
 
         front_gc = [{'x_value':i,'y_value':gc_dict[i]} for i in gc_dict]
-        front_homo = [{'x_value':i,'y_value':homo_dict[i]} for i in homo_data]
+        front_homo = [{'x_value':i,'y_value':homo_dict[i]} for i in homo_dict]
+
         run_time = (datetime.now() - start_time).total_seconds()
 
 
