@@ -236,10 +236,12 @@ class Encoding():
         nucleotide_counts_all = 0
         information_density_all = 0
         net_information_density_all = 0
+        DNA_sequence_length = 0
 
         gc_dict = {}
         homo_dict = {}
 
+        a = 123
         original_bit_segments = []
 
         result_number = len(parallel_results)
