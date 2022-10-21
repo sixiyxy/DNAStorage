@@ -294,8 +294,6 @@ class Encoding():
         
         return final_record_info,original_bit_segments
 
-
-
 if __name__ == '__main__':
     # 1565536927137009664
     # 1582258845189804032
