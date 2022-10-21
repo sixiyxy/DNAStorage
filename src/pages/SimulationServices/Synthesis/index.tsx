@@ -39,6 +39,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isOkDisable, setIsOkDisable] = useState(true);
 
   //处理函数
   const cycleChange = (value: number) => {
@@ -116,6 +117,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       }
       if (status === "done") {
         props.setFileId(response.file_uid);
+        setIsOkDisable(false);
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
@@ -201,7 +203,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       <Row wrap={false}>
         <Col>
           <Card
-            title="Note"
+            title="Upload Dna File"
             bordered={false}
             style={{ marginLeft: 20, marginTop: 20 }}
           >
@@ -209,6 +211,10 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
               {...uploadProps}
               beforeUpload={beforeUpload}
               accept=".fasta"
+              maxCount={1}
+              onRemove={() => {
+                setIsOkDisable(true);
+              }}
               style={{ width: 500 }}
             >
               <p className="ant-upload-drag-icon">
@@ -337,12 +343,17 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 >
                   Example
                 </Button>
-                <Button size="large" style={{ width: 100 }} onClick={handleOk}>
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={handleOk}
+                  disabled={isOkDisable}
+                >
                   OK
                 </Button>
-                <Button size="large" style={{ width: 100 }} onClick={showModal}>
+                {/* <Button size="large" style={{ width: 100 }} onClick={showModal}>
                   Skip
-                </Button>
+                </Button> */}
                 <Button
                   size="large"
                   style={{ width: 100 }}
