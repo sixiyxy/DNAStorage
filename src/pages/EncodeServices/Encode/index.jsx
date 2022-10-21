@@ -18,18 +18,21 @@ export const Encode = (props) => {
 
   const [seg, setSeg] = useState(160);
   const [index, setIndex] = useState(16);
-  const [method, setMethod] = useState("None");
+  const [method, setMethod] = useState("WithoutVerifycode");
   const [btnflag, setBtn] = useState(false);
-
+  const [value, setValue] = useState("WithoutVerifycode");
+  const [Segment,SetSegvalue] =useState(160)
+  const [indexment,Setindexment] =useState(20)
+  const [indexchange,setChange]=useState(true) //一开始是小于2M
   useEffect(() => {
     props.setIsSynthesis(false);
   }, []);
-  const ParamPass = (param1, param2) => {
-    setSeg(param2[0].Segvalue);
-    setIndex(param2[1].Indexvalue);
-    // console.log("done");
-    setMethod(param1); //method
-  };
+  // const ParamPass = (param1, param2) => {
+  //   setSeg(param2[0].Segvalue);
+  //   setIndex(param2[1].Indexvalue);
+  //   // console.log("done");
+  //   setMethod(param1); //method
+  // };
   const GCPass = (param1) => {
     props.setGC(param1);
   };
@@ -71,13 +74,15 @@ export const Encode = (props) => {
     props.setFileInfo(props.FileValue);
     //console.log(props.fileinfo);
   };
-  const DNAInfoPass = (param1, param2, param3, param4) => {
+  const DNAInfoPass = (param1, param2, param3, param4,param5) => {
     props.DNAinfos.DNA_sequence = param1;
     props.DNAinfos.encoding_time = param2;
     props.DNAinfos.information_density = param3;
     props.DNAinfos.nucleotide_counts = param4;
+    props.DNAinfos.min_free_energy =param5;
+    // props.DNAInfos.min_free_energy_below_30kcal_mol = param6;
     props.setDNAinfo(props.DNAinfos);
-    //console.log(props.DNAinfos);
+    console.log(props.DNAinfos);
   };
   return (
     <div className="EncodeContainer">
@@ -112,6 +117,7 @@ export const Encode = (props) => {
               GetFileID={props.setFileId}
               FileInfoPass={FileInfoPass}
               setBtn={setBtn}
+              setChange={setChange}
             />
           </div>
           <div
@@ -123,7 +129,19 @@ export const Encode = (props) => {
             }}
           >
             <hr />
-            <Sliders ParamPass={ParamPass} />
+            <Sliders 
+            // ParamPass={ParamPass} 
+            indexchange={indexchange}
+            setSeg={setSeg}
+            setIndex={setIndex}
+            setMethod={setMethod}
+            setValue={setValue}
+            value={value}
+            SetSegvalue={SetSegvalue}
+            Segment={Segment}
+            Setindexment={Setindexment}
+            indexment={indexment}
+            />
           </div>
           <div id="graphs" style={{ marginLeft: "100px", paddingTop: "20px" }}>
             <hr />
@@ -151,8 +169,11 @@ export const Encode = (props) => {
             <Encodelists
               fileId={props.fileId}
               seg={seg}
+              setSeg={setSeg}
               index={index}
+              setIndex={setIndex}
               method={method}
+              setMethod={setMethod}
               InfoPass1={InfoPass1}
               GCPass={GCPass}
               EnergyPass={EnergyPass}
@@ -165,6 +186,9 @@ export const Encode = (props) => {
               setIsSynthesis={props.setIsSynthesis}
               setSpin={props.setSpin}
               setExam={props.setExam}
+              setValue={setValue}
+              SetSegvalue={SetSegvalue}
+              Setindexment={Setindexment}
             />
           </div>
           <br />

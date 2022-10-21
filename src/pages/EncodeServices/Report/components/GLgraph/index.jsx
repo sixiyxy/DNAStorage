@@ -7,7 +7,7 @@ const GLgraph = (props) => {
   const data =useMemo(() => {
     return props.GC
 }, [props.GC]);
-
+console.log("gcdata", data);
   const config = {
     data,
     xField: 'x_value',

@@ -6,28 +6,33 @@ import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
 import Graphs from "./components/Graphs";
 import { Anchor } from "antd";
+import { FolderAddTwoTone } from "@ant-design/icons";
 const { Link } = Anchor;
 
 export const Encode = (props) => {
   const [targetOffset, setTargetOffset] = useState(undefined);
+
   useEffect(() => {
     setTargetOffset(window.innerHeight / 2);
   }, []);
 
   const [seg, setSeg] = useState(160);
   const [index, setIndex] = useState(16);
-  const [method, setMethod] = useState("None");
+  const [method, setMethod] = useState("WithoutVerifycode");
   const [btnflag, setBtn] = useState(false);
-
+  const [value, setValue] = useState("WithoutVerifycode");
+  const [Segment,SetSegvalue] =useState(160)
+  const [indexment,Setindexment] =useState(20)
+  const [indexchange,setChange]=useState(true) //一开始是小于2M
   useEffect(() => {
     props.setIsSynthesis(false);
   }, []);
-  const ParamPass = (param1, param2) => {
-    setSeg(param2[0].Segvalue);
-    setIndex(param2[1].Indexvalue);
-    // console.log("done");
-    setMethod(param1); //method
-  };
+  // const ParamPass = (param1, param2) => {
+  //   setSeg(param2[0].Segvalue);
+  //   setIndex(param2[1].Indexvalue);
+  //   // console.log("done");
+  //   setMethod(param1); //method
+  // };
   const GCPass = (param1) => {
     props.setGC(param1);
   };
@@ -69,17 +74,19 @@ export const Encode = (props) => {
     props.setFileInfo(props.FileValue);
     //console.log(props.fileinfo);
   };
-  const DNAInfoPass = (param1, param2, param3, param4) => {
+  const DNAInfoPass = (param1, param2, param3, param4,param5) => {
     props.DNAinfos.DNA_sequence = param1;
     props.DNAinfos.encoding_time = param2;
     props.DNAinfos.information_density = param3;
     props.DNAinfos.nucleotide_counts = param4;
+    props.DNAinfos.min_free_energy =param5;
+    //props.DNAInfos.min_free_energy_below_30kj_mol=param6;
     props.setDNAinfo(props.DNAinfos);
     //console.log(props.DNAinfos);
   };
   return (
     <div className="EncodeContainer">
-      <div style={{ paddingLeft: "30px", paddingTop: "20px" }}>
+      <div style={{ paddingLeft: "100px", paddingTop: "20px" }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
             <a href="/">Home</a>
@@ -87,7 +94,7 @@ export const Encode = (props) => {
           <Breadcrumb.Item>
             <a href="/Services">Service</a>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>Encode</Breadcrumb.Item>
+          <Breadcrumb.Item>EncodeServices</Breadcrumb.Item>
         </Breadcrumb>
       </div>
       <Row>
@@ -95,32 +102,48 @@ export const Encode = (props) => {
           <div
             id="uploads"
             style={{
-              marginLeft: "150px",
+              marginLeft: "100px",
               marginTop: "20px",
               fontSize: "18px",
             }}
           >
             <p>
-              <strong>Please upload the storage files:</strong>
+              <strong>
+                {" "}
+                <FolderAddTwoTone /> Please upload the storage files:
+              </strong>
             </p>
             <Uploads
               GetFileID={props.setFileId}
               FileInfoPass={FileInfoPass}
               setBtn={setBtn}
+              setChange={setChange}
             />
           </div>
           <div
             id="sliders"
             style={{
-              paddingLeft: "150px",
+              marginLeft: "100px",
               paddingTop: "50px",
               fontSize: "14px",
             }}
           >
             <hr />
-            <Sliders ParamPass={ParamPass} />
+            <Sliders 
+            // ParamPass={ParamPass} 
+            indexchange={indexchange}
+            setSeg={setSeg}
+            setIndex={setIndex}
+            setMethod={setMethod}
+            setValue={setValue}
+            value={value}
+            SetSegvalue={SetSegvalue}
+            Segment={Segment}
+            Setindexment={Setindexment}
+            indexment={indexment}
+            />
           </div>
-          <div id="graphs" style={{ paddingLeft: "150px", paddingTop: "20px" }}>
+          <div id="graphs" style={{ marginLeft: "100px", paddingTop: "20px" }}>
             <hr />
             <Graphs
               seg={seg}
@@ -140,14 +163,17 @@ export const Encode = (props) => {
               fontSize: "15px",
             }}
           >
-            <p style={{ paddingLeft: "100px", fontSize: "17px" }}>
+            <p style={{ marginLeft: "50px", fontSize: "17px" }}>
               <hr />
             </p>
             <Encodelists
               fileId={props.fileId}
               seg={seg}
+              setSeg={setSeg}
               index={index}
+              setIndex={setIndex}
               method={method}
+              setMethod={setMethod}
               InfoPass1={InfoPass1}
               GCPass={GCPass}
               EnergyPass={EnergyPass}
@@ -160,6 +186,9 @@ export const Encode = (props) => {
               setIsSynthesis={props.setIsSynthesis}
               setSpin={props.setSpin}
               setExam={props.setExam}
+              setValue={setValue}
+              SetSegvalue={SetSegvalue}
+              Setindexment={Setindexment}
             />
           </div>
           <br />
@@ -175,7 +204,6 @@ export const Encode = (props) => {
               <Link href="#sliders" title="Choose method and length" />
               <Link href="#graphs" title="Draw" />
               <Link href="#encodelist" title="Choose decode method" />
-<<<<<<< Updated upstream:src/pages/WholeServices/Encode/index.jsx
             </Anchor>
           </div>
         </Col> */}
@@ -185,4 +213,3 @@ export const Encode = (props) => {
 };
 //Encode.defaultProps = new EncodeProps();
 export default Encode;
-

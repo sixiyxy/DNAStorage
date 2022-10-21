@@ -7,11 +7,11 @@ const EnergyGraph = (props) => {
   const data =useMemo(() => {
     return props.energy
 }, [props.energy]);
-
+console.log("energydata", data);
   const config = {
     data,
-    xField: 'x',
-    yField: 'y',
+    xField: 'x_value',
+    yField: 'y_value',
     width:400,
     intervalPadding:0,
     label: {
@@ -32,10 +32,10 @@ const EnergyGraph = (props) => {
     },
     meta: {
       x: {
-        alias: 'x',
+        alias: 'x_value',
       },
       y: {
-        alias: 'y',
+        alias: 'y_value',
       },
       range:{
         alias:'range'
@@ -43,7 +43,7 @@ const EnergyGraph = (props) => {
     },
     tooltip: {
       showTitle:false,
-      fields: ["y","range"],
+      fields: ["y_value","range"],
     },
   };
   return <Column {...config} />;

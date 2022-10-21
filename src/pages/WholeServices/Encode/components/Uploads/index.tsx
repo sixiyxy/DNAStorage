@@ -15,6 +15,9 @@ const Uploads: React.FC = (props: any) => {
       if (status !== "uploading") {
         //console.log('文件上传后端返回值',info.file);
         props.setBtn(true);
+        if(info.file.response.upload_file_szie >= 2048000) {
+          props.setChange(false) //文件大于2M
+        }
         props.GetFileID(info.file.response.file_uid);
         props.FileInfoPass(
           info.file.response.file_uid,

@@ -29,6 +29,8 @@ var DNAinfos = {
   encoding_time: 0,
   information_density: 0,
   nucleotide_counts: 0,
+  min_free_energy:0,
+  // min_free_energy_below_30kcal_mol:"0.0%",
 };
 var FileValue = {
   fileId: "None",
@@ -115,6 +117,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
         setIsSynthesis={setIsSynthesis}
         setSpin={setSpin}
         setExam={setExam}
+        
     />
       ) : null}
       {siderSelect[0] === "0-0-1" ? (

@@ -38,7 +38,7 @@ const Encodelists: React.FC = (props: any) => {
     axios
       .post("http://localhost:5000/encode", params1)
       .then(function (response) {
-        //console.log("Encode-response: ", response.data);
+        console.log("Encode-response: ", response.data);
         props.InfoPass1(
           response.data.bit_size,
           response.data.byte_size,
@@ -57,7 +57,9 @@ const Encodelists: React.FC = (props: any) => {
           response.data.DNA_sequence_length,
           response.data.encoding_time,
           response.data.information_density,
-          response.data.nucleotide_counts
+          response.data.nucleotide_counts,
+          response.data.min_free_energy,
+          //response.data.min_free_energy_below_30kj_mol
         );
         props.setSpin(false);
       })
@@ -116,6 +118,14 @@ const Encodelists: React.FC = (props: any) => {
         console.log(error);
       }); 
   }
+  const handlereset=()=>{
+    props.setSeg(160)
+    props.SetSegvalue(160)
+    props.Setindexment(20)
+    props.setIndex(20)
+    props.setMethod("WithoutVerifycode")
+    props.setValue("WithoutVerifycode")
+  }
   return (
     <div className="todo-container" >
       <div>
@@ -137,33 +147,41 @@ const Encodelists: React.FC = (props: any) => {
           </Radio.Group>
         </div>
         <div>
-          <div style={{ marginTop: "20px" }}>
+          <div style={{ marginTop: "20px",marginLeft:"15px"}}>
             Method details please click the :{" "}
             <Link to="/methods">Method Paper</Link>
           </div>
-        <div>
-        <Row>
-          <Col span={12}>
+          <div style={{marginTop:"30px",marginLeft:"15px"}}>
+        <Row >
+          <Col span={8} >
               <Button
                 type="primary"
+                size={"large"}
                 onClick={props.btnflag ? handleClick : scrollToAnchor}
               >
                 Run
               </Button>
           </Col>
-          <Col span={12}>
+          <Col span={8}>
               <Button
-                type="primary"
+               type="primary"
+               size={"large"}
                 onClick={handleExm}
               >
                 Example
               </Button>
           </Col>
-        </Row>
-            
-              
+          <Col span={8}>
+              <Button
+              type="primary"
+              size={"large"}
+              onClick={handlereset}
+              >
+                Reset
+              </Button>
+          </Col>
+        </Row>  
         </div>
-          
         </div>
       </div>
     </div>

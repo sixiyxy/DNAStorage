@@ -9,7 +9,7 @@ const HomoGraph = (props) => {
     // console.log('Homo',props.homo);
     return props.homo;
   }, [props.homo]);
-  // console.log("homodata", data);
+  console.log("homodata", data);
   const config = {
     data,
     xField: "x_value",

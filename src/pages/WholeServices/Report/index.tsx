@@ -28,8 +28,8 @@ interface DataType {
   key: string;
   name1: string;
   value1: any;
-  name2: string;
-  value2: any;
+  // name2: string;
+  // value2: any;
 }
 
 export const Report: React.FC<ReportProps> = (props) => {
@@ -48,15 +48,15 @@ export const Report: React.FC<ReportProps> = (props) => {
       title: "Value",
       dataIndex: "value1",
     },
-    {
-      title: "Name",
-      dataIndex: "name2",
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Value",
-      dataIndex: "value2",
-    },
+    // {
+    //   title: "Name",
+    //   dataIndex: "name2",
+    //   render: (text) => <a>{text}</a>,
+    // },
+    // {
+    //   title: "Value",
+    //   dataIndex: "value2",
+    // },
   ];
   const columns2: ColumnsType<DataType> = [
     {
@@ -68,37 +68,47 @@ export const Report: React.FC<ReportProps> = (props) => {
       title: "Value",
       dataIndex: "value1",
     },
-    {
-      title: "Name",
-      dataIndex: "name2",
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Value",
-      dataIndex: "value2",
-    },
+    // {
+    //   title: "Name",
+    //   dataIndex: "name2",
+    //   render: (text) => <a>{text}</a>,
+    // },
+    // {
+    //   title: "Value",
+    //   dataIndex: "value2",
+    // },
   ];
   const data1: DataType[] = [
     {
       key: "1",
       name1: "Job ID",
       value1: props.exam?"1565536927137009664":props.fileinfo.fileId,
-      name2: "File type",
-      value2: props.exam?"jpg":props.fileinfo.filetype,
+      
     },
     {
       key: "2",
       name1: "File name",
       value1: props.exam?"Picture Demo":props.fileinfo.filerename,
-      name2: "File bites",
-      value2: props.info.bit_size,
     },
     {
       key: "3",
       name1: "File bytes",
       value1: props.info.byte_size,
-      name2: "Encoding time:",
-      value2: props.dnainfo.encoding_time,
+    },
+    {
+      key: "4",
+      name1: "File type",
+      value1: props.exam?"jpg":props.fileinfo.filetype,
+    },
+    {
+      key: "5",
+      name1: "File bites",
+      value1: props.info.bit_size,
+    },
+    {
+      key: "6",
+      name1: "Encoding time:",
+      value1: props.dnainfo.encoding_time,
     },
   ];
   const data2: DataType[] = [
@@ -106,29 +116,42 @@ export const Report: React.FC<ReportProps> = (props) => {
       key: "1",
       name1: "Index length",
       value1: props.info.index_length,
-      name2: "Segment length",
-      value2: props.info.segment_length,
+      
     },
     {
       key: "2",
       name1: "Single DNA length",
       value1: props.dnainfo.DNA_sequence,
-      name2: "Segment number",
-      value2: props.info.segment_number,
     },
     {
       key: "3",
       name1: "Verify method",
       value1: props.info.verify_method,
-      name2: "Information density",
-      value2: props.dnainfo.information_density,
     },
     {
       key: "4",
       name1: "Encode method",
       value1: props.info.encode_method,
-      name2: "Net information density",
-      value2: props.dnainfo.nucleotide_counts,
+    },
+    {
+      key: "5",
+      name1: "Segment length",
+      value1: props.info.segment_length,
+    },
+    {
+      key: "6",
+      name1: "Segment number",
+      value1: props.info.segment_number,
+    },
+    {
+      key: "7",
+      name1: "Information density",
+      value1: props.dnainfo.information_density,
+    },
+    {
+      key: "8",
+      name1: "Net information density",
+      value1: props.dnainfo.nucleotide_counts,
     },
   ];
   const DownloadURL = () => {
@@ -145,7 +168,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     //设置下载下来后文件的名字以及文件格式
         link.setAttribute(
       'download',
-      `${'Report'}.` + `${'zip'}`,     //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
+      `${props.fileinfo.filerename}.` + `${'zip'}`,     //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
     );
     document.body.appendChild(link);
     link.click();                            //下载该文件
@@ -165,7 +188,7 @@ export const Report: React.FC<ReportProps> = (props) => {
             spinning={props.spinflag}
             delay={10}
           >
-            {/* <div style={{ paddingLeft: "300px", paddingTop: "20px" }}>
+            <div style={{ paddingLeft: "300px", paddingTop: "20px" }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
             <a href="/">Home</a>
@@ -175,7 +198,7 @@ export const Report: React.FC<ReportProps> = (props) => {
           </Breadcrumb.Item>
           <Breadcrumb.Item>Report</Breadcrumb.Item>
         </Breadcrumb>
-      </div> */}
+      </div>
             <div
               style={{ marginTop: "30px", marginLeft: "50px", width: "800px" }}
             >
