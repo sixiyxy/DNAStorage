@@ -1,5 +1,3 @@
-from distutils.log import error
-from symbol import pass_stmt
 import script.utils.simulation_model as Model
 import numpy as np
 from script.utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
