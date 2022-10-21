@@ -204,11 +204,11 @@ class Encoding():
             range_label = '{} - {}'.format(interval[idx].left,interval[idx].right)
             data = {'x':x_value,'y':str(interval_value[idx]),'range':range_label}
             free_energy_plotdata.append(data)
-        final_record_info['min_free_energy'] = avg_free_energy
-        final_record_info['min_free_energy_below_30kcal_mol'] = str(free_energy_30)+'%'
-        final_record_info['energy_plot'] =free_energy_plotdata
 
-        return final_record_info
+        final_record_info['min_free_energy'] = float(avg_free_energy)
+        final_record_info['min_free_energy_below_30kcal_mol'] = str(free_energy_30)+'%'
+        
+        return final_record_info,free_energy_plotdata
 
     def parallel_run(self):
         file_data = fromfile(file=self.file_path, dtype=uint8)
@@ -268,6 +268,8 @@ class Encoding():
         front_gc = [{'x_value':i,'y_value':gc_dict[i]} for i in gc_dict]
         front_homo = [{'x_value':i,'y_value':homo_dict[i]} for i in homo_data]
         run_time = (datetime.now() - start_time).total_seconds()
+
+
         final_record_info = {"byte_size":file_size,
                     "bit_size":bit_szie_all,
                     "segment_number":segment_number_all,
@@ -279,12 +281,12 @@ class Encoding():
                     "DNA_sequence_length":DNA_sequence_length,
                     "nucleotide_counts":nucleotide_counts_all,
                     "information_density":round(information_density_all/result_number,3),
-                    "net_information_density":round(net_information_density_all/result_number,3),
-                    'gc_plot' : front_gc,
-                    'homo_plot' :front_homo}
-
-        final_record_info = self.add_min_free_energydata(final_record_info)
+                    "net_information_density":round(net_information_density_all/result_number,3)}
+        final_record_info,free_energy_plotdata = self.add_min_free_energydata(final_record_info)
         write_yaml(yaml_path=self.file_info_path,data=final_record_info,appending=True)
+        final_record_info['gc_plot']= front_gc
+        final_record_info['homo_plot']=front_homo
+        final_record_info['energy_plot']=free_energy_plotdata
         
         return final_record_info,original_bit_segments
 
