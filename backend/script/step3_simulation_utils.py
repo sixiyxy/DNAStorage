@@ -1,3 +1,4 @@
+from distutils.log import error
 from symbol import pass_stmt
 import script.utils.simulation_model as Model
 import numpy as np
@@ -55,15 +56,19 @@ class Simulation():
 
         SYN=Model.Synthesizer_simu(arg)
         self.simu_dna,syn_error_recorder=SYN(self.simu_dna)
+        error_density=self.error_density(self.simu_dna)
         print("Syn Error Recorder",syn_error_recorder)
+        print("Syn Error Density",error_density)
         syn_info={
             "synthesis_number":int(synthesis_number),
             "synthesis_yield":float(synthesis_yield),
             "synthesis_method":synthesis_method,
+            "synthesis_error_density":error_density,
             'synthesis_method_reference':arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=syn_info,appending=True)
         self.syn_density=self.calculate_density(self.simu_dna)
+        
         syn_info['syn_density']=self.syn_density
         self.simu_repo["synthesis"]=syn_info
         self.simu_repo["Error_Recorder"].append(syn_error_recorder)
@@ -90,11 +95,13 @@ class Simulation():
 
         DEC=Model.Decayer_simu(arg)
         self.simu_dna,dec_error_recorder=DEC(self.simu_dna)
+        error_density=self.error_density(self.simu_dna)
         print("Dec Error Recorder",dec_error_recorder)
         dec_info={
             "storage_host":storage_host,
             "months_of_storage":months_of_storage,
             "decay_loss_rate":loss_rate,
+            "decay_error_density":error_density,
             "storage_host_parameter_reference":arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=dec_info,appending=True)
@@ -131,11 +138,11 @@ class Simulation():
             "pcr_reference_link":0,
             "pcr_cycle":pcr_cycle,
             "pcr_prob":pcr_prob,
-            "prc_density":density,
             "pcr_error_density":error_density,
             "pcr_method_reference":arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=pcr_info,appending=True)
+        pcr_info["prc_density"]=density
         self.simu_repo["pcr"]=pcr_info
         self.simu_repo["Error_Recorder"].append(pcr_error_recorder)
         return pcr_info
@@ -158,10 +165,10 @@ class Simulation():
 
         sam_info={
             "sam_ratio":sam_ratio,
-            "sam_density":density,
             "sam_error_density":error_density
         }
         write_yaml(yaml_path=self.file_info_path,data=sam_info,appending=True)
+        sam_info["sam_density"]=density
         self.simu_repo["sample"]=sam_info
         self.simu_repo["Error_Recorder"].append(sam_error_recorder)
         return sam_info
@@ -190,11 +197,11 @@ class Simulation():
             "seq_depth":seq_depth,
             "seq_meth":seq_meth,
             "seq_reference":seq_reference,
-            "seq_density":density,
             "seq_error_density":error_density,
             "seq_method_reference":arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=seq_info,appending=True)
+        seq_info["seq_density"]=density
         self.simu_repo["sequence"]=seq_info
         self.simu_repo["Error_Recorder"].append(seq_error_recorder)
         return seq_info
