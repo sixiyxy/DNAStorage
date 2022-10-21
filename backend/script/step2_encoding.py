@@ -223,6 +223,7 @@ class Encoding():
         interval_value = interval.value_counts().values
 
 
+
         bins = [round(i,1) for i in bins]
         free_energy_plotdata = []
         for idx in range(len(interval_cate)):
