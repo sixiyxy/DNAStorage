@@ -196,12 +196,13 @@ class Encoding():
         interval_cate = interval.categories
         interval_value = interval.value_counts().values
 
+
         bins = [round(i,1) for i in bins]
         free_energy_plotdata = []
         for idx in range(len(interval_cate)):
-            x_value = interval[idx].mid
+            x_value = interval_cate[idx].mid
             x_value = str(round(x_value,1))
-            range_label = '{} : {}'.format(interval[idx].left,interval[idx].right)
+            range_label = '{} : {}'.format(interval_cate[idx].left,interval_cate[idx].right)
             data = {'x_value':x_value,'y_value':str(interval_value[idx]),'range':range_label}
             free_energy_plotdata.append(data)
 
@@ -286,6 +287,7 @@ class Encoding():
                     "net_information_density":round(net_information_density_all/result_number,3)}
         final_record_info,free_energy_plotdata = self.add_min_free_energydata(final_record_info)
         write_yaml(yaml_path=self.file_info_path,data=final_record_info,appending=True)
+
         final_record_info['gc_plot']= front_gc
         final_record_info['homo_plot']=front_homo
         final_record_info['energy_plot']=free_energy_plotdata
