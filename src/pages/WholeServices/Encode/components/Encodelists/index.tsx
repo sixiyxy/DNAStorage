@@ -4,6 +4,7 @@ import { Button, notification } from "antd";
 import React, { useState } from "react";
 import axios from "axios";
 import "./index.less";
+import type { NotificationPlacement } from 'antd/es/notification';
 import { Link } from "react-router-dom";
 import { CheckCircleTwoTone } from "@ant-design/icons";
 
@@ -29,12 +30,74 @@ const Encodelists: React.FC = (props: any) => {
     props.setIsSynthesis(true);
     props.changeSider(["0-0-1"]);
     props.setSpin(true);
+    props.setExam(false);
     params1.file_uid = props.fileId;
     params1.segment_length = props.seg;
     params1.index_length = props.index;
     params1.verify_method = props.method;
     params1.encode_method = encodeMethod;
 
+    axios
+      .post("http://localhost:5000/encode", params1)
+      .then(function (response) {
+        console.log("Encode-response: ", response.data);
+        console.log("Encode-response: ", response.data.min_free_energy_below_30kcal_mol);
+        props.InfoPass1(
+          response.data.bit_size,
+          response.data.byte_size,
+          response.data.encode_method,
+          response.data.index_length,
+          response.data.segment_length,
+          response.data.segment_number,
+          response.data.verify_method
+        );
+        props.GCPass(response.data.gc_plot);
+        props.HomoPass(response.data.homo_plot);
+        props.EnergyPass(response.data.energy_plot);
+        props.EncodeURLPass(response.data.user_encode_file);
+        props.FileURLPass(response.data.user_file_infofile);
+        props.DNAInfoPass(
+          response.data.DNA_sequence_length,
+          response.data.encoding_time,
+          response.data.information_density,
+          response.data.nucleotide_counts,
+          response.data.min_free_energy,
+          // response.data.min_free_energy_below_30kcal_mol,
+        );
+        props.setSpin(false);
+      })
+      .catch(function (error) {
+        //console.log(error);
+      });
+  };
+  const scrollToAnchor = (placement: NotificationPlacement) => {
+    notification.info({
+      message: 'Please make sure you complete the uploading and selection above!',
+      description:
+        'Confirm whether the file is uploaded and whether the encoding method is selected.',
+      placement,
+      duration: 4.5,
+    });
+    // const args = {
+    //   message:
+    //     "Please make sure you complete the uploading and selection above!",
+    //   description:
+    //     "Confirm whether the file is uploaded and whether the encoding method is selected.",
+    //   duration: 4.5,
+    // };
+    // notification.open(args);
+    if ("uploads") {
+      let anchorElement = document.getElementById("uploads");
+      if (anchorElement) {
+        anchorElement.scrollIntoView();
+      }
+    }
+  };
+  const handleExm=()=>{
+    props.setIsSynthesis(true);
+    props.changeSider(["0-0-1"]);
+    props.setSpin(true);
+    props.setExam(true);
     axios
       .post("http://localhost:5000/encode", params1)
       .then(function (response) {
@@ -59,58 +122,7 @@ const Encodelists: React.FC = (props: any) => {
           response.data.information_density,
           response.data.nucleotide_counts,
           response.data.min_free_energy,
-          //response.data.min_free_energy_below_30kj_mol
-        );
-        props.setSpin(false);
-      })
-      .catch(function (error) {
-        //console.log(error);
-      });
-  };
-  const scrollToAnchor = () => {
-    const args = {
-      message:
-        "Please make sure you complete the uploading and selection above!",
-      description:
-        "Confirm whether the file is uploaded and whether the encoding method is selected.",
-      duration: 4.5,
-    };
-    notification.open(args);
-    if ("uploads") {
-      let anchorElement = document.getElementById("uploads");
-      if (anchorElement) {
-        anchorElement.scrollIntoView();
-      }
-    }
-  };
-  const handleExm=()=>{
-    props.setIsSynthesis(true);
-    props.changeSider(["0-0-1"]);
-    props.setSpin(true);
-    props.setExam(true);
-    axios
-      .post("http://localhost:5000/encode", params1)
-      .then(function (response) {
-        //console.log("Encode-response: ", response.data);
-        props.InfoPass1(
-          response.data.bit_size,
-          response.data.byte_size,
-          response.data.encode_method,
-          response.data.index_length,
-          response.data.segment_length,
-          response.data.segment_number,
-          response.data.verify_method
-        );
-        props.GCPass(response.data.gc_plot);
-        props.HomoPass(response.data.homo_plot);
-        props.EnergyPass(response.data.energy_plot);
-        props.EncodeURLPass(response.data.user_encode_file);
-        props.FileURLPass(response.data.user_file_infofile);
-        props.DNAInfoPass(
-          response.data.DNA_sequence_length,
-          response.data.encoding_time,
-          response.data.information_density,
-          response.data.nucleotide_counts
+          response.data.min_free_energy_below_30kcal_mol,
         );
         props.setSpin(false);
       })
@@ -157,7 +169,7 @@ const Encodelists: React.FC = (props: any) => {
               <Button
                 type="primary"
                 size={"large"}
-                onClick={props.btnflag ? handleClick : scrollToAnchor}
+                onClick={props.btnflag ? handleClick : () => scrollToAnchor('bottomLeft')}
               >
                 Run
               </Button>

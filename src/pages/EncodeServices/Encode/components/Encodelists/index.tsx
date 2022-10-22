@@ -4,6 +4,7 @@ import { Button, notification } from "antd";
 import React, { useState } from "react";
 import axios from "axios";
 import "./index.less";
+import type { NotificationPlacement } from 'antd/es/notification';
 import { Link } from "react-router-dom";
 import { CheckCircleTwoTone } from "@ant-design/icons";
 
@@ -29,6 +30,7 @@ const Encodelists: React.FC = (props: any) => {
     props.setIsSynthesis(true);
     props.changeSider(["0-0-1"]);
     props.setSpin(true);
+    props.setExam(false);
     params1.file_uid = props.fileId;
     params1.segment_length = props.seg;
     params1.index_length = props.index;
@@ -68,15 +70,22 @@ const Encodelists: React.FC = (props: any) => {
         //console.log(error);
       });
   };
-  const scrollToAnchor = () => {
-    const args = {
-      message:
-        "Please make sure you complete the uploading and selection above!",
+  const scrollToAnchor = (placement: NotificationPlacement) => {
+    notification.info({
+      message: 'Please make sure you complete the uploading and selection above!',
       description:
-        "Confirm whether the file is uploaded and whether the encoding method is selected.",
+        'Confirm whether the file is uploaded and whether the encoding method is selected.',
+      placement,
       duration: 4.5,
-    };
-    notification.open(args);
+    });
+    // const args = {
+    //   message:
+    //     "Please make sure you complete the uploading and selection above!",
+    //   description:
+    //     "Confirm whether the file is uploaded and whether the encoding method is selected.",
+    //   duration: 4.5,
+    // };
+    // notification.open(args);
     if ("uploads") {
       let anchorElement = document.getElementById("uploads");
       if (anchorElement) {
@@ -160,7 +169,7 @@ const Encodelists: React.FC = (props: any) => {
               <Button
                 type="primary"
                 size={"large"}
-                onClick={props.btnflag ? handleClick : scrollToAnchor}
+                onClick={props.btnflag ? handleClick : () => scrollToAnchor('bottomLeft')}
               >
                 Run
               </Button>

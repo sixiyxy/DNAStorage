@@ -108,7 +108,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     },
     {
       key: "6",
-      name1: "Encoding time:",
+      name1: "Encoding time",
       value1: props.dnainfo.encoding_time,
     },
   ];
@@ -184,7 +184,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     //设置下载下来后文件的名字以及文件格式
         link.setAttribute(
       'download',
-      `${props.fileinfo.filerename}.` + `${'zip'}`,     //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
+      `${props.exam?"Picture Demo":props.fileinfo.filerename}.` + `${'zip'}`,     //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
     );
     document.body.appendChild(link);
     link.click();                            //下载该文件
@@ -218,7 +218,7 @@ export const Report: React.FC<ReportProps> = (props) => {
             <div
               style={{ marginTop: "30px", marginLeft: "50px", width: "800px" }}
             >
-              <Card title="File Information">
+              <Card title="File Information" headStyle={{backgroundColor:'#99CCFF'}}>
                 <Table
                   columns={columns1}
                   dataSource={data1}
@@ -228,7 +228,7 @@ export const Report: React.FC<ReportProps> = (props) => {
             </div>
 
             <div style={{ marginTop: "30px", marginLeft: "50px" }}>
-              <Card title="DNA Information">
+              <Card title="DNA Information" headStyle={{backgroundColor:'#99CCFF'}}>
                 <Table
                   columns={columns2}
                   dataSource={data2}
@@ -241,6 +241,7 @@ export const Report: React.FC<ReportProps> = (props) => {
               title="Title: GC_Contact"
               type="inner"
               style={{ marginLeft: "50px", marginTop: "10px", width: "800px" }}
+              headStyle={{backgroundColor:'#99CCFF'}}
             >
               <div
                 id="gcgraph"
@@ -259,6 +260,7 @@ export const Report: React.FC<ReportProps> = (props) => {
               title="Title: Homopolymer Length"
               type="inner"
               style={{ marginLeft: "50px", marginTop: "30px", width: "800px" }}
+              headStyle={{backgroundColor:'#99CCFF'}}
             >
               <div
                 id="homograph"
@@ -274,7 +276,9 @@ export const Report: React.FC<ReportProps> = (props) => {
             </Card>
             
             <div style={{ marginTop: "30px", marginLeft: "50px" }}>
-              <Card title="Min Energy Information">
+              <Card 
+                title="Min Energy Information" 
+                headStyle={{backgroundColor:'#ADD8E6'}}>
                 <Table
                   columns={columns3}
                   dataSource={data3}
@@ -287,6 +291,7 @@ export const Report: React.FC<ReportProps> = (props) => {
               title="Title: Sequence Min Free Energy "
               type="inner"
               style={{ marginLeft: "50px", marginTop: "30px", width: "800px" }}
+              headStyle={{backgroundColor:'#ADD8E6'}}
             >
               <div
                 id="energygraph"

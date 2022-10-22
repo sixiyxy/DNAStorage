@@ -80,6 +80,8 @@ var DNAinfos = {
   encoding_time: 0,
   information_density: 0,
   nucleotide_counts: 0,
+  min_free_energy:0,
+  // min_free_energy_below_30kcal_mol:"0.0%",
 };
 var FileValue = {
   fileId: "None",

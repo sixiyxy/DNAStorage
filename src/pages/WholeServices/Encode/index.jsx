@@ -80,9 +80,9 @@ export const Encode = (props) => {
     props.DNAinfos.information_density = param3;
     props.DNAinfos.nucleotide_counts = param4;
     props.DNAinfos.min_free_energy =param5;
-    //props.DNAInfos.min_free_energy_below_30kj_mol=param6;
+    // props.DNAInfos.min_free_energy_below_30kcal_mol = param6;
     props.setDNAinfo(props.DNAinfos);
-    //console.log(props.DNAinfos);
+    console.log(props.DNAinfos);
   };
   return (
     <div className="EncodeContainer">
