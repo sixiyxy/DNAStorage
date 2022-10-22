@@ -194,7 +194,7 @@ class PCRer_simu:
         for dna in out_dnas:
             dna['re'],error_recorder = self.run(dna['re'],error_recorder)
             dna['num'] = sum([tp[0] for tp in dna['re']])
-        print(error_recorder)
+        #print(error_recorder)
         return out_dnas,error_recorder
 
 class Sampler_simu:
@@ -218,27 +218,29 @@ class Sampler_simu:
                 recorder['n']=recorder.get('n',0)+dna[0]
                 flags={'+':0,'-':0,'s':0}
                 flag=0
-                for err in dna[1]:
-                    if not flags[err[1]]:
-                        try:
-                            recorder[err[1]]=recorder.get(err[1],0)+dna[0]
-                            flags[err[1]]=1
-                            flag+=1
-                            if flag==3:
+                if len(dna[1])!=0:
+                    recorder['e']=recorder.get("e",0)+dna[0]
+                    for err in dna[1]:
+                        if not flags[err[1]]:
+                            try:
+                                recorder[err[1]]=recorder.get(err[1],0)+dna[0]
+                                flags[err[1]]=1
+                                flag+=1
+                                if flag==3:
+                                    pass
+                            except:
                                 pass
-                        except:
-                            pass
 
         re_dnas = [re_dnas[i] for i in markers]
         return re_dnas,recorder
     
     def __call__(self,dnas):
         out_dnas = dnas
-        error_recorder={"+":0,"-":0,"s":0,"n":0}
+        error_recorder={"+":0,"-":0,"s":0,"e":0,"n":0}
         for dna in out_dnas:
             dna['re'],error_recorder = self.run(dna['re'],error_recorder)
             dna['num'] = sum([tp[0] for tp in dna['re']])
-        print(error_recorder)
+        #print(error_recorder)
         return out_dnas,error_recorder
         
 class ErrorAdder_simu:
@@ -253,7 +255,7 @@ class ErrorAdder_simu:
         self.probD = probD * raw_rate
         self.probI = probI * raw_rate
         self.probS = probS * raw_rate
-        print(self.probS)
+        #print(self.probS)
         self.del_pattern=del_pattern
         self.ins_pattern=ins_pattern
         self.TM_Normal=TM_Normal
@@ -412,28 +414,30 @@ class ErrorAdder_simu:
         return dna
 
     def apply_batch(self, dnas):
-        recorder={"+":0,"-":0,"s":0,"n":0} #n: count total num of dnas
+        recorder={"+":0,"-":0,"s":0,"e":0,"n":0} #n: count total num of dnas
         for dna in dnas:
             ori_dna = dna['ori']
+            recorder["n"]=recorder.get("n",0)+dna['num']
             re = []
             for re_dna in dna['re']:
                 if re_dna[0] == 0: pass
                 re.append([re_dna[0], re_dna[1], self.apply(ori_dna, re_dna[1])])
-                recorder["n"]=recorder.get("n",0)+re_dna[0]
                 flags={'+':0,'-':0,'s':0}
                 flag=0
-                for tmp in re_dna[1]:
-                    if not flags[tmp[1]]:
-                        try:
-                            recorder[tmp[1]]=recorder.get(tmp[1],0)+re_dna[0]
-                            flags[tmp[1]]=1
-                            flag+=1
-                            if flag==3:
+                if len(re_dna[1])!=0:
+                    recorder['e']=recorder.get("e",0)+re_dna[0]
+                    for tmp in re_dna[1]:
+                        if not flags[tmp[1]]:
+                            try:
+                                recorder[tmp[1]]=recorder.get(tmp[1],0)+re_dna[0]
+                                flags[tmp[1]]=1
+                                flag+=1
+                                if flag==3:
+                                    pass
+                            except:
                                 pass
-                        except:
-                            pass
             dna['re']=re
-        recorder["n"]=recorder['n']-recorder['+']-recorder['-']-recorder['s']
+        #recorder["n"]=recorder['n']-recorder['+']-recorder['-']-recorder['s']
         #print(recorder)
         return dnas,recorder
 
