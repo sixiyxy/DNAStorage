@@ -135,12 +135,11 @@ class Simulation():
         PCR=Model.PCRer_simu(arg)
         self.simu_dna,pcr_error_recorder=PCR(self.simu_dna)
         print("PCR Error Recorder",pcr_error_recorder)
-        density=self.calculate_density(self.simu_dna,True)
+        density=self.calculate_density(self.simu_dna)
         error_density=self.error_density(self.simu_dna)
 
         pcr_info={
             "pcr_polymerase":pcr_polymerase,
-            "pcr_reference_link":0,
             "pcr_cycle":pcr_cycle,
             "pcr_prob":pcr_prob,
             "pcr_error_density":error_density,
@@ -196,7 +195,7 @@ class Simulation():
         self.simu_dna,seq_error_recorder=Seq(self.simu_dna)
         seq_reference=0
         print("Seq Error Recorder",seq_error_recorder)
-        density=self.calculate_density(self.simu_dna,True)
+        density=self.calculate_density(self.simu_dna)
         error_density=self.error_density(self.simu_dna)
 
         seq_info={
@@ -243,8 +242,11 @@ class Simulation():
             nums[i] = nums[i] / total
         
         n_group=10
-        if len(nums.items())>n_group:
-            layer=True
+        while not layer:
+            if len(nums.items())>n_group:
+                layer=True
+                break
+            n_group-=1
         nums = sorted(nums.items(), key=lambda e: e[0])
         #print(nums)
         

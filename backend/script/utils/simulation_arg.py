@@ -4,7 +4,7 @@ synthMeth={
         "ErrASE":{
             "syn_sub_prob":0.2,
             "syn_ins_prob":0.2,
-            "syn_del_prob":0.2,
+            "syn_del_prob":0.6,
             "syn_raw_rate":0.000025,
             "syn_del_pattern":{"A":0.4,"C":0.2,"G":0.2,"T":0.2},
             "syn_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
@@ -50,7 +50,7 @@ synthMeth={
         },
 
         "HighTemperature":{
-            "syn_sub_prob":0.02,
+            "syn_sub_prob":0.2,
             "syn_ins_prob":0.2,
             "syn_del_prob":0.6,
             "syn_raw_rate":0.0017,
