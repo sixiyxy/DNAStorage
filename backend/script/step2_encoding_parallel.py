@@ -7,9 +7,9 @@ from multiprocessing import Pool
 from tqdm import tqdm
 from numpy import fromfile, array, uint8
 
-from .utils.utils_basic import get_config,write_yaml,write_dna_file
-from .utils.verify_methods import Hamming,ReedSolomon
-from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
+from utils.utils_basic import get_config,write_yaml,write_dna_file
+from utils.verify_methods import Hamming,ReedSolomon
+from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
 
 verify_methods = {
     "WithoutVerifycode":False,
@@ -214,19 +214,24 @@ class Encoding():
     def parallel_run(self):
         file_data = fromfile(file=self.file_path, dtype=uint8)
         file_size = file_data.shape[0]
+        
         if file_size <= 1000000000:
             cut_size = 4000
         else:
             cut_size = 12000 
 
         cut_file_data = []
-        for i in range(file_size//cut_size):
-            if i != file_size//cut_size:
-                cut_data = file_data[i*cut_size:(i+1)*cut_size]
-            else:
-                cut_data = file_data[i*cut_size:]
-            cut_file_data.append(cut_data)
-        
+
+        if file_size <= cut_size:
+            cut_file_data.append(list(file_data))
+        else:
+            for i in range(file_size//cut_size):
+                if i+1 != file_size//cut_size:
+                    cut_data = file_data[i*cut_size:(i+1)*cut_size]
+                else:
+                    cut_data = file_data[i*cut_size:]
+                cut_file_data.append(cut_data)
+
         start_time = datetime.now()
         with Pool(8) as pool:
             parallel_results = list(tqdm(pool.imap(self.bit_to_dna,cut_file_data),total=len(cut_file_data)))
@@ -241,10 +246,10 @@ class Encoding():
         gc_dict = {}
         homo_dict = {}
 
-        a = 123
         original_bit_segments = []
 
         result_number = len(parallel_results)
+
         for one_result,one_original_bit_segments in parallel_results:  
             original_bit_segments += one_original_bit_segments
             bit_szie_all += one_result['bit_size']
@@ -299,7 +304,7 @@ class Encoding():
 if __name__ == '__main__':
     # 1565536927137009664
     # 1582258845189804032
-    obj = Encoding(file_uid=1565536927137009664,
+    obj = Encoding(file_uid=1584030833663152128,
                   encode_method='Basic',
                   segment_length=160,
                   index_length=20,
