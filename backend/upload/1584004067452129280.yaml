@@ -1,0 +1,461 @@
+file_name: 11.pdf
+file_rename: 1584004067452129280_11.pdf
+file_type: application/pdf
+file_uid: '1584004067452129280'
+upload_file_szie: 1331058
+final_segment_bit_length: 176
+verify_code_length: 0
+DNA_sequence_length: 110
+bit_size: 10624000
+byte_size: 1331058
+encode_method: Goldman
+encoding_time: 7.628587
+index_length: 16
+information_density: 1.438
+min_free_energy: -5.93
+min_free_energy_below_30kcal_mol: 0.0%
+net_information_density: 1.68
+nucleotide_counts: 7389000
+segment_length: 160
+segment_number: 66400
+verify_method: WithoutVerifycode
+synthesis_error_density:
+- !!python/tuple
+  - 0
+  - 434435
+- !!python/tuple
+  - 1
+  - 1255
+- !!python/tuple
+  - 2
+  - 1
+synthesis_method: ErrASE
+synthesis_method_reference:
+- https://doi.org/10.1371/journal.pone.0115950
+synthesis_number: 25
+synthesis_yield: 0.99
+decay_error_density:
+- !!python/tuple
+  - 0
+  - 168
+- !!python/tuple
+  - 1
+  - 84
+- !!python/tuple
+  - 2
+  - 74
+- !!python/tuple
+  - 3
+  - 142
+- !!python/tuple
+  - 4
+  - 461
+- !!python/tuple
+  - 5
+  - 1252
+- !!python/tuple
+  - 6
+  - 3002
+- !!python/tuple
+  - 7
+  - 6263
+- !!python/tuple
+  - 8
+  - 10779
+- !!python/tuple
+  - 9
+  - 16867
+- !!python/tuple
+  - 10
+  - 23662
+- !!python/tuple
+  - 11
+  - 29807
+- !!python/tuple
+  - 12
+  - 34174
+- !!python/tuple
+  - 13
+  - 35496
+- !!python/tuple
+  - 14
+  - 34049
+- !!python/tuple
+  - 15
+  - 30221
+- !!python/tuple
+  - 16
+  - 24692
+- !!python/tuple
+  - 17
+  - 18691
+- !!python/tuple
+  - 18
+  - 13602
+- !!python/tuple
+  - 19
+  - 9045
+- !!python/tuple
+  - 20
+  - 5820
+- !!python/tuple
+  - 21
+  - 3461
+- !!python/tuple
+  - 22
+  - 1837
+- !!python/tuple
+  - 23
+  - 963
+- !!python/tuple
+  - 24
+  - 527
+- !!python/tuple
+  - 25
+  - 239
+- !!python/tuple
+  - 26
+  - 111
+- !!python/tuple
+  - 27
+  - 47
+- !!python/tuple
+  - 28
+  - 11
+- !!python/tuple
+  - 29
+  - 5
+- !!python/tuple
+  - 30
+  - 3
+- !!python/tuple
+  - 31
+  - 2
+- !!python/tuple
+  - 32
+  - 1
+decay_loss_rate: 0.3
+months_of_storage: 24
+storage_host: WhiteGaussian
+storage_host_parameter_reference:
+- https://doi.org/10.1093/bioinformatics/btaa140
+pcr_cycle: 12
+pcr_error_density:
+- !!python/tuple
+  - 0
+  - 195213
+- !!python/tuple
+  - 1
+  - 96878
+- !!python/tuple
+  - 2
+  - 83589
+- !!python/tuple
+  - 3
+  - 162538
+- !!python/tuple
+  - 4
+  - 532279
+- !!python/tuple
+  - 5
+  - 1417164
+- !!python/tuple
+  - 6
+  - 3464969
+- !!python/tuple
+  - 7
+  - 7172430
+- !!python/tuple
+  - 8
+  - 12465653
+- !!python/tuple
+  - 9
+  - 19452266
+- !!python/tuple
+  - 10
+  - 27385655
+- !!python/tuple
+  - 11
+  - 34650857
+- !!python/tuple
+  - 12
+  - 39800089
+- !!python/tuple
+  - 13
+  - 41835758
+- !!python/tuple
+  - 14
+  - 40111720
+- !!python/tuple
+  - 15
+  - 35800641
+- !!python/tuple
+  - 16
+  - 29283533
+- !!python/tuple
+  - 17
+  - 22370799
+- !!python/tuple
+  - 18
+  - 16290531
+- !!python/tuple
+  - 19
+  - 10990330
+- !!python/tuple
+  - 20
+  - 6964492
+- !!python/tuple
+  - 21
+  - 4240886
+- !!python/tuple
+  - 22
+  - 2282821
+- !!python/tuple
+  - 23
+  - 1194361
+- !!python/tuple
+  - 24
+  - 683646
+- !!python/tuple
+  - 25
+  - 280610
+- !!python/tuple
+  - 26
+  - 143968
+- !!python/tuple
+  - 27
+  - 59544
+- !!python/tuple
+  - 28
+  - 14970
+- !!python/tuple
+  - 29
+  - 3700
+- !!python/tuple
+  - 30
+  - 6153
+- !!python/tuple
+  - 31
+  - 2467
+- !!python/tuple
+  - 32
+  - 955
+pcr_method_reference:
+- https://doi.org/10.1371/journal.pone.0115950
+pcr_polymerase: Taq
+pcr_prob: 0.8
+sam_error_density:
+- !!python/tuple
+  - 0
+  - 1010
+- !!python/tuple
+  - 1
+  - 465
+- !!python/tuple
+  - 2
+  - 414
+- !!python/tuple
+  - 3
+  - 800
+- !!python/tuple
+  - 4
+  - 2590
+- !!python/tuple
+  - 5
+  - 7038
+- !!python/tuple
+  - 6
+  - 17364
+- !!python/tuple
+  - 7
+  - 35884
+- !!python/tuple
+  - 8
+  - 62361
+- !!python/tuple
+  - 9
+  - 96893
+- !!python/tuple
+  - 10
+  - 136825
+- !!python/tuple
+  - 11
+  - 172884
+- !!python/tuple
+  - 12
+  - 199511
+- !!python/tuple
+  - 13
+  - 209179
+- !!python/tuple
+  - 14
+  - 200722
+- !!python/tuple
+  - 15
+  - 179267
+- !!python/tuple
+  - 16
+  - 146312
+- !!python/tuple
+  - 17
+  - 111800
+- !!python/tuple
+  - 18
+  - 81249
+- !!python/tuple
+  - 19
+  - 55080
+- !!python/tuple
+  - 20
+  - 35010
+- !!python/tuple
+  - 21
+  - 21409
+- !!python/tuple
+  - 22
+  - 11413
+- !!python/tuple
+  - 23
+  - 5885
+- !!python/tuple
+  - 24
+  - 3478
+- !!python/tuple
+  - 25
+  - 1403
+- !!python/tuple
+  - 26
+  - 711
+- !!python/tuple
+  - 27
+  - 301
+- !!python/tuple
+  - 28
+  - 75
+- !!python/tuple
+  - 29
+  - 22
+- !!python/tuple
+  - 30
+  - 46
+- !!python/tuple
+  - 31
+  - 6
+- !!python/tuple
+  - 32
+  - 4
+sam_ratio: 0.005
+seq_depth: 15
+seq_error_density:
+- !!python/tuple
+  - 0
+  - 1000
+- !!python/tuple
+  - 1
+  - 463
+- !!python/tuple
+  - 2
+  - 373
+- !!python/tuple
+  - 3
+  - 674
+- !!python/tuple
+  - 4
+  - 2125
+- !!python/tuple
+  - 5
+  - 5922
+- !!python/tuple
+  - 6
+  - 14646
+- !!python/tuple
+  - 7
+  - 30994
+- !!python/tuple
+  - 8
+  - 55073
+- !!python/tuple
+  - 9
+  - 87567
+- !!python/tuple
+  - 10
+  - 125794
+- !!python/tuple
+  - 11
+  - 162978
+- !!python/tuple
+  - 12
+  - 190756
+- !!python/tuple
+  - 13
+  - 206011
+- !!python/tuple
+  - 14
+  - 202161
+- !!python/tuple
+  - 15
+  - 185045
+- !!python/tuple
+  - 16
+  - 155150
+- !!python/tuple
+  - 17
+  - 121377
+- !!python/tuple
+  - 18
+  - 90205
+- !!python/tuple
+  - 19
+  - 62708
+- !!python/tuple
+  - 20
+  - 40875
+- !!python/tuple
+  - 21
+  - 25622
+- !!python/tuple
+  - 22
+  - 14356
+- !!python/tuple
+  - 23
+  - 7589
+- !!python/tuple
+  - 24
+  - 4315
+- !!python/tuple
+  - 25
+  - 1995
+- !!python/tuple
+  - 26
+  - 954
+- !!python/tuple
+  - 27
+  - 441
+- !!python/tuple
+  - 28
+  - 137
+- !!python/tuple
+  - 29
+  - 42
+- !!python/tuple
+  - 30
+  - 39
+- !!python/tuple
+  - 31
+  - 18
+- !!python/tuple
+  - 32
+  - 3
+- !!python/tuple
+  - 33
+  - 1
+- !!python/tuple
+  - 34
+  - 1
+- !!python/tuple
+  - 35
+  - 1
+seq_meth: ill_PairedEnd
+seq_method_reference:
+- https://doi.org/10.1186/s12859-016-0976-y
+seq_reference: 0

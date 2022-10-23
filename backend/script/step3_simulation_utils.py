@@ -78,9 +78,9 @@ class Simulation():
         self.syn_density=self.calculate_density(self.simu_dna)
         
         syn_info['syn_density']=self.syn_density
-        syn_info['error_param']={"sub":arg.syn_sub_prob,"ins":arg.syn_ins_prob,"del":arg.syn_del_prob}
+        syn_info['error_param']=[{"sub":arg.syn_sub_prob},{"ins":arg.syn_ins_prob},{"del":arg.syn_del_prob}]
         self.simu_repo["synthesis"]=syn_info
-        #self.simu_repo["Error_Recorder"].append(syn_error_recorder)
+        self.simu_repo["Error_Recorder"].append({"Synthesis":syn_error_recorder})
         return syn_info
 
     def get_simu_dec_info(self,
@@ -119,7 +119,7 @@ class Simulation():
         dec_density=self.calculate_density(self.simu_dna)
         dec_info['error_param']={"sub":arg.dec_sub_prob,"ins":arg.dec_ins_prob,"del":arg.dec_del_prob}
         self.simu_repo["decay"]=dec_info
-        self.simu_repo["Error_Recorder"].append(dec_error_recorder)
+        self.simu_repo["Error_Recorder"].append({"Decay":dec_error_recorder})
         return dec_info,self.syn_density,dec_density
 
     def get_simu_pcr_info(self,
@@ -158,7 +158,7 @@ class Simulation():
         pcr_info["prc_density"]=density
         pcr_info['error_param']={"sub":arg.pcr_sub_prob,"ins":arg.pcr_ins_prob,"del":arg.pcr_del_prob}
         self.simu_repo["pcr"]=pcr_info
-        self.simu_repo["Error_Recorder"].append(pcr_error_recorder)
+        self.simu_repo["Error_Recorder"].append({"PCR":pcr_error_recorder})
         return pcr_info
 
     def get_simu_sam_info(self,
@@ -185,7 +185,7 @@ class Simulation():
         write_yaml(yaml_path=self.file_info_path,data=sam_info,appending=True)
         sam_info["sam_density"]=density
         self.simu_repo["sample"]=sam_info
-        self.simu_repo["Error_Recorder"].append(sam_error_recorder)
+        self.simu_repo["Error_Recorder"].append({"Sam":sam_error_recorder})
         return sam_info
 
     def get_simu_seq_info(self,
@@ -219,9 +219,9 @@ class Simulation():
         }
         write_yaml(yaml_path=self.file_info_path,data=seq_info,appending=True)
         seq_info["seq_density"]=density
-        seq_info['error_param']={"sub":arg.seq_sub_prob,"ins":arg.seq_ins_prob,"del":arg.seq_del_prob}
+        seq_info['error_param']={{"sub":arg.seq_sub_prob},{"ins":arg.seq_ins_prob},{"del":arg.seq_del_prob}}
         self.simu_repo["sequence"]=seq_info
-        self.simu_repo["Error_Recorder"].append(seq_error_recorder)
+        self.simu_repo["Error_Recorder"].append({"Seq":seq_error_recorder})
         return seq_info
 
     def get_simu_repo(self):
@@ -289,10 +289,10 @@ class Simulation():
         return dic
 
     def parallel_test(self,funcs):
-        #cuts = [2000,4000,8000,12000,20000,80000]
-        #ts = [1,4,8,16,32,64,128]
-        cuts = [2000,4000,8000]
-        ts=[4,8]
+        cuts = [2000,4000,8000,12000,20000,80000]
+        ts = [1,4,8,16,32,64,128]
+        #cuts = [2000,4000,8000]
+        #ts=[1,4,8,]
 
         for c in cuts:
             '''
