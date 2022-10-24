@@ -291,7 +291,7 @@ class Simulation():
     def parallel_test(self,funcs):
         #cuts = [2000,4000,8000,12000,20000,80000]
         #ts = [1,4,8,16,32,64,128]
-        cuts = [200,2000,4000,8000,10000]
+        cuts = [10,50,2000,4000,8000,10000]
         ts=[4,8]
 
         for c in cuts:
@@ -308,8 +308,6 @@ class Simulation():
                 cut_file_list = self.cut_file(c)
                 with Pool(t) as pool:
                     for func in funcs:
-                    #r = tqdm(pool.imap(func,cut_file_list),total=len(cut_file_list))
-                    #print("r",r)
                         r = pool.imap(func,cut_file_list)
                         #print(r)
                         error_recorder={"+":0,"-":0,"s":0,"e":0,"n":0}

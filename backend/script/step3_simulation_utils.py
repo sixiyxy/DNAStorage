@@ -42,6 +42,7 @@ class Simulation():
             self.syn_density=0
             self.simu_repo={}
             self.simu_repo["Error_Recorder"]={}
+            self.simu_repo["Error_Density"]=[]
             self.funcs=[]
             self.simu_dna_ori=self.simu_dna
 
@@ -71,7 +72,6 @@ class Simulation():
             "synthesis_number":int(synthesis_number),
             "synthesis_yield":float(synthesis_yield),
             "synthesis_method":synthesis_method,
-            "synthesis_error_density":error_density,
             'synthesis_method_reference':arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=syn_info,appending=True)
@@ -81,6 +81,8 @@ class Simulation():
         syn_info['error_param']={"sub":arg.syn_sub_prob,"ins":arg.syn_ins_prob,"del":arg.syn_del_prob}
         self.simu_repo["synthesis"]=syn_info
         self.simu_repo["Error_Recorder"]["Synthesis"]=syn_error_recorder
+        for i in error_density:
+            self.simu_repo["Error_Density"].append({'type':"syn","error":i[0],"count":i[1]})
         return syn_info
 
     def get_simu_dec_info(self,
@@ -112,7 +114,6 @@ class Simulation():
             "storage_host":storage_host,
             "months_of_storage":months_of_storage,
             "decay_loss_rate":loss_rate,
-            "decay_error_density":error_density,
             "storage_host_parameter_reference":arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=dec_info,appending=True)
@@ -120,6 +121,8 @@ class Simulation():
         dec_info['error_param']={"sub":arg.dec_sub_prob,"ins":arg.dec_ins_prob,"del":arg.dec_del_prob}
         self.simu_repo["decay"]=dec_info
         self.simu_repo["Error_Recorder"]["Decay"]=dec_error_recorder
+        for i in error_density:
+            self.simu_repo["Error_Density"].append({'type':"dec","error":i[0],"count":i[1]})
         return dec_info,self.syn_density,dec_density
 
     def get_simu_pcr_info(self,
@@ -151,7 +154,6 @@ class Simulation():
             "pcr_polymerase":pcr_polymerase,
             "pcr_cycle":pcr_cycle,
             "pcr_prob":pcr_prob,
-            "pcr_error_density":error_density,
             "pcr_method_reference":arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=pcr_info,appending=True)
@@ -159,6 +161,8 @@ class Simulation():
         pcr_info['error_param']={"sub":arg.pcr_sub_prob,"ins":arg.pcr_ins_prob,"del":arg.pcr_del_prob}
         self.simu_repo["pcr"]=pcr_info
         self.simu_repo["Error_Recorder"]["PCR"]=pcr_error_recorder
+        for i in error_density:
+            self.simu_repo["Error_Density"].append({'type':"pcr","error":i[0],"count":i[1]})
         return pcr_info
 
     def get_simu_sam_info(self,
@@ -180,12 +184,13 @@ class Simulation():
 
         sam_info={
             "sam_ratio":sam_ratio,
-            "sam_error_density":error_density
         }
         write_yaml(yaml_path=self.file_info_path,data=sam_info,appending=True)
         sam_info["sam_density"]=density
         self.simu_repo["sample"]=sam_info
         self.simu_repo["Error_Recorder"]["Sam"]=sam_error_recorder
+        for i in error_density:
+            self.simu_repo["Error_Density"].append({'type':"sam","error":i[0],"count":i[1]})
         return sam_info
 
     def get_simu_seq_info(self,
@@ -214,7 +219,6 @@ class Simulation():
             "seq_depth":seq_depth,
             "seq_meth":seq_meth,
             "seq_reference":seq_reference,
-            "seq_error_density":error_density,
             "seq_method_reference":arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=seq_info,appending=True)
@@ -222,6 +226,8 @@ class Simulation():
         seq_info['error_param']={"sub":arg.seq_sub_prob,"ins":arg.seq_ins_prob,"del":arg.seq_del_prob}
         self.simu_repo["sequence"]=seq_info
         self.simu_repo["Error_Recorder"]["Seq"]=seq_error_recorder
+        for i in error_density:
+            self.simu_repo["Error_Density"].append({'type':"seq","error":i[0],"count":i[1]})
         return seq_info
 
     def get_simu_repo(self):

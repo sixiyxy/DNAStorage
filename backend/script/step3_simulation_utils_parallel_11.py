@@ -289,7 +289,7 @@ class Simulation():
         return dic
 
     def parallel_test(self):
-        cuts = [200,2000,4000,8000,12000]
+        cuts = [2000,4000,8000,12000]
         ts = [1,4,8,16,32,64,128]
         #cuts = [2000,4000,8000]
         #ts=[1,4,8,]
@@ -304,11 +304,10 @@ class Simulation():
             # t2 = time.time()
             # print('cut size {}, foring time {}'.format(c, t2 - t1))
             '''
+            cut_file_list = self.cut_file(c)
             for t in ts:
-                cut_file_list = self.cut_file(c)
-                t1 = time.time()
                 with Pool(t) as pool:
-
+                        t1 = time.time()
                         r = pool.imap(self.funcs_parallel,cut_file_list)
                         t2 = time.time()
                         print('cut size {},threads {}, pool time {}'.format(c, t, t2 - t1))
