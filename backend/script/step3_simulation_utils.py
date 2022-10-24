@@ -219,7 +219,7 @@ class Simulation():
         }
         write_yaml(yaml_path=self.file_info_path,data=seq_info,appending=True)
         seq_info["seq_density"]=density
-        seq_info['error_param']=[{"sub":arg.seq_sub_prob},{"ins":arg.seq_ins_prob},{"del":arg.seq_del_prob}]
+        seq_info['error_param']={"sub":arg.seq_sub_prob,"ins":arg.seq_ins_prob,"del":arg.seq_del_prob}
         self.simu_repo["sequence"]=seq_info
         self.simu_repo["Error_Recorder"].append({"Seq":seq_error_recorder})
         return seq_info
