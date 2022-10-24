@@ -61,16 +61,14 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const handleReset = () => {
-    setMethod("ill_PairedEnd");
-    setSequencingDepth(1);
-  };
+
   const handleOk = () => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
       .post("http://localhost:5000//simu_repo", params)
       .then(function (response) {
+        console.log("report", response);
         setSynthesisData(response?.data?.synthesis);
         setDacayData(response?.data?.decay);
         setPcrData(response?.data?.pcr);
@@ -84,6 +82,222 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   };
 
   //数据生成
+
+  const synthesisErrorParamData = useMemo(() => {
+    return [
+      {
+        type: "sub",
+        value: Number(synthesisData?.error_param?.sub).toFixed(3) * 100,
+      },
+      {
+        type: "ins",
+        value: Number(synthesisData?.error_param?.ins).toFixed(3) * 100,
+      },
+      {
+        type: "del",
+        value: Number(synthesisData?.error_param?.del).toFixed(3) * 100,
+      },
+    ];
+  }, [synthesisData]);
+
+  const decayErrorParamData = useMemo(() => {
+    return [
+      {
+        type: "sub",
+        value: Number(decayData?.error_param?.sub).toFixed(3) * 100,
+      },
+      {
+        type: "ins",
+        value: Number(decayData?.error_param?.ins).toFixed(3) * 100,
+      },
+      {
+        type: "del",
+        value: Number(decayData?.error_param?.del).toFixed(3) * 100,
+      },
+    ];
+  }, [decayData]);
+
+  const pcrErrorParamData = useMemo(() => {
+    return [
+      {
+        type: "sub",
+        value: Number(pcrData?.error_param?.sub).toFixed(3) * 100,
+      },
+      {
+        type: "ins",
+        value: Number(pcrData?.error_param?.ins).toFixed(3) * 100,
+      },
+      {
+        type: "del",
+        value: Number(pcrData?.error_param?.del).toFixed(3) * 100,
+      },
+    ];
+  }, [pcrData]);
+  const sequenceingErrorParamData = useMemo(() => {
+    return [
+      {
+        type: "sub",
+        value: Number(sequencingData?.error_param?.sub).toFixed(3) * 100,
+      },
+      {
+        type: "ins",
+        value: Number(sequencingData?.error_param?.ins).toFixed(3) * 100,
+      },
+      {
+        type: "del",
+        value: Number(sequencingData?.error_param?.del).toFixed(3) * 100,
+      },
+    ];
+  }, [sequencingData]);
+
+  const synthesisErrorParamConfig = {
+    data: synthesisErrorParamData,
+    angleField: "value",
+    colorField: "type",
+    radius: 1,
+    innerRadius: 0.6,
+    width: 200,
+    height: 200,
+    label: {
+      type: "inner",
+      offset: "-50%",
+      content: "{value}%",
+      style: {
+        textAlign: "center",
+        fontSize: 14,
+      },
+    },
+    interactions: [
+      {
+        type: "element-selected",
+      },
+      {
+        type: "element-active",
+      },
+    ],
+    statistic: {
+      title: false,
+      content: {
+        style: {
+          whiteSpace: "pre-wrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        },
+        content: "Error\nParam",
+      },
+    },
+  };
+  const decayErrorParamConfig = {
+    data: decayErrorParamData,
+    angleField: "value",
+    colorField: "type",
+    radius: 1,
+    innerRadius: 0.6,
+    width: 200,
+    height: 200,
+    label: {
+      type: "inner",
+      offset: "-50%",
+      content: "{value}%",
+      style: {
+        textAlign: "center",
+        fontSize: 14,
+      },
+    },
+    interactions: [
+      {
+        type: "element-selected",
+      },
+      {
+        type: "element-active",
+      },
+    ],
+    statistic: {
+      title: false,
+      content: {
+        style: {
+          whiteSpace: "pre-wrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        },
+        content: "Error\nParam",
+      },
+    },
+  };
+  const pcrErrorParamConfig = {
+    data: pcrErrorParamData,
+    angleField: "value",
+    colorField: "type",
+    radius: 1,
+    innerRadius: 0.6,
+    width: 200,
+    height: 200,
+    label: {
+      type: "inner",
+      offset: "-50%",
+      content: "{value}%",
+      style: {
+        textAlign: "center",
+        fontSize: 14,
+      },
+    },
+    interactions: [
+      {
+        type: "element-selected",
+      },
+      {
+        type: "element-active",
+      },
+    ],
+    statistic: {
+      title: false,
+      content: {
+        style: {
+          whiteSpace: "pre-wrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        },
+        content: "Error\nParam",
+      },
+    },
+  };
+  const sequenceErrorParamConfig = {
+    data: sequenceingErrorParamData,
+    angleField: "value",
+    colorField: "type",
+    radius: 1,
+    innerRadius: 0.6,
+    width: 200,
+    height: 200,
+    label: {
+      type: "inner",
+      offset: "-50%",
+      content: "{value}%",
+      style: {
+        textAlign: "center",
+        fontSize: 14,
+      },
+    },
+    interactions: [
+      {
+        type: "element-selected",
+      },
+      {
+        type: "element-active",
+      },
+    ],
+    statistic: {
+      title: false,
+      content: {
+        style: {
+          whiteSpace: "pre-wrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        },
+        content: "Error\nParam",
+      },
+    },
+  };
 
   const params = useMemo(() => {
     return {
@@ -109,7 +323,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       <Button size="large" style={{ width: 100 }} onClick={handleOk}>
         OK
       </Button>
-      <Card style={{ width: 800, height: 250 }}>
+      <Card style={{ width: 800, height: 500 }}>
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane
             tab="Synthesis"
@@ -138,6 +352,10 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 </>
               );
             })}
+            <Pie
+              {...synthesisErrorParamConfig}
+              style={{ margin: "20px 0 0 0" }}
+            />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Decay" key="2" disabled={decayData === undefined}>
             storage_host: {decayData?.storage_host}
@@ -162,6 +380,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 </>
               );
             })}
+            <Pie {...decayErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
           </Tabs.TabPane>
           <Tabs.TabPane tab="PCR" key="3" disabled={pcrData === undefined}>
             pcr_polymerase: {pcrData?.pcr_polymerase}
@@ -186,6 +405,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 </>
               );
             })}
+            <Pie {...pcrErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
           </Tabs.TabPane>
           <Tabs.TabPane
             tab="Sampling"
@@ -220,9 +440,14 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 </>
               );
             })}
+            <Pie
+              {...sequenceErrorParamConfig}
+              style={{ margin: "20px 0 0 0" }}
+            />
           </Tabs.TabPane>
         </Tabs>
       </Card>
+
       {/* <Card style={{ width: 800, height: 500 }}></Card> */}
     </div>
   );
