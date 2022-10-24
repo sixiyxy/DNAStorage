@@ -291,7 +291,7 @@ class Simulation():
     def parallel_test(self,funcs):
         #cuts = [2000,4000,8000,12000,20000,80000]
         #ts = [1,4,8,16,32,64,128]
-        cuts = [20,200,4000,8000,10000]
+        cuts = [200,2000,4000,8000,10000]
         ts=[4,8]
 
         for c in cuts:
@@ -306,7 +306,6 @@ class Simulation():
             for t in ts:
                 t1 = time.time()
                 cut_file_list = self.cut_file(c)
-                print(cut_file_list[0][0])
                 with Pool(t) as pool:
                     for func in funcs:
                     #r = tqdm(pool.imap(func,cut_file_list),total=len(cut_file_list))
@@ -321,10 +320,6 @@ class Simulation():
                             error_recorder=dict(x+y)
                         print("Error recorder",func,error_recorder)
                         cut_file_list=self.cut_file(c,dnas)
-                        try:
-                            print(cut_file_list[0][0])
-                        except:
-                            pass
                 t2 = time.time()
                 print('cut size {},threads {}, pool time {}'.format(c,t,t2-t1))
         print("Done")
@@ -371,7 +366,10 @@ if __name__ == "__main__":
     # print(a)
    # files=[1565536927137009664,1582258845189804032,1582352930688864256,1582353780081561600,1582354198287224832,1582354428973944832,1582354513564667904,1582354609735864320,1582354697744945152,1582355179049717760]
    # for file in files:
-        simu=Simulation(1582175684011364352,True)
+    files = [1584069432148365312, 1584069747073486848, 1584070962381459456]
+    for file in files:
+        print("Start")
+        simu = Simulation(file)
         t1=time.time()
         simu.get_simu_synthesis_info(25,0.99,"ErrASE"),
         simu.get_simu_dec_info(24,0.3,'WhiteGaussian'),

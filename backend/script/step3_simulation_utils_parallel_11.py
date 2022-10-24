@@ -288,7 +288,7 @@ class Simulation():
         dic = sorted(dic.items(), key=lambda e: e[0])
         return dic
 
-    def parallel_test(self,funcs):
+    def parallel_test(self):
         cuts = [200,2000,4000,8000,12000]
         ts = [1,4,8,16,32,64,128]
         #cuts = [2000,4000,8000]
@@ -308,25 +308,29 @@ class Simulation():
                 cut_file_list = self.cut_file(c)
                 t1 = time.time()
                 with Pool(t) as pool:
-                    for func in funcs:
-                    #r = tqdm(pool.imap(func,cut_file_list),total=len(cut_file_list))
-                    #print("r",r)
-                        r = pool.imap(func,cut_file_list)
-                        #print(r)
-                        error_recorder={}
+
+                        r = pool.imap(self.funcs_parallel,cut_file_list)
+                        t2 = time.time()
+                        print('cut size {},threads {}, pool time {}'.format(c, t, t2 - t1))
                         dnas=[]
+                        error_recorder=[{'+':0,"-":0,"s":0,"e":0,"n":0} for i in range(len(self.funcs))]
                         for index,i in enumerate (r):
-                            if index==0:
-                                print(cut_file_list[index])
-                            cut_file_list[index] =i[0]
-                            x,y=Counter(error_recorder),Counter(i[1])
-                            error_recorder=dict(x+y)
+                            dnas.append(i[0])
+                            for index_1,j in enumerate(i[1]):
+                                x,y=Counter(j),Counter(error_recorder[index_1])
+                                error_recorder[index_1]=dict(x+y)
+                print(error_recorder)
+                print(dnas[0][0])
 
-
-                t2 = time.time()
-                print('cut size {},threads {}, pool time {}'.format(c,t,t2-t1))
         print("Done")
-    
+    def funcs_parallel(self,dna):
+        error_recorders=[]
+        for fun in self.funcs:
+            dna,error_recorder=fun(dna)
+            error_recorders.append(error_recorder)
+        return dna,error_recorders
+
+
     def cut_file(self,cut_size,dnas=None):
         # print("Read binary matrix from file: " + self.file_path)
         #dnas=self.simu_dna
@@ -361,7 +365,7 @@ if __name__ == "__main__":
         simu.get_simu_sam_info(0.005)
         simu.get_simu_seq_info(15,"ill_PairedEnd")
         print("Normal:", time.time() - t1)
-        simu.parallel_test(simu.funcs)
+        simu.parallel_test()
     # dic={}
     # for dna in simu.simu_dna:
     #     for re in dna['re']:
