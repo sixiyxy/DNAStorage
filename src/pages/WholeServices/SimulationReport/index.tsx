@@ -1,4 +1,4 @@
-import { Area, Datum, Pie } from "@ant-design/charts";
+import { Area, Datum, DualAxes, Pie } from "@ant-design/charts";
 import {
   Breadcrumb,
   Button,
@@ -41,6 +41,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const [pcrData, setPcrData] = useState();
   const [samplingData, setSamplingData] = useState();
   const [sequencingData, setSequenceingData] = useState();
+  const [errorRecoder, setErrorRecode] = useState();
   //处理函数
   const monthChange = (value: number) => {
     if (isNaN(value)) {
@@ -74,6 +75,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         setPcrData(response?.data?.pcr);
         setSamplingData(response?.data?.sample);
         setSequenceingData(response?.data?.sequence);
+        setErrorRecode(response?.data?.Error_Recorder);
         setLoading(false);
       });
   };
@@ -83,6 +85,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
 
   //数据生成
 
+  //环形图数据以及配置
   const synthesisErrorParamData = useMemo(() => {
     return [
       {
@@ -99,7 +102,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       },
     ];
   }, [synthesisData]);
-
   const decayErrorParamData = useMemo(() => {
     return [
       {
@@ -116,7 +118,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       },
     ];
   }, [decayData]);
-
   const pcrErrorParamData = useMemo(() => {
     return [
       {
@@ -149,7 +150,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       },
     ];
   }, [sequencingData]);
-
   const synthesisErrorParamConfig = {
     data: synthesisErrorParamData,
     angleField: "value",
@@ -299,6 +299,180 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     },
   };
 
+  //混合图数据以及配置
+  const columnData = useMemo(() => {
+    return [
+      {
+        step: "synthesis",
+        value: errorRecoder?.Synthesis ? errorRecoder?.Synthesis.n : 0,
+        type: "total",
+      },
+      {
+        step: "synthesis",
+        value: errorRecoder?.Synthesis ? errorRecoder?.Synthesis.e : 0,
+        type: "error",
+      },
+      {
+        step: "decay",
+        value: errorRecoder?.Decay ? errorRecoder?.Decay.n : 0,
+        type: "total",
+      },
+      {
+        step: "decay",
+        value: errorRecoder?.Decay ? errorRecoder?.Decay.e : 0,
+        type: "error",
+      },
+      {
+        step: "pcr",
+        value: errorRecoder?.PCR ? errorRecoder?.PCR.n : 0,
+        type: "total",
+      },
+      {
+        step: "pcr",
+        value: errorRecoder?.PCR ? errorRecoder?.PCR.e : 0,
+        type: "error",
+      },
+      {
+        step: "sample",
+        value: errorRecoder?.Sam ? errorRecoder?.Sam.n : 0,
+        type: "total",
+      },
+      {
+        step: "sample",
+        value: errorRecoder?.Sam ? errorRecoder?.Sam.e : 0,
+        type: "error",
+      },
+      {
+        step: "sequence",
+        value: errorRecoder?.Seq ? errorRecoder?.Seq.n : 0,
+        type: "total",
+      },
+      {
+        step: "sequence",
+        value: errorRecoder?.Seq ? errorRecoder?.Seq.e : 0,
+        type: "error",
+      },
+    ];
+  }, [errorRecoder]);
+  const lineData = useMemo(() => {
+    return [
+      {
+        step: "synthesis",
+        count: errorRecoder?.Synthesis ? errorRecoder?.Synthesis["+"] : 0,
+        name: "insert",
+      },
+      {
+        step: "synthesis",
+        count: errorRecoder?.Synthesis ? errorRecoder?.Synthesis["-"] : 0,
+        name: "delete",
+      },
+      {
+        step: "synthesis",
+        count: errorRecoder?.Synthesis ? errorRecoder?.Synthesis.s : 0,
+        name: "substitute",
+      },
+      {
+        step: "decay",
+        count: errorRecoder?.Decay ? errorRecoder?.Decay["+"] : 0,
+        name: "insert",
+      },
+      {
+        step: "decay",
+        count: errorRecoder?.Decay ? errorRecoder?.Decay["-"] : 0,
+        name: "delete",
+      },
+      {
+        step: "decay",
+        count: errorRecoder?.Decay ? errorRecoder?.Decay.s : 0,
+        name: "substitute",
+      },
+      {
+        step: "pcr",
+        count: errorRecoder?.PCR ? errorRecoder?.PCR["+"] : 0,
+        name: "insert",
+      },
+      {
+        step: "pcr",
+        count: errorRecoder?.PCR ? errorRecoder?.PCR["-"] : 0,
+        name: "delete",
+      },
+      {
+        step: "pcr",
+        count: errorRecoder?.PCR ? errorRecoder?.PCR.s : 0,
+        name: "substitute",
+      },
+      {
+        step: "sample",
+        count: errorRecoder?.Sam ? errorRecoder?.Sam["+"] : 0,
+        name: "insert",
+      },
+      {
+        step: "sample",
+        count: errorRecoder?.Sam ? errorRecoder?.Sam["-"] : 0,
+        name: "delete",
+      },
+      {
+        step: "sample",
+        count: errorRecoder?.Sam ? errorRecoder?.Sam.s : 0,
+        name: "substitute",
+      },
+      {
+        step: "sequence",
+        count: errorRecoder?.Seq ? errorRecoder?.Seq["+"] : 0,
+        name: "insert",
+      },
+      {
+        step: "sequence",
+        count: errorRecoder?.Seq ? errorRecoder?.Seq["-"] : 0,
+        name: "delete",
+      },
+      {
+        step: "sequence",
+        count: errorRecoder?.Seq ? errorRecoder?.Seq.s : 0,
+        name: "substitute",
+      },
+    ];
+  }, [errorData]);
+
+  //气泡图数据以及配置
+  //  const scatterData = useMemo(() => {
+  //   return [
+  //     {
+
+  //     }
+  //   ]
+  //  },[synthesisData,decayData,pcrData,samplingData,sequencingData])
+
+  const dualConfig = {
+    data: [columnData, lineData],
+    xField: "step",
+    yField: ["value", "count"],
+    geometryOptions: [
+      {
+        geometry: "column",
+        isStack: true,
+        seriesField: "type",
+        columnWidthRatio: 0.4,
+      },
+      {
+        geometry: "line",
+        seriesField: "name",
+        // lineStyle: ({ name }) => {
+        //   if (name === 'a') {
+        //     return {
+        //       lineDash: [1, 4],
+        //       opacity: 1,
+        //     };
+        //   }
+
+        //   return {
+        //     opacity: 0.5,
+        //   };
+        // },
+      },
+    ],
+  };
+  //接口配置
   const params = useMemo(() => {
     return {
       simulation_key: props.fileId,
@@ -447,7 +621,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           </Tabs.TabPane>
         </Tabs>
       </Card>
-
+      <Card style={{ width: 800, height: 300 }}>
+        <DualAxes {...dualConfig} />;
+      </Card>
       {/* <Card style={{ width: 800, height: 500 }}></Card> */}
     </div>
   );
