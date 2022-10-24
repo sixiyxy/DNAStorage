@@ -34,6 +34,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [alreadyRun, setAlreadyRun] = useState(false);
 
   //处理函数
   const monthChange = (value: number) => {
@@ -68,6 +69,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
   const handleOk = () => {
     setLoading(true);
     setNoDataTipsShow(false);
+    setAlreadyRun(true);
     axios
       .post("http://localhost:5000/simu_dec", params)
       .then(function (response) {
@@ -286,7 +288,12 @@ export const Decay: React.FC<DecayProps> = (props) => {
                 <Button size="large" style={{ width: 100 }} onClick={handleOk}>
                   OK
                 </Button>
-                <Button size="large" style={{ width: 100 }} onClick={showModal}>
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={showModal}
+                  disabled={alreadyRun}
+                >
                   Skip
                 </Button>
                 <Button

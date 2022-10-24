@@ -63,7 +63,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     setIsModalOpen(false);
   };
 
-  const handleOk = () => {
+  useEffect(() => {
     setLoading(true);
     setNoDataTipsShow(false);
     axios
@@ -78,7 +78,23 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         setErrorRecode(response?.data?.Error_Recorder);
         setLoading(false);
       });
-  };
+  }, [props.fileId]);
+  // const handleOk = () => {
+  //   setLoading(true);
+  //   setNoDataTipsShow(false);
+  //   axios
+  //     .post("http://localhost:5000//simu_repo", params)
+  //     .then(function (response) {
+  //       console.log("report", response);
+  //       setSynthesisData(response?.data?.synthesis);
+  //       setDacayData(response?.data?.decay);
+  //       setPcrData(response?.data?.pcr);
+  //       setSamplingData(response?.data?.sample);
+  //       setSequenceingData(response?.data?.sequence);
+  //       setErrorRecode(response?.data?.Error_Recorder);
+  //       setLoading(false);
+  //     });
+  // };
   const handleContinue = () => {
     props.changeSider(["0-2"]);
   };
@@ -432,8 +448,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         name: "substitute",
       },
     ];
-  }, [errorData]);
-
+  }, [errorRecoder]);
+  console.log(lineData);
   //气泡图数据以及配置
   //  const scatterData = useMemo(() => {
   //   return [
@@ -494,9 +510,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           <Breadcrumb.Item>Report</Breadcrumb.Item>
         </Breadcrumb>
       </div>
-      <Button size="large" style={{ width: 100 }} onClick={handleOk}>
+      {/* <Button size="large" style={{ width: 100 }} onClick={handleOk}>
         OK
-      </Button>
+      </Button> */}
       <Card style={{ width: 800, height: 500 }}>
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane

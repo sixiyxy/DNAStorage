@@ -31,6 +31,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   const [densityData, setDensityData] = useState([]);
   const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [alreadyRun, setAlreadyRun] = useState(false);
 
   //处理函数
 
@@ -56,6 +57,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   const handleOk = () => {
     setLoading(true);
     setNoDataTipsShow(false);
+    setAlreadyRun(true);
     axios
       .post("http://localhost:5000/simu_sam", params)
       .then(function (response) {
@@ -228,7 +230,12 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
                 <Button size="large" style={{ width: 100 }} onClick={handleOk}>
                   OK
                 </Button>
-                <Button size="large" style={{ width: 100 }} onClick={showModal}>
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={showModal}
+                  disabled={alreadyRun}
+                >
                   Skip
                 </Button>
                 <Button
