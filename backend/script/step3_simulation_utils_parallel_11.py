@@ -1,7 +1,7 @@
-import script.utils.simulation_model as Model
-import numpy as np
-from script.utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna
+# import script.utils.simulation_model as Model
+# import numpy as np
+# from script.utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+# from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna
 import os
 from multiprocessing import Pool
 import time
@@ -9,10 +9,10 @@ from tqdm import tqdm
 import math
 from collections import Counter
 
-# import utils.simulation_model as Model
-# import numpy as np
-# from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-# from utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna
+import utils.simulation_model as Model
+import numpy as np
+from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+from utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna
 
 
 class Simulation():
@@ -78,9 +78,9 @@ class Simulation():
         self.syn_density=self.calculate_density(self.simu_dna)
         
         syn_info['syn_density']=self.syn_density
-        syn_info['error_param']=[{"sub":arg.syn_sub_prob},{"ins":arg.syn_ins_prob},{"del":arg.syn_del_prob}]
+        syn_info['error_param']={"sub":arg.syn_sub_prob,"ins":arg.syn_ins_prob,"del":arg.syn_del_prob}
         self.simu_repo["synthesis"]=syn_info
-        self.simu_repo["Error_Recorder"].append({"Synthesis":syn_error_recorder})
+        #self.simu_repo["Error_Recorder"].append(syn_error_recorder)
         return syn_info
 
     def get_simu_dec_info(self,
@@ -119,7 +119,7 @@ class Simulation():
         dec_density=self.calculate_density(self.simu_dna)
         dec_info['error_param']={"sub":arg.dec_sub_prob,"ins":arg.dec_ins_prob,"del":arg.dec_del_prob}
         self.simu_repo["decay"]=dec_info
-        self.simu_repo["Error_Recorder"].append({"Decay":dec_error_recorder})
+        self.simu_repo["Error_Recorder"].append(dec_error_recorder)
         return dec_info,self.syn_density,dec_density
 
     def get_simu_pcr_info(self,
@@ -158,7 +158,7 @@ class Simulation():
         pcr_info["prc_density"]=density
         pcr_info['error_param']={"sub":arg.pcr_sub_prob,"ins":arg.pcr_ins_prob,"del":arg.pcr_del_prob}
         self.simu_repo["pcr"]=pcr_info
-        self.simu_repo["Error_Recorder"].append({"PCR":pcr_error_recorder})
+        self.simu_repo["Error_Recorder"].append(pcr_error_recorder)
         return pcr_info
 
     def get_simu_sam_info(self,
@@ -185,7 +185,7 @@ class Simulation():
         write_yaml(yaml_path=self.file_info_path,data=sam_info,appending=True)
         sam_info["sam_density"]=density
         self.simu_repo["sample"]=sam_info
-        self.simu_repo["Error_Recorder"].append({"Sam":sam_error_recorder})
+        self.simu_repo["Error_Recorder"].append(sam_error_recorder)
         return sam_info
 
     def get_simu_seq_info(self,
@@ -219,9 +219,9 @@ class Simulation():
         }
         write_yaml(yaml_path=self.file_info_path,data=seq_info,appending=True)
         seq_info["seq_density"]=density
-        seq_info['error_param']=[{"sub":arg.seq_sub_prob},{"ins":arg.seq_ins_prob},{"del":arg.seq_del_prob}]
+        seq_info['error_param']={"sub":arg.seq_sub_prob,"ins":arg.seq_ins_prob,"del":arg.seq_del_prob}
         self.simu_repo["sequence"]=seq_info
-        self.simu_repo["Error_Recorder"].append({"Seq":seq_error_recorder})
+        self.simu_repo["Error_Recorder"].append(seq_error_recorder)
         return seq_info
 
     def get_simu_repo(self):
@@ -289,12 +289,13 @@ class Simulation():
         return dic
 
     def parallel_test(self,funcs):
-        cuts = [2000,4000,8000,12000,20000,80000]
+        cuts = [200,2000,4000,8000,12000]
         ts = [1,4,8,16,32,64,128]
         #cuts = [2000,4000,8000]
         #ts=[1,4,8,]
 
         for c in cuts:
+            #cut_file_list = self.cut_file(c)
             '''
             #cut_file_list = self.cut_file(c)
             # t1 = time.time()
@@ -304,8 +305,8 @@ class Simulation():
             # print('cut size {}, foring time {}'.format(c, t2 - t1))
             '''
             for t in ts:
-                t1 = time.time()
                 cut_file_list = self.cut_file(c)
+                t1 = time.time()
                 with Pool(t) as pool:
                     for func in funcs:
                     #r = tqdm(pool.imap(func,cut_file_list),total=len(cut_file_list))
@@ -313,25 +314,31 @@ class Simulation():
                         r = pool.imap(func,cut_file_list)
                         #print(r)
                         error_recorder={}
+                        dnas=[]
                         for index,i in enumerate (r):
-                            cut_file_list[index]=i[0]
+                            if index==0:
+                                print(cut_file_list[index])
+                            cut_file_list[index] =i[0]
                             x,y=Counter(error_recorder),Counter(i[1])
                             error_recorder=dict(x+y)
-                        print("Error recorder",func,error_recorder)
+
 
                 t2 = time.time()
                 print('cut size {},threads {}, pool time {}'.format(c,t,t2-t1))
         print("Done")
     
-    def cut_file(self,cut_size):
+    def cut_file(self,cut_size,dnas=None):
         # print("Read binary matrix from file: " + self.file_path)
         #dnas=self.simu_dna
+        if dnas is None:
+            dnas=self.simu_dna_ori
         cut_file_data = []
-        for i in range(math.ceil(len(self.simu_dna)/cut_size)):
-            if i != len(self.simu_dna_ori)//cut_size:
-                cut_data = self.simu_dna_ori[i*cut_size:(i+1)*cut_size]
+        print("Length of dna is:",len(dnas))
+        for i in range(math.ceil(len(dnas)/cut_size)):
+            if i != len(dnas)//cut_size:
+                cut_data = dnas[i*cut_size:(i+1)*cut_size]
             else:
-                cut_data = self.simu_dna_ori[i*cut_size:]
+                cut_data = dnas[i*cut_size:]
             cut_file_data.append(cut_data)
 
         return cut_file_data
@@ -343,15 +350,18 @@ if __name__ == "__main__":
 
     # a=get_simu_dec_info(1565536927137009664,24,0.3,'Ecoli',in_dnas)
     # print(a)
-    simu=Simulation(1582175684011364352,True)
-    t1=time.time()
-    simu.get_simu_synthesis_info(25,0.99,"ErrASE")
-    simu.get_simu_dec_info(24,0.3,'WhiteGaussian')
-    simu.get_simu_pcr_info( 12,0.8,"Taq")
-    simu.get_simu_sam_info(0.005)
-    simu.get_simu_seq_info(15,"ill_PairedEnd")
-    print("Normal:", time.time() - t1)
-    simu.parallel_test(simu.funcs)
+    files=[1584069432148365312,1584069747073486848,1584070962381459456]
+    for file in files:
+        print("Start")
+        simu=Simulation(file)
+        t1=time.time()
+        simu.get_simu_synthesis_info(25,0.99,"ErrASE")
+        simu.get_simu_dec_info(24,0.3,'WhiteGaussian')
+        simu.get_simu_pcr_info( 12,0.8,"Taq")
+        simu.get_simu_sam_info(0.005)
+        simu.get_simu_seq_info(15,"ill_PairedEnd")
+        print("Normal:", time.time() - t1)
+        simu.parallel_test(simu.funcs)
     # dic={}
     # for dna in simu.simu_dna:
     #     for re in dna['re']:

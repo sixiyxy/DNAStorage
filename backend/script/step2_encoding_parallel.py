@@ -7,9 +7,9 @@ from multiprocessing import Pool
 from tqdm import tqdm
 from numpy import fromfile, array, uint8
 
-from utils.utils_basic import get_config,write_yaml,write_dna_file
-from utils.verify_methods import Hamming,ReedSolomon
-from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
+from .utils.utils_basic import get_config,write_yaml,write_dna_file
+from .utils.verify_methods import Hamming,ReedSolomon
+from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
 
 verify_methods = {
     "WithoutVerifycode":False,
