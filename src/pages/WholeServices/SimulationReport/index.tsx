@@ -1,4 +1,4 @@
-import { Area, Datum, DualAxes, Pie } from "@ant-design/charts";
+import { Area, Datum, DualAxes, Pie, Scatter } from "@ant-design/charts";
 import {
   Breadcrumb,
   Button,
@@ -42,6 +42,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const [samplingData, setSamplingData] = useState();
   const [sequencingData, setSequenceingData] = useState();
   const [errorRecoder, setErrorRecode] = useState();
+  const [errorDensity, setErrorDensity] = useState();
   //处理函数
   const monthChange = (value: number) => {
     if (isNaN(value)) {
@@ -76,6 +77,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         setSamplingData(response?.data?.sample);
         setSequenceingData(response?.data?.sequence);
         setErrorRecode(response?.data?.Error_Recorder);
+        setErrorDensity(response?.data?.Error_Density);
         setLoading(false);
       });
   }, [props.fileId]);
@@ -316,153 +318,298 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   };
 
   //混合图数据以及配置
+  // const columnData = useMemo(() => {
+  //   return [
+  //     {
+  //       step: "synthesis",
+  //       value: errorRecoder?.Synthesis
+  //         ? errorRecoder?.Synthesis.n
+  //         : 0,
+  //       type: "total",
+  //     },
+  //     {
+  //       step: "synthesis",
+  //       value: errorRecoder?.Synthesis ? errorRecoder?.Synthesis.e : 0,
+  //       type: "error",
+  //     },
+  //     {
+  //       step: "decay",
+  //       value: errorRecoder?.Decay ? errorRecoder?.Decay.n : 0,
+  //       type: "total",
+  //     },
+  //     {
+  //       step: "decay",
+  //       value: errorRecoder?.Decay ? errorRecoder?.Decay.e : 0,
+  //       type: "error",
+  //     },
+  //     {
+  //       step: "pcr",
+  //       value: errorRecoder?.PCR ? errorRecoder?.PCR.n : 0,
+  //       type: "total",
+  //     },
+  //     {
+  //       step: "pcr",
+  //       value: errorRecoder?.PCR ? errorRecoder?.PCR.e : 0,
+  //       type: "error",
+  //     },
+  //     {
+  //       step: "sample",
+  //       value: errorRecoder?.Sam ? errorRecoder?.Sam.n : 0,
+  //       type: "total",
+  //     },
+  //     {
+  //       step: "sample",
+  //       value: errorRecoder?.Sam ? errorRecoder?.Sam.e : 0,
+  //       type: "error",
+  //     },
+  //     {
+  //       step: "sequence",
+  //       value: errorRecoder?.Seq ? errorRecoder?.Seq.n : 0,
+  //       type: "total",
+  //     },
+  //     {
+  //       step: "sequence",
+  //       value: errorRecoder?.Seq ? errorRecoder?.Seq.e : 0,
+  //       type: "error",
+  //     },
+  //   ];
+  // }, [errorRecoder]);
   const columnData = useMemo(() => {
     return [
       {
         step: "synthesis",
-        value: errorRecoder?.Synthesis ? errorRecoder?.Synthesis.n : 0,
+        value: errorRecoder?.Synthesis
+          ? Math.log(errorRecoder?.Synthesis.n)
+          : 0,
         type: "total",
       },
       {
         step: "synthesis",
-        value: errorRecoder?.Synthesis ? errorRecoder?.Synthesis.e : 0,
+        value: errorRecoder?.Synthesis
+          ? Math.log(errorRecoder?.Synthesis.e)
+          : 0,
         type: "error",
       },
       {
         step: "decay",
-        value: errorRecoder?.Decay ? errorRecoder?.Decay.n : 0,
+        value: errorRecoder?.Decay ? Math.log(errorRecoder?.Decay.n) : 0,
         type: "total",
       },
       {
         step: "decay",
-        value: errorRecoder?.Decay ? errorRecoder?.Decay.e : 0,
+        value: errorRecoder?.Decay ? Math.log(errorRecoder?.Decay.e) : 0,
         type: "error",
       },
       {
         step: "pcr",
-        value: errorRecoder?.PCR ? errorRecoder?.PCR.n : 0,
+        value: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.n) : 0,
         type: "total",
       },
       {
         step: "pcr",
-        value: errorRecoder?.PCR ? errorRecoder?.PCR.e : 0,
+        value: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.e) : 0,
         type: "error",
       },
       {
         step: "sample",
-        value: errorRecoder?.Sam ? errorRecoder?.Sam.n : 0,
+        value: errorRecoder?.Sam ? Math.log(errorRecoder?.Sam.n) : 0,
         type: "total",
       },
       {
         step: "sample",
-        value: errorRecoder?.Sam ? errorRecoder?.Sam.e : 0,
+        value: errorRecoder?.Sam ? Math.log(errorRecoder?.Sam.e) : 0,
         type: "error",
       },
       {
         step: "sequence",
-        value: errorRecoder?.Seq ? errorRecoder?.Seq.n : 0,
+        value: errorRecoder?.Seq ? Math.log(errorRecoder?.Seq.n) : 0,
         type: "total",
       },
       {
         step: "sequence",
-        value: errorRecoder?.Seq ? errorRecoder?.Seq.e : 0,
+        value: errorRecoder?.Seq ? Math.log(errorRecoder?.Seq.e) : 0,
         type: "error",
       },
     ];
   }, [errorRecoder]);
+  // const lineData = useMemo(() => {
+  //   return [
+  //     {
+  //       step: "synthesis",
+  //       count: errorRecoder?.Synthesis ? errorRecoder?.Synthesis["+"] : 0,
+  //       name: "insert",
+  //     },
+  //     {
+  //       step: "synthesis",
+  //       count: errorRecoder?.Synthesis ? errorRecoder?.Synthesis["-"] : 0,
+  //       name: "delete",
+  //     },
+  //     {
+  //       step: "synthesis",
+  //       count: errorRecoder?.Synthesis ? errorRecoder?.Synthesis.s : 0,
+  //       name: "substitute",
+  //     },
+  //     {
+  //       step: "decay",
+  //       count: errorRecoder?.Decay ? errorRecoder?.Decay["+"] : 0,
+  //       name: "insert",
+  //     },
+  //     {
+  //       step: "decay",
+  //       count: errorRecoder?.Decay ? errorRecoder?.Decay["-"] : 0,
+  //       name: "delete",
+  //     },
+  //     {
+  //       step: "decay",
+  //       count: errorRecoder?.Decay ? errorRecoder?.Decay.s : 0,
+  //       name: "substitute",
+  //     },
+  //     {
+  //       step: "pcr",
+  //       count: errorRecoder?.PCR ? errorRecoder?.PCR["+"] : 0,
+  //       name: "insert",
+  //     },
+  //     {
+  //       step: "pcr",
+  //       count: errorRecoder?.PCR ? errorRecoder?.PCR["-"] : 0,
+  //       name: "delete",
+  //     },
+  //     {
+  //       step: "pcr",
+  //       count: errorRecoder?.PCR ? errorRecoder?.PCR.s : 0,
+  //       name: "substitute",
+  //     },
+  //     {
+  //       step: "sample",
+  //       count: errorRecoder?.Sam ? errorRecoder?.Sam["+"] : 0,
+  //       name: "insert",
+  //     },
+  //     {
+  //       step: "sample",
+  //       count: errorRecoder?.Sam ? errorRecoder?.Sam["-"] : 0,
+  //       name: "delete",
+  //     },
+  //     {
+  //       step: "sample",
+  //       count: errorRecoder?.Sam ? errorRecoder?.Sam.s : 0,
+  //       name: "substitute",
+  //     },
+  //     {
+  //       step: "sequence",
+  //       count: errorRecoder?.Seq ? errorRecoder?.Seq["+"] : 0,
+  //       name: "insert",
+  //     },
+  //     {
+  //       step: "sequence",
+  //       count: errorRecoder?.Seq ? errorRecoder?.Seq["-"] : 0,
+  //       name: "delete",
+  //     },
+  //     {
+  //       step: "sequence",
+  //       count: errorRecoder?.Seq ? errorRecoder?.Seq.s : 0,
+  //       name: "substitute",
+  //     },
+  //   ];
+  // }, [errorRecoder]);
   const lineData = useMemo(() => {
     return [
       {
         step: "synthesis",
-        count: errorRecoder?.Synthesis ? errorRecoder?.Synthesis["+"] : 0,
+        count: errorRecoder?.Synthesis
+          ? Math.log(errorRecoder?.Synthesis["+"])
+          : 0,
         name: "insert",
       },
       {
         step: "synthesis",
-        count: errorRecoder?.Synthesis ? errorRecoder?.Synthesis["-"] : 0,
+        count: errorRecoder?.Synthesis
+          ? Math.log(errorRecoder?.Synthesis["-"])
+          : 0,
         name: "delete",
       },
       {
         step: "synthesis",
-        count: errorRecoder?.Synthesis ? errorRecoder?.Synthesis.s : 0,
+        count: errorRecoder?.Synthesis
+          ? Math.log(errorRecoder?.Synthesis.s)
+          : 0,
         name: "substitute",
       },
       {
         step: "decay",
-        count: errorRecoder?.Decay ? errorRecoder?.Decay["+"] : 0,
+        count: errorRecoder?.Decay ? Math.log(errorRecoder?.Decay["+"]) : 0,
         name: "insert",
       },
       {
         step: "decay",
-        count: errorRecoder?.Decay ? errorRecoder?.Decay["-"] : 0,
+        count: errorRecoder?.Decay ? Math.log(errorRecoder?.Decay["-"]) : 0,
         name: "delete",
       },
       {
         step: "decay",
-        count: errorRecoder?.Decay ? errorRecoder?.Decay.s : 0,
+        count: errorRecoder?.Decay ? Math.log(errorRecoder?.Decay.s) : 0,
         name: "substitute",
       },
       {
         step: "pcr",
-        count: errorRecoder?.PCR ? errorRecoder?.PCR["+"] : 0,
+        count: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR["+"]) : 0,
         name: "insert",
       },
       {
         step: "pcr",
-        count: errorRecoder?.PCR ? errorRecoder?.PCR["-"] : 0,
+        count: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR["-"]) : 0,
         name: "delete",
       },
       {
         step: "pcr",
-        count: errorRecoder?.PCR ? errorRecoder?.PCR.s : 0,
+        count: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.s) : 0,
         name: "substitute",
       },
       {
         step: "sample",
-        count: errorRecoder?.Sam ? errorRecoder?.Sam["+"] : 0,
+        count: errorRecoder?.Sam ? Math.log(errorRecoder?.Sam["+"]) : 0,
         name: "insert",
       },
       {
         step: "sample",
-        count: errorRecoder?.Sam ? errorRecoder?.Sam["-"] : 0,
+        count: errorRecoder?.Sam ? Math.log(errorRecoder?.Sam["-"]) : 0,
         name: "delete",
       },
       {
         step: "sample",
-        count: errorRecoder?.Sam ? errorRecoder?.Sam.s : 0,
+        count: errorRecoder?.Sam ? Math.log(errorRecoder?.Sam.s) : 0,
         name: "substitute",
       },
       {
         step: "sequence",
-        count: errorRecoder?.Seq ? errorRecoder?.Seq["+"] : 0,
+        count: errorRecoder?.Seq ? Math.log(errorRecoder?.Seq["+"]) : 0,
         name: "insert",
       },
       {
         step: "sequence",
-        count: errorRecoder?.Seq ? errorRecoder?.Seq["-"] : 0,
+        count: errorRecoder?.Seq ? Math.log(errorRecoder?.Seq["-"]) : 0,
         name: "delete",
       },
       {
         step: "sequence",
-        count: errorRecoder?.Seq ? errorRecoder?.Seq.s : 0,
+        count: errorRecoder?.Seq ? Math.log(errorRecoder?.Seq.s) : 0,
         name: "substitute",
       },
     ];
   }, [errorRecoder]);
   console.log(lineData);
-  //气泡图数据以及配置
-  //  const scatterData = useMemo(() => {
-  //   return [
-  //     {
-
-  //     }
-  //   ]
-  //  },[synthesisData,decayData,pcrData,samplingData,sequencingData])
-
   const dualConfig = {
     data: [columnData, lineData],
     xField: "step",
     yField: ["value", "count"],
+    // yAxis: {
+    //   value: {
+    //     tickMethod: "log",
+    //   },
+    //   count: {
+
+    //   },
+    // },
+
     geometryOptions: [
       {
         geometry: "column",
@@ -487,6 +634,54 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         // },
       },
     ],
+  };
+
+  //气泡图数据以及配置
+  const scatterConfig = {
+    // width: 800,
+    // height: 200,
+    autoFit: true,
+    appendPadding: 16,
+    data: errorDensity || [],
+    xField: "error",
+    yField: "type",
+    sizeField: "count",
+    size: [5, 50],
+    shape: "circle",
+    colorField: "type",
+    color: ["#ffd500", "#82cab2", "#193442", "#d18768", "#7e827a"],
+    pointStyle: {
+      fillOpacity: 0.8,
+      stroke: "#bbb",
+    },
+    tooltip: {
+      showTitle: false,
+      showMarkers: false,
+      fields: ["count", "error", "type"],
+    },
+    xAxis: {
+      grid: {
+        line: {
+          style: {
+            stroke: "#eee",
+          },
+        },
+      },
+      line: null,
+    },
+    label: {
+      formatter: (item) => {
+        return item.city;
+      },
+      offsetY: 12,
+      style: {
+        fontSize: 12,
+      },
+    },
+    yAxis: {
+      min: 0,
+      line: null,
+    },
   };
   //接口配置
   const params = useMemo(() => {
@@ -637,8 +832,11 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           </Tabs.TabPane>
         </Tabs>
       </Card>
+      <Card style={{ width: 800, height: 500 }}>
+        <DualAxes {...dualConfig} />
+      </Card>
       <Card style={{ width: 800, height: 300 }}>
-        <DualAxes {...dualConfig} />;
+        <Scatter {...scatterConfig} />
       </Card>
       {/* <Card style={{ width: 800, height: 500 }}></Card> */}
     </div>

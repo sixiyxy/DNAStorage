@@ -20,8 +20,8 @@ encoding_methods = {
     "Goldman":Goldman(need_logs=True),
     "Grass":Grass(need_logs=True),
     "Blawat":Blawat(need_logs=True),
-    "DNAFountain":DNAFountain(need_logs=True),
-    "YinYang":YinYangCode(need_logs=True)}
+    "DNA_Fountain":DNAFountain(need_logs=True),
+    "Yin_Yang":YinYangCode(need_logs=True)}
 
     # {"file_uid":1565237658387615744,
     # "segment_length":160,
@@ -141,6 +141,7 @@ class Encoding():
     def bit_to_dna(self): 
         start_time = datetime.now()
         original_bit_segments,record_index,connected_bit_segments,final_bit_segments = self.verify_code()
+        print(connected_bit_segments)
         encode_method = encoding_methods[self.encode_method]
         dna_sequences = encode_method.encode(final_bit_segments)
         print('Encode bit segments to DNA sequences by coding scheme.\n')
@@ -197,7 +198,7 @@ class Encoding():
             plot_dict = {'x_value':i,'y_value':gc_distribution[i]}
             front_gc.append(plot_dict)
         for i in range(max(list(map(len, dna_sequences)))):
-            plot_dict = {'x_value':i,'y_value':gc_distribution[i]}
+            plot_dict = {'x_value':i,'y_value':homo_distribution[i]}
             front_homo.append(plot_dict)
 
         record_info['gc_plot'] = front_gc
@@ -234,7 +235,7 @@ class Encoding():
             free_energy_plotdata.append(data)
 
         record_info['min_free_energy'] = avg_free_energy
-        record_info['min_free_energy_below_30kj/mol'] = str(free_energy_30)+'%'
+        record_info['min_free_energy_below_30kal_mol'] = str(free_energy_30)+'%'
         record_info['energy_plot'] =free_energy_plotdata
 
         # record dowdload file
