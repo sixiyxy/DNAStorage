@@ -22,8 +22,8 @@ encoding_methods = {
     "Goldman":Goldman(need_logs=False),
     "Grass":Grass(need_logs=False),
     "Blawat":Blawat(need_logs=False),
-    "DNAFountain":DNAFountain(need_logs=False),
-    "YinYang":YinYangCode(need_logs=False)}
+    "DNA_Fountain":DNAFountain(need_logs=False),
+    "Yin_Yang":YinYangCode(need_logs=False)}
 
 
 class Encoding():
@@ -208,6 +208,7 @@ class Encoding():
 
         final_record_info['min_free_energy'] = float(avg_free_energy)
         final_record_info['min_free_energy_below_30kcal_mol'] = str(free_energy_30)+'%'
+        # print(str(free_energy_30)+'%')
         
         return final_record_info,free_energy_plotdata
 
@@ -232,8 +233,9 @@ class Encoding():
                     cut_data = file_data[i*cut_size:]
                 cut_file_data.append(cut_data)
 
+        # print(cut_file_data)
         start_time = datetime.now()
-        with Pool(8) as pool:
+        with Pool(1) as pool:
             parallel_results = list(tqdm(pool.imap(self.bit_to_dna,cut_file_data),total=len(cut_file_data)))
 
         bit_szie_all = 0
