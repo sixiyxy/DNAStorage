@@ -3,9 +3,28 @@ import re
 import os,sys
 import math
 import numpy
+from re import search
 from datetime import datetime
 from .utils_basic import Monitor
 from .encoding_method_rule import *
+
+def check(sequence, max_homopolymer, max_content):
+    if max_homopolymer and not homopolymer(sequence, max_homopolymer):
+        return False
+    if max_content and not gc_content(sequence, max_content):
+        return False
+
+    return True
+
+
+def homopolymer(sequence, max_homopolymer):
+    homopolymers = "A{%d,}|C{%d,}|G{%d,}|T{%d,}" % tuple([1 + max_homopolymer] * 4)
+    return False if search(homopolymers, sequence) else True
+
+
+def gc_content(sequence, max_content):
+    return (1 - max_content) <= (float(sequence.count("C") + sequence.count("G")) / float(len(sequence))) <= max_content
+
 
 class AbstractCodingAlgorithm(object):
 
@@ -137,10 +156,9 @@ class Church(AbstractCodingAlgorithm):
 
         for segment_index, bit_segment in enumerate(bit_segments):
             dna_sequence = []
-            print(segment_index,bit_segment)
+            # print(segment_index,bit_segment)
             for bit in bit_segment:
                 options, window = self.carbon_options[bit], dna_sequence[-3:]
-                print(options,window)
 
                 if len(window) == 3 and len(set(window)) == 1:
                     for option in options:
@@ -151,8 +169,7 @@ class Church(AbstractCodingAlgorithm):
                     dna_sequence.append(random.choice(options))
 
             dna_sequences.append(dna_sequence)
-            print(dna_sequence)
-            break
+
 
             if self.need_logs:
                 self.monitor.output(segment_index + 1, len(bit_segments))
@@ -439,37 +456,21 @@ class Grass(AbstractCodingAlgorithm):
             if len(bit_segment) % 16 != 0:
                 raise ValueError("The length of inputted binary segment must be divided by 16!")
 
-            print(bit_segment)
             for position in range(0, len(bit_segment), 16):
-
                 decimal_number = int("".join(list(map(str, bit_segment[position: position + 16]))), 2)
-                print("".join(list(map(str, bit_segment[position: position + 16]))))
-                print(decimal_number)
+
                 rule_indices = []
                 for index in range(3):
                     rule_indices.append(decimal_number % 47)
-                    print('app',decimal_number%47)
-
                     decimal_number -= rule_indices[-1]
-
-                    print(decimal_number)
                     decimal_number /= 47
-                    print('final',decimal_number)
 
-                print(rule_indices)
-                print(rule_indices[::-1])
                 rule_indices = rule_indices[::-1]
-                print(self.mapping_rules[0],self.mapping_rules)
-                print(len(self.mapping_rules[0]),len(self.mapping_rules[1]))
                 for rule_index in rule_indices:
-                    print(dna_sequence)
-                    print(self.mapping_rules[0][self.mapping_rules[1].index(rule_index)])
                     dna_sequence += self.mapping_rules[0][self.mapping_rules[1].index(rule_index)]
-                print(dna_sequence)
 
             dna_sequences.append(dna_sequence)
-            print(len(bit_segment),len(dna_sequence))
-            break
+
             if self.need_logs:
                 self.monitor.output(segment_index + 1, len(bit_segments))
 
@@ -528,7 +529,6 @@ class Blawat(AbstractCodingAlgorithm):
         dna_sequences = []
 
         for segment_index, bit_segment in enumerate(bit_segments):
-            print(bit_segment,len(bit_segment))
             dna_sequence = []
 
             if len(bit_segment) % 8 != 0:
@@ -536,26 +536,15 @@ class Blawat(AbstractCodingAlgorithm):
 
             for position in range(0, len(bit_segment), 8):
                 carbon_piece, silicon_piece = [None] * 5, bit_segment[position: position + 8]
-
-                print(carbon_piece,silicon_piece)
-                # print(zip([0, 2, 4], [0, 1, 3]))
                 for index, carbon_position in zip([0, 2, 4], [0, 1, 3]):
-                    print(index,carbon_position)
-                    print(silicon_piece[index:index+2])
-                    print(self.first_3.index(silicon_piece[index:index+2]))
-                    # index_base = {0: 'A', 1: 'C', 2: 'G', 3: 'T'}
                     carbon_piece[carbon_position] = index_base.get(self.first_3.index(silicon_piece[index: index + 2]))
-                    print(carbon_piece)
-                print(self.last_2.get(str(silicon_piece[6: 8])))
+
                 for last_2_option in self.last_2.get(str(silicon_piece[6: 8])):
                     carbon_piece[2], carbon_piece[4] = last_2_option[0], last_2_option[1]
                     if len(set(carbon_piece[:3])) > 1 and len(set(carbon_piece[3:])) > 1:
                         break
-                print(carbon_piece)
 
                 dna_sequence += carbon_piece
-
-            break
 
             dna_sequences.append(dna_sequence)
 
@@ -660,10 +649,9 @@ class DNAFountain(AbstractCodingAlgorithm):
                                            self.prng,
                                            bit_segments,
                                            self.header_size)
-            print(len(dna_sequence))
 
             # check validity.
-            if screen.check("".join(dna_sequence),
+            if check("".join(dna_sequence),
                             max_homopolymer=self.homopolymer, max_content=0.5 + self.gc_bias):
                 dna_sequences.append(dna_sequence)
                 chuck_recorder.append(droplet.chuck_indices)
@@ -912,8 +900,6 @@ class YinYangCode(AbstractCodingAlgorithm):
             yang_rule = [0, 1, 0, 1]
         if not yin_rule:
             yin_rule = [[1, 1, 0, 0], [1, 0, 0, 1], [1, 1, 0, 0], [1, 1, 0, 0]]
-            # yin_rule = [[1, 1], [1, 0], [1, 1], [1, 1]]
-
 
         self.yang_rule = yang_rule
         self.yin_rule = yin_rule
@@ -921,8 +907,8 @@ class YinYangCode(AbstractCodingAlgorithm):
         self.max_iterations = max_iterations
         self.max_homopolymer = max_homopolymer
         self.max_content = max_content
-        self. max_ratio = max_ratio
-        self.faster = True
+        self.max_ratio = max_ratio
+        self.faster = faster
         self.index_length = 0
         self.total_count = 0
 
@@ -966,8 +952,6 @@ class YinYangCode(AbstractCodingAlgorithm):
                                  + "It is required by rule that these two values will have sum of 1 and product of 0.")
 
     def encode(self, bit_segments):
-        # print(bit_segments)
-        print(len(bit_segments),bin(len(bit_segments)),len(str(bin(len(bit_segments)))))
         self.index_length = int(len(str(bin(len(bit_segments)))) - 2)
         self.total_count = len(bit_segments)
 
@@ -989,12 +973,10 @@ class YinYangCode(AbstractCodingAlgorithm):
 
         bad_data = []
         for row in range(len(bit_segments)):
-            # print(bit_segments[row])
-            # break
             if numpy.sum(bit_segments[row]) > len(bit_segments[row]) * self.max_ratio \
                     or numpy.sum(bit_segments[row]) < len(bit_segments[row]) * (1 - self.max_ratio):
                 bad_data.append(row)
-        print('bad number',len(bad_data))
+
         if len(bit_segments) < len(bad_data) * 5:
             if self.need_logs:
                 print("There may be a large number of sequences that are difficult for synthesis or sequencing. "
@@ -1055,9 +1037,7 @@ class YinYangCode(AbstractCodingAlgorithm):
                 dna_sequence = [[], []]
                 support_nucleotide_1 = self.virtual_nucleotide
                 support_nucleotide_2 = self.virtual_nucleotide
-                # print(fixed_bit_segment, selected_bit_segment)
                 for bit_1, bit_2 in zip(fixed_bit_segment, selected_bit_segment):
-                    # print('there',bit_1,bit_2)
                     current_nucleotide_1 = self._bits_to_nucleotide(bit_1, bit_2, support_nucleotide_1)
                     current_nucleotide_2 = self._bits_to_nucleotide(bit_2, bit_1, support_nucleotide_2)
                     dna_sequence[0].append(current_nucleotide_1)
@@ -1065,8 +1045,7 @@ class YinYangCode(AbstractCodingAlgorithm):
                     support_nucleotide_1 = current_nucleotide_1
                     support_nucleotide_2 = current_nucleotide_2
 
-                # print(dna_sequence[0])
-                if screen.check("".join(dna_sequence[0]),
+                if check("".join(dna_sequence[0]),
                                 max_homopolymer=self.max_homopolymer, max_content=self.max_content):
                     is_finish = True
                     dna_sequences.append(dna_sequence[0])
@@ -1075,7 +1054,7 @@ class YinYangCode(AbstractCodingAlgorithm):
                     else:
                         del good_data[selected_index]
                     break
-                elif screen.check("".join(dna_sequence[1]),
+                elif check("".join(dna_sequence[1]),
                                   max_homopolymer=self.max_homopolymer, max_content=self.max_content):
                     is_finish = True
                     dna_sequences.append(dna_sequence[1])
@@ -1104,7 +1083,6 @@ class YinYangCode(AbstractCodingAlgorithm):
         while len(bit_segments) > 0:
             fixed_bit_segment, is_finish = bit_segments.pop(), False
             for pair_time in range(self.max_iterations):
-                print('part time',pair_time)
                 if len(bit_segments) > 0:
                     selected_index = random.randint(0, len(bit_segments) - 1)
                     selected_bit_segment = bit_segments[selected_index]
@@ -1112,9 +1090,6 @@ class YinYangCode(AbstractCodingAlgorithm):
                     dna_sequence = [[], []]
                     support_nucleotide_1 = self.virtual_nucleotide
                     support_nucleotide_2 = self.virtual_nucleotide
-                    # print(fixed_bit_segment,selected_bit_segment)
-                    # print(len(fixed_bit_segment),len(selected_bit_segment))
-
                     for bit_1, bit_2 in zip(fixed_bit_segment, selected_bit_segment):
                         current_nucleotide_1 = self._bits_to_nucleotide(bit_1, bit_2, support_nucleotide_1)
                         current_nucleotide_2 = self._bits_to_nucleotide(bit_2, bit_1, support_nucleotide_2)
@@ -1123,30 +1098,25 @@ class YinYangCode(AbstractCodingAlgorithm):
                         support_nucleotide_1 = current_nucleotide_1
                         support_nucleotide_2 = current_nucleotide_2
 
-                    if screen.check("".join(dna_sequence[0]),
+                    if check("".join(dna_sequence[0]),
                                     max_homopolymer=self.max_homopolymer, max_content=self.max_content):
                         is_finish = True
-                        print(len(bit_segments))
                         dna_sequences.append(dna_sequence[0])
                         del bit_segments[selected_index]
                         break
-                    elif screen.check("".join(dna_sequence[1]),
+                    elif check("".join(dna_sequence[1]),
                                       max_homopolymer=self.max_homopolymer, max_content=self.max_content):
                         is_finish = True
                         dna_sequences.append(dna_sequence[1])
                         del bit_segments[selected_index]
                         break
-                    print(is_finish)
 
             # additional information
             if not is_finish:
-                print('fiiiii')
                 dna_sequences.append(self.addition(fixed_bit_segment, self.total_count))
-
 
             if self.need_logs:
                 self.monitor.output(self.total_count - len(bit_segments), self.total_count)
-        print(len(dna_sequences))
 
         return dna_sequences
 
@@ -1188,15 +1158,13 @@ class YinYangCode(AbstractCodingAlgorithm):
     def addition(self, fixed_bit_segment, total_count):
         while True:
             # insert at least 2 interval.
-            print(self.index_length,total_count)
             random_index = random.randint(total_count + 3, math.pow(2, self.index_length) - 1)
             random_segment = list(map(int, list(str(bin(random_index))[2:].zfill(self.index_length))))
-            print(random_index,random_segment)
 
             dna_sequence = [[], []]
             support_nucleotide_1 = self.virtual_nucleotide
             support_nucleotide_2 = self.virtual_nucleotide
-            print(len(fixed_bit_segment[: self.index_length]))
+
             for bit_1, bit_2 in zip(fixed_bit_segment[: self.index_length], random_segment):
                 current_nucleotide_1 = self._bits_to_nucleotide(bit_1, bit_2, support_nucleotide_1)
                 current_nucleotide_2 = self._bits_to_nucleotide(bit_2, bit_1, support_nucleotide_2)
@@ -1205,25 +1173,22 @@ class YinYangCode(AbstractCodingAlgorithm):
                 support_nucleotide_1 = current_nucleotide_1
                 support_nucleotide_2 = current_nucleotide_2
 
-            print(len(dna_sequence[0]), len(dna_sequence[1]))
-
             work_flags = [True, True]
             for fixed_bit in fixed_bit_segment[self.index_length:]:
                 current_nucleotide_1, current_nucleotide_2 = None, None
                 for bit in [0, 1]:
                     if work_flags[0] and current_nucleotide_1 is None:
                         current_nucleotide_1 = self._bits_to_nucleotide(fixed_bit, bit, support_nucleotide_1)
-                        if not screen.check("".join(dna_sequence[0]) + current_nucleotide_1,
+                        if not check("".join(dna_sequence[0]) + current_nucleotide_1,
                                             max_homopolymer=self.max_homopolymer,
                                             max_content=self.max_content):
                             current_nucleotide_1 = None
                     if work_flags[1] and current_nucleotide_2 is None:
                         current_nucleotide_2 = self._bits_to_nucleotide(bit, fixed_bit, support_nucleotide_2)
-                        if not screen.check("".join(dna_sequence[1]) + current_nucleotide_2,
+                        if not check("".join(dna_sequence[1]) + current_nucleotide_2,
                                             max_homopolymer=self.max_homopolymer,
                                             max_content=self.max_content):
                             current_nucleotide_2 = None
-
 
                 if current_nucleotide_1 is None:
                     work_flags[0] = False
@@ -1239,24 +1204,17 @@ class YinYangCode(AbstractCodingAlgorithm):
                     dna_sequence[1].append(current_nucleotide_2)
                     support_nucleotide_2 = current_nucleotide_2
 
-            print(dna_sequence)
-
-
             for potential_dna_sequence in dna_sequence:
-                if potential_dna_sequence is not None and screen.check("".join(potential_dna_sequence),
+                if potential_dna_sequence is not None and check("".join(potential_dna_sequence),
                                                                        max_homopolymer=self.max_homopolymer,
                                                                        max_content=self.max_content):
                     return potential_dna_sequence
 
     def _bits_to_nucleotide(self, upper_bit, lower_bit, support_nucleotide):
         current_options = []
-        # print(self.yang_rule,self.yin_rule)
-        # print(support_nucleotide,base_index.get(support_nucleotide))
-        # print(upper_bit,lower_bit)
         for index in range(len(self.yang_rule)):
             if self.yang_rule[index] == upper_bit:
                 current_options.append(index)
-        # print(current_options)
 
         if self.yin_rule[base_index.get(support_nucleotide)][current_options[0]] == lower_bit:
             return index_base[current_options[0]]
