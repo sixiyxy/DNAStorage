@@ -43,3 +43,27 @@ def fasta_to_dna(ori_save_dir):
                     if line[0]!=">":
                         dna.append(line.strip('\n'))
     return dna
+
+def error_density(dnas):
+        dic={}
+        total=0
+        for dna in dnas:
+            for re in dna['re']:
+                n=len(re[1])
+                dic[n]=dic.get(n,0)+re[0]
+                total+=re[0]
+        # for i in dic:
+        #         dic[i] = dic[i] / total
+        #dic = sorted(dic.items(), key=lambda e: e[0])
+        return dic
+
+
+def funcs_parallel(funcs,dna):
+    error_recorders=[]
+    error_density_list=[]
+    for fun in funcs:
+        dna,error_recorder=fun(dna)
+        error_recorders.append(error_recorder)
+        error_density_list.append(error_density(dna))
+
+    return dna,error_recorders,error_density_list

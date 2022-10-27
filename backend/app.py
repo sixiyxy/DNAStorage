@@ -9,7 +9,7 @@ from flask_session import Session
 
 from script.step1_get_file_uid import get_file_uid
 from script.step2_encoding_parallel import Encoding
-from script.step3_simulation_utils import Simulation as Simu
+from script.step3_simulation_utils_parallel import Simulation as Simu
 from script.step4_decode import ClusterDecode
 from script.utils.simulation_utils import is_fasta,fasta_to_dna
 from script.utils.utils_basic import get_config,write_yaml,get_download_path
@@ -161,7 +161,6 @@ def simu_synthesis():
     simulation_key = 'simulation_{}'.format(file_uid)
     session['simulation_key'] = simulation_key
     set_session(simulation_key,now_simu)
-    #simu_synthesis_settings['density']=density
     print("Simulation Synthesis time:"+str(time.time()-t1))
     return json.dumps(simu_synthesis_settings)
 
@@ -198,9 +197,6 @@ def simu_dec():
             simu_dec_settings["density"].append(["syn",i[0],i[1]])
     for j in dec_density:
         simu_dec_settings['density'].append(['dec',j[0],j[1]])
-    # simu_dec_settings["density"]=[]
-    # simu_dec_settings["density"].append(["syn",syn_density])
-    # simu_dec_settings["density"].append(["dec",dec_density])
     print("Simulation Decay time:"+str(time.time()-t1))
 
     return json.dumps(simu_dec_settings)
@@ -297,8 +293,7 @@ def simu_repo():
         return 'session invalid'
     
     simu_repo=now_simu.get_simu_repo()
-
-
+    
     return json.dumps(simu_repo)
     
 @app.route('/decode',methods=['GET','POST'])

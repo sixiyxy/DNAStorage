@@ -60,7 +60,6 @@ class Synthesizer_simu:
     def __call__(self, dnas):
         dnas = self.syn(dnas)
         dnas,error_recorder= self.err(dnas)
-        #print(error_recorder)
         return dnas,error_recorder
 
 class Decayer_simu:
@@ -452,8 +451,6 @@ def genTm(prob):
     return tm
 
 def indexstr(str1,str2):
-    '''查找指定字符串str1包含指定子字符串str2的全部位置，
-    以列表形式返回'''
     lenth2=len(str2)
     lenth1=len(str1)
     indexstr2=[]
