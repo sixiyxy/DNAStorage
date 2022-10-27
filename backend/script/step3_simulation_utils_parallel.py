@@ -82,9 +82,9 @@ class Simulation():
             'synthesis_method_reference':arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=syn_info,appending=True)
-        self.syn_density=self.calculate_density(self.simu_dna)
-        
+        self.syn_density,group=self.calculate_density(self.simu_dna)
         syn_info['syn_density']=self.syn_density
+        syn_info['density_group']=group
         syn_info['error_param']={"sub":arg.syn_sub_prob,"ins":arg.syn_ins_prob,"del":arg.syn_del_prob}
         self.simu_repo["synthesis"]=syn_info
         
@@ -119,11 +119,13 @@ class Simulation():
             "storage_host_parameter_reference":arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=dec_info,appending=True)
-        dec_density=self.calculate_density(self.simu_dna)
+        dec_density,group=self.calculate_density(self.simu_dna)
+        dec_info['dec_density']=dec_density
+        dec_info['dec_group']=group
         dec_info['error_param']={"sub":arg.dec_sub_prob,"ins":arg.dec_ins_prob,"del":arg.dec_del_prob}
         self.simu_repo["decay"]=dec_info
 
-        return dec_info,self.syn_density,dec_density
+        return dec_info
 
     def get_simu_pcr_info(self,
         pcr_cycle,
@@ -145,7 +147,7 @@ class Simulation():
         self.funcs.append(PCR)
         self.funcs_names.append("PCR")
         self.simu_dna,_=PCR(self.simu_dna)
-        density=self.calculate_density(self.simu_dna)
+        density,group=self.calculate_density(self.simu_dna)
 
         pcr_info={
             "pcr_polymerase":pcr_polymerase,
@@ -154,7 +156,8 @@ class Simulation():
             "pcr_method_reference":arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=pcr_info,appending=True)
-        pcr_info["prc_density"]=density
+        pcr_info["pcr_density"]=density
+        pcr_info['pcr_group']=group
         pcr_info['error_param']={"sub":arg.pcr_sub_prob,"ins":arg.pcr_ins_prob,"del":arg.pcr_del_prob}
         self.simu_repo["pcr"]=pcr_info
 
@@ -174,13 +177,14 @@ class Simulation():
         self.funcs.append(Sam)
         self.funcs_names.append("SAM")
         self.simu_dna,_=Sam(self.simu_dna)
-        density=self.calculate_density(self.simu_dna)
+        density,group=self.calculate_density(self.simu_dna)
 
         sam_info={
             "sam_ratio":sam_ratio,
         }
         write_yaml(yaml_path=self.file_info_path,data=sam_info,appending=True)
         sam_info["sam_density"]=density
+        sam_info['sam_group']=group
         self.simu_repo["sample"]=sam_info
 
         return sam_info
@@ -202,7 +206,8 @@ class Simulation():
         self.funcs.append(Seq)
         self.funcs_names.append("SEQ")
         self.simu_dna,_=Seq(self.simu_dna)
-        density=self.calculate_density(self.simu_dna)
+        density,group=self.calculate_density(self.simu_dna)
+        
 
         seq_info={
             "seq_depth":seq_depth,
@@ -211,6 +216,7 @@ class Simulation():
         }
         write_yaml(yaml_path=self.file_info_path,data=seq_info,appending=True)
         seq_info["seq_density"]=density
+        seq_info['seq_group']=group
         seq_info['error_param']={"sub":arg.seq_sub_prob,"ins":arg.seq_ins_prob,"del":arg.seq_del_prob}
         self.simu_repo["sequence"]=seq_info
 
@@ -235,38 +241,60 @@ class Simulation():
         return simu_repo
 
     def calculate_density(self,dnas,layer=False):
-        nums = {}
-        total = 0
+        nums=[]
+        nums_count={}
         for dna in dnas:
             for re in dna['re']:
-                n = re[0]
-                nums[n] = nums.get(n, 0) + 1
-                total += 1
+                nums.append({"value":re[0]})
+                nums_count[re[0]]=nums_count.get(re[0],0)+1
 
-        for i in nums:
-            nums[i] = nums[i] / total
-        
         n_group=10
         while not layer:
-            if len(nums.items())>n_group:
+            if len(nums_count.items())>n_group:
                 layer=True
                 break
             n_group-=1
-        nums = sorted(nums.items(), key=lambda e: e[0])
+        group=math.ceil(len(nums_count.items())/n_group)
+        return nums,group
+        '''
+        # nums = {}
+        # total = 0
+        # for dna in dnas:
+        #     for re in dna['re']:
+        #         n = re[0]
+        #         nums[n] = nums.get(n, 0) + 1
+        #         total += 1
+
+        # for i in nums:
+        #     nums[i] = nums[i] / total
+        
+        # n_group=10
+        # while not layer:
+        #     if len(nums.items())>n_group:
+        #         layer=True
+        #         break
+        #     n_group-=1
+        # nums = sorted(nums.items(), key=lambda e: e[0])
+        # group=int(len(nums)/n_group)
+        # print(nums)
+        # nums_final=[]
+        # for i in nums:
+        #     nums_final.append({'x':i[0],'y':i[1]})
+        # print(nums_final)
+        # print("group",group)
         #print(nums)
         
-        if layer: #分层，针对pcr后等数据多样化的阶段
-            n=len(nums)
-            group=int(n/n_group)
-            b={}
-            for i in range(0,n,group):
-                for j in nums[i:i+group]:
-                    b[str(i)+"-"+str(i+group)]=b.get(str(i)+"-"+str(i+group),0)+j[1]
-            nums=[]
-            for i in b.items():
-                nums.append([i[0],float(i[1])])
-
-        return nums
+        # if layer: #分层，针对pcr后等数据多样化的阶段
+        #     n=len(nums)
+        #     group=int(n/n_group)
+        #     b={}
+        #     for i in range(0,n,group):
+        #         for j in nums[i:i+group]:
+        #             b[str(i)+"-"+str(i+group)]=b.get(str(i)+"-"+str(i+group),0)+j[1]
+        #     nums=[]
+        #     for i in b.items():
+        #         nums.append([i[0],float(i[1])])
+        '''
 
    
     def parallel(self):

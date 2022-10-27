@@ -11,7 +11,7 @@ from script.step1_get_file_uid import get_file_uid
 from script.step2_encoding_parallel import Encoding
 # from script.step2_encoding import Encoding
 
-from script.step3_simulation_utils import Simulation as Simu
+from script.step3_simulation_utils_parallel import Simulation as Simu
 from script.step4_decode import ClusterDecode
 from script.utils.simulation_utils import is_fasta,fasta_to_dna
 from script.utils.utils_basic import get_config,write_yaml,get_download_path
@@ -190,16 +190,11 @@ def simu_dec():
     if now_simu is None:
         return 'session invalid'
 
-    simu_dec_settings,syn_density,dec_density=now_simu.get_simu_dec_info(
+    simu_dec_settings=now_simu.get_simu_dec_info(
         months_of_storage=months_of_storage,
         loss_rate=loss_rate,
         storage_host=storage_host)
-    
-    simu_dec_settings["density"]=[]
-    for i in syn_density:
-            simu_dec_settings["density"].append(["syn",i[0],i[1]])
-    for j in dec_density:
-        simu_dec_settings['density'].append(['dec',j[0],j[1]])
+
     print("Simulation Decay time:"+str(time.time()-t1))
 
     return json.dumps(simu_dec_settings)
