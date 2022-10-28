@@ -311,9 +311,9 @@ class Simulation():
    
     def parallel(self):
         if len(self.simu_dna_ori)<20000:
-            cut=50
+            cut=5
         else:
-            cut=2000
+            cut=50
         print(self.funcs)
         t1 = time.time()
         cut_file_list = self.cut_file(cut)
