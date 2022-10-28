@@ -16,6 +16,7 @@ import { Sampling } from "./Sampling";
 import { Sequencing } from "./Sequencing";
 import { Decode } from "./Decode";
 import { Report } from "./Report";
+import { SimulationSetting } from "./SimulationSetting";
 const { Header, Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -80,7 +81,7 @@ var DNAinfos = {
   encoding_time: 0,
   information_density: 0,
   nucleotide_counts: 0,
-  min_free_energy:0,
+  min_free_energy: 0,
   // min_free_energy_below_30kcal_mol:"0.0%",
 };
 var FileValue = {
@@ -140,32 +141,12 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
         ),
         children: [
           {
-            label: "Synthesis",
+            label: "Setting",
             key: "0-1-0",
           },
           {
-            label: "Decay",
-            key: "0-1-1",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "PCR",
-            key: "0-1-2",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "Sampling",
-            key: "0-1-3",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "Sequencing",
-            key: "0-1-4",
-            disabled: !isSynthesis,
-          },
-          {
             label: "Report",
-            key: "0-1-5",
+            key: "0-1-1",
             disabled: !isSynthesis,
           },
         ],
@@ -290,27 +271,12 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           exam={exam}
         />
       ) : null}
-      {siderSelect[0] === "0-1-0" ? (
-        <Synthesis
-          changeSider={setSiderSelect}
-          fileId={fileId}
-          setIsSynthesis={setIsSynthesis}
-        />
-      ) : null}
+
       {siderSelect[0] === "0-1-1" ? (
-        <Decay changeSider={setSiderSelect} fileId={fileId} />
-      ) : null}
-      {siderSelect[0] === "0-1-2" ? (
-        <Pcr changeSider={setSiderSelect} fileId={fileId} />
-      ) : null}
-      {siderSelect[0] === "0-1-3" ? (
-        <Sampling changeSider={setSiderSelect} fileId={fileId} />
-      ) : null}
-      {siderSelect[0] === "0-1-4" ? (
-        <Sequencing changeSider={setSiderSelect} fileId={fileId} />
-      ) : null}
-      {siderSelect[0] === "0-1-5" ? (
         <SimulationReport changeSider={setSiderSelect} fileId={fileId} />
+      ) : null}
+      {siderSelect[0] === "0-1-0" ? (
+        <SimulationSetting fileId={fileId} />
       ) : null}
       {siderSelect[0] === "0-2" ? <Decode fileId={fileId} /> : null}
     </div>
