@@ -23,7 +23,7 @@ export const Home: React.FC<HomeProps> = (props) => {
 
       <div className="button-container">
         <Button className="home-button" size="large">
-          <Link to="/tutorial">Getting Start</Link>
+          <Link to="/services">Getting Start</Link>
         </Button>
         <Button className="home-button" size="large">
           <Link to="/tutorial">Manual</Link>
