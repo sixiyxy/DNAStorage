@@ -254,7 +254,19 @@ class Simulation():
                 layer=True
                 break
             n_group-=1
-        group=math.ceil(len(nums_count.items())/n_group)
+        nums_count = sorted(nums_count.items(), key=lambda e: e[0])
+        
+        group=int(len(nums_count)/n_group)
+        print(group)
+        if group>10:
+            groups=[]
+            for i in range(0,len(nums_count)//group):
+                groups.append(nums_count[(i+1)*group][0]-nums_count[i*group][0])
+            try:   
+                group=int(sum(groups)/len(groups))
+            except:
+                pass
+
         return nums,group
         '''
         # nums = {}
