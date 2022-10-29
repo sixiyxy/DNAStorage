@@ -1220,3 +1220,71 @@ class YinYangCode(AbstractCodingAlgorithm):
             return index_base[current_options[0]]
         else:
             return index_base[current_options[1]]
+
+
+class SrcCode():
+    def __init__(self,upload_file):
+        self.upload_file = upload_file
+        self.encodetable = SrcCode_rule()
+        self.dna_sequence_length = 180
+
+    def code_num(self,num):
+        unit={0:"AGACCT",1:"TCGAAC",2:"ATCACG",3:"TAGCGA",4:"TAACCG",5:"ACTCTG",6:"ACACAC",7:"CAGACA",8:"ATGAGC",9:"ACTGCA"}
+        decade={0:"AGACCT",1:"TCGAAC",2:"ATCACG",3:"TAGCGA",4:"TAACCG",5:"ACTCTG",6:"ACACAC",7:"CAGACA",8:"ATGAGC",9:"ACTGCA"}
+        hundred={0:"AGACCT",1:"TCGAAC",2:"ATCACG",3:"TAGCGA",4:"TAACCG",5:"ACTCTG",6:"ACACAC",7:"CAGACA",8:"ATGAGC",9:"ACTGCA"}
+        thousand={0:"AGACCT",1:"TCGAAC",2:"ATCACG",3:"TAGCGA",4:"TAACCG",5:"ACTCTG",6:"ACACAC",7:"CAGACA",8:"ATGAGC",9:"ACTGCA"}
+        tenthousand={0:"AGACCT",1:"TCGAAC",2:"ATCACG",3:"TAGCGA",4:"TAACCG",5:"ACTCTG",6:"ACACAC",7:"CAGACA",8:"ATGAGC",9:"ACTGCA"}
+
+        if num>99999:
+            return None
+        tmpstr=""
+        p1=num%10
+        p2=num//10%10
+        p3=num//100%10
+        p4=num//1000%10
+        p5=num//10000%10
+        tmpstr=tenthousand[p5]+thousand[p4]+hundred[p3]+decade[p2]+unit[p1]
+        return tmpstr
+
+    def encodeing(self):
+        contentlines = self.upload_file.read()
+        original_charater_list = []
+        dna_sequences_list = []
+
+        linenumber = 0
+        dna_sequence = ''+self.code_num(linenumber) # first line
+        charater_sequence = ''
+        for ch in contentlines:
+            if ch==' ':#空格
+                dna_sequence+="CGGTAT"
+                charater_sequence += ch
+            elif str.isalpha(ch):#字母字符
+                if str.isupper(ch):#大写字母
+                    dna_sequence+="TGCATA"
+                charater_sequence += ch
+                dna_sequence+=self.encodetable[ch.lower()][1]
+            elif self.encodetable[ch][0]==2:#数字表
+                dna_sequence+="TGCATA"
+                dna_sequence+=self.encodetable[ch][1]
+                charater_sequence += ch
+            else:#符号表
+                dna_sequence+="GTATGA"
+                if ch==")":
+                    ch="("
+                if ch=="}":
+                    ch="{"
+                if ch=="]":
+                    ch="["
+                dna_sequence += self.encodetable[ch][1]
+                charater_sequence = charater_sequence + '/'+ ch
+            if len(dna_sequence)>=self.dna_sequence_length:
+                dna_sequences_list.append(dna_sequence)
+                original_charater_list.append(charater_sequence)
+                linenumber += 1
+                dna_sequence="" + self.code_num(linenumber)
+                charater_sequence=""
+        if len(dna_sequence)<180:
+            dna_sequence+=((180-len(dna_sequence))//6)*"CGGTAT"
+            dna_sequences_list.append(dna_sequence)
+            original_charater_list.append(charater_sequence)
+        return dna_sequences_list,original_charater_list

@@ -9,19 +9,15 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Encode } from "./Encode";
-import { Synthesis } from "./Synthesis";
-import { Decay } from "./Decay";
-import { Pcr } from "./Pcr";
-import { Sampling } from "./Sampling";
-import { Sequencing } from "./Sequencing";
+import { SimulationReport } from "./SimulationReport";
 import { Decode } from "./Decode";
 import { Report } from "./Report";
+import { SimulationSetting } from "./SimulationSetting";
 const { Header, Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
 
 export class ServicesProps {}
 import "./index.less";
-import { SimulationReport } from "./SimulationReport";
 
 const siderLabel = ["Encode Data", "Simulation", "Decode"];
 // function getItem(
@@ -80,7 +76,7 @@ var DNAinfos = {
   encoding_time: 0,
   information_density: 0,
   nucleotide_counts: 0,
-  min_free_energy:0,
+  min_free_energy: 0,
   // min_free_energy_below_30kcal_mol:"0.0%",
 };
 var FileValue = {
@@ -103,8 +99,6 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [fileURL, setFileURL] = useState("");
   const [spinflag, setSpin] = useState(true);
   const [exam, setExam] = useState(false);
-  let url = new URL(window.location.href);
-  const pathname = url?.pathname;
 
   const items1 = useMemo(() => {
     return [
@@ -140,32 +134,12 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
         ),
         children: [
           {
-            label: "Synthesis",
+            label: "Setting",
             key: "0-1-0",
           },
           {
-            label: "Decay",
-            key: "0-1-1",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "PCR",
-            key: "0-1-2",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "Sampling",
-            key: "0-1-3",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "Sequencing",
-            key: "0-1-4",
-            disabled: !isSynthesis,
-          },
-          {
             label: "Report",
-            key: "0-1-5",
+            key: "0-1-1",
             disabled: !isSynthesis,
           },
         ],
@@ -183,46 +157,46 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
     ];
   }, [isSynthesis]);
 
-  const items2 = useMemo(() => {
-    return [
-      {
-        label: "Simulation",
-        key: "0-1",
-        icon: (
-          <i
-            className="iconfont icon-monidanping"
-            style={{ display: "inline" }}
-          ></i>
-        ),
-        children: [
-          {
-            label: "Synthesis",
-            key: "0-1-0",
-          },
-          {
-            label: "Decay",
-            key: "0-1-1",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "PCR",
-            key: "0-1-2",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "Sampling",
-            key: "0-1-3",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "Sequencing",
-            key: "0-1-4",
-            disabled: !isSynthesis,
-          },
-        ],
-      },
-    ];
-  }, [isSynthesis]);
+  // const items2 = useMemo(() => {
+  //   return [
+  //     {
+  //       label: "Simulation",
+  //       key: "0-1",
+  //       icon: (
+  //         <i
+  //           className="iconfont icon-monidanping"
+  //           style={{ display: "inline" }}
+  //         ></i>
+  //       ),
+  //       children: [
+  //         {
+  //           label: "Synthesis",
+  //           key: "0-1-0",
+  //         },
+  //         {
+  //           label: "Decay",
+  //           key: "0-1-1",
+  //           disabled: !isSynthesis,
+  //         },
+  //         {
+  //           label: "PCR",
+  //           key: "0-1-2",
+  //           disabled: !isSynthesis,
+  //         },
+  //         {
+  //           label: "Sampling",
+  //           key: "0-1-3",
+  //           disabled: !isSynthesis,
+  //         },
+  //         {
+  //           label: "Sequencing",
+  //           key: "0-1-4",
+  //           disabled: !isSynthesis,
+  //         },
+  //       ],
+  //     },
+  //   ];
+  // }, [isSynthesis]);
 
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
@@ -230,28 +204,16 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
 
   return (
     <div className="service-content">
-      {pathname === "/services/encode" ? null : pathname ===
-        "/services/simulation" ? (
-        <Menu
-          onClick={onClick}
-          style={{
-            width: 256,
-          }}
-          selectedKeys={siderSelect}
-          mode="inline"
-          items={items2}
-        />
-      ) : (
-        <Menu
-          onClick={onClick}
-          style={{
-            width: 256,
-          }}
-          selectedKeys={siderSelect}
-          mode="inline"
-          items={items1}
-        />
-      )}
+      <Menu
+        onClick={onClick}
+        style={{
+          width: 256,
+        }}
+        selectedKeys={siderSelect}
+        mode="inline"
+        items={items1}
+        defaultOpenKeys={["0-0", "0-1"]}
+      />
 
       {siderSelect[0] === "0-0-0" ? (
         <Encode
@@ -290,27 +252,12 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           exam={exam}
         />
       ) : null}
-      {siderSelect[0] === "0-1-0" ? (
-        <Synthesis
-          changeSider={setSiderSelect}
-          fileId={fileId}
-          setIsSynthesis={setIsSynthesis}
-        />
-      ) : null}
+
       {siderSelect[0] === "0-1-1" ? (
-        <Decay changeSider={setSiderSelect} fileId={fileId} />
-      ) : null}
-      {siderSelect[0] === "0-1-2" ? (
-        <Pcr changeSider={setSiderSelect} fileId={fileId} />
-      ) : null}
-      {siderSelect[0] === "0-1-3" ? (
-        <Sampling changeSider={setSiderSelect} fileId={fileId} />
-      ) : null}
-      {siderSelect[0] === "0-1-4" ? (
-        <Sequencing changeSider={setSiderSelect} fileId={fileId} />
-      ) : null}
-      {siderSelect[0] === "0-1-5" ? (
         <SimulationReport changeSider={setSiderSelect} fileId={fileId} />
+      ) : null}
+      {siderSelect[0] === "0-1-0" ? (
+        <SimulationSetting changeSider={setSiderSelect} fileId={fileId} />
       ) : null}
       {siderSelect[0] === "0-2" ? <Decode fileId={fileId} /> : null}
     </div>

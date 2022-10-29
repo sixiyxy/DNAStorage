@@ -9,11 +9,13 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 
-import { Synthesis } from "./Synthesis";
+import { Synthesis } from "./SimulationSetting/Synthesis";
 import { Decay } from "./Decay";
 import { Pcr } from "./Pcr";
 import { Sampling } from "./Sampling";
 import { Sequencing } from "./Sequencing";
+import { SimulationReport } from "./SimulationReport";
+import { SimulationSetting } from "./SimulationSetting";
 const { Header, Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -41,28 +43,12 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
         ),
         children: [
           {
-            label: "Synthesis",
+            label: "Setting",
             key: "0-1-0",
           },
           {
-            label: "Decay",
+            label: "Report",
             key: "0-1-1",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "PCR",
-            key: "0-1-2",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "Sampling",
-            key: "0-1-3",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "Sequencing",
-            key: "0-1-4",
-            disabled: !isSynthesis,
           },
         ],
       },
@@ -87,25 +73,13 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
       />
 
       {siderSelect[0] === "0-1-0" ? (
-        <Synthesis
+        <SimulationSetting
           changeSider={setSiderSelect}
-          setFileId={setFileId}
           fileId={fileId}
-          setIsSynthesis={setIsSynthesis}
+          setFileId={setFileId}
         />
       ) : null}
-      {siderSelect[0] === "0-1-1" ? (
-        <Decay changeSider={setSiderSelect} fileId={fileId} />
-      ) : null}
-      {siderSelect[0] === "0-1-2" ? (
-        <Pcr changeSider={setSiderSelect} fileId={fileId} />
-      ) : null}
-      {siderSelect[0] === "0-1-3" ? (
-        <Sampling changeSider={setSiderSelect} fileId={fileId} />
-      ) : null}
-      {siderSelect[0] === "0-1-4" ? (
-        <Sequencing changeSider={setSiderSelect} fileId={fileId} />
-      ) : null}
+      {siderSelect[0] === "0-1-1" ? <SimulationReport fileId={fileId} /> : null}
     </div>
   );
 };
