@@ -41,7 +41,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alreadyRun, setAlreadyRun] = useState(false);
-  const [group, setgroup] = useState();
+  const [group, setGroup] = useState();
 
   //处理函数
   const cycleChange = (value: number) => {
@@ -81,7 +81,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       .post("http://localhost:5000/simu_synthesis", params)
       .then(function (response) {
         console.log("synthesis response", response);
-        setgroup(response?.data?.density_group);
+        setGroup(response?.data?.density_group);
         setData(response?.data?.syn_density);
         setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
