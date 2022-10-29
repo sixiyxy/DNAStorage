@@ -1,0 +1,9 @@
+file_name: 1583999211878354944.fasta
+file_rename: 1585619588039708672.fasta
+file_uid: '1585619588039708672'
+upload: true
+synthesis_method: ErrASE
+synthesis_method_reference:
+- https://doi.org/10.1371/journal.pone.0115950
+synthesis_number: 30
+synthesis_yield: 0.99

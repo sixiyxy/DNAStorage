@@ -1,4 +1,5 @@
 import itertools
+import re
 import numpy
 from .utils_basic import Monitor
 
@@ -50,6 +51,84 @@ gc_codes = ['AAC', 'AAG', 'AAT', 'ACA', 'ACG', 'ACT', 'AGA', 'AGC', 'AGT', 'ATA'
             'CAC', 'CAG', 'CAT', 'CCA', 'CCG', 'CCT', 'CGA', 'CGC', 'CGT', 'CTA', 'CTC', 'CTG',
             'GAC', 'GAG', 'GAT', 'GCA', 'GCG', 'GCT', 'GGA', 'GGC', 'GGT', 'GTA', 'GTC', 'GTG',
             'TAC', 'TAG', 'TAT', 'TCA', 'TCG', 'TCT', 'TGA', 'TGC', 'TGT', 'TTA', 'TTC', 'TTG']
+
+########################### SrcCode ###################################################################################
+#纠错表，字母纠错表
+columA={"TAACCG":(True,'a'),"TAAGGC":(True,'b')}
+columB={"ATCACG":(True,'c'),"ATGAGC":(True,'d')}
+columC={"ATGGAG":(True,'e'),"TACCAC":(True,'f')}
+columD={"ATCCGT":(True,'g'),"ATGCCA":(True,'h'),"TAGCGA":(True,'i'),"TAGGCT":(True,'j')}
+columE={"ACATCG":(True,'k'),"ACTTGC":(True,'l'),"TCTACG":(True,'m')}
+columF={"ACACAC":(True,'n'),"ACTCTG":(True,'o'),"TCAGAG":(True,'p')}
+columG={"ACAGGT":(True,'q'),"ACTGCA":(True,'r'),"AGACCT":(True,'s'),"TCTCGT":(True,'t')}
+columH={"TCGAAC":(True,'u')}
+columI={"ACGACT":(True,'v')}
+columJ={"CATTCG":(True,'w')}
+columK={"CTACAG":(True,'x')}
+columL={"CAACGT":(True,'y')}
+columM={"CAGACA":(True,'z')}
+
+
+eMapDic={"000111":columA,"001011":columB,"001101":columC,"001110":columD,"010011":columE,"010101":columF,
+         "010110":columG,"011001":columH,"011010":columI,"100011":columJ,"100101":columK,"100110":columL,
+         "101010":columM}
+
+#纠错表，数字纠错表
+dcolumA={"TAACCG":(True,'0'),"TAAGGC":(True,'1')}
+dcolumB={"ATCACG":(True,'2'),"ATGAGC":(True,'3')}
+dcolumC={"ATGGAG":(True,'4'),"TACCAC":(True,'5')}
+dcolumD={"ATCCGT":(True,'6'),"ATGCCA":(True,'7'),"TAGCGA":(True,'8'),"TAGGCT":(True,'9')}
+dcolumE={}
+dcolumF={}
+dcolumG={}
+dcolumH={}
+dcolumI={}
+dcolumJ={}
+dcolumK={}
+dcolumL={}
+dcolumM={}
+dMapDic={"000111":dcolumA,"001011":dcolumB,"001101":dcolumC,"001110":dcolumD,"010011":dcolumE,"010101":dcolumF,
+         "010110":dcolumG,"011001":dcolumH,"011010":dcolumI,"100011":dcolumJ,"100101":dcolumK,"100110":dcolumL,
+         "101010":dcolumM}
+
+
+scolumA={"TAACCG":(True,'@'),"TAAGGC":(True,'￥')}
+scolumB={"ATCACG":(True,'$'),"ATGAGC":(True,',')}
+scolumC={"ATGGAG":(True,'*'),"TACCAC":(True,'/')}
+scolumD={"ATCCGT":(True,'('),"ATGCCA":(True,':'),"TAGCGA":(True,'\''),"TAGGCT":(True,'[')}
+scolumE={"ACATCG":(True,';'),"ACTTGC":(True,'.'),"TCTACG":(True,'\n')}
+scolumF={"ACTCTG":(True,'\"'),"TCAGAG":(True,'%')}
+scolumG={"ACAGGT":(True,'{'),"ACTGCA":(True,'~'),"AGACCT":(True,'+'),"TCTCGT":(True,'-')}
+scolumH={"TCGAAC":(True,'?')}
+scolumI={"ACGACT":(True,'!')}
+scolumJ={"CATTCG":(True,'&')}
+scolumK={"CTACAG":(True,'=')}
+scolumL={"CAACGT":(True,'_')}
+scolumM={"CAGACA":(True,'#')}
+
+sMapDic={"000111":scolumA,"001011":scolumB,"001101":scolumC,"001110":scolumD,"010011":scolumE,"010101":scolumF,
+         "010110":scolumG,"011001":scolumH,"011010":scolumI,"100011":scolumJ,"100101":scolumK,"100110":scolumL,
+         "101010":scolumM}
+########################### SrcCode ###################################################################################
+
+def SrcCode_rule():
+    encodetable={}
+    for mt in sMapDic:
+        for ycontent in sMapDic[mt]:
+            encodetable[sMapDic[mt][ycontent][1]]=(3,ycontent) #符号表
+    for mt in dMapDic:
+        for ycontent in dMapDic[mt]:
+            encodetable[dMapDic[mt][ycontent][1]]=(2,ycontent) #数字表
+    for mt in eMapDic:
+        for ycontent in eMapDic[mt]:
+            encodetable[eMapDic[mt][ycontent][1]]=(1,ycontent) #字母表
+
+    label_dic = {"space_label": "CGGTAT","up_letter_label": "TGCATA",
+                "number_label" : "TGCATA","symbol_label": "GTATGA"}
+
+    return encodetable
+
+
 
 
 def get_yyc_rule_by_index(index, need_logs=False):

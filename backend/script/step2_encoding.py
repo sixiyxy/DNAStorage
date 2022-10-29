@@ -5,9 +5,9 @@ import pandas as pd
 import numpy as np
 from numpy import fromfile, array, uint8
 
-from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from .utils.verify_methods import Hamming,ReedSolomon
-from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
+from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+from utils.verify_methods import Hamming,ReedSolomon
+from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode,SrcCode
 
 verify_methods = {
     "WithoutVerifycode":False,
@@ -23,11 +23,7 @@ encoding_methods = {
     "DNA_Fountain":DNAFountain(need_logs=True),
     "Yin_Yang":YinYangCode(need_logs=True)}
 
-    # {"file_uid":1565237658387615744,
-    # "segment_length":160,
-    # "index_length":20,
-    # "verify_method":"Hamming",
-    # "encode_method":"Basic"}
+
 
 def join_list(l):
     return [''.join(map(str,i)) for i in l]
@@ -141,7 +137,6 @@ class Encoding():
     def bit_to_dna(self): 
         start_time = datetime.now()
         original_bit_segments,record_index,connected_bit_segments,final_bit_segments = self.verify_code()
-        print(connected_bit_segments)
         encode_method = encoding_methods[self.encode_method]
         dna_sequences = encode_method.encode(final_bit_segments)
         print('Encode bit segments to DNA sequences by coding scheme.\n')
@@ -168,6 +163,7 @@ class Encoding():
                     "encoding_time":run_time,
                     "information_density":information_density,
                     "net_information_density":net_information_density}
+
 
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         write_dna_file(path=self.dna_file,demo_path=self.dna_demo_file,dna_sequences=dna_sequences)
@@ -253,15 +249,44 @@ class Encoding():
         f.close()
         
         return record_info,original_bit_segments
+    
+    def encoding(self):
+        if self.encode_method in encoding_methods:
+            record_info,original_bit_segments = self.bit_to_dna()
+        elif self.encode_method == 'SrcCode':
+            print(self.file_path)
+            upload_file = open(self.file_path,"r",encoding='UTF-8')
+            dna_file = open(self.dna_file,'w',encoding="UTF-8")
+            encode_class = SrcCode(upload_file=upload_file)
+            dna_sequences,original_chracter_segments = encode_class.encodeing()
+            print(dna_sequences)
+            print(original_chracter_segments)
+            print([len(i) for i in dna_sequences])
+            print(len(dna_sequences),len(original_chracter_segments))
+
+            os.path.getsize(save_dir)
+
+        elif self.encode_method == 'xx':
+            pass
+        else:
+            return 'wrong encoding method!'
 
 
 if __name__ == '__main__':
-    obj = Encoding(file_uid=1565536927137009664,
-    encode_method='Basic',
+    # obj = Encoding(file_uid=1565536927137009664,
+    # encode_method='Basic',
+    #               segment_length=160,
+    #               index_length=20,
+    #               verify_method='Hamming')
+    # # obj.connet_index()
+    # # obj.verify_code()
+    # record_info,bit_segments = obj.bit_to_dna()
+    # # print(dna_sequences)
+
+    
+    obj = Encoding(file_uid=1585911198753361920,
+                    encode_method='SrcCode',
                   segment_length=160,
                   index_length=20,
                   verify_method='Hamming')
-    # obj.connet_index()
-    # obj.verify_code()
-    record_info,bit_segments = obj.bit_to_dna()
-    # print(dna_sequences)
+    obj.encoding()
