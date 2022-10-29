@@ -207,17 +207,22 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
               margin: "20px 0",
             }}
           >
-            <Button size="large" style={{ width: 100 }} onClick={handleOk}>
+            <Button
+              size="large"
+              style={{ width: 100 }}
+              onClick={handleOk}
+              disabled={alreadyRun}
+            >
               OK
             </Button>
-            <Button
+            {/* <Button
               size="large"
               style={{ width: 100 }}
               onClick={showModal}
               disabled={alreadyRun}
             >
               Skip
-            </Button>
+            </Button> */}
             <Button size="large" style={{ width: 100 }} onClick={handleReset}>
               Reset
             </Button>

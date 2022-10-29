@@ -88,9 +88,9 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       });
     // props.setIsSynthesis(true);
   };
-  const handleContinue = () => {
-    props.changeSider(["0-1-1"]);
-  };
+  // const handleContinue = () => {
+  //   props.changeSider(["0-1-1"]);
+  // };
 
   const methodLink = useMemo(() => {
     return hrefLink?.map((link, index) => {
@@ -281,17 +281,22 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
               margin: "20px 0",
             }}
           >
-            <Button size="large" style={{ width: 100 }} onClick={handleOk}>
+            <Button
+              size="large"
+              style={{ width: 100 }}
+              onClick={handleOk}
+              disabled={alreadyRun}
+            >
               OK
             </Button>
-            <Button
+            {/* <Button
               size="large"
               style={{ width: 100 }}
               onClick={showModal}
               disabled={alreadyRun}
             >
               Skip
-            </Button>
+            </Button> */}
             <Button size="large" style={{ width: 100 }} onClick={handleReset}>
               Reset
             </Button>

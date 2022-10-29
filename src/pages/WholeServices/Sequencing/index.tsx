@@ -35,6 +35,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
   const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [group, setGroup] = useState();
+  const [alreadyRun, setAlreadyRun] = useState(false);
 
   const methodLink = useMemo(() => {
     return hrefLink?.map((link, index) => {
@@ -75,6 +76,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
   const handleOk = () => {
     setLoading(true);
     setNoDataTipsShow(false);
+    setAlreadyRun(true);
     axios
       .post("http://localhost:5000/simu_seq", params)
       .then(function (response) {
@@ -244,12 +246,17 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
               margin: "20px 0",
             }}
           >
-            <Button size="large" style={{ width: 100 }} onClick={handleOk}>
+            <Button
+              size="large"
+              style={{ width: 100 }}
+              onClick={handleOk}
+              disabled={alreadyRun}
+            >
               OK
             </Button>
-            <Button size="large" style={{ width: 100 }} onClick={showModal}>
+            {/* <Button size="large" style={{ width: 100 }} onClick={showModal}>
               Skip
-            </Button>
+            </Button> */}
             <Button size="large" style={{ width: 100 }} onClick={handleReset}>
               Reset
             </Button>

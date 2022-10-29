@@ -838,6 +838,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       <Card style={{ width: 800, height: 300 }}>
         <Scatter {...scatterConfig} />
       </Card>
+      <Button>Download</Button>
       {/* <Card style={{ width: 800, height: 500 }}></Card> */}
     </div>
   );

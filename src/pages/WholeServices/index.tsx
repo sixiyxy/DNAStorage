@@ -276,7 +276,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
         <SimulationReport changeSider={setSiderSelect} fileId={fileId} />
       ) : null}
       {siderSelect[0] === "0-1-0" ? (
-        <SimulationSetting fileId={fileId} />
+        <SimulationSetting changeSider={setSiderSelect} fileId={fileId} />
       ) : null}
       {siderSelect[0] === "0-2" ? <Decode fileId={fileId} /> : null}
     </div>

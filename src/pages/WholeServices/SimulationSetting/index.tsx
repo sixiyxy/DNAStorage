@@ -42,6 +42,9 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const handleReset = () => {
     setAlreadyChose(false);
   };
+  const handleReport = () => {
+    props.changeSider(["0-1-1"]);
+  };
   return (
     <div>
       <Card>
@@ -74,6 +77,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       {method.indexOf("sequencing") !== -1 ? (
         <Sequencing fileId={props.fileId} />
       ) : null}
+      <Button onClick={handleReport}>Report</Button>
     </div>
   );
 };

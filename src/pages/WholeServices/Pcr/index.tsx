@@ -61,9 +61,9 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   const skipDecay = function () {
     props.changeSider(["0-1-3"]);
   };
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  // const showModal = () => {
+  //   setIsModalOpen(true);
+  // };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -83,9 +83,9 @@ export const Pcr: React.FC<PcrProps> = (props) => {
         setLoading(false);
       });
   };
-  const handleContinue = () => {
-    props.changeSider(["0-1-3"]);
-  };
+  // const handleContinue = () => {
+  //   props.changeSider(["0-1-3"]);
+  // };
 
   const methodLink = useMemo(() => {
     return hrefLink?.map((link, index) => {
@@ -278,17 +278,22 @@ export const Pcr: React.FC<PcrProps> = (props) => {
               margin: "20px 0",
             }}
           >
-            <Button size="large" style={{ width: 100 }} onClick={handleOk}>
+            <Button
+              size="large"
+              style={{ width: 100 }}
+              onClick={handleOk}
+              disabled={alreadyRun}
+            >
               OK
             </Button>
-            <Button
+            {/* <Button
               size="large"
               style={{ width: 100 }}
               onClick={showModal}
               disabled={alreadyRun}
             >
               Skip
-            </Button>
+            </Button> */}
             <Button size="large" style={{ width: 100 }} onClick={handleReset}>
               Reset
             </Button>
