@@ -6,6 +6,7 @@ import {
   Col,
   Empty,
   InputNumber,
+  message,
   Modal,
   Row,
   Select,
@@ -15,11 +16,11 @@ import {
 } from "antd";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
-import { Synthesis } from "../Synthesis";
-import { Decay } from "../Decay";
-import { Pcr } from "../Pcr";
-import { Sampling } from "../Sampling";
-import { Sequencing } from "../Sequencing";
+import { Synthesis } from "./Synthesis";
+import { Decay } from "./Decay";
+import { Pcr } from "./Pcr";
+import { Sampling } from "./Sampling";
+import { Sequencing } from "./Sequencing";
 const { Option } = Select;
 
 import axios from "axios";
@@ -27,7 +28,7 @@ import axios from "axios";
 export class SimulationSetProps {
   changeSider;
   fileId;
-  setIsSynthesis;
+  // setIsSynthesis;
 }
 
 export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {

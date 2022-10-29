@@ -9,11 +9,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Encode } from "./Encode";
-import { Synthesis } from "./Synthesis";
-import { Decay } from "./Decay";
-import { Pcr } from "./Pcr";
-import { Sampling } from "./Sampling";
-import { Sequencing } from "./Sequencing";
+import { SimulationReport } from "./SimulationReport";
 import { Decode } from "./Decode";
 import { Report } from "./Report";
 import { SimulationSetting } from "./SimulationSetting";
@@ -22,7 +18,6 @@ type MenuItem = Required<MenuProps>["items"][number];
 
 export class ServicesProps {}
 import "./index.less";
-import { SimulationReport } from "./SimulationReport";
 
 const siderLabel = ["Encode Data", "Simulation", "Decode"];
 // function getItem(
@@ -104,8 +99,6 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [fileURL, setFileURL] = useState("");
   const [spinflag, setSpin] = useState(true);
   const [exam, setExam] = useState(false);
-  let url = new URL(window.location.href);
-  const pathname = url?.pathname;
 
   const items1 = useMemo(() => {
     return [
@@ -164,46 +157,46 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
     ];
   }, [isSynthesis]);
 
-  const items2 = useMemo(() => {
-    return [
-      {
-        label: "Simulation",
-        key: "0-1",
-        icon: (
-          <i
-            className="iconfont icon-monidanping"
-            style={{ display: "inline" }}
-          ></i>
-        ),
-        children: [
-          {
-            label: "Synthesis",
-            key: "0-1-0",
-          },
-          {
-            label: "Decay",
-            key: "0-1-1",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "PCR",
-            key: "0-1-2",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "Sampling",
-            key: "0-1-3",
-            disabled: !isSynthesis,
-          },
-          {
-            label: "Sequencing",
-            key: "0-1-4",
-            disabled: !isSynthesis,
-          },
-        ],
-      },
-    ];
-  }, [isSynthesis]);
+  // const items2 = useMemo(() => {
+  //   return [
+  //     {
+  //       label: "Simulation",
+  //       key: "0-1",
+  //       icon: (
+  //         <i
+  //           className="iconfont icon-monidanping"
+  //           style={{ display: "inline" }}
+  //         ></i>
+  //       ),
+  //       children: [
+  //         {
+  //           label: "Synthesis",
+  //           key: "0-1-0",
+  //         },
+  //         {
+  //           label: "Decay",
+  //           key: "0-1-1",
+  //           disabled: !isSynthesis,
+  //         },
+  //         {
+  //           label: "PCR",
+  //           key: "0-1-2",
+  //           disabled: !isSynthesis,
+  //         },
+  //         {
+  //           label: "Sampling",
+  //           key: "0-1-3",
+  //           disabled: !isSynthesis,
+  //         },
+  //         {
+  //           label: "Sequencing",
+  //           key: "0-1-4",
+  //           disabled: !isSynthesis,
+  //         },
+  //       ],
+  //     },
+  //   ];
+  // }, [isSynthesis]);
 
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
@@ -211,28 +204,16 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
 
   return (
     <div className="service-content">
-      {pathname === "/services/encode" ? null : pathname ===
-        "/services/simulation" ? (
-        <Menu
-          onClick={onClick}
-          style={{
-            width: 256,
-          }}
-          selectedKeys={siderSelect}
-          mode="inline"
-          items={items2}
-        />
-      ) : (
-        <Menu
-          onClick={onClick}
-          style={{
-            width: 256,
-          }}
-          selectedKeys={siderSelect}
-          mode="inline"
-          items={items1}
-        />
-      )}
+      <Menu
+        onClick={onClick}
+        style={{
+          width: 256,
+        }}
+        selectedKeys={siderSelect}
+        mode="inline"
+        items={items1}
+        defaultOpenKeys={["0-0", "0-1"]}
+      />
 
       {siderSelect[0] === "0-0-0" ? (
         <Encode

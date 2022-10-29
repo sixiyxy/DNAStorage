@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 
-import { Synthesis } from "./Synthesis";
+import { Synthesis } from "./SimulationSetting/Synthesis";
 import { Decay } from "./Decay";
 import { Pcr } from "./Pcr";
 import { Sampling } from "./Sampling";
