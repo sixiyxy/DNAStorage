@@ -6,6 +6,7 @@ import {
   Col,
   Empty,
   InputNumber,
+  message,
   Modal,
   Row,
   Select,
@@ -35,6 +36,10 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [method, setMethod] = useState(["synthesis"]);
   const [alreadyChose, setAlreadyChose] = useState(false);
   const handleChange = (value) => {
+    if (value.indexOf("synthesis") === -1) {
+      value.unshift("synthesis");
+      message.error("synthesis is a required step");
+    }
     setMethod(value);
   };
   const handleOk = () => {
