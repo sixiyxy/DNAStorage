@@ -33,7 +33,7 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
               className="iconfont icon-home_light"
               style={{ color: "white", display: "inline", margin: "0 3px" }}
             ></i>
-            <Link to="/">Home</Link>
+            <Link to="/home">Home</Link>
           </MenuItem>
 
           <MenuItem key="services">

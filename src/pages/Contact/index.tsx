@@ -15,7 +15,7 @@ export const Contact: React.FC<ContactProps> = (props) => {
           <div style={{paddingTop:"30px"}}>
             <Breadcrumb separator=">">
                   <Breadcrumb.Item>
-                    <a href="/">Home</a>
+                    <a href="/home">Home</a>
                   </Breadcrumb.Item>
                   <Breadcrumb.Item>Contact</Breadcrumb.Item>
               </Breadcrumb>

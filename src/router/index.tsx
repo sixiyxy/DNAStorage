@@ -11,14 +11,15 @@ import { ServiceChose } from "../pages/ServiceChose";
 import { EncodeServices } from "../pages/EncodeServices";
 import { SimulationServices } from "../pages/SimulationServices";
 export const router: RouteObject[] = [
-  {
-    path: "/",
-    element: <Home />,
-  },
+  // {
+  //   path: "/",
+  //   element: <Home />,
+  // },
   {
     path: "/",
     element: <BasicLayout />,
     children: [
+      { path: "/home", element: <Home /> },
       { path: "/publications", element: <Publications /> },
       { path: "/resources", element: <Resources /> },
       { path: "/services", element: <ServiceChose /> },
