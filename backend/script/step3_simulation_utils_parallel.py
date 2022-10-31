@@ -228,8 +228,8 @@ class Simulation():
         simu_repo["Error_Recorder"]=error_recorder
         simu_repo["Error_Density"]=error_density_final
         simulation_result_dir=os.path.join(self.backend_dir+'/'+str(self.simulation_dir)+'/')
-        with open(simulation_result_dir+str(self.file_uid)+".fasta",'w+') as f:
-            with open(simulation_result_dir+str(self.file_uid)+'_info.txt','w+') as f2:
+        with open(simulation_result_dir+str(self.file_uid)+".fasta",'w') as f:
+            with open(simulation_result_dir+str(self.file_uid)+'_info.txt','w') as f2:
                 index=0
                 for dna in dnas:
                     for re in dna['re']:
