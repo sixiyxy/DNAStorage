@@ -232,7 +232,6 @@ class Simulation():
             with open(simulation_result_dir+str(self.file_uid)+'_info.txt','w+') as f2:
                 index=0
                 for dna in dnas:
-                    print(dna)
                     for re in dna['re']:
                         for i in range(re[0]): 
                             f.write('>'+str(index)+"\n") #index | errors
