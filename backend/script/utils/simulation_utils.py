@@ -35,7 +35,6 @@ def is_fasta(filename):
         return any(fasta)  # False when `fasta` is empty, i.e. wasn't a FASTA file
 
 def fasta_to_dna(ori_save_dir):
-
     with open (ori_save_dir) as f:
                 dna=[]
                 for line in f:
