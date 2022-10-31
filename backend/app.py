@@ -104,20 +104,23 @@ def dna_upload():
     
     try:
         flag=is_fasta(ori_save_dir)
+        print(flag)
     except:
         os.remove(ori_save_dir)
         return "Invalid"
+    if flag:
+        file_basic_info={
+            "file_uid":file_uid,
+            "file_name":filename,
+            "file_rename":file_rename,
+            'upload':True
+            }
+        yaml_file='{}/upload_dna/{}.yaml'.format(backend_dir,file_uid)
+        write_yaml(yaml_path=yaml_file,data=file_basic_info,appending=False)
 
-    file_basic_info={
-        "file_uid":file_uid,
-        "file_name":filename,
-        "file_rename":file_rename,
-        'upload':True
-        }
-    yaml_file='{}/upload_dna/{}.yaml'.format(backend_dir,file_uid)
-    write_yaml(yaml_path=yaml_file,data=file_basic_info,appending=False)
-
-    return json.dumps(file_basic_info)
+        return json.dumps(file_basic_info)
+    else:
+        return "Invalid"
 
 #now_simu=Simu()
 @app.route('/simu_synthesis',methods=['GET','POST'])
