@@ -12,7 +12,7 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     <Layout className="layout">
       <Header>
         <Menu theme="dark" mode="horizontal" className="header-menu">
-          <Link to="/">
+          <Link to="/home">
             <div
               style={{
                 color: "white",

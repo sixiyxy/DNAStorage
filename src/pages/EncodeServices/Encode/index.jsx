@@ -89,7 +89,7 @@ export const Encode = (props) => {
       <div style={{ paddingLeft: "100px", paddingTop: "20px" }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
-            <a href="/">Home</a>
+            <a href="/home">Home</a>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
             <a href="/Services">Service</a>
