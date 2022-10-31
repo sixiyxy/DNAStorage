@@ -227,16 +227,18 @@ class Simulation():
         dnas,error_recorder,error_density_final=self.parallel()
         simu_repo["Error_Recorder"]=error_recorder
         simu_repo["Error_Density"]=error_density_final
-        simulation_result_dir=os.path.join(self.backend_dir+'/'+str(self.simulation_dir)+'/'+str(self.file_uid)+".fasta")
-        with open(simulation_result_dir,'w+') as f:
-            index=0
-            for dna in dnas:
-                print(dna)
-                for re in dna['re']:
-                    for i in range(re[0]): 
-                        f.write('>'+str(index)+'|'+str(re[1])+"\n") #index | errors
-                        index+=1
-                        f.write(str(re[2])+"\n") # dna sequence
+        simulation_result_dir=os.path.join(self.backend_dir+'/'+str(self.simulation_dir)+'/')
+        with open(simulation_result_dir+str(self.file_uid)+".fasta",'w+') as f:
+            with open(simulation_result_dir+str(self.file_uid)+'_info.txt','w+') as f2:
+                index=0
+                for dna in dnas:
+                    print(dna)
+                    for re in dna['re']:
+                        for i in range(re[0]): 
+                            f.write('>'+str(index)+"\n") #index | errors
+                            f2.write('>'+str(index)+"|"+str(re[1])+"\n")
+                            index+=1
+                            f.write(str(re[2])+"\n") # dna sequence
 
         return simu_repo
 
@@ -385,7 +387,7 @@ if __name__ == "__main__":
         simu.get_simu_sam_info(0.005)
         simu.get_simu_seq_info(15,"ill_PairedEnd")
         print("Normal:", time.time() - t1)
-        simu.parallel_test()
+        #simu.parallel_test()
     # dic={}
     # for dna in simu.simu_dna:
     #     for re in dna['re']:
