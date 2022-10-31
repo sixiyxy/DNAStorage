@@ -227,11 +227,11 @@ class Simulation():
         dnas,error_recorder,error_density_final=self.parallel()
         simu_repo["Error_Recorder"]=error_recorder
         simu_repo["Error_Density"]=error_density_final
-
         simulation_result_dir=os.path.join(self.backend_dir+'/'+str(self.simulation_dir)+'/'+str(self.file_uid)+".fasta")
         with open(simulation_result_dir,'w+') as f:
             index=0
             for dna in dnas:
+                print(dna)
                 for re in dna['re']:
                     for i in range(re[0]): 
                         f.write('>'+str(index)+'|'+str(re[1])+"\n") #index | errors
@@ -326,7 +326,8 @@ class Simulation():
                 error_recorder=[{'+':0,"-":0,"s":0,"e":0,"n":0} for i in range(len(self.funcs))]
                 error_density=[{} for i in range(len(self.funcs))]
                 for index,i in enumerate (r):
-                    dnas.append(i[0])
+                    for j in i[0]:
+                        dnas.append(j)
                     for index_1 in range (len((i[1]))):
                         x,y=Counter(i[1][index_1]),Counter(error_recorder[index_1])
                         error_recorder[index_1]=dict(x+y)

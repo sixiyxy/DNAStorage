@@ -21,7 +21,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           <div>
             <Breadcrumb separator=">">
                   <Breadcrumb.Item>
-                    <a href="/">Home</a>
+                    <a href="/home">Home</a>
                   </Breadcrumb.Item>
                   <Breadcrumb.Item>Methods</Breadcrumb.Item>
               </Breadcrumb>
