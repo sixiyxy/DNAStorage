@@ -1288,3 +1288,6 @@ class SrcCode():
             dna_sequences_list.append(dna_sequence)
             original_charater_list.append(charater_sequence)
         return dna_sequences_list,original_charater_list
+    
+    def decoding(self):
+        

@@ -8,8 +8,8 @@ from flask_cors import CORS
 from flask_session import Session
 
 from script.step1_get_file_uid import get_file_uid
-# from script.step2_encoding_parallel import Encoding
-from script.step2_encoding import Encoding
+from script.step2_encoding_parallel import Encoding
+# from script.step2_encoding import Encoding
 
 from script.step3_simulation_utils_parallel import Simulation as Simu
 from script.step4_decode import ClusterDecode
