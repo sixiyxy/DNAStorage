@@ -77,11 +77,11 @@ def file_encode():
                   index_length=index_length,
                   verify_method=verify_method)
                   
-    # encode_info,encode_bits = obj.parallel_run()
-    encode_info,encode_bits = obj.bit_to_dna()
-    encode_key = 'encode_{}'.format(file_uid)
-    session['encode_key'] = encode_key
-    set_session(encode_key,encode_bits)
+    encode_info= obj.parallel_run()
+    # encode_info,encode_bits = obj.bit_to_dna()
+    # encode_key = 'encode_{}'.format(file_uid)
+    # session['encode_key'] = encode_key
+    # set_session(encode_key,encode_bits)
 
     return json.dumps(encode_info)
 
