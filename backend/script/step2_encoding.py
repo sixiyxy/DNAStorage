@@ -5,9 +5,9 @@ import pandas as pd
 import numpy as np
 from numpy import fromfile, array, uint8
 
-from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from utils.verify_methods import Hamming,ReedSolomon
-from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode,SrcCode
+from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+from .utils.verify_methods import Hamming,ReedSolomon
+from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode,SrcCode
 
 verify_methods = {
     "WithoutVerifycode":False,

@@ -1290,4 +1290,4 @@ class SrcCode():
         return dna_sequences_list,original_charater_list
     
     def decoding(self):
-        
+        pass

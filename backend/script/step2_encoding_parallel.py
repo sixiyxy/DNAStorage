@@ -6,13 +6,12 @@ from typing import final
 import pandas as pd
 import numpy as np
 from multiprocessing import Pool
-from tqdm import tqdm
 from numpy import fromfile, array, uint8
 
-from utils.utils_basic import get_config,write_yaml,write_dna_file
-from utils.verify_methods import Hamming,ReedSolomon
-from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode,SrcCode
-from utils.encode_utils import cut_file, gc_homo,download_normal,download_txt,add_min_free_energydata
+from .utils.utils_basic import get_config,write_yaml,write_dna_file
+from .utils.verify_methods import Hamming,ReedSolomon
+from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode,SrcCode
+from .utils.encode_utils import cut_file, gc_homo,download_normal,download_txt,add_min_free_energydata
 
 verify_methods = {
     "WithoutVerifycode":False,
@@ -244,9 +243,12 @@ class Encoding():
             dna_file = open(self.dna_file,'w',encoding="UTF-8")
             encode_class = SrcCode(upload_file=upload_file)
             dna_sequences,original_chracter_segments = encode_class.encodeing()
+            print(len(dna_sequences),len(original_chracter_segments))
+            print(dna_sequences[0],original_chracter_segments[0])
             download_txt(self.user_download_file,dna_sequences,original_chracter_segments)
 
-            dna_sequences = map(list,dna_sequences)
+            dna_sequences = list(map(list,dna_sequences))
+            print(dna_sequences[0])
             # information
             bit_size = file_size*8
             nucleotide_count = sum(map(len,dna_sequences))
@@ -261,7 +263,10 @@ class Encoding():
             physical_information_density_ug = physical_information_density*1000
             physical_information_density_g = physical_information_density*1000000000
 
+            
             record_info = {"bit_szie" : file_size*8,
+                    "segment_length":self.segment_length,
+                    "index_length":self.index_length,
                     "segment_number":len(original_chracter_segments),
                     "DNA_sequence_length":len(dna_sequences[0]),
                     "nucleotide_counts":sum(map(len,dna_sequences)),
@@ -269,7 +274,7 @@ class Encoding():
                     "net_information_density":net_information_density,
                     "physical_information_density_ug":physical_information_density_ug,
                     "physical_information_density_g":physical_information_density_g}
-            gc_distribution,gc_distribution = self.gc_homo(dna_sequences)
+            gc_distribution,gc_distribution = gc_homo(dna_sequences)
             record_info['gc_data'] = gc_distribution
             record_info['homo_data'] = gc_distribution
             run_time = (datetime.now() - start_time).total_seconds()
@@ -296,11 +301,11 @@ class Encoding():
 if __name__ == '__main__':
     # 1565536927137009664
     # 1582258845189804032
-    obj = Encoding(file_uid=1565536927137009664,
-                  encode_method='Basic',
-                  segment_length=160,
-                  index_length=20,
-                  verify_method='Hamming')
+    obj = Encoding(file_uid=1586245992909508608,
+                  encode_method='SrcCode',
+                  segment_length=None,
+                  index_length=None,
+                  verify_method=None)
     obj.parallel_run()
     # obj.connet_index()
     # obj.verify_code()

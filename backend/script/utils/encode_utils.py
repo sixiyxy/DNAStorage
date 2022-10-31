@@ -100,7 +100,7 @@ def download_normal(file,original_bit_segments,record_index,connected_bit_segmen
 
 def download_txt(file,dna_sequences,original_chracter_segments):
     f = open(file,'a+')
-    for idx in range(dna_sequences):
+    for idx in range(len(dna_sequences)):
         payload = original_chracter_segments[idx]
         DNA_sequence= dna_sequences[idx]
         f.write('{payload},{DNA_sequence}\n'.format(
