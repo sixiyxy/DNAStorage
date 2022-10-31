@@ -169,6 +169,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     },
 
   ];
+  console.log('dnainfo:',props.dnainfo);
   
   const DownloadURL = () => {
     // console.log(props.encodeurl);

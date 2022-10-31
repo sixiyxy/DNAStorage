@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./index.less";
+import axios from "axios";
 import { Breadcrumb, Col, Row, Spin } from "antd";
 import Encodelists from "./components/Encodelists";
 import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
 import Graphs from "./components/Graphs";
-import { Anchor } from "antd";
+import { Anchor,Button} from "antd";
 import { FolderAddTwoTone } from "@ant-design/icons";
 const { Link } = Anchor;
 
@@ -20,7 +21,8 @@ export const Encode = (props) => {
   const [index, setIndex] = useState(16);
   const [method, setMethod] = useState("WithoutVerifycode");
   const [btnflag, setBtn] = useState(false);
-  const [value, setValue] = useState("WithoutVerifycode");
+  const [encodevalue, setencodeValue] = useState("WithoutVerifycode");
+  const [value, setValue] = useState("Basic");
   const [Segment,SetSegvalue] =useState(160)
   const [indexment,Setindexment] =useState(20)
   const [indexchange,setChange]=useState(true) //一开始是小于2M
@@ -82,8 +84,123 @@ export const Encode = (props) => {
     props.DNAinfos.min_free_energy =param5;
     // props.DNAInfos.min_free_energy_below_30kcal_mol = param6;
     props.setDNAinfo(props.DNAinfos);
-    console.log(props.DNAinfos);
+    console.log('DNAInfos',props.DNAinfos);
   };
+  var params1 = {
+    file_uid: "1565536927137009664",
+    segment_length: 160,
+    index_length: 16,
+    verify_method: "WithoutVerifycode",
+    encode_method: "Basic",
+  };
+  const handleClick = () => {
+    //console.log("加载中");
+    props.setIsSynthesis(true);
+    props.changeSider(["0-0-1"]);
+    props.setSpin(true);
+    props.setExam(false);
+    params1.file_uid = props.fileId;
+    params1.segment_length = seg;
+    params1.index_length = index;
+    params1.verify_method = method;
+    params1.encode_method = value;
+
+    axios
+      .post("http://localhost:5000/encode", params1)
+      .then(function (response) {
+        console.log("Encode-response: ", response.data);
+        console.log("Encode-response: ", typeof(response.data.min_free_energy_below_30kcal_mol));
+        InfoPass1(
+          response.data.bit_size,
+          response.data.byte_size,
+          response.data.encode_method,
+          response.data.index_length,
+          response.data.segment_length,
+          response.data.segment_number,
+          response.data.verify_method
+        );
+        GCPass(response.data.gc_plot);
+        HomoPass(response.data.homo_plot);
+        EnergyPass(response.data.energy_plot);
+        EncodeURLPass(response.data.user_encode_file);
+        FileURLPass(response.data.user_file_infofile);
+        DNAInfoPass(
+          response.data.DNA_sequence_length,
+          response.data.encoding_time,
+          response.data.information_density,
+          response.data.nucleotide_counts,
+          response.data.min_free_energy,
+          // response.data.min_free_energy_below_30kcal_mol,
+        );
+        props.setSpin(false);
+        console.log('完成spin');
+      })
+      .catch(function (error) {
+        //console.log(error);
+      });
+  };
+  const scrollToAnchor = (placement) => {
+    notification.info({
+      message: 'Please make sure you complete the uploading and selection above!',
+      description:
+        'Confirm whether the file is uploaded and whether the encoding method is selected.',
+      placement,
+      duration: 4.5,
+    });
+    if ("uploads") {
+      let anchorElement = document.getElementById("uploads");
+      if (anchorElement) {
+        anchorElement.scrollIntoView();
+      }
+    }
+  };
+  const handleExm=()=>{
+    props.setIsSynthesis(true);
+    props.changeSider(["0-0-1"]);
+    props.setSpin(true);
+    props.setExam(true);
+    axios
+      .post("http://localhost:5000/encode", params1)
+      .then(function (response) {
+        console.log("Encode-response: ", response.data);
+        InfoPass1(
+          response.data.bit_size,
+          response.data.byte_size,
+          response.data.encode_method,
+          response.data.index_length,
+          response.data.segment_length,
+          response.data.segment_number,
+          response.data.verify_method
+        );
+        GCPass(response.data.gc_plot);
+        HomoPass(response.data.homo_plot);
+        EnergyPass(response.data.energy_plot);
+        EncodeURLPass(response.data.user_encode_file);
+        FileURLPass(response.data.user_file_infofile);
+        DNAInfoPass(
+          response.data.DNA_sequence_length,
+          response.data.encoding_time,
+          response.data.information_density,
+          response.data.nucleotide_counts,
+          response.data.min_free_energy,
+          // response.data.min_free_energy_below_30kcal_mol,
+        );
+        props.setSpin(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      }); 
+  }
+  const handlereset=()=>{
+    setSeg(160)
+    SetSegvalue(160)
+    Setindexment(20)
+    setIndex(20)
+    setMethod("WithoutVerifycode")
+    setencodeValue('WithoutVerifycode')
+    setValue("Basic")
+  }
+
   return (
     <div className="EncodeContainer">
       <div style={{ paddingLeft: "100px", paddingTop: "20px" }}>
@@ -104,15 +221,15 @@ export const Encode = (props) => {
             style={{
               marginLeft: "100px",
               marginTop: "20px",
-              fontSize: "18px",
+              fontSize: "13px",
             }}
           >
-            <p>
+            <h2>
               <strong>
                 {" "}
                 <FolderAddTwoTone /> Please upload the storage files:
               </strong>
-            </p>
+            </h2>
             <Uploads
               GetFileID={props.setFileId}
               FileInfoPass={FileInfoPass}
@@ -121,22 +238,55 @@ export const Encode = (props) => {
             />
           </div>
           <div
+            id="encodelist"
+            style={{
+              fontSize: "15px",
+            }}
+          >
+            <p style={{ marginLeft: "50px", fontSize: "17px" }}>
+            </p>
+            <Encodelists
+              // fileId={props.fileId}
+              // seg={seg}
+              // setSeg={setSeg}
+              // index={index}
+              // setIndex={setIndex}
+              // method={method}
+              // setMethod={setMethod}
+              // InfoPass1={InfoPass1}
+              // GCPass={GCPass}
+              // EnergyPass={EnergyPass}
+              // EncodeURLPass={EncodeURLPass}
+              // FileURLPass={FileURLPass}
+              // HomoPass={HomoPass}
+              // DNAInfoPass={DNAInfoPass}
+              // changeSider={props.changeSider}
+              // btnflag={btnflag}
+              // setIsSynthesis={props.setIsSynthesis}
+              // setSpin={props.setSpin}
+              // setExam={props.setExam}
+              setValue={setValue}
+              value={value}
+              // SetSegvalue={SetSegvalue}
+              // Setindexment={Setindexment}
+            />
+          </div>
+          <div
             id="sliders"
             style={{
               marginLeft: "100px",
-              paddingTop: "50px",
+              paddingTop: "20px",
               fontSize: "14px",
             }}
           >
-            <hr />
             <Sliders 
             // ParamPass={ParamPass} 
             indexchange={indexchange}
             setSeg={setSeg}
             setIndex={setIndex}
             setMethod={setMethod}
-            setValue={setValue}
-            value={value}
+            setencodeValue={setencodeValue}
+            encodevalue={encodevalue}
             SetSegvalue={SetSegvalue}
             Segment={Segment}
             Setindexment={Setindexment}
@@ -144,7 +294,7 @@ export const Encode = (props) => {
             />
           </div>
           <div id="graphs" style={{ marginLeft: "100px", paddingTop: "20px" }}>
-            <hr />
+            <hr></hr>
             <Graphs
               seg={seg}
               index={index}
@@ -153,61 +303,41 @@ export const Encode = (props) => {
               setIndex={setIndex}
               setMethod={setMethod}
             />
+            <hr />
           </div>
-
-          <div
-            id="encodelist"
-            style={{
-              paddingLeft: "50px",
-              paddingTop: "20px",
-              fontSize: "15px",
-            }}
-          >
-            <p style={{ marginLeft: "50px", fontSize: "17px" }}>
-              <hr />
-            </p>
-            <Encodelists
-              fileId={props.fileId}
-              seg={seg}
-              setSeg={setSeg}
-              index={index}
-              setIndex={setIndex}
-              method={method}
-              setMethod={setMethod}
-              InfoPass1={InfoPass1}
-              GCPass={GCPass}
-              EnergyPass={EnergyPass}
-              EncodeURLPass={EncodeURLPass}
-              FileURLPass={FileURLPass}
-              HomoPass={HomoPass}
-              DNAInfoPass={DNAInfoPass}
-              changeSider={props.changeSider}
-              btnflag={btnflag}
-              setIsSynthesis={props.setIsSynthesis}
-              setSpin={props.setSpin}
-              setExam={props.setExam}
-              setValue={setValue}
-              SetSegvalue={SetSegvalue}
-              Setindexment={Setindexment}
-            />
-          </div>
-          <br />
-          <br />
-          <br />
         </Col>
-        {/* <Col>
-          <div
-            style={{ marginLeft: "50px", marginTop: "20px", fontSize: "18px" }}
-          >
-            <Anchor targetOffset={targetOffset}>
-              <Link href="#uploads" title="File Upload" />
-              <Link href="#sliders" title="Choose method and length" />
-              <Link href="#graphs" title="Draw" />
-              <Link href="#encodelist" title="Choose decode method" />
-            </Anchor>
-          </div>
-        </Col> */}
       </Row>
+      <div style={{marginTop:"40px",marginLeft:"125px"}}>
+        
+              <Button
+                type="primary"
+                shape="round"
+                size={"large"}
+                onClick={btnflag ? handleClick : () => scrollToAnchor('bottomLeft')}
+              >
+                Run
+              </Button>
+          
+         
+              <Button
+               shape="round"
+               size={"large"}
+                onClick={handleExm}
+                style={{marginLeft:"465px"}}
+              >
+                Example
+              </Button>
+          
+              <Button
+              shape="round"
+              size={"large"}
+              onClick={handlereset}
+              style={{marginLeft:"25px"}}
+              >
+                Reset
+              </Button>
+         
+        </div>
     </div>
   );
 };
