@@ -37,6 +37,7 @@ class Encoding():
 
         self.config = get_config(yaml_path='config')
         self.backend_dir = self.config['backend_dir']
+        self.threads = self.config['threads']
 
         # file save dir and file information
         self.file_dir = '{}/{}'.format(self.backend_dir,self.config['file_save_dir'])
@@ -70,7 +71,6 @@ class Encoding():
         elif self.encode_method == 'SrcCode':
             f.write('payload,DNA_sequence\n')
             f.close()
-        
 
     def segment_file(self,data):
         matrix, values = [], data
@@ -222,7 +222,7 @@ class Encoding():
             file_size = file_data.shape[0]
             cut_file_data = cut_file(file_data)
 
-            with Pool(1) as pool:
+            with Pool(self.threads) as pool:
                 parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
             run_time = (datetime.now() - start_time).total_seconds()
             record_info = self.contact_result(parallel_results)
@@ -262,9 +262,9 @@ class Encoding():
                     "net_information_density":net_information_density,
                     "physical_information_density_ug":physical_information_density_ug,
                     "physical_information_density_g":physical_information_density_g}
-            gc_distribution,gc_distribution = gc_homo(dna_sequences)
-            record_info['gc_data'] = gc_distribution
-            record_info['homo_data'] = gc_distribution
+            gc_data,homo_data = gc_homo(dna_sequences)
+            record_info['gc_data'] = gc_data
+            record_info['homo_data'] = homo_data
             run_time = (datetime.now() - start_time).total_seconds()
         # image method
         elif self.encode_method == 'xxx':

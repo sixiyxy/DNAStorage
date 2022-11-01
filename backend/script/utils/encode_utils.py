@@ -52,7 +52,7 @@ def gc_homo(dna_sequences):
     for i in range(max(list(map(len, dna_sequences)))):
         plot_dict = {'x_value':i,'y_value':homo_distribution[i]}
         front_homo.append(plot_dict)
-        
+
     return front_gc,front_homo
 
 def add_min_free_energydata(free_enerfy_file,final_record_info):
@@ -81,16 +81,14 @@ def add_min_free_energydata(free_enerfy_file,final_record_info):
         x_value = interval_cate[idx].mid
         x_value = str(round(x_value,1))
         range_label = '{} : {}'.format(interval_cate[idx].left,interval_cate[idx].right)
-        data = {'x_value':x_value,'y_value':str(interval_value[idx]),'range':range_label}
+        data = {'x_value':x_value,'y_value':int(interval_value[idx]),'range':range_label}
         free_energy_plotdata.append(data)
 
     final_record_info['min_free_energy'] = float(avg_free_energy)
-    final_record_info['min_free_energy_below_30kcal_mol'] = str(free_energy_30)+'%'
+    final_record_info['min_free_energy_below_30kcal_mol'] = float(free_energy_30)
     # print(str(free_energy_30)+'%')
         
     return final_record_info,free_energy_plotdata
-
-
 
 def download_normal(file,original_bit_segments,record_index,connected_bit_segments,final_bit_segments,dna_sequences):
     # record dowdload file
