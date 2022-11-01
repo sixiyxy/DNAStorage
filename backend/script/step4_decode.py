@@ -1,4 +1,5 @@
-from re import S
+from concurrent.futures import thread
+import os
 from .utils.cd_hit  import CD_HIT
 from .utils.cd_hit import read_fasta
 from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
@@ -22,7 +23,7 @@ encoding_methods = {
     "YinYang":YinYangCode(need_logs=False)}
 
 class ClusterDecode():
-    def __init__(self,file_uid,clust_method,encode_bit_segment):
+    def __init__(self,file_uid,clust_method):
         self.file_uid = file_uid
         self.clust_method = clust_method
         self.config = get_config(yaml_path='config')
@@ -30,18 +31,21 @@ class ClusterDecode():
         self.file_dir = '{}/{}'.format(self.backend_dir,self.config['file_save_dir'])
         self.file_info_path = '{}/{}.yaml'.format(self.file_dir,file_uid)
         self.file_info_dict = get_config(yaml_path=self.file_info_path)
+        self.threas = self.config['threads']
 
         # cluster
         self.simulation_dir = '{}/{}'.format(self.backend_dir,self.config['simulation_dir'])
         self.simulation_dna_file = '{}/{}.fasta'.format(self.simulation_dir,self.file_uid)
         self.out_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
+        self.starcode = "/Users/jianglikun/VScode/starcode/starcode"
 
         # encode
         self.encode_dir = '{}/{}'.format(self.backend_dir,self.config['encode_dir'])
-        self.encode_dna = '{}/{}.dna'.format(self.encode_dir,self.file_uid)
+        self.encode_data = '{}/{}.txt'.format(self.encode_dir,self.file_uid)
         self.encode_bitsegment = encode_bit_segment
 
         # decode
+        self.out_file = '{}/{}_cdhit.fasta'.format(self.out_dir,self.file_uid)
         self.index_length =  self.file_info_dict['index_length']
         self.verify_method = verify_methods[self.file_info_dict['verify_method']]
         self.decode_method = encoding_methods[self.file_info_dict['encode_method']]
@@ -54,21 +58,29 @@ class ClusterDecode():
             long_seq_alignment_coverage=0.7,long_seq_alignment_coverage_control=60,
             short_seq_alignment_coverage=0.7,short_seq_alignment_coverage_control=70,
             nthreads=512)       
-        out_file = '{}/{}_cdhit.fasta'.format(self.out_dir,self.file_uid)
-        cdh.from_file(self.simulation_dna_file,out_file,threshold=0.97)
+        
+        cdh.from_file(self.simulation_dna_file,self.out_file,threshold=0.97)
 
-        clust_dna_sequences = open(out_file).read().splitlines()[1::2]
+        clust_dna_sequences = open(self.out_file).read().splitlines()[1::2]
 
         return clust_dna_sequences
         
-    def method_xx(self):
-        return 'xx'
+    def method_starcode(self):
+        os.system('{tool} -d 4 -s -t {threads} -i {in_file} -o {out_file}'.format(
+            tool = self.starcode,
+            threads = self.threads,
+            in_file = self.simulation_dna_file,
+            out_file = self.out_file))
+        
+        clust_dna_sequences = open(self.out_file).read().splitlines()[1::2]
+
+        return clust_dna_sequences
 
     def run_clust(self):
         if self.clust_method == 'cdhit':
             dna_sequences = self.method_cdhit()
-        elif self.clust_method == 'xx':
-            dna_sequences = self.method_xx()
+        elif self.clust_method == 'starcode':
+            dna_sequences = self.method_starcode()
         elif self.clust_method == None:
             dna_sequences = open(self.encode_dna).read().splitlines()
         return dna_sequences
