@@ -43,7 +43,17 @@ def gc_homo(dna_sequences):
                     break
                 if is_find:
                     break
-    return gc_distribution,gc_distribution
+    front_gc = []
+    front_homo = []
+
+    for i in range(101):
+        plot_dict = {'x_value':i,'y_value':gc_distribution[i]}
+        front_gc.append(plot_dict)
+    for i in range(max(list(map(len, dna_sequences)))):
+        plot_dict = {'x_value':i,'y_value':homo_distribution[i]}
+        front_homo.append(plot_dict)
+        
+    return front_gc,front_homo
 
 def add_min_free_energydata(free_enerfy_file,final_record_info):
     # min free energy
@@ -108,3 +118,74 @@ def download_txt(file,dna_sequences,original_chracter_segments):
                 DNA_sequence = DNA_sequence))
     f.close()
 
+def contact_result(self,parallel_results):
+        bit_szie_all = 0
+        segment_number_all = 0
+        nucleotide_counts_all = 0
+        information_density_all = 0
+        net_information_density_all = 0
+        DNA_sequence_length = 0
+        physical_information_density_ug_all = 0
+        physical_information_density_g_all = 0
+        original_bit_segments_all= []
+        record_index_all = []
+        connected_bit_segments_all = []
+        final_bit_segments_all = []
+        dna_sequences_all = []
+
+        gc_dict = {}
+        homo_dict = {}
+
+        result_number = len(parallel_results)
+
+        for one_result in parallel_results:  
+            bit_szie_all += one_result['bit_size']
+            segment_number_all += int(one_result['segment_number'])
+            DNA_sequence_length = one_result['DNA_sequence_length']
+            nucleotide_counts_all += one_result['nucleotide_counts']
+            information_density_all +=one_result['information_density']
+            net_information_density_all += one_result['net_information_density']
+            physical_information_density_ug_all += one_result['physical_information_density_ug']
+            physical_information_density_g_all += one_result['physical_information_density_g']
+            original_bit_segments_all += one_result['original_bit_segments']
+            record_index_all += one_result['record_index']
+            connected_bit_segments_all += one_result['connected_bit_segments']
+            final_bit_segments_all += one_result['final_bit_segments']
+            dna_sequences_all += one_result['dna_sequences']
+        
+            gc_data = one_result['gc_data']
+            for idx in range(len(gc_data)):
+                if idx not in gc_dict:
+                    gc_dict[idx] = gc_data[idx]
+                else:
+                    gc_dict[idx] += gc_data[idx]
+
+            homo_data = one_result['homo_data']
+
+            for idx in range(len(homo_data)):
+                if idx not in homo_dict:
+                    homo_dict[idx] = homo_data[idx]
+                else:
+                    homo_dict[idx] += homo_data[idx]
+
+        front_gc = [{'x_value':i,'y_value':gc_dict[i]} for i in gc_dict]
+        front_homo = [{'x_value':i,'y_value':homo_dict[i]} for i in homo_dict]
+
+        final_record_info = {
+                    "bit_size":bit_szie_all,
+                    "segment_number":segment_number_all,
+                    "segment_length":self.segment_length,
+                    "index_length":self.index_length,
+                    "verify_method":self.verify_method,
+                    "encode_method":self.encode_method,
+                    "DNA_sequence_length":DNA_sequence_length,
+                    "nucleotide_counts":nucleotide_counts_all,
+                    "information_density":round(information_density_all/result_number,3),
+                    "net_information_density":round(net_information_density_all/result_number,3),
+                    "physical_information_density_ug":round(physical_information_density_ug_all/result_number,3),
+                    "physical_information_density_g":round(physical_information_density_g_all/result_number,3)
+                    }
+        final_record_info['gc_plot']= front_gc
+        final_record_info['homo_plot']=front_homo
+
+        return final_record_info

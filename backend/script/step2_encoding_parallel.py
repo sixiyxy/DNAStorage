@@ -126,9 +126,6 @@ class Encoding():
         encode_method = encoding_methods[self.encode_method]
         dna_sequences = encode_method.encode(final_bit_segments)
 
-        # record file
-        write_dna_file(path=self.dna_file,demo_path=self.dna_demo_file,dna_sequences=dna_sequences)
-
         # record encode value
         nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
         information_density = self.bit_size/nucleotide_count
@@ -138,10 +135,8 @@ class Encoding():
         physical_information_density = self.byte_size/nucleotide_count
         physical_information_density_ug = physical_information_density*1000
         physical_information_density_g = physical_information_density*1000000000
-
         
-        # gc contant homology distribution
-        gc_distribution,gc_distribution = gc_homo(dna_sequences)
+        # together
         record_info = {"bit_size":self.bit_size,
                     "segment_number":self.segment_number,
                     "DNA_sequence_length":len(dna_sequences[0]),
@@ -149,14 +144,13 @@ class Encoding():
                     "information_density":information_density,
                     "net_information_density":net_information_density,
                     "physical_information_density_ug":physical_information_density_ug,
-                    "physical_information_density_g":physical_information_density_g
-                    }
-        record_info['gc_data'] = gc_distribution
-        record_info['homo_data'] = gc_distribution
+                    "physical_information_density_g":physical_information_density_g,
+                    "original_bit_segments":original_bit_segments,
+                    "record_index":record_index,
+                    "connected_bit_segments":connected_bit_segments,
+                    "final_bit_segments":final_bit_segments,
+                    "dna_sequences":dna_sequences}
         
-        # record dowdload file
-        download_normal(self.user_download_file ,original_bit_segments,record_index,connected_bit_segments,final_bit_segments,dna_sequences)
-
         return record_info
 
     def contact_result(self,parallel_results):
@@ -168,12 +162,13 @@ class Encoding():
         DNA_sequence_length = 0
         physical_information_density_ug_all = 0
         physical_information_density_g_all = 0
-
-        gc_dict = {}
-        homo_dict = {}
+        original_bit_segments_all= []
+        record_index_all = []
+        connected_bit_segments_all = []
+        final_bit_segments_all = []
+        dna_sequences_all = []
 
         result_number = len(parallel_results)
-
         for one_result in parallel_results:  
             bit_szie_all += one_result['bit_size']
             segment_number_all += int(one_result['segment_number'])
@@ -183,24 +178,11 @@ class Encoding():
             net_information_density_all += one_result['net_information_density']
             physical_information_density_ug_all += one_result['physical_information_density_ug']
             physical_information_density_g_all += one_result['physical_information_density_g']
-        
-            gc_data = one_result['gc_data']
-            for idx in range(len(gc_data)):
-                if idx not in gc_dict:
-                    gc_dict[idx] = gc_data[idx]
-                else:
-                    gc_dict[idx] += gc_data[idx]
-
-            homo_data = one_result['homo_data']
-
-            for idx in range(len(homo_data)):
-                if idx not in homo_dict:
-                    homo_dict[idx] = homo_data[idx]
-                else:
-                    homo_dict[idx] += homo_data[idx]
-
-        front_gc = [{'x_value':i,'y_value':gc_dict[i]} for i in gc_dict]
-        front_homo = [{'x_value':i,'y_value':homo_dict[i]} for i in homo_dict]
+            original_bit_segments_all += one_result['original_bit_segments']
+            record_index_all += one_result['record_index']
+            connected_bit_segments_all += one_result['connected_bit_segments']
+            final_bit_segments_all += one_result['final_bit_segments']
+            dna_sequences_all += one_result['dna_sequences']
 
         final_record_info = {
                     "bit_size":bit_szie_all,
@@ -216,8 +198,16 @@ class Encoding():
                     "physical_information_density_ug":round(physical_information_density_ug_all/result_number,3),
                     "physical_information_density_g":round(physical_information_density_g_all/result_number,3)
                     }
-        final_record_info['gc_plot']= front_gc
-        final_record_info['homo_plot']=front_homo
+        gc_data,homo_data = gc_homo(dna_sequences_all)
+        final_record_info['gc_data'] = gc_data
+        final_record_info['homo_data'] = homo_data
+
+        # record file
+        write_dna_file(path=self.dna_file,demo_path=self.dna_demo_file,dna_sequences=dna_sequences_all)
+
+        # record dowdload file
+        download_normal(self.user_download_file ,original_bit_segments_all,record_index_all,
+        connected_bit_segments_all,final_bit_segments_all,dna_sequences_all)
 
         return final_record_info
 
@@ -242,12 +232,11 @@ class Encoding():
             dna_file = open(self.dna_file,'w',encoding="UTF-8")
             encode_class = SrcCode(upload_file=upload_file)
             dna_sequences,original_chracter_segments = encode_class.encodeing()
-            print(len(dna_sequences),len(original_chracter_segments))
-            print(dna_sequences[0],original_chracter_segments[0])
+
             download_txt(self.user_download_file,dna_sequences,original_chracter_segments)
 
             dna_sequences = list(map(list,dna_sequences))
-            print(dna_sequences[0])
+
             # information
             bit_size = file_size*8
             nucleotide_count = sum(map(len,dna_sequences))
