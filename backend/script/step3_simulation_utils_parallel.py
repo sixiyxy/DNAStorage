@@ -9,6 +9,8 @@ import time
 from tqdm import tqdm
 import math
 from collections import Counter
+import Bio
+from Bio import SeqIO
 
 # import utils.simulation_model as Model
 # import numpy as np
@@ -228,16 +230,15 @@ class Simulation():
         simu_repo["Error_Recorder"]=error_recorder
         simu_repo["Error_Density"]=error_density_final
         simulation_result_dir=os.path.join(self.backend_dir+'/'+str(self.simulation_dir)+'/')
-        with open(simulation_result_dir+str(self.file_uid)+".fasta",'w+') as f:
-            with open(simulation_result_dir+str(self.file_uid)+'_info.txt','w+') as f2:
+        with open(simulation_result_dir+str(self.file_uid)+".fasta",'w') as f:
                 index=0
                 for dna in dnas:
                     for re in dna['re']:
                         for i in range(re[0]): 
-                            f.write('>'+str(index)+"\n") #index | errors
-                            f2.write('>'+str(index)+"|"+str(re[1])+"\n")
-                            index+=1
-                            f.write(str(re[2])+"\n") # dna sequence
+                           f.write('>'+str(index)+"|"+str(re[1])+"\n") #index | errors
+                           index+=1
+                           f.write(str(re[2])+"\n") # dna sequence
+                        
 
         return simu_repo
 

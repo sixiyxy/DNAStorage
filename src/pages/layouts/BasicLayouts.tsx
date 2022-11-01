@@ -68,7 +68,7 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           </MenuItem>
         </Menu>
       </Header>
-      <Content style={{}}>
+      <Content>
         <Outlet />
       </Content>
       <Footer

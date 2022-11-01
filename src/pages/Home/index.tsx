@@ -34,14 +34,14 @@ export const Home: React.FC<HomeProps> = (props) => {
           src={pic1}  
       />
       </div>
-      <div style={{marginLeft:"440px",marginTop:"40px"}}>
+      <div style={{marginLeft:"480px",marginTop:"40px"}}>
       <Button className="home-button" size="large" type="primary" shape="round">
               <Link to="/services">Getting Start</Link>
       </Button>
       {/* <Button className="home-button" size="large" shape="round" style={{marginLeft:"200px",marginTop:"20px"}} icon={<ContainerTwoTone/>}>
               <Link to="/methods"> Methods</Link>
       </Button> */}
-      <Button className="home-button" size="large" shape="round" style={{marginLeft:"320px",marginTop:"20px"}} icon={<ContainerTwoTone/>}>
+      <Button className="home-button" size="large" shape="round" style={{marginLeft:"140px",marginTop:"20px"}} icon={<ContainerTwoTone/>}>
               <Link to="/tutorial">  Tutorial</Link>
       </Button>
       </div>
