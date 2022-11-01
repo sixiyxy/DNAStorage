@@ -9,7 +9,6 @@ from flask_session import Session
 
 from script.step1_get_file_uid import get_file_uid
 from script.step2_encoding_parallel import Encoding
-# from script.step2_encoding import Encoding
 
 from script.step3_simulation_utils_parallel import Simulation as Simu
 from script.step4_decode import ClusterDecode
@@ -75,13 +74,8 @@ def file_encode():
                   encode_method=encode_method,
                   segment_length=segment_length,
                   index_length=index_length,
-                  verify_method=verify_method)
-                  
+                  verify_method=verify_method)                
     encode_info= obj.parallel_run()
-    # encode_info,encode_bits = obj.bit_to_dna()
-    # encode_key = 'encode_{}'.format(file_uid)
-    # session['encode_key'] = encode_key
-    # set_session(encode_key,encode_bits)
 
     return json.dumps(encode_info)
 
