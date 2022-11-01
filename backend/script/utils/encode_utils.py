@@ -23,7 +23,6 @@ def cut_file(file_data):
 
     return cut_file_data
 
-
 def gc_homo(dna_sequences):
     # record plot data
     gc_distribution = [0 for _ in range(101)]
@@ -86,7 +85,7 @@ def add_min_free_energydata(free_enerfy_file,final_record_info):
 
     final_record_info['min_free_energy'] = float(avg_free_energy)
     final_record_info['min_free_energy_below_30kcal_mol'] = float(free_energy_30)
-    # print(str(free_energy_30)+'%')
+
         
     return final_record_info,free_energy_plotdata
 
@@ -104,7 +103,6 @@ def download_normal(file,original_bit_segments,record_index,connected_bit_segmen
                 index_payload_verfiycode=index_payload_verfiycode,
                 DNA_sequence = DNA_sequence))
     f.close()
-
 
 def download_txt(file,dna_sequences,original_chracter_segments):
     f = open(file,'a+')
@@ -187,3 +185,9 @@ def contact_result(self,parallel_results):
         final_record_info['homo_plot']=front_homo
 
         return final_record_info
+
+def save_decode_file(file_dir,bit_sequences,dna_sequences):
+    save_dict = {'bit_sequences':bit_sequences,
+                 'dna_sequences':dna_sequences
+    }
+    np.savez(file_dir,**save_dict)

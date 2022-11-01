@@ -1,5 +1,6 @@
-from concurrent.futures import thread
+import imp
 import os
+import numpy as np
 from .utils.cd_hit  import CD_HIT
 from .utils.cd_hit import read_fasta
 from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
@@ -41,8 +42,10 @@ class ClusterDecode():
 
         # encode
         self.encode_dir = '{}/{}'.format(self.backend_dir,self.config['encode_dir'])
-        self.encode_data = '{}/{}.txt'.format(self.encode_dir,self.file_uid)
-        self.encode_bitsegment = encode_bit_segment
+        self.encode_file = '{}/{}.npz'.format(self.encode_dir,self.file_uid)
+        self.encode_data = np.load(self.encode_file)
+        self.encode_dna_sequences = self.encode_data['dna_sequences']
+        self.encode_bit_segment = self.encode_data['bit_sequences']
 
         # decode
         self.out_file = '{}/{}_cdhit.fasta'.format(self.out_dir,self.file_uid)
@@ -85,16 +88,16 @@ class ClusterDecode():
             dna_sequences = open(self.encode_dna).read().splitlines()
         return dna_sequences
 
-    def decode(self):
-        # get encode sequences
-        encoding_dna_sequences = open(self.encode_dna).read().splitlines()
+    def decode_to_bits(self):
+        pass
 
+    def decode_stat(self):
         # get after clust simulation sequences
         clust_dna_sequences = self.run_clust()
         clust_dna_sequences_list = [list(i) for i in clust_dna_sequences]
 
         # report dna sequence
-        encoding_dna_sequences_set = set(encoding_dna_sequences)
+        encoding_dna_sequences_set = set(self.encode_dna_sequences)
         clust_dna_sequences_set = set(clust_dna_sequences)
         right_dna_number = len(encoding_dna_sequences_set & clust_dna_sequences_set)
 
@@ -120,7 +123,7 @@ class ClusterDecode():
         indices, final_bit_segments = remove_index(verified_segments, self.index_length, True)
 
         # report file data  
-        encode_bits = set([str(segment) for segment in self.encode_bitsegment])
+        encode_bits = set([str(segment) for segment in self.encode_bit_segment])
         decode_bits = set([str(segment) for segment in final_bit_segments]) 
         # after set，so number is less than dna sequence number - error indeice number
 
@@ -131,7 +134,7 @@ class ClusterDecode():
         # record
         record_info = {"decode_time":decoding_time,
                         "clust_method":self.clust_method,
-                        "encode_dna_sequence_number":len(encoding_dna_sequences) ,
+                        "encode_dna_sequence_number":len(self.encode_dna_sequences) ,
                         "after_clust_dna_sequence_number":len(clust_dna_sequences_set),
                         "recall_dna_sequence_number": right_dna_number,
                         "recall_dna_sequence_rate":right_dna_rate,
@@ -153,4 +156,4 @@ if __name__ == '__main__':
     obj = ClusterDecode(file_uid = 1565536927137009664,encode_bit_segment=bit_segments,
     clust_method= 'cdhit')
 
-    obj.decode()
+    obj.decode_stat()

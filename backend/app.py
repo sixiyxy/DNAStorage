@@ -309,19 +309,9 @@ def decode():
     file_uid = front_data['file_uid'] 
     clust_method = front_data['clust_method']
 
-    if 'encode_key' not in session:
-        return 'session invalid, encode_key not found'
-
-    encode_bits=get_session(session['encode_key'])
-    print(encode_bits,"\n")
-    if encode_bits is None:
-        return 'please make sure file encoded!!!'
-    else:
-        Decode_obj = ClusterDecode(file_uid = file_uid,
-                                    encode_bit_segment=encode_bits,
-                                    clust_method= 'cdhit')
-        decode_info = Decode_obj.decode()
-        return json.dumps(decode_info)
+    Decode_obj = ClusterDecode(file_uid = file_uid,clust_method= 'cdhit')
+    decode_info = Decode_obj.decode_stat()
+    return json.dumps(decode_info)
 
 @app.route('/download',methods=['GET','POST'])
 def download():
