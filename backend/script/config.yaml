@@ -21,3 +21,6 @@ simulation_dir: simulation
 
 # decode
 decode_dir: decode
+
+# threads
+threads: 8
