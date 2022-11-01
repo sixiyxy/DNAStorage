@@ -1,4 +1,3 @@
-from math import inf
 import os,sys
 import re
 from datetime import datetime
@@ -10,7 +9,7 @@ from numpy import fromfile, array, uint8
 from .utils.utils_basic import get_config,write_yaml,write_dna_file
 from .utils.verify_methods import Hamming,ReedSolomon
 from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode,SrcCode
-from .utils.encode_utils import cut_file, gc_homo,download_normal,download_txt,add_min_free_energydata
+from .utils.encode_utils import cut_file, gc_homo,download_normal,download_txt,add_min_free_energydata,save_decode_file
 
 verify_methods = {
     "WithoutVerifycode":False,
@@ -61,7 +60,6 @@ class Encoding():
         # self.free_enerfy_file = '{}/{}/{}_min_free_energy.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
         self.free_enerfy_file = '{}/{}/1565536927137009664_min_free_energy.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
 
-
         # user download file
         self.user_download_file = '{}/{}/{}.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
         f = open(self.user_download_file,'w')
@@ -71,6 +69,10 @@ class Encoding():
         elif self.encode_method == 'SrcCode':
             f.write('payload,DNA_sequence\n')
             f.close()
+        
+        # prepare for decode
+        self.decode_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
+        self.decode_file = '{}/{}.npz'.format(self.decode_dir,self.file_uid)
 
     def segment_file(self,data):
         matrix, values = [], data
@@ -198,6 +200,8 @@ class Encoding():
                     "physical_information_density_ug":round(physical_information_density_ug_all/result_number,3),
                     "physical_information_density_g":round(physical_information_density_g_all/result_number,3)
                     }
+
+        
         gc_data,homo_data = gc_homo(dna_sequences_all)
         final_record_info['gc_data'] = gc_data
         final_record_info['homo_data'] = homo_data
@@ -208,6 +212,13 @@ class Encoding():
         # record dowdload file
         download_normal(self.user_download_file ,original_bit_segments_all,record_index_all,
         connected_bit_segments_all,final_bit_segments_all,dna_sequences_all)
+
+        # record decode file
+        bit_sequences = [''.join(list(map(str,i))) for i in final_bit_segments_all]
+        dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences_all]
+        
+        save_decode_file(self.decode_file,bit_sequences,dna_sequences)
+
 
         return final_record_info
 
@@ -278,25 +289,19 @@ class Encoding():
         record_info['physical_information_density_g'] = '{} petabyte_g'.format(record_info['physical_information_density_g'])
         record_info['physical_information_density_ug'] = '{} petabyte_ug'.format(record_info['physical_information_density_ug'])
 
-
+        # record energy
         record_info,free_energy_plotdata = add_min_free_energydata(self.free_enerfy_file ,record_info)
-        write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         record_info['energy_plot']=free_energy_plotdata
+        write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print(record_info)
         
         return record_info
 
 if __name__ == '__main__':
-    # 1565536927137009664
-    # 1582258845189804032
     obj = Encoding(file_uid=1586245992909508608,
                   encode_method='SrcCode',
                   segment_length=None,
                   index_length=None,
                   verify_method=None)
     obj.parallel_run()
-    # obj.connet_index()
-    # obj.verify_code()
-    # record_info,bit_segments = obj.bit_to_dna()
-    # print(dna_sequences)
 
