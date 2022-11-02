@@ -154,6 +154,8 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   //   });
   // }, [data]);
   const handleReset = function () {
+    console.log('ressssssss....');
+    
     setCycleValue(30);
     setMethod("ErrASE");
     setYieldValue(0.99);
@@ -205,7 +207,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       <Card
         title="Upload Dna File"
         bordered={false}
-        style={{ marginLeft: 20, marginTop: 20 }}
+        style={{ marginLeft: 20, marginTop: 20,width:"1100px" }}
       >
         <Dragger
           {...uploadProps}
@@ -215,7 +217,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
           onRemove={() => {
             setIsOkDisable(true);
           }}
-          style={{ width: 500 }}
+          style={{ width: 800 ,marginLeft:"110px",paddingTop:"30px"}}
         >
           <p className="ant-upload-drag-icon">
             <InboxOutlined />
@@ -227,153 +229,158 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
           </p>
         </Dragger>
       </Card>
-      <div className="function-content">
-        <Card>
-          <div className="function-bar">
-            <span>Synthesis Cycle:</span>
-            <Tooltip title="The copied number of each oligo you want it to have.">
-              <i
-                className="iconfont icon-wenhao"
-                style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
-              ></i>
-            </Tooltip>
-            <Row>
-              <Col span={12}>
-                <Slider
-                  min={10}
-                  max={50}
-                  onChange={cycleChange}
-                  value={typeof cycleValue === "number" ? cycleValue : 0}
-                />
-              </Col>
-              <Col span={4}>
-                <InputNumber
-                  min={10}
-                  max={50}
-                  style={{
-                    margin: "0 16px",
-                  }}
-                  value={cycleValue}
-                  onChange={cycleChange}
-                />
-              </Col>
-            </Row>
-          </div>
-          <div className="function-bar">
-            <span>Synthesis Yield :</span>
-            <Tooltip title="The possibility of adding one nucleoside to the current synthesizing strand is defined as coupling efficiency. The process might be terminated because of unsuccessful coupling so imperfect coupling efficiency limits the length of the final sequence. Typically, it ranges about 98-99.5.">
-              <i
-                className="iconfont icon-wenhao"
-                style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
-              ></i>
-            </Tooltip>
-            <Row>
-              <Col span={12}>
-                <Slider
-                  min={0.98}
-                  max={0.995}
-                  onChange={yieldChange}
-                  value={typeof yieldValue === "number" ? yieldValue : 0}
-                  step={0.001}
-                />
-              </Col>
-              <Col span={4}>
-                <InputNumber
-                  min={0.98}
-                  max={0.995}
-                  style={{
-                    margin: "0 16px",
-                  }}
-                  step={0.001}
-                  value={yieldValue}
-                  onChange={yieldChange}
-                />
-              </Col>
-            </Row>
-          </div>
-          <div className="function-bar">
-            <span>Synthesis Method :</span>
-            {/* <Tooltip title="prompt text">
+      
+      <div className="function-content" >
+     
+        <Card title="Synthesis" style={{width:"1100px"}}>
+        <Row gutter={16}>
+        <Col span={8}>
+              <Card style={{width:"500px"}}>
+              <div className="function-bar">
+                <span>Synthesis Cycle:</span>
+                <Tooltip title="The copied number of each oligo you want it to have.">
                   <i
                     className="iconfont icon-wenhao"
                     style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
                   ></i>
-                </Tooltip> */}
-            <Select
-              style={{ width: 320, marginLeft: 20 }}
-              onChange={handleChange}
-              value={method}
-            >
-              <OptGroup label="Column Synthesized Oligos">
-                <Option value="ErrASE">ErrASE</Option>
-                <Option value="MutS">MutS</Option>
-                <Option value="ConsensusShuffle">Consensus Shuffle</Option>
-              </OptGroup>
+                </Tooltip>
+                <Row>
+                  <Col span={12}>
+                    <Slider
+                      min={10}
+                      max={50}
+                      onChange={cycleChange}
+                      value={typeof cycleValue === "number" ? cycleValue : 0}
+                    />
+                  </Col>
+                  <Col span={4}>
+                    <InputNumber
+                      min={10}
+                      max={50}
+                      style={{
+                        margin: "0 16px",
+                      }}
+                      value={cycleValue}
+                      onChange={cycleChange}
+                    />
+                  </Col>
+                </Row>
+              </div>
+              <div className="function-bar">
+                <span>Synthesis Yield :</span>
+                <Tooltip title="The possibility of adding one nucleoside to the current synthesizing strand is defined as coupling efficiency. The process might be terminated because of unsuccessful coupling so imperfect coupling efficiency limits the length of the final sequence. Typically, it ranges about 98-99.5.">
+                  <i
+                    className="iconfont icon-wenhao"
+                    style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
+                  ></i>
+                </Tooltip>
+                <Row>
+                  <Col span={12}>
+                    <Slider
+                      min={0.98}
+                      max={0.995}
+                      onChange={yieldChange}
+                      value={typeof yieldValue === "number" ? yieldValue : 0}
+                      step={0.001}
+                    />
+                  </Col>
+                  <Col span={4}>
+                    <InputNumber
+                      min={0.98}
+                      max={0.995}
+                      style={{
+                        margin: "0 16px",
+                      }}
+                      step={0.001}
+                      value={yieldValue}
+                      onChange={yieldChange}
+                    />
+                  </Col>
+                </Row>
+              </div>
+              <div className="function-bar">
+                <span>Synthesis Method :</span>
+                {/* <Tooltip title="prompt text">
+                      <i
+                        className="iconfont icon-wenhao"
+                        style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
+                      ></i>
+                    </Tooltip> */}
+                <Select
+                  style={{ width: 320, marginLeft: 20 }}
+                  onChange={handleChange}
+                  value={method}
+                >
+                  <OptGroup label="Column Synthesized Oligos">
+                    <Option value="ErrASE">ErrASE</Option>
+                    <Option value="MutS">MutS</Option>
+                    <Option value="ConsensusShuffle">Consensus Shuffle</Option>
+                  </OptGroup>
 
-              <OptGroup label="Microarray based Oligo Pools">
-                <Option value="Oligo">
-                  Oligo Hybridization based error correction
-                </Option>
-                <Option value="HighTemperature">
-                  High temperature ligation/hybridization based error correction
-                </Option>
-                <Option value="ErrASE(Mic)">ErrASE</Option>
-                <Option value="Nuclease">
-                  Nuclease based error correction
-                </Option>
-                <Option value="NGS">NGS based error correction</Option>
-              </OptGroup>
-              <OptGroup label="None">
-                <Option value="None">None</Option>
-              </OptGroup>
-            </Select>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-              margin: "20px 0",
-            }}
-          >
-            <Button size="large" style={{ width: 100 }} onClick={handleExample}>
-              Example
-            </Button>
-            <Button
-              size="large"
-              style={{ width: 100 }}
-              onClick={handleOk}
-              disabled={isOkDisable || alreadyRun}
-            >
-              OK
-            </Button>
-            {/* <Button size="large" style={{ width: 100 }} onClick={showModal}>
-                  Skip
-                </Button> */}
-            <Button size="large" style={{ width: 100 }} onClick={handleReset}>
-              Reset
-            </Button>
-            <Modal
-              title="Warning"
-              visible={isModalOpen}
-              onOk={skipSynthesis}
-              onCancel={handleCancel}
-              okText="Skip"
-            >
-              <i
-                className="iconfont icon-warning-circle"
-                style={{ fontSize: 40, color: "red" }}
-              ></i>
-              <p>
-                Synthesis is the basic process of the error simulation stage.
-              </p>
-              <p>Skipping this step means skipping the whole stage. </p>
-              <p>Do you still want to skip it?</p>
-            </Modal>
-          </div>
-        </Card>
-      </div>
-
-      <Card style={{ marginLeft: 10, marginTop: 20, height: 560 }}>
+                  <OptGroup label="Microarray based Oligo Pools">
+                    <Option value="Oligo">
+                      Oligo Hybridization based error correction
+                    </Option>
+                    <Option value="HighTemperature">
+                      High temperature ligation/hybridization based error correction
+                    </Option>
+                    <Option value="ErrASE(Mic)">ErrASE</Option>
+                    <Option value="Nuclease">
+                      Nuclease based error correction
+                    </Option>
+                    <Option value="NGS">NGS based error correction</Option>
+                  </OptGroup>
+                  <OptGroup label="None">
+                    <Option value="None">None</Option>
+                  </OptGroup>
+                </Select>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  margin: "30px 0",
+                }}
+              >
+                <Button size="large" style={{ width: 100 }} onClick={handleExample}>
+                  Example
+                </Button>
+                <Button
+                  size="large"
+                  style={{ width: 100 }}
+                  onClick={handleOk}
+                  disabled={isOkDisable || alreadyRun}
+                >
+                  OK
+                </Button>
+                {/* <Button size="large" style={{ width: 100 }} onClick={showModal}>
+                      Skip
+                    </Button> */}
+                <Button size="large" style={{ width: 100 }} onClick={handleReset}>
+                  Reset
+                </Button>
+                <Modal
+                  title="Warning"
+                  visible={isModalOpen}
+                  onOk={skipSynthesis}
+                  onCancel={handleCancel}
+                  okText="Skip"
+                >
+                  <i
+                    className="iconfont icon-warning-circle"
+                    style={{ fontSize: 40, color: "red" }}
+                  ></i>
+                  <p>
+                    Synthesis is the basic process of the error simulation stage.
+                  </p>
+                  <p>Skipping this step means skipping the whole stage. </p>
+                  <p>Do you still want to skip it?</p>
+                </Modal>
+              </div>
+              </Card>
+         </Col>
+              <Col span={8}> 
+              <Card style={{ marginLeft: 155, height: 500,width:"530px"}}>
         <div>
           <span>The parameter settings are referenced from :</span>
           <a style={{ margin: "0 0 0 5px" }} href={hrefLink} target="_blank">
@@ -421,7 +428,14 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
         >
           Continue
         </Button> */}
-      </Card>
+              </Card>
+              </Col>
+        </Row>
+        </Card>
+        
+      </div>
+{/*图的部分开始 */}
+      
     </div>
   );
 };
