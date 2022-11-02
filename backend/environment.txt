@@ -5,3 +5,6 @@ pyyaml
 numpy
 flask_session
 biopython
+flask_cors
+pandas
+uwsgi
