@@ -71,19 +71,30 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       <Content>
         <Outlet />
       </Content>
-      <Footer
-        style={{
-          textAlign: "center",
-          verticalAlign: "center",
-          margin: "10px auto",
-        }}
-      >
-        Contact us: xrliu@xmu.edu.cn
-        <br />
-        | jianglikun@stu.xmu.edu.cn
-        <br />
-        This website is free to all users and there is no login requirement.
-      </Footer>
+      <div className="footer">
+        <div className="contact">
+          <span>Contact us: xrliu@xmu.edu.cn| jianglikun@stu.xmu.edu.cn</span>
+          <span>This website is free to all users and there is no login</span>
+          <span>requirement.</span>
+        </div>
+        <div style={{ borderTop: "1px solid #ffffff", width: "50%" }} />
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <div style={{ width: "33%" }}>
+            <p>View source code</p>
+            <p>Submit bugs and corrections</p>
+          </div>
+          <img
+            src="https://www.xmu.edu.cn/images/logo.png"
+            alt="xmu"
+            style={{ width: "33%" }}
+          />
+          <img
+            src="https://www.zhejianglab.com/statics/images/whitelogo.png"
+            alt="zhejianglab"
+            style={{ width: "33%" }}
+          />
+        </div>
+      </div>
     </Layout>
   );
 };
