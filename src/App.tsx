@@ -1,5 +1,5 @@
 import "./App.css";
-import { BasicLayout } from "./pages/Layouts/BasicLayouts";
+import { BasicLayout } from "./layouts/BasicLayout";
 import { router } from "./router";
 import { Route, Routes, useRoutes } from "react-router-dom";
 import { Home } from "./pages/Home";

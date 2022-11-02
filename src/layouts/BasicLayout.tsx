@@ -2,7 +2,7 @@ import { Layout, Menu } from "antd";
 import MenuItem from "antd/lib/menu/MenuItem";
 import React from "react";
 import { Link, Outlet, Route, useNavigate } from "react-router-dom";
-import "./BasicLayouts.less";
+import "./BasicLayout.less";
 export class BasicLayoutProps {}
 
 export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
