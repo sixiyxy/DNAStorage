@@ -25,6 +25,8 @@ export default defineConfig({
       },
     },
   },
+  // 成产版本的前端资源访问统一加上 "/DNA-storage-designer/" 前缀以便于 nginx 处理
+  base: "/DNA-storage-designer/",
   build: {
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
