@@ -21,15 +21,12 @@ export const Contact: React.FC<ContactProps> = (props) => {
               </Breadcrumb>
           </div>
               <h1 style={{paddingTop:"30px"}}>Information</h1>
-                <p>Our project...xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                <p style={{fontSize:"18px",width:"800px",textAlign:"justify"}}>DNA Storage Designer is developed and maintained by the DMCI Lab team from Department of Computer Science and Technology of Xiamen University. 
+                  Professor Liu conceived of the study, carried out the web server design. 
+                  Likun Jiang participated in website design and carried out writing back-end code. 
+                  Ziyun Zou design and written “Error Simulation”part back-end code. 
+                  Xinyu Yu and Xinru Ruan helped to code the front-end code. 
+                  Other students helped to conduct literature method research.
                 </p>
                 <h1 style={{paddingTop:"30px",paddingBottom:"10px"}}>People involved in the DNA Storage project:</h1>
                 <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Likun Jiang, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>

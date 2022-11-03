@@ -88,8 +88,9 @@ export const Methods: React.FC<MethodsProps> = (props) => {
                 <br/>
 
         </div>
-        </div>    
-        <div style={{ position:"fixed",top:"150px",margin:"0px 1300px"}}>
+        </div>   
+        {/*position:"fixed",top:"150px",margin:"0px 1100px",display:"flex" */} 
+        <div style={{position:"fixed",top:"125px",margin:"0px 1100px"}}>
             <Anchor targetOffset={targetOffset}>
               <Link href="#infotitle" title="Basic Information" />
               <Link href="#checkcode" title="Check Codes" >

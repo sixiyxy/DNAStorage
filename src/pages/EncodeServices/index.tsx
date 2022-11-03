@@ -30,7 +30,7 @@ var DNAinfos = {
   information_density: 0,
   nucleotide_counts: 0,
   min_free_energy:0,
-  min_free_energy_below_30kcal_mol:"None",
+  // min_free_energy_below_30kcal_mol:0,
 };
 var FileValue = {
   fileId: "None",
@@ -52,6 +52,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
   const [fileURL, setFileURL] = useState("");
   const [spinflag, setSpin] = useState(true);
   const [exam,setExam] = useState(false)
+  const [mini,setMini]=useState(0)
 
   let url = new URL(window.location.href);
   const pathname = url?.pathname;
@@ -95,12 +96,14 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
           selectedKeys={siderSelect}
           mode="inline"
           items={items1}
+          defaultOpenKeys={["0-0"]}
         />
       
       {siderSelect[0] === "0-0-0" ? (
       <Encode
         infos={infos}
         setDNAinfo={setDNAinfo}
+        dnainfo={dnainfo}
         DNAinfos={DNAinfos}
         changeSider={setSiderSelect}
         fileId={fileId}
@@ -117,6 +120,8 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
         setIsSynthesis={setIsSynthesis}
         setSpin={setSpin}
         setExam={setExam}
+        setMini={setMini}
+        mini={mini}
         
     />
       ) : null}
@@ -133,6 +138,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
           fileId={fileId}
           spinflag={spinflag}
           exam={exam}
+          mini={mini}
       />
     
       ) : null}

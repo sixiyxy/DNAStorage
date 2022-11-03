@@ -38,13 +38,13 @@ const Graphs: React.FC = (props: any) => {
       {
         name: props.method,
         value: props.seg,
-        type: "索引区",
+        type: "Index Area",
       },
 
       {
         name: props.method,
         value: props.index,
-        type: "信息区",
+        type: "Information Area",
       },
     ];
   }, [props.seg, props.index, props.method]);

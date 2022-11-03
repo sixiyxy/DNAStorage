@@ -23,6 +23,7 @@ export class ReportProps {
   encodeurl;
   fileURL;
   exam;
+  mini;
 
 }
 interface DataType {
@@ -165,7 +166,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "2",
       name1: "Min free energy below 30kcal/mol",
-      value1: props.dnainfo.min_free_energy_below_30kcal_mol,
+      value1: props.mini,
     },
 
   ];
@@ -219,7 +220,7 @@ export const Report: React.FC<ReportProps> = (props) => {
             <div
               style={{ marginTop: "30px", marginLeft: "50px", width: "800px" }}
             >
-              <Card title="File Information" headStyle={{backgroundColor:'#99CCFF'}}>
+              <Card title="File Information" style={{width:"550px"}} headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}>
                 <Table
                   columns={columns1}
                   dataSource={data1}
@@ -229,7 +230,7 @@ export const Report: React.FC<ReportProps> = (props) => {
             </div>
 
             <div style={{ marginTop: "30px", marginLeft: "50px" }}>
-              <Card title="DNA Information" headStyle={{backgroundColor:'#99CCFF'}}>
+              <Card title="DNA Information" style={{width:"550px"}} headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}>
                 <Table
                   columns={columns2}
                   dataSource={data2}
@@ -241,8 +242,8 @@ export const Report: React.FC<ReportProps> = (props) => {
             <Card
               title="Title: GC_Contact"
               type="inner"
-              style={{ marginLeft: "50px", marginTop: "10px", width: "800px" }}
-              headStyle={{backgroundColor:'#99CCFF'}}
+              style={{ marginLeft: "50px", marginTop: "30px", width: "800px" }}
+              headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}
             >
               <div
                 id="gcgraph"
@@ -261,7 +262,7 @@ export const Report: React.FC<ReportProps> = (props) => {
               title="Title: Homopolymer Length"
               type="inner"
               style={{ marginLeft: "50px", marginTop: "30px", width: "800px" }}
-              headStyle={{backgroundColor:'#99CCFF'}}
+              headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}
             >
               <div
                 id="homograph"
@@ -279,7 +280,8 @@ export const Report: React.FC<ReportProps> = (props) => {
             <div style={{ marginTop: "30px", marginLeft: "50px" }}>
               <Card 
                 title="Min Energy Information" 
-                headStyle={{backgroundColor:'#ADD8E6'}}>
+                style={{width:"550px"}}
+                headStyle={{backgroundColor:'#ADD8E6',textAlign:"center"}}>
                 <Table
                   columns={columns3}
                   dataSource={data3}
@@ -292,14 +294,13 @@ export const Report: React.FC<ReportProps> = (props) => {
               title="Title: Sequence Min Free Energy "
               type="inner"
               style={{ marginLeft: "50px", marginTop: "30px", width: "800px" }}
-              headStyle={{backgroundColor:'#ADD8E6'}}
+              headStyle={{backgroundColor:'#ADD8E6',textAlign:"center"}}
             >
               <div
                 id="energygraph"
                 style={{
                   paddingLeft: "50px",
                   paddingTop: "30px",
-                  fontSize: "15px",
                   width: "750px",
                 }}
               >

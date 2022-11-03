@@ -26,6 +26,7 @@ export const Encode = (props) => {
   const [Segment,SetSegvalue] =useState(160)
   const [indexment,Setindexment] =useState(20)
   const [indexchange,setChange]=useState(true) //一开始是小于2M
+  
   useEffect(() => {
     props.setIsSynthesis(false);
   }, []);
@@ -50,6 +51,10 @@ export const Encode = (props) => {
   const FileURLPass = (param1) => {
     props.setFileURL(param1);
   };
+  const miniEnergyPass=(param1)=>{
+    props.setMini(param1)
+    console.log(props.mini);
+  }
   const InfoPass1 = (
     param1,
     param2,
@@ -77,14 +82,15 @@ export const Encode = (props) => {
     //console.log(props.fileinfo);
   };
   const DNAInfoPass = (param1, param2, param3, param4,param5) => {
+    //console.log('param6:',param6);
     props.DNAinfos.DNA_sequence = param1;
     props.DNAinfos.encoding_time = param2;
     props.DNAinfos.information_density = param3;
     props.DNAinfos.nucleotide_counts = param4;
     props.DNAinfos.min_free_energy =param5;
-    // props.DNAInfos.min_free_energy_below_30kcal_mol = param6;
+    //props.DNAInfos.min_free_energy_below_30kcal_mol = param6;
     props.setDNAinfo(props.DNAinfos);
-    console.log('DNAInfos',props.DNAinfos);
+    console.log('Encode-dnaindo',props.dnainfo);
   };
   var params1 = {
     file_uid: "1565536927137009664",
@@ -132,6 +138,7 @@ export const Encode = (props) => {
           response.data.min_free_energy,
           // response.data.min_free_energy_below_30kcal_mol,
         );
+        miniEnergyPass(response.data.min_free_energy_below_30kcal_mol);
         props.setSpin(false);
         console.log('完成spin');
       })
@@ -163,6 +170,7 @@ export const Encode = (props) => {
       .post("http://localhost:5000/encode", params1)
       .then(function (response) {
         console.log("Encode-response: ", response.data);
+        console.log("Encode-response: ", typeof(response.data.min_free_energy_below_30kcal_mol));
         InfoPass1(
           response.data.bit_size,
           response.data.byte_size,
@@ -185,8 +193,10 @@ export const Encode = (props) => {
           response.data.min_free_energy,
           // response.data.min_free_energy_below_30kcal_mol,
         );
+        miniEnergyPass(response.data.min_free_energy_below_30kcal_mol);
         props.setSpin(false);
       })
+        
       .catch(function (error) {
         console.log(error);
       }); 
@@ -307,12 +317,13 @@ export const Encode = (props) => {
           </div>
         </Col>
       </Row>
-      <div style={{marginTop:"40px",marginLeft:"125px"}}>
+      <div style={{marginTop:"40px",marginLeft:"100px"}}>
         
               <Button
                 type="primary"
                 shape="round"
                 size={"large"}
+                style={{width:"100px"}}
                 onClick={btnflag ? handleClick : () => scrollToAnchor('bottomLeft')}
               >
                 Run
@@ -323,7 +334,7 @@ export const Encode = (props) => {
                shape="round"
                size={"large"}
                 onClick={handleExm}
-                style={{marginLeft:"465px"}}
+                style={{marginLeft:"15px"}}
               >
                 Example
               </Button>
@@ -332,7 +343,7 @@ export const Encode = (props) => {
               shape="round"
               size={"large"}
               onClick={handlereset}
-              style={{marginLeft:"25px"}}
+              style={{marginLeft:"440px",width:"100px"}}
               >
                 Reset
               </Button>
