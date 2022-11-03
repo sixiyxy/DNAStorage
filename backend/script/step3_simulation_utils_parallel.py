@@ -9,6 +9,8 @@ import time
 from tqdm import tqdm
 import math
 from collections import Counter
+import Bio
+from Bio import SeqIO
 
 # import utils.simulation_model as Model
 # import numpy as np
@@ -234,10 +236,10 @@ class Simulation():
                 for dna in dnas:
                     for re in dna['re']:
                         for i in range(re[0]): 
-                            f.write('>'+str(index)+"\n") #index | errors
-                            f2.write('>'+str(index)+"|"+str(re[1])+"\n")
-                            index+=1
-                            f.write(str(re[2])+"\n") # dna sequence
+                           f.write('>'+str(index)+"|"+str(re[1])+"\n") #index | errors
+                           index+=1
+                           f.write(str(re[2])+"\n") # dna sequence
+                        
 
         return simu_repo
 
