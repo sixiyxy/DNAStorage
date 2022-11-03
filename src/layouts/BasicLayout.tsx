@@ -3,6 +3,7 @@ import MenuItem from "antd/lib/menu/MenuItem";
 import React from "react";
 import { Link, Outlet, Route, useNavigate } from "react-router-dom";
 import "./BasicLayout.less";
+import AntdIcon from "../components/base/AntdIcon";
 export class BasicLayoutProps {}
 
 export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
@@ -73,26 +74,33 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       </Content>
       <div className="footer">
         <div className="contact">
-          <span>Contact us: xrliu@xmu.edu.cn| jianglikun@stu.xmu.edu.cn</span>
-          <span>This website is free to all users and there is no login</span>
-          <span>requirement.</span>
+          <span>Contact us: xrliu@xmu.edu.cn | jianglikun@stu.xmu.edu.cn</span>
+          <span>This website is free to all users and there is no login requirement.</span>
         </div>
-        <div style={{ borderTop: "1px solid #ffffff", width: "50%" }} />
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <div style={{ width: "33%" }}>
-            <p>View source code</p>
-            <p>Submit bugs and corrections</p>
+        <div className="line"/>
+        <div className="organization">
+          <div className="code">
+            <a href="https://github.com/sixiyxy/DNAStorage">
+              {AntdIcon.Github}
+              <span className="text">View source code</span>
+            </a>
+            <a href="https://github.com/sixiyxy/DNAStorage/issues">
+              {AntdIcon.Bug}
+              <span className="text">Submit bugs and corrections</span>
+            </a>
           </div>
-          <img
-            src="https://www.xmu.edu.cn/images/logo.png"
-            alt="xmu"
-            style={{ width: "33%" }}
-          />
-          <img
-            src="https://www.zhejianglab.com/statics/images/whitelogo.png"
-            alt="zhejianglab"
-            style={{ width: "33%" }}
-          />
+          <div className="logo">
+            <img
+              src="https://www.xmu.edu.cn/images/logo.png"
+              alt="xmu"
+            />
+          </div>
+          <div className="logo">
+            <img
+              src="https://www.zhejianglab.com/statics/images/whitelogo.png"
+              alt="zhijianglab"
+            />
+          </div>
         </div>
       </div>
     </Layout>
