@@ -20,6 +20,7 @@ import axios from "axios";
 export class SamplingProps {
   changeSider;
   fileId;
+  sampleflag;
 }
 
 export const Sampling: React.FC<SamplingProps> = (props) => {
@@ -165,8 +166,11 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   }, [group, densityData]);
   return (
     <div className="sampling-content">
+      <Card title="Sampling" style={{width:"1100px",marginLeft:"20px",marginTop:"20px"}} loading={props.sampleflag}>
+      <Row gutter={16}>
+        <Col span={8}>
       <div className="function-content">
-        <Card>
+        <Card style={{width:"480px"}}>
           <div className="function-bar">
             <span>Sampling Ratio:</span>
             <Tooltip title="The ratio of each oligo to be sampled.">
@@ -202,13 +206,14 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
 
           <div
             style={{
-              display: "flex",
+              // display: "flex",
               justifyContent: "space-around",
-              margin: "20px 0",
+              margin: "50px 0 0 20px",
             }}
           >
             <Button
               size="large"
+              shape="round"
               style={{ width: 100 }}
               onClick={handleOk}
               disabled={alreadyRun}
@@ -223,7 +228,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
             >
               Skip
             </Button> */}
-            <Button size="large" style={{ width: 100 }} onClick={handleReset}>
+            <Button shape="round" size="large" style={{ width: 100,marginLeft:"110px"}} onClick={handleReset}>
               Reset
             </Button>
             <Modal
@@ -242,8 +247,9 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
           </div>
         </Card>
       </div>
-
-      <Card style={{ marginLeft: 10, marginTop: 20, height: 560 }}>
+      </Col>
+      <Col span={8}>
+      <Card style={{ marginLeft: 155, height: 500,width:"530px",marginTop:"10px" }}>
         <div>
           <span>The parameter settings are referenced from :</span>
           <br />
@@ -290,6 +296,9 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
             >
               Continue
             </Button> */}
+      </Card>
+      </Col>
+      </Row>
       </Card>
     </div>
   );

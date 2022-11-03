@@ -22,6 +22,7 @@ import { group } from "console";
 export class DecayProps {
   changeSider;
   fileId;
+  decayflag;
 }
 
 export const Decay: React.FC<DecayProps> = (props) => {
@@ -154,7 +155,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
   }, [hrefLink]);
   return (
     <div className="decay-content">
-      <Card title="Decay" style={{width:"1100px",marginLeft:"20px"}}>
+      <Card title="Decay" style={{width:"1100px",marginLeft:"20px"}} loading={props.decayflag}>
       <Row gutter={16}>
         <Col span={8}>
           <div className="function-content">
@@ -222,7 +223,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
                       ></i>
                     </Tooltip> */}
                 <Select
-                  style={{ width: 320, marginLeft: 20 }}
+                  style={{ width: 320,marginTop:"10px"}}
                   onChange={handleChange}
                   value={method}
                 >
@@ -264,13 +265,14 @@ export const Decay: React.FC<DecayProps> = (props) => {
               </div>
               <div
                 style={{
-                  display: "flex",
+                  // display: "flex",
                   justifyContent: "space-around",
-                  margin: "20px 0",
+                  margin: "50px 0 0 20px ",
                 }}
               >
                 <Button
                   size="large"
+                  shape="round"
                   style={{ width: 100 }}
                   onClick={handleOk}
                   disabled={alreadyRun}
@@ -285,7 +287,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
                 >
                   Skip
                 </Button> */}
-                <Button size="large" style={{ width: 100 }} onClick={handleReset}>
+                <Button shape="round" size="large" style={{ width: 100,marginLeft:"110px"}} onClick={handleReset}>
                   Reset
                 </Button>
                 <Modal

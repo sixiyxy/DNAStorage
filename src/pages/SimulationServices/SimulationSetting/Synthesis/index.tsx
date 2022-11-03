@@ -232,7 +232,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       
       <div className="function-content" >
      
-        <Card title="Synthesis" style={{width:"1100px"}}>
+        <Card title="Synthesis" style={{width:"1100px"}} loading={false}>
         <Row gutter={16}>
         <Col span={8}>
               <Card style={{width:"500px"}}>
@@ -307,7 +307,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                       ></i>
                     </Tooltip> */}
                 <Select
-                  style={{ width: 320, marginLeft: 20 }}
+                  style={{ width: 320, marginTop: 20 }}
                   onChange={handleChange}
                   value={method}
                 >
@@ -337,17 +337,18 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
               </div>
               <div
                 style={{
-                  display: "flex",
+                  // display: "flex",
                   justifyContent: "space-around",
-                  margin: "30px 0",
+                  margin: "50px 0",
                 }}
               >
-                <Button size="large" style={{ width: 100 }} onClick={handleExample}>
+                <Button shape="round" size="large" style={{ width: 100 }} onClick={handleExample}>
                   Example
                 </Button>
                 <Button
                   size="large"
-                  style={{ width: 100 }}
+                  shape="round"
+                  style={{ width: 100,marginLeft:"30px"}}
                   onClick={handleOk}
                   disabled={isOkDisable || alreadyRun}
                 >
@@ -356,7 +357,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 {/* <Button size="large" style={{ width: 100 }} onClick={showModal}>
                       Skip
                     </Button> */}
-                <Button size="large" style={{ width: 100 }} onClick={handleReset}>
+                <Button shape="round" size="large" style={{ width: 100,marginLeft:"30px" }} onClick={handleReset}>
                   Reset
                 </Button>
                 <Modal
