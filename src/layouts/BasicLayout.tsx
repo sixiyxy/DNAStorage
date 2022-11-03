@@ -2,7 +2,8 @@ import { Layout, Menu } from "antd";
 import MenuItem from "antd/lib/menu/MenuItem";
 import React from "react";
 import { Link, Outlet, Route, useNavigate } from "react-router-dom";
-import "./BasicLayouts.less";
+import "./BasicLayout.less";
+import AntdIcon from "../components/base/AntdIcon";
 export class BasicLayoutProps {}
 
 export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
@@ -71,19 +72,37 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       <Content>
         <Outlet />
       </Content>
-      <Footer
-        style={{
-          textAlign: "center",
-          verticalAlign: "center",
-          margin: "10px auto",
-        }}
-      >
-        Contact us: xrliu@xmu.edu.cn
-        <br />
-        | jianglikun@stu.xmu.edu.cn
-        <br />
-        This website is free to all users and there is no login requirement.
-      </Footer>
+      <div className="footer">
+        <div className="contact">
+          <span>Contact us: xrliu@xmu.edu.cn | jianglikun@stu.xmu.edu.cn</span>
+          <span>This website is free to all users and there is no login requirement.</span>
+        </div>
+        <div className="line"/>
+        <div className="organization">
+          <div className="code">
+            <a href="https://github.com/sixiyxy/DNAStorage">
+              {AntdIcon.Github}
+              <span className="text">View source code</span>
+            </a>
+            <a href="https://github.com/sixiyxy/DNAStorage/issues">
+              {AntdIcon.Bug}
+              <span className="text">Submit bugs and corrections</span>
+            </a>
+          </div>
+          <div className="logo">
+            <img
+              src="https://www.xmu.edu.cn/images/logo.png"
+              alt="xmu"
+            />
+          </div>
+          <div className="logo">
+            <img
+              src="https://www.zhejianglab.com/statics/images/whitelogo.png"
+              alt="zhijianglab"
+            />
+          </div>
+        </div>
+      </div>
     </Layout>
   );
 };

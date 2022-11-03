@@ -6,7 +6,7 @@ import { Tutorial } from "../pages/Tutorial";
 import { Publications } from "../pages/Publications";
 import { Methods } from "../pages/Methods";
 import { RouteObject } from "react-router-dom";
-import { BasicLayout } from "../pages/Layouts/BasicLayouts";
+import { BasicLayout } from "../layouts/BasicLayout";
 import { ServiceChose } from "../pages/ServiceChose";
 import { EncodeServices } from "../pages/EncodeServices";
 import { SimulationServices } from "../pages/SimulationServices";

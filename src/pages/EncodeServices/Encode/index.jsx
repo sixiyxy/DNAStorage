@@ -119,8 +119,8 @@ export const Encode = (props) => {
           response.data.segment_number,
           response.data.verify_method
         );
-        GCPass(response.data.gc_plot);
-        HomoPass(response.data.homo_plot);
+        GCPass(response.data.gc_data);
+        HomoPass(response.data.homo_data);
         EnergyPass(response.data.energy_plot);
         EncodeURLPass(response.data.user_encode_file);
         FileURLPass(response.data.user_file_infofile);
@@ -172,8 +172,8 @@ export const Encode = (props) => {
           response.data.segment_number,
           response.data.verify_method
         );
-        GCPass(response.data.gc_plot);
-        HomoPass(response.data.homo_plot);
+        GCPass(response.data.gc_data);
+        HomoPass(response.data.homo_data);
         EnergyPass(response.data.energy_plot);
         EncodeURLPass(response.data.user_encode_file);
         FileURLPass(response.data.user_file_infofile);
