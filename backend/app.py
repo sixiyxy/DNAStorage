@@ -26,6 +26,7 @@ CORS(app, resources=r'/*')
 backend_dir = os.path.dirname(os.path.abspath(__file__))
 print("----------------------------------------------------------------",backend_dir)
 
+
 @app.route('/')
 def index():
     return render_template('index.html')  
@@ -332,5 +333,5 @@ def download():
 
 if __name__ == '__main__':
     CORS(app,supports_credentials=True)
-    app.run('127.0.0.1', port=5000, debug=True)
+    app.run('0.0.0.0', port=5000, debug=True)
    
