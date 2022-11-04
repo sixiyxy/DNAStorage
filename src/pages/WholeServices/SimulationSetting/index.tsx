@@ -28,31 +28,94 @@ import axios from "axios";
 export class SimulationSetProps {
   changeSider;
   fileId;
-  // setIsSynthesis;
+  setIsSynthesis;
+  setFileId;
 }
-
+var method=[false,false,false,false] //存放选择的方法
 export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
-  const [method, setMethod] = useState(["synthesis"]);
+  // const [method, setMethod] = useState(["synthesis"]);
+  const [okflag,setOk]=useState(false)
+  const [decayflag,setDecay]=useState(false)
+  const [pcrflag,setPCR]=useState(false)
+  const [sampleflag,setSAM]=useState(false)
+  const [sequenceflag,setSequen]=useState(false)
   const [alreadyChose, setAlreadyChose] = useState(false);
-  const handleChange = (value) => {
-    if (value.indexOf("synthesis") === -1) {
-      value.unshift("synthesis");
-      message.error("synthesis is a required step");
-    }
-    setMethod(value);
-  };
-  const handleOk = () => {
-    setAlreadyChose(true);
-  };
-  const handleReset = () => {
-    setAlreadyChose(false);
-  };
+  const [dis0,setDis0]=useState(false)
+  const [dis1,setDis1]=useState(false)
+  const [dis2,setDis2]=useState(false)
+  const [dis3,setDis3]=useState(false)
+  const [dis4,setDis4]=useState(false)
+  // const handleChange = (value) => {
+  //   if (value.indexOf("synthesis") === -1) {
+  //     value.unshift("synthesis");
+  //     message.error("synthesis is a required step");
+  //   }
+  //   setMethod(value);
+  // };
+  // const handleOk = () => {
+  //   setAlreadyChose(true);
+  // };
+  
   const handleReport = () => {
+    method=[false,false,false,false]
     props.changeSider(["0-1-1"]);
   };
+  const handleDecay=()=>{
+    
+    method[0]=true
+    setDecay(!decayflag)
+  }
+  const handlePCR=()=>{
+    
+    method[1]=true
+    setPCR(!pcrflag)
+  }
+  const handleSampling=()=>{
+    
+    method[2]=true
+    setSAM(!sampleflag)
+  }
+  const handleSequencing=()=>{
+    
+    method[3]=true
+    setSequen(!sequenceflag)
+  }
+  const handleOK=()=>{
+    setOk(true)
+    setDis1(true)
+    setDis2(true)
+    setDis3(true)
+    setDis4(true)
+    setDis0(true)
+  }
+  const handleReset=()=>{
+    method=[false,false,false,false]
+    setOk(false)
+    setDecay(false)
+    setPCR(false)
+    setSAM(false)
+    setSequen(false)
+    setDis0(false)
+    setDis1(false)
+    setDis2(false)
+    setDis3(false)
+    setDis4(false)
+  }
   return (
-    <div>
-      <Card>
+    <div style={{height:"1000px"}}>
+      
+      <p style={{fontSize:"20px",margin:"20px 0px 0px 20px"}}>Please select the following simulation steps. You can choose to skip some of these steps, but Synthesis cannot.</p>
+      <div style={{margin:"20px 0px 0px 20px"}}>
+      <Button   size="large" style={{width: 100,backgroundColor:"#81ada0"}} disabled={dis0}>Synthesis</Button>
+      <Button   size="large" style={{width: 100,backgroundColor:"#83c5b7",opacity:decayflag?0.3:1}} disabled={dis1} onClick={handleDecay}>Decay</Button>
+      <Button   size="large" style={{width: 100,backgroundColor:"#ecbdd1",opacity:pcrflag?0.3:1}} disabled={dis2} onClick={handlePCR}>PCR</Button>
+      <Button   size="large" style={{width: 100,backgroundColor:"#77c3e3",opacity:sampleflag?0.3:1}} disabled={dis3} onClick={handleSampling}>Sampling</Button>
+      <Button  size="large" style={{width: 110,backgroundColor:"#E7D7C9",opacity:sequenceflag?0.3:1}} disabled={dis4} onClick={handleSequencing}>Sequencing</Button>
+      <Button  type="primary" shape="round" size="large" style={{width: 100,marginLeft:"80px"}} onClick={handleOK}>OK</Button>
+     
+      </div>
+      
+      {/* <Card>
         <Select
           mode="multiple"
           allowClear
@@ -70,19 +133,26 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           <Option value="sampling">Sampling</Option>
           <Option value="sequencing">Sequencing</Option>
         </Select>
-        <Button onClick={handleOk}>OK</Button>
-        <Button onClick={handleReset}>Reset</Button>
-      </Card>
-      <Synthesis fileId={props.fileId} />
-      {method.indexOf("decay") !== -1 ? <Decay fileId={props.fileId} /> : null}
+        
+      </Card> */}
+      <div>
+      <Synthesis fileId={props.fileId} setFileId={props.setFileId} okflag={okflag}/>
+      <Decay fileId={props.fileId} decayflag={decayflag} okflag={okflag}/>
+      <Pcr fileId={props.fileId} pcrflag={pcrflag} okflag={okflag}/>
+      <Sampling fileId={props.fileId} sampleflag={sampleflag} okflag={okflag}/>
+      <Sequencing fileId={props.fileId} sequenceflag={sequenceflag} okflag={okflag}/>
+      </div>
+     
+      {/* {method.indexOf("decay") !== -1 ? <Decay fileId={props.fileId} /> : null}
       {method.indexOf("pcr") !== -1 ? <Pcr fileId={props.fileId} /> : null}
       {method.indexOf("sampling") !== -1 ? (
         <Sampling fileId={props.fileId} />
       ) : null}
       {method.indexOf("sequencing") !== -1 ? (
         <Sequencing fileId={props.fileId} />
-      ) : null}
-      <Button onClick={handleReport}>Report</Button>
+      ) : null} */}
+      <Button shape="round" type="primary" size="large" style={{ width: 100,marginLeft:"400px",marginTop:"30px"}} onClick={handleReport}>Report</Button>
+      <Button  type="primary" shape="round" size="large" style={{width: 100,marginLeft:"100px"}} onClick={handleReset}>Reset</Button>
     </div>
   );
 };
