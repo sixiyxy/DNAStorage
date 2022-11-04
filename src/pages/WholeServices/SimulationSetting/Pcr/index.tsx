@@ -20,6 +20,8 @@ import axios from "axios";
 export class PcrProps {
   changeSider;
   fileId;
+  pcrflag;
+  okflag;
 }
 
 export const Pcr: React.FC<PcrProps> = (props) => {
@@ -180,9 +182,12 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   }, [group, densityData]);
 
   return (
-    <div className="pcr-content">
+    <div className="pcr-content" style={{opacity:props.okflag?1:0.4}}>
+    <Card title="PCR" style={{width:"1100px",marginLeft:"20px",opacity:!props.pcrflag?1:0.4}}>
+    <Row gutter={16}>
+    <Col span={8}>
       <div className="function-content">
-        <Card>
+        <Card style={{width:"480px"}}>
           <div className="function-bar">
             <span>PCR Cycle: </span>
             <Tooltip title="Cycle number of the PCR process.">
@@ -256,7 +261,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
                   ></i>
                 </Tooltip> */}
             <Select
-              style={{ width: 320, marginLeft: 20 }}
+              style={{ width: 320,marginTop:"10px"}}
               onChange={handleChange}
               value={method}
             >
@@ -273,14 +278,15 @@ export const Pcr: React.FC<PcrProps> = (props) => {
           </div>
           <div
             style={{
-              display: "flex",
+              // display: "flex",
               justifyContent: "space-around",
-              margin: "20px 0",
+              margin: "50px 0 0 20px",
             }}
           >
             <Button
               size="large"
-              style={{ width: 100 }}
+              shape="round"
+              style={{ width: 100}}
               onClick={handleOk}
               disabled={alreadyRun}
             >
@@ -294,7 +300,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
             >
               Skip
             </Button> */}
-            <Button size="large" style={{ width: 100 }} onClick={handleReset}>
+            <Button shape="round" size="large" style={{ width: 100,marginLeft:"110px" }} onClick={handleReset}>
               Reset
             </Button>
             <Modal
@@ -313,8 +319,9 @@ export const Pcr: React.FC<PcrProps> = (props) => {
           </div>
         </Card>
       </div>
-
-      <Card style={{ marginLeft: 20, marginTop: 20, height: 560 }}>
+    </Col>
+    <Col span={8}>
+      <Card style={{  marginLeft: 155, height: 500,width:"530px",marginTop:10}}>
         <div>
           <span>The parameter settings are referenced from :</span>
           <br />
@@ -364,6 +371,43 @@ export const Pcr: React.FC<PcrProps> = (props) => {
           Continue
         </Button> */}
       </Card>
+      </Col>
+    </Row>
+    <div 
+      hidden={!props.pcrflag}
+      style={{
+        display:'flex',
+        position:'absolute',
+        top: '0px',	// 距离父级元素顶部0像素
+              left: '0px',	// 距离父级元素左侧0像素
+              zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）
+              height: '100%',	// 与父级元素同高
+              width: '100%',	// 与父级元素同宽
+              background: 'rgba(0,0,0,0.1)',	// 半透明背景
+              textAlign: 'center',
+              justifyContent: 'space-around',
+              alignItems: 'center'
+      }}
+      >
+      </div>
+      <div 
+      hidden={props.okflag}
+      style={{
+        display:'flex',
+        position:'absolute',
+        top: '0px',	// 距离父级元素顶部0像素
+              left: '0px',	// 距离父级元素左侧0像素
+              zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）
+              height: '100%',	// 与父级元素同高
+              width: '100%',	// 与父级元素同宽
+              background: 'rgba(0,0,0,0.1)',	// 半透明背景
+              textAlign: 'center',
+              justifyContent: 'space-around',
+              alignItems: 'center'
+      }}
+      >
+      </div>
+    </Card> 
     </div>
   );
 };

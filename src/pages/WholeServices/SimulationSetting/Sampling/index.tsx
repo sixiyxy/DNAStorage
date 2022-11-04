@@ -20,6 +20,8 @@ import axios from "axios";
 export class SamplingProps {
   changeSider;
   fileId;
+  sampleflag;
+  okflag;
 }
 
 export const Sampling: React.FC<SamplingProps> = (props) => {
@@ -164,9 +166,12 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     };
   }, [group, densityData]);
   return (
-    <div className="sampling-content">
+    <div className="sampling-content" style={{opacity:props.okflag?1:0.4}}>
+      <Card title="Sampling" style={{width:"1100px",marginLeft:"20px",opacity:!props.sampleflag?1:0.4}} >
+      <Row gutter={16}>
+        <Col span={8}>
       <div className="function-content">
-        <Card>
+        <Card style={{width:"480px"}}>
           <div className="function-bar">
             <span>Sampling Ratio:</span>
             <Tooltip title="The ratio of each oligo to be sampled.">
@@ -202,13 +207,14 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
 
           <div
             style={{
-              display: "flex",
+              // display: "flex",
               justifyContent: "space-around",
-              margin: "20px 0",
+              margin: "50px 0 0 20px",
             }}
           >
             <Button
               size="large"
+              shape="round"
               style={{ width: 100 }}
               onClick={handleOk}
               disabled={alreadyRun}
@@ -223,7 +229,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
             >
               Skip
             </Button> */}
-            <Button size="large" style={{ width: 100 }} onClick={handleReset}>
+            <Button shape="round" size="large" style={{ width: 100,marginLeft:"110px"}} onClick={handleReset}>
               Reset
             </Button>
             <Modal
@@ -242,8 +248,9 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
           </div>
         </Card>
       </div>
-
-      <Card style={{ marginLeft: 10, marginTop: 20, height: 560 }}>
+      </Col>
+      <Col span={8}>
+      <Card style={{ marginLeft: 155, height: 500,width:"530px",marginTop:"10px" }}>
         <div>
           <span>The parameter settings are referenced from :</span>
           <br />
@@ -290,6 +297,43 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
             >
               Continue
             </Button> */}
+      </Card>
+      </Col>
+      </Row>
+      <div 
+      hidden={!props.sampleflag}
+      style={{
+        display:'flex',
+        position:'absolute',
+        top: '0px',	// 距离父级元素顶部0像素
+              left: '0px',	// 距离父级元素左侧0像素
+              zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）
+              height: '100%',	// 与父级元素同高
+              width: '100%',	// 与父级元素同宽
+              background: 'rgba(0,0,0,0.1)',	// 半透明背景
+              textAlign: 'center',
+              justifyContent: 'space-around',
+              alignItems: 'center'
+      }}
+      >
+      </div>
+      <div 
+      hidden={props.okflag}
+      style={{
+        display:'flex',
+        position:'absolute',
+        top: '0px',	// 距离父级元素顶部0像素
+              left: '0px',	// 距离父级元素左侧0像素
+              zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）
+              height: '100%',	// 与父级元素同高
+              width: '100%',	// 与父级元素同宽
+              background: 'rgba(0,0,0,0.1)',	// 半透明背景
+              textAlign: 'center',
+              justifyContent: 'space-around',
+              alignItems: 'center'
+      }}
+      >
+      </div>
       </Card>
     </div>
   );

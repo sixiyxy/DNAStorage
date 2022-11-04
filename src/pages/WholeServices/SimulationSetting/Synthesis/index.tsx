@@ -26,6 +26,7 @@ import axios from "axios";
 export class SynthesisProps {
   changeSider;
   fileId;
+  okflag;
   // setIsSynthesis;
 }
 
@@ -157,7 +158,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   }, [data, group]);
 
   return (
-    <div className="synthesis-content">
+    <div className="Wholesynthesis-content">
       <Card
         title="Note"
         bordered={false}
@@ -171,7 +172,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
        
       </Card>
 
-      <Card title="Synthesis" style={{width:"1100px",marginLeft:"20px"}} loading={false}>
+      <Card title="Synthesis" style={{width:"1100px",marginLeft:"20px",opacity:props.okflag?1:0.4}} >
       <Row gutter={16}>
         <Col span={8}>
         <div className="function1-content">
@@ -373,6 +374,23 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
           </Card>
         </Col>
       </Row>
+      <div 
+      hidden={props.okflag}
+      style={{
+        display:'flex',
+        position:'absolute',
+        top: '0px',	// 距离父级元素顶部0像素
+              left: '0px',	// 距离父级元素左侧0像素
+              zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）
+              height: '100%',	// 与父级元素同高
+              width: '100%',	// 与父级元素同宽
+              background: 'rgba(0,0,0,0.1)',	// 半透明背景
+              textAlign: 'center',
+              justifyContent: 'space-around',
+              alignItems: 'center'
+      }}
+      >
+      </div>
       </Card>
     </div>
   );
