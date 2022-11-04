@@ -25,6 +25,10 @@ export class SimulationReportProps {
 }
 
 export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
+  var downinfo={
+    "file_uid":props.fileId,
+    "type":"simulation"
+  }
   const { Option, OptGroup } = Select;
 
   const [sequencingDepth, setSequencingDepth] = useState(1);
@@ -690,7 +694,30 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       // file_uid: "1565536927137009664",
     };
   }, []);
-
+  const DownloadURL = () => {
+    // console.log(props.encodeurl);
+    // console.log(props.fileURL);
+    axios
+      .post("http://localhost:5000/download", downinfo,{responseType: 'blob'})
+      .then(function (response) {
+        console.log(response.data);
+        const link = document.createElement('a');  //创建一个a标签
+        const blob = new Blob([response.data]);             //实例化一个blob出来
+        link.style.display = 'none';       
+        link.href = URL.createObjectURL(blob);    //将后端返回的数据通过blob转换为一个地址
+    //设置下载下来后文件的名字以及文件格式
+        link.setAttribute(
+      'download',
+      `${props.fileId}.` + `${'zip'}`,     //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
+    );
+    document.body.appendChild(link);
+    link.click();                            //下载该文件
+    document.body.removeChild(link);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   return (
     <div className="sequencing-content">
       <div style={{ margin: 20 }}>
@@ -708,8 +735,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {/* <Button size="large" style={{ width: 100 }} onClick={handleOk}>
         OK
       </Button> */}
-      <Card style={{ width: 800, height: 500 }}>
-        <Tabs defaultActiveKey="1">
+      <Card style={{ width: 800, height: 500,marginLeft:"20px"}}>
+        <Tabs defaultActiveKey="1" style={{fontSize:"16px"}}>
           <Tabs.TabPane
             tab="Synthesis"
             key="1"
@@ -832,13 +859,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           </Tabs.TabPane>
         </Tabs>
       </Card>
-      <Card style={{ width: 800, height: 500 }}>
+      <Card style={{ width: 800, height: 500,marginLeft:"20px"}}>
         <DualAxes {...dualConfig} />
       </Card>
-      <Card style={{ width: 800, height: 300 }}>
+      <Card style={{ width: 800, height: 500,marginLeft:"20px"}}>
         <Scatter {...scatterConfig} />
       </Card>
-      <Button>Download</Button>
+      <Button shape="round" size="large" type="primary" style={{margin:"40px 0px 0px 350px"}} onClick={DownloadURL}>Download</Button>
       {/* <Card style={{ width: 800, height: 500 }}></Card> */}
     </div>
   );

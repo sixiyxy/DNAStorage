@@ -9,9 +9,9 @@ export class ContactProps {}
 
 export const Contact: React.FC<ContactProps> = (props) => {
   return (
-    <div className="Contact_Container">
+    <div className="Contact_Container" >
         <div className="contact">
-          <div className="contact_inner">
+          <div className="contact_inner" >
           <div style={{paddingTop:"30px"}}>
             <Breadcrumb separator=">">
                   <Breadcrumb.Item>
@@ -21,7 +21,7 @@ export const Contact: React.FC<ContactProps> = (props) => {
               </Breadcrumb>
           </div>
               <h1 style={{paddingTop:"30px"}}>Information</h1>
-                <p style={{fontSize:"18px",width:"800px",textAlign:"justify"}}>DNA Storage Designer is developed and maintained by the DMCI Lab team from Department of Computer Science and Technology of Xiamen University. 
+                <p style={{fontSize:"18px",textAlign:"justify"}}>DNA Storage Designer is developed and maintained by the DMCI Lab team from Department of Computer Science and Technology of Xiamen University. 
                   Professor Liu conceived of the study, carried out the web server design. 
                   Likun Jiang participated in website design and carried out writing back-end code. 
                   Ziyun Zou design and written “Error Simulation”part back-end code. 

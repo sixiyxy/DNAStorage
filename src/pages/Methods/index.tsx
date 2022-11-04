@@ -14,7 +14,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
     setTargetOffset(window.innerHeight / 2);
   }, []);
   return (
-    <div>
+    <div className="MethodContainer">
         <div className="Methods">
         <div id='test'>
           <br></br>
@@ -90,7 +90,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
         </div>
         </div>   
         {/*position:"fixed",top:"150px",margin:"0px 1100px",display:"flex" */} 
-        <div style={{position:"fixed",top:"125px",margin:"0px 1100px"}}>
+        <div style={{position:"fixed",top:"125px",margin:"0px 50px"}}>
             <Anchor targetOffset={targetOffset}>
               <Link href="#infotitle" title="Basic Information" />
               <Link href="#checkcode" title="Check Codes" >

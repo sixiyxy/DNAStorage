@@ -208,7 +208,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       <Card
         title="Upload Dna File"
         bordered={false}
-        style={{ marginLeft: 20, marginTop: 20,width:"1100px"}}
+        style={{ marginLeft: 20, marginTop: 20,width:"1100px" }}
       >
         <Dragger
           {...uploadProps}
@@ -218,7 +218,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
           onRemove={() => {
             setIsOkDisable(true);
           }}
-          style={{ width: 800 ,marginLeft:"120px",paddingTop:"30px"}}
+          style={{ width: 800 ,marginLeft:"110px",paddingTop:"30px"}}
         >
           <p className="ant-upload-drag-icon">
             <InboxOutlined />

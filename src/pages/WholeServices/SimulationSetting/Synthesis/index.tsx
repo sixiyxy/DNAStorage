@@ -176,7 +176,8 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       <Row gutter={16}>
         <Col span={8}>
         <div className="function1-content">
-          <Card style={{width:"500px"}}>
+          <Card 
+          style={{width:"500px"}}>
             <div className="function-bar">
               <span>Synthesis Cycle:</span>
               <Tooltip title="The copied number of each oligo you want it to have.">
