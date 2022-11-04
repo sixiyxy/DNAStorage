@@ -22,6 +22,7 @@ export class SequencingProps {
   changeSider;
   fileId;
   sequenceflag;
+  okflag;
 }
 
 export const Sequencing: React.FC<SequencingProps> = (props) => {
@@ -172,9 +173,10 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       binWidth: group,
     };
   }, [group, densityData]);
+  {/*style={{opacity:!props.sequenceflag?1:0.4}} */}
   return (
-    <div className="sequencing-content">
-      <Card title="Sequencing" style={{width:"1100px",marginLeft:"20px",marginTop:"20px"}} loading={props.sequenceflag}>
+    <div className="sequencing-content" style={{opacity:props.okflag?1:0.4}}>  
+      <Card title="Sequencing" style={{width:"1100px",marginLeft:"20px",opacity:!props.sequenceflag?1:0.4}} >
       <Row gutter={16}>
       <Col span={8}>
       <div className="function-content">
@@ -333,6 +335,40 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
         </Card>
       </Col>
       </Row>
+      <div 
+      hidden={!props.sequenceflag}
+      style={{
+        display:'flex',
+        position:'absolute',
+        top: '0px',	// 距离父级元素顶部0像素
+              left: '0px',	// 距离父级元素左侧0像素
+              zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）
+              height: '100%',	// 与父级元素同高
+              width: '100%',	// 与父级元素同宽
+              background: 'rgba(0,0,0,0.1)',	// 半透明背景
+              textAlign: 'center',
+              justifyContent: 'space-around',
+              alignItems: 'center'
+      }}
+      >
+      </div>
+      <div 
+      hidden={props.okflag}
+      style={{
+        display:'flex',
+        position:'absolute',
+        top: '0px',	// 距离父级元素顶部0像素
+              left: '0px',	// 距离父级元素左侧0像素
+              zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）
+              height: '100%',	// 与父级元素同高
+              width: '100%',	// 与父级元素同宽
+              background: 'rgba(0,0,0,0.1)',	// 半透明背景
+              textAlign: 'center',
+              justifyContent: 'space-around',
+              alignItems: 'center'
+      }}
+      >
+      </div>
       </Card>
     </div>
   );
