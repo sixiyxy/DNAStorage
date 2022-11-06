@@ -49,7 +49,7 @@ export const Home: React.FC<HomeProps> = (props) => {
     </div>
     <div className="home-content2" style={{height:"100%",backgroundColor:"white"}}>
       <div style={{float:"left",width:"100%",marginLeft:"200px",paddingTop:"30px"}}>
-      <h2>Encode/Decode</h2>
+      <h2>Encode File</h2>
         <p style={{fontSize:"20px",textAlign:"justify"}}>
         The encode service integrates the most common and popular DNA storage encoding and verifying methods. 
         After uploading the file, users could simply select corresponding methods, 
@@ -65,7 +65,7 @@ export const Home: React.FC<HomeProps> = (props) => {
         The simulation service allows user to upload their own fasta DNA file to proceed error simulation stage. 
         It covers the five stages of DNA storage, namely, synthesis, storage decay, PCR, sampling, and sequencing. 
         </p>
-        <Button className="home-button" shape="round" size="large" style={{backgroundColor:"#83c5b7",marginTop:"24px"}}>
+        <Button className="home-button" shape="round" size="large" style={{backgroundColor:"#83c5b7",marginTop:"60px"}}>
               <Link to="/services/simulation">Try</Link>
         </Button>
       </div>

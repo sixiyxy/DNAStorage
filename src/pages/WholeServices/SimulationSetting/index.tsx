@@ -100,6 +100,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setDis2(false)
     setDis3(false)
     setDis4(false)
+    window.location.reload()
   }
   return (
     <div style={{height:"1000px"}}>
@@ -151,8 +152,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       {method.indexOf("sequencing") !== -1 ? (
         <Sequencing fileId={props.fileId} />
       ) : null} */}
-      <Button shape="round" type="primary" size="large" style={{ width: 100,marginLeft:"400px",marginTop:"30px"}} onClick={handleReport}>Report</Button>
-      <Button  type="primary" shape="round" size="large" style={{width: 100,marginLeft:"100px"}} onClick={handleReset}>Reset</Button>
+      <Button shape="round" type="primary" size="large" style={{ width: 100,marginLeft:"400px",marginTop:"30px"}} disabled={!dis0} onClick={handleReport}>Report</Button>
+      <Button  type="primary" shape="round" size="large" style={{width: 100,marginLeft:"100px"}} disabled={!dis0} onClick={handleReset}>Reset</Button>
     </div>
   );
 };
