@@ -153,7 +153,12 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "8",
       name1: "Net information density",
-      value1: props.dnainfo.nucleotide_counts,
+      value1: props.dnainfo.net_information_density,
+    },
+    {
+      key:"9",
+      name1:"nucleotide_counts",
+      value1:props.dnainfo.nucleotide_counts
     },
   ];
   const data3: DataType[] = [
