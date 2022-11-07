@@ -1,4 +1,4 @@
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Row, Col } from "antd";
 import MenuItem from "antd/lib/menu/MenuItem";
 import React from "react";
 import { Link, Outlet, Route, useNavigate } from "react-router-dom";
@@ -79,28 +79,39 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         </div>
         <div className="line"/>
         <div className="organization">
-          <div className="code">
-            <a href="https://github.com/sixiyxy/DNAStorage">
-              {AntdIcon.Github}
-              <span className="text">View source code</span>
-            </a>
-            <a href="https://github.com/sixiyxy/DNAStorage/issues">
-              {AntdIcon.Bug}
-              <span className="text">Submit bugs and corrections</span>
-            </a>
-          </div>
-          <div className="logo">
-            <img
-              src="https://www.xmu.edu.cn/images/logo.png"
-              alt="xmu"
-            />
-          </div>
-          <div className="logo">
-            <img
-              src="https://www.zhejianglab.com/statics/images/whitelogo.png"
-              alt="zhijianglab"
-            />
-          </div>
+          <Row>
+            <Col xxl={14} xl={10} lg={8} xs={24}>
+              <div className="code">
+                <a href="https://github.com/sixiyxy/DNAStorage">
+                  {AntdIcon.Github}
+                  <span className="text">View source code</span>
+                </a>
+                <a href="https://github.com/sixiyxy/DNAStorage/issues">
+                  {AntdIcon.Bug}
+                  <span className="text">Submit bugs and corrections</span>
+                </a>
+              </div>
+            </Col>
+            <Col xxl={5} xl={7} lg={8} xs={24}>
+              <div className="logo">
+                <img
+                    src="https://www.xmu.edu.cn/images/logo.png"
+                    alt="xmu"
+                />
+              </div>
+            </Col>
+            <Col xxl={5} xl={7} lg={8} xs={24}>
+              <div className="logo">
+                <img
+                    src="https://www.zhejianglab.com/statics/images/whitelogo.png"
+                    alt="zhijianglab"
+                />
+              </div>
+            </Col>
+          </Row>
+
+
+
         </div>
       </div>
     </Layout>
