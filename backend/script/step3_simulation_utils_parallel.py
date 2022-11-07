@@ -246,25 +246,31 @@ class Simulation():
     def calculate_density(self,dnas,layer=False):
         nums=[]
         nums_count={}
+        total=0
         for dna in dnas:
             for re in dna['re']:
                 nums.append({"value":re[0]})
                 nums_count[re[0]]=nums_count.get(re[0],0)+1
+                total+=re[0]
 
         n_group=10
-        while not layer:
+        while not layer and n_group!=1:
             if len(nums_count.items())>n_group:
                 layer=True
                 break
             n_group-=1
         nums_count = sorted(nums_count.items(), key=lambda e: e[0])
         
+        
         group=int(len(nums_count)/n_group)
         print(group)
         if group>10:
             groups=[]
             for i in range(0,len(nums_count)//group):
-                groups.append(nums_count[(i+1)*group][0]-nums_count[i*group][0])
+                try:
+                    groups.append(nums_count[(i+1)*group][0]-nums_count[i*group][0])
+                except:
+                    print(str(len(nums_count))+" "+str(i+1)+" "+str(group))
             try:   
                 group=int(sum(groups)/len(groups))
             except:
@@ -313,6 +319,7 @@ class Simulation():
 
    
     def parallel(self):
+        print("Paralleling!")
         if len(self.simu_dna_ori)<20000:
             cut=5
         else:
