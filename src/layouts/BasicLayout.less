@@ -42,23 +42,24 @@ div.line {
 }
 
 
+
+
 .organization {
-  display: flex;
-  flex-direction: row;
-  padding-right: 50px;
+  //display: flex;
+  //flex-direction: row;
+  //padding-right: 50px;
 
   .code {
-    width: 50%;
+    //width: 50%;
     display: flex;
     flex-direction: column;
     padding-left: 20px;
     justify-content: center;
-    margin-top:-20px;
+    margin-top:10px;
 
     span {
       display: inline-block;
       margin-top: 3px;
-
     }
 
     span.text {
@@ -73,10 +74,10 @@ div.line {
   }
 
   .logo {
-    width: 25%;
+    @media (max-width: 991px) {
+      margin-top: 20px;
+    }
+
     text-align: right;
   }
-
-
-
 }
