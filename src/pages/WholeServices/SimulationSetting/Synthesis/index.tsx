@@ -32,7 +32,7 @@ export class SynthesisProps {
 
 export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const { Option, OptGroup } = Select;
-
+  const [countlen,setLen] = useState(0)
   const [yieldValue, setYieldValue] = useState(0.99);
   const [cycleValue, setCycleValue] = useState(30);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
@@ -81,6 +81,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     axios
       .post("http://localhost:5000/simu_synthesis", params)
       .then(function (response) {
+        setLen(response?.data?.syn_density.length);
         console.log("synthesis response", response);
         setGroup(response?.data?.density_group);
         setData(response?.data?.syn_density);
@@ -154,6 +155,16 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
+      meta:{
+        count:{
+          alias:'percentage',
+          formatter:(value:any)=>{
+            
+            return `${(value/countlen).toFixed(4)}%`
+            }
+         
+        }
+      }
     };
   }, [data, group]);
 

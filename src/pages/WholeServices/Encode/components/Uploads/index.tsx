@@ -10,6 +10,7 @@ const Uploads: React.FC = (props: any) => {
     name: "file",
     multiple: true,
     action: "http://127.0.0.1:5000//file_upload",
+    maxCount:1,
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
@@ -32,7 +33,7 @@ const Uploads: React.FC = (props: any) => {
       }
     },
     onDrop(e) {
-      // console.log("Dropped files", e.dataTransfer.files);
+      //console.log("Dropped files", e.dataTransfer.files);
     },
   };
 
