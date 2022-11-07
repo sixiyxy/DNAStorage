@@ -27,7 +27,7 @@ export class SequencingProps {
 
 export const Sequencing: React.FC<SequencingProps> = (props) => {
   const { Option, OptGroup } = Select;
-
+  const [countlen,setLen] = useState(0)
   const [sequencingDepth, setSequencingDepth] = useState(1);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
   const [hrefLink, setHrefLink] = useState();
@@ -84,6 +84,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       .then(function (response) {
         console.log("sequencing response", response);
         //setErrorData(response?.data?.seq_error_density);
+        setLen(response?.data?.seq_density.length);
         setDensityData(response?.data?.seq_density);
         setGroup(response?.data?.seq_group);
         setHrefLink(response?.data?.synthesis_method_reference);
@@ -171,6 +172,16 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
+      meta:{
+        count:{
+          alias:'percentage',
+          formatter:(value:any)=>{
+            
+            return `${(value/countlen).toFixed(4)}%`
+            }
+         
+        }
+      }
     };
   }, [group, densityData]);
   {/*style={{opacity:!props.sequenceflag?1:0.4}} */}
