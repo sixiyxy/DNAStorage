@@ -152,13 +152,13 @@ export const Report: React.FC<ReportProps> = (props) => {
     },
     {
       key: "8",
-      name1: "Net information density",
-      value1: props.dnainfo.net_information_density,
+      name1: "nucleotide_counts",
+      value1: props.dnainfo.nucleotide_counts,
     },
     {
-      key:"9",
-      name1:"nucleotide_counts",
-      value1:props.dnainfo.nucleotide_counts
+      key: "9",
+      name1: "net_information_density",
+      value1: props.dnainfo.net_information_density,
     },
   ];
   const data3: DataType[] = [
@@ -223,56 +223,58 @@ export const Report: React.FC<ReportProps> = (props) => {
         </Breadcrumb>
       </div>
             <div
-              style={{ marginTop: "30px", marginLeft: "50px", width: "800px" }}
+              style={{ marginTop: "30px", marginLeft: "50px"}}
             >
-              <Card title="File Information" style={{width:"550px"}} headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}>
+              <Card title="File Information" style={{width:"100%"}} headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}>
                 <Table
                   columns={columns1}
                   dataSource={data1}
                   pagination={{ position: ["none"] }}
+                  style={{margin:"0 0 0 95px",width:"80%"}}
                 />
               </Card>
             </div>
 
-            <div style={{ marginTop: "30px", marginLeft: "50px" }}>
-              <Card title="DNA Information" style={{width:"550px"}} headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}>
+            <div style={{marginLeft: "50px"}}>
+              <Card title="DNA Information" style={{width:"100%"}} headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}>
                 <Table
                   columns={columns2}
                   dataSource={data2}
                   pagination={{ position: ["none"] }}
+                  style={{margin:"0 0 0 95px",width:"80%"}}
                 />
               </Card>
             </div>
-
-            <Card
-              title="Title: GC_Contact"
-              type="inner"
-              style={{ marginLeft: "50px", marginTop: "30px", width: "800px" }}
-              headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}
-            >
-              <div
-                id="gcgraph"
-                style={{
-                  paddingLeft: "50px",
-                  paddingTop: "30px",
-                  fontSize: "15px",
-                  width: "750px",
-                }}
+            <div style={{marginLeft: "50px"}}>
+              <Card
+                title="Title: GC_Contact"
+                type="inner"
+                style={{width: "100%" }}
+                headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}
               >
-                <GLgraph GC={props.GC} />
-              </div>
-            </Card>
-
+                <div
+                  id="gcgraph"
+                  style={{
+                    paddingLeft: "0px",
+                    paddingTop: "30px",
+                    fontSize: "15px",
+                    width: "750px",
+                  }}
+                >
+                  <GLgraph GC={props.GC} />
+                </div>
+              </Card>
+            </div>
+            <div style={{marginLeft: "50px"}}>
             <Card
               title="Title: Homopolymer Length"
               type="inner"
-              style={{ marginLeft: "50px", marginTop: "30px", width: "800px" }}
+              style={{width: "100%" }}
               headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}
             >
               <div
                 id="homograph"
                 style={{
-                  paddingLeft: "50px",
                   paddingTop: "30px",
                   fontSize: "15px",
                   width: "750px",
@@ -281,38 +283,39 @@ export const Report: React.FC<ReportProps> = (props) => {
                 <HomoGraph homo={props.homo} />
               </div>
             </Card>
-            
-            <div style={{ marginTop: "30px", marginLeft: "50px" }}>
+            </div>
+            <div style={{marginLeft: "50px",marginTop:"30px"}}>
               <Card 
                 title="Min Energy Information" 
-                style={{width:"550px"}}
+                style={{width:"100%"}}
                 headStyle={{backgroundColor:'#ADD8E6',textAlign:"center"}}>
                 <Table
                   columns={columns3}
                   dataSource={data3}
                   pagination={{ position: ["none"] }}
+                  style={{margin:"0 0 0 75px",width:"80%"}}
                 />
               </Card>
             </div>
-
-            <Card
-              title="Title: Sequence Min Free Energy "
-              type="inner"
-              style={{ marginLeft: "50px", marginTop: "30px", width: "800px" }}
-              headStyle={{backgroundColor:'#ADD8E6',textAlign:"center"}}
-            >
-              <div
-                id="energygraph"
-                style={{
-                  paddingLeft: "50px",
-                  paddingTop: "30px",
-                  width: "750px",
-                }}
+          <div style={{marginLeft: "50px"}}>
+              <Card
+                title="Title: Sequence Min Free Energy "
+                type="inner"
+                style={{width: "100%" }}
+                headStyle={{backgroundColor:'#ADD8E6',textAlign:"center"}}
               >
-                <EnergyGraph energy={props.energy} />
-              </div>
-            </Card>
-
+                <div
+                  id="energygraph"
+                  style={{
+                    paddingLeft: "50px",
+                    paddingTop: "30px",
+                    width: "750px",
+                  }}
+                >
+                  <EnergyGraph energy={props.energy} />
+                </div>
+              </Card>
+            </div>
             <div style={{ marginLeft: "350px", marginTop: "100px" }}>
               <Button
                 type="primary"

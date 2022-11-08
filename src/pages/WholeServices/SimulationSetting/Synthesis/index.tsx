@@ -168,7 +168,9 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       }
     };
   }, [data, group]);
-
+  useEffect(()=>{
+    window.scrollTo(0,0);
+  },[])
   return (
     <div className="Wholesynthesis-content">
       <Card

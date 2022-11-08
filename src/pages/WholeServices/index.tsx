@@ -77,6 +77,7 @@ var DNAinfos = {
   information_density: 0,
   nucleotide_counts: 0,
   min_free_energy: 0,
+  net_information_density:0,
   // min_free_energy_below_30kcal_mol:"0.0%",
 };
 var FileValue = {

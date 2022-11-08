@@ -108,16 +108,17 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   return (
     <div style={{height:"1000px"}}>
       
-      <p style={{fontSize:"20px",margin:"20px 0px 0px 20px"}}>Please select the following simulation steps. You can choose to skip some of these steps, but Synthesis cannot.</p>
-      <div style={{margin:"20px 0px 0px 20px"}}>
-      <Button   size="large" style={{width: 100,backgroundColor:"#81ada0"}} disabled={dis0}>Synthesis</Button>
-      <Button   size="large" style={{width: 100,backgroundColor:"#83c5b7",opacity:decayflag?0.3:1}} disabled={dis1} onClick={handleDecay}>Decay</Button>
-      <Button   size="large" style={{width: 100,backgroundColor:"#ecbdd1",opacity:pcrflag?0.3:1}} disabled={dis2} onClick={handlePCR}>PCR</Button>
-      <Button   size="large" style={{width: 100,backgroundColor:"#77c3e3",opacity:sampleflag?0.3:1}} disabled={dis3} onClick={handleSampling}>Sampling</Button>
-      <Button  size="large" style={{width: 110,backgroundColor:"#E7D7C9",opacity:sequenceflag?0.3:1}} disabled={dis4} onClick={handleSequencing}>Sequencing</Button>
+      <Card title="Choose the Simulation steps." style={{margin:"20px 0 0 20px",height:"250px"}}>
+      <p style={{fontSize:"18px"}}>Please select the following simulation steps. You can choose to skip some of these steps, but Synthesis cannot.</p>
+      <div style={{margin:"20px 0px 0px 0px"}}>
+      <Button   size="large" style={{width: 150,height:80,backgroundColor:"#264478",color:"White"}} disabled={dis0}>Synthesis</Button>
+      <Button   size="large" style={{width: 150,height:80,backgroundColor:"#264478",color:"White",opacity:decayflag?0.7:1}} disabled={dis1} onClick={handleDecay}>Decay</Button>
+      <Button   size="large" style={{width: 150,height:80,backgroundColor:"#264478",color:"White",opacity:pcrflag?0.7:1}} disabled={dis2} onClick={handlePCR}>PCR</Button>
+      <Button   size="large" style={{width: 150,height:80,backgroundColor:"#264478",color:"White",opacity:sampleflag?0.7:1}} disabled={dis3} onClick={handleSampling}>Sampling</Button>
+      <Button  size="large" style={{width: 150,height:80,backgroundColor:"#264478",color:"White",opacity:sequenceflag?0.7:1}} disabled={dis4} onClick={handleSequencing}>Sequencing</Button>
       <Button  type="primary" shape="round" size="large" style={{width: 100,marginLeft:"80px"}} onClick={handleOK}>OK</Button>
-     
       </div>
+      </Card>
       
       {/* <Card>
         <Select

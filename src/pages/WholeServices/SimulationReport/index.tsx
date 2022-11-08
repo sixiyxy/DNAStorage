@@ -1,4 +1,4 @@
-import { Area, Datum, DualAxes, Pie, Scatter } from "@ant-design/charts";
+import { Area, Datum, DualAxes, Pie, Scatter,Bar} from "@ant-design/charts";
 import {
   Breadcrumb,
   Button,
@@ -140,6 +140,21 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       },
     ];
   }, [decayData]);
+  const samplingErrorParamData = useMemo(()=>{
+    return [
+      {
+        name:"Percentage",
+        value:samplingData?.sam_ratio*1000,
+        type: "Ratio Percentage",
+      },
+
+      {
+        name:"Percentage",
+        value:100-samplingData?.sam_ratio*1000,
+        type: "Others",
+      },
+    ]
+  },[samplingData])
   const pcrErrorParamData = useMemo(() => {
     return [
       {
@@ -320,7 +335,43 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       },
     },
   };
-
+  const samplingErrorParamConfig={
+    data: samplingErrorParamData,
+    isStack: true,
+    xField: "value",
+    yField: "name",
+    seriesField: "type",
+    maxBarWidth: 60,
+    height: 200,
+    label: {
+      // 可手动配置 label 数据标签位置
+      position: "middle",
+      // 'left', 'middle', 'right'
+      // 可配置附加的布局方法
+      layout: [
+        // 柱形图数据标签位置自动调整
+        {
+          type: "interval-adjust-position",
+        }, // 数据标签防遮挡
+        {
+          type: "interval-hide-overlap",
+        }, // 数据标签文颜色自动调整
+        {
+          type: "adjust-color",
+        },
+      ],
+    },
+    meta:{
+      value:{
+        formatter:(value:any)=>{
+          
+          return `${value}%`
+          }
+       
+      },
+    },
+    
+  }
   //混合图数据以及配置
   // const columnData = useMemo(() => {
   //   return [
@@ -825,6 +876,10 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             disabled={samplingData === undefined}
           >
             sam_ratio: {samplingData?.sam_ratio}
+            <Bar
+              {...samplingErrorParamConfig}
+              style={{ margin: "80px 0 0 0" }}
+            />
             <br />
           </Tabs.TabPane>
           <Tabs.TabPane

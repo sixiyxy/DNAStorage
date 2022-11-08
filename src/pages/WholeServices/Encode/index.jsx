@@ -81,14 +81,14 @@ export const Encode = (props) => {
     props.setFileInfo(props.FileValue);
     //console.log(props.fileinfo);
   };
-  const DNAInfoPass = (param1, param2, param3, param4,param5) => {
+  const DNAInfoPass = (param1, param2, param3, param4,param5,param6) => {
     //console.log('param6:',param6);
     props.DNAinfos.DNA_sequence = param1;
     props.DNAinfos.encoding_time = param2;
     props.DNAinfos.information_density = param3;
     props.DNAinfos.nucleotide_counts = param4;
     props.DNAinfos.min_free_energy =param5;
-    //props.DNAInfos.min_free_energy_below_30kcal_mol = param6;
+    props.DNAinfos.net_information_density = param6;
     props.setDNAinfo(props.DNAinfos);
     console.log('Encode-dnaindo',props.dnainfo);
   };
@@ -136,7 +136,7 @@ export const Encode = (props) => {
           response.data.information_density,
           response.data.nucleotide_counts,
           response.data.min_free_energy,
-          // response.data.min_free_energy_below_30kcal_mol,
+          response.data.net_information_density
         );
         miniEnergyPass(response.data.min_free_energy_below_30kcal_mol);
         props.setSpin(false);
@@ -191,6 +191,7 @@ export const Encode = (props) => {
           response.data.information_density,
           response.data.nucleotide_counts,
           response.data.min_free_energy,
+          response.data.net_information_density,
           // response.data.min_free_energy_below_30kcal_mol,
         );
         miniEnergyPass(response.data.min_free_energy_below_30kcal_mol);
