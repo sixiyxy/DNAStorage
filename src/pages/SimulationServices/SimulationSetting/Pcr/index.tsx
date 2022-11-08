@@ -26,7 +26,7 @@ export class PcrProps {
 
 export const Pcr: React.FC<PcrProps> = (props) => {
   const { Option, OptGroup } = Select;
-
+  const [countlen,setLen] = useState(0)
   const [pcrProbability, setPcrProbability] = useState(0.8);
   const [pcrCycleValue, setPcrCycleValue] = useState(12);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
@@ -78,6 +78,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       .post("http://localhost:5000/simu_pcr", params)
       .then(function (response) {
         console.log("pcr response", response);
+        setLen(response?.data?.pcr_density.length);
         // setErrorData(response?.data?.pcr_error_density);
         setGroup(response?.data?.pcr_group);
         setDensityData(response?.data?.pcr_density);
@@ -178,6 +179,16 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
+      meta:{
+        count:{
+          alias:'percentage',
+          formatter:(value:any)=>{
+            
+            return `${(value/countlen).toFixed(4)}%`
+            }
+         
+        }
+      }
     };
   }, [group, densityData]);
 
@@ -357,8 +368,6 @@ export const Pcr: React.FC<PcrProps> = (props) => {
               <div style={{ margin: "0 0 20px 0" }}>copies:</div>
               {/* <Area {...config1} /> */}
               <Histogram {...config} />
-
-              <div style={{ margin: "0 0 20px 0" }}>copies:</div>
             </div>
           )}
         </div>

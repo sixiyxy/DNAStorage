@@ -6,6 +6,7 @@ import {
   HighlightTwoTone,
   BulbTwoTone,
 } from "@ant-design/icons";
+// import "./index.less";
 const Sliders = (props) => {
   const [disabled, setDisabled] = useState(false);
   const [count, setCount] = useState(0); //触发标志

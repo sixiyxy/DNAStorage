@@ -31,7 +31,7 @@ export class SynthesisProps {
 
 export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const { Option, OptGroup } = Select;
-
+  const [countlen,setLen] = useState(0)
   const [yieldValue, setYieldValue] = useState(0.99);
   const [cycleValue, setCycleValue] = useState(30);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
@@ -77,6 +77,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       .then(function (response) {
         //console.log(response);
         //console.log("syn_density", response?.data?.syn_density);
+        setLen(response?.data?.syn_density.length);
         setData(response?.data?.syn_density);
         setGroup(response?.data?.density_group);
         setHrefLink(response?.data?.synthesis_method_reference);
@@ -98,8 +99,10 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
         upload_flag: "True",
       })
       .then(function (response) {
-        //console.log(response);
-        //console.log("syn_density", response?.data?.syn_density);
+        console.log(response);
+        // console.log("syn_density", response?.data?.syn_density.length);
+        setLen(response?.data?.syn_density.length);
+        setGroup(response?.data?.density_group);
         setData(response?.data?.syn_density);
         setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
@@ -201,8 +204,18 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
+      meta:{
+        count:{
+          alias:'percentage',
+          formatter:(value:any)=>{
+            
+            return `${(value/countlen).toFixed(4)}%`
+            }
+         
+        }
+      }
     };
-  }, [group, data]);
+  }, [group, data,countlen]);
   return (
     <div className="synthesis-content" style={{opacity:props.okflag?1:0.4}}>
       <Card

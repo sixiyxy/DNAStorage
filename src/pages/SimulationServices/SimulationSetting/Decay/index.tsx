@@ -29,7 +29,7 @@ export class DecayProps {
 
 export const Decay: React.FC<DecayProps> = (props) => {
   const { Option, OptGroup } = Select;
-
+  const [countlen,setLen] = useState(0)
   const [lossValue, setLossValue] = useState(0.3);
   const [monthValue, setMonthValue] = useState(24);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
@@ -79,6 +79,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
       .post("http://localhost:5000/simu_dec", params)
       .then(function (response) {
         console.log("decay-response", response);
+        setLen(response?.data?.dec_density.length);
         setGroup(response?.data?.dec_group);
         setData(response?.data?.dec_density);
         setHrefLink(response?.data?.storage_host_parameter_reference);
@@ -140,6 +141,16 @@ export const Decay: React.FC<DecayProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
+      meta:{
+        count:{
+          alias:'percentage',
+          formatter:(value:any)=>{
+            
+            return `${(value/countlen).toFixed(4)}%`
+            }
+         
+        }
+      },
     };
   }, [group, data]);
 

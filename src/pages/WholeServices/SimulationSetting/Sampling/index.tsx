@@ -28,7 +28,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   const [samplingRatio, setSamplingRatio] = useState(0.005);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
   const [hrefLink, setHrefLink] = useState();
-
+  const [countlen,setLen] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [densityData, setDensityData] = useState([]);
   const [errorData, setErrorData] = useState([]);
@@ -65,6 +65,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
       .then(function (response) {
         //console.log("sampling response", response);
         //setErrorData(response?.data?.sam_error_density);
+        setLen(response?.data?.sam_density.length);
         setGroup(response?.data?.sam_group);
         setDensityData(response?.data?.sam_density);
         setHrefLink(response?.data?.synthesis_method_reference);
@@ -163,6 +164,16 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
+      meta:{
+        count:{
+          alias:'percentage',
+          formatter:(value:any)=>{
+            
+            return `${(value/countlen).toFixed(4)}%`
+            }
+         
+        }
+      }
     };
   }, [group, densityData]);
   return (

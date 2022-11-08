@@ -18,12 +18,12 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
               style={{
                 color: "white",
                 fontSize: 20,
-                marginRight: "10px",
+                marginRight: "20px",
               }}
             >
               <i
                 className="iconfont icon-medical"
-                style={{ marginRight: "5px" }}
+                style={{ marginRight: "20px" }}
               ></i>
               DNA Storage Designer
             </div>

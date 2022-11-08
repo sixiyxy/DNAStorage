@@ -26,7 +26,7 @@ export class PcrProps {
 
 export const Pcr: React.FC<PcrProps> = (props) => {
   const { Option, OptGroup } = Select;
-
+  const [countlen,setLen] = useState(0)
   const [pcrProbability, setPcrProbability] = useState(0.8);
   const [pcrCycleValue, setPcrCycleValue] = useState(12);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
@@ -79,6 +79,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       .then(function (response) {
         console.log("pcr response", response);
         // setErrorData(response?.data?.pcr_error_density);
+        setLen(response?.data?.pcr_density.length);
         setGroup(response?.data?.pcr_group);
         setDensityData(response?.data?.pcr_density);
         setHrefLink(response?.data?.synthesis_method_reference);
@@ -178,6 +179,16 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
+      meta:{
+        count:{
+          alias:'percentage',
+          formatter:(value:any)=>{
+            
+            return `${(value/countlen).toFixed(4)}%`
+            }
+         
+        }
+      }
     };
   }, [group, densityData]);
 

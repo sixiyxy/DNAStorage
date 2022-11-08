@@ -99,7 +99,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [fileURL, setFileURL] = useState("");
   const [spinflag, setSpin] = useState(true);
   const [exam, setExam] = useState(false);
-
+  const [mini,setMini]=useState(0)
   const items1 = useMemo(() => {
     return [
       {
@@ -235,6 +235,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           setIsSynthesis={setIsSynthesis}
           setSpin={setSpin}
           setExam={setExam}
+          setMini={setMini}
         />
       ) : null}
       {siderSelect[0] === "0-0-1" ? (
@@ -250,6 +251,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           fileId={fileId}
           spinflag={spinflag}
           exam={exam}
+          mini={mini}
         />
       ) : null}
 
