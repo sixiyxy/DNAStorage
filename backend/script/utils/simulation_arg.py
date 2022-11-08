@@ -393,10 +393,10 @@ seqMeth={
             
         },
         "ill_PairedEnd":{
-            "seq_sub_prob":0.79,
-            "seq_ins_prob":0.0011,
-            "seq_del_prob":0.0018,
-            "seq_raw_rate":0.0032,
+            "seq_sub_prob":0.9972,
+            "seq_ins_prob":0.0012,
+            "seq_del_prob":0.0016,
+            "seq_raw_rate":0.0042,
             "seq_del_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "seq_ins_pattern":{"A":0.25,"C":0.25,"G":0.25,"T":0.25},
             "seq_sub_pattern":{
