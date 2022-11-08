@@ -419,10 +419,10 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
             Method Paper
           </a>
         </div>
-        <div style={{ margin: "0 0 30px 0" }}>
+        {/* <div style={{ margin: "0 0 30px 0" }}>
           After synthesis simulation, the situation of oligonucleotides pool as
           follows:
-        </div>
+        </div> */}
         <div>
           {noDataTipsShow ? (
             <Empty

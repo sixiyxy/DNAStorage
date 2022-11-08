@@ -303,7 +303,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
             {methodLink}
           </div>
           <div style={{ margin: "0 0 30px 0" }}>
-            After synthesis simulation, the situation of oligonucleotides pool as
+            After Sequencing simulation, the situation of oligonucleotides pool as
             follows:
           </div>
           <div>
