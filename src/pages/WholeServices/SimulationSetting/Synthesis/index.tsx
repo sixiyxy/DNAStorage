@@ -27,6 +27,7 @@ export class SynthesisProps {
   changeSider;
   fileId;
   okflag;
+  setFileId;
   // setIsSynthesis;
 }
 

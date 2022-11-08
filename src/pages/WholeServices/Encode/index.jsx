@@ -210,7 +210,9 @@ export const Encode = (props) => {
     setencodeValue('WithoutVerifycode')
     setValue("Basic")
   }
-
+  useEffect(()=>{
+    window.scrollTo(0,0);
+  },[])
   return (
     <div className="EncodeContainer">
       <div style={{ paddingLeft: "100px", paddingTop: "20px" }}>

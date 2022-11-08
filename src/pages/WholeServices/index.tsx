@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useMemo, useState,useEffect} from "react";
 import "./index.less";
 import { Breadcrumb, Layout, Menu } from "antd";
 
@@ -201,7 +201,9 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
   };
-
+  useEffect(()=>{
+    window.scrollTo(0,0);
+  },[])
   return (
     <div className="service-content">
       <Menu

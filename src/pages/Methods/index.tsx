@@ -12,6 +12,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
   const [targetOffset, setTargetOffset] = useState<number | undefined>(undefined);
   useEffect(() => {
     setTargetOffset(window.innerHeight / 2);
+    window.scrollTo(0,0);
   }, []);
   return (
     <div className="MethodContainer">

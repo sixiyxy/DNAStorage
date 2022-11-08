@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useMemo, useState,useEffect} from "react";
 import "./index.less";
 import { Breadcrumb, Layout, Menu, message } from "antd";
 
@@ -9,11 +9,11 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 
-import { Synthesis } from "./SimulationSetting/Synthesis";
-import { Decay } from "./Decay";
-import { Pcr } from "./Pcr";
-import { Sampling } from "./Sampling";
-import { Sequencing } from "./Sequencing";
+// import { Synthesis } from "./SimulationSetting/Synthesis";
+// import { Decay } from "./Decay";
+// import { Pcr } from "./Pcr";
+// import { Sampling } from "./Sampling";
+// import { Sequencing } from "./Sequencing";
 import { SimulationReport } from "./SimulationReport";
 import { SimulationSetting } from "./SimulationSetting";
 const { Header, Content, Sider } = Layout;
@@ -58,7 +58,9 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
   };
-
+  useEffect(()=>{
+    window.scrollTo(0,0);
+  },[])
   return (
     <div className="service-content">
       <Menu

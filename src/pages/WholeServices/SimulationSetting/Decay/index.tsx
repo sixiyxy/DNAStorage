@@ -21,7 +21,7 @@ import { group } from "console";
 import { Position } from "@antv/attr";
 
 export class DecayProps {
-  changeSider;
+  // changeSider;
   fileId;
   decayflag;
   okflag;

@@ -6,6 +6,7 @@ import { Home } from "./pages/Home";
 import { Contact } from "./pages/Contact";
 import { Publications } from "./pages/Publications";
 import { Resources } from "./pages/Resources";
+import {ScrollToTop} from "./ScollToTop/index.jsx"
 
 function App() {
   return useRoutes(router);

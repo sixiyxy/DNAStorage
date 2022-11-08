@@ -102,6 +102,9 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setDis4(false)
     window.location.reload()
   }
+  useEffect(()=>{
+    window.scrollTo(0,0);
+  },[])
   return (
     <div style={{height:"1000px"}}>
       
