@@ -1,12 +1,13 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import { Link, PathRouteProps } from "react-router-dom";
 import { Col, Row } from 'antd';
 import "./index.less";
 import { Image } from 'antd';
 import pic1 from './Home1031.png'
 import { InboxOutlined } from "@ant-design/icons";
-import { Button, UploadProps } from "antd";
+import { Button, notification,Drawer,Modal} from "antd";
 import { message, Upload } from "antd";
+import type { DrawerProps, RadioChangeEvent } from 'antd';
 import {
   ContainerTwoTone,
   PhoneTwoTone
@@ -14,6 +15,10 @@ import {
 export class HomeProps {}
 
 export const Home: React.FC<HomeProps> = (props) => {
+  const [count, setCount] = useState(0);
+ 
+  
+ 
   return (
     <div className="home">
     <div className="home-content1" style={{height:"100%",backgroundColor:"#1B5585"}}>
