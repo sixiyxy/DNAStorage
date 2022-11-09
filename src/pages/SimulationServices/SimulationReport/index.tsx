@@ -435,26 +435,26 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     return [
       {
         step: "synthesis",
-        value: errorRecoder?.Synthesis
-          ? Math.log(errorRecoder?.Synthesis.n)
+        value: errorRecoder?.SYN
+          ? Math.log(errorRecoder?.SYN.n)
           : 0,
         type: "total",
       },
       {
         step: "synthesis",
-        value: errorRecoder?.Synthesis
-          ? Math.log(errorRecoder?.Synthesis.e)
+        value: errorRecoder?.SYN
+          ? Math.log(errorRecoder?.SYN.e)
           : 0,
         type: "error",
       },
       {
         step: "decay",
-        value: errorRecoder?.Decay ? Math.log(errorRecoder?.Decay.n) : 0,
+        value: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.n) : 0,
         type: "total",
       },
       {
         step: "decay",
-        value: errorRecoder?.Decay ? Math.log(errorRecoder?.Decay.e) : 0,
+        value: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.e) : 0,
         type: "error",
       },
       {
@@ -469,22 +469,22 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       },
       {
         step: "sample",
-        value: errorRecoder?.Sam ? Math.log(errorRecoder?.Sam.n) : 0,
+        value: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.n) : 0,
         type: "total",
       },
       {
         step: "sample",
-        value: errorRecoder?.Sam ? Math.log(errorRecoder?.Sam.e) : 0,
+        value: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.e) : 0,
         type: "error",
       },
       {
         step: "sequence",
-        value: errorRecoder?.Seq ? Math.log(errorRecoder?.Seq.n) : 0,
+        value: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.n) : 0,
         type: "total",
       },
       {
         step: "sequence",
-        value: errorRecoder?.Seq ? Math.log(errorRecoder?.Seq.e) : 0,
+        value: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.e) : 0,
         type: "error",
       },
     ];
@@ -572,38 +572,38 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     return [
       {
         step: "synthesis",
-        count: errorRecoder?.Synthesis
-          ? Math.log(errorRecoder?.Synthesis["+"])
+        count: errorRecoder?.SYN
+          ? Math.log(errorRecoder?.SYN["+"])
           : 0,
         name: "insert",
       },
       {
         step: "synthesis",
-        count: errorRecoder?.Synthesis
-          ? Math.log(errorRecoder?.Synthesis["-"])
+        count: errorRecoder?.SYN
+          ? Math.log(errorRecoder?.SYN["-"])
           : 0,
         name: "delete",
       },
       {
         step: "synthesis",
-        count: errorRecoder?.Synthesis
-          ? Math.log(errorRecoder?.Synthesis.s)
+        count: errorRecoder?.SYN
+          ? Math.log(errorRecoder?.SYN.s)
           : 0,
         name: "substitute",
       },
       {
         step: "decay",
-        count: errorRecoder?.Decay ? Math.log(errorRecoder?.Decay["+"]) : 0,
+        count: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC["+"]) : 0,
         name: "insert",
       },
       {
         step: "decay",
-        count: errorRecoder?.Decay ? Math.log(errorRecoder?.Decay["-"]) : 0,
+        count: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC["-"]) : 0,
         name: "delete",
       },
       {
         step: "decay",
-        count: errorRecoder?.Decay ? Math.log(errorRecoder?.Decay.s) : 0,
+        count: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.s) : 0,
         name: "substitute",
       },
       {
@@ -623,32 +623,32 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       },
       {
         step: "sample",
-        count: errorRecoder?.Sam ? Math.log(errorRecoder?.Sam["+"]) : 0,
+        count: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM["+"]) : 0,
         name: "insert",
       },
       {
         step: "sample",
-        count: errorRecoder?.Sam ? Math.log(errorRecoder?.Sam["-"]) : 0,
+        count: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM["-"]) : 0,
         name: "delete",
       },
       {
         step: "sample",
-        count: errorRecoder?.Sam ? Math.log(errorRecoder?.Sam.s) : 0,
+        count: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.s) : 0,
         name: "substitute",
       },
       {
         step: "sequence",
-        count: errorRecoder?.Seq ? Math.log(errorRecoder?.Seq["+"]) : 0,
+        count: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ["+"]) : 0,
         name: "insert",
       },
       {
         step: "sequence",
-        count: errorRecoder?.Seq ? Math.log(errorRecoder?.Seq["-"]) : 0,
+        count: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ["-"]) : 0,
         name: "delete",
       },
       {
         step: "sequence",
-        count: errorRecoder?.Seq ? Math.log(errorRecoder?.Seq.s) : 0,
+        count: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.s) : 0,
         name: "substitute",
       },
     ];
@@ -693,53 +693,53 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     ],
   };
 
-  //气泡图数据以及配置
-  const scatterConfig = {
-    // width: 800,
-    // height: 200,
-    autoFit: true,
-    appendPadding: 16,
-    data: errorDensity || [],
-    xField: "error",
-    yField: "type",
-    sizeField: "count",
-    size: [5, 50],
-    shape: "circle",
-    colorField: "type",
-    color: ["#ffd500", "#82cab2", "#193442", "#d18768", "#7e827a"],
-    pointStyle: {
-      fillOpacity: 0.8,
-      stroke: "#bbb",
-    },
-    tooltip: {
-      showTitle: false,
-      showMarkers: false,
-      fields: ["count", "error", "type"],
-    },
-    xAxis: {
-      grid: {
-        line: {
-          style: {
-            stroke: "#eee",
-          },
-        },
-      },
-      line: null,
-    },
-    label: {
-      formatter: (item) => {
-        return item.city;
-      },
-      offsetY: 12,
-      style: {
-        fontSize: 12,
-      },
-    },
-    yAxis: {
-      min: 0,
-      line: null,
-    },
-  };
+  // //气泡图数据以及配置
+  // const scatterConfig = {
+  //   // width: 800,
+  //   // height: 200,
+  //   autoFit: true,
+  //   appendPadding: 16,
+  //   data: errorDensity || [],
+  //   xField: "error",
+  //   yField: "type",
+  //   sizeField: "count",
+  //   size: [5, 50],
+  //   shape: "circle",
+  //   colorField: "type",
+  //   color: ["#ffd500", "#82cab2", "#193442", "#d18768", "#7e827a"],
+  //   pointStyle: {
+  //     fillOpacity: 0.8,
+  //     stroke: "#bbb",
+  //   },
+  //   tooltip: {
+  //     showTitle: false,
+  //     showMarkers: false,
+  //     fields: ["count", "error", "type"],
+  //   },
+  //   xAxis: {
+  //     grid: {
+  //       line: {
+  //         style: {
+  //           stroke: "#eee",
+  //         },
+  //       },
+  //     },
+  //     line: null,
+  //   },
+  //   label: {
+  //     formatter: (item) => {
+  //       return item.city;
+  //     },
+  //     offsetY: 12,
+  //     style: {
+  //       fontSize: 12,
+  //     },
+  //   },
+  //   yAxis: {
+  //     min: 0,
+  //     line: null,
+  //   },
+  // };
   const ErrorDensityConfig={
     data: errorDensity||[],
     isStack: true,
@@ -749,13 +749,16 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     seriesField: "error",
     maxBarWidth: 100,
     height: 400,
-    barWidthRatio:0.8,
+    // barWidthRatio:0.7,
     // isPercent: true,
-    label: {
+    label: {  
       // 可手动配置 label 数据标签位置
       position: "left",
       // 'left', 'middle', 'right'
       // 可配置附加的布局方法
+      content: (item:any) => {
+        return item.value.toFixed(2);
+      },
       layout: [
         // 柱形图数据标签位置自动调整
         {
