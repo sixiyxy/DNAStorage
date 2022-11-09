@@ -1,9 +1,10 @@
-import { Layout, Menu, Row, Col } from "antd";
+import {Layout, Menu, Row, Col, Button} from "antd";
 import MenuItem from "antd/lib/menu/MenuItem";
 import React from "react";
 import { Link, Outlet, Route, useNavigate } from "react-router-dom";
 import "./BasicLayout.less";
 import AntdIcon from "../components/base/AntdIcon";
+import {doGet, doPost} from "../utils/request";
 export class BasicLayoutProps {}
 
 export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
@@ -110,7 +111,26 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
             </Col>
           </Row>
 
+          <Row>
+            <Button onClick={async () => {
+              console.log("开始测试 request 工具类...");
 
+              const body = {
+                "file_uid": "1565536927137009664",
+                "segment_length": 160,
+                "index_length": 20,
+                "verify_method": "Hamming",
+                "encode_method": "Basic"
+              }
+
+              try {
+                const resp = await doPost("/encode", {body})
+                console.log("接受到响应：", resp);
+              } catch (err) {
+                console.log("发生异常", err);
+              }
+            }}>测试请求按钮（最后会删除）</Button>
+          </Row>
 
         </div>
       </div>
