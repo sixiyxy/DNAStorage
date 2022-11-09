@@ -26,7 +26,7 @@ export default defineConfig({
     },
   },
   // 生产版本的前端资源访问统一加上 "/DNA-storage-designer/" 前缀以便于 nginx 处理
-  // 但经测试添加 base 会导致开发时无法访问，建议改为构建时添加命令 vite build --base=/DNA-storage-designer/
+  // 但经测试添加 base 会导致开发时无法访问，建议改为构建时添加命令 vite build --base=/dna-storage-designer/
   // base: "/DNA-storage-designer/",
   build: {
     chunkSizeWarningLimit: 1000,

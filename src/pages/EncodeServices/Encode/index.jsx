@@ -8,6 +8,7 @@ import Sliders from "./components/Sliders";
 import Graphs from "./components/Graphs";
 import { Anchor,Button} from "antd";
 import { FolderAddTwoTone } from "@ant-design/icons";
+import {doPost} from "../../../utils/request";
 const { Link } = Anchor;
 
 export const Encode = (props) => {
@@ -100,7 +101,7 @@ export const Encode = (props) => {
     verify_method: "WithoutVerifycode",
     encode_method: "Basic",
   };
-  const handleClick = () => {
+  const handleClick = async () => {
     //console.log("加载中");
     props.setIsSynthesis(true);
     props.changeSider(["0-0-1"]);
@@ -112,41 +113,73 @@ export const Encode = (props) => {
     params1.verify_method = method;
     params1.encode_method = value;
 
-    axios
-      .post("http://localhost:5000/encode", params1)
-      .then(function (response) {
-        console.log("Encode-response: ", response.data);
-        console.log("Encode-response: ", typeof(response.data.min_free_energy_below_30kcal_mol));
-        InfoPass1(
-          response.data.bit_size,
-          response.data.byte_size,
-          response.data.encode_method,
-          response.data.index_length,
-          response.data.segment_length,
-          response.data.segment_number,
-          response.data.verify_method
-        );
-        GCPass(response.data.gc_data);
-        HomoPass(response.data.homo_data);
-        EnergyPass(response.data.energy_plot);
-        EncodeURLPass(response.data.user_encode_file);
-        FileURLPass(response.data.user_file_infofile);
-        DNAInfoPass(
-          response.data.DNA_sequence_length,
-          response.data.encoding_time,
-          response.data.information_density,
-          response.data.nucleotide_counts,
-          response.data.min_free_energy,
-          response.data.net_information_density,
+    const body = params1;
+
+    const resp = await doPost("/encode", { body });
+      console.log("Encode-response: ", resp);
+      console.log("Encode-response: ", typeof(resp.min_free_energy_below_30kcal_mol));
+      InfoPass1(
+          resp.bit_size,
+          resp.byte_size,
+          resp.encode_method,
+          resp.index_length,
+          resp.segment_length,
+          resp.segment_number,
+          resp.verify_method
+      );
+      GCPass(resp.gc_data);
+      HomoPass(resp.homo_data);
+      EnergyPass(resp.energy_plot);
+      EncodeURLPass(resp.user_encode_file);
+      FileURLPass(resp.user_file_infofile);
+      DNAInfoPass(
+          resp.DNA_sequence_length,
+          resp.encoding_time,
+          resp.information_density,
+          resp.nucleotide_counts,
+          resp.min_free_energy,
+          resp.net_information_density,
           // response.data.min_free_energy_below_30kcal_mol,
-        );
-        miniEnergyPass(response.data.min_free_energy_below_30kcal_mol);
-        props.setSpin(false);
-        console.log('完成spin');
-      })
-      .catch(function (error) {
-        //console.log(error);
-      });
+      );
+      miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
+      props.setSpin(false);
+      console.log('完成spin');
+
+    // axios
+    //   .post("http://localhost:5000/encode", params1)
+    //   .then(function (response) {
+    //     console.log("Encode-response: ", response.data);
+    //     console.log("Encode-response: ", typeof(response.data.min_free_energy_below_30kcal_mol));
+    //     InfoPass1(
+    //       response.data.bit_size,
+    //       response.data.byte_size,
+    //       response.data.encode_method,
+    //       response.data.index_length,
+    //       response.data.segment_length,
+    //       response.data.segment_number,
+    //       response.data.verify_method
+    //     );
+    //     GCPass(response.data.gc_data);
+    //     HomoPass(response.data.homo_data);
+    //     EnergyPass(response.data.energy_plot);
+    //     EncodeURLPass(response.data.user_encode_file);
+    //     FileURLPass(response.data.user_file_infofile);
+    //     DNAInfoPass(
+    //       response.data.DNA_sequence_length,
+    //       response.data.encoding_time,
+    //       response.data.information_density,
+    //       response.data.nucleotide_counts,
+    //       response.data.min_free_energy,
+    //       response.data.net_information_density,
+    //       // response.data.min_free_energy_below_30kcal_mol,
+    //     );
+    //     miniEnergyPass(response.data.min_free_energy_below_30kcal_mol);
+    //     props.setSpin(false);
+    //     console.log('完成spin');
+    //   })
+    //   .catch(function (error) {
+    //     //console.log(error);
+    //   });
   };
   const scrollToAnchor = (placement) => {
     notification.info({
