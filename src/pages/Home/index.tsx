@@ -64,13 +64,13 @@ export const Home: React.FC<HomeProps> = (props) => {
               <Link to="/services/encode"> Try </Link>
         </Button>
       </div>
-      <div style={{paddingTop:"30px",marginLeft:"300px",marginRight:"200px",paddingBottom:"80px"}}>
+      <div style={{paddingTop:"30px",marginLeft:"400px",marginRight:"250px",paddingBottom:"80px"}}>
       <h2>Error Simulation</h2>
         <p style={{fontSize:"20px",textAlign:"justify"}}>
         The simulation service allows user to upload their own fasta DNA file to proceed error simulation stage. 
         It covers the five stages of DNA storage, namely, synthesis, storage decay, PCR, sampling, and sequencing. 
         </p>
-        <Button className="home-button" shape="round" size="large" style={{backgroundColor:"#83c5b7",marginTop:"60px"}}>
+        <Button className="home-button" shape="round" size="large" style={{backgroundColor:"#83c5b7",marginTop:"30px"}}>
               <Link to="/services/simulation">Try</Link>
         </Button>
       </div>

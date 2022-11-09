@@ -740,6 +740,38 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       line: null,
     },
   };
+  const ErrorDensityConfig={
+    data: errorDensity||[],
+    isStack: true,
+    isPercent: true,
+    xField: "count",
+    yField: "type",
+    seriesField: "error",
+    maxBarWidth: 100,
+    height: 400,
+    barWidthRatio:0.8,
+    // isPercent: true,
+    label: {
+      // 可手动配置 label 数据标签位置
+      position: "left",
+      // 'left', 'middle', 'right'
+      // 可配置附加的布局方法
+      layout: [
+        // 柱形图数据标签位置自动调整
+        {
+          type: "interval-adjust-position",
+        }, // 数据标签防遮挡
+        {
+          type: "interval-hide-overlap",
+        }, // 数据标签文颜色自动调整
+        {
+          type: "adjust-color",
+        },
+      ],
+    },
+    
+  }
+
   //接口配置
   const params = useMemo(() => {
     return {
@@ -921,8 +953,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       <Card style={{ width: 800, height: 500,marginLeft:"20px"}}>
         <DualAxes {...dualConfig} />
       </Card>
-      <Card style={{ width: 800, height: 500,marginLeft:"20px"}}>
-        <Scatter {...scatterConfig} />
+      <Card style={{ width: 1000, height: 500,marginLeft:"20px"}}>
+        <Bar {...ErrorDensityConfig} />
       </Card>
       <Button shape="round" size="large" type="primary" style={{margin:"40px 0px 0px 350px"}} onClick={DownloadURL}>Download</Button>
       {/* <Card style={{ width: 800, height: 500 }}></Card> */}
