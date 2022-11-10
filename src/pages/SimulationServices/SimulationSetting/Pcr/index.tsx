@@ -16,7 +16,7 @@ import {
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
 import axios from "axios";
-
+import {doPost} from "../../../../utils/request";
 export class PcrProps {
   changeSider;
   fileId;
@@ -70,21 +70,18 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     setIsModalOpen(false);
   };
 
-  const handleOk = () => {
+  const handleOk = async() => {
     setLoading(true);
     setNoDataTipsShow(false);
     setAlreadyRun(true);
-    axios
-      .post("http://localhost:5000/simu_pcr", params)
-      .then(function (response) {
-        console.log("pcr response", response);
-        setLen(response?.data?.pcr_density.length);
+    const resp = await doPost("/simu_pcr", { body:params });
+        // console.log("pcr response", response);
+        setLen(resp.pcr_density.length);
         // setErrorData(response?.data?.pcr_error_density);
-        setGroup(response?.data?.pcr_group);
-        setDensityData(response?.data?.pcr_density);
-        setHrefLink(response?.data?.synthesis_method_reference);
+        setGroup(resp.pcr_group);
+        setDensityData(resp.pcr_density);
+        setHrefLink(resp.synthesis_method_reference);
         setLoading(false);
-      });
   };
   // const handleContinue = () => {
   //   props.changeSider(["0-1-3"]);

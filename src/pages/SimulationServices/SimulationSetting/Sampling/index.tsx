@@ -16,7 +16,7 @@ import {
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
 import axios from "axios";
-
+import {doPost} from "../../../../utils/request";
 export class SamplingProps {
   changeSider;
   fileId;
@@ -56,25 +56,20 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const handleOk = () => {
+  const handleOk = async() => {
     setLoading(true);
     setNoDataTipsShow(false);
     setAlreadyRun(true);
-    axios
-      .post("http://localhost:5000/simu_sam", params)
-      .then(function (response) {
-        //console.log("sampling response", response);
-        //setErrorData(response?.data?.sam_error_density);
-        setLen(response?.data?.sam_density.length);
-        setGroup(response?.data?.sam_group);
-        setDensityData(response?.data?.sam_density);
-        setHrefLink(response?.data?.synthesis_method_reference);
+    const resp = await doPost("/simu_sam", { body:params });
+        setLen(resp.sam_density.length);
+        setGroup(resp.sam_group);
+        setDensityData(resp.sam_density);
+        setHrefLink(resp.synthesis_method_reference);
         setLoading(false);
-      });
   };
-  const handleContinue = () => {
-    props.changeSider(["0-1-4"]);
-  };
+  // const handleContinue = () => {
+  //   props.changeSider(["0-1-4"]);
+  // };
 
   const methodLink = useMemo(() => {
     return hrefLink?.map((link, index) => {

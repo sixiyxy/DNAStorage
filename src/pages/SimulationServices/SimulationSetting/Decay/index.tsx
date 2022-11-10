@@ -15,7 +15,7 @@ import {
 } from "antd";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
-
+import {doPost} from "../../../../utils/request";
 import axios from "axios";
 import { group } from "console";
 import { Position } from "@antv/attr";
@@ -71,24 +71,22 @@ export const Decay: React.FC<DecayProps> = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const handleOk = () => {
+  const handleOk = async() => {
     setLoading(true);
     setNoDataTipsShow(false);
     setAlreadyRun(true);
-    axios
-      .post("http://localhost:5000/simu_dec", params)
-      .then(function (response) {
-        console.log("decay-response", response);
-        setLen(response?.data?.dec_density.length);
-        setGroup(response?.data?.dec_group);
-        setData(response?.data?.dec_density);
-        setHrefLink(response?.data?.storage_host_parameter_reference);
+    const resp = await doPost("/simu_dec", { body:params });
+    
+        // console.log("decay-response", response);
+        setLen(resp.dec_density.length);
+        setGroup(resp.dec_group);
+        setData(resp.dec_density);
+        setHrefLink(resp.storage_host_parameter_reference);
         setLoading(false);
-      });
   };
-  const handleContinue = () => {
-    props.changeSider(["0-1-2"]);
-  };
+  // const handleContinue = () => {
+  //   props.changeSider(["0-1-2"]);
+  // };
 
   //数据生成
   // const chartData = useMemo(() => {

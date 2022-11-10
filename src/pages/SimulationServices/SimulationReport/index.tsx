@@ -16,7 +16,7 @@ import {
 } from "antd";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
-
+import {doPost} from "../../../utils/request";
 import axios from "axios";
 
 export class SimulationReportProps {
@@ -71,21 +71,34 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     window.scrollTo(0,0);
   },[])
   useEffect(() => {
+    async function fetchData(){
     setLoading(true);
     setNoDataTipsShow(false);
-    axios
-      .post("http://localhost:5000//simu_repo", params)
-      .then(function (response) {
-        console.log("report", response);
-        setSynthesisData(response?.data?.synthesis);
-        setDacayData(response?.data?.decay);
-        setPcrData(response?.data?.pcr);
-        setSamplingData(response?.data?.sample);
-        setSequenceingData(response?.data?.sequence);
-        setErrorRecode(response?.data?.Error_Recorder);
-        setErrorDensity(response?.data?.Error_Density);
-        setLoading(false);
-      });
+    const resp = await doPost("/simu_repo", { body:params });
+    // console.log("report", response);
+    setSynthesisData(resp.synthesis);
+    setDacayData(resp.decay);
+    setPcrData(resp.pcr);
+    setSamplingData(resp.sample);
+    setSequenceingData(resp.sequence);
+    setErrorRecode(resp.Error_Recorder);
+    setErrorDensity(resp.Error_Density);
+    setLoading(false);
+  }
+    fetchData();
+    // axios
+    //   .post("http://localhost:5000//simu_repo", params)
+    //   .then(function (response) {
+    //     console.log("report", response);
+    //     setSynthesisData(response?.data?.synthesis);
+    //     setDacayData(response?.data?.decay);
+    //     setPcrData(response?.data?.pcr);
+    //     setSamplingData(response?.data?.sample);
+    //     setSequenceingData(response?.data?.sequence);
+    //     setErrorRecode(response?.data?.Error_Recorder);
+    //     setErrorDensity(response?.data?.Error_Density);
+    //     setLoading(false);
+    //   });
   }, [props.fileId]);
   // const handleOk = () => {
   //   setLoading(true);
@@ -296,7 +309,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           overflow: "hidden",
           textOverflow: "ellipsis",
         },
-        content: "Error\nParam",
+        // content: "Error\nParam",
       },
     },
   };
@@ -956,7 +969,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       <Card style={{ width: 800, height: 500,marginLeft:"20px"}}>
         <DualAxes {...dualConfig} />
       </Card>
-      <Card style={{ width: 1000, height: 500,marginLeft:"20px"}}>
+      <Card style={{ width: 800, height: 500,marginLeft:"20px"}}>
         <Bar {...ErrorDensityConfig} />
       </Card>
       <Button shape="round" size="large" type="primary" style={{margin:"40px 0px 0px 350px"}} onClick={DownloadURL}>Download</Button>
