@@ -15,7 +15,7 @@ import {
 } from "antd";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
-
+import {doPost} from "../../../../utils/request";
 import axios from "axios";
 
 export class SequencingProps {
@@ -75,25 +75,22 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     setMethod("ill_PairedEnd");
     setSequencingDepth(1);
   };
-  const handleOk = () => {
+  const handleOk = async() => {
     setLoading(true);
     setNoDataTipsShow(false);
     setAlreadyRun(true);
-    axios
-      .post("http://localhost:5000/simu_seq", params)
-      .then(function (response) {
-        console.log("sequencing response", response);
+    const resp = await doPost("/simu_seq", { body:params });
+        // console.log("sequencing response", response);
         //setErrorData(response?.data?.seq_error_density);
-        setLen(response?.data?.seq_density.length);
-        setDensityData(response?.data?.seq_density);
-        setGroup(response?.data?.seq_group);
-        setHrefLink(response?.data?.synthesis_method_reference);
+        setLen(resp.seq_density.length);
+        setDensityData(resp.seq_density);
+        setGroup(resp.seq_group);
+        setHrefLink(resp.synthesis_method_reference);
         setLoading(false);
-      });
   };
-  const handleContinue = () => {
-    props.changeSider(["0-1-5"]);
-  };
+  // const handleContinue = () => {
+  //   props.changeSider(["0-1-5"]);
+  // };
 
   //数据生成
   // const densityChartData = useMemo(() => {

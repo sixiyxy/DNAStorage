@@ -17,7 +17,7 @@ import {
 } from "antd";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
-
+import {doPost} from "../../../../utils/request";
 import axios from "axios";
 import Dragger from "antd/lib/upload/Dragger";
 
@@ -69,44 +69,39 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const handleOk = () => {
+  const handleOk = async() => {
     setLoading(true);
     setNoDataTipsShow(false);
-    axios
-      .post("http://localhost:5000/simu_synthesis", params)
-      .then(function (response) {
+    const resp = await doPost("/simu_synthesis", { body:params });
+    
         //console.log(response);
         //console.log("syn_density", response?.data?.syn_density);
-        setLen(response?.data?.syn_density.length);
-        setData(response?.data?.syn_density);
-        setGroup(response?.data?.density_group);
-        setHrefLink(response?.data?.synthesis_method_reference);
+        setLen(resp.syn_density.length);
+        setData(resp.syn_density);
+        setGroup(resp.density_group);
+        setHrefLink(resp.synthesis_method_reference);
         setAlreadyRun(true);
         setLoading(false);
-      });
     props.setIsSynthesis(true);
   };
-
-  const handleExample = () => {
-    setLoading(true);
-    setNoDataTipsShow(false);
-    axios
-      .post("http://localhost:5000/simu_synthesis", {
+  var param1 = {
         file_uid: "1582175684011364352", //待确认
         synthesis_number: 30,
         synthesis_yield: 0.99,
         synthesis_method: "ErrASE",
         upload_flag: "True",
-      })
-      .then(function (response) {
-        console.log(response);
-        // console.log("syn_density", response?.data?.syn_density.length);
-        setLen(response?.data?.syn_density.length);
-        setGroup(response?.data?.density_group);
-        setData(response?.data?.syn_density);
-        setHrefLink(response?.data?.synthesis_method_reference);
-        setLoading(false);
-      });
+  }
+  const handleExample = async() => {
+    setLoading(true);
+    setNoDataTipsShow(false);
+    const resp = await doPost("/simu_synthesis", { body:param1 }); 
+    // console.log("syn_density", response?.data?.syn_density.length);
+    setLen(resp.syn_density.length);
+    setGroup(resp.density_group);
+    setData(resp.syn_density);
+    setHrefLink(resp.synthesis_method_reference);
+    setLoading(false);
+      
     props.setIsSynthesis(true);
   };
   // const handleContinue = () => {
