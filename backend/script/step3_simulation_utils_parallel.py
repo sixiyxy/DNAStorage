@@ -351,7 +351,7 @@ class Simulation():
                 for index,density in enumerate(error_density):
                     density = sorted(density.items(), key=lambda e: e[0])
                     for i in density:
-                        error_density_final.append({'type':self.funcs_names[index],"error":i[0],"count":i[1]})
+                        error_density_final.append({'type':self.funcs_names[index],"error":str(i[0]),"count":i[1]})
 
         print(error_recorder_final)
         print(error_density_final)
