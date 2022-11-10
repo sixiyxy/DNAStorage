@@ -34,19 +34,55 @@ const Graphs: React.FC = (props: any) => {
   // console.log('graph',props.method);
 
   const memoizedValue = useMemo(() => {
-    return [
-      {
-        name: props.method,
-        value: props.seg,
-        type: "Index Area",
-      },
-
-      {
-        name: props.method,
-        value: props.index,
-        type: "Information Area",
-      },
-    ];
+    if (props.method === 'WithoutVerifycode'){
+      return [
+        {
+          name: props.method,
+          value: props.seg,
+          type: "Index Area",
+        },
+  
+        {
+          name: props.method,
+          value: props.index,
+          type: "Information Area",
+        },
+      ];
+    }
+    if (props.method === 'Hamming'){
+      return [
+        {
+          name: props.method,
+          value: props.seg,
+          type: "Index Area",
+        },
+  
+        {
+          name: props.method,
+          value: props.index,
+          type: "Information Area",
+        },
+      ];
+    }
+    if (props.method === 'ReedSolomon'){
+      return [
+        {
+          name: props.method,
+          value: props.seg,
+          type: "Index Area",
+        },
+        {
+          name: props.method,
+          value: 8,
+          type: "Check Code Area"
+        },
+        {
+          name: props.method,
+          value: props.index,
+          type: "Information Area",
+        }
+      ];
+    }
   }, [props.seg, props.index, props.method]);
 
   const config: any = {
@@ -57,6 +93,15 @@ const Graphs: React.FC = (props: any) => {
     seriesField: "type",
     maxBarWidth: 40,
     height: 200,
+    colorField: 'type', // 部分图表使用 seriesField
+    color: ({ type }) => {
+    if(type === 'Check Code Area'){
+      return 'red';
+    }
+    if(type === 'Information Area'){
+      return 'green'
+    }
+  },
     label: {
       // 可手动配置 label 数据标签位置
       position: "middle",
