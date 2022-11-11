@@ -53,14 +53,6 @@ def file_upload():
 
     return json.dumps(file_base_info)
 
-@app.route('/example',method=['GET','POST'])
-def example():
-    front_data = request.data
-    front_data = json.loads(front_data)
-    segment_length = front_data['segment_length']
-    example_data = 
-
-
 @app.route('/encode',methods=['GET','POST'])
 def file_encode():
     print('\n','#'*25,'Encoding','#'*25,'\n','#'*60)
