@@ -27,6 +27,8 @@ backend_dir = os.path.dirname(os.path.abspath(__file__))
 print("----------------------------------------------------------------",backend_dir)
 
 
+    
+
 @app.route('/')
 def index():
     return render_template('index.html')  
@@ -50,6 +52,14 @@ def file_upload():
     write_yaml(yaml_path=yaml_file,data=file_base_info,appending=False)
 
     return json.dumps(file_base_info)
+
+@app.route('/example',method=['GET','POST'])
+def example():
+    front_data = request.data
+    front_data = json.loads(front_data)
+    segment_length = front_data['segment_length']
+    example_data = 
+
 
 @app.route('/encode',methods=['GET','POST'])
 def file_encode():
@@ -332,6 +342,6 @@ def download():
 
 
 if __name__ == '__main__':
-    CORS(app,supports_credentials=True)
+    # CORS(app,supports_credentials=True)
     app.run('0.0.0.0', port=5000, debug=True)
    

@@ -90,6 +90,26 @@ def get_download_path(type,file_uid):
     return dna_dir,downfile_name
 
 
+def example_plot(segment_length):
+    n = 1
+    data = []
+    while 2**n <= segment_length:
+        sub = {'name':'Hamming{}'.format(n-1),
+               'method':'Hamming',
+               'value':2**n }
+        data.append(sub)
+        check = {'name':'check{}'.format(n-1),
+                  'method':'Hamming',
+                  'value':1}
+        data.append(check)
+        n +=1
+    
+    info = {'name':'Info',
+            'method':'Hamming',
+            'value':segment_length-2**(n-1)}
+    data.append(info)
+        
+    return data
 
 class Monitor:
 
@@ -143,4 +163,6 @@ class Monitor:
 
 
 if __name__ == '__main__':
-    get_download_path(type='encode',file_uid=1565536927137009664)
+    # get_download_path(type='encode',file_uid=1565536927137009664)
+    a = example_plot(160)
+    print(a)
