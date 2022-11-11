@@ -2,6 +2,7 @@ import { InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
 import { message, Upload } from "antd";
 import React, { useState } from "react";
+import {API_PREFIX} from "../../../../../common/Config";
 const { Dragger } = Upload;
 
 const Uploads: React.FC = (props: any) => {
@@ -9,7 +10,7 @@ const Uploads: React.FC = (props: any) => {
   const Props: UploadProps = {
     name: "file",
     multiple: true,
-    action: "http://localhost:5000//file_upload",
+    action: API_PREFIX + "/file_upload",
     maxCount:1,
     onChange(info) {
       const { status } = info.file;

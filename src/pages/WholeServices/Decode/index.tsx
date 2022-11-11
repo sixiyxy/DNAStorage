@@ -11,6 +11,7 @@ import axios from "axios";
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import "./index.less";
+import {API_PREFIX} from "../../../common/Config";
 export class DecodeProps {
   fileId;
 }
@@ -109,7 +110,7 @@ export const Decode: React.FC<DecodeProps> = (props) => {
 
   const onDecode = function () {
     axios
-      .post("http://localhost:5000/decode", params)
+      .post(API_PREFIX + "/decode", params)
       .then(function (response) {
         //console.log("decode", response);
         setData(response?.data);

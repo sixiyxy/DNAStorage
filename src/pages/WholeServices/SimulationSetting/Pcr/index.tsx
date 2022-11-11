@@ -16,6 +16,7 @@ import {
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
 import axios from "axios";
+import {doPost} from "../../../../utils/request";
 
 export class PcrProps {
   changeSider;
@@ -70,21 +71,29 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     setIsModalOpen(false);
   };
 
-  const handleOk = () => {
+  const handleOk = async () => {
     setLoading(true);
     setNoDataTipsShow(false);
     setAlreadyRun(true);
-    axios
-      .post("http://localhost:5000/simu_pcr", params)
-      .then(function (response) {
-        console.log("pcr response", response);
-        // setErrorData(response?.data?.pcr_error_density);
-        setLen(response?.data?.pcr_density.length);
-        setGroup(response?.data?.pcr_group);
-        setDensityData(response?.data?.pcr_density);
-        setHrefLink(response?.data?.synthesis_method_reference);
-        setLoading(false);
-      });
+    const responseBody = await doPost("/simu_pcr", { body : params})
+    console.log("pcr response", responseBody);
+    // setErrorData(response?.data?.pcr_error_density);
+    setLen(responseBody?.pcr_density.length);
+    setGroup(responseBody?.pcr_group);
+    setDensityData(responseBody?.pcr_density);
+    setHrefLink(responseBody?.synthesis_method_reference);
+    setLoading(false);
+    // axios
+    //   .post("http://localhost:5000/simu_pcr", params)
+    //   .then(function (response) {
+    //     console.log("pcr response", response);
+    //     // setErrorData(response?.data?.pcr_error_density);
+    //     setLen(response?.data?.pcr_density.length);
+    //     setGroup(response?.data?.pcr_group);
+    //     setDensityData(response?.data?.pcr_density);
+    //     setHrefLink(response?.data?.synthesis_method_reference);
+    //     setLoading(false);
+    //   });
   };
   // const handleContinue = () => {
   //   props.changeSider(["0-1-3"]);

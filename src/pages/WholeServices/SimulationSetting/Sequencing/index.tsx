@@ -17,6 +17,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
 
 import axios from "axios";
+import {API_PREFIX} from "../../../../common/Config";
 
 export class SequencingProps {
   changeSider;
@@ -80,7 +81,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     setNoDataTipsShow(false);
     setAlreadyRun(true);
     axios
-      .post("http://localhost:5000/simu_seq", params)
+      .post(API_PREFIX + "/simu_seq", params)
       .then(function (response) {
         console.log("sequencing response", response);
         //setErrorData(response?.data?.seq_error_density);

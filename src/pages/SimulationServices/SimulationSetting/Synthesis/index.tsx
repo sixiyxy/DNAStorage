@@ -20,6 +20,7 @@ import "./index.less";
 import {doPost} from "../../../../utils/request";
 import axios from "axios";
 import Dragger from "antd/lib/upload/Dragger";
+import {API_PREFIX} from "../../../../common/Config";
 
 export class SynthesisProps {
   changeSider;
@@ -111,7 +112,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const uploadProps = {
     name: "file",
     multiple: true,
-    action: "http://localhost:5000/dna_upload",
+    action: API_PREFIX + "/dna_upload",
     onChange(info) {
       const { status, response } = info.file;
       console.log("status", info);

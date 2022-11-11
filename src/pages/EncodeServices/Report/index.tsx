@@ -11,6 +11,7 @@ import axios from "axios";
 import "./index.less";
 
 import { Spin } from "antd";
+import {API_PREFIX} from "../../../common/Config";
 export class ReportProps {
   GC;
   homo;
@@ -181,7 +182,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     // console.log(props.encodeurl);
     // console.log(props.fileURL);
     axios
-      .post("http://localhost:5000/download", params1,{responseType: 'blob'})
+      .post(API_PREFIX + "/download", params1,{responseType: 'blob'})
       .then(function (response) {
         console.log(response.data);
         const link = document.createElement('a');  //创建一个a标签

@@ -8,6 +8,8 @@ import Sliders from "./components/Sliders";
 import Graphs from "./components/Graphs";
 import { Anchor,Button} from "antd";
 import { FolderAddTwoTone } from "@ant-design/icons";
+import {doPost} from "../../../utils/request";
+import {API_PREFIX} from "../../../common/Config";
 const { Link } = Anchor;
 
 export const Encode = (props) => {
@@ -99,7 +101,7 @@ export const Encode = (props) => {
     verify_method: "WithoutVerifycode",
     encode_method: "Basic",
   };
-  const handleClick = () => {
+  const handleClick = async () => {
     //console.log("加载中");
     props.setIsSynthesis(true);
     props.changeSider(["0-0-1"]);
@@ -112,7 +114,7 @@ export const Encode = (props) => {
     params1.encode_method = value;
 
     axios
-      .post("http://localhost:5000/encode", params1)
+      .post(API_PREFIX + "/encode", params1)
       .then(function (response) {
         console.log("Encode-response: ", response.data);
         console.log("Encode-response: ", typeof(response.data.min_free_energy_below_30kcal_mol));
@@ -167,7 +169,7 @@ export const Encode = (props) => {
     props.setSpin(true);
     props.setExam(true);
     axios
-      .post("http://localhost:5000/encode", params1)
+      .post(API_PREFIX + "/encode", params1)
       .then(function (response) {
         console.log("Encode-response: ", response.data);
         console.log("Encode-response: ", typeof(response.data.min_free_energy_below_30kcal_mol));

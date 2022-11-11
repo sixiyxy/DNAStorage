@@ -18,6 +18,8 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
 
 import axios from "axios";
+import {doPost} from "../../../utils/request";
+import {API_PREFIX} from "../../../common/Config";
 
 export class SimulationReportProps {
   changeSider;
@@ -71,17 +73,18 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   useEffect(() => {
     setLoading(true);
     setNoDataTipsShow(false);
-    axios
-      .post("http://localhost:5000//simu_repo", params)
+    // axios
+    //   .post("http://localhost:5000//simu_repo", params)
+    doPost("/simu_repo", {body : params})
       .then(function (response) {
         console.log("report", response);
-        setSynthesisData(response?.data?.synthesis);
-        setDacayData(response?.data?.decay);
-        setPcrData(response?.data?.pcr);
-        setSamplingData(response?.data?.sample);
-        setSequenceingData(response?.data?.sequence);
-        setErrorRecode(response?.data?.Error_Recorder);
-        setErrorDensity(response?.data?.Error_Density);
+        setSynthesisData(response?.synthesis);
+        setDacayData(response?.decay);
+        setPcrData(response?.pcr);
+        setSamplingData(response?.sample);
+        setSequenceingData(response?.sequence);
+        setErrorRecode(response?.Error_Recorder);
+        setErrorDensity(response?.Error_Density);
         setLoading(false);
       });
   }, [props.fileId]);
@@ -749,7 +752,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     // console.log(props.encodeurl);
     // console.log(props.fileURL);
     axios
-      .post("http://localhost:5000/download", downinfo,{responseType: 'blob'})
+      .post(API_PREFIX + "/download", downinfo,{responseType: 'blob'})
       .then(function (response) {
         console.log(response.data);
         const link = document.createElement('a');  //创建一个a标签

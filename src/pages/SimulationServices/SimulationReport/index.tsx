@@ -18,6 +18,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
 import {doPost} from "../../../utils/request";
 import axios from "axios";
+import {API_PREFIX} from "../../../common/Config";
 
 export class SimulationReportProps {
   changeSider;
@@ -800,7 +801,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     // console.log(props.encodeurl);
     // console.log(props.fileURL);
     axios
-      .post("http://localhost:5000/download", downinfo,{responseType: 'blob'})
+      .post(API_PREFIX + "/download", downinfo,{responseType: 'blob'})
       .then(function (response) {
         console.log(response.data);
         const link = document.createElement('a');  //创建一个a标签

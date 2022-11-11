@@ -22,6 +22,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
 
 import axios from "axios";
+import {API_PREFIX} from "../../../../common/Config";
 
 export class SynthesisProps {
   changeSider;
@@ -80,7 +81,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     setNoDataTipsShow(false);
     setAlreadyRun(true);
     axios
-      .post("http://localhost:5000/simu_synthesis", params)
+      .post(API_PREFIX + "/simu_synthesis", params)
       .then(function (response) {
         setLen(response?.data?.syn_density.length);
         console.log("synthesis response", response);

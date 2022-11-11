@@ -16,6 +16,7 @@ import {
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
 import axios from "axios";
+import {doPost} from "../../../../utils/request";
 
 export class SamplingProps {
   changeSider;
@@ -35,6 +36,15 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   const [loading, setLoading] = useState(false);
   const [alreadyRun, setAlreadyRun] = useState(false);
   const [group, setGroup] = useState();
+
+  const params = useMemo(() => {
+      return {
+          file_uid: props.fileId,
+          // file_uid: "1565536927137009664",
+          sam_ratio: samplingRatio,
+      };
+  }, [samplingRatio]);
+
   //处理函数
 
   const lossChange = (value: number) => {
@@ -56,21 +66,28 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const handleOk = () => {
+  const handleOk = async () => {
     setLoading(true);
     setNoDataTipsShow(false);
     setAlreadyRun(true);
-    axios
-      .post("http://localhost:5000/simu_sam", params)
-      .then(function (response) {
-        //console.log("sampling response", response);
-        //setErrorData(response?.data?.sam_error_density);
-        setLen(response?.data?.sam_density.length);
-        setGroup(response?.data?.sam_group);
-        setDensityData(response?.data?.sam_density);
-        setHrefLink(response?.data?.synthesis_method_reference);
-        setLoading(false);
-      });
+    const responseBody = await doPost("/simu_sam", { body: params});
+    setErrorData(responseBody?.sam_error_density);
+    setLen(responseBody?.sam_density.length);
+    setGroup(responseBody?.sam_group);
+    setDensityData(responseBody?.sam_density);
+    setHrefLink(responseBody?.synthesis_method_reference);
+    setLoading(false);
+    // axios
+    //   .post("http://localhost:5000", params)
+    //   .then(function (response) {
+    //     //console.log("sampling response", response);
+    //     //setErrorData(response?.data?.sam_error_density);
+    //     setLen(response?.data?.sam_density.length);
+    //     setGroup(response?.data?.sam_group);
+    //     setDensityData(response?.data?.sam_density);
+    //     setHrefLink(response?.data?.synthesis_method_reference);
+    //     setLoading(false);
+    //   });
   };
   const handleContinue = () => {
     props.changeSider(["0-1-4"]);
@@ -106,13 +123,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   //     };
   //   });
   // }, [errorData]);
-  const params = useMemo(() => {
-    return {
-      file_uid: props.fileId,
-      // file_uid: "1565536927137009664",
-      sam_ratio: samplingRatio,
-    };
-  }, [samplingRatio]);
+
   // console.log("params", params);
   // const densityConfig = {
   //   data: densityChartData,

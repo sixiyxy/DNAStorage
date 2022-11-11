@@ -19,6 +19,7 @@ import "./index.less";
 import axios from "axios";
 import { group } from "console";
 import { Position } from "@antv/attr";
+import {doPost} from "../../../../utils/request";
 
 export class DecayProps {
   // changeSider;
@@ -75,14 +76,15 @@ export const Decay: React.FC<DecayProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     setAlreadyRun(true);
-    axios
-      .post("http://localhost:5000/simu_dec", params)
+    // axios
+    //   .post("http://localhost:5000/simu_dec", params)
+    doPost("/simu_dec", {body: params})
       .then(function (response) {
         console.log("decay-response", response);
-        setLen(response?.data?.dec_density.length);
-        setGroup(response?.data?.dec_group);
-        setData(response?.data?.dec_density);
-        setHrefLink(response?.data?.storage_host_parameter_reference);
+        setLen(response?.dec_density.length);
+        setGroup(response?.dec_group);
+        setData(response?.dec_density);
+        setHrefLink(response?.storage_host_parameter_reference);
         setLoading(false);
       });
   };
