@@ -19,6 +19,7 @@ export const router: RouteObject[] = [
     path: "/",
     element: <BasicLayout />,
     children: [
+      { path: "/", element: <Home /> },
       { path: "/home", element: <Home /> },
       { path: "/publications", element: <Publications /> },
       { path: "/resources", element: <Resources /> },

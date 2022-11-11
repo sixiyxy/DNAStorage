@@ -4,8 +4,10 @@ import vitePluginImp from "vite-plugin-imp";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "./",
   plugins: [
     react(),
+    // history: createWe
     vitePluginImp({
       optimize: true,
       libList: [
