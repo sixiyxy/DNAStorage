@@ -299,6 +299,7 @@ def decode():
     #### Postman test json ####
     # {"file_uid":1565536927137009664,
     # "clust_method":"cdhit"}
+    # "clust_method":'starcode'}
     print('\n','#'*25,'Decoding','#'*25,'\n','#'*60)
 
     front_data = request.data
