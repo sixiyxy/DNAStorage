@@ -50,19 +50,83 @@ const Graphs: React.FC = (props: any) => {
       ];
     }
     if (props.method === 'Hamming'){
-      return [
+      var n = 1
+      var data1 = []
+      var sub={
+        // 'name':'',
+        // 'method':'Hamming',
+        // 'value':0
+      }
+      var check={}
+      var info={}
+      // var index={}
+      var sub1={}
+    while (2**n <= props.seg){
+      if (n <= 5){
         {
-          name: props.method,
-          value: props.seg,
-          type: "Index Area",
-        },
-  
-        {
-          name: props.method,
-          value: props.index,
-          type: "Information Area",
-        },
-      ];
+          sub = {
+            type:`Hamming${n-1}`,
+            name:'Hamming',
+            value:2**n
+          }
+          data1.push(sub)
+          check = {
+            type:`check${n-1}`,
+            name:'Hamming',
+            value:1
+          }
+          data1.push(check)
+        }
+      }
+      if (props.seg < 126 && props.seg >= 120  && n==6){
+          sub = {
+            type:'Hamming5',
+            name:'Hamming',
+            value:props.seg-62
+          }
+          info = {
+            type:'Information Area',
+            name:'Hamming',
+            value:props.index
+          }
+          data1.push(sub)
+          data1.push(info)
+          console.log(data1);
+          break
+        }
+        else if(n > 6){
+          sub1 = {
+            type:'Hamming5',
+            name:'Hamming',
+            value:64
+          }
+          check ={
+            type:'check5',
+            name:'Hamming',
+            value:1}
+          sub = {
+            type:'Hamming6',
+            name:'Hamming',
+            value:props.seg-126
+          }
+          info = {
+            type:'Information Area',
+            name:'Hamming',
+            value:props.index
+          }
+          data1.push(sub1)
+          data1.push(check)
+          data1.push(sub)
+          data1.push(info)
+          console.log(data1);
+          break
+        }else{
+          console.log('finish');
+        }
+      
+        n+=1
+      }
+      return data1
     }
     if (props.method === 'ReedSolomon'){
       return [
@@ -74,7 +138,7 @@ const Graphs: React.FC = (props: any) => {
         {
           name: props.method,
           value: 8,
-          type: "Check Code Area"
+          type: "check Code Area"
         },
         {
           name: props.method,
@@ -95,11 +159,11 @@ const Graphs: React.FC = (props: any) => {
     height: 200,
     colorField: 'type', // 部分图表使用 seriesField
     color: ({ type }) => {
-    if(type === 'Check Code Area'){
-      return 'red';
+    if(type.search("check")!=-1){
+      return '#A81829';
     }
-    if(type === 'Information Area'){
-      return 'green'
+    if(type.search("Information")!=-1){
+      return '#006BA2'
     }
   },
     label: {

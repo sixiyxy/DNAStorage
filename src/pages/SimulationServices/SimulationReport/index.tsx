@@ -763,7 +763,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     seriesField: "error",
     maxBarWidth: 100,
     height: 400,
-    // barWidthRatio:0.7,
+    barWidthRatio:0.4,
     // isPercent: true,
     label: {  
       // 可手动配置 label 数据标签位置
