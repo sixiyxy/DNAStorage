@@ -306,8 +306,9 @@ def decode():
     file_uid = front_data['file_uid'] 
     clust_method = front_data['clust_method']
 
-    Decode_obj = ClusterDecode(file_uid = file_uid,clust_method= 'cdhit')
+    Decode_obj = ClusterDecode(file_uid = file_uid,clust_method= clust_method)
     decode_info = Decode_obj.decode_stat()
+    print(decode_info)
     return json.dumps(decode_info)
 
 @app.route('/download',methods=['GET','POST'])
