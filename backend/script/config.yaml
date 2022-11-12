@@ -20,6 +20,7 @@ encode_dir: encode
 simulation_dir: simulation
 
 # decode
+starcode: /data2/dna/Software/starcode/starcode
 decode_dir: decode
 
 # threads

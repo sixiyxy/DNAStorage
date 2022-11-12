@@ -38,14 +38,7 @@ class ClusterDecode():
         self.simulation_dir = '{}/{}'.format(self.backend_dir,self.config['simulation_dir'])
         self.simulation_dna_file = '{}/{}.fasta'.format(self.simulation_dir,self.file_uid)
         self.out_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
-        self.starcode = "/Users/jianglikun/VScode/starcode/starcode"
-
-        # encode
-        self.encode_dir = '{}/{}'.format(self.backend_dir,self.config['encode_dir'])
-        self.encode_file = '{}/{}.npz'.format(self.encode_dir,self.file_uid)
-        self.encode_data = np.load(self.encode_file)
-        self.encode_dna_sequences = self.encode_data['dna_sequences']
-        self.encode_bit_segment = self.encode_data['bit_sequences']
+        self.starcode = self.config['starcode']
 
         # decode
         self.out_file = '{}/{}_cdhit.fasta'.format(self.out_dir,self.file_uid)
@@ -54,6 +47,12 @@ class ClusterDecode():
         self.decode_method = encoding_methods[self.file_info_dict['encode_method']]
         self.bit_size = self.file_info_dict['bit_size']
         self.segment_length = self.file_info_dict['segment_length']
+
+        # encode
+        self.encode_file = '{}/{}.npz'.format(self.out_dir,self.file_uid)
+        self.encode_data = np.load(self.encode_file)
+        self.encode_dna_sequences = self.encode_data['dna_sequences']
+        self.encode_bit_segment = self.encode_data['bit_sequences']
 
     def method_cdhit(self):
         cdh=CD_HIT(max_memory=320000,throw_away_sequences_length=60,
