@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { Bar } from "@ant-design/plots";
 
 const Graphs: React.FC = (props: any) => {
+  const [veri,setveri] = useState(0)
   //const [dataobj, setData] = useState(data);
   //const [setData,setMethod] = props
   // const handleClick = () => {
@@ -35,6 +36,7 @@ const Graphs: React.FC = (props: any) => {
 
   const memoizedValue = useMemo(() => {
     if (props.method === 'WithoutVerifycode'){
+      setveri(0)
       return [
         {
           name: props.method,
@@ -125,10 +127,13 @@ const Graphs: React.FC = (props: any) => {
         }
       
         n+=1
+        
       }
+      setveri(n-1)
       return data1
     }
     if (props.method === 'ReedSolomon'){
+      setveri(8)
       return [
         {
           name: props.method,
@@ -166,6 +171,46 @@ const Graphs: React.FC = (props: any) => {
       return '#006BA2'
     }
   },
+  meta:{
+    name:{
+      alias:'example'
+    }
+  },
+  legend:{
+    custom: true,
+    items: [
+        {
+          name: "Payload",
+          marker: {
+            symbol: "square",
+            // style:{
+            //   fill: "#6395f9"
+            // },
+            clickable: false
+          },
+        },
+        {
+          name: "Verify Code",
+          marker: {
+            symbol: "square",
+            style:{
+              fill: "red"
+            },
+            clickable: false
+          },
+        },
+        {
+          name: "Index",
+          marker: {
+            symbol: "square",
+            style:{
+              fill: "#006BA2"
+            },
+            clickable: false
+          },
+        }
+      ]
+  },
     label: {
       // 可手动配置 label 数据标签位置
       position: "middle",
@@ -184,6 +229,27 @@ const Graphs: React.FC = (props: any) => {
         },
       ],
     },
+    yAxis:{
+      label:{
+        formatter:(val)=>`Example`
+      }
+    },
+    tooltip:{
+      position:'bottom',
+      customContent:(title,data)=>{
+        return (`<div>
+        </br>
+        <h3>${props.method}</h3>
+        </br>
+          <h3>Payload Length : ${props.seg} bits</h3>
+          </br>
+          <h3>Index Length : ${props.index} bits</h3>
+          </br>
+          <h3>Verify Code : ${veri} bits</h3>
+          </br>
+        </div>`)
+      }
+    }
   };
 
   return (
