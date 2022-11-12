@@ -191,8 +191,8 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       <Row gutter={16}>
         <Col span={8}>
         <div className="function1-content">
-          <Card 
-          style={{width:"500px"}}>
+          <div 
+          style={{width:"500px",margin:"80px 0 0 20px"}}>
             <div className="function-bar">
               <span>Synthesis Cycle:</span>
               <Tooltip title="The copied number of each oligo you want it to have.">
@@ -264,7 +264,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                     ></i>
                   </Tooltip> */}
               <Select
-                style={{ width: 320, marginLeft: 20 }}
+                style={{ width: 220, margin:"30px 0 0 20px" }}
                 onChange={handleChange}
                 value={method}
               >
@@ -294,28 +294,22 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
             </div>
             <div
               style={{
-                display: "flex",
+                // display: "flex",
                 justifyContent: "space-around",
-                margin: "20px 0",
+                margin: "50px 0",
               }}
             >
               <Button
                 size="large"
+                shape="round"
                 style={{ width: 100 }}
                 onClick={handleOk}
                 disabled={alreadyRun}
               >
                 OK
               </Button>
-              {/* <Button
-                size="large"
-                style={{ width: 100 }}
-                onClick={showModal}
-                disabled={alreadyRun}
-              >
-                Skip
-              </Button> */}
-              <Button size="large" style={{ width: 100 }} onClick={handleReset}>
+          
+              <Button size="large" shape="round" style={{ width: 100,margin:"0 0 0 130px"}} onClick={handleReset}>
                 Reset
               </Button>
               <Modal
@@ -336,12 +330,12 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 <p>Do you still want to skip it?</p>
               </Modal>
             </div>
-          </Card>
+          </div>
         </div>
         </Col>
         <Col span={8}>
           <Card style={{ marginLeft: 155, height: 500,width:"530px" }}>
-            <div>
+            {/* <div>
               <span>The parameter settings are referenced from :</span>
               <br />
               {methodLink}
@@ -349,7 +343,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
             <div style={{ margin: "0 0 30px 0" }}>
               After synthesis simulation, the situation of oligonucleotides pool as
               follows:
-            </div>
+            </div> */}
             <div>
               {noDataTipsShow ? (
                 <Empty
