@@ -302,11 +302,11 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
             <span>The parameter settings are referenced from :</span>
             <br />
             {methodLink}
-          </div>
-          <div style={{ margin: "0 0 30px 0" }}>
-            After synthesis simulation, the situation of oligonucleotides pool as
-            follows:
           </div> */}
+          <div style={{ margin: "0 0 30px 0" }}>
+            After Sampling simulation, the situation of oligonucleotides pool as
+            follows:
+          </div>
           <div>
             {noDataTipsShow ? (
               <Empty

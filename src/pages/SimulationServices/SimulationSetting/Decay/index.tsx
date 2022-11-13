@@ -326,11 +326,11 @@ export const Decay: React.FC<DecayProps> = (props) => {
               <span>The parameter settings are referenced from :</span>
               <br />
               {methodLink}
-            </div>
-            <div style={{ margin: "0 0 0 0" }}>
+            </div> */}
+            <div style={{ margin: "0 0 0 0"}}>
               After synthesis simulation, the situation of oligonucleotides pool as
               follows:
-            </div> */}
+            </div>
             <div>
               {noDataTipsShow ? (
                 <Empty

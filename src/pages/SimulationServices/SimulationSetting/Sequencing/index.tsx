@@ -294,11 +294,11 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       </Col>
       <Col span={8}>
         <Card style={{ marginLeft: 155, marginTop:"10px",height: 500,width:"530px" }}>
-          <div>
+          {/* <div>
             <span>The parameter settings are referenced from :</span>
             <br />
             {methodLink}
-          </div>
+          </div> */}
           <div style={{ margin: "0 0 30px 0" }}>
             After Sequencing simulation, the situation of oligonucleotides pool as
             follows:

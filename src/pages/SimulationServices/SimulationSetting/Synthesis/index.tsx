@@ -71,19 +71,19 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const handleOk = async() => {
+  const handleOk = () => {
     setLoading(true);
     setNoDataTipsShow(false);
-    const resp = await doPost("/simu_synthesis", { body:params });
-    
-        //console.log(response);
-        //console.log("syn_density", response?.data?.syn_density);
-        setLen(resp.syn_density.length);
-        setData(resp.syn_density);
-        setGroup(resp.density_group);
-        setHrefLink(resp.synthesis_method_reference);
-        setAlreadyRun(true);
+    axios
+      .post(API_PREFIX + "/simu_synthesis", params)
+      .then(function (response) {
+        setLen(response?.data?.syn_density.length);
+        console.log("synthesis response", response);
+        setGroup(response?.data?.density_group);
+        setData(response?.data?.syn_density);
+        setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
+      });
     props.setIsSynthesis(true);
   };
   var param1 = {

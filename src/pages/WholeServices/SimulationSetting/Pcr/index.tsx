@@ -342,13 +342,13 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     </Col>
     <Col span={8}>
       <Card style={{  marginLeft: 155, height: 500,width:"530px",marginTop:10}}>
-        <div>
+        {/* <div>
           <span>The parameter settings are referenced from :</span>
           <br />
           {methodLink}
-        </div>
+        </div> */}
         <div style={{ margin: "0 0 30px 0" }}>
-          After synthesis simulation, the situation of oligonucleotides pool as
+          After Decay simulation, the situation of oligonucleotides pool as
           follows:
         </div>
         <div>

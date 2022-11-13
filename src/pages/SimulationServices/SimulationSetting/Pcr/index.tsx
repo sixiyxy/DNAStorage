@@ -334,11 +334,11 @@ export const Pcr: React.FC<PcrProps> = (props) => {
           <span>The parameter settings are referenced from :</span>
           <br />
           {methodLink}
-        </div>
+        </div> */}
         <div style={{ margin: "0 0 30px 0" }}>
           After Decay simulation, the situation of oligonucleotides pool as
           follows:
-        </div> */}
+        </div>
         <div>
           {noDataTipsShow ? (
             <Empty
