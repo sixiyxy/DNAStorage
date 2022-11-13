@@ -33,6 +33,12 @@ def write_yaml(yaml_path,data,appending):
         yaml_data = get_config(yaml_path=yaml_path)
         data_keys = list(data.keys())
         # print(data_keys)
+        if "energy_plot" in data_keys:
+            del data['energy_plot']
+        if "gc_data" in data_keys:
+            del data['gc_data']
+        if "homo_data" in data_keys:
+            del data['homo_data']
         if data_keys[0] not in yaml_data:
             with open(yaml_path,"a",encoding="utf-8") as f:
                 yaml.dump(data,f)
