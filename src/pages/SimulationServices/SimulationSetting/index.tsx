@@ -115,32 +115,12 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       <Button  type="primary" shape="round" size="large" style={{width: 100,marginLeft:"80px"}} onClick={handleOK}>OK</Button>
       </div>
       </Card>
-      {/* <Card>
-        <Select
-          mode="multiple"
-          allowClear
-          style={{
-            width: "100%",
-          }}
-          placeholder="Please select"
-          onChange={handleChange}
-          value={method}
-          disabled={alreadyChose}
-        >
-          <Option value="synthesis">Synthesis</Option>
-          <Option value="decay">Decay</Option>
-          <Option value="pcr">Pcr</Option>
-          <Option value="sampling">Sampling</Option>
-          <Option value="sequencing">Sequencing</Option>
-        </Select>
-        
-      </Card> */}
       <div>
-      <Synthesis fileId={props.fileId} setFileId={props.setFileId} okflag={okflag}/>
-      <Decay fileId={props.fileId} decayflag={decayflag} okflag={okflag}/>
-      <Pcr fileId={props.fileId} pcrflag={pcrflag} okflag={okflag}/>
-      <Sampling fileId={props.fileId} sampleflag={sampleflag} okflag={okflag}/>
-      <Sequencing fileId={props.fileId} sequenceflag={sequenceflag} okflag={okflag}/>
+      {/*<Synthesis fileId={props.fileId} setFileId={props.setFileId} okflag={okflag}/>*/}
+      {/*<Decay fileId={props.fileId} decayflag={decayflag} okflag={okflag}/>*/}
+      {/*<Pcr fileId={props.fileId} pcrflag={pcrflag} okflag={okflag}/>*/}
+      {/*<Sampling fileId={props.fileId} sampleflag={sampleflag} okflag={okflag}/>*/}
+      {/*<Sequencing fileId={props.fileId} sequenceflag={sequenceflag} okflag={okflag}/>*/}
       </div>
      
       {/* {method.indexOf("decay") !== -1 ? <Decay fileId={props.fileId} /> : null}
