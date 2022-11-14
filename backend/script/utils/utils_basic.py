@@ -32,9 +32,16 @@ def write_yaml(yaml_path,data,appending):
     elif appending==True:
         yaml_data = get_config(yaml_path=yaml_path)
         data_keys = list(data.keys())
-        # print(data_keys)
         if data_keys[0] not in yaml_data:
             with open(yaml_path,"a",encoding="utf-8") as f:
+                yaml.dump(data,f)
+        elif data_keys[0]=="simu":
+            with open(yaml_path,encoding="utf-8") as f:
+                yaml_ori=yaml.load(f,Loader=yaml.FullLoader)
+                yaml_ori['simu']=data['simu']
+            with open(yaml_path,"w",encoding="utf-8") as f:
+                yaml.dump(yaml_ori,f)
+                del data['simu']
                 yaml.dump(data,f)
 
 def write_dna_file(path,demo_path, dna_sequences):

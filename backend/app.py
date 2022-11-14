@@ -10,7 +10,7 @@ from flask_session import Session
 from script.step1_get_file_uid import get_file_uid
 from script.step2_encoding_parallel import Encoding
 
-from script.step3_simulation_utils_parallel import Simulation as Simu
+import script.step3_simulation_utils_parallel_noSession as simu_utils
 from script.step4_decode import ClusterDecode
 from script.utils.simulation_utils import is_fasta,fasta_to_dna
 from script.utils.utils_basic import get_config,write_yaml,get_download_path
@@ -20,13 +20,11 @@ app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
 app.config['SESSION_TYPE']='filesystem'
 app.config['SECRET_KEY'] = 'XXXXX'
 app.secret_key='xxxxxxx'
-Session(app)
-CORS(app, resources=r'/*')
+# Session(app)
+# CORS(app, resources=r'/*')
 
 backend_dir = os.path.dirname(os.path.abspath(__file__))
 print("----------------------------------------------------------------",backend_dir)
-
-
     
 
 @app.route('/')
@@ -153,17 +151,12 @@ def simu_synthesis():
     synthesis_yield = front_data['synthesis_yield']
     synthesis_method = front_data['synthesis_method']
 
-    if not upload_flag:
-        now_simu=Simu(file_uid)
-    else:
-        now_simu=Simu(file_uid=file_uid,upload_flag=upload_flag)
-    simu_synthesis_settings=now_simu.get_simu_synthesis_info(synthesis_number=synthesis_number,
+    simu_synthesis_settings=simu_utils.get_simu_synthesis_info(file_uid=file_uid,
+        upload_flag=upload_flag,
+        synthesis_number=synthesis_number,
         synthesis_yield=synthesis_yield,
         synthesis_method=synthesis_method)
     
-    simulation_key = 'simulation_{}'.format(file_uid)
-    session['simulation_key'] = simulation_key
-    set_session(simulation_key,now_simu)
     print("Simulation Synthesis time:"+str(time.time()-t1))
     return json.dumps(simu_synthesis_settings)
 
@@ -173,24 +166,28 @@ def simu_dec():
     front_data = request.data
     front_data = json.loads(front_data)
 
+    try:
+        upload_flag=front_data['upload_flag']
+    except:
+        upload_flag=False
+
     '''
     #### Postman test json ####
-     {"months_of_storage":24,
-     "loss_rate":0.3,
-     "storage_host":"Hsapiens"}
+     {  "file_uid":1582175684011364352,
+        "months_of_storage":24,
+        "decay_loss_rate":0.3,
+        "storage_host":"Hsapiens",
+        "upload_flag":"True"
+        }
     '''
+    file_uid=front_data['file_uid']
     months_of_storage = front_data['months_of_storage']
-    loss_rate = front_data['loss_rate']
+    loss_rate = front_data['decay_loss_rate']
     storage_host = front_data['storage_host']
 
-    if 'simulation_key' not in session:
-        return 'session invalid, simulation_key not found'
-
-    now_simu=get_session(session['simulation_key'])
-    if now_simu is None:
-        return 'session invalid'
-
-    simu_dec_settings=now_simu.get_simu_dec_info(
+    simu_dec_settings=simu_utils.get_simu_dec_info(
+        file_uid=file_uid,
+        upload_flag=upload_flag,
         months_of_storage=months_of_storage,
         loss_rate=loss_rate,
         storage_host=storage_host)
@@ -206,22 +203,22 @@ def simu_pcr():
     front_data = json.loads(front_data)
     '''
     #### Postman test json ####
-     {"pcr_cycle":12,
-     "pcr_prob":0.8,
-     "pcr_polymerase":"Taq"}
+     {  "file_uid":1582175684011364352,
+        "pcr_cycle":12,
+        "pcr_prob":0.8,
+        "pcr_polymerase":"Taq",
+        "upload_flag":"True"
+        }
     '''
     pcr_cycle = front_data['pcr_cycle']
     pcr_prob = front_data['pcr_prob']
     pcr_polymerase = front_data['pcr_polymerase']
+    file_uid=front_data['file_uid']
+    upload_flag=front_data['upload_flag']
 
-    if 'simulation_key' not in session:
-        return 'session invalid, simulation_key not found'
-
-    now_simu=get_session(session['simulation_key'])
-    if now_simu is None:
-        return 'session invalid'
-
-    simu_pcr_settings=now_simu.get_simu_pcr_info(
+    simu_pcr_settings=simu_utils.get_simu_pcr_info(
+        file_uid=file_uid,
+        upload_flag=upload_flag,
         pcr_cycle=pcr_cycle,
         pcr_prob=pcr_prob,
         pcr_polymerase=pcr_polymerase)
@@ -234,21 +231,22 @@ def simu_sam():
     t1=time.time()
     front_data = request.data
     front_data = json.loads(front_data)
-
+    '''
     #### Postman test json ####
-    # {"sam_ratio":0.005 }
-
+    {"sam_ratio":0.005,
+     "file_uid":1582175684011364352,
+     "upload_flag":"True" 
+     }
+    '''
     sam_ratio =front_data['sam_ratio'] 
+    file_uid=front_data['file_uid']
+    upload_flag=front_data['upload_flag']
 
-    if 'simulation_key' not in session:
-        return 'session invalid, simulation_key not found'
-
-    now_simu=get_session(session['simulation_key'])
-    if now_simu is None:
-        return 'session invalid'
-
-    simu_sam_settings=now_simu.get_simu_sam_info(
-        sam_ratio=sam_ratio)
+    simu_sam_settings=simu_utils.get_simu_sam_info(
+        sam_ratio=sam_ratio,
+        file_uid=file_uid,
+        upload_flag=upload_flag
+        )
 
     print("Simalation Sample time:"+str(time.time()-t1))
     return json.dumps(simu_sam_settings)
@@ -262,35 +260,39 @@ def simu_seq():
     '''
     #### Postman test json ####
      { "seq_depth":15,
-      "seq_meth":"ill_PairedEnd"}
+      "seq_meth":"ill_PairedEnd",
+      "file_uid":1582175684011364352,
+     "upload_flag":"True" }
     '''
     seq_depth =front_data['seq_depth'] 
     seq_meth=front_data['seq_meth']
+    file_uid=front_data['file_uid']
+    upload_flag=front_data['upload_flag']
 
-    if 'simulation_key' not in session:
-        return 'session invalid, simulation_key not found'
-
-    now_simu=get_session(session['simulation_key'])
-    if now_simu is None:
-        return 'session invalid'
-
-    simu_seq_settings=now_simu.get_simu_seq_info(
+    simu_seq_settings=simu_utils.get_simu_seq_info(
         seq_depth=seq_depth,
-        seq_meth=seq_meth)
+        seq_meth=seq_meth,
+        file_uid=file_uid,
+        upload_flag=upload_flag)
 
     print("Simulation Sequence time:"+str(time.time()-t1))
     return json.dumps(simu_seq_settings)
 
 @app.route('/simu_repo',methods=['GET','POST'])
 def simu_repo():
-    if 'simulation_key' not in session:
-        return 'session invalid, simulation_key not found'
+    '''
+     ##Postman test json
+     {
+        "file_uid":1582175684011364352,
+        "upload_flag":"True" 
+        }
+    '''
+    front_data = request.data
+    front_data = json.loads(front_data)
+    file_uid=front_data['file_uid']
+    upload_flag=front_data['upload_flag']
 
-    now_simu=get_session(session['simulation_key'])
-    if now_simu is None:
-        return 'session invalid'
-    
-    simu_repo=now_simu.get_simu_repo()
+    simu_repo=simu_utils.get_simu_repo(file_uid,upload_flag)
     
     return json.dumps(simu_repo)
     

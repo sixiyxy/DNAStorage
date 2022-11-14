@@ -26,22 +26,23 @@ class Simulation():
             self.backend_dir = self.config['backend_dir']
             self.simulation_dir =   self.config['simulation_dir'] #to save simulated files
             
+           
             if not upload_flag:
-                self.file_dir=self.config['file_save_dir']
-                self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
-                self.dna_dir = self.config['encode_dir']
-                self.dna_file = '{}/{}/{}.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
-            
-                with open(self.dna_file) as f:
-                    dnas=f.readlines()
-                self.simu_dna=[dna.split('\n')[0] for dna in dnas]
-
+                    self.file_dir=self.config['file_save_dir']
+                    self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
+                    self.dna_dir = self.config['encode_dir']
+                    self.dna_file = '{}/{}/{}.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
                 
+                    with open(self.dna_file) as f:
+                        dnas=f.readlines()
+                    self.simu_dna=[dna.split('\n')[0] for dna in dnas]
+
+                    
             else:
-                self.file_dir=self.config['upload_dna_save_dir']
-                self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
-                self.file_path='{}/{}/{}.fasta'.format(self.backend_dir,self.file_dir,self.file_uid)
-                self.simu_dna=fasta_to_dna(self.file_path)
+                    self.file_dir=self.config['upload_dna_save_dir']
+                    self.file_info_path='{}/{}/{}.yaml'.format(self.backend_dir,self.file_dir,self.file_uid)
+                    self.file_path='{}/{}/{}.fasta'.format(self.backend_dir,self.file_dir,self.file_uid)
+                    self.simu_dna=fasta_to_dna(self.file_path)
 
             self.simu_dna_ori=self.simu_dna
 
@@ -72,10 +73,10 @@ class Simulation():
         arg.syn_yield=synthesis_yield
 
         SYN=Model.Synthesizer_simu(arg)
-        self.simu_dna , _ = SYN(self.simu_dna)
-
+        #self.simu_dna , _ = SYN(self.simu_dna)
         self.funcs.append(SYN)
         self.funcs_names.append("SYN")
+        simu_dna=funcs_parallel(self.funcs,self.simu_dna,False)
 
         syn_info={
             "synthesis_number":int(synthesis_number),
@@ -84,7 +85,7 @@ class Simulation():
             'synthesis_method_reference':arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=syn_info,appending=True)
-        self.syn_density,group=self.calculate_density(self.simu_dna)
+        self.syn_density,group=self.calculate_density(simu_dna)
         syn_info['syn_density']=self.syn_density
         syn_info['density_group']=group
         syn_info['error_param']={"sub":arg.syn_sub_prob,"ins":arg.syn_ins_prob,"del":arg.syn_del_prob}
@@ -110,9 +111,10 @@ class Simulation():
         arg.dec_loss_rate=loss_rate
 
         DEC=Model.Decayer_simu(arg)
-        self.simu_dna,_=DEC(self.simu_dna)
+        #self.simu_dna,_=DEC(self.simu_dna)
         self.funcs.append(DEC)
         self.funcs_names.append("DEC")
+        simu_dna=funcs_parallel(self.funcs,self.simu_dna,False)
 
         dec_info={
             "storage_host":storage_host,
@@ -121,7 +123,7 @@ class Simulation():
             "storage_host_parameter_reference":arg.reference
         }
         write_yaml(yaml_path=self.file_info_path,data=dec_info,appending=True)
-        dec_density,group=self.calculate_density(self.simu_dna)
+        dec_density,group=self.calculate_density(simu_dna)
         dec_info['dec_density']=dec_density
         dec_info['dec_group']=group
         dec_info['error_param']={"sub":arg.dec_sub_prob,"ins":arg.dec_ins_prob,"del":arg.dec_del_prob}

@@ -205,7 +205,7 @@ class Sampler_simu:
 
     def distribution(self,N):
         if self.p>1:
-            return N
+                return N
         return np.random.binomial(int(N),self.p)
 
     def run(self,re_dnas,recorder):
