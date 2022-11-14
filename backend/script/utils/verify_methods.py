@@ -189,9 +189,6 @@ class ReedSolomon(AbstractErrorCorrectionCode):
         for index in range(0, len(input_list), 8):
             byte_list.append(int(str("".join(list(map(str, input_list[index: index + 8])))), 2))
 
-        print('len bit',len(input_list))
-        print('byte_list',byte_list)
-        print()
 
         output_list = []
         for one_byte in list(self.tool.encode(byte_list)):
@@ -202,8 +199,6 @@ class ReedSolomon(AbstractErrorCorrectionCode):
             temp_bits = [0 for _ in range(8 - len(temp_bits))] + temp_bits
             output_list += temp_bits
 
-        print(len(output_list))
-        print(output_list[:136] == input_list[:136])
 
         return output_list
 
