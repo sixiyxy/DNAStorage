@@ -131,6 +131,8 @@ class Encoding():
         # record encode value
         nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
         information_density = self.bit_size/nucleotide_count
+
+        # net information density is wrong do not display
         net_nucleotide_count = len(dna_sequences)*(len(dna_sequences[0]) - self.index_length - self.verify_code_length)
         net_information_density = self.bit_size/net_nucleotide_count
 
