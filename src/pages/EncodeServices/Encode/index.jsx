@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./index.less";
 import axios from "axios";
-import { Breadcrumb, Col, Row, Spin } from "antd";
+import { Breadcrumb, Col, Row, Spin,notification } from "antd";
 import Encodelists from "./components/Encodelists";
 import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
@@ -182,6 +182,7 @@ export const Encode = (props) => {
     //   });
   
   const scrollToAnchor = (placement) => {
+    console.log('toanthor');
     notification.info({
       message: 'Please make sure you complete the uploading and selection above!',
       description:
@@ -248,9 +249,12 @@ export const Encode = (props) => {
             <a href="/home">Home</a>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="/Services">Service</a>
+            Services
           </Breadcrumb.Item>
-          <Breadcrumb.Item>EncodeServices</Breadcrumb.Item>
+          <Breadcrumb.Item>
+          Encode
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>Setting</Breadcrumb.Item>
         </Breadcrumb>
       </div>
       <Row>

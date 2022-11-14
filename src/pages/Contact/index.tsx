@@ -42,7 +42,7 @@ export const Contact: React.FC<ContactProps> = (props) => {
                 <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Xinyu Yu, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
                 <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Xinru Ruan, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p> */}
                 
-              <h1 style={{paddingTop:"30px",paddingBottom:"30px"}}>Major Member Show</h1>
+              <h1 style={{paddingTop:"30px",paddingBottom:"30px"}}>Introduction of participating members</h1>
               <Row gutter={20}>
               <Col span={5}>
                 <p style={{width:"80%"}}>
@@ -107,7 +107,7 @@ export const Contact: React.FC<ContactProps> = (props) => {
               </Col>
               </Row>
               <br/>
-              <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Yinhao Hao, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
+              <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Yinghao Lan, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
               <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Zelong Chen, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
               <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Xinyi Zhang, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
               <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Yanni Xu, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
@@ -124,9 +124,9 @@ export const Contact: React.FC<ContactProps> = (props) => {
               </p>
                 
                 </Col>
-                <Col span={4} >
+                <Col span={8} >
                 <p style={{paddingBottom:"200px",paddingTop:"20px",marginLeft:"20px",width:"100%"}}>
-                  <span style={{fontSize:"18px"}}><strong>Dr.Xiangrong Liu</strong></span><br/><br/>
+                  <span style={{fontSize:"18px"}}><strong>Professor. Xiangrong Liu</strong></span><br/><br/>
                   <a>xrliu@xmu.edu.cn</a><br/>
                   Department of Computer Science and Technology<br/>
                   Xiamen University<br/>
