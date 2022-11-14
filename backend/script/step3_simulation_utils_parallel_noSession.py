@@ -236,14 +236,11 @@ def get_simu_repo(file_uid,upload_flag):
         simulation_dir=config['simulation_dir']
         simulation_result_dir=os.path.join(backend_dir+'/'+str(simulation_dir)+'/')
         with open(simulation_result_dir+str(file_uid)+".fasta",'w') as f:
-            with open(simulation_result_dir+str(file_uid)+'_info.txt','w') as f2:
                 index=0
                 for dna in dnas:
                     for re in dna['re']:
-                        for i in range(re[0]): 
-                            if len(re[1])>=1:
-                                f2.write('>'+str(index)+"|"+str(re[1])+"\n") #index | errors
-                            f.write('>'+str(index)+"\n")
+                        for i in range(re[0]):                    
+                            f.write('>'+str(index)+"|"+str(re[1])+"\n") #index | errors
                             f.write(str(re[2])+"\n") # dna sequence
                             index+=1
                         
