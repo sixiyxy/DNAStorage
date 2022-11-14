@@ -4,36 +4,6 @@ import { Bar } from "@ant-design/plots";
 
 const Graphs: React.FC = (props: any) => {
   const [veri,setveri] = useState(0)
-  //const [dataobj, setData] = useState(data);
-  //const [setData,setMethod] = props
-  // const handleClick = () => {
-  //   if (props.method === "WithoutVerifycode") {
-  //     data[0].value = props.values[1].Indexvalue;
-  //     data[3].value = props.values[0].Segvalue;
-  //     setData(data);
-  //     //console.log(dataobj);
-  //   } else if (props.method === "HammingCode") {
-  //     data[1].value = props.values[1].Indexvalue;
-  //     data[4].value = props.values[0].Segvalue;
-  //     setData(data);
-  //     //console.log(dataobj);
-  //   } else {
-  //     data[2].value = props.values[1].Indexvalue;
-  //     data[5].value = props.values[0].Segvalue;
-  //     setData(data);
-  //     //console.log(dataobj);
-  //   }
-  // };
-  // const SegChange = (value: number) => {
-  //   if (isNaN(value)) {
-  //     return;
-  //   }
-  //   props.setSeg(props.seg);
-  // };
-  // console.log('graph',props.seg);
-  // console.log('graph',props.index);
-  // console.log('graph',props.method);
-
   const memoizedValue = useMemo(() => {
     if (props.method === 'WithoutVerifycode'){
       setveri(0)
