@@ -170,7 +170,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
       <Row gutter={16}>
         <Col span={8}>
           <div className="function-content">
-            <Card style={{width:"500px"}}>
+            <div style={{width:"500px",margin:"80px 0 0 40px"}}>
               <div className="function-bar">
                 <span>Month of Storage:</span>
                 <Tooltip title="During storage, depurination and deamination are the two main factors of the decay of strands, where the ratio could be computed with temperature, PH, and storage time. Other factors relate to the storage host you choose. ">
@@ -278,7 +278,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
                 style={{
                   // display: "flex",
                   justifyContent: "space-around",
-                  margin: "50px 0 0 20px ",
+                  margin: "80px 0 0 20px ",
                 }}
               >
                 <Button
@@ -298,7 +298,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
                 >
                   Skip
                 </Button> */}
-                <Button shape="round" size="large" style={{ width: 100,marginLeft:"110px"}} onClick={handleReset}>
+                <Button shape="round" size="large" style={{ width: 100,marginLeft:"120px"}} onClick={handleReset}>
                   Reset
                 </Button>
                 <Modal
@@ -315,19 +315,19 @@ export const Decay: React.FC<DecayProps> = (props) => {
                   <p>Do you want to skip Decay?</p>
                 </Modal>
               </div>
-            </Card>
+            </div>
           </div>
         </Col>
         <Col span={8}>
           <Card
             style={{ marginLeft: 155, height: 500,width:"530px"}}
           >
-            <div>
+            {/* <div>
               <span>The parameter settings are referenced from :</span>
               <br />
               {methodLink}
-            </div>
-            <div style={{ margin: "0 0 0 0" }}>
+            </div> */}
+            <div style={{ margin: "0 0 0 0"}}>
               After synthesis simulation, the situation of oligonucleotides pool as
               follows:
             </div>

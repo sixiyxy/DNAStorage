@@ -236,7 +236,7 @@ export const Report: React.FC<ReportProps> = (props) => {
               </Card>
             </div>
 
-            <div style={{marginLeft: "50px"}}>
+            <div style={{marginLeft: "50px",marginTop:"50px"}}>
               <Card title="DNA Information" style={{width:"100%"}} headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}>
                 <Table
                   columns={columns2}
@@ -248,18 +248,18 @@ export const Report: React.FC<ReportProps> = (props) => {
             </div>
             <div style={{marginLeft: "50px"}}>
               <Card
-                title="Title: GC_Contact"
+                title="GC_Contact"
                 type="inner"
                 style={{width: "100%" }}
-                headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}
+                headStyle={{backgroundColor:'white',textAlign:"center"}}
               >
                 <div
                   id="gcgraph"
                   style={{
-                    paddingLeft: "0px",
+                    marginLeft: "50px",
                     paddingTop: "30px",
                     fontSize: "15px",
-                    width: "750px",
+                    width: "650px",
                   }}
                 >
                   <GLgraph GC={props.GC} />
@@ -268,17 +268,18 @@ export const Report: React.FC<ReportProps> = (props) => {
             </div>
             <div style={{marginLeft: "50px"}}>
             <Card
-              title="Title: Homopolymer Length"
+              title="Homopolymer Length"
               type="inner"
               style={{width: "100%" }}
-              headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}
+              headStyle={{backgroundColor:'white',textAlign:"center",fontSize:"18px"}}
             >
               <div
                 id="homograph"
                 style={{
                   paddingTop: "30px",
+                  marginLeft:"50px",
                   fontSize: "15px",
-                  width: "750px",
+                  width: "650px",
                 }}
               >
                 <HomoGraph homo={props.homo} />
@@ -300,17 +301,17 @@ export const Report: React.FC<ReportProps> = (props) => {
             </div>
           <div style={{marginLeft: "50px"}}>
               <Card
-                title="Title: Sequence Min Free Energy "
+                title="Sequence Min Free Energy "
                 type="inner"
                 style={{width: "100%" }}
-                headStyle={{backgroundColor:'#ADD8E6',textAlign:"center"}}
+                headStyle={{backgroundColor:'white',textAlign:"center"}}
               >
                 <div
                   id="energygraph"
                   style={{
-                    paddingLeft: "50px",
+                    marginLeft: "50px",
                     paddingTop: "30px",
-                    width: "750px",
+                    width: "650px",
                   }}
                 >
                   <EnergyGraph energy={props.energy} />

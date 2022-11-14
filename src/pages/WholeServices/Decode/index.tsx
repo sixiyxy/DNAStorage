@@ -136,7 +136,7 @@ export const Decode: React.FC<DecodeProps> = (props) => {
           <Radio.Group onChange={onChange} value={value}>
             <Space direction="vertical">
               <Radio value={"cdhit"}>Cdhit</Radio>
-              <Radio value={"xxx"}>xxx</Radio>
+              <Radio value={"starcode"}>xxx</Radio>
             </Space>
           </Radio.Group>
         </div>

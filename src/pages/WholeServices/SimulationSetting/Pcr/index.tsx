@@ -207,7 +207,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     <Row gutter={16}>
     <Col span={8}>
       <div className="function-content">
-        <Card style={{width:"480px"}}>
+        <div style={{width:"480px",margin:"80px 0 0 10px"}}>
           <div className="function-bar">
             <span>PCR Cycle: </span>
             <Tooltip title="Cycle number of the PCR process.">
@@ -281,7 +281,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
                   ></i>
                 </Tooltip> */}
             <Select
-              style={{ width: 320,marginTop:"10px"}}
+              style={{ width: 220,margin:"20px 0 0 20px"}}
               onChange={handleChange}
               value={method}
             >
@@ -300,7 +300,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
             style={{
               // display: "flex",
               justifyContent: "space-around",
-              margin: "50px 0 0 20px",
+              margin: "60px 0 0 20px",
             }}
           >
             <Button
@@ -337,18 +337,18 @@ export const Pcr: React.FC<PcrProps> = (props) => {
               <p>Do you want to skip PCR?</p>
             </Modal>
           </div>
-        </Card>
+        </div>
       </div>
     </Col>
     <Col span={8}>
       <Card style={{  marginLeft: 155, height: 500,width:"530px",marginTop:10}}>
-        <div>
+        {/* <div>
           <span>The parameter settings are referenced from :</span>
           <br />
           {methodLink}
-        </div>
+        </div> */}
         <div style={{ margin: "0 0 30px 0" }}>
-          After synthesis simulation, the situation of oligonucleotides pool as
+          After Decay simulation, the situation of oligonucleotides pool as
           follows:
         </div>
         <div>

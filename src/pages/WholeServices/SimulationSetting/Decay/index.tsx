@@ -174,7 +174,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
       <Row gutter={16}>
         <Col span={8}>
           <div className="function-content">
-            <Card style={{width:"500px"}}>
+            <div style={{width:"500px",margin:"80px 0 0 10px"}}>
               <div className="function-bar">
                 <span>Month of Storage:</span>
                 <Tooltip title="During storage, depurination and deamination are the two main factors of the decay of strands, where the ratio could be computed with temperature, PH, and storage time. Other factors relate to the storage host you choose. ">
@@ -238,7 +238,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
                       ></i>
                     </Tooltip> */}
                 <Select
-                  style={{ width: 320,marginTop:"10px"}}
+                  style={{ width: 220,margin:"20px 0 0 20px"}}
                   onChange={handleChange}
                   value={method}
                 >
@@ -319,18 +319,18 @@ export const Decay: React.FC<DecayProps> = (props) => {
                   <p>Do you want to skip Decay?</p>
                 </Modal>
               </div>
-            </Card>
+            </div>
           </div>
         </Col>
         <Col span={8}>
           <Card
             style={{ marginLeft: 155, height: 500,width:"530px"}}
           >
-            <div>
+            {/* <div>
               <span>The parameter settings are referenced from :</span>
               <br />
               {methodLink}
-            </div>
+            </div> */}
             <div style={{ margin: "0 0 0 0" }}>
               After synthesis simulation, the situation of oligonucleotides pool as
               follows:

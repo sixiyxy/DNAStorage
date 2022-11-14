@@ -1,13 +1,13 @@
 import imp
 import os
 import numpy as np
-from .utils.cd_hit  import CD_HIT
-from .utils.cd_hit import read_fasta
-from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from .utils.verify_methods import Hamming,ReedSolomon
-from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
-from .utils.decode_utils import remove_index
-from .step2_encoding_parallel import Encoding
+from utils.cd_hit  import CD_HIT
+from utils.cd_hit import read_fasta
+from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+from utils.verify_methods import Hamming,ReedSolomon
+from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
+from utils.decode_utils import remove_index
+
 
 verify_methods = {
     "WithoutVerifycode":False,
@@ -38,14 +38,7 @@ class ClusterDecode():
         self.simulation_dir = '{}/{}'.format(self.backend_dir,self.config['simulation_dir'])
         self.simulation_dna_file = '{}/{}.fasta'.format(self.simulation_dir,self.file_uid)
         self.out_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
-        self.starcode = "/Users/jianglikun/VScode/starcode/starcode"
-
-        # encode
-        self.encode_dir = '{}/{}'.format(self.backend_dir,self.config['encode_dir'])
-        self.encode_file = '{}/{}.npz'.format(self.encode_dir,self.file_uid)
-        self.encode_data = np.load(self.encode_file)
-        self.encode_dna_sequences = self.encode_data['dna_sequences']
-        self.encode_bit_segment = self.encode_data['bit_sequences']
+        self.starcode = self.config['starcode_local']
 
         # decode
         self.out_file = '{}/{}_cdhit.fasta'.format(self.out_dir,self.file_uid)
@@ -55,6 +48,12 @@ class ClusterDecode():
         self.bit_size = self.file_info_dict['bit_size']
         self.segment_length = self.file_info_dict['segment_length']
 
+        # encode
+        self.encode_file = '{}/{}.npz'.format(self.out_dir,self.file_uid)
+        self.encode_data = np.load(self.encode_file)
+        self.encode_dna_sequences = self.encode_data['dna_sequences']
+        self.encode_bit_segment = self.encode_data['bit_sequences']
+
     def method_cdhit(self):
         cdh=CD_HIT(max_memory=320000,throw_away_sequences_length=60,
             length_difference_cutoff=0.7,amino_acid_length_difference_cutoff=60, 
@@ -62,6 +61,7 @@ class ClusterDecode():
             short_seq_alignment_coverage=0.7,short_seq_alignment_coverage_control=70,
             nthreads=512)       
         
+        print(self.simulation_dna_file)
         cdh.from_file(self.simulation_dna_file,self.out_file,threshold=0.97)
 
         clust_dna_sequences = open(self.out_file).read().splitlines()[1::2]
@@ -145,15 +145,15 @@ class ClusterDecode():
                         "error_bits_number":error_bits_number,
                         "error_bits_rate":error_bits_rate}
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
+        print(record_info)
         print('Decoding Done!')
 
         return record_info
 
 if __name__ == '__main__':
-    obj = Encoding(1565536927137009664)
-    record_info,bit_segments = obj.bit_to_dna()
+    # obj = Encoding(1565536927137009664)
+    # record_info,bit_segments = obj.bit_to_dna()
 
-    obj = ClusterDecode(file_uid = 1565536927137009664,encode_bit_segment=bit_segments,
-    clust_method= 'cdhit')
+    obj = ClusterDecode(file_uid = 1591324456964460544,clust_method= 'cdhit')
 
     obj.decode_stat()

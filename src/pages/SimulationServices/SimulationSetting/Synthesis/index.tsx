@@ -14,6 +14,7 @@ import {
   Slider,
   Spin,
   Tooltip,
+  Divider
 } from "antd";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./index.less";
@@ -70,19 +71,19 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const handleOk = async() => {
+  const handleOk = () => {
     setLoading(true);
     setNoDataTipsShow(false);
-    const resp = await doPost("/simu_synthesis", { body:params });
-    
-        //console.log(response);
-        //console.log("syn_density", response?.data?.syn_density);
-        setLen(resp.syn_density.length);
-        setData(resp.syn_density);
-        setGroup(resp.density_group);
-        setHrefLink(resp.synthesis_method_reference);
-        setAlreadyRun(true);
+    axios
+      .post(API_PREFIX + "/simu_synthesis", params)
+      .then(function (response) {
+        setLen(response?.data?.syn_density.length);
+        console.log("synthesis response", response);
+        setGroup(response?.data?.density_group);
+        setData(response?.data?.syn_density);
+        setHrefLink(response?.data?.synthesis_method_reference);
         setLoading(false);
+      });
     props.setIsSynthesis(true);
   };
   var param1 = {
@@ -259,11 +260,11 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       
       <div className="function1-content" style={{marginLeft:"20px"}}>
      
-        <Card title="Synthesis" style={{width:"1100px"}} loading={false}>
+        <Card title="Synthesis" style={{width:"1100px"}}>
         <Row gutter={16}>
         <Col span={8}>
-              <Card style={{width:"500px"}}>
-              <div className="function-bar">
+            <div style={{margin:"80px 0 0 70px"}}>
+              <div className="function-bar" style={{width:"500px"}}>
                 <span>Synthesis Cycle:</span>
                 <Tooltip title="The copied number of each oligo you want it to have.">
                   <i
@@ -366,27 +367,33 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 style={{
                   // display: "flex",
                   justifyContent: "space-around",
-                  margin: "50px 0",
+                  margin: "60px 0 0",
                 }}
               >
+                <Row gutter={24}>
+                {/* <Col span={8}>
                 <Button shape="round" size="large" style={{ width: 100 }} onClick={handleExample}>
                   Example
                 </Button>
+                </Col> */}
+                <Col span={12}>
                 <Button
                   size="large"
                   shape="round"
-                  style={{ width: 100,marginLeft:"30px"}}
+                  style={{ width: 100}}
                   onClick={handleOk}
-                  disabled={isOkDisable || alreadyRun}
+                  // disabled={isOkDisable || alreadyRun}
                 >
                   OK
                 </Button>
-                {/* <Button size="large" style={{ width: 100 }} onClick={showModal}>
-                      Skip
-                    </Button> */}
-                <Button shape="round" size="large" style={{ width: 100,marginLeft:"30px" }} onClick={handleReset}>
+                </Col>
+                <Col span={12}>
+                <Button shape="round" size="large" style={{ width: 100,marginLeft:"60px" }} onClick={handleReset}>
                   Reset
                 </Button>
+                </Col>
+                </Row>
+                </div>
                 <Modal
                   title="Warning"
                   visible={isModalOpen}
@@ -405,16 +412,16 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   <p>Do you still want to skip it?</p>
                 </Modal>
               </div>
-              </Card>
+              {/* </Card> */}
          </Col>
-              <Col span={8}> 
-              <Card style={{ marginLeft: 155, height: 500,width:"530px"}}>
-        <div>
+      <Col span={8}> 
+        <Card style={{ marginLeft: 155, height: 500,width:"530px"}}>
+        {/* <div>
           <span>The parameter settings are referenced from :</span>
           <a style={{ margin: "0 0 0 5px" }} href={hrefLink} target="_blank">
             Method Paper
           </a>
-        </div>
+        </div> */}
         {/* <div style={{ margin: "0 0 30px 0" }}>
           After synthesis simulation, the situation of oligonucleotides pool as
           follows:
@@ -459,7 +466,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
               </Card>
               </Col>
         </Row>
-        <div 
+    <div 
       hidden={props.okflag}
       style={{
         display:'flex',

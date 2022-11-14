@@ -32,6 +32,13 @@ def write_yaml(yaml_path,data,appending):
     elif appending==True:
         yaml_data = get_config(yaml_path=yaml_path)
         data_keys = list(data.keys())
+        # print(data_keys)
+        if "energy_plot" in data_keys:
+            del data['energy_plot']
+        if "gc_data" in data_keys:
+            del data['gc_data']
+        if "homo_data" in data_keys:
+            del data['homo_data']
         if data_keys[0] not in yaml_data:
             with open(yaml_path,"a",encoding="utf-8") as f:
                 yaml.dump(data,f)
@@ -74,7 +81,7 @@ def get_download_path(type,file_uid):
 
         # file encode dir
         dna_dir = os.path.join(backend_dir,config['encode_dir'])
-        dna_file = '{}.dna'.format(file_uid)
+        dna_file = '{}.txt'.format(file_uid)
 
     elif type =='simulation':
         file_dir = os.path.join(backend_dir,config['upload_dna_save_dir'])

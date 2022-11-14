@@ -177,7 +177,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
       <Row gutter={16}>
         <Col span={8}>
       <div className="function-content">
-        <Card style={{width:"480px"}}>
+        <div style={{width:"480px",margin:"150px 0 0 20px"}}>
           <div className="function-bar">
             <span>Sampling Ratio:</span>
             <Tooltip title="The ratio of each oligo to be sampled.">
@@ -215,7 +215,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
             style={{
               // display: "flex",
               justifyContent: "space-around",
-              margin: "50px 0 0 20px",
+              margin: "80px 0 0 20px",
             }}
           >
             <Button
@@ -252,16 +252,16 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
               <p>Do you want to skip Sampling?</p>
             </Modal>
           </div>
-        </Card>
+        </div>
       </div>
       </Col>
       <Col span={8}>
       <Card style={{ marginLeft: 155, height: 500,width:"530px",marginTop:"10px" }}>
-        <div>
+        {/* <div>
           <span>The parameter settings are referenced from :</span>
           <br />
           {methodLink}
-        </div>
+        </div> */}
         <div style={{ margin: "0 0 30px 0" }}>
           After PCR simulation, the situation of oligonucleotides pool as
           follows:

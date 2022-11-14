@@ -192,7 +192,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       <Row gutter={16}>
       <Col span={8}>
       <div className="function-content">
-        <Card style={{width:"480px"}}>
+        <div style={{width:"480px",margin:"80px 0 0 10px"}}>
           <div className="function-bar">
             <span>Sequencing Depth:</span>
             <Tooltip title="111">
@@ -235,7 +235,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                   ></i>
                 </Tooltip> */}
             <Select
-              style={{ width: 320, marginTop: 10 }}
+              style={{ width: 320, marginTop: 20 }}
               onChange={handleChange}
               value={method}
             >
@@ -261,7 +261,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
             style={{
               // display: "flex",
               justifyContent: "space-around",
-              margin: "50px 0 0 20px",
+              margin: "70px 0 0 20px",
             }}
           >
             <Button
@@ -293,18 +293,18 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
               <p>Do you want to skip Sequencing?</p>
             </Modal>
           </div>
-        </Card>
+        </div>
       </div>
       </Col>
       <Col span={8}>
         <Card style={{ marginLeft: 155, marginTop:"10px",height: 500,width:"530px" }}>
-          <div>
+          {/* <div>
             <span>The parameter settings are referenced from :</span>
             <br />
             {methodLink}
-          </div>
+          </div> */}
           <div style={{ margin: "0 0 30px 0" }}>
-            After synthesis simulation, the situation of oligonucleotides pool as
+            After Sampling simulation, the situation of oligonucleotides pool as
             follows:
           </div>
           <div>

@@ -20,6 +20,8 @@ encode_dir: encode
 simulation_dir: simulation
 
 # decode
+starcode_local: /data2/dna/Software/starcode/starcode
+starcode_remote: /Users/jianglikun/VScode/DNAStorage
 decode_dir: decode
 
 # threads
