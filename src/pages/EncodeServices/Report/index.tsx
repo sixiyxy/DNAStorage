@@ -164,7 +164,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "10",
       name1: "Information density",
-      value1: props.dnainfo.information_density,
+      value1: `${props.dnainfo.information_density} bits/nt`,
     }
   ];
   const data3: DataType[] = [
@@ -268,12 +268,12 @@ export const Report: React.FC<ReportProps> = (props) => {
                 <div
                   id="gcgraph"
                   style={{
-                    margin: "50px 0 0 90px",
+                    margin: "50px 0 0 80px",
                     fontSize: "15px",
-                    width: "700px",
+                    width: "650px",
                   }}
                 >
-                  <h3 style={{margin:"0 0 30px 320px"}}>GC_Contact</h3>
+                  <h3 style={{margin:"0 0 30px 295px"}}>GC_Contact</h3>
                   
                   <GLgraph GC={props.GC} />
                 </div>
@@ -310,7 +310,7 @@ export const Report: React.FC<ReportProps> = (props) => {
                     width: "700px",
                   }}
                 >
-                  <h3 style={{margin:"0 0 30px 240px"}}>Sequence Min Free Energy</h3>
+                  <h3 style={{margin:"0 0 30px 250px"}}>Sequence Min Free Energy</h3>
                   <EnergyGraph energy={props.energy} />
                 </div>
                 <div style={{
