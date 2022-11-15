@@ -1,4 +1,4 @@
-
+import copy
 import os,sys
 import re
 import yaml
@@ -26,6 +26,7 @@ def get_config(yaml_path=''):
     return config
 
 def write_yaml(yaml_path,data,appending):
+    display_data = copy.deepcopy(data)
     if appending==False:
         with open(yaml_path,"w",encoding="utf-8") as f:
             yaml.dump(data,f)
@@ -39,6 +40,7 @@ def write_yaml(yaml_path,data,appending):
             del data['gc_data']
         if "homo_data" in data_keys:
             del data['homo_data']
+
         if data_keys[0] not in yaml_data:
             with open(yaml_path,"a",encoding="utf-8") as f:
                 yaml.dump(data,f)
@@ -50,6 +52,7 @@ def write_yaml(yaml_path,data,appending):
                 yaml.dump(yaml_ori,f)
                 del data['simu']
                 yaml.dump(data,f)
+    return display_data
 
 def write_dna_file(path,demo_path, dna_sequences):
    
