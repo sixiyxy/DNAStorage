@@ -49,7 +49,10 @@ def gc_homo(dna_sequences):
     for i in range(101):
         plot_dict = {'x_value':i,'y_value':gc_distribution[i]}
         front_gc.append(plot_dict)
-    for i in range(max(list(map(len, dna_sequences)))):
+    
+
+    # for i in range(max(list(map(len, dna_sequences)))):
+    for i in range(2,51):
         plot_dict = {'x_value':i,'y_value':homo_distribution[i]}
         front_homo.append(plot_dict)
 

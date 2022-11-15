@@ -1,5 +1,5 @@
-import { Histogram } from "@ant-design/charts";
-import { InboxOutlined } from "@ant-design/icons";
+import {Histogram} from "@ant-design/charts";
+import {InboxOutlined} from "@ant-design/icons";
 import {
   Button,
   Card,
@@ -15,13 +15,13 @@ import {
   Tooltip,
   Upload,
 } from "antd";
-import React, { useMemo, useState } from "react";
+import React, {useMemo, useState} from "react";
 import "./index.less";
-import { doPost } from "../../../../utils/request";
+import {doPost} from "../../../../utils/request";
 import axios from "axios";
-import { API_PREFIX } from "../../../../common/Config";
+import {API_PREFIX} from "../../../../common/Config";
 
-const { Dragger } = Upload;
+const {Dragger} = Upload;
 
 export class SynthesisProps {
   changeSider?;
@@ -32,7 +32,7 @@ export class SynthesisProps {
 }
 
 export const Synthesis: React.FC<SynthesisProps> = (props) => {
-  const { Option, OptGroup } = Select;
+  const {Option, OptGroup} = Select;
   const [countLen, setCountLen] = useState(0);
   const [yieldValue, setYieldValue] = useState(0.99);
   const [cycleValue, setCycleValue] = useState(30);
@@ -95,7 +95,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     // todo 对响应结果 TS 化，否则无法消除警告
-    const resp: any = await doPost("/simu_synthesis", { body: param1 });
+    const resp: any = await doPost("/simu_synthesis", {body: param1});
     setCountLen(resp.syn_density.length);
     setGroup(resp.density_group);
     setData(resp.syn_density);
@@ -113,7 +113,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     multiple: true,
     action: API_PREFIX + "/dna_upload",
     onChange(info) {
-      const { status, response } = info.file;
+      const {status, response} = info.file;
       console.log("status", info);
       if (status !== "uploading") {
         console.log(info.file, info.fileList);
@@ -133,7 +133,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   };
 
   const beforeUpload = (file) => {
-    const { name } = file;
+    const {name} = file;
     const type = name.split(".")[1];
 
     const isFasta = type === "fasta";
@@ -209,59 +209,46 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       },
     };
   }, [group, data, countLen]);
-  return (
-    <div className={`simulation-synthesis-content ${props.okFlag ? null : "processed"}`}>
-      <Card className="simulation-synthesis-card" bordered={false} title="Upload Dna File">
-        <Dragger
-          className="simulation-synthesis-uploader"
-          {...uploadProps}
-          beforeUpload={beforeUpload}
-          accept=".fasta"
-          maxCount={1}
-          onRemove={() => {
-            setIsOkDisable(true);
-          }}
-          // style={{ width: 800, marginLeft: "110px", paddingTop: "30px" }}
-        >
-          <p className="ant-upload-drag-icon">
-            <InboxOutlined />
-          </p>
-          <p className="ant-upload-text">Click this area to upload</p>
-          <p className="ant-upload-hint">
-            Support for a single or bulk upload. Strictly prohibit from uploading company data or
-            other band files
-          </p>
-        </Dragger>
-        {/*暂时注释遮罩代码*/}
-        {/*<div*/}
-        {/*  hidden={props.okFlag}*/}
-        {/*  style={{*/}
-        {/*    display: "flex",*/}
-        {/*    position: "absolute",*/}
-        {/*    top: "0px", // 距离父级元素顶部0像素*/}
-        {/*    left: "0px", // 距离父级元素左侧0像素*/}
-        {/*    zIndex: 99, // 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）*/}
-        {/*    height: "100%", // 与父级元素同高*/}
-        {/*    width: "100%", // 与父级元素同宽*/}
-        {/*    background: "rgba(0,0,0,0.1)", // 半透明背景*/}
-        {/*    textAlign: "center",*/}
-        {/*    justifyContent: "space-around",*/}
-        {/*    alignItems: "center",*/}
-        {/*  }}*/}
-        {/*/>*/}
-      </Card>
 
-      <div className="simulation-synthesis-function-content">
-        <Card title="Synthesis">
-          <div className="simulation-synthesis-function-content-box">
-            <div className="simulation-synthesis-function-content-item">
-              <div className="function-bar">
+  const show = props.okFlag;
+
+  return (
+    <div>
+      <div className="simulation-step-content">
+        <Card className="simulation-card" bordered={false} title="Upload Dna File">
+          <Dragger
+            className="simulation-synthesis-uploader"
+            {...uploadProps}
+            beforeUpload={beforeUpload}
+            accept=".fasta"
+            maxCount={1}
+            onRemove={() => {
+              setIsOkDisable(true);
+            }}
+          >
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined/>
+            </p>
+            <p className="ant-upload-text">Click this area to upload</p>
+            <p className="ant-upload-hint">
+              Support for a single or bulk upload. Strictly prohibit from uploading company data or
+              other band files
+            </p>
+          </Dragger>
+        </Card>
+      </div>
+
+      <div className="simulation-step-content">
+        <Card title="Synthesis" className={`${show ? null : "simulation-content-masked"}`}>
+          <Row>
+            <Col span={12}>
+              <div className="simulation-bar">
                 <span>Synthesis Cycle:</span>
                 <Tooltip title="The copied number of each oligo you want it to have.">
                   <i
                     className="iconfont icon-wenhao"
-                    style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
-                  ></i>
+                    style={{verticalAlign: "middle", margin: "0 0 0 5px"}}
+                  />
                 </Tooltip>
                 <Row>
                   <Col span={12}>
@@ -274,24 +261,23 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   </Col>
                   <Col span={4}>
                     <InputNumber
+                      className="simulation-input"
                       min={10}
                       max={50}
-                      style={{
-                        margin: "0 16px",
-                      }}
                       value={cycleValue}
                       onChange={cycleChange}
                     />
                   </Col>
                 </Row>
               </div>
-              <div className="function-bar">
+              <div className="simulation-bar">
                 <span>Synthesis Yield :</span>
-                <Tooltip title="The possibility of adding one nucleoside to the current synthesizing strand is defined as coupling efficiency. The process might be terminated because of unsuccessful coupling so imperfect coupling efficiency limits the length of the final sequence. Typically, it ranges about 98-99.5.">
+                <Tooltip
+                  title="The possibility of adding one nucleoside to the current synthesizing strand is defined as coupling efficiency. The process might be terminated because of unsuccessful coupling so imperfect coupling efficiency limits the length of the final sequence. Typically, it ranges about 98-99.5.">
                   <i
                     className="iconfont icon-wenhao"
-                    style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
-                  ></i>
+                    style={{verticalAlign: "middle", margin: "0 0 0 5px"}}
+                  />
                 </Tooltip>
                 <Row>
                   <Col span={12}>
@@ -305,11 +291,9 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   </Col>
                   <Col span={4}>
                     <InputNumber
+                      className="simulation-input"
                       min={0.98}
                       max={0.995}
-                      style={{
-                        margin: "0 16px",
-                      }}
                       step={0.001}
                       value={yieldValue}
                       onChange={yieldChange}
@@ -317,16 +301,10 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   </Col>
                 </Row>
               </div>
-              <div className="function-bar">
+              <div className="simulation-row">
                 <span>Synthesis Method :&nbsp;</span>
-                {/* <Tooltip title="prompt text">
-                        <i
-                          className="iconfont icon-wenhao"
-                          style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
-                        ></i>
-                      </Tooltip> */}
                 <Select
-                  className="synthesis-method-selector"
+                  className="simulation-selector"
                   onChange={handleChange}
                   value={method}
                 >
@@ -350,7 +328,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   </OptGroup>
                 </Select>
               </div>
-              <div className="simulation-synthesis-buttons">
+              <div className="simulation-buttons">
                 <Button size="large" shape="round" onClick={handleOk}>
                   OK
                 </Button>
@@ -367,14 +345,13 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
               >
                 <i
                   className="iconfont icon-warning-circle"
-                  style={{ fontSize: 40, color: "red" }}
                 />
                 <p>Synthesis is the basic process of the error simulation stage.</p>
                 <p>Skipping this step means skipping the whole stage. </p>
                 <p>Do you still want to skip it?</p>
               </Modal>
-            </div>
-            <div className="simulation-synthesis-function-content-item">
+            </Col>
+            <Col span={12}>
               <Card>
                 <div>
                   {noDataTipsShow ? (
@@ -387,22 +364,22 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                     />
                   ) : loading ? (
                     <div>
-                      <Spin size={"large"} />
+                      <Spin size={"large"}/>
                     </div>
                   ) : (
-                    <div style={{ margin: "60px 0 0 0" }}>
-                      <div style={{ margin: "0 0 20px 0" }}>copies:</div>
+                    <div>
+                      <div>copies:</div>
                       <Histogram {...config} />
                     </div>
                   )}
                 </div>
               </Card>
-            </div>
-          </div>
-          {/*遮罩代码暂予以注释，此处直接删除，因为需要复用*/}
+            </Col>
+          </Row>
+          <div className="common-masker" hidden={show}/>
         </Card>
       </div>
-      {/*图的部分开始 */}
+
     </div>
   );
 };

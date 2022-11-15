@@ -3,8 +3,6 @@
 }
 
 .page-simulation-setting {
-
-
   .button-group {
     margin-top: 20px;
 
@@ -21,8 +19,74 @@
       color: white;
     }
 
-    button.processed {
+    button.simulation-button-masked {
       opacity: 0.7;
+    }
+
+  }
+
+  .simulation-footer-buttons {
+    text-align: center;
+
+    div {
+      display: inline-block;
+      width: 50%;
+      margin: 0 auto;
+    }
+
+    button {
+      width: 100px;
+      float: left;
+    }
+
+    button:first-child {
+      float: left;
+      margin-left: 15%;
+    }
+
+    button:last-child {
+      float: right;
+      margin-right: 15%;
+    }
+
+  }
+}
+
+/*统一调整各个步骤样式*/
+.simulation-step-content {
+
+  margin-top: 20px;
+
+  .simulation-content-masked {
+    opacity: 0.4;
+  }
+
+  .simulation-step-card {
+
+  }
+
+  .simulation-row {
+    margin-top: 15px;
+  }
+
+  .simulation-input {
+    margin-left: 15px;
+  }
+
+  .simulation-selector {
+    margin-left: 15px;
+    width: 40%;
+    min-width: 170px;
+    max-width: 240px;
+  }
+
+
+  .simulation-buttons {
+    margin-top: 30px;
+
+    button {
+      width: 100px;
+      margin-left: 30px;
     }
   }
 

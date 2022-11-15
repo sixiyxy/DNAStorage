@@ -1,6 +1,5 @@
-import { Area, Datum, Histogram } from "@ant-design/charts";
+import {Histogram} from "@ant-design/charts";
 import {
-  Breadcrumb,
   Button,
   Card,
   Col,
@@ -13,28 +12,29 @@ import {
   Spin,
   Tooltip,
 } from "antd";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, {useMemo, useState} from "react";
 import "./index.less";
-import axios from "axios";
 import {doPost} from "../../../../utils/request";
+
 export class PcrProps {
-  changeSider;
+  changeSider?;
   fileId;
-  pcrflag;
-  okflag;
+  pcrFlag;
+  okFlag;
 }
 
 export const Pcr: React.FC<PcrProps> = (props) => {
-  const { Option, OptGroup } = Select;
-  const [countlen,setLen] = useState(0)
+  const {Option, OptGroup} = Select;
+  const [countLen, setCountLen] = useState(0)
   const [pcrProbability, setPcrProbability] = useState(0.8);
   const [pcrCycleValue, setPcrCycleValue] = useState(12);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  const [hrefLink, setHrefLink] = useState();
+  const [hrefLink, setHrefLink] = useState([]);
   const [method, setMethod] = useState("Taq");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [densityData, setDensityData] = useState([]);
-  const [errorData, setErrorData] = useState([]);
+  // 未使用的变量，暂予以注释
+  // const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [alreadyRun, setAlreadyRun] = useState(false);
   const [group, setGroup] = useState();
@@ -70,31 +70,28 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     setIsModalOpen(false);
   };
 
-  const handleOk = async() => {
+  const handleOk = async () => {
     setLoading(true);
     setNoDataTipsShow(false);
     setAlreadyRun(true);
-    const resp = await doPost("/simu_pcr", { body:params });
-        // console.log("pcr response", response);
-        setLen(resp.pcr_density.length);
-        // setErrorData(response?.data?.pcr_error_density);
-        setGroup(resp.pcr_group);
-        setDensityData(resp.pcr_density);
-        setHrefLink(resp.synthesis_method_reference);
-        setLoading(false);
+    // todo 将请求接口 ts 化，否则无法移除警告
+    const resp: any = await doPost("/simu_pcr", {body: params});
+    setCountLen(resp.pcr_density.length);
+    // setErrorData(response?.data?.pcr_error_density);
+    setGroup(resp.pcr_group);
+    setDensityData(resp.pcr_density);
+    setHrefLink(resp.synthesis_method_reference);
+    setLoading(false);
   };
-  // const handleContinue = () => {
-  //   props.changeSider(["0-1-3"]);
-  // };
 
   const methodLink = useMemo(() => {
     return hrefLink?.map((link, index) => {
       return (
         <>
-          <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank">
+          <a style={{margin: "0 0 0 5px"}} href={link} target="_blank" rel="noreferrer">
             {link}
           </a>
-          <br />
+          <br/>
         </>
       );
     });
@@ -176,244 +173,167 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
-      meta:{
-        count:{
-          alias:'percentage',
-          formatter:(value:any)=>{
-            
-            return `${(value/countlen).toFixed(4)}%`
-            }
-         
+      meta: {
+        count: {
+          alias: 'percentage',
+          formatter: (value: any) => {
+            return `${(value / countLen).toFixed(4)}%`
+          }
+
         }
       }
     };
   }, [group, densityData]);
 
-  return (
-    <div className="pcr-content" style={{opacity:props.okflag?1:0.4}}>
-    <Card title="PCR" style={{width:"1100px",marginLeft:"20px",opacity:!props.pcrflag?1:0.4}}>
-    <Row gutter={16}>
-    <Col span={8}>
-      <div className="function-content">
-        <div style={{width:"480px",margin:"80px 0 0 20px"}}>
-          <div className="function-bar">
-            <span>PCR Cycle: </span>
-            <Tooltip title="Cycle number of the PCR process.">
-              <i
-                className="iconfont icon-wenhao"
-                style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
-              ></i>
-            </Tooltip>
-            <Row>
-              <Col span={12}>
-                <Slider
-                  min={0}
-                  max={20}
-                  onChange={monthChange}
-                  value={typeof pcrCycleValue === "number" ? pcrCycleValue : 0}
-                />
-              </Col>
-              <Col span={4}>
-                <InputNumber
-                  min={0}
-                  max={20}
-                  style={{
-                    margin: "0 16px",
-                  }}
-                  value={pcrCycleValue}
-                  onChange={monthChange}
-                />
-              </Col>
-            </Row>
-          </div>
-          <div className="function-bar">
-            <span>PCR Probability: </span>
-            <Tooltip title="In each PCR cycle, a sequence has a possibility of p being amplified. ">
-              <i
-                className="iconfont icon-wenhao"
-                style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
-              ></i>
-            </Tooltip>
-            <Row>
-              <Col span={12}>
-                <Slider
-                  min={0.5}
-                  max={1.0}
-                  onChange={lossChange}
-                  value={
-                    typeof pcrProbability === "number" ? pcrProbability : 0
-                  }
-                  step={0.1}
-                />
-              </Col>
-              <Col span={4}>
-                <InputNumber
-                  min={0.5}
-                  max={1.0}
-                  style={{
-                    margin: "0 16px",
-                  }}
-                  step={0.1}
-                  value={pcrProbability}
-                  onChange={lossChange}
-                />
-              </Col>
-            </Row>
-          </div>
-          <div className="function-bar">
-            <span>Storage Host :</span>
-            {/* <Tooltip title="prompt text">
-                  <i
-                    className="iconfont icon-wenhao"
-                    style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
-                  ></i>
-                </Tooltip> */}
-            <Select
-              style={{ width: 320,marginTop:"10px"}}
-              onChange={handleChange}
-              value={method}
-            >
-              <OptGroup label="None">
-                <Option value="None">None</Option>
-              </OptGroup>
-              <OptGroup label="Polymerases">
-                <Option value="Phusion">Phusion</Option>
-                <Option value="Taq">Taq</Option>
-                <Option value="Pwo">Pwo</Option>
-                <Option value="Pfu">Pfu</Option>
-              </OptGroup>
-            </Select>
-          </div>
-          <div
-            style={{
-              // display: "flex",
-              justifyContent: "space-around",
-              margin: "50px 0 0 20px",
-            }}
-          >
-            <Button
-              size="large"
-              shape="round"
-              style={{ width: 100}}
-              onClick={handleOk}
-              disabled={alreadyRun}
-            >
-              OK
-            </Button>
-            {/* <Button
-              size="large"
-              style={{ width: 100 }}
-              onClick={showModal}
-              disabled={alreadyRun}
-            >
-              Skip
-            </Button> */}
-            <Button shape="round" size="large" style={{ width: 100,marginLeft:"110px" }} onClick={handleReset}>
-              Reset
-            </Button>
-            <Modal
-              title="Warning"
-              visible={isModalOpen}
-              onOk={skipDecay}
-              onCancel={handleCancel}
-              okText="Skip"
-            >
-              <i
-                className="iconfont icon-warning-circle"
-                style={{ fontSize: 40, color: "red" }}
-              ></i>
-              <p>Do you want to skip PCR?</p>
-            </Modal>
-          </div>
-        </div>
-      </div>
-    </Col>
-    <Col span={8}>
-      <Card style={{  marginLeft: 155, height: 500,width:"530px",marginTop:10}}>
-        {/* <div>
-          <span>The parameter settings are referenced from :</span>
-          <br />
-          {methodLink}
-        </div> */}
-        <div style={{ margin: "0 0 30px 0" }}>
-          After Decay simulation, the situation of oligonucleotides pool as
-          follows:
-        </div>
-        <div>
-          {noDataTipsShow ? (
-            <Empty
-              style={{ textAlign: "center", margin: "155px 0" }}
-              image={Empty.PRESENTED_IMAGE_SIMPLE}
-              imageStyle={{
-                height: 60,
-              }}
-              description={
-                <span>No simulation result, please select parameter</span>
-              }
-            ></Empty>
-          ) : loading ? (
-            <div
-              style={{
-                textAlign: "center",
-                margin: "155px 0",
-              }}
-            >
-              <Spin size={"large"} />
-            </div>
-          ) : (
-            <div style={{ margin: "60px 0 0 0" }}>
-              <div style={{ margin: "0 0 20px 0" }}>copies:</div>
-              {/* <Area {...config1} /> */}
-              <Histogram {...config} />
-            </div>
-          )}
-        </div>
+  const show = props.okFlag && props.pcrFlag;
 
-        {/* <Button
-          style={{ margin: " 40px 200px" }}
-          onClick={handleContinue}
-          disabled={noDataTipsShow}
-        >
-          Continue
-        </Button> */}
+  return (
+    <div className="simulation-step-content">
+      <Card title="PCR" className={`${show ? null : "simulation-content-masked"}`}>
+        <Row>
+          <Col span={12}>
+            <div className="simulation-row">
+              <span>PCR Cycle: </span>
+              <Tooltip title="Cycle number of the PCR process.">
+                <i
+                  className="iconfont icon-wenhao"
+                  style={{verticalAlign: "middle", margin: "0 0 0 5px"}}
+                />
+              </Tooltip>
+              <Row>
+                <Col span={12}>
+                  <Slider
+                    min={0}
+                    max={20}
+                    onChange={monthChange}
+                    value={typeof pcrCycleValue === "number" ? pcrCycleValue : 0}
+                  />
+                </Col>
+                <Col span={4}>
+                  <InputNumber
+                    min={0}
+                    max={20}
+                    style={{
+                      margin: "0 16px",
+                    }}
+                    value={pcrCycleValue}
+                    onChange={monthChange}
+                  />
+                </Col>
+              </Row>
+            </div>
+            <div className="simulation-row">
+              <span>PCR Probability: </span>
+              <Tooltip
+                title="In each PCR cycle, a sequence has a possibility of p being amplified. ">
+                <i
+                  className="iconfont icon-wenhao"
+                  style={{verticalAlign: "middle", margin: "0 0 0 5px"}}
+                />
+              </Tooltip>
+              <Row>
+                <Col span={12}>
+                  <Slider
+                    min={0.5}
+                    max={1.0}
+                    onChange={lossChange}
+                    value={
+                      typeof pcrProbability === "number" ? pcrProbability : 0
+                    }
+                    step={0.1}
+                  />
+                </Col>
+                <Col span={4}>
+                  <InputNumber
+                    min={0.5}
+                    max={1.0}
+                    style={{
+                      margin: "0 16px",
+                    }}
+                    step={0.1}
+                    value={pcrProbability}
+                    onChange={lossChange}
+                  />
+                </Col>
+              </Row>
+            </div>
+            <div className="simulation-row">
+              <span>Storage Host :</span>
+              <Select className="simulation-selector"
+                      onChange={handleChange}
+                      value={method}
+              >
+                <OptGroup label="None">
+                  <Option value="None">None</Option>
+                </OptGroup>
+                <OptGroup label="Polymerases">
+                  <Option value="Phusion">Phusion</Option>
+                  <Option value="Taq">Taq</Option>
+                  <Option value="Pwo">Pwo</Option>
+                  <Option value="Pfu">Pfu</Option>
+                </OptGroup>
+              </Select>
+            </div>
+            <div className="simulation-buttons">
+              <Button
+                size="large"
+                shape="round"
+                onClick={handleOk}
+                disabled={alreadyRun}
+              >
+                OK
+              </Button>
+              <Button shape="round" size="large"
+                      onClick={handleReset}>
+                Reset
+              </Button>
+              <Modal
+                title="Warning"
+                visible={isModalOpen}
+                onOk={skipDecay}
+                onCancel={handleCancel}
+                okText="Skip"
+              >
+                <i
+                  className="iconfont icon-warning-circle"
+                />
+                <p>Do you want to skip PCR?</p>
+              </Modal>
+            </div>
+          </Col>
+          <Col span={12}>
+            <Card>
+              <div>
+                After Decay simulation, the situation of oligonucleotides pool as
+                follows:
+              </div>
+              <div>
+                {noDataTipsShow ? (
+                  <Empty
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    imageStyle={{
+                      height: 60,
+                    }}
+                    description={
+                      <span>No simulation result, please select parameter</span>
+                    }
+                  />
+                ) : loading ? (
+                  <div>
+                    <Spin size={"large"}/>
+                  </div>
+                ) : (
+                  <div style={{margin: "60px 0 0 0"}}>
+                    <div style={{margin: "0 0 20px 0"}}>copies:</div>
+                    <Histogram {...config} />
+                  </div>
+                )}
+              </div>
+            </Card>
+          </Col>
+        </Row>
+        <div className="common-masker" hidden={show}/>
       </Card>
-      </Col>
-    </Row>
-    <div 
-      hidden={!props.pcrflag}
-      style={{
-        display:'flex',
-        position:'absolute',
-        top: '0px',	// 距离父级元素顶部0像素
-              left: '0px',	// 距离父级元素左侧0像素
-              zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）
-              height: '100%',	// 与父级元素同高
-              width: '100%',	// 与父级元素同宽
-              background: 'rgba(0,0,0,0.1)',	// 半透明背景
-              textAlign: 'center',
-              justifyContent: 'space-around',
-              alignItems: 'center'
-      }}
-      >
-      </div>
-      <div 
-      hidden={props.okflag}
-      style={{
-        display:'flex',
-        position:'absolute',
-        top: '0px',	// 距离父级元素顶部0像素
-              left: '0px',	// 距离父级元素左侧0像素
-              zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）
-              height: '100%',	// 与父级元素同高
-              width: '100%',	// 与父级元素同宽
-              background: 'rgba(0,0,0,0.1)',	// 半透明背景
-              textAlign: 'center',
-              justifyContent: 'space-around',
-              alignItems: 'center'
-      }}
-      >
-      </div>
-    </Card> 
     </div>
   );
 };

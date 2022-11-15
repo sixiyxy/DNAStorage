@@ -1,0 +1,20 @@
+
+.common-masker {
+  display: flex;
+  position: absolute;
+  /* 距离父级元素顶部 0 像素 */
+  top: 0;
+  /*距离父级元素左侧 0 像素*/
+  left: 0;
+  /* 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）*/
+  z-index: 99;
+  /* 与父级元素同高 */
+  height: 100%;
+  /* 与父级元素同宽 */
+  width: 100%;
+  /* 半透明背景 */
+  background: rgba(0, 0, 0, 0.1);
+  text-align: center;
+  justify-content: space-around;
+  align-items: center;
+}
