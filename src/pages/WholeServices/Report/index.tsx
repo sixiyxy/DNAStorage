@@ -43,7 +43,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       title: "Name",
       dataIndex: "name1",
-      width:"380px",
+      width:"355px",
       render: (text) => <a>{text}</a>,
     },
     {
@@ -101,7 +101,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "3",
       name1: "File bytes",
-      value1: props.info.byte_size,
+      value1: `${props.info.byte_size} bytes`,
     },
     {
       key: "4",
@@ -111,61 +111,61 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "5",
       name1: "File bites",
-      value1: props.info.bit_size,
-    },
-    {
-      key: "6",
-      name1: "Encoding time",
-      value1: props.dnainfo.encoding_time,
+      value1: `${props.info.bit_size} bits`,
     },
   ];
   const data2: DataType[] = [
     {
       key: "1",
-      name1: "Index length",
-      value1: props.info.index_length,
-      
-    },
-    {
-      key: "2",
-      name1: "Single DNA length",
-      value1: props.dnainfo.DNA_sequence,
-    },
-    {
-      key: "3",
-      name1: "Verify method",
-      value1: props.info.verify_method,
-    },
-    {
-      key: "4",
       name1: "Encode method",
       value1: props.info.encode_method,
     },
     {
-      key: "5",
+      key: "2",
       name1: "Segment length",
-      value1: props.info.segment_length,
+      value1: `${props.info.segment_length} bits`,
+    },
+    {
+      key: "3",
+      name1: "Index length",
+      value1: `${props.info.index_length} bits`,
+      
+    },
+    {
+      key: "4",
+      name1: "Verify method",
+      value1: props.info.verify_method,
+    },
+    {
+      key: "5",
+      name1: "Segment number",
+      value1: `${props.info.segment_number} pcs`,
     },
     {
       key: "6",
-      name1: "Segment number",
-      value1: props.info.segment_number,
+      name1: "Encoding time",
+      value1: `${props.dnainfo.encoding_time} s`,
     },
     {
       key: "7",
-      name1: "Information density",
-      value1: props.dnainfo.information_density,
+      name1: "Single DNA length",
+      value1: `${props.dnainfo.DNA_sequence} bits`,
     },
     {
       key: "8",
-      name1: "nucleotide_counts",
-      value1: props.dnainfo.nucleotide_counts,
+      name1: "DNA sequence number",
+      value1: `${props.info.segment_number} pcs`,
     },
     {
       key: "9",
-      name1: "net_information_density",
-      value1: props.dnainfo.net_information_density,
+      name1: "nucleotide counts",
+      value1: `${props.dnainfo.nucleotide_counts} pcs`,
     },
+    {
+      key: "10",
+      name1: "Information density",
+      value1: `${props.dnainfo.information_density} bits/nt`,
+    }
   ];
   const data3: DataType[] = [
     {
@@ -213,7 +213,7 @@ export const Report: React.FC<ReportProps> = (props) => {
           <Spin
             tip="Loading..."
             size="large"
-            style={{ marginTop: "250px" }}
+            style={{ marginTop: "250px",marginLeft:"100px",width:"800px"}}
             spinning={props.spinflag}
             delay={10}
           >
@@ -223,7 +223,10 @@ export const Report: React.FC<ReportProps> = (props) => {
             <a href="/">Home</a>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="/Services">Service</a>
+           Service
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            Encode
           </Breadcrumb.Item>
           <Breadcrumb.Item>Report</Breadcrumb.Item>
         </Breadcrumb>
@@ -231,7 +234,7 @@ export const Report: React.FC<ReportProps> = (props) => {
       <div
               style={{ marginTop: "30px", marginLeft: "120px",width:"100%"}} className="FileInformation"
             >
-              <Card title="File Information" style={{width:"90%"}} headStyle={{backgroundColor:'#ADD8E6'}}>
+              <Card title="File Information" style={{width:"90%"}} headStyle={{backgroundColor:'#99CCFF'}}>
               <p style={{
                     margin: "0px 0 30px 30px",
                     fontSize: "15px",
@@ -265,12 +268,12 @@ export const Report: React.FC<ReportProps> = (props) => {
                 <div
                   id="gcgraph"
                   style={{
-                    margin: "50px 0 0 90px",
+                    margin: "50px 0 0 80px",
                     fontSize: "15px",
-                    width: "700px",
+                    width: "650px",
                   }}
                 >
-                  <h3 style={{margin:"0 0 30px 320px"}}>GC_Contact</h3>
+                  <h3 style={{margin:"0 0 30px 295px"}}>GC_Contact</h3>
                   
                   <GLgraph GC={props.GC} />
                 </div>
@@ -307,7 +310,7 @@ export const Report: React.FC<ReportProps> = (props) => {
                     width: "700px",
                   }}
                 >
-                  <h3 style={{margin:"0 0 30px 240px"}}>Sequence Min Free Energy</h3>
+                  <h3 style={{margin:"0 0 30px 255px"}}>Sequence Min Free Energy</h3>
                   <EnergyGraph energy={props.energy} />
                 </div>
                 <div style={{
@@ -315,8 +318,8 @@ export const Report: React.FC<ReportProps> = (props) => {
                     fontSize: "15px",
                     width: "820px",
                   }}>
-                <p><strong>The sequence average minimum free energy is: {props.dnainfo.min_free_energy}</strong></p>
-                <p><strong>The percentage of sequence min free energy below 30 Kcal/mol is: {props.mini} %</strong></p>
+                <p><strong>The sequence average minimum free energy is : {props.dnainfo.min_free_energy}</strong></p>
+                <p><strong>The percentage of sequence min free energy below 30 Kcal/mol is : {props.mini} %</strong></p>
                 <p>The minimum free energy (MFE) of a DNA sequence is the minimum of the Gibbs standard free energy of all possible secondary structures. 
                   Therefore, the quality of DNA sequences can be measured by calculating the MFE of each sequence. 
                   Here we calculated the minimum free energies if randomly selected 1000 encoded DNA sequences by RNAfold.</p>

@@ -47,8 +47,8 @@ export const Contact: React.FC<ContactProps> = (props) => {
               <Col span={5}>
                 <p style={{width:"80%"}}>
                   <Image
-                  width={150}
-                  height={200}
+                  width={"78%"}
+                  height={"100%"}
                   src={jlk}
                   
                   />
@@ -62,8 +62,8 @@ export const Contact: React.FC<ContactProps> = (props) => {
               <Col span={5}>
               <p style={{margin:"0 0 0 30px",width:"80%"}}>
                   <Image
-                  width={150}
-                  height={200}
+                  width={"69%"}
+                  height={"100%"}
                   src={zzy}
                   
                   />
@@ -77,8 +77,8 @@ export const Contact: React.FC<ContactProps> = (props) => {
               <Col span={5}>
               <p style={{margin:"0 0 0 70px",width:"80%"}}>
                   <Image
-                  width={150}
-                  height={200}
+                  width={"78%"}
+                  height={"100%"}
                   src={rxr}
                   />
                   <br/>
@@ -90,10 +90,10 @@ export const Contact: React.FC<ContactProps> = (props) => {
               
               </Col>
               <Col span={5}>
-              <p style={{margin:"0 0 0 100px",width:"80%"}}>
+              <p style={{margin:"0 0 0 100px",width:"70%"}}>
                   <Image
-                  width={150}
-                  height={200}
+                  width={"77%"}
+                  height={"100%"}
                   src={yxy}
                   
                   />
@@ -118,7 +118,7 @@ export const Contact: React.FC<ContactProps> = (props) => {
                 <Col span={4} >
                 <p style={{paddingBottom:"200px",paddingTop:"20px",marginRight:"10px"}}>
                 <Image
-                width={150}
+                width={"100%"}
                 src={logo}
                 />
               </p>

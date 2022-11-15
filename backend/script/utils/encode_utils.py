@@ -1,6 +1,7 @@
 import numpy as np
 from numpy import fromfile
 import pandas as pd
+import os
 
 def cut_file(file_data):
     file_size = file_data.shape[0]
@@ -32,7 +33,7 @@ def gc_homo(dna_sequences):
         dna_segment = "".join(dna_sequence)
         gc_content = int(((dna_segment.count("C") + dna_segment.count("G")) / len(dna_segment) * 100) + 0.5)
         gc_distribution[gc_content] += 1
-        for homo_length in [homo + 1 for homo in range(len(dna_sequence))][::-1]:
+        for homo_length in [homo + 1 for homo in range(len(dna_sequence))][::-1][:-4]:
             is_find = False
             missing_segments = ["A" * homo_length, "C" * homo_length, "G" * homo_length, "T" * homo_length]
             for missing_segment in missing_segments:
@@ -54,7 +55,10 @@ def gc_homo(dna_sequences):
 
     return front_gc,front_homo
 
-def add_min_free_energydata(free_enerfy_file,final_record_info):
+def add_min_free_energydata(tools,dna_demo_file,free_enerfy_file,final_record_info):
+    os.system("{tools} --noPS --noGU --noconv -T 59.1"
+          " < {demo_dna} > {outfile}".format(tools=tools,demo_dna=dna_demo_file,outfile=free_enerfy_file))
+    
     # min free energy
     min_free_energy_list = []
     min_free_energy_30 = []
@@ -91,7 +95,8 @@ def add_min_free_energydata(free_enerfy_file,final_record_info):
 
 def download_normal(file,original_bit_segments,record_index,connected_bit_segments,final_bit_segments,dna_sequences):
     # record dowdload file
-    f = open(file,'a+')
+    f = open(file,'w')
+    f.write('payload,index,index_payload,index_payload_verfiycode,DNA_sequence\n')
     for idx in range(len(dna_sequences)):
         payload = ''.join(map(str,original_bit_segments[idx]))
         index = ''.join(map(str,record_index[idx]))
@@ -105,7 +110,8 @@ def download_normal(file,original_bit_segments,record_index,connected_bit_segmen
     f.close()
 
 def download_txt(file,dna_sequences,original_chracter_segments):
-    f = open(file,'a+')
+    f = open(file,'w')
+    f.write('payload,DNA_sequence\n')
     for idx in range(len(dna_sequences)):
         payload = original_chracter_segments[idx]
         DNA_sequence= dna_sequences[idx]

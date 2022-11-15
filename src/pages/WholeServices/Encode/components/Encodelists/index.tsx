@@ -27,7 +27,7 @@ const Encodelists: React.FC = (props: any) => {
           {" "}
           <CheckCircleTwoTone /> <strong>Choose Encode Method</strong>
         </h2>
-        <div style={{ paddingLeft: "20px"}}>
+        <div style={{ margin: "20px 0 0 20px"}}>
           <Radio.Group onChange={onChange} value={props.value}>
             <Space direction="vertical">
               <Radio value={"Basic"}><span>Basic</span></Radio>
@@ -41,7 +41,7 @@ const Encodelists: React.FC = (props: any) => {
           </Radio.Group>
         </div>
         <div>
-          <div style={{ marginTop: "20px",marginLeft:"15px",fontSize:"16px"}}>
+          <div style={{ margin:"10px 0 30px 20px",fontSize:"16px"}}>
             Method details please click the :{" "}
             <Link to="/methods">Method Paper</Link>
           </div>

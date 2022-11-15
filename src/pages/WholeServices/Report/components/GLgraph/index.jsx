@@ -7,7 +7,7 @@ const GLgraph = (props) => {
   const data =useMemo(() => {
     return props.GC
 }, [props.GC]);
-
+console.log("gcdata", data);
   const config = {
     data,
     xField: 'x_value',
@@ -23,7 +23,17 @@ const GLgraph = (props) => {
         opacity: 0.6,
       },
     },
+    yAxis:{
+      title:{
+        text:'Sequence number',
+        offset:60,
+      }
+    },
     xAxis: {
+      title:{
+        text:'Singal DNA sequence GC contant %  ',
+        offset:50,
+      },
       label: {
         autoHide: true,
         autoRotate: false,
