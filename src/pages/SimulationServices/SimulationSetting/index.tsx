@@ -1,8 +1,11 @@
-import { Button, Card } from "antd";
-import React, { useState } from "react";
+import {Button, Card} from "antd";
+import React, {useState} from "react";
 import "./index.less";
-import { Synthesis } from "./Synthesis";
-import { Decay } from "./Decay";
+import {Synthesis} from "./Synthesis";
+import {Decay} from "./Decay";
+import {Pcr} from "./Pcr";
+import {Sampling} from "./Sampling";
+import {Sequencing} from "./Sequencing";
 
 export class SimulationSetProps {
   changeSider;
@@ -124,11 +127,11 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
         </div>
       </Card>
       <div>
-        <Synthesis fileId={props.fileId} setFileId={props.setFileId} okFlag={okFlag} />
-        <Decay fileId={props.fileId} decayFlag={decayFlag} okFlag={okFlag} />
-        {/*<Pcr fileId={props.fileId} pcrFlag={pcrFlag} okFlag={okFlag}/>*/}
-        {/*<Sampling fileId={props.fileId} sampleFlag={sampleFlag} okFlag={okFlag}/>*/}
-        {/*<Sequencing fileId={props.fileId} sequenceFlag={sequenceFlag} okFlag={okFlag}/>*/}
+        <Synthesis fileId={props.fileId} setFileId={props.setFileId} okFlag={okFlag}/>
+        <Decay fileId={props.fileId} decayFlag={decayFlag} okFlag={okFlag}/>
+        <Pcr fileId={props.fileId} pcrFlag={pcrFlag} okFlag={okFlag}/>
+        <Sampling fileId={props.fileId} sampleFlag={sampleFlag} okFlag={okFlag}/>
+        <Sequencing fileId={props.fileId} sequenceFlag={sequenceFlag} okFlag={okFlag}/>
       </div>
 
       {/* {method.indexOf("decay") !== -1 ? <Decay fileId={props.fileId} /> : null}

@@ -1,4 +1,4 @@
-import { Histogram } from "@ant-design/charts";
+import {Histogram} from "@ant-design/charts";
 import {
   Button,
   Card,
@@ -12,9 +12,9 @@ import {
   Spin,
   Tooltip,
 } from "antd";
-import React, { useMemo, useState } from "react";
+import React, {useMemo, useState} from "react";
 import "./index.less";
-import { doPost } from "../../../../utils/request";
+import {doPost} from "../../../../utils/request";
 
 export class DecayProps {
   changeSider?;
@@ -24,7 +24,7 @@ export class DecayProps {
 }
 
 export const Decay: React.FC<DecayProps> = (props) => {
-  const { Option, OptGroup } = Select;
+  const {Option, OptGroup} = Select;
   const [countLen, setCountLen] = useState(0);
   const [lossValue, setLossValue] = useState(0.3);
   const [monthValue, setMonthValue] = useState(24);
@@ -71,7 +71,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     setAlreadyRun(true);
-    const resp: any = await doPost("/simu_dec", { body: params });
+    const resp: any = await doPost("/simu_dec", {body: params});
 
     setCountLen(resp.dec_density.length);
     setGroup(resp.dec_group);
@@ -112,41 +112,40 @@ export const Decay: React.FC<DecayProps> = (props) => {
     return hrefLink?.map((link, index) => {
       return (
         <>
-          <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank" rel="noreferrer">
+          <a href={link} target="_blank" rel="noreferrer">
             {link}
           </a>
-          <br />
+          <br/>
         </>
       );
     });
   }, [hrefLink]);
   return (
-    <div className="simulation-decay-content" style={{ opacity: props.okFlag ? 1 : 1 }}>
+    <div className="simulation-step-content" style={{opacity: props.okFlag ? 1 : 1}}>
       <Card title="Decay">
         <Row>
           <Col span={12}>
-            <div className="simulation-decay-month">
+            <div className="simulation-row">
               <span>Month of Storage:</span>
-              <Tooltip title="During storage, depurination and deamination are the two main factors of the decay of strands, where the ratio could be computed with temperature, PH, and storage time. Other factors relate to the storage host you choose. ">
+              <Tooltip
+                title="During storage, depurination and deamination are the two main factors of the decay of strands, where the ratio could be computed with temperature, PH, and storage time. Other factors relate to the storage host you choose. ">
                 <i
                   className="iconfont icon-wenhao"
-                  style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
                 />
               </Tooltip>
               <InputNumber
+                className="simulation-input"
                 min={1}
                 value={monthValue}
                 onChange={monthChange}
-                className="simulation-decay-month-input"
               />
             </div>
-            <div className="simulation-decay-line-div simulation-decay-loss-rate">
+            <div className="simulation-row">
               <div>
                 <span>Loss Rate: </span>
                 <Tooltip title="Total loss rate during storage. ">
                   <i
                     className="iconfont icon-wenhao"
-                    style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
                   />
                 </Tooltip>
               </div>
@@ -162,11 +161,9 @@ export const Decay: React.FC<DecayProps> = (props) => {
                 </Col>
                 <Col span={4}>
                   <InputNumber
+                    className="simulation-input"
                     min={0}
                     max={1.0}
-                    style={{
-                      margin: "0 16px",
-                    }}
                     step={0.1}
                     value={lossValue}
                     onChange={lossChange}
@@ -174,9 +171,9 @@ export const Decay: React.FC<DecayProps> = (props) => {
                 </Col>
               </Row>
             </div>
-            <div className="simulation-decay-line-div">
+            <div className="simulation-row">
               <span>Storage Host :</span>
-              <Select onChange={handleChange} value={method} className="simulation-decay-selector">
+              <Select onChange={handleChange} value={method} className="simulation-selector">
                 <OptGroup label="Eukaryotic">
                   <Option value="Hsapiens">H sapiens</Option>
                   <Option value="Mmusculus">M musculus </Option>
@@ -203,7 +200,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
                 </OptGroup>
               </Select>
             </div>
-            <div className="simulation-decay-buttons">
+            <div className="simulation-buttons">
               <Button size="large" shape="round" onClick={handleOk} disabled={alreadyRun}>
                 OK
               </Button>
@@ -219,7 +216,6 @@ export const Decay: React.FC<DecayProps> = (props) => {
               >
                 <i
                   className="iconfont icon-warning-circle"
-                  style={{ fontSize: 40, color: "red" }}
                 />
                 <p>Do you want to skip Decay?</p>
               </Modal>
@@ -241,11 +237,11 @@ export const Decay: React.FC<DecayProps> = (props) => {
                   />
                 ) : loading ? (
                   <div>
-                    <Spin size={"large"} />
+                    <Spin size={"large"}/>
                   </div>
                 ) : (
-                  <div style={{ margin: "15px 0 0 0" }}>
-                    <div style={{ margin: "0 0 20px 0" }}>copies:</div>
+                  <div>
+                    <div>copies:</div>
                     <Histogram {...config} />
                   </div>
                 )}

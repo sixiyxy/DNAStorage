@@ -1,6 +1,5 @@
-import { Area, Datum, Histogram } from "@ant-design/charts";
+import {Histogram} from "@ant-design/charts";
 import {
-  Breadcrumb,
   Button,
   Card,
   Col,
@@ -13,24 +12,23 @@ import {
   Spin,
   Tooltip,
 } from "antd";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, {useMemo, useState} from "react";
 import "./index.less";
 import {doPost} from "../../../../utils/request";
-import axios from "axios";
 
 export class SequencingProps {
-  changeSider;
+  changeSider?;
   fileId;
-  sequenceflag;
-  okflag;
+  sequenceFlag;
+  okFlag;
 }
 
 export const Sequencing: React.FC<SequencingProps> = (props) => {
-  const { Option, OptGroup } = Select;
-  const [countlen,setLen] = useState(0)
+  const {Option, OptGroup} = Select;
+  const [countlen, setLen] = useState(0)
   const [sequencingDepth, setSequencingDepth] = useState(1);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  const [hrefLink, setHrefLink] = useState();
+  const [hrefLink, setHrefLink] = useState([]);
   const [method, setMethod] = useState("ill_PairedEnd");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [densityData, setDensityData] = useState([]);
@@ -39,18 +37,6 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
   const [group, setGroup] = useState();
   const [alreadyRun, setAlreadyRun] = useState(false);
 
-  const methodLink = useMemo(() => {
-    return hrefLink?.map((link, index) => {
-      return (
-        <>
-          <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank">
-            {link}
-          </a>
-          <br />
-        </>
-      );
-    });
-  }, [hrefLink]);
   //处理函数
   const monthChange = (value: number) => {
     if (isNaN(value)) {
@@ -58,7 +44,6 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     }
     setSequencingDepth(value);
   };
-
   const handleChange = (value: string) => {
     setMethod(value);
   };
@@ -75,40 +60,36 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     setMethod("ill_PairedEnd");
     setSequencingDepth(1);
   };
-  const handleOk = async() => {
+  const handleOk = async () => {
     setLoading(true);
     setNoDataTipsShow(false);
     setAlreadyRun(true);
-    const resp = await doPost("/simu_seq", { body:params });
-        // console.log("sequencing response", response);
-        //setErrorData(response?.data?.seq_error_density);
-        setLen(resp.seq_density.length);
-        setDensityData(resp.seq_density);
-        setGroup(resp.seq_group);
-        setHrefLink(resp.synthesis_method_reference);
-        setLoading(false);
+    const resp: any = await doPost("/simu_seq", {body: params});
+    // console.log("sequencing response", response);
+    //setErrorData(response?.data?.seq_error_density);
+    setLen(resp.seq_density.length);
+    setDensityData(resp.seq_density);
+    setGroup(resp.seq_group);
+    setHrefLink(resp.synthesis_method_reference);
+    setLoading(false);
   };
   // const handleContinue = () => {
   //   props.changeSider(["0-1-5"]);
   // };
 
-  //数据生成
-  // const densityChartData = useMemo(() => {
-  //   return densityData?.map((item) => {
-  //     return {
-  //       copyNumber: item[0],
-  //       density: Number(item[1].toFixed(3)),
-  //     };
+  // 未使用代码段，暂予以注释
+  // const methodLink = useMemo(() => {
+  //   return hrefLink?.map((link, index) => {
+  //     return (
+  //       <>
+  //         <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank">
+  //           {link}
+  //         </a>
+  //         <br />
+  //       </>
+  //     );
   //   });
-  // }, [densityData]);
-  // const errorChartData = useMemo(() => {
-  //   return errorData?.map((item) => {
-  //     return {
-  //       copyNumber: item[0],
-  //       density: Number(item[1].toFixed(3)),
-  //     };
-  //   });
-  // }, [errorData]);
+  // }, [hrefLink]);
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
@@ -118,50 +99,6 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       seq_meth: method,
     };
   }, [sequencingDepth, method]);
-  //console.log("params", params);
-  // const densityConfig = {
-  //   data: densityChartData,
-  //   width: 200,
-  //   height: 300,
-  //   xField: "copyNumber",
-  //   yField: "density",
-  //   autoFit: true,
-  //   smooth: true,
-  //   xAxis: {
-  //     // range: [0, 200],
-  //     title: {
-  //       text: "Copy Number",
-  //     },
-  //   },
-  //   yAxis: {
-  //     // range: [0, 0.5],
-  //     title: {
-  //       text: "Density",
-  //     },
-  //   },
-  // };
-
-  // const errorConfig = {
-  //   data: errorChartData,
-  //   smooth: true,
-  //   width: 200,
-  //   height: 150,
-  //   xField: "copyNumber",
-  //   yField: "density",
-  //   autoFit: true,
-  //   xAxis: {
-  //     // range: [0, 200],
-  //     title: {
-  //       text: "Copy Number",
-  //     },
-  //   },
-  //   yAxis: {
-  //     // range: [0, 0.5],
-  //     title: {
-  //       text: "Density",
-  //     },
-  //   },
-  // };
   const config = useMemo(() => {
     return {
       data: densityData,
@@ -169,214 +106,176 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
-      meta:{
-        count:{
-          alias:'percentage',
-          formatter:(value:any)=>{
-            
-            return `${(value/countlen).toFixed(4)}%`
-            }
-         
+      meta: {
+        count: {
+          alias: 'percentage',
+          formatter: (value: any) => {
+
+            return `${(value / countlen).toFixed(4)}%`
+          }
+
         }
       }
     };
   }, [group, densityData]);
-  {/*style={{opacity:!props.sequenceflag?1:0.4}} */}
   return (
-    <div className="sequencing-content" style={{opacity:props.okflag?1:0.4}}>  
-      <Card title="Sequencing" style={{width:"1100px",marginLeft:"20px",opacity:!props.sequenceflag?1:0.4}} >
-      <Row gutter={16}>
-      <Col span={8}>
-      <div className="function-content">
-        <div style={{width:"480px",margin:"80px 0 0 20px"}}>
-          <div className="function-bar">
-            <span>Sequencing Depth:</span>
-            <Tooltip title="111">
-              <i
-                className="iconfont icon-wenhao"
-                style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
-              ></i>
-            </Tooltip>
-            <Row>
-              <Col span={12}>
-                <Slider
-                  min={1}
-                  max={100}
-                  onChange={monthChange}
-                  value={
-                    typeof sequencingDepth === "number" ? sequencingDepth : 0
-                  }
-                />
-              </Col>
-              <Col span={4}>
-                <InputNumber
-                  min={1}
-                  max={100}
-                  style={{
-                    margin: "0 16px",
-                  }}
-                  value={sequencingDepth}
-                  onChange={monthChange}
-                />
-              </Col>
-            </Row>
-          </div>
+    <div className="simulation-step-content" style={{opacity: props.okFlag ? 1 : 1}}>
+      <Card title="Sequencing">
+        <Row>
+          <Col span={12}>
+            <div className="simulation-sequencing-function-content">
+              <div>
+                <div className="simulation-row">
+                  <span>Sequencing Depth:</span>
+                  <Tooltip title="111">
+                    <i
+                      className="iconfont icon-wenhao"
+                      style={{verticalAlign: "middle", margin: "0 0 0 5px"}}
+                    />
+                  </Tooltip>
+                  <Row>
+                    <Col span={12}>
+                      <Slider
+                        min={1}
+                        max={100}
+                        onChange={monthChange}
+                        value={
+                          typeof sequencingDepth === "number" ? sequencingDepth : 0
+                        }
+                      />
+                    </Col>
+                    <Col span={4}>
+                      <InputNumber
+                        min={1}
+                        max={100}
+                        style={{
+                          margin: "0 16px",
+                        }}
+                        value={sequencingDepth}
+                        onChange={monthChange}
+                      />
+                    </Col>
+                  </Row>
+                </div>
 
-          <div className="function-bar">
-            <span>Sequencing Method:</span>
-            {/* <Tooltip title="prompt text">
-                  <i
-                    className="iconfont icon-wenhao"
-                    style={{ verticalAlign: "middle", margin: "0 0 0 5px" }}
-                  ></i>
-                </Tooltip> */}
-            <Select
-              style={{ width: 320, marginTop: 10 }}
-              onChange={handleChange}
-              value={method}
-            >
-              <OptGroup label="Illumina">
-                <Option value="ill_PairedEnd">PairedEnd</Option>
-                <Option value="ill_SingleEnd">SingleEnd</Option>
-              </OptGroup>
+                <div className="simulation-row">
+                  <span>Sequencing Method:</span>
+                  <Select
+                    className="simulation-selector"
+                    onChange={handleChange}
+                    value={method}
+                  >
+                    <OptGroup label="Illumina">
+                      <Option value="ill_PairedEnd">PairedEnd</Option>
+                      <Option value="ill_SingleEnd">SingleEnd</Option>
+                    </OptGroup>
 
-              <OptGroup label="Nanopore">
-                <Option value="nano_1D">1D</Option>
-                <Option value="nano_2D">2D</Option>
-              </OptGroup>
-              <OptGroup label="PacBio">
-                <Option value="Pac_subread">Subread</Option>
-                <Option value="Pac_CCS">CCS</Option>
-              </OptGroup>
-              <OptGroup label="None">
-                <Option value="None">None</Option>
-              </OptGroup>
-            </Select>
-          </div>
-          <div
-            style={{
-              // display: "flex",
-              justifyContent: "space-around",
-              margin: "80px 0 0 20px",
-            }}
-          >
-            <Button
-              size="large"
-              shape="round"
-              style={{ width: 100 }}
-              onClick={handleOk}
-              disabled={alreadyRun}
-            >
-              OK
-            </Button>
-            {/* <Button size="large" style={{ width: 100 }} onClick={showModal}>
-              Skip
-            </Button> */}
-            <Button shape="round" size="large" style={{ width: 100,marginLeft:"110px"}} onClick={handleReset}>
-              Reset
-            </Button>
-            <Modal
-              title="Warning"
-              visible={isModalOpen}
-              onOk={skipDecay}
-              onCancel={handleCancel}
-              okText="Skip"
-            >
-              <i
-                className="iconfont icon-warning-circle"
-                style={{ fontSize: 40, color: "red" }}
-              ></i>
-              <p>Do you want to skip Sequencing?</p>
-            </Modal>
-          </div>
-        </div>
-      </div>
-      </Col>
-      <Col span={8}>
-        <Card style={{ marginLeft: 155, marginTop:"10px",height: 500,width:"530px" }}>
-          {/* <div>
-            <span>The parameter settings are referenced from :</span>
-            <br />
-            {methodLink}
-          </div> */}
-          <div style={{ margin: "0 0 30px 0" }}>
-            After Sequencing simulation, the situation of oligonucleotides pool as
-            follows:
-          </div>
-          <div>
-            {noDataTipsShow ? (
-              <Empty
-                style={{ textAlign: "center", margin: "155px 0" }}
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                imageStyle={{
-                  height: 60,
-                }}
-                description={
-                  <span>No simulation result, please select parameter</span>
-                }
-              ></Empty>
-            ) : loading ? (
-              <div
-                style={{
-                  textAlign: "center",
-                  margin: "155px 0",
-                }}
-              >
-                <Spin size={"large"} />
+                    <OptGroup label="Nanopore">
+                      <Option value="nano_1D">1D</Option>
+                      <Option value="nano_2D">2D</Option>
+                    </OptGroup>
+                    <OptGroup label="PacBio">
+                      <Option value="Pac_subread">Subread</Option>
+                      <Option value="Pac_CCS">CCS</Option>
+                    </OptGroup>
+                    <OptGroup label="None">
+                      <Option value="None">None</Option>
+                    </OptGroup>
+                  </Select>
+                </div>
+                <div className="simulation-buttons">
+                  <Button
+                    size="large"
+                    shape="round"
+                    onClick={handleOk}
+                    disabled={alreadyRun}
+                  >
+                    OK
+                  </Button>
+                  <Button shape="round" size="large"
+                          onClick={handleReset}>
+                    Reset
+                  </Button>
+                  <Modal
+                    title="Warning"
+                    visible={isModalOpen}
+                    onOk={skipDecay}
+                    onCancel={handleCancel}
+                    okText="Skip"
+                  >
+                    <i
+                      className="iconfont icon-warning-circle"
+                    />
+                    <p>Do you want to skip Sequencing?</p>
+                  </Modal>
+                </div>
               </div>
-            ) : (
-              <div style={{ margin: "60px 0 0 0" }}>
-                <div style={{ margin: "0 0 20px 0" }}>copies:</div>
-                {/* <Area {...densityConfig} /> */}
-                <Histogram {...config} />
+            </div>
+          </Col>
+          <Col span={12}>
+            <Card>
+              <div>
+                After Sequencing simulation, the situation of oligonucleotides pool as follows:
               </div>
-            )}
-          </div>
-
-          {/* <Button
-                style={{ margin: " 40px 200px" }}
-                onClick={handleContinue}
-                disabled={noDataTipsShow}
-              >
-                Continue
-              </Button> */}
-        </Card>
-      </Col>
-      </Row>
-      <div 
-      hidden={!props.sequenceflag}
-      style={{
-        display:'flex',
-        position:'absolute',
-        top: '0px',	// 距离父级元素顶部0像素
-              left: '0px',	// 距离父级元素左侧0像素
-              zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）
-              height: '100%',	// 与父级元素同高
-              width: '100%',	// 与父级元素同宽
-              background: 'rgba(0,0,0,0.1)',	// 半透明背景
-              textAlign: 'center',
-              justifyContent: 'space-around',
-              alignItems: 'center'
-      }}
-      >
-      </div>
-      <div 
-      hidden={props.okflag}
-      style={{
-        display:'flex',
-        position:'absolute',
-        top: '0px',	// 距离父级元素顶部0像素
-              left: '0px',	// 距离父级元素左侧0像素
-              zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）
-              height: '100%',	// 与父级元素同高
-              width: '100%',	// 与父级元素同宽
-              background: 'rgba(0,0,0,0.1)',	// 半透明背景
-              textAlign: 'center',
-              justifyContent: 'space-around',
-              alignItems: 'center'
-      }}
-      >
-      </div>
+              <div>
+                {noDataTipsShow ? (
+                  <Empty
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    imageStyle={{
+                      height: 60,
+                    }}
+                    description={
+                      <span>No simulation result, please select parameter</span>
+                    }
+                  />
+                ) : loading ? (
+                  <div>
+                    <Spin size={"large"}/>
+                  </div>
+                ) : (
+                  <div>
+                    <div>copies:</div>
+                    <Histogram {...config} />
+                  </div>
+                )}
+              </div>
+            </Card>
+          </Col>
+        </Row>
+        {/*<div*/}
+        {/*  hidden={!props.sequenceFlag}*/}
+        {/*  style={{*/}
+        {/*    display: 'flex',*/}
+        {/*    position: 'absolute',*/}
+        {/*    top: '0px',	// 距离父级元素顶部0像素*/}
+        {/*    left: '0px',	// 距离父级元素左侧0像素*/}
+        {/*    zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）*/}
+        {/*    height: '100%',	// 与父级元素同高*/}
+        {/*    width: '100%',	// 与父级元素同宽*/}
+        {/*    background: 'rgba(0,0,0,0.1)',	// 半透明背景*/}
+        {/*    textAlign: 'center',*/}
+        {/*    justifyContent: 'space-around',*/}
+        {/*    alignItems: 'center'*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*</div>*/}
+        {/*<div*/}
+        {/*  hidden={props.okFlag}*/}
+        {/*  style={{*/}
+        {/*    display: 'flex',*/}
+        {/*    position: 'absolute',*/}
+        {/*    top: '0px',	// 距离父级元素顶部0像素*/}
+        {/*    left: '0px',	// 距离父级元素左侧0像素*/}
+        {/*    zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）*/}
+        {/*    height: '100%',	// 与父级元素同高*/}
+        {/*    width: '100%',	// 与父级元素同宽*/}
+        {/*    background: 'rgba(0,0,0,0.1)',	// 半透明背景*/}
+        {/*    textAlign: 'center',*/}
+        {/*    justifyContent: 'space-around',*/}
+        {/*    alignItems: 'center'*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*</div>*/}
       </Card>
     </div>
   );
