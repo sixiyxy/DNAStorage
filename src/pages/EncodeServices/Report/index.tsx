@@ -43,7 +43,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       title: "Name",
       dataIndex: "name1",
-      width:"355px",
+      width:"55%",
       render: (text) => <a>{text}</a>,
     },
     {
@@ -234,28 +234,28 @@ export const Report: React.FC<ReportProps> = (props) => {
       <div
               style={{ marginTop: "30px", marginLeft: "120px",width:"100%"}} className="FileInformation"
             >
-              <Card title="File Information" style={{width:"90%"}} headStyle={{backgroundColor:'#99CCFF'}}>
+              <Card title="File Information" style={{width:"90%"}} headStyle={{backgroundColor:'#99CCFF',fontSize:"20px"}}>
               <p style={{
                     margin: "0px 0 30px 30px",
                     fontSize: "15px",
-                    width: "850px",
+                    width: "80%",
                   }}>This part displays some basic information about the files uploaded by users.</p>
                 <Table
                   columns={columns1}
                   dataSource={data1}
                   size={"middle"}
                   pagination={{ position: ["none"] }}
-                  style={{margin:"0 0 0 140px",width:"70%"}}
+                  style={{margin:"0 0 0 100px",width:"80%"}}
                 />
               </Card>
             </div>
 
             <div style={{marginLeft: "120px",width:"100%"}} className="EncodeInformation">
-              <Card title="Encode Information" style={{width:"90%"}} headStyle={{backgroundColor:'#99CCFF'}}>
+              <Card title="Encode Information" style={{width:"90%"}} headStyle={{backgroundColor:'#99CCFF',fontSize:"20px"}}>
               <p style={{
                     margin: "10px 0 0 30px",
                     fontSize: "15px",
-                    width: "850px",
+                    width: "100%",
                   }}>This part shows the information of the uploaded file during encoding and the result of DNA sequences analysis after encoding. <br></br>
                 The analysis of the encoded DNA sequences includes GC-content statics, 
                 Homopolymer sequence statics and min free energy calculation.</p>
@@ -268,55 +268,58 @@ export const Report: React.FC<ReportProps> = (props) => {
                 <div
                   id="gcgraph"
                   style={{
-                    margin: "50px 0 0 80px",
+                    margin: "50px 0 0 130px",
                     fontSize: "15px",
-                    width: "650px",
+                    width: "65%",
                   }}
                 >
-                  <h3 style={{margin:"0 0 30px 295px"}}>GC_Contact</h3>
+                  <h3 style={{margin:"0 0 30px 280px"}}>GC Content</h3>
                   
                   <GLgraph GC={props.GC} />
                 </div>
                 <p style={{
-                    margin: "50px 0 0 30px",
+                    margin: "20px 0 80px 150px",
                     fontSize: "15px",
-                    width: "850px",
+                    width: "650px",
+                    color:"#748189"
                   }}>Because the ratio of GC-content is crucial to the stability of DNA sequence. We counted the GC content of each encoded DNA sequence.
                     The X-axis is the percentage of GC content, and the Y-axis is the number of corresponding sequences.
                   </p>
                 <div
                 id="homograph"
                 style={{
-                  margin:"50px 0 30px 95px",
+                  margin:"30px 0 30px 140px",
                   fontSize: "15px",
-                  width: "650px",
+                  width: "60%",
                 }}
               >
-                <h3 style={{margin:"0 0 30px 265px"}}>Homopolymer Length</h3>
+                <h3 style={{margin:"0 0 30px 235px"}}>Repeated Sequences</h3>
                 <HomoGraph homo={props.homo} />
                 
               </div>
               <p style={{
-                    margin: "30px 0 0 50px",
+                    margin: "30px 0 0 150px",
                     fontSize: "15px",
-                    width: "800px",
+                    width: "650px",
+                    color:"#748189"
                   }}>The presence of repetitive sequences affects the accuracy of synthesis and sequence sequencing during DNA storage. 
                   So, we counted the number of repeats in the encoded DNA sequence. The x-axis is the length of the repeated sequence, and the y-axis is the corresponding number.</p>
                   <div
                   id="energygraph"
                   style={{
                     paddingLeft:"20px",
-                    margin: "50px 0 30px 75px",
-                    width: "700px",
+                    margin: "80px 0 30px 120px",
+                    width: "65%",
                   }}
                 >
-                  <h3 style={{margin:"0 0 30px 250px"}}>Sequence Min Free Energy</h3>
+                  <h3 style={{margin:"0px 0 30px 220px"}}>Sequence Min Free Energy</h3>
                   <EnergyGraph energy={props.energy} />
                 </div>
                 <div style={{
-                    margin: "30px 0 0 50px",
+                    margin: "20px 0 0 150px",
                     fontSize: "15px",
-                    width: "820px",
+                    width: "670px",
+                    color:"#748189"
                   }}>
                 <p><strong>The sequence average minimum free energy is : {props.dnainfo.min_free_energy}</strong></p>
                 <p><strong>The percentage of sequence min free energy below 30 Kcal/mol is : {props.mini} %</strong></p>
@@ -324,7 +327,7 @@ export const Report: React.FC<ReportProps> = (props) => {
                   Therefore, the quality of DNA sequences can be measured by calculating the MFE of each sequence. 
                   Here we calculated the minimum free energies if randomly selected 1000 encoded DNA sequences by RNAfold.</p>
                 </div>
-            <div style={{margin: "80px 0 30px 350px" }}>
+            <div style={{margin: "100px 0 80px 400px" }}>
                   <Button
                     type="primary"
                     shape="round"
@@ -337,92 +340,6 @@ export const Report: React.FC<ReportProps> = (props) => {
             </div>
               </Card>
             </div>
-            {/* <div style={{marginLeft: "50px"}}>
-            
-              <Card
-                title="GC_Contact"
-                type="inner"
-                style={{width: "100%" }}
-                headStyle={{backgroundColor:'white',textAlign:"center"}}
-              >
-                <div
-                  id="gcgraph"
-                  style={{
-                    marginLeft: "50px",
-                    paddingTop: "30px",
-                    fontSize: "15px",
-                    width: "650px",
-                  }}
-                >
-                  <GLgraph GC={props.GC} />
-                </div>
-              </Card>
-            </div> */}
-            {/* <div style={{marginLeft: "50px"}}>
-            <Card
-              title="Homopolymer Length"
-              type="inner"
-              style={{width: "100%" }}
-              headStyle={{backgroundColor:'white',textAlign:"center",fontSize:"18px"}}
-            >
-              <div
-                id="homograph"
-                style={{
-                  paddingTop: "30px",
-                  marginLeft:"50px",
-                  fontSize: "15px",
-                  width: "650px",
-                }}
-              >
-                <HomoGraph homo={props.homo} />
-              </div>
-            </Card>
-            </div> */}
-            {/* <div style={{marginLeft: "120px",width:"100%"}}> */}
-          
-              {/* <Card 
-                title="Min Energy Information" 
-                style={{width:"90%"}}
-                headStyle={{backgroundColor:'#99CCFF',textAlign:"center"}}>
-                <Table
-                  columns={columns3}
-                  dataSource={data3}
-                  pagination={{ position: ["none"] }}
-                  style={{margin:"0 0 0 75px",width:"80%"}}
-                />
-                <div
-                  id="energygraph"
-                  style={{
-                    paddingLeft:"20px",
-                    margin: "50px 0 30px 0px",
-                    width: "650px",
-                  }}
-                >
-                  <h3 style={{margin:"0 0 30px 220px"}}>Sequence Min Free Energy</h3>
-                  <EnergyGraph energy={props.energy} />
-                </div>
-              </Card> */}
-            {/* </div> */}
-          {/* <div style={{marginLeft: "50px"}}>
-              <Card
-                title="Sequence Min Free Energy "
-                type="inner"
-                style={{width: "100%" }}
-                headStyle={{backgroundColor:'white',textAlign:"center"}}
-              >
-                <div
-                  id="energygraph"
-                  style={{
-                    marginLeft: "50px",
-                    paddingTop: "30px",
-                    width: "650px",
-                  }}
-                >
-                  <EnergyGraph energy={props.energy} />
-                </div>
-              </Card>
-            </div> */}
-            
             <br />
             <br />
             <br />
