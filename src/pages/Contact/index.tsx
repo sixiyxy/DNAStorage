@@ -29,7 +29,7 @@ export const Contact: React.FC<ContactProps> = (props) => {
               </Breadcrumb>
           </div>
               <h1 style={{paddingTop:"30px"}}>Information</h1>
-                <p style={{textAlign:"justify",width:"80%"}}>DNA Storage Designer is developed and maintained by the DMCI Lab team from Department of Computer Science and Technology of Xiamen University. 
+                <p style={{textAlign:"justify",width:"90%"}}>DNA Storage Designer is developed and maintained by the DMCI Lab team from Department of Computer Science and Technology of Xiamen University. 
                   Professor Liu conceived of the study, carried out the web server design. 
                   Likun Jiang participated in website design and carried out writing back-end code. 
                   Ziyun Zou design and written “Error Simulation”part back-end code. 
@@ -90,9 +90,9 @@ export const Contact: React.FC<ContactProps> = (props) => {
               
               </Col>
               <Col span={5}>
-              <p style={{margin:"0 0 0 100px",width:"70%"}}>
+              <p style={{margin:"0 0 0 100px",width:"75%"}}>
                   <Image
-                  width={"77%"}
+                  width={"72%"}
                   height={"100%"}
                   src={yxy}
                   
@@ -124,7 +124,7 @@ export const Contact: React.FC<ContactProps> = (props) => {
               </p>
                 
                 </Col>
-                <Col span={8} >
+                <Col span={20} >
                 <p style={{paddingBottom:"200px",paddingTop:"20px",marginLeft:"20px",width:"100%"}}>
                   <span style={{fontSize:"18px"}}><strong>Professor. Xiangrong Liu</strong></span><br/><br/>
                   <a>xrliu@xmu.edu.cn</a><br/>
