@@ -33,7 +33,7 @@ def gc_homo(dna_sequences):
         dna_segment = "".join(dna_sequence)
         gc_content = int(((dna_segment.count("C") + dna_segment.count("G")) / len(dna_segment) * 100) + 0.5)
         gc_distribution[gc_content] += 1
-        for homo_length in [homo + 1 for homo in range(len(dna_sequence))][::-1][:-4]:
+        for homo_length in [homo + 1 for homo in range(len(dna_sequence))][::-1]:
             is_find = False
             missing_segments = ["A" * homo_length, "C" * homo_length, "G" * homo_length, "T" * homo_length]
             for missing_segment in missing_segments:
@@ -52,13 +52,17 @@ def gc_homo(dna_sequences):
     
 
     # for i in range(max(list(map(len, dna_sequences)))):
-    for i in range(2,51):
+    front_homo.append({'x_value':1,'y_value':0})
+    front_homo.append({'x_value':2,'y_value':0})
+    for i in range(3,51):
         plot_dict = {'x_value':i,'y_value':homo_distribution[i]}
         front_homo.append(plot_dict)
 
     return front_gc,front_homo
 
 def add_min_free_energydata(tools,dna_demo_file,free_enerfy_file,final_record_info):
+
+    # run tools
     os.system("{tools} --noPS --noGU --noconv -T 59.1"
           " < {demo_dna} > {outfile}".format(tools=tools,demo_dna=dna_demo_file,outfile=free_enerfy_file))
     
