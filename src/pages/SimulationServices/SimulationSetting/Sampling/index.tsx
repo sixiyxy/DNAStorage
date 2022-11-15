@@ -99,9 +99,11 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     };
   }, [group, densityData]);
 
+  const show = props.okFlag && props.sampleFlag;
+
   return (
-    <div className="simulation-step-content" style={{opacity: props.okFlag ? 1 : 1}}>
-      <Card title="Sampling">
+    <div className="simulation-step-content">
+      <Card title="Sampling" className={`${show ? null : "simulation-content-masked"}`}>
         <Row>
           <Col span={12}>
             <div className="simulation-row">
@@ -194,39 +196,8 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
               </div>
             </Card>
           </Col>
+          <div className="common-masker" hidden={show}/>
         </Row>
-        {/*<div*/}
-        {/*  hidden={!props.sampleFlag}*/}
-        {/*  style={{*/}
-        {/*    display: 'flex',*/}
-        {/*    position: 'absolute',*/}
-        {/*    top: '0px',	// 距离父级元素顶部0像素*/}
-        {/*    left: '0px',	// 距离父级元素左侧0像素*/}
-        {/*    zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）*/}
-        {/*    height: '100%',	// 与父级元素同高*/}
-        {/*    width: '100%',	// 与父级元素同宽*/}
-        {/*    background: 'rgba(0,0,0,0.1)',	// 半透明背景*/}
-        {/*    textAlign: 'center',*/}
-        {/*    justifyContent: 'space-around',*/}
-        {/*    alignItems: 'center'*/}
-        {/*  }}*/}
-        {/*/>*/}
-        {/*<div*/}
-        {/*  hidden={props.okFlag}*/}
-        {/*  style={{*/}
-        {/*    display: 'flex',*/}
-        {/*    position: 'absolute',*/}
-        {/*    top: '0px',	// 距离父级元素顶部0像素*/}
-        {/*    left: '0px',	// 距离父级元素左侧0像素*/}
-        {/*    zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）*/}
-        {/*    height: '100%',	// 与父级元素同高*/}
-        {/*    width: '100%',	// 与父级元素同宽*/}
-        {/*    background: 'rgba(0,0,0,0.1)',	// 半透明背景*/}
-        {/*    textAlign: 'center',*/}
-        {/*    justifyContent: 'space-around',*/}
-        {/*    alignItems: 'center'*/}
-        {/*  }}*/}
-        {/*/>*/}
       </Card>
     </div>
   );

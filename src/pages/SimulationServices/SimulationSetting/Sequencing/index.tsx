@@ -118,9 +118,12 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       }
     };
   }, [group, densityData]);
+
+  const show = props.okFlag && props.sequenceFlag;
+
   return (
-    <div className="simulation-step-content" style={{opacity: props.okFlag ? 1 : 1}}>
-      <Card title="Sequencing">
+    <div className="simulation-step-content">
+      <Card title="Sequencing" className={`${show ? null : "simulation-content-masked"}`}>
         <Row>
           <Col span={12}>
             <div className="simulation-sequencing-function-content">
@@ -242,6 +245,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
             </Card>
           </Col>
         </Row>
+        <div className="common-masker" hidden={show}/>
         {/*<div*/}
         {/*  hidden={!props.sequenceFlag}*/}
         {/*  style={{*/}

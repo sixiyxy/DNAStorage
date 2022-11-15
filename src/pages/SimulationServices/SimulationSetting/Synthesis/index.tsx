@@ -209,6 +209,9 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       },
     };
   }, [group, data, countLen]);
+
+  const show = props.okFlag;
+
   return (
     <div>
       <div className="simulation-step-content">
@@ -232,28 +235,11 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
               other band files
             </p>
           </Dragger>
-          {/*暂时注释遮罩代码*/}
-          {/*<div*/}
-          {/*  hidden={props.okFlag}*/}
-          {/*  style={{*/}
-          {/*    display: "flex",*/}
-          {/*    position: "absolute",*/}
-          {/*    top: "0px", // 距离父级元素顶部0像素*/}
-          {/*    left: "0px", // 距离父级元素左侧0像素*/}
-          {/*    zIndex: 99, // 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）*/}
-          {/*    height: "100%", // 与父级元素同高*/}
-          {/*    width: "100%", // 与父级元素同宽*/}
-          {/*    background: "rgba(0,0,0,0.1)", // 半透明背景*/}
-          {/*    textAlign: "center",*/}
-          {/*    justifyContent: "space-around",*/}
-          {/*    alignItems: "center",*/}
-          {/*  }}*/}
-          {/*/>*/}
         </Card>
       </div>
 
       <div className="simulation-step-content">
-        <Card title="Synthesis">
+        <Card title="Synthesis" className={`${show ? null : "simulation-content-masked"}`}>
           <Row>
             <Col span={12}>
               <div className="simulation-bar">
@@ -390,10 +376,10 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
               </Card>
             </Col>
           </Row>
-          {/*遮罩代码暂予以注释，且此处直接删除，因为需要复用*/}
+          <div className="common-masker" hidden={show}/>
         </Card>
       </div>
-      {/*图的部分开始 */}
+
     </div>
   );
 };

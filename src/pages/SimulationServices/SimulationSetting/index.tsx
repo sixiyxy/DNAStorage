@@ -17,11 +17,12 @@ export class SimulationSetProps {
 
 let method = [false, false, false, false]; //存放选择的方法
 export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
+  // 控制全局和各个步骤是否启用，true 表示启用，false 表示不起用，会被遮罩遮住
   const [okFlag, setOkFlag] = useState(false);
-  const [decayFlag, setDecayFlag] = useState(false);
-  const [pcrFlag, setPcrFlag] = useState(false);
-  const [sampleFlag, setSampleFlag] = useState(false);
-  const [sequenceFlag, setSequenceFlag] = useState(false);
+  const [decayFlag, setDecayFlag] = useState(true);
+  const [pcrFlag, setPcrFlag] = useState(true);
+  const [sampleFlag, setSampleFlag] = useState(true);
+  const [sequenceFlag, setSequenceFlag] = useState(true);
   // 未使用的变量：alreadyChose，暂予以注释，同时 Choose 拼写有误，确认无用后移除
   // const [alreadyChose, setAlreadyChose] = useState(false);
   const [dis0, setDis0] = useState(false);
@@ -82,50 +83,59 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setDis4(false);
     window.location.reload();
   };
+
+  console.log(okFlag, decayFlag, pcrFlag, sampleFlag, sequenceFlag);
+
   return (
     <div className="page-simulation-setting">
       {/*头部 Card 部分*/}
-      <Card title="Choose the Simulation steps.">
-        <p>
-          Please select the following simulation steps. You can choose to skip some of these steps,
-          but Synthesis cannot.
-        </p>
-        <div className="button-group">
-          <Button className="step" size="large" disabled={dis0}>
-            Synthesis
-          </Button>
-          <Button
-            className={`step ${decayFlag ? "processed" : null}`}
-            size="large"
-            disabled={dis1}
-            onClick={handleDecay}
-          >
-            Decay
-          </Button>
-          <Button
-            className={`step ${pcrFlag ? "processed" : null}`}
-            size="large"
-            disabled={dis2}
-            onClick={handlePCR}
-          >
-            PCR
-          </Button>
-          <Button
-            className={`step ${sampleFlag ? "processed" : null}`}
-            size="large"
-            disabled={dis3}
-            onClick={handleSampling}
-          >
-            Sampling
-          </Button>
-          <Button className="step" size="large" disabled={dis4} onClick={handleSequencing}>
-            Sequencing
-          </Button>
-          <Button className="ok" type="primary" shape="round" size="large" onClick={handleOK}>
-            OK
-          </Button>
-        </div>
-      </Card>
+      <div>
+        <Card title="Choose the Simulation steps.">
+          <p className="function-bar">
+            Please select the following simulation steps. You can choose to skip some of these
+            steps,
+            but Synthesis cannot.
+          </p>
+          <div className="button-group">
+            <Button className="step" size="large" disabled={dis0}>
+              Synthesis
+            </Button>
+            <Button
+              className={`step ${decayFlag ? null : "simulation-button-masked"}`}
+              size="large"
+              disabled={dis1}
+              onClick={handleDecay}
+            >
+              Decay
+            </Button>
+            <Button
+              className={`step ${pcrFlag ? null : "simulation-button-masked"}`}
+              size="large"
+              disabled={dis2}
+              onClick={handlePCR}
+            >
+              PCR
+            </Button>
+            <Button
+              className={`step ${sampleFlag ? null : "simulation-button-masked"}`}
+              size="large"
+              disabled={dis3}
+              onClick={handleSampling}
+            >
+              Sampling
+            </Button>
+            <Button className={`step ${sequenceFlag ? null : "simulation-button-masked"}`}
+                    size="large"
+                    disabled={dis4}
+                    onClick={handleSequencing}>
+              Sequencing
+            </Button>
+            <Button className="ok" type="primary" shape="round" size="large" onClick={handleOK}>
+              OK
+            </Button>
+          </div>
+        </Card>
+      </div>
       <div>
         <Synthesis fileId={props.fileId} setFileId={props.setFileId} okFlag={okFlag}/>
         <Decay fileId={props.fileId} decayFlag={decayFlag} okFlag={okFlag}/>
@@ -142,26 +152,28 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       {method.indexOf("sequencing") !== -1 ? (
         <Sequencing fileId={props.fileId} />
       ) : null} */}
-      {/*<Button*/}
-      {/*  shape="round"*/}
-      {/*  type="primary"*/}
-      {/*  size="large"*/}
-      {/*  style={{ width: 100, marginLeft: "400px", marginTop: "30px" }}*/}
-      {/*  disabled={!dis0}*/}
-      {/*  onClick={handleReport}*/}
-      {/*>*/}
-      {/*  Report*/}
-      {/*</Button>*/}
-      {/*<Button*/}
-      {/*  type="primary"*/}
-      {/*  shape="round"*/}
-      {/*  size="large"*/}
-      {/*  style={{ width: 100, marginLeft: "100px" }}*/}
-      {/*  disabled={!dis0}*/}
-      {/*  onClick={handleReset}*/}
-      {/*>*/}
-      {/*  Reset*/}
-      {/*</Button>*/}
+      <div className="simulation-footer-buttons">
+        <div>
+          <Button
+            shape="round"
+            type="primary"
+            size="large"
+            disabled={!dis0}
+            onClick={handleReport}
+          >
+            Report
+          </Button>
+          <Button
+            type="primary"
+            shape="round"
+            size="large"
+            disabled={!dis0}
+            onClick={handleReset}
+          >
+            Reset
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

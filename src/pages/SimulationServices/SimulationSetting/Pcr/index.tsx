@@ -185,9 +185,11 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     };
   }, [group, densityData]);
 
+  const show = props.okFlag && props.pcrFlag;
+
   return (
-    <div className="simulation-step-content" style={{opacity: props.okFlag ? 1 : 1}}>
-      <Card title="PCR">
+    <div className="simulation-step-content">
+      <Card title="PCR" className={`${show ? null : "simulation-content-masked"}`}>
         <Row>
           <Col span={12}>
             <div className="simulation-row">
@@ -330,38 +332,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
             </Card>
           </Col>
         </Row>
-        {/*<div*/}
-        {/*  hidden={!props.pcrFlag}*/}
-        {/*  style={{*/}
-        {/*    display: 'flex',*/}
-        {/*    position: 'absolute',*/}
-        {/*    top: '0px',	// 距离父级元素顶部0像素*/}
-        {/*    left: '0px',	// 距离父级元素左侧0像素*/}
-        {/*    zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）*/}
-        {/*    height: '100%',	// 与父级元素同高*/}
-        {/*    width: '100%',	// 与父级元素同宽*/}
-        {/*    background: 'rgba(0,0,0,0.1)',	// 半透明背景*/}
-        {/*    textAlign: 'center',*/}
-        {/*    justifyContent: 'space-around',*/}
-        {/*    alignItems: 'center'*/}
-        {/*  }}*/}
-        {/*/>*/}
-        {/*<div*/}
-        {/*  hidden={props.okFlag}*/}
-        {/*  style={{*/}
-        {/*    display: 'flex',*/}
-        {/*    position: 'absolute',*/}
-        {/*    top: '0px',	// 距离父级元素顶部0像素*/}
-        {/*    left: '0px',	// 距离父级元素左侧0像素*/}
-        {/*    zIndex: 99,	// 遮罩层的堆叠层级（只要设置的比被遮罩元素高就行）*/}
-        {/*    height: '100%',	// 与父级元素同高*/}
-        {/*    width: '100%',	// 与父级元素同宽*/}
-        {/*    background: 'rgba(0,0,0,0.1)',	// 半透明背景*/}
-        {/*    textAlign: 'center',*/}
-        {/*    justifyContent: 'space-around',*/}
-        {/*    alignItems: 'center'*/}
-        {/*  }}*/}
-        {/*/>*/}
+        <div className="common-masker" hidden={show}/>
       </Card>
     </div>
   );
