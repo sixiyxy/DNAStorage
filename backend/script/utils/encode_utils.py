@@ -32,7 +32,7 @@ def gc_homo(dna_sequences):
         dna_segment = "".join(dna_sequence)
         gc_content = int(((dna_segment.count("C") + dna_segment.count("G")) / len(dna_segment) * 100) + 0.5)
         gc_distribution[gc_content] += 1
-        for homo_length in [homo + 1 for homo in range(len(dna_sequence))][::-1]:
+        for homo_length in [homo + 1 for homo in range(len(dna_sequence))][::-1][:-4]:
             is_find = False
             missing_segments = ["A" * homo_length, "C" * homo_length, "G" * homo_length, "T" * homo_length]
             for missing_segment in missing_segments:
