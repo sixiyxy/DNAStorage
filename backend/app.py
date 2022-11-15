@@ -173,6 +173,13 @@ def simu_dec():
 
     '''
     #### Postman test json ####
+    ##encode
+    {  "file_uid":1565536927137009664,
+        "months_of_storage":24,
+        "decay_loss_rate":0.3,
+        "storage_host":"Hsapiens"
+        }
+    ##upload
      {  "file_uid":1582175684011364352,
         "months_of_storage":24,
         "decay_loss_rate":0.3,
@@ -203,6 +210,15 @@ def simu_pcr():
     front_data = json.loads(front_data)
     '''
     #### Postman test json ####
+    ##encode
+    {
+        "file_uid":1565536927137009664,
+        "pcr_cycle":12,
+        "pcr_prob":0.8,
+        "pcr_polymerase":"Taq"
+    }
+
+    ##upload
      {  "file_uid":1582175684011364352,
         "pcr_cycle":12,
         "pcr_prob":0.8,
@@ -214,7 +230,10 @@ def simu_pcr():
     pcr_prob = front_data['pcr_prob']
     pcr_polymerase = front_data['pcr_polymerase']
     file_uid=front_data['file_uid']
-    upload_flag=front_data['upload_flag']
+    try:
+        upload_flag=front_data['upload_flag']
+    except:
+        upload_flag=False
 
     simu_pcr_settings=simu_utils.get_simu_pcr_info(
         file_uid=file_uid,
@@ -233,6 +252,11 @@ def simu_sam():
     front_data = json.loads(front_data)
     '''
     #### Postman test json ####
+    ##encode
+    {"sam_ratio":0.005,
+     "file_uid":1565536927137009664
+     }
+    ##upload
     {"sam_ratio":0.005,
      "file_uid":1582175684011364352,
      "upload_flag":"True" 
@@ -240,7 +264,10 @@ def simu_sam():
     '''
     sam_ratio =front_data['sam_ratio'] 
     file_uid=front_data['file_uid']
-    upload_flag=front_data['upload_flag']
+    try:
+        upload_flag=front_data['upload_flag']
+    except:
+        upload_flag=False
 
     simu_sam_settings=simu_utils.get_simu_sam_info(
         sam_ratio=sam_ratio,
@@ -259,6 +286,11 @@ def simu_seq():
 
     '''
     #### Postman test json ####
+    ##encode
+    { "seq_depth":15,
+      "seq_meth":"ill_PairedEnd",
+      "file_uid":1565536927137009664}
+    ##upload
      { "seq_depth":15,
       "seq_meth":"ill_PairedEnd",
       "file_uid":1582175684011364352,
@@ -267,7 +299,10 @@ def simu_seq():
     seq_depth =front_data['seq_depth'] 
     seq_meth=front_data['seq_meth']
     file_uid=front_data['file_uid']
-    upload_flag=front_data['upload_flag']
+    try:
+        upload_flag=front_data['upload_flag']
+    except:
+        upload_flag=False
 
     simu_seq_settings=simu_utils.get_simu_seq_info(
         seq_depth=seq_depth,
@@ -282,6 +317,11 @@ def simu_seq():
 def simu_repo():
     '''
      ##Postman test json
+     ##encode
+     {
+        "file_uid":1565536927137009664
+        }
+     ##upload
      {
         "file_uid":1582175684011364352,
         "upload_flag":"True" 
@@ -290,7 +330,10 @@ def simu_repo():
     front_data = request.data
     front_data = json.loads(front_data)
     file_uid=front_data['file_uid']
-    upload_flag=front_data['upload_flag']
+    try:
+        upload_flag=front_data['upload_flag']
+    except:
+        upload_flag=False
 
     simu_repo=simu_utils.get_simu_repo(file_uid,upload_flag)
     
