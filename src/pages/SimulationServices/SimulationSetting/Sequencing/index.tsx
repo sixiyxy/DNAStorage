@@ -97,8 +97,9 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       seq_depth: sequencingDepth,
 
       seq_meth: method,
+      upload_flag:"True"
     };
-  }, [sequencingDepth, method]);
+  }, [sequencingDepth, method, props.fileId]);
   const config = useMemo(() => {
     return {
       data: densityData,
@@ -106,12 +107,14 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
+      yAxis:{
+        maxLimit:17236
+      },
       meta: {
         count: {
           alias: 'percentage',
           formatter: (value: any) => {
-
-            return `${(value / countlen).toFixed(4)}%`
+            return `${((value / countlen)*100).toFixed(2)}%`;
           }
 
         }
@@ -129,7 +132,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
             <div className="simulation-sequencing-function-content">
               <div>
                 <div className="simulation-row">
-                  <span>Sequencing Depth:</span>
+                  <span>Sequencing Depth :</span>
                   <Tooltip title="111">
                     <i
                       className="iconfont icon-wenhao"
@@ -162,7 +165,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                 </div>
 
                 <div className="simulation-row">
-                  <span>Sequencing Method:</span>
+                  <span>Sequencing Method :</span>
                   <Select
                     className="simulation-selector"
                     onChange={handleChange}
@@ -195,10 +198,10 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                   >
                     OK
                   </Button>
-                  <Button shape="round" size="large"
+                  {/* <Button shape="round" size="large"
                           onClick={handleReset}>
                     Reset
-                  </Button>
+                  </Button> */}
                   <Modal
                     title="Warning"
                     visible={isModalOpen}
@@ -237,7 +240,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                   </div>
                 ) : (
                   <div>
-                    <div>copies:</div>
+                    <div style={{marginBottom:"30px"}}>copies:</div>
                     <Histogram {...config} />
                   </div>
                 )}

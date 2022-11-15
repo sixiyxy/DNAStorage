@@ -78,8 +78,9 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
       file_uid: props.fileId,
       // file_uid: "1565536927137009664",
       sam_ratio: samplingRatio,
+      upload_flag:"True"
     };
-  }, [samplingRatio]);
+  }, [samplingRatio, props.fileId]);
 
   const config = useMemo(() => {
     return {
@@ -92,7 +93,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
         count: {
           alias: 'percentage',
           formatter: (value) => {
-            return `${(value / countLen).toFixed(4)}%`
+            return `${((value / countLen)*100).toFixed(2)}%`;
           }
         }
       }
@@ -107,7 +108,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
         <Row>
           <Col span={12}>
             <div className="simulation-row">
-              <span>Sampling Ratio:</span>
+              <span>Sampling Ratio :</span>
               <Tooltip title="The ratio of each oligo to be sampled.">
                 <i
                   className="iconfont icon-wenhao"
@@ -148,10 +149,10 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
               >
                 OK
               </Button>
-              <Button shape="round" size="large"
+              {/* <Button shape="round" size="large"
                       onClick={handleReset}>
                 Reset
-              </Button>
+              </Button> */}
               <Modal
                 title="Warning"
                 visible={isModalOpen}
@@ -189,7 +190,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
                   </div>
                 ) : (
                   <div>
-                    <div>copies:</div>
+                    <div style={{marginBottom:"30px"}}>copies:</div>
                     <Histogram {...config} />
                   </div>
                 )}
