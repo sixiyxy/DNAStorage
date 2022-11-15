@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./index.less";
 import axios from "axios";
-import { Breadcrumb, Col, Row, Spin,notification} from "antd";
+import { Breadcrumb, Col, Row, Spin,notification } from "antd";
 import Encodelists from "./components/Encodelists";
 import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
@@ -9,7 +9,6 @@ import Graphs from "./components/Graphs";
 import { Anchor,Button} from "antd";
 import { FolderAddTwoTone } from "@ant-design/icons";
 import {doPost} from "../../../utils/request";
-import {API_PREFIX} from "../../../common/Config";
 const { Link } = Anchor;
 
 export const Encode = (props) => {
@@ -90,7 +89,8 @@ export const Encode = (props) => {
     props.DNAinfos.information_density = param3;
     props.DNAinfos.nucleotide_counts = param4;
     props.DNAinfos.min_free_energy =param5;
-    props.DNAinfos.net_information_density = param6;
+    props.DNAinfos.net_information_density = param6
+    //props.DNAInfos.min_free_energy_below_30kcal_mol = param6;
     props.setDNAinfo(props.DNAinfos);
     console.log('Encode-dnaindo',props.dnainfo);
   };
@@ -113,42 +113,76 @@ export const Encode = (props) => {
     params1.verify_method = method;
     params1.encode_method = value;
 
-    axios
-      .post(API_PREFIX + "/encode", params1)
-      .then(function (response) {
-        console.log("Encode-response: ", response.data);
-        console.log("Encode-response: ", typeof(response.data.min_free_energy_below_30kcal_mol));
-        InfoPass1(
-          response.data.bit_size,
-          response.data.byte_size,
-          response.data.encode_method,
-          response.data.index_length,
-          response.data.segment_length,
-          response.data.segment_number,
-          response.data.verify_method
-        );
-        GCPass(response.data.gc_data);
-        HomoPass(response.data.homo_data);
-        EnergyPass(response.data.energy_plot);
-        EncodeURLPass(response.data.user_encode_file);
-        FileURLPass(response.data.user_file_infofile);
-        DNAInfoPass(
-          response.data.DNA_sequence_length,
-          response.data.encoding_time,
-          response.data.information_density,
-          response.data.nucleotide_counts,
-          response.data.min_free_energy,
-          response.data.net_information_density
-        );
-        miniEnergyPass(response.data.min_free_energy_below_30kcal_mol);
-        props.setSpin(false);
-        console.log('完成spin');
-      })
-      .catch(function (error) {
-        //console.log(error);
-      });
-  };
+    // const body = params1;
+
+    const resp = await doPost("/encode", { body:params1 });
+      console.log("Encode-response: ", resp);
+      console.log("Encode-response: ", typeof(resp.min_free_energy_below_30kcal_mol));
+      InfoPass1(
+          resp.bit_size,
+          resp.byte_size,
+          resp.encode_method,
+          resp.index_length,
+          resp.segment_length,
+          resp.segment_number,
+          resp.verify_method
+      );
+      GCPass(resp.gc_data);
+      HomoPass(resp.homo_data);
+      EnergyPass(resp.energy_plot);
+      EncodeURLPass(resp.user_encode_file);
+      FileURLPass(resp.user_file_infofile);
+      DNAInfoPass(
+          resp.DNA_sequence_length,
+          resp.encoding_time,
+          resp.information_density,
+          resp.nucleotide_counts,
+          resp.min_free_energy,
+          resp.net_information_density,
+          // response.data.min_free_energy_below_30kcal_mol,
+      );
+      miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
+      props.setSpin(false);
+      console.log('完成spin');
+    };
+    // axios
+    //   .post("http://localhost:5000/encode", params1)
+    //   .then(function (response) {
+    //     console.log("Encode-response: ", response.data);
+    //     console.log("Encode-response: ", typeof(response.data.min_free_energy_below_30kcal_mol));
+    //     InfoPass1(
+    //       response.data.bit_size,
+    //       response.data.byte_size,
+    //       response.data.encode_method,
+    //       response.data.index_length,
+    //       response.data.segment_length,
+    //       response.data.segment_number,
+    //       response.data.verify_method
+    //     );
+    //     GCPass(response.data.gc_data);
+    //     HomoPass(response.data.homo_data);
+    //     EnergyPass(response.data.energy_plot);
+    //     EncodeURLPass(response.data.user_encode_file);
+    //     FileURLPass(response.data.user_file_infofile);
+    //     DNAInfoPass(
+    //       response.data.DNA_sequence_length,
+    //       response.data.encoding_time,
+    //       response.data.information_density,
+    //       response.data.nucleotide_counts,
+    //       response.data.min_free_energy,
+    //       response.data.net_information_density,
+    //       // response.data.min_free_energy_below_30kcal_mol,
+    //     );
+    //     miniEnergyPass(response.data.min_free_energy_below_30kcal_mol);
+    //     props.setSpin(false);
+    //     console.log('完成spin');
+    //   })
+    //   .catch(function (error) {
+    //     //console.log(error);
+    //   });
+  
   const scrollToAnchor = (placement) => {
+    console.log('toanthor');
     notification.info({
       message: 'Please make sure you complete the uploading and selection above!',
       description:
@@ -163,46 +197,39 @@ export const Encode = (props) => {
       }
     }
   };
-  const handleExm=()=>{
+  const handleExm=async()=>{
     props.setIsSynthesis(true);
     props.changeSider(["0-0-1"]);
     props.setSpin(true);
     props.setExam(true);
-    axios
-      .post(API_PREFIX + "/encode", params1)
-      .then(function (response) {
-        console.log("Encode-response: ", response.data);
-        console.log("Encode-response: ", typeof(response.data.min_free_energy_below_30kcal_mol));
-        InfoPass1(
-          response.data.bit_size,
-          response.data.byte_size,
-          response.data.encode_method,
-          response.data.index_length,
-          response.data.segment_length,
-          response.data.segment_number,
-          response.data.verify_method
+    const resp = await doPost("/encode", { body:params1 });
+    console.log("Encode-response: ", resp);
+    console.log("Encode-response: ", typeof(resp.min_free_energy_below_30kcal_mol));
+    InfoPass1(
+      resp.bit_size,
+      resp.byte_size,
+      resp.encode_method,
+      resp.index_length,
+      resp.segment_length,
+      resp.segment_number,
+      resp.verify_method
         );
-        GCPass(response.data.gc_data);
-        HomoPass(response.data.homo_data);
-        EnergyPass(response.data.energy_plot);
-        EncodeURLPass(response.data.user_encode_file);
-        FileURLPass(response.data.user_file_infofile);
-        DNAInfoPass(
-          response.data.DNA_sequence_length,
-          response.data.encoding_time,
-          response.data.information_density,
-          response.data.nucleotide_counts,
-          response.data.min_free_energy,
-          response.data.net_information_density,
-          // response.data.min_free_energy_below_30kcal_mol,
+    GCPass(resp.gc_data);
+    HomoPass(resp.homo_data);
+    EnergyPass(resp.energy_plot);
+    EncodeURLPass(resp.user_encode_file);
+    FileURLPass(resp.user_file_infofile);
+    DNAInfoPass(
+        resp.DNA_sequence_length,
+        resp.encoding_time,
+        resp.information_density,
+        resp.nucleotide_counts,
+        resp.min_free_energy,
+        resp.net_information_density
         );
-        miniEnergyPass(response.data.min_free_energy_below_30kcal_mol);
-        props.setSpin(false);
-      })
-        
-      .catch(function (error) {
-        console.log(error);
-      }); 
+    miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
+    props.setSpin(false);
+      
   }
   const handlereset=()=>{
     setSeg(160)
@@ -213,9 +240,7 @@ export const Encode = (props) => {
     setencodeValue('WithoutVerifycode')
     setValue("Basic")
   }
-  useEffect(()=>{
-    window.scrollTo(0,0);
-  },[])
+
   return (
     <div className="EncodeContainer">
       <div style={{ paddingLeft: "100px", paddingTop: "20px" }}>
@@ -224,9 +249,12 @@ export const Encode = (props) => {
             <a href="/home">Home</a>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="/Services">Service</a>
+            Services
           </Breadcrumb.Item>
-          <Breadcrumb.Item>EncodeServices</Breadcrumb.Item>
+          <Breadcrumb.Item>
+          Encode
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>Setting</Breadcrumb.Item>
         </Breadcrumb>
       </div>
       <Row>
@@ -357,5 +385,4 @@ export const Encode = (props) => {
     </div>
   );
 };
-//Encode.defaultProps = new EncodeProps();
 export default Encode;
