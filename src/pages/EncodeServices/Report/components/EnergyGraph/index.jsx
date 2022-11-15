@@ -24,7 +24,17 @@ console.log("energydata", data);
         opacity: 0.6,
       },
     },
+    yAxis:{
+      title:{
+        text:'Sequence number',
+        offset:60,
+      }
+    },
     xAxis: {
+      title:{
+        text:'minimum free energy (kcal/mol)',
+        offset:50,
+      },
       label: {
         autoHide: true,
         autoRotate: false,

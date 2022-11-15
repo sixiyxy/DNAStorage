@@ -9,7 +9,6 @@ export class BasicLayoutProps {}
 
 export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const { Header, Content, Footer } = Layout;
-
   return (
     <Layout className="layout">
       <Header>

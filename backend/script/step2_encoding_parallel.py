@@ -56,19 +56,13 @@ class Encoding():
         self.dna_file = '{}/{}/{}.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
 
         # min free energy
+        self.min_free_energy_tools = self.config['min_free_energy']
         self.dna_demo_file = '{}/{}/{}_demo.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
+        self.free_enerfy_file = '{}/{}/{}_min_free_energy.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
         # self.free_enerfy_file = '{}/{}/{}_min_free_energy.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
-        self.free_enerfy_file = '{}/{}/1565536927137009664_min_free_energy.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
 
         # user download file
         self.user_download_file = '{}/{}/{}.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
-        f = open(self.user_download_file,'w')
-        if self.encode_method in encoding_methods:
-            f.write('payload,index,index_payload,index_payload_verfiycode,DNA_sequence\n')
-            f.close()
-        elif self.encode_method == 'SrcCode':
-            f.write('payload,DNA_sequence\n')
-            f.close()
         
         # prepare for decode
         self.decode_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
@@ -131,6 +125,8 @@ class Encoding():
         # record encode value
         nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
         information_density = self.bit_size/nucleotide_count
+
+        # net information density is wrong do not display
         net_nucleotide_count = len(dna_sequences)*(len(dna_sequences[0]) - self.index_length - self.verify_code_length)
         net_information_density = self.bit_size/net_nucleotide_count
 
@@ -211,7 +207,7 @@ class Encoding():
 
         # record dowdload file
         download_normal(self.user_download_file ,original_bit_segments_all,record_index_all,
-        connected_bit_segments_all,final_bit_segments_all,dna_sequences_all)
+                        connected_bit_segments_all,final_bit_segments_all,dna_sequences_all)
 
         # record decode file
         bit_sequences = [''.join(list(map(str,i))) for i in final_bit_segments_all]
@@ -290,7 +286,8 @@ class Encoding():
         record_info['physical_information_density_ug'] = '{} petabyte_ug'.format(record_info['physical_information_density_ug'])
 
         # record energy
-        record_info,free_energy_plotdata = add_min_free_energydata(self.free_enerfy_file ,record_info)
+        record_info,free_energy_plotdata = add_min_free_energydata(self.min_free_energy_tools,self.dna_demo_file,
+                                            self.free_enerfy_file,record_info)
         record_info['energy_plot']=free_energy_plotdata
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print(record_info)

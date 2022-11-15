@@ -9,7 +9,7 @@ const HomoGraph = (props) => {
     // console.log('Homo',props.homo);
     return props.homo;
   }, [props.homo]);
-  // console.log('homodata',data);
+  console.log("homodata", data);
   const config = {
     data,
     xField: "x_value",
@@ -26,7 +26,18 @@ const HomoGraph = (props) => {
         opacity: 0.6,
       },
     },
+    yAxis:{
+      title:{
+        text:'Sequence number',
+        offset:60,
+      }
+    },
+    
     xAxis: {
+      title:{
+        text:'Singal DNA sequnce homopolymer length (bp)',
+        offset:50,
+      },
       label: {
         autoHide: true,
         autoRotate: false,

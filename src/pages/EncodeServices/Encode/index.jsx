@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./index.less";
 import axios from "axios";
-import { Breadcrumb, Col, Row, Spin } from "antd";
+import { Breadcrumb, Col, Row, Spin,notification } from "antd";
 import Encodelists from "./components/Encodelists";
 import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
@@ -19,7 +19,7 @@ export const Encode = (props) => {
   }, []);
 
   const [seg, setSeg] = useState(160);
-  const [index, setIndex] = useState(16);
+  const [index, setIndex] = useState(20);
   const [method, setMethod] = useState("WithoutVerifycode");
   const [btnflag, setBtn] = useState(false);
   const [encodevalue, setencodeValue] = useState("WithoutVerifycode");
@@ -31,12 +31,7 @@ export const Encode = (props) => {
   useEffect(() => {
     props.setIsSynthesis(false);
   }, []);
-  // const ParamPass = (param1, param2) => {
-  //   setSeg(param2[0].Segvalue);
-  //   setIndex(param2[1].Indexvalue);
-  //   // console.log("done");
-  //   setMethod(param1); //method
-  // };
+ 
   const GCPass = (param1) => {
     props.setGC(param1);
   };
@@ -90,7 +85,6 @@ export const Encode = (props) => {
     props.DNAinfos.nucleotide_counts = param4;
     props.DNAinfos.min_free_energy =param5;
     props.DNAinfos.net_information_density = param6
-    //props.DNAInfos.min_free_energy_below_30kcal_mol = param6;
     props.setDNAinfo(props.DNAinfos);
     console.log('Encode-dnaindo',props.dnainfo);
   };
@@ -145,43 +139,9 @@ export const Encode = (props) => {
       props.setSpin(false);
       console.log('完成spin');
     };
-    // axios
-    //   .post("http://localhost:5000/encode", params1)
-    //   .then(function (response) {
-    //     console.log("Encode-response: ", response.data);
-    //     console.log("Encode-response: ", typeof(response.data.min_free_energy_below_30kcal_mol));
-    //     InfoPass1(
-    //       response.data.bit_size,
-    //       response.data.byte_size,
-    //       response.data.encode_method,
-    //       response.data.index_length,
-    //       response.data.segment_length,
-    //       response.data.segment_number,
-    //       response.data.verify_method
-    //     );
-    //     GCPass(response.data.gc_data);
-    //     HomoPass(response.data.homo_data);
-    //     EnergyPass(response.data.energy_plot);
-    //     EncodeURLPass(response.data.user_encode_file);
-    //     FileURLPass(response.data.user_file_infofile);
-    //     DNAInfoPass(
-    //       response.data.DNA_sequence_length,
-    //       response.data.encoding_time,
-    //       response.data.information_density,
-    //       response.data.nucleotide_counts,
-    //       response.data.min_free_energy,
-    //       response.data.net_information_density,
-    //       // response.data.min_free_energy_below_30kcal_mol,
-    //     );
-    //     miniEnergyPass(response.data.min_free_energy_below_30kcal_mol);
-    //     props.setSpin(false);
-    //     console.log('完成spin');
-    //   })
-    //   .catch(function (error) {
-    //     //console.log(error);
-    //   });
-  
+
   const scrollToAnchor = (placement) => {
+    console.log('toanthor');
     notification.info({
       message: 'Please make sure you complete the uploading and selection above!',
       description:
@@ -248,78 +208,58 @@ export const Encode = (props) => {
             <a href="/home">Home</a>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="/Services">Service</a>
+            Services
           </Breadcrumb.Item>
-          <Breadcrumb.Item>EncodeServices</Breadcrumb.Item>
+          <Breadcrumb.Item>
+          Encode
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>Setting</Breadcrumb.Item>
         </Breadcrumb>
       </div>
       <Row>
         <Col>
           <div
-            id="uploads"
             style={{
               marginLeft: "100px",
-              marginTop: "20px",
-              fontSize: "13px",
+              marginTop: "40px",
+              fontSize: "19px",
             }}
           >
-            <h2>
+            <p>
               <strong>
                 {" "}
                 <FolderAddTwoTone /> Please upload the storage files:
               </strong>
-            </h2>
-            <Uploads
-              GetFileID={props.setFileId}
-              FileInfoPass={FileInfoPass}
-              setBtn={setBtn}
-              setChange={setChange}
-            />
+            </p>
+            <div className="uploads">
+              <Uploads
+                GetFileID={props.setFileId}
+                FileInfoPass={FileInfoPass}
+                setBtn={setBtn}
+                setChange={setChange}
+              />
+            </div>
           </div>
           <div
             id="encodelist"
             style={{
               fontSize: "15px",
             }}
-          >
-            <p style={{ marginLeft: "50px", fontSize: "17px" }}>
-            </p>
+          > 
+            
             <Encodelists
-              // fileId={props.fileId}
-              // seg={seg}
-              // setSeg={setSeg}
-              // index={index}
-              // setIndex={setIndex}
-              // method={method}
-              // setMethod={setMethod}
-              // InfoPass1={InfoPass1}
-              // GCPass={GCPass}
-              // EnergyPass={EnergyPass}
-              // EncodeURLPass={EncodeURLPass}
-              // FileURLPass={FileURLPass}
-              // HomoPass={HomoPass}
-              // DNAInfoPass={DNAInfoPass}
-              // changeSider={props.changeSider}
-              // btnflag={btnflag}
-              // setIsSynthesis={props.setIsSynthesis}
-              // setSpin={props.setSpin}
-              // setExam={props.setExam}
               setValue={setValue}
               value={value}
-              // SetSegvalue={SetSegvalue}
-              // Setindexment={Setindexment}
             />
           </div>
           <div
             id="sliders"
             style={{
-              marginLeft: "100px",
-              paddingTop: "20px",
+              margin: "50px 0 0 100px",
               fontSize: "14px",
             }}
           >
             <Sliders 
-            // ParamPass={ParamPass} 
             indexchange={indexchange}
             setSeg={setSeg}
             setIndex={setIndex}
@@ -332,7 +272,7 @@ export const Encode = (props) => {
             indexment={indexment}
             />
           </div>
-          <div id="graphs" style={{ marginLeft: "100px", paddingTop: "20px" }}>
+          <div id="graphs" style={{ marginLeft: "100px", paddingTop: "20px"}}>
             <hr></hr>
             <Graphs
               seg={seg}
@@ -346,7 +286,7 @@ export const Encode = (props) => {
           </div>
         </Col>
       </Row>
-      <div style={{marginTop:"40px",marginLeft:"100px"}}>
+      <div style={{margin:"80px 0 150px 100px"}}>
         
               <Button
                 type="primary"

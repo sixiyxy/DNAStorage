@@ -39,15 +39,14 @@ const Uploads: React.FC = (props: any) => {
   };
 
   return (
-    <div>
+    <div className="dragger">
       <Dragger {...Props}>
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
         <p className="ant-upload-text">Let's start!</p>
         <p className="ant-upload-hint">
-          Support for a single or bulk upload. Strictly prohibit from uploading
-          company data or other band files
+          Support file types: video, txt, mp3, picture...
         </p>
       </Dragger>
     </div>

@@ -1,4 +1,4 @@
-
+import copy
 import os,sys
 import re
 import yaml
@@ -26,6 +26,7 @@ def get_config(yaml_path=''):
     return config
 
 def write_yaml(yaml_path,data,appending):
+    display_data = copy.deepcopy(data)
     if appending==False:
         with open(yaml_path,"w",encoding="utf-8") as f:
             yaml.dump(data,f)
@@ -39,6 +40,7 @@ def write_yaml(yaml_path,data,appending):
             del data['gc_data']
         if "homo_data" in data_keys:
             del data['homo_data']
+
         if data_keys[0] not in yaml_data:
             with open(yaml_path,"a",encoding="utf-8") as f:
                 yaml.dump(data,f)
@@ -50,6 +52,7 @@ def write_yaml(yaml_path,data,appending):
                 yaml.dump(yaml_ori,f)
                 del data['simu']
                 yaml.dump(data,f)
+    return display_data
 
 def write_dna_file(path,demo_path, dna_sequences):
    
@@ -57,16 +60,16 @@ def write_dna_file(path,demo_path, dna_sequences):
         for index, dna_sequence in enumerate(dna_sequences):
             file.write("".join(dna_sequence) + "\n")
     
-    # if not os.path.exists(demo_path):
-    #     if len(dna_sequences)<=1000:
-    #         demo_dna_sequences =dna_sequences
-    #     else:
-    #         demo_dna_sequences = random.sample(dna_sequences,1000)
+    if not os.path.exists(demo_path):
+        if len(dna_sequences)<=1000:
+            demo_dna_sequences =dna_sequences
+        else:
+            demo_dna_sequences = random.sample(dna_sequences,1000)
         
-    #     with open(demo_path, "a+") as demo_file:
-    #         for index, dna_sequence in enumerate(demo_dna_sequences):
-    #             demo_file.write("".join(dna_sequence) + "\n")
-    #     print("Write 1000 demo DNA sequences to file: " + path + '\n')
+        with open(demo_path, "a+") as demo_file:
+            for index, dna_sequence in enumerate(demo_dna_sequences):
+                demo_file.write("".join(dna_sequence) + "\n")
+        print("Write 1000 demo DNA sequences to file: " + path + '\n')
     return True
 
 def get_download_path(type,file_uid):

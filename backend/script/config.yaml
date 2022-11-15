@@ -16,6 +16,9 @@ file_type:
 # about run
 encode_dir: encode
 
+# min free energy
+min_free_energy: /usr/local/bin/RNAfold
+
 # about simulation
 simulation_dir: simulation
 

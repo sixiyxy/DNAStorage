@@ -1,35 +1,21 @@
-import { Area, Datum, DualAxes, Pie, Scatter,Bar} from "@ant-design/charts";
-import {
-  Breadcrumb,
-  Button,
-  Card,
-  Col,
-  Empty,
-  InputNumber,
-  Modal,
-  Row,
-  Select,
-  Slider,
-  Spin,
-  Tabs,
-  Tooltip,
-} from "antd";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import { Bar, DualAxes, Pie } from "@ant-design/charts";
+import { Breadcrumb, Button, Card, Select, Tabs } from "antd";
+import React, { useEffect, useMemo, useState } from "react";
 import "./index.less";
-import {doPost} from "../../../utils/request";
+import { doPost } from "../../../utils/request";
 import axios from "axios";
-import {API_PREFIX} from "../../../common/Config";
+import { API_PREFIX } from "../../../common/Config";
 
 export class SimulationReportProps {
-  changeSider;
+  changeSider?;
   fileId;
 }
 
 export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
-  var downinfo={
-    "file_uid":props.fileId,
-    "type":"simulation"
-  }
+  const downinfo = {
+    file_uid: props.fileId,
+    type: "simulation",
+  };
   const { Option, OptGroup } = Select;
 
   const [sequencingDepth, setSequencingDepth] = useState(1);
@@ -68,24 +54,25 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  useEffect(()=>{
-    window.scrollTo(0,0);
-  },[])
   useEffect(() => {
-    async function fetchData(){
-    setLoading(true);
-    setNoDataTipsShow(false);
-    const resp = await doPost("/simu_repo", { body:params });
-    // console.log("report", response);
-    setSynthesisData(resp.synthesis);
-    setDacayData(resp.decay);
-    setPcrData(resp.pcr);
-    setSamplingData(resp.sample);
-    setSequenceingData(resp.sequence);
-    setErrorRecode(resp.Error_Recorder);
-    setErrorDensity(resp.Error_Density);
-    setLoading(false);
-  }
+    window.scrollTo(0, 0);
+  }, []);
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      setNoDataTipsShow(false);
+      const resp = await doPost("/simu_repo", { body: params });
+      // console.log("report", response);
+      setSynthesisData(resp.synthesis);
+      setDacayData(resp.decay);
+      setPcrData(resp.pcr);
+      setSamplingData(resp.sample);
+      setSequenceingData(resp.sequence);
+      setErrorRecode(resp.Error_Recorder);
+      setErrorDensity(resp.Error_Density);
+      setLoading(false);
+    }
+
     fetchData();
     // axios
     //   .post("http://localhost:5000//simu_repo", params)
@@ -188,21 +175,21 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       },
     ];
   }, [sequencingData]);
-  const samplingErrorParamData = useMemo(()=>{
+  const samplingErrorParamData = useMemo(() => {
     return [
       {
-        name:"Percentage",
-        value:samplingData?.sam_ratio*1000,
+        name: "Percentage",
+        value: samplingData?.sam_ratio * 1000,
         type: "Ratio Percentage",
       },
 
       {
-        name:"Percentage",
-        value:100-samplingData?.sam_ratio*1000,
+        name: "Percentage",
+        value: 100 - samplingData?.sam_ratio * 1000,
         type: "Others",
       },
-    ]
-  },[samplingData])
+    ];
+  }, [samplingData]);
   const synthesisErrorParamConfig = {
     data: synthesisErrorParamData,
     angleField: "value",
@@ -351,7 +338,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       },
     },
   };
-  const samplingErrorParamConfig={
+  const samplingErrorParamConfig = {
     data: samplingErrorParamData,
     isStack: true,
     xField: "value",
@@ -377,17 +364,14 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         },
       ],
     },
-    meta:{
-      value:{
-        formatter:(value:any)=>{
-          
-          return `${value}%`
-          }
-       
+    meta: {
+      value: {
+        formatter: (value: any) => {
+          return `${value}%`;
+        },
       },
     },
-    
-  }
+  };
   //混合图数据以及配置
   // const columnData = useMemo(() => {
   //   return [
@@ -449,16 +433,12 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     return [
       {
         step: "synthesis",
-        value: errorRecoder?.SYN
-          ? Math.log(errorRecoder?.SYN.n)
-          : 0,
+        value: errorRecoder?.SYN ? Math.log(errorRecoder?.SYN.n) : 0,
         type: "total",
       },
       {
         step: "synthesis",
-        value: errorRecoder?.SYN
-          ? Math.log(errorRecoder?.SYN.e)
-          : 0,
+        value: errorRecoder?.SYN ? Math.log(errorRecoder?.SYN.e) : 0,
         type: "error",
       },
       {
@@ -586,23 +566,17 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     return [
       {
         step: "synthesis",
-        count: errorRecoder?.SYN
-          ? Math.log(errorRecoder?.SYN["+"])
-          : 0,
+        count: errorRecoder?.SYN ? Math.log(errorRecoder?.SYN["+"]) : 0,
         name: "insert",
       },
       {
         step: "synthesis",
-        count: errorRecoder?.SYN
-          ? Math.log(errorRecoder?.SYN["-"])
-          : 0,
+        count: errorRecoder?.SYN ? Math.log(errorRecoder?.SYN["-"]) : 0,
         name: "delete",
       },
       {
         step: "synthesis",
-        count: errorRecoder?.SYN
-          ? Math.log(errorRecoder?.SYN.s)
-          : 0,
+        count: errorRecoder?.SYN ? Math.log(errorRecoder?.SYN.s) : 0,
         name: "substitute",
       },
       {
@@ -754,8 +728,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   //     line: null,
   //   },
   // };
-  const ErrorDensityConfig={
-    data: errorDensity||[],
+  const ErrorDensityConfig = {
+    data: errorDensity || [],
     isStack: true,
     isPercent: true,
     xField: "count",
@@ -763,14 +737,14 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     seriesField: "error",
     maxBarWidth: 100,
     height: 400,
-    barWidthRatio:0.4,
+    barWidthRatio: 0.4,
     // isPercent: true,
-    label: {  
+    label: {
       // 可手动配置 label 数据标签位置
       position: "left",
       // 'left', 'middle', 'right'
       // 可配置附加的布局方法
-      content: (item:any) => {
+      content: (item: any) => {
         return item.value.toFixed(2);
       },
       layout: [
@@ -786,8 +760,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         },
       ],
     },
-    
-  }
+  };
 
   //接口配置
   const params = useMemo(() => {
@@ -801,21 +774,21 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     // console.log(props.encodeurl);
     // console.log(props.fileURL);
     axios
-      .post(API_PREFIX + "/download", downinfo,{responseType: 'blob'})
+      .post(API_PREFIX + "/download", downinfo, { responseType: "blob" })
       .then(function (response) {
         console.log(response.data);
-        const link = document.createElement('a');  //创建一个a标签
-        const blob = new Blob([response.data]);             //实例化一个blob出来
-        link.style.display = 'none';       
-        link.href = URL.createObjectURL(blob);    //将后端返回的数据通过blob转换为一个地址
-    //设置下载下来后文件的名字以及文件格式
+        const link = document.createElement("a"); //创建一个a标签
+        const blob = new Blob([response.data]); //实例化一个blob出来
+        link.style.display = "none";
+        link.href = URL.createObjectURL(blob); //将后端返回的数据通过blob转换为一个地址
+        //设置下载下来后文件的名字以及文件格式
         link.setAttribute(
-      'download',
-      `${props.fileId}.` + `${'zip'}`,     //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
-    );
-    document.body.appendChild(link);
-    link.click();                            //下载该文件
-    document.body.removeChild(link);
+          "download",
+          `${props.fileId}.` + `${"zip"}` //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
+        );
+        document.body.appendChild(link);
+        link.click(); //下载该文件
+        document.body.removeChild(link);
       })
       .catch(function (error) {
         console.log(error);
@@ -839,13 +812,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {/* <Button size="large" style={{ width: 100 }} onClick={handleOk}>
         OK
       </Button> */}
-      <Card style={{ width: 800, height: 500,marginLeft:"20px"}}>
-        <Tabs defaultActiveKey="1" style={{fontSize:"16px"}}>
-          <Tabs.TabPane
-            tab="Synthesis"
-            key="1"
-            disabled={synthesisData === undefined}
-          >
+      <Card style={{ width: 800, height: 500, marginLeft: "20px" }}>
+        <Tabs defaultActiveKey="1" style={{ fontSize: "16px" }}>
+          <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined}>
             synthesis_number: {synthesisData?.synthesis_number}
             <br />
             synthesis_yield: {synthesisData?.synthesis_yield}
@@ -857,21 +826,14 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             {synthesisData?.synthesis_method_reference?.map((link, index) => {
               return (
                 <>
-                  <a
-                    style={{ margin: "0 0 0 5px" }}
-                    href={link}
-                    target="_blank"
-                  >
+                  <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank" rel="noreferrer">
                     {link}
                   </a>
                   <br />
                 </>
               );
             })}
-            <Pie
-              {...synthesisErrorParamConfig}
-              style={{ margin: "20px 0 0 0" }}
-            />
+            <Pie {...synthesisErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Decay" key="2" disabled={decayData === undefined}>
             storage_host: {decayData?.storage_host}
@@ -885,11 +847,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             {decayData?.storage_host_parameter_reference?.map((link, index) => {
               return (
                 <>
-                  <a
-                    style={{ margin: "0 0 0 5px" }}
-                    href={link}
-                    target="_blank"
-                  >
+                  <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank" rel="noreferrer">
                     {link}
                   </a>
                   <br />
@@ -910,11 +868,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             {pcrData?.pcr_method_reference?.map((link, index) => {
               return (
                 <>
-                  <a
-                    style={{ margin: "0 0 0 5px" }}
-                    href={link}
-                    target="_blank"
-                  >
+                  <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank" rel="noreferrer">
                     {link}
                   </a>
                   <br />
@@ -923,23 +877,12 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             })}
             <Pie {...pcrErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
           </Tabs.TabPane>
-          <Tabs.TabPane
-            tab="Sampling"
-            key="4"
-            disabled={samplingData === undefined}
-          >
+          <Tabs.TabPane tab="Sampling" key="4" disabled={samplingData === undefined}>
             sam_ratio: {samplingData?.sam_ratio}
-            <Bar
-              {...samplingErrorParamConfig}
-              style={{ margin: "80px 0 0 0" }}
-            />
+            <Bar {...samplingErrorParamConfig} style={{ margin: "80px 0 0 0" }} />
             <br />
           </Tabs.TabPane>
-          <Tabs.TabPane
-            tab="Sequencing"
-            key="5"
-            disabled={sequencingData === undefined}
-          >
+          <Tabs.TabPane tab="Sequencing" key="5" disabled={sequencingData === undefined}>
             seq_depth: {sequencingData?.seq_depth}
             <br />
             seq_method: {sequencingData?.seq_meth}
@@ -949,31 +892,32 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             {sequencingData?.seq_method_reference?.map((link, index) => {
               return (
                 <>
-                  <a
-                    style={{ margin: "0 0 0 5px" }}
-                    href={link}
-                    target="_blank"
-                  >
+                  <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank" rel="noreferrer">
                     {link}
                   </a>
                   <br />
                 </>
               );
             })}
-            <Pie
-              {...sequenceErrorParamConfig}
-              style={{ margin: "20px 0 0 0" }}
-            />
+            <Pie {...sequenceErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
           </Tabs.TabPane>
         </Tabs>
       </Card>
-      <Card style={{ width: 800, height: 500,marginLeft:"20px"}}>
+      <Card style={{ width: 800, height: 500, marginLeft: "20px" }}>
         <DualAxes {...dualConfig} />
       </Card>
-      <Card style={{ width: 800, height: 500,marginLeft:"20px"}}>
+      <Card style={{ width: 800, height: 500, marginLeft: "20px" }}>
         <Bar {...ErrorDensityConfig} />
       </Card>
-      <Button shape="round" size="large" type="primary" style={{margin:"40px 0px 0px 350px"}} onClick={DownloadURL}>Download</Button>
+      <Button
+        shape="round"
+        size="large"
+        type="primary"
+        style={{ margin: "40px 0px 0px 350px" }}
+        onClick={DownloadURL}
+      >
+        Download
+      </Button>
       {/* <Card style={{ width: 800, height: 500 }}></Card> */}
     </div>
   );
