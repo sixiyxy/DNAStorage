@@ -10,7 +10,6 @@ const Uploads: React.FC = (props: any) => {
   const Props: UploadProps = {
     name: "file",
     multiple: true,
-    // action: "http://127.0.0.1:5000//file_upload",
     action: API_PREFIX + "/file_upload",
     maxCount:1,
     onChange(info) {
@@ -40,15 +39,14 @@ const Uploads: React.FC = (props: any) => {
   };
 
   return (
-    <div>
+    <div className="dragger">
       <Dragger {...Props}>
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
         <p className="ant-upload-text">Let's start!</p>
         <p className="ant-upload-hint">
-          Support for a single or bulk upload. Strictly prohibit from uploading
-          company data or other band files
+          Support file types: video, txt, mp3, picture...
         </p>
       </Dragger>
     </div>

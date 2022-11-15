@@ -101,7 +101,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "3",
       name1: "File bytes",
-      value1: `${props.info.byte_size} bytes`,
+      value1: props.info.byte_size,
     },
     {
       key: "4",
@@ -139,7 +139,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "5",
       name1: "Segment number",
-      value1: `${props.info.segment_number} pcs`,
+      value1: props.info.segment_number,
     },
     {
       key: "6",
@@ -149,17 +149,17 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "7",
       name1: "Single DNA length",
-      value1: `${props.dnainfo.DNA_sequence} bits`,
+      value1: `${props.dnainfo.DNA_sequence} bp`,
     },
     {
       key: "8",
       name1: "DNA sequence number",
-      value1: `${props.info.segment_number} pcs`,
+      value1: props.info.segment_number,
     },
     {
       key: "9",
-      name1: "nucleotide counts",
-      value1: `${props.dnainfo.nucleotide_counts} pcs`,
+      name1: "Nucleotide counts",
+      value1: props.dnainfo.nucleotide_counts,
     },
     {
       key: "10",
@@ -255,10 +255,10 @@ export const Report: React.FC<ReportProps> = (props) => {
               <p style={{
                     margin: "10px 0 0 30px",
                     fontSize: "15px",
-                    width: "100%",
+                    width: "90%",
                   }}>This part shows the information of the uploaded file during encoding and the result of DNA sequences analysis after encoding. <br></br>
-                The analysis of the encoded DNA sequences includes GC-content statics, 
-                Homopolymer sequence statics and min free energy calculation.</p>
+                The analysis of the encoded DNA sequences includes GC content statics, 
+                repeated sequences statics and minimum free energy calculation.</p>
                 <Table
                   columns={columns2}
                   dataSource={data2}
@@ -312,7 +312,7 @@ export const Report: React.FC<ReportProps> = (props) => {
                     width: "65%",
                   }}
                 >
-                  <h3 style={{margin:"0px 0 30px 220px"}}>Sequence Min Free Energy</h3>
+                  <h3 style={{margin:"0px 0 30px 220px"}}>Sequence Minimum Free Energy</h3>
                   <EnergyGraph energy={props.energy} />
                 </div>
                 <div style={{
@@ -322,7 +322,7 @@ export const Report: React.FC<ReportProps> = (props) => {
                     color:"#748189"
                   }}>
                 <p><strong>The sequence average minimum free energy is : {props.dnainfo.min_free_energy}</strong></p>
-                <p><strong>The percentage of sequence min free energy below 30 Kcal/mol is : {props.mini} %</strong></p>
+                <p><strong>The percentage of sequence minimum free energy below 30 Kcal/mol is : {props.mini} %</strong></p>
                 <p>The minimum free energy (MFE) of a DNA sequence is the minimum of the Gibbs standard free energy of all possible secondary structures. 
                   Therefore, the quality of DNA sequences can be measured by calculating the MFE of each sequence. 
                   Here we calculated the minimum free energies if randomly selected 1000 encoded DNA sequences by RNAfold.</p>
