@@ -12,7 +12,6 @@ class ArgumentPasser:
 
 def corresponding_arg(param,param_value,left):
     if param=='synthesis_method':
-        print("yes!!")
         res,_=SynthMeth_arg(param_value,left)
     elif param=='storage_host':
         res,_=DecHost_arg(param_value,left)
@@ -108,3 +107,11 @@ def funcs_parallel(funcs,dna,final=True):
         return dna,error_recorders,error_density_list     
     else:
         return dna
+
+funcs_parameter={
+    "SYN":["synthesis_method","synthesis_number","synthesis_yield"],
+    "DEC":["storage_host","months_of_storage","decay_loss_rate"],
+    "PCR":["pcr_polymerase","pcr_cycle","pcr_prob"],
+    "SAM":['sam_ratio'],
+    "SEQ":['seq_meth',"seq_depth"]
+}
