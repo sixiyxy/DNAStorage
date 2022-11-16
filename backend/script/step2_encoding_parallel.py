@@ -63,7 +63,7 @@ class Encoding():
         # self.free_enerfy_file = '{}/{}/{}_min_free_energy.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
 
         # user download file
-        self.user_download_file = '{}/{}/{}.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
+        self.user_download_file = '{}/{}/{}.csv'.format(self.backend_dir,self.dna_dir,self.file_uid)
         
         # prepare for decode
         self.decode_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
