@@ -1,14 +1,16 @@
 import {Histogram} from "@ant-design/charts";
 import {Button, Card, Col, Empty, InputNumber, Modal, Row, Slider, Spin, Tooltip,} from "antd";
-import React, {useMemo, useState} from "react";
+import React, {useMemo, useState,useEffect} from "react";
 import "./index.less";
 import {doPost} from "../../../../utils/request";
-
+import axios from "axios";
+import {API_PREFIX} from "../../../../common/Config";
 export class SamplingProps {
   changeSider?;
   fileId;
   sampleFlag;
   okFlag;
+  effect4;
 }
 
 export const Sampling: React.FC<SamplingProps> = (props) => {
@@ -55,6 +57,28 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     setHrefLink(resp.synthesis_method_reference);
     setLoading(false);
   };
+  const param1 = {
+  sam_ratio:0.005,
+  file_uid:"1582175684011364352",
+  upload_flag:"True" 
+  }
+  useEffect(()=>{
+    if (props.effect4 == true){
+    setLoading(true);
+    setNoDataTipsShow(false);
+    setAlreadyRun(true);
+    axios
+      .post(API_PREFIX + "/simu_sam", param1)
+      .then(function (response){
+        setCountLen(response.data.sam_density.length);
+    setGroup(response.data.sam_group);
+    setDensityData(response.data.sam_density);
+    setHrefLink(response.data.synthesis_method_reference);
+    setLoading(false);
+  })}else{
+    console.log('eff4',props.effect4);
+  }
+  },[props.effect4])
   // const handleContinue = () => {
   //   props.changeSider(["0-1-4"]);
   // };
@@ -89,6 +113,18 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
+      yAxis:{
+        title:{
+          text:'Percentage',
+          offset:60,
+        }
+      },
+      xAxis: {
+        title:{
+          text:'Copies Number',
+          offset:50,
+        },
+      },
       meta: {
         count: {
           alias: 'percentage',
@@ -107,6 +143,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
       <Card title="Sampling" className={`${show ? null : "simulation-content-masked"}`}>
         <Row>
           <Col span={12}>
+            <div className="SAMLeft">
             <div className="simulation-row">
               <span>Sampling Ratio :</span>
               <Tooltip title="The ratio of each oligo to be sampled.">
@@ -137,7 +174,9 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
                     onChange={lossChange}
                   />
                 </Col>
+                
               </Row>
+              
             </div>
 
             <div className="simulation-buttons">
@@ -167,12 +206,13 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
                 <p>Do you want to skip Sampling?</p>
               </Modal>
             </div>
+            </div>
           </Col>
           <Col span={12}>
             <Card>
-              <div>
+              {/* <div>
                 After PCR simulation, the situation of oligonucleotides pool as follows:
-              </div>
+              </div> */}
               <div>
                 {noDataTipsShow ? (
                   <Empty
@@ -190,7 +230,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
                   </div>
                 ) : (
                   <div>
-                    <div style={{marginBottom:"30px"}}>copies:</div>
+                    <div style={{marginBottom:"50px",fontSize:"15px"}}> After simulation of sampling, the sequence number distribution of oligonucleotides pool is as follows:</div>
                     <Histogram {...config} />
                   </div>
                 )}

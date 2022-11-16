@@ -12,15 +12,18 @@ import {
   Spin,
   Tooltip,
 } from "antd";
-import React, {useMemo, useState} from "react";
+import React, {useMemo, useState,useEffect} from "react";
 import "./index.less";
 import {doPost} from "../../../../utils/request";
-
+import axios from "axios";
+import {API_PREFIX} from "../../../../common/Config";
 export class PcrProps {
   changeSider?;
   fileId;
   pcrFlag;
   okFlag;
+  effect3;
+  
 }
 
 export const Pcr: React.FC<PcrProps> = (props) => {
@@ -83,6 +86,31 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     setHrefLink(resp.synthesis_method_reference);
     setLoading(false);
   };
+
+  const param1 = {  
+      file_uid:"1582175684011364352",
+      pcr_cycle:12,
+      pcr_prob:0.8,
+      pcr_polymerase:"Taq",
+      upload_flag:"True"
+  }
+  useEffect(()=>{
+    if (props.effect3 == true){
+    setLoading(true);
+    setNoDataTipsShow(false);
+    axios
+      .post(API_PREFIX + "/simu_pcr", param1)
+      .then(function (response){
+        setCountLen(response.data.pcr_density.length);
+    // setErrorData(response?.data?.pcr_error_density);
+        setGroup(response.data.pcr_group);
+        setDensityData(response.data.pcr_density);
+        setHrefLink(response.data.synthesis_method_reference);
+        setLoading(false);
+  })}else{
+    console.log('eff3',props.effect3);
+  }
+  },[props.effect3])
 
   const methodLink = useMemo(() => {
     return hrefLink?.map((link, index) => {
@@ -174,6 +202,18 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
+      yAxis:{
+        title:{
+          text:'Percentage',
+          offset:60,
+        }
+      },
+      xAxis: {
+        title:{
+          text:'Copies Number',
+          offset:50,
+        },
+      },
       meta: {
         count: {
           alias: 'percentage',
@@ -193,6 +233,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       <Card title="PCR" className={`${show ? null : "simulation-content-masked"}`}>
         <Row>
           <Col span={12}>
+            <div className="PCRLeft">
             <div className="simulation-row">
               <span>PCR Cycle : </span>
               <Tooltip title="Cycle number of the PCR process.">
@@ -301,13 +342,14 @@ export const Pcr: React.FC<PcrProps> = (props) => {
                 <p>Do you want to skip PCR?</p>
               </Modal>
             </div>
+            </div>
           </Col>
           <Col span={12}>
             <Card>
-              <div>
+              {/* <div>
                 After Decay simulation, the situation of oligonucleotides pool as
                 follows:
-              </div>
+              </div> */}
               <div>
                 {noDataTipsShow ? (
                   <Empty
@@ -325,7 +367,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
                   </div>
                 ) : (
                   <div >
-                    <div style={{marginBottom:'30px'}}>copies:</div>
+                    <div style={{marginBottom:'50px',fontSize:"15px"}}>After simulation of PCR，the sequence number distribution of oligonucleotides pool is as follows:</div>
                     <Histogram {...config} />
                   </div>
                 )}
