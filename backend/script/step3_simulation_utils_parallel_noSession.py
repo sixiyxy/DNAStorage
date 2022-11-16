@@ -63,10 +63,19 @@ def get_info(file_uid,upload_flag,final_parallel=False):
         else:
             simu_dna=simu_dna[:1000]
     else:
+        simu_repo={}
+        print("fffffuncs",funcs)
+        for func in funcs:
+            simu_repo[func]={}
+            try:
+                simu_repo[func]["error_param"]=file_info[func]
+            except:
+                del simu_repo[func]
+        print("ssssssimu",simu_repo)
         print("funcs in get info",funcs_final)
         print("funcs name in get info",funcs)
         simu_dna=simu_dna
-        return simu_dna,file_info_path,funcs_final,funcs,file_uid
+        return simu_dna,file_info_path,funcs_final,funcs,file_uid,simu_repo
 
     return simu_dna,file_info_path,funcs_final,funcs
 
@@ -85,11 +94,13 @@ def get_simu_synthesis_info(file_uid,
         SYN,arg=SynthMeth_arg(synthesis_method,[synthesis_number,synthesis_yield])
         simu_dna=funcs_parallel([SYN],simu_dna,False)
         funcs_name=['SYN']
+        error_param={"sub":arg.syn_sub_prob,"ins":arg.syn_ins_prob,"del":arg.syn_del_prob}
         syn_info={
             "simu":funcs_name,
             "synthesis_number":int(synthesis_number),
             "synthesis_yield":float(synthesis_yield),
-            "synthesis_method":synthesis_method
+            "synthesis_method":synthesis_method,
+            "SYN":error_param
                 }
             
         write_yaml(yaml_path=file_info_path,data=syn_info,appending=True)
@@ -118,12 +129,13 @@ def get_simu_dec_info(file_uid,
         funcs.append(DEC)
         funcs_name.append("DEC")
         simu_dna=funcs_parallel(funcs,simu_dna,False)
+        error_param={"sub":arg.dec_sub_prob,"ins":arg.dec_ins_prob,"del":arg.dec_del_prob}
         dec_info={
             "simu":funcs_name,
             "storage_host":storage_host,
             "months_of_storage":months_of_storage,
             "decay_loss_rate":loss_rate,
-            "storage_host_parameter_reference":arg.reference
+            "DEC":error_param
         }
         write_yaml(yaml_path=file_info_path,data=dec_info,appending=True)
         dec_density,group=calculate_density(simu_dna)
@@ -151,12 +163,13 @@ def get_simu_pcr_info(
         funcs.append(PCR)
         funcs_name.append("PCR")
         simu_dna=funcs_parallel(funcs,simu_dna,False)
+        error_param={"sub":arg.pcr_sub_prob,"ins":arg.pcr_ins_prob,"del":arg.pcr_del_prob}
         pcr_info={
             "simu":funcs_name,
             "pcr_polymerase":pcr_polymerase,
             "pcr_cycle":pcr_cycle,
             "pcr_prob":pcr_prob,
-            "pcr_method_reference":arg.reference
+            "PCR":error_param
         }
 
         write_yaml(yaml_path=file_info_path,data=pcr_info,appending=True)
@@ -181,12 +194,13 @@ def get_simu_sam_info(file_uid,
         funcs.append(SAM)
         funcs_name.append("SAM")
         simu_dna=funcs_parallel(funcs,simu_dna,False)
-
+        
         density,group=calculate_density(simu_dna)
 
         sam_info={
             "simu":funcs_name,
             "sam_ratio":sam_ratio,
+            
         }
         write_yaml(yaml_path=file_info_path,data=sam_info,appending=True)
         sam_info["sam_density"]=density
@@ -211,12 +225,12 @@ def get_simu_seq_info(file_uid,
         funcs_name.append("SEQ")
         simu_dna=funcs_parallel(funcs,simu_dna,False)
         density,group=calculate_density(simu_dna)
-        
+        error_param={"sub":arg.seq_sub_prob,"ins":arg.seq_ins_prob,"del":arg.seq_del_prob}
         seq_info={
             "simu":funcs_name,
             "seq_depth":seq_depth,
             "seq_meth":seq_meth,
-            "seq_method_reference":arg.reference
+            "SEQ":error_param
         }
         write_yaml(yaml_path=file_info_path,data=seq_info,appending=True)
         seq_info["seq_density"]=density
@@ -225,8 +239,7 @@ def get_simu_seq_info(file_uid,
         return seq_info
 
 def get_simu_repo(file_uid,upload_flag):
-        simu_repo={}
-        simu_dna,file_info_path,funcs,funcs_name,file_uid=get_info(file_uid,upload_flag,final_parallel=True)
+        simu_dna,file_info_path,funcs,funcs_name,file_uid,simu_repo=get_info(file_uid,upload_flag,final_parallel=True)
         dnas,error_recorder,error_density_final=parallel(simu_dna,funcs,funcs_name)
         simu_repo["Error_Recorder"]=error_recorder
         simu_repo["Error_Density"]=error_density_final
