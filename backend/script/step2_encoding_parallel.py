@@ -289,7 +289,7 @@ class Encoding():
         record_info,free_energy_plotdata = add_min_free_energydata(self.min_free_energy_tools,self.dna_demo_file,
                                             self.free_enerfy_file,record_info)
         record_info['energy_plot']=free_energy_plotdata
-        write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
+        record_info = write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print(record_info)
         
         return record_info
