@@ -280,7 +280,6 @@ def calculate_density(dnas,layer=False):
         
         
         group=int(len(nums_count)/n_group)
-        print(group)
         if group>10:
             groups=[]
             for i in range(0,len(nums_count)//group):
@@ -344,15 +343,11 @@ def parallel(simu_dna,funcs,funcs_names):
         cut_file_list = cut_file(simu_dna,cut)
         thread=8
         with Pool(thread) as pool:
-                print(funcs)
-                print(len(funcs))
                 r = list(tqdm(pool.starmap(funcs_parallel,[(funcs,item) for item in cut_file_list])))   
                 pool.close()
                 pool.join()
                 dnas=[]
-                print(len(funcs))
                 error_recorder=[{'+':0,"-":0,"s":0,"e":0,"n":0} for i in range(len(funcs))]
-                print(error_recorder)
                 error_density=[{} for i in range(len(funcs))]
                 for index,i in enumerate (r):
                     for j in i[0]:
@@ -363,19 +358,13 @@ def parallel(simu_dna,funcs,funcs_names):
                         error_density[index_1]=dict(Counter(error_density[index_1]) + Counter(i[2][index_1]))
                 #for front end data processsing 
                 error_recorder_final={}
-                print(error_recorder)
-                print("fffffuncs_names",funcs_names)
-                print("error recorder",(len(error_recorder)))
                 for index,i in enumerate (funcs_names):
                         error_recorder_final[i]=error_recorder[index]
                 error_density_final=[]
-                print("error density",error_density)
                 for index,density in enumerate(error_density):
                     density = sorted(density.items(), key=lambda e: e[0])
                     for i in density:
                         error_density_final.append({'type':funcs_names[index],"error":str(i[0]),"count":i[1]})
-        print(error_recorder_final)
-        print(error_density_final)
         t2 = time.time()
         print('cut size {},threads {}, pool time {}'.format(cut,thread,t2-t1))
         print("Done")

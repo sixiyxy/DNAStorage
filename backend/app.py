@@ -295,7 +295,7 @@ def simu_repo():
     upload_flag=front_data['upload_flag']
 
     simu_repo=simu_utils.get_simu_repo(file_uid,upload_flag)
-    
+    print(simu_repo)
     return json.dumps(simu_repo)
     
 @app.route('/decode',methods=['GET','POST'])
