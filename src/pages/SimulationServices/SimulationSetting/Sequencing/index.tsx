@@ -12,15 +12,17 @@ import {
   Spin,
   Tooltip,
 } from "antd";
-import React, {useMemo, useState} from "react";
+import React, {useMemo, useState,useEffect} from "react";
 import "./index.less";
 import {doPost} from "../../../../utils/request";
-
+import axios from "axios";
+import {API_PREFIX} from "../../../../common/Config";
 export class SequencingProps {
   changeSider?;
   fileId;
   sequenceFlag;
   okFlag;
+  effect5;
 }
 
 export const Sequencing: React.FC<SequencingProps> = (props) => {
@@ -73,6 +75,28 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     setHrefLink(resp.synthesis_method_reference);
     setLoading(false);
   };
+
+  const param1 = 
+  { seq_depth:15,
+  seq_meth:"ill_PairedEnd",
+  file_uid:1582175684011364352,
+ upload_flag:"True" }
+    useEffect(()=>{
+      if (props.effect5 == true){
+      setLoading(true);
+      setNoDataTipsShow(false);
+      axios
+        .post(API_PREFIX + "/simu_pcr", param1)
+        .then(function (response){
+          setLen(response.data.seq_density.length);
+          setDensityData(response.data.seq_density);
+          setGroup(response.data.seq_group);
+          setHrefLink(response.data.synthesis_method_reference);
+          setLoading(false);
+      })}else{
+        console.log('eff5',props.effect5);
+      }
+      },[props.effect5])
   // const handleContinue = () => {
   //   props.changeSider(["0-1-5"]);
   // };
@@ -107,8 +131,20 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
+      // yAxis:{
+      //   maxLimit:17000
+      // },
       yAxis:{
-        maxLimit:17236
+        title:{
+          text:'Percentage',
+          offset:60,
+        }
+      },
+      xAxis: {
+        title:{
+          text:'Copies Number',
+          offset:50,
+        },
       },
       meta: {
         count: {
@@ -129,6 +165,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       <Card title="Sequencing" className={`${show ? null : "simulation-content-masked"}`}>
         <Row>
           <Col span={12}>
+            <div className="SEQLeft">
             <div className="simulation-sequencing-function-content">
               <div>
                 <div className="simulation-row">
@@ -217,12 +254,13 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                 </div>
               </div>
             </div>
+            </div>
           </Col>
           <Col span={12}>
             <Card>
-              <div>
+              {/* <div>
                 After Sequencing simulation, the situation of oligonucleotides pool as follows:
-              </div>
+              </div> */}
               <div>
                 {noDataTipsShow ? (
                   <Empty
@@ -240,7 +278,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                   </div>
                 ) : (
                   <div>
-                    <div style={{marginBottom:"30px"}}>copies:</div>
+                    <div style={{marginBottom:"50px",fontSize:"15px"}}>After simulation of sequencing, the sequence number distribution of oligonucleotides pool is as follows:</div>
                     <Histogram {...config} />
                   </div>
                 )}

@@ -1,11 +1,11 @@
 import { Bar, DualAxes, Pie } from "@ant-design/charts";
-import { Breadcrumb, Button, Card, Select, Tabs } from "antd";
+import { Breadcrumb, Button, Card, Select, Tabs,Table} from "antd";
 import React, { useEffect, useMemo, useState } from "react";
 import "./index.less";
 import { doPost } from "../../../utils/request";
 import axios from "axios";
 import { API_PREFIX } from "../../../common/Config";
-
+import type { ColumnsType } from "antd/es/table";
 export class SimulationReportProps {
   changeSider?;
   fileId;
@@ -63,11 +63,11 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       setNoDataTipsShow(false);
       const resp = await doPost("/simu_repo", { body: params });
       console.log("report", resp);
-      setSynthesisData(resp.synthesis);
-      setDacayData(resp.decay);
-      setPcrData(resp.pcr);
+      setSynthesisData(resp.SYN);
+      setDacayData(resp.DEC);
+      setPcrData(resp.PCR);
       setSamplingData(resp.sample);
-      setSequenceingData(resp.sequence);
+      setSequenceingData(resp.SEQ);
       setErrorRecode(resp.Error_Recorder);
       setErrorDensity(resp.Error_Density);
       setLoading(false);
@@ -654,7 +654,18 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
 
     //   },
     // },
-
+    meta: {
+      value: {
+        formatter: (value: any) => {
+          return `${(value).toFixed(2)}`;
+        },
+      },
+      count: {
+        formatter: (value: any) => {
+          return `${(value).toFixed(2)}`;
+        },
+      },
+    },
     geometryOptions: [
       {
         geometry: "column",
@@ -760,6 +771,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         },
       ],
     },
+    // tooltip: {
+    //   type: {
+    //     formatter: (value: any) => {
+    //       return `${value}个`;
+    //     },
+    //   },
+    // },
   };
 
   //接口配置
@@ -795,7 +813,47 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         console.log(error);
       });
   };
-
+  // interface DataType {
+  //   key: string;
+  //   name1: string;
+  //   value1: any;
+  // }
+  
+  // const columns1: ColumnsType<DataType> = [
+  //   {
+  //     title: "Name",
+  //     dataIndex: "name1",
+  //     render: (text) => <a>{text}</a>,
+  //   },
+  //   {
+  //     title: "Information",
+  //     dataIndex: "value1",
+  //     align:"center"
+  //   },
+  // ];
+  // const data1: DataType[] = [
+  //   {
+  //     key: "1",
+  //     name1: "synthesis_number",
+  //     value1: synthesisData?.synthesis_number,
+      
+  //   },
+  //   {
+  //     key: "2",
+  //     name1: "synthesis_yield",
+  //     value1: synthesisData?.synthesis_yield,
+  //   },
+  //   {
+  //     key: "3",
+  //     name1: "synthesis_method",
+  //     value1: synthesisData?.synthesis_yield,
+  //   },
+  //   {
+  //     key: "4",
+  //     name1: "synthesis_method_reference",
+  //     value1: synthesisData?.synthesis_yield,
+  //   },
+  // ];
   return (
     <div className="sequencing-content">
       <div style={{ margin: 20 }}>
@@ -814,17 +872,16 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         OK
       </Button> */}
       <Card style={{ width: 800, height: 500, marginLeft: "20px" }}>
-        <Tabs defaultActiveKey="1" style={{ fontSize: "16px" }}>
-          <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined}>
-            synthesis_number: {synthesisData?.synthesis_number}
+        <Tabs defaultActiveKey="1" size={"large"}>
+          <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined} >
+          <div className="TabSYN">
+            synthesis_number : {synthesisData?.synthesis_number}
             <br />
-            synthesis_yield: {synthesisData?.synthesis_yield}
+            synthesis_yield : {synthesisData?.synthesis_yield}
             <br />
-            synthesis_method: {synthesisData?.synthesis_method}
+            synthesis_method : {synthesisData?.synthesis_method}
             <br />
-            synthesis_method_reference:
-            <br />
-            {synthesisData?.synthesis_method_reference?.map((link, index) => {
+            synthesis_method_reference : {synthesisData?.synthesis_method_reference?.map((link, index) => {
               return (
                 <>
                   <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank" rel="noreferrer">
@@ -834,16 +891,22 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 </>
               );
             })}
+            <br />
+            </div>
+            <p style={{margin:"10px 0 0 100px"}}>The error rate distribution of your chosen synthesis method as follows:</p>
+            
             <Pie {...synthesisErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
+           
           </Tabs.TabPane>
           <Tabs.TabPane tab="Decay" key="2" disabled={decayData === undefined}>
-            storage_host: {decayData?.storage_host}
+          <div className="TabDEC">
+            storage_host : {decayData?.storage_host}
             <br />
-            months_of_storage: {decayData?.months_of_storage}
+            months_of_storage : {decayData?.months_of_storage}
             <br />
-            decay_loss_rate: {decayData?.decay_loss_rate}
+            decay_loss_rate : {decayData?.decay_loss_rate}
             <br />
-            storage_host_parameter_reference:
+            storage_host_parameter_reference :
             <br />
             {decayData?.storage_host_parameter_reference?.map((link, index) => {
               return (
@@ -855,9 +918,12 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 </>
               );
             })}
+            </div>
+            <p style={{margin:"10px 0 0 100px"}}>The error rate distribution of your chosen storage host is as follows:</p>
             <Pie {...decayErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
           </Tabs.TabPane>
           <Tabs.TabPane tab="PCR" key="3" disabled={pcrData === undefined}>
+            <div className="TabPCR">
             pcr_polymerase: {pcrData?.pcr_polymerase}
             <br />
             pcr_cycle: {pcrData?.pcr_cycle}
@@ -876,19 +942,23 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 </>
               );
             })}
+            </div>
+            <p style={{margin:"10px 0 0 100px"}}>The error rate distribution of your chosen pcr polymerase is as follows:</p>
             <Pie {...pcrErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Sampling" key="4" disabled={samplingData === undefined}>
             sam_ratio: {samplingData?.sam_ratio}
+            <p style={{margin:"10px 0 0 100px"}}>The sampling ratio your chosen is:</p>
             <Bar {...samplingErrorParamConfig} style={{ margin: "80px 0 0 0" }} />
             <br />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Sequencing" key="5" disabled={sequencingData === undefined}>
-            seq_depth: {sequencingData?.seq_depth}
+            <div className="TabSEQ">
+            seq_depth : {sequencingData?.seq_depth}
             <br />
-            seq_method: {sequencingData?.seq_meth}
+            seq_method : {sequencingData?.seq_meth}
             <br />
-            seq_method_reference
+            seq_method_reference :
             <br />
             {sequencingData?.seq_method_reference?.map((link, index) => {
               return (
@@ -900,6 +970,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 </>
               );
             })}
+            </div>
+            <p style={{margin:"35px 0 0 100px"}}>The error rate distribution of your chosen sequencing method is as follows:</p>
             <Pie {...sequenceErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
           </Tabs.TabPane>
         </Tabs>

@@ -15,7 +15,7 @@ import {
   Tooltip,
   Upload,
 } from "antd";
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import "./index.less";
 import {doPost} from "../../../../utils/request";
 import axios from "axios";
@@ -29,6 +29,7 @@ export class SynthesisProps {
   setIsSynthesis?;
   setFileId;
   okFlag;
+  effect1;
 }
 
 export const Synthesis: React.FC<SynthesisProps> = (props) => {
@@ -92,19 +93,39 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     synthesis_method: "ErrASE",
     upload_flag: "True",
   };
-  const handleExample = async () => {
+
+  useEffect(()=>{
+    if (props.effect1 == true){
     setLoading(true);
     setNoDataTipsShow(false);
-    // todo 对响应结果 TS 化，否则无法消除警告
-    const resp: any = await doPost("/simu_synthesis", {body: param1});
-    setCountLen(resp.syn_density.length);
-    setGroup(resp.density_group);
-    setData(resp.syn_density);
-    setHrefLink(resp.synthesis_method_reference);
-    setLoading(false);
+    axios
+      .post(API_PREFIX + "/simu_synthesis", param1)
+      .then(function (response){
+        setCountLen(response.data.syn_density.length);
+        setGroup(response.data.density_group);
+        setData(response.data.syn_density);
+        setHrefLink(response.data.synthesis_method_reference);
+        setLoading(false);
+        props.setIsSynthesis(true);
+        
+        // props.setEffct1(false)
+  })}else{
+    console.log('eff1',props.effect1);
+  }
+  },[props.effect1])
+  // const handleExample = async () => {
+  //   setLoading(true);
+  //   setNoDataTipsShow(false);
+  //   // todo 对响应结果 TS 化，否则无法消除警告
+  //   const resp: any = await doPost("/simu_synthesis", {body: param1});
+  //   setCountLen(resp.syn_density.length);
+  //   setGroup(resp.density_group);
+  //   setData(resp.syn_density);
+  //   setHrefLink(resp.synthesis_method_reference);
+  //   setLoading(false);
 
-    props.setIsSynthesis(true);
-  };
+  //   props.setIsSynthesis(true);
+  // };
   // const handleContinue = () => {
   //   props.changeSider(["0-1-1"]);
   // };
@@ -200,6 +221,18 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
+      yAxis:{
+        title:{
+          text:'Percentage',
+          offset:60,
+        }
+      },
+      xAxis: {
+        title:{
+          text:'Copies Number',
+          offset:50,
+        },
+      },
       meta: {
         count: {
           alias: "percentage",
@@ -371,7 +404,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                     </div>
                   ) : (
                     <div>
-                      <div style={{marginBottom:"30px"}}>copies:</div>
+                      <div style={{marginBottom:"50px",fontSize:"15px"}}>After simulation of synthesis, the sequence number distribution of oligonucleotides pool is as follows(sequences with x  count account for y%  of all oligos):</div>
                       <Histogram {...config} />
                     </div>
                   )}
