@@ -83,7 +83,15 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setDis4(false);
     window.location.reload();
   };
+  const handleEXM = () =>{
+    method = [true, true, true, true];
+    // setOkFlag(false);
+    // setDecayFlag(false);
+    // setPcrFlag(false);
+    // setSampleFlag(false);
+    // setSequenceFlag(false);
 
+  }
   console.log(okFlag, decayFlag, pcrFlag, sampleFlag, sequenceFlag);
 
   return (
@@ -133,6 +141,15 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
             <Button className="ok" type="primary" shape="round" size="large" onClick={handleOK}>
               OK
             </Button>
+            <Button
+            className="exm"
+            type="primary"
+            shape="round"
+            size="large"
+            onClick={handleEXM}
+          >
+            Example
+          </Button>
           </div>
         </Card>
       </div>
@@ -172,6 +189,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           >
             Reset
           </Button>
+
         </div>
       </div>
     </div>

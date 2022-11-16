@@ -71,6 +71,9 @@ export const Decay: React.FC<DecayProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     setAlreadyRun(true);
+    console.log('decay11.15',props.fileId);
+    console.log(typeof(props.fileId));
+    
     const resp: any = await doPost("/simu_dec", {body: params});
 
     setCountLen(resp.dec_density.length);
@@ -81,14 +84,16 @@ export const Decay: React.FC<DecayProps> = (props) => {
   };
 
   const params = useMemo(() => {
+    // console.log('decay11.15',props.fileId);
     return {
       file_uid: props.fileId,
       //file_uid: "1565536927137009664",
       months_of_storage: monthValue,
-      loss_rate: lossValue,
+      decay_loss_rate: lossValue,
       storage_host: method,
+      upload_flag:"True"
     };
-  }, [monthValue, lossValue, method]);
+  }, [monthValue, lossValue, method, props.fileId]);
 
   const config = useMemo(() => {
     return {
@@ -101,7 +106,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
         count: {
           alias: "percentage",
           formatter: (value: any) => {
-            return `${(value / countLen).toFixed(4)}%`;
+            return `${((value / countLen)*100).toFixed(2)}%` //记得乘以100 并且设置y轴最大值
           },
         },
       },
@@ -126,8 +131,9 @@ export const Decay: React.FC<DecayProps> = (props) => {
       <Card title="Decay" className={`${show ? null : "simulation-content-masked"}`}>
         <Row>
           <Col span={12}>
+            <div className="decayLeft">
             <div className="simulation-row">
-              <span>Month of Storage:</span>
+              <span>Month of Storage : </span>
               <Tooltip
                 title="During storage, depurination and deamination are the two main factors of the decay of strands, where the ratio could be computed with temperature, PH, and storage time. Other factors relate to the storage host you choose. ">
                 <i
@@ -143,7 +149,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
             </div>
             <div className="simulation-row">
               <div>
-                <span>Loss Rate: </span>
+                <span>Loss Rate : </span>
                 <Tooltip title="Total loss rate during storage. ">
                   <i
                     className="iconfont icon-wenhao"
@@ -205,9 +211,9 @@ export const Decay: React.FC<DecayProps> = (props) => {
               <Button size="large" shape="round" onClick={handleOk} disabled={alreadyRun}>
                 OK
               </Button>
-              <Button shape="round" size="large" onClick={handleReset}>
+              {/* <Button shape="round" size="large" onClick={handleReset}>
                 Reset
-              </Button>
+              </Button> */}
               <Modal
                 title="Warning"
                 visible={isModalOpen}
@@ -220,6 +226,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
                 />
                 <p>Do you want to skip Decay?</p>
               </Modal>
+            </div>
             </div>
           </Col>
           <Col span={12}>
@@ -242,7 +249,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
                   </div>
                 ) : (
                   <div>
-                    <div>copies:</div>
+                    <div style={{marginBottom:"30px"}}>copies:</div>
                     <Histogram {...config} />
                   </div>
                 )}

@@ -74,6 +74,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const handleOk = () => {
     setLoading(true);
     setNoDataTipsShow(false);
+    setAlreadyRun(true);
     axios.post(API_PREFIX + "/simu_synthesis", params).then(function (response) {
       setCountLen(response?.data?.syn_density.length);
       console.log("synthesis response", response);
@@ -203,7 +204,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
         count: {
           alias: "percentage",
           formatter: (value: any) => {
-            return `${(value / countLen).toFixed(4)}%`;
+            return `${((value / countLen)*100).toFixed(2)}%`;
           },
         },
       },
@@ -242,8 +243,9 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
         <Card title="Synthesis" className={`${show ? null : "simulation-content-masked"}`}>
           <Row>
             <Col span={12}>
+            <div className="simulationLeft">
               <div className="simulation-bar">
-                <span>Synthesis Cycle:</span>
+                <span>Synthesis Cycles :</span>
                 <Tooltip title="The copied number of each oligo you want it to have.">
                   <i
                     className="iconfont icon-wenhao"
@@ -329,12 +331,12 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 </Select>
               </div>
               <div className="simulation-buttons">
-                <Button size="large" shape="round" onClick={handleOk}>
+                <Button size="large" shape="round" onClick={handleOk} disabled={alreadyRun}>
                   OK
                 </Button>
-                <Button shape="round" size="large" onClick={handleReset}>
+                {/* <Button shape="round" size="large" onClick={handleReset}>
                   Reset
-                </Button>
+                </Button> */}
               </div>
               <Modal
                 title="Warning"
@@ -350,6 +352,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 <p>Skipping this step means skipping the whole stage. </p>
                 <p>Do you still want to skip it?</p>
               </Modal>
+              </div>
             </Col>
             <Col span={12}>
               <Card>
@@ -368,7 +371,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                     </div>
                   ) : (
                     <div>
-                      <div>copies:</div>
+                      <div style={{marginBottom:"30px"}}>copies:</div>
                       <Histogram {...config} />
                     </div>
                   )}

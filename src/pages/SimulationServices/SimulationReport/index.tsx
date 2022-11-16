@@ -62,7 +62,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       setLoading(true);
       setNoDataTipsShow(false);
       const resp = await doPost("/simu_repo", { body: params });
-      // console.log("report", response);
+      console.log("report", resp);
       setSynthesisData(resp.synthesis);
       setDacayData(resp.decay);
       setPcrData(resp.pcr);
@@ -443,42 +443,42 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       },
       {
         step: "decay",
-        value: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.n) : 0,
+        value: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.n) : null,
         type: "total",
       },
       {
         step: "decay",
-        value: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.e) : 0,
+        value: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.e) : null,
         type: "error",
       },
       {
         step: "pcr",
-        value: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.n) : 0,
+        value: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.n) : null,
         type: "total",
       },
       {
         step: "pcr",
-        value: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.e) : 0,
+        value: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.e) : null,
         type: "error",
       },
       {
         step: "sample",
-        value: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.n) : 0,
+        value: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.n) : null,
         type: "total",
       },
       {
         step: "sample",
-        value: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.e) : 0,
+        value: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.e) : null,
         type: "error",
       },
       {
         step: "sequence",
-        value: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.n) : 0,
+        value: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.n) : null,
         type: "total",
       },
       {
         step: "sequence",
-        value: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.e) : 0,
+        value: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.e) : null,
         type: "error",
       },
     ];
@@ -581,62 +581,62 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       },
       {
         step: "decay",
-        count: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC["+"]) : 0,
+        count: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC["+"]) : null,
         name: "insert",
       },
       {
         step: "decay",
-        count: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC["-"]) : 0,
+        count: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC["-"]) : null,
         name: "delete",
       },
       {
         step: "decay",
-        count: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.s) : 0,
+        count: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.s) : null,
         name: "substitute",
       },
       {
         step: "pcr",
-        count: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR["+"]) : 0,
+        count: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR["+"]) : null,
         name: "insert",
       },
       {
         step: "pcr",
-        count: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR["-"]) : 0,
+        count: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR["-"]) : null,
         name: "delete",
       },
       {
         step: "pcr",
-        count: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.s) : 0,
+        count: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.s) : null,
         name: "substitute",
       },
       {
         step: "sample",
-        count: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM["+"]) : 0,
+        count: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM["+"]) : null,
         name: "insert",
       },
       {
         step: "sample",
-        count: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM["-"]) : 0,
+        count: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM["-"]) : null,
         name: "delete",
       },
       {
         step: "sample",
-        count: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.s) : 0,
+        count: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.s) : null,
         name: "substitute",
       },
       {
         step: "sequence",
-        count: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ["+"]) : 0,
+        count: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ["+"]) : null,
         name: "insert",
       },
       {
         step: "sequence",
-        count: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ["-"]) : 0,
+        count: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ["-"]) : null,
         name: "delete",
       },
       {
         step: "sequence",
-        count: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.s) : 0,
+        count: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.s) : null,
         name: "substitute",
       },
     ];
@@ -765,7 +765,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   //接口配置
   const params = useMemo(() => {
     return {
-      simulation_key: props.fileId,
+      file_uid: props.fileId,
+      upload_flag:"True" 
       // file_uid: "1565536927137009664",
     };
   }, []);

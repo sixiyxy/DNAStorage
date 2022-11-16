@@ -121,8 +121,9 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       pcr_cycle: pcrCycleValue,
       pcr_prob: pcrProbability,
       pcr_polymerase: method,
+      upload_flag:"True"
     };
-  }, [pcrCycleValue, pcrProbability, method]);
+  }, [pcrCycleValue, pcrProbability, method, props.fileId]);
   //console.log("params", params);
   // const config1 = {
   //   data: chart1Data,
@@ -165,7 +166,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   //     },
   //   },
   // };
-
+  
   const config = useMemo(() => {
     return {
       data: densityData,
@@ -177,7 +178,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
         count: {
           alias: 'percentage',
           formatter: (value: any) => {
-            return `${(value / countLen).toFixed(4)}%`
+            return `${((value / countLen)*100).toFixed(2)}%`
           }
 
         }
@@ -193,7 +194,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
         <Row>
           <Col span={12}>
             <div className="simulation-row">
-              <span>PCR Cycle: </span>
+              <span>PCR Cycle : </span>
               <Tooltip title="Cycle number of the PCR process.">
                 <i
                   className="iconfont icon-wenhao"
@@ -223,7 +224,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
               </Row>
             </div>
             <div className="simulation-row">
-              <span>PCR Probability: </span>
+              <span>PCR Probability : </span>
               <Tooltip
                 title="In each PCR cycle, a sequence has a possibility of p being amplified. ">
                 <i
@@ -283,10 +284,10 @@ export const Pcr: React.FC<PcrProps> = (props) => {
               >
                 OK
               </Button>
-              <Button shape="round" size="large"
+              {/* <Button shape="round" size="large"
                       onClick={handleReset}>
                 Reset
-              </Button>
+              </Button> */}
               <Modal
                 title="Warning"
                 visible={isModalOpen}
@@ -323,8 +324,8 @@ export const Pcr: React.FC<PcrProps> = (props) => {
                     <Spin size={"large"}/>
                   </div>
                 ) : (
-                  <div style={{margin: "60px 0 0 0"}}>
-                    <div style={{margin: "0 0 20px 0"}}>copies:</div>
+                  <div >
+                    <div style={{marginBottom:'30px'}}>copies:</div>
                     <Histogram {...config} />
                   </div>
                 )}

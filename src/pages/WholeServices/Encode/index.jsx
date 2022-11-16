@@ -245,7 +245,7 @@ export const Encode = (props) => {
             style={{
               fontSize: "15px",
             }}
-          >
+          > 
             
             <Encodelists
               setValue={setValue}
@@ -255,7 +255,7 @@ export const Encode = (props) => {
           <div
             id="sliders"
             style={{
-              margin: "0px 0 0 100px",
+              margin: "50px 0 0 100px",
               fontSize: "14px",
             }}
           >
@@ -286,7 +286,7 @@ export const Encode = (props) => {
           </div>
         </Col>
       </Row>
-      <div style={{margin:"80px 0 80px 100px"}}>
+      <div style={{margin:"80px 0 150px 100px"}}>
         
               <Button
                 type="primary"
