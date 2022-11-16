@@ -3,13 +3,14 @@ import re
 from datetime import datetime
 import pandas as pd
 import numpy as np
+from decimal import Decimal
 from multiprocessing import Pool
 from numpy import fromfile, array, uint8
 
-from .utils.utils_basic import get_config,write_yaml,write_dna_file
-from .utils.verify_methods import Hamming,ReedSolomon
-from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode,SrcCode
-from .utils.encode_utils import cut_file, gc_homo,download_normal,download_txt,add_min_free_energydata,save_decode_file
+from utils.utils_basic import get_config,write_yaml,write_dna_file
+from utils.verify_methods import Hamming,ReedSolomon
+from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode,SrcCode
+from utils.encode_utils import cut_file, gc_homo,download_normal,download_txt,add_min_free_energydata,save_decode_file
 
 verify_methods = {
     "WithoutVerifycode":False,
@@ -130,9 +131,10 @@ class Encoding():
         net_nucleotide_count = len(dna_sequences)*(len(dna_sequences[0]) - self.index_length - self.verify_code_length)
         net_information_density = self.bit_size/net_nucleotide_count
 
-        physical_information_density = self.byte_size/nucleotide_count
-        physical_information_density_ug = physical_information_density*1000
-        physical_information_density_g = physical_information_density*1000000000
+        # 1ug = 9.03*10^14bp       
+        physical_information_density = self.byte_size/(nucleotide_count/(9.03*10**14))
+        physical_information_density_ug = physical_information_density*(10**3)
+        physical_information_density_g = physical_information_density*(10**9)
         
         # together
         record_info = {"bit_size":self.bit_size,
@@ -182,6 +184,7 @@ class Encoding():
             final_bit_segments_all += one_result['final_bit_segments']
             dna_sequences_all += one_result['dna_sequences']
 
+        
         final_record_info = {
                     "bit_size":bit_szie_all,
                     "segment_number":segment_number_all,
@@ -193,8 +196,8 @@ class Encoding():
                     "nucleotide_counts":nucleotide_counts_all,
                     "information_density":round(information_density_all/result_number,3),
                     "net_information_density":round(net_information_density_all/result_number,3),
-                    "physical_information_density_ug":round(physical_information_density_ug_all/result_number,3),
-                    "physical_information_density_g":round(physical_information_density_g_all/result_number,3)
+                    "physical_information_density_ug":'%.2E'%Decimal('{}'.format(physical_information_density_ug_all/result_number,3)),
+                    "physical_information_density_g":'%.2E'%Decimal('{}'.format(physical_information_density_g_all/result_number,3))
                     }
 
         
@@ -254,9 +257,9 @@ class Encoding():
             net_information_density = self.bit_size/net_nucleotide_count
             net_information_density = round(net_information_density,3)
 
-            physical_information_density = file_size/nucleotide_count
-            physical_information_density_ug = physical_information_density*1000
-            physical_information_density_g = physical_information_density*1000000000
+            physical_information_density = file_size/(nucleotide_count/(9.03*10**14))
+            physical_information_density_ug = physical_information_density*(10**3)
+            physical_information_density_g = physical_information_density*(10**9)
 
             
             record_info = {"bit_szie" : file_size*8,
@@ -267,8 +270,9 @@ class Encoding():
                     "nucleotide_counts":sum(map(len,dna_sequences)),
                     "information_density":information_density,
                     "net_information_density":net_information_density,
-                    "physical_information_density_ug":physical_information_density_ug,
-                    "physical_information_density_g":physical_information_density_g}
+                    "physical_information_density_ug":'%.2E'%Decimal('{}'.format(physical_information_density_ug)),
+                    "physical_information_density_g":'%.2E'%Decimal('{}'.format(physical_information_density_g))
+                    }
             gc_data,homo_data = gc_homo(dna_sequences)
             record_info['gc_data'] = gc_data
             record_info['homo_data'] = homo_data
@@ -282,8 +286,8 @@ class Encoding():
         # final record information
         record_info["byte_size"]=file_size
         record_info["encoding_time"]=run_time
-        record_info['physical_information_density_g'] = '{} petabyte_g'.format(record_info['physical_information_density_g'])
-        record_info['physical_information_density_ug'] = '{} petabyte_ug'.format(record_info['physical_information_density_ug'])
+        record_info['physical_information_density_g'] = '{} petabyte/gram'.format(record_info['physical_information_density_g'])
+        record_info['physical_information_density_ug'] = '{} petabyte/ug'.format(record_info['physical_information_density_ug'])
 
         # record energy
         record_info,free_energy_plotdata = add_min_free_energydata(self.min_free_energy_tools,self.dna_demo_file,
@@ -295,10 +299,21 @@ class Encoding():
         return record_info
 
 if __name__ == '__main__':
-    obj = Encoding(file_uid=1586245992909508608,
-                  encode_method='SrcCode',
-                  segment_length=None,
-                  index_length=None,
-                  verify_method=None)
+    # obj = Encoding(file_uid=1586245992909508608,
+    #               encode_method='Starcode',
+    #               segment_length=None,
+    #               index_length=None,
+    #               verify_method=None)
+    # {"file_uid":1565237658387615744,
+    # "segment_length":160,
+    # "index_length":20,
+    # "verify_method":"Hamming",
+    # "encode_method":"Basic"}
+    obj = Encoding(file_uid=1565536927137009664,
+                  encode_method='Basic',
+                  segment_length=160,
+                  index_length=20,
+                  verify_method="Hamming")
     obj.parallel_run()
+
 
