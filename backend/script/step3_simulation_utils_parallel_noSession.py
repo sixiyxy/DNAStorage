@@ -29,10 +29,7 @@ funcs_parameter={
 def get_info(file_uid,upload_flag,final_parallel=False):
     config = get_config(yaml_path='config')
     backend_dir = config['backend_dir']
-    print("upload flag",upload_flag)
-    print(not upload_flag)
     if not upload_flag:
-        print("hhhhhhere")
         file_dir=config['file_save_dir']
         file_info_path='{}/{}/{}.yaml'.format(backend_dir,file_dir,file_uid)
         dna_dir =config['encode_dir']
@@ -41,7 +38,6 @@ def get_info(file_uid,upload_flag,final_parallel=False):
             dnas=f.readlines()
         simu_dna=[dna.split('\n')[0] for dna in dnas]
     else:
-        print("no false")
         file_dir=config['upload_dna_save_dir']
         file_info_path='{}/{}/{}.yaml'.format(backend_dir,file_dir,file_uid)
         file_path='{}/{}/{}.fasta'.format(backend_dir,file_dir,file_uid)
@@ -49,9 +45,9 @@ def get_info(file_uid,upload_flag,final_parallel=False):
     file_info=get_config(yaml_path=file_info_path)
     funcs_final=[]
     funcs=[]
+    simu_repo={}
     try:
         funcs=file_info['simu']
-        print('funcs here',funcs)
         for func in funcs:
             func_param_name=funcs_parameter[func]
             func_param=[]
@@ -59,6 +55,7 @@ def get_info(file_uid,upload_flag,final_parallel=False):
                 func_param.append(file_info[name])
             func=corresponding_arg(func_param_name[0],func_param[0],func_param[1:])
             funcs_final.append(func)
+            
     except Exception as e:
         print("Error",e)
     if not final_parallel:
@@ -67,10 +64,17 @@ def get_info(file_uid,upload_flag,final_parallel=False):
         else:
             simu_dna=simu_dna[:1000]
     else:
+        simu_repo={}
+        for func in funcs:
+            simu_repo[func]={}
+            try:
+                simu_repo[func]["error_param"]=file_info[func]
+            except:
+                del simu_repo[func]
+        print(simu_repo)
         print("funcs in get info",funcs_final)
         print("funcs name in get info",funcs)
-        simu_dna=simu_dna
-        return simu_dna,file_info_path,funcs_final,funcs,file_uid
+        return simu_dna,file_info_path,funcs_final,funcs,file_uid,simu_repo
 
     return simu_dna,file_info_path,funcs_final,funcs
 
@@ -89,18 +93,20 @@ def get_simu_synthesis_info(file_uid,
         SYN,arg=SynthMeth_arg(synthesis_method,[synthesis_number,synthesis_yield])
         simu_dna=funcs_parallel([SYN],simu_dna,False)
         funcs_name=['SYN']
+        error_param={"sub":arg.syn_sub_prob,"ins":arg.syn_ins_prob,"del":arg.syn_del_prob}
         syn_info={
             "simu":funcs_name,
             "synthesis_number":int(synthesis_number),
             "synthesis_yield":float(synthesis_yield),
-            "synthesis_method":synthesis_method
+            "synthesis_method":synthesis_method,
+            "SYN":error_param
                 }
             
         write_yaml(yaml_path=file_info_path,data=syn_info,appending=True)
         syn_density,group=calculate_density(simu_dna)
         syn_info['syn_density']=syn_density
         syn_info['density_group']=group
-        syn_info['error_param']={"sub":arg.syn_sub_prob,"ins":arg.syn_ins_prob,"del":arg.syn_del_prob}
+        
         
         return syn_info
 
@@ -121,19 +127,21 @@ def get_simu_dec_info(file_uid,
         DEC,arg=DecHost_arg(storage_host,[months_of_storage,loss_rate])
         funcs.append(DEC)
         funcs_name.append("DEC")
+        print("111",funcs)
         simu_dna=funcs_parallel(funcs,simu_dna,False)
+        error_param={"sub":arg.dec_sub_prob,"ins":arg.dec_ins_prob,"del":arg.dec_del_prob}
         dec_info={
             "simu":funcs_name,
             "storage_host":storage_host,
             "months_of_storage":months_of_storage,
             "decay_loss_rate":loss_rate,
-            "storage_host_parameter_reference":arg.reference
+            "DEC":error_param
         }
         write_yaml(yaml_path=file_info_path,data=dec_info,appending=True)
         dec_density,group=calculate_density(simu_dna)
         dec_info['dec_density']=dec_density
         dec_info['dec_group']=group
-        dec_info['error_param']={"sub":arg.dec_sub_prob,"ins":arg.dec_ins_prob,"del":arg.dec_del_prob}
+       # dec_info['error_param']={"sub":arg.dec_sub_prob,"ins":arg.dec_ins_prob,"del":arg.dec_del_prob}
         return dec_info
 
 def get_simu_pcr_info(
@@ -155,19 +163,20 @@ def get_simu_pcr_info(
         funcs.append(PCR)
         funcs_name.append("PCR")
         simu_dna=funcs_parallel(funcs,simu_dna,False)
+        error_param={"sub":arg.pcr_sub_prob,"ins":arg.pcr_ins_prob,"del":arg.pcr_del_prob}
         pcr_info={
             "simu":funcs_name,
             "pcr_polymerase":pcr_polymerase,
             "pcr_cycle":pcr_cycle,
             "pcr_prob":pcr_prob,
-            "pcr_method_reference":arg.reference
+            "PCR":error_param
         }
 
         write_yaml(yaml_path=file_info_path,data=pcr_info,appending=True)
         density,group=calculate_density(simu_dna)
         pcr_info["pcr_density"]=density
         pcr_info['pcr_group']=group
-        pcr_info['error_param']={"sub":arg.pcr_sub_prob,"ins":arg.pcr_ins_prob,"del":arg.pcr_del_prob}
+        #pcr_info['error_param']=
 
         return pcr_info
 
@@ -215,22 +224,21 @@ def get_simu_seq_info(file_uid,
         funcs_name.append("SEQ")
         simu_dna=funcs_parallel(funcs,simu_dna,False)
         density,group=calculate_density(simu_dna)
-        
+        error_param={"sub":arg.seq_sub_prob,"ins":arg.seq_ins_prob,"del":arg.seq_del_prob}
         seq_info={
             "simu":funcs_name,
             "seq_depth":seq_depth,
             "seq_meth":seq_meth,
-            "seq_method_reference":arg.reference
+            "SEQ":error_param
         }
         write_yaml(yaml_path=file_info_path,data=seq_info,appending=True)
         seq_info["seq_density"]=density
         seq_info['seq_group']=group
-        seq_info['error_param']={"sub":arg.seq_sub_prob,"ins":arg.seq_ins_prob,"del":arg.seq_del_prob}
+        #seq_info['error_param']={"sub":arg.seq_sub_prob,"ins":arg.seq_ins_prob,"del":arg.seq_del_prob}
         return seq_info
 
 def get_simu_repo(file_uid,upload_flag):
-        simu_repo={}
-        simu_dna,file_info_path,funcs,funcs_name,file_uid=get_info(file_uid,upload_flag,final_parallel=True)
+        simu_dna,file_info_path,funcs,funcs_name,file_uid,simu_repo=get_info(file_uid,upload_flag,final_parallel=True)
         dnas,error_recorder,error_density_final=parallel(simu_dna,funcs,funcs_name)
         simu_repo["Error_Recorder"]=error_recorder
         simu_repo["Error_Density"]=error_density_final
@@ -341,9 +349,7 @@ def parallel(simu_dna,funcs,funcs_names):
                 pool.close()
                 pool.join()
                 dnas=[]
-                print(len(funcs))
                 error_recorder=[{'+':0,"-":0,"s":0,"e":0,"n":0} for i in range(len(funcs))]
-                print(error_recorder)
                 error_density=[{} for i in range(len(funcs))]
                 for index,i in enumerate (r):
                     for j in i[0]:
@@ -354,19 +360,13 @@ def parallel(simu_dna,funcs,funcs_names):
                         error_density[index_1]=dict(Counter(error_density[index_1]) + Counter(i[2][index_1]))
                 #for front end data processsing 
                 error_recorder_final={}
-                print(error_recorder)
-                print("fffffuncs_names",funcs_names)
-                print("error recorder",(len(error_recorder)))
                 for index,i in enumerate (funcs_names):
                         error_recorder_final[i]=error_recorder[index]
                 error_density_final=[]
-                print("error density",error_density)
                 for index,density in enumerate(error_density):
                     density = sorted(density.items(), key=lambda e: e[0])
                     for i in density:
                         error_density_final.append({'type':funcs_names[index],"error":str(i[0]),"count":i[1]})
-        print(error_recorder_final)
-        print(error_density_final)
         t2 = time.time()
         print('cut size {},threads {}, pool time {}'.format(cut,thread,t2-t1))
         print("Done")

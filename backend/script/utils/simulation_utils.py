@@ -12,7 +12,6 @@ class ArgumentPasser:
 
 def corresponding_arg(param,param_value,left):
     if param=='synthesis_method':
-        print("yes!!")
         res,_=SynthMeth_arg(param_value,left)
     elif param=='storage_host':
         res,_=DecHost_arg(param_value,left)
@@ -22,7 +21,6 @@ def corresponding_arg(param,param_value,left):
         res,_=Sampler_arg(param_value,left)
     elif param=='seq_meth':
         res,_=Seq_arg(param_value,left)
-    print("res",res)
     return res
 
 
@@ -37,7 +35,6 @@ def SynthMeth_arg(synthesis_method,left):
 
 def DecHost_arg(decay_host,left):
     dic=decHost[decay_host]
-    print("DEC",left)
     dic=ArgumentPasser(dic)
     arg=dic
     dic.months_of_storage=left[0]
