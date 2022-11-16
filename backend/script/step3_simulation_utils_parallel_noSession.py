@@ -2,7 +2,7 @@ from distutils.log import error
 import script.utils.simulation_model as Model
 import numpy as np
 from script.utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg
+from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg,funcs_parameter
 import os
 from multiprocessing import Pool
 import time
@@ -17,13 +17,13 @@ import yaml
 # import numpy as np
 # from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
 # from utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna
-funcs_parameter={
-    "SYN":["synthesis_method","synthesis_number","synthesis_yield"],
-    "DEC":["storage_host","months_of_storage","decay_loss_rate"],
-    "PCR":["pcr_polymerase","pcr_cycle","pcr_prob"],
-    "SAM":['sam_ratio'],
-    "SEQ":['seq_meth',"seq_depth"]
-}
+# funcs_parameter={
+#     "SYN":["synthesis_method","synthesis_number","synthesis_yield"],
+#     "DEC":["storage_host","months_of_storage","decay_loss_rate"],
+#     "PCR":["pcr_polymerase","pcr_cycle","pcr_prob"],
+#     "SAM":['sam_ratio'],
+#     "SEQ":['seq_meth',"seq_depth"]
+# }
 
 
 def get_info(file_uid,upload_flag,final_parallel=False):
