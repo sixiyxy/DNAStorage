@@ -12,7 +12,6 @@ class ArgumentPasser:
 
 def corresponding_arg(param,param_value,left):
     if param=='synthesis_method':
-        print("yes!!")
         res,_=SynthMeth_arg(param_value,left)
     elif param=='storage_host':
         res,_=DecHost_arg(param_value,left)

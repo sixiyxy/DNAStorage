@@ -45,14 +45,19 @@ def get_info(file_uid,upload_flag,final_parallel=False):
     file_info=get_config(yaml_path=file_info_path)
     funcs_final=[]
     funcs=[]
+    simu_repo={}
     try:
         funcs=file_info['simu']
         print('funcs here',funcs)
         for func in funcs:
+            simu_repo[func]={}
             func_param_name=funcs_parameter[func]
             func_param=[]
             for name in func_param_name:
                 func_param.append(file_info[name])
+                simu_repo[func][name]=file_info[name]
+            # simu_repo[func]["error_param"]=file_info[func]
+            # print(func)
             func=corresponding_arg(func_param_name[0],func_param[0],func_param[1:])
             funcs_final.append(func)
     except Exception as e:
@@ -63,17 +68,12 @@ def get_info(file_uid,upload_flag,final_parallel=False):
         else:
             simu_dna=simu_dna[:1000]
     else:
-        simu_repo={}
-        print("fffffuncs",funcs)
         for func in funcs:
-            simu_repo[func]={}
             try:
                 simu_repo[func]["error_param"]=file_info[func]
             except:
-                del simu_repo[func]
+                pass
         print("ssssssimu",simu_repo)
-        print("funcs in get info",funcs_final)
-        print("funcs name in get info",funcs)
         simu_dna=simu_dna
         return simu_dna,file_info_path,funcs_final,funcs,file_uid,simu_repo
 
