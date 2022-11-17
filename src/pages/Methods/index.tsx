@@ -28,7 +28,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
   }
   return (
     <div className="MethodContainer">
-        <div className="Methods">
+        <div className="Methods" >
         <div id='test'>
           <br></br>
           <div>
@@ -56,8 +56,8 @@ export const Methods: React.FC<MethodsProps> = (props) => {
 </p>
           <h3 id="encode-method" className="second-title">1	Encoding Method</h3>
             <h4 id="vanilla-code" className="third-title">1.1 Vanilla code</h4>
-              <p className="text-content"><i>Vanilla code</i> is the most basic one, it simply transforms the data according to the naive rules：
-              <i>00->A; 01->C; 10->G; 11->T</i>. For example, the uploaded file which is converted into binary bits as 01 10 11 10 00 10… will be transferred to a DNA sequence ‘CGTGAG’ accordingly.
+              <p className="text-content"><i>Vanilla code</i> is the most basic one, it simply transforms the data according to the naive rules:
+              <i>00-{'>'}A; 01-{'>'}C; 10-{'>'}G; 11-{'>'}T</i>. For example, the uploaded file which is converted into binary bits as 01 10 11 10 00 10… will be transferred to a DNA sequence ‘CGTGAG’ accordingly.
               </p>
               <h4 id="yinyang" className="third-title">1.2 Yin-Yang Code</h4>
               <p className="text-content"> The authors propose a robust transcoding algorithm named <i>the yin–yang code</i>,
@@ -67,9 +67,9 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <img src="/src/assets/methods/yinyang.png" className="image"/>
               <p className="text-content"><strong>Paper: </strong>
               Ping, Z., Chen, S., Zhou, G., Huang, X., Zhu, S. J., Zhang, H., ... &Shen, Y. (2022).
-              <i><strong>Towards practical and robust DNA-based data archiving using the yin-yang codec system. </strong></i>
+              <i><strong> Towards practical and robust DNA-based data archiving using the yin-yang codec system. </strong></i>
               Nature Computational Science,2(4), 234-242.</p>
-              <p className="text-content"><strong>Github:</strong>
+              <p className="text-content"><strong>Github: </strong>
               <a href="https://github.com/ntpz870817/DNA-storage-YYC" target="_blank" title="click me">
               https://github.com/ntpz870817/DNA-storage-YYC
               </a>
@@ -81,9 +81,9 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <img src="/src/assets/methods/dnafountain.png" className="image"/>
               <p className="text-content"><strong>Paper: </strong>
               Erlich, Yaniv, and Dina Zielinski.
-              <i><strong>DNA Fountain enables a robust and efficient storage architecture. </strong></i>
+              <i><strong> DNA Fountain enables a robust and efficient storage architecture. </strong></i>
               Science 355.6328 (2017): 950-954.</p>
-              <p className="text-content"><strong>Github:</strong>
+              <p className="text-content"><strong>Github: </strong>
               <a href="https://github.com/TeamErlich/dna-fountain" target="_blank" title="click me">
               https://github.com/TeamErlich/dna-fountain
               </a>
@@ -98,9 +98,9 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <img src="/src/assets/methods/dnainfo.png" className="image"/>
               <p className="text-content"><strong>Paper: </strong>
               Church, G. M., Gao, Y., &Kosuri, S. (2012).
-              <i><strong>Next-generation digital information storage in DNA. </strong></i>
+              <i><strong> Next-generation digital information storage in DNA. </strong></i>
               Science,337(6102), 1628-1628.</p>
-              <p className="text-content"><strong>Code method：</strong>
+              <p className="text-content"><strong>Code method:</strong>
               <a href="https://www.science.org/doi/suppl/10.1126/science.1226355/suppl_file/church.sm.pdf" target="_blank" title="click me">
               https://www.science.org/doi/suppl/10.1126/science.1226355/suppl_file/church.sm.pdf
               </a>
@@ -115,9 +115,9 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <img src="/src/assets/methods/nick.png" className="image"/>
               <p className="text-content"><strong>Paper: </strong>
               Goldman, N., Bertone, P., Chen, S., Dessimoz, C., LeProust, E. M., Sipos, B., &Birney, E. (2013).  (2012).
-              <i><strong>Towards practical, high-capacity, low-maintenance information storage in synthesized DNA. </strong></i>
+              <i><strong> Towards practical, high-capacity, low-maintenance information storage in synthesized DNA. </strong></i>
               nature, 494(7435), 77-80.</p>
-              <p className="text-content"><strong>Code method：</strong>
+              <p className="text-content"><strong>Code method:</strong>
               <a href="https://static-content.springer.com/esm/art%3A10.1038%2Fnature11875/MediaObjects/41586_2013_BFnature11875_MOESM337_ESM.pdf" target="_blank" title="click me">
               https://static-content.springer.com/esm/art%3A10.1038%2Fnature11875/MediaObjects/41586_2013_BFnature11875_MOESM337_ESM.pdf
               </a>
@@ -143,7 +143,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <img src="/src/assets/methods/reedsolomon.png" className="image"/>
               <p className="text-content"><strong>Paper: </strong>
               Grass, R. N., Heckel, R., Puddu, M., Paunescu, D., &Stark, W. J. (2015).
-              <i><strong>Robust chemical preservation of digital information on DNA in silica with error-correcting codes.</strong></i>
+              <i><strong> Robust chemical preservation of digital information on DNA in silica with error-correcting codes.</strong></i>
               Angewandte Chemie International Edition, 54(8), 2552-2555.</p>
               <h4 id="forward-error" className="third-title">1.7 Forward error correction Code</h4>
               <p className="text-content"> Based on a proof-of-concept conducted in 2012 by a team from the Harvard Medical School,
@@ -153,7 +153,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <img src="/src/assets/methods/forwarderror.png" className="image"/>
               <p className="text-content"><strong>Paper: </strong>
               Blawat, M., Gaedke, K., Huetter, I., Chen, X. M., Turczyk, B., Inverso, S., ... &Church, G. M. (2016).
-              <i><strong>Forward error correction for DNA data storage. </strong></i>
+              <i><strong> Forward error correction for DNA data storage. </strong></i>
               Procedia Computer Science, 80, 1011-1022.</p>
               <h4 id="hierarchical" className="third-title">1.8 Hierarchical Error Correction Code</h4>
               <p className="text-content"> The hierarchical error correction strategy is proposed to store English text by DNA.
@@ -165,7 +165,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <img src="/src/assets/methods/hierarchical.png" className="image"/>
               <p className="text-content"><strong>Paper: </strong>
               Zan, X., Yao, X., Xu, P., Chen, Z., Xie, L., Li, S., &Liu, W. (2022).
-              <i><strong>A hierarchical error correction strategy for text DNA storage. </strong></i>
+              <i><strong> A hierarchical error correction strategy for text DNA storage. </strong></i>
               Interdisciplinary Sciences: Computational Life Sciences, 14(1), 141-150.</p>
               <h3 id="verify-code" className="second-title">2	Verify code</h3>
               <h4 id="hamming" className="third-title">2.1  Hamming code</h4>
@@ -202,7 +202,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               https://en.wikipedia.org/wiki
               </a>
               </p>
-              <p className="text-content"><strong>See the video：</strong>
+              <p className="text-content"><strong>See the video:</strong>
 
               <a href="https://web.archive.org/web/20130313033107/http:/ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-451-principles-of-digital-communication-ii-spring-2005/lecture-notes/lecture-10-reed-solomon-codes/" target="_blank" title="click me">
               Reed–Solomon Codes MIT Lecture Notes 6.451 (Video)
@@ -255,25 +255,25 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <p className="text-content"><strong>Paper: </strong>
               <br/>
               (1) Heckel, R., Mikutis, G. & Grass, R.N.
-              <i><strong>A Characterization of the DNA Data Storage Channel.  </strong></i>
+              <i><strong> A Characterization of the DNA Data Storage Channel.  </strong></i>
               Sci Rep 9, 9663 (2019).<a href="https://doi.org/10.1038/s41598-019-45832-6" target="_blank" title="click me">
               https://doi.org/10.1038/s41598-019-45832-6
               </a>
               <br/>
               (2) Lee, H., Popodi, E., Tang, H., & Foster, P. L. (2012).
-              <i><strong>Rate and molecular spectrum of spontaneous mutations in the bacterium Escherichia coli as determined by whole-genome sequencing. </strong></i>
+              <i><strong> Rate and molecular spectrum of spontaneous mutations in the bacterium Escherichia coli as determined by whole-genome sequencing. </strong></i>
               Proceedings of the National Academy of Sciences, 109(41), E2774-E2783.
               <br/>
               (3) Sung, W., Ackerman, M. S., Dillon, M. M., Platt, T. G., Fuqua, C., Cooper, V. S., & Lynch, M. (2016).
-              <i><strong>Evolution of the insertion-deletion mutation rate across the tree of life.  </strong></i>
+              <i><strong> Evolution of the insertion-deletion mutation rate across the tree of life.  </strong></i>
               G3: Genes, Genomes, Genetics, 6(8), 2583-2591.
               <br/>
               (4) Drake, J. W., Charlesworth, B., Charlesworth, D., & Crow, J. F. (1998).
-              <i><strong>Rates of spontaneous mutation.</strong></i>
+              <i><strong> Rates of spontaneous mutation.</strong></i>
               Genetics, 148(4), 1667-1686.
               <br/>
               (5) Nachman, M. W., & Crowell, S. L. (2000).
-              <i><strong>Estimate of the mutation rate per nucleotide in humans.</strong></i>
+              <i><strong> Estimate of the mutation rate per nucleotide in humans.</strong></i>
               Genetics, 156(1), 297-304.
               </p>
               <h5 className="forth-title">- In-Vitro:</h5>
@@ -281,11 +281,11 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <p className="text-content"><strong>Paper: </strong>
               <br/>
               (1) An, R., Jia, Y., Wan, B., Zhang, Y., Dong, P., Li, J., & Liang, X. (2014).
-              <i><strong>Non-enzymatic depurination of nucleic acids: factors and mechanisms. </strong></i>
+              <i><strong> Non-enzymatic depurination of nucleic acids: factors and mechanisms. </strong></i>
               PloS one, 9(12), e115950
               <br/>
               (2) Schwarz, M., Welzel, M., Kabdullayeva, T., Becker, A., Freisleben, B., & Heider, D. (2020).
-              <i><strong>MESA: automated assessment of synthetic DNA fragments and simulation of DNA synthesis, storage, sequencing and PCR errors.</strong></i>
+              <i><strong> MESA: automated assessment of synthetic DNA fragments and simulation of DNA synthesis, storage, sequencing and PCR errors.</strong></i>
               Bioinformatics, 36(11), 3322-3326.
               <br/>
               </p>
@@ -312,13 +312,13 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <p className="text-content"><strong>Paper: </strong>
               <br/>
               (1) Yuan, L., Xie, Z., Wang, Y. et al.
-              <i><strong>DeSP: a systematic DNA storage error simulation pipeline.  </strong></i>
+              <i><strong> DeSP: a systematic DNA storage error simulation pipeline.  </strong></i>
               BMC Bioinformatics 23, 185 (2022).<a href="https://doi.org/10.1186/s12859-022-04723-w" target="_blank" title="click me">
               https://doi.org/10.1186/s12859-022-04723-w
               </a>
               <br/>
               (2) McInerney, P., Adams, P., & Hadi, M. Z. (2014).
-              <i><strong>Error rate comparison during polymerase chain reaction by DNA polymerase.  </strong></i>
+              <i><strong> Error rate comparison during polymerase chain reaction by DNA polymerase.  </strong></i>
               Molecular biology international, 2014.
               <br/>
               </p>
@@ -348,13 +348,13 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <p className="text-content"><strong>Paper: </strong>
               <br/>
               (1) Yuan, L., Xie, Z., Wang, Y. et al.
-              <i><strong>DeSP: a systematic DNA storage error simulation pipeline.  </strong></i>
+              <i><strong> DeSP: a systematic DNA storage error simulation pipeline.  </strong></i>
               BMC Bioinformatics 23, 185 (2022).<a href="https://doi.org/10.1186/s12859-022-04723-w" target="_blank" title="click me">
               https://doi.org/10.1186/s12859-022-04723-w
               </a>
               <br/>
               (2) McInerney, P., Adams, P., & Hadi, M. Z. (2014).
-              <i><strong>Error rate comparison during polymerase chain reaction by DNA polymerase.  </strong></i>
+              <i><strong> Error rate comparison during polymerase chain reaction by DNA polymerase.  </strong></i>
               Molecular biology international, 2014.
               <br/>
               </p>
@@ -371,13 +371,13 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               </p>
               <p className="text-content"><strong>Paper: </strong>
               <br/>
-              (1) <i><strong>"Clustering of highly homologous sequences to reduce the size of large protein database",</strong></i>
+              (1) <i><strong> "Clustering of highly homologous sequences to reduce the size of large protein database",</strong></i>
               Weizhong Li, Lukasz Jaroszewski & Adam Godzik Bioinformatics, (2001) 17:282-283
               <br/>
-              (2) <i><strong>"Tolerating some redundancy significantly speeds up clustering of large protein databases", </strong></i>
+              (2) <i><strong> "Tolerating some redundancy significantly speeds up clustering of large protein databases", </strong></i>
               Weizhong Li, Lukasz Jaroszewski & Adam Godzik Bioinformatics, (2002) 18:77-82
               <br/>
-              (3) <i><strong>"Cd-hit: a fast program for clustering and comparing large sets of protein or nucleotide sequences", </strong></i>
+              (3) <i><strong> "Cd-hit: a fast program for clustering and comparing large sets of protein or nucleotide sequences", </strong></i>
               Weizhong Li & Adam Godzik Bioinformatics, (2006) 22:1658-9
               <br/>
               </p>
@@ -392,7 +392,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               </p>
               <p className="text-content"><strong>Paper: </strong>
               Zorita E, Cusco P, Filion GJ. 2015.
-              <i><strong>Starcode: sequence clustering based on all-pairs search.</strong></i>
+              <i><strong> Starcode: sequence clustering based on all-pairs search.</strong></i>
               Bioinformatics 31 (12): 1913-1919.
               </p>
               <h3 id="minimum-free" className="second-title">5	Minimum Free Energy </h3>
@@ -413,42 +413,42 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               </p>
               <p className="text-content"><strong>Paper: </strong>
               Hofacker I L.
-              <i><strong>Vienna RNA secondary structure server[J]. </strong></i>
+              <i><strong> Vienna RNA secondary structure server[J]. </strong></i>
               Nucleic acids research, 2003, 31(13): 3429-3431.
 
               </p>
         </div>
         </div>
         {/*position:"fixed",top:"150px",margin:"0px 1100px",display:"flex" */}
-        <div style={{position:"fixed",top:"125px",margin:"0px 50px"}}>
+        <div style={{position:"fixed",top:"100px",margin:"0px 20px"}}>
             <Anchor targetOffset={targetOffset} onClick={scrollToAnchor} affix={false}>
               <Link href="#summary" title="Summary" />
-              <Link href="#encode-method" title="Encoding Method" >
-                <Link href="#vanilla-code" title="Vanilla code" />
-                <Link href="#yinyang" title="Yin-Yang Code" />
-                <Link href="#dna-fountain" title="DNA Fountain Code" />
-                <Link href="#dna-information" title="DNA information Code" />
-                <Link href="#nick-doldman" title="Nick Goldman Code" />
-                <Link href="#robert" title="Robert N. Grass Code" />
-                <Link href="#forward-error" title="Forward error correction Code" />
-                <Link href="#hierarchical" title="Hierarchical Error Correction Code" />
+              <Link href="#encode-method" title="1 Encoding Method" >
+                <Link href="#vanilla-code" title="1.1 Vanilla code" />
+                <Link href="#yinyang" title="1.2 Yin-Yang Code" />
+                <Link href="#dna-fountain" title="1.3 DNA Fountain Code" />
+                <Link href="#dna-information" title="1.4 DNA information Code" />
+                <Link href="#nick-doldman" title="1.5 Nick Goldman Code" />
+                <Link href="#robert" title="1.6 Robert N. Grass Code" />
+                <Link href="#forward-error" title="1.7 Forward error correction Code" />
+                <Link href="#hierarchical" title="1.8 Hierarchical Error Correction Code" />
               </Link>
-              <Link href="#verify-code" title="Verify code" >
-                <Link href="#hamming" title="Hamming code" />
-                <Link href="#reed-solomon" title="Reed Solomon code" />
+              <Link href="#verify-code" title="2 Verify code" >
+                <Link href="#hamming" title="2.1 Hamming code" />
+                <Link href="#reed-solomon" title="2.2 Reed Solomon code" />
               </Link>
-              <Link href="#simulation" title="Simulation Conditions" >
-                <Link href="#synthesis" title="Synthesis" />
-                <Link href="#decay" title="Decay Process" />
-                <Link href="#pcr" title="PCR" />
-                <Link href="#sampling" title="Sampling" />
-                <Link href="#sequencing" title="Sequencing" />
+              <Link href="#simulation" title="3 Simulation Conditions" >
+                <Link href="#synthesis" title="3.1 Synthesis" />
+                <Link href="#decay" title="3.2 Decay Process" />
+                <Link href="#pcr" title="3.3 PCR" />
+                <Link href="#sampling" title="3.4 Sampling" />
+                <Link href="#sequencing" title="3.5 Sequencing" />
               </Link>
-              <Link href="#cluster" title="Cluster Method" >
-                <Link href="#cd-hit" title="CD-HIT" />
-                <Link href="#starcode" title="Starcode" />
+              <Link href="#cluster" title="4 Cluster Method" >
+                <Link href="#cd-hit" title="4.1 CD-HIT" />
+                <Link href="#starcode" title="4.2 Starcode" />
               </Link>
-              <Link href="#minimum-free" title="Minimum Free Energy" ></Link>
+              <Link href="#minimum-free" title="5 Minimum Free Energy" ></Link>
             </Anchor>
         </div>
 
