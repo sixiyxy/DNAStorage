@@ -20,7 +20,7 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
   const [siderSelect, setSiderSelect] = useState(["0-1-0"]);
   const [fileId, setFileId] = useState("");
   const [isdisabled, setIsdisabled] = useState(true);
-  const [clickEXM,setclickEXM]=useState(false);
+  const [clickEXM, setclickEXM] = useState(false);
   const url = new URL(window.location.href);
   const pathname = url?.pathname;
 
@@ -64,9 +64,18 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
 
       <div className="panel">
         {siderSelect[0] === "0-1-0" ? (
-          <SimulationSetting changeSider={setSiderSelect} fileId={fileId} setFileId={setFileId} setclickEXM={setclickEXM} setIsdisabled={setIsdisabled}/>
+          <SimulationSetting
+            changeSider={setSiderSelect}
+            fileId={fileId}
+            setFileId={setFileId}
+            setclickEXM={setclickEXM}
+            setIsdisabled={setIsdisabled}
+            needUploader={true}
+          />
         ) : null}
-        {siderSelect[0] === "0-1-1" ? <SimulationReport fileId={fileId} clickEXM={clickEXM}/> : null}
+        {siderSelect[0] === "0-1-1" ? (
+          <SimulationReport fileId={fileId} clickEXM={clickEXM} />
+        ) : null}
       </div>
     </div>
   );
