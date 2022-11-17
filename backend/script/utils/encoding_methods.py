@@ -624,31 +624,22 @@ class DNAFountain(AbstractCodingAlgorithm):
 
         dna_sequences = []
         final_count = math.ceil(len(bit_segments) * (1 + self.redundancy))
-        # print(len(bit_segments),final_count,self.redundancy)
 
         # things related to random number generator, starting an lfsr with a certain state and a polynomial for 32bits.
         lfsr = DNAFountain.LFSR().lfsr_s_p()
-        # print(lfsr)
         # create the solition distribution object
-        self.prng = DNAFountain.PRNG(number=self.decode_packets,
-                                     delta=self.delta,
-                                     c=self.c_dist)
-                                    # 9753 0.05 0.1
+        self.prng = DNAFountain.PRNG(number=self.decode_packets, delta=self.delta, c=self.c_dist)
+
         used_seeds = dict()
         chuck_recorder = []
-        n =0
         while len(dna_sequences) < final_count:
             seed = next(lfsr)
-            # print(seed)
             if seed in used_seeds:
                 continue
 
             # initialize droplet and trans-code to DNA.
             droplet = DNAFountain.Droplet()
-            dna_sequence = droplet.get_dna(seed,
-                                           self.prng,
-                                           bit_segments,
-                                           self.header_size)
+            dna_sequence = droplet.get_dna(seed, self.prng, bit_segments, self.header_size)
 
             # check validity.
             if check("".join(dna_sequence),
@@ -697,19 +688,15 @@ class DNAFountain(AbstractCodingAlgorithm):
         bit_segments = [None] * self.decode_packets
         done_segments = set()
         chunk_to_droplets = defaultdict(set)
-        n =0
+
         for dna_sequence in dna_sequences:
             droplet = DNAFountain.Droplet()
             droplet.init_binaries(self.prng, dna_sequence, self.header_size)
 
-            # print(droplet.chuck_indices)
             for chunk_num in droplet.chuck_indices:
                 chunk_to_droplets[chunk_num].add(droplet)
 
-            # print(chunk_to_droplets,done_segments)
             self.update_droplets(droplet, bit_segments, done_segments, chunk_to_droplets)
-            # print('where')
-
 
             if self.need_logs:
                 self.monitor.output(len(done_segments), self.decode_packets)
@@ -723,10 +710,7 @@ class DNAFountain(AbstractCodingAlgorithm):
         return bit_segments
 
     def update_droplets(self, droplet, bit_segments, done_segments, chunk_to_droplets):
-        # print(droplet.chuck_indices,done_segments)
-        # print(droplet.chuck_indices & done_segments)
         for chunk_index in (set(droplet.chuck_indices) & done_segments):
-            # print('find',chunk_index)
             droplet.update_binaries(chunk_index, bit_segments)
             # cut the edge between droplet and input segment.
             chunk_to_droplets[chunk_index].discard(droplet)
@@ -752,26 +736,21 @@ class DNAFountain(AbstractCodingAlgorithm):
             self.chuck_indices = None
 
         def get_dna(self, seed, prng, bit_segments, header_size):
-            # print("seed, prng, bit_segments, header_size",seed, prng, 'x', header_size)
             self.seed = seed
             self.payload = None
             self.chuck_indices = prng.get_src_blocks_wrap(seed)
-            # print('chuck_indices',self.chuck_indices)
 
             for chuck_index in self.chuck_indices:
                 if self.payload is None:
                     self.payload = bit_segments[chuck_index]
                 else:
                     self.payload = list(map(self.xor, self.payload, bit_segments[chuck_index]))
-            # print(len(self.payload),self.payload)
-            # print(len(self._get_seed_list(header_size)),self._get_seed_list(header_size))
-            bit_list = self._get_seed_list(header_size) + self.payload
 
+            bit_list = self._get_seed_list(header_size) + self.payload
 
             dna_sequence = []
             for index in range(0, len(bit_list), 2):
                 dna_sequence.append(index_base.get(bit_list[index] * 2 + bit_list[index + 1]))
-
 
             return dna_sequence
 
@@ -788,7 +767,6 @@ class DNAFountain(AbstractCodingAlgorithm):
             self.chuck_indices = prng.get_src_blocks_wrap(self.seed)
 
         def update_binaries(self, chunk_index, bit_segments):
-            # print(bit_segments[chunk_index])
             self.payload = list(map(self.xor, self.payload, bit_segments[chunk_index]))
             # subtract (ie. xor) the value of the solved segment from the droplet.
             self.chuck_indices.remove(chunk_index)
@@ -816,39 +794,29 @@ class DNAFountain(AbstractCodingAlgorithm):
     class PRNG(object):
 
         def __init__(self, number, delta, c):
-            # print("number, delta, c",number,delta,c)
             self.number = number
             self.delta = delta
             self.c = c
             self.value = self.c * math.log(self.number / self.delta) * math.sqrt(self.number)
-            # print('value',self.value)
             self.cdf, self.degree = self.gen_rsd_cdf(number, self.value, self.delta)
 
         def get_src_blocks_wrap(self, seed):
             random.seed(seed)
             p = random.random()
-            # print('random p',p)
-
             d = self._sample_degree(p)
-            # print('select number',d)
             return random.sample(range(int(self.number)), d)
 
         @staticmethod
         def gen_rsd_cdf(number, value, delta):
             pivot = int(math.floor(number / value))
-            # print('pivot',pivot)
             value_1 = [value / number * 1 / d for d in range(1, pivot)]
             value_2 = [value / number * math.log(value / delta)]
             value_3 = [0 for _ in range(pivot, number)]
-            # print(value_1,value_2,value_3)
             tau = value_1 + value_2 + value_3
             rho = [1.0 / number] + [1.0 / (d * (d - 1)) for d in range(2, number + 1)]
-            # print(rho)
             degree = sum(rho) + sum(tau)
-            # print('degree',degree)
             mu = [(rho[d] + tau[d]) / degree for d in range(number)]
             cdf = numpy.cumsum(mu)
-            # print(cdf,degree)
             return cdf, degree
 
         def _sample_degree(self, p):
@@ -869,13 +837,9 @@ class DNAFountain(AbstractCodingAlgorithm):
             nbits = mask.bit_length() - 1
             while True:
                 result = result << 1
-                # print('result',bin(result),result)
                 xor = result >> nbits
-                # print('xor',bin(xor),xor)
                 if xor != 0:
                     result ^= mask
-                    # print('result', bin(result), result)
-                # print('return result', bin(result), result)
                 yield result
 
         @staticmethod
@@ -888,6 +852,7 @@ class DNAFountain(AbstractCodingAlgorithm):
 
         def lfsr_s_p(self):
             return self.lfsr(self.lfsr32s(), self.lfsr32p())
+
 
 
 class YinYangCode(AbstractCodingAlgorithm):
