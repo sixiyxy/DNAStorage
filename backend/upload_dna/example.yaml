@@ -3476,7 +3476,7 @@ PCR:
   - value: 15400
 SAM:
   density_group: 10
-  pcr_density:
+  sam_density:
   - value: 43
   - value: 41
   - value: 78
@@ -4889,7 +4889,7 @@ SAM:
   - value: 13
 SEQ:
   density_group: 7
-  pcr_density:
+  seq_density:
   - value: 53
   - value: 1
   - value: 1
