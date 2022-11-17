@@ -15,101 +15,118 @@ import "./index.less";
 import {API_PREFIX} from "../../../common/Config";
 export class DecodeProps {
   fileId;
+  changeSider;
+  setIsDecode;
+  setDecodeData;
 }
 
-export const Decode: React.FC<DecodeProps> = (props) => {
+export const DecodeSetting: React.FC<DecodeProps> = (props) => {
   const [value, setValue] = useState("cdhit");
   const [data, setData] = useState();
   const onChange = (e: RadioChangeEvent) => {
     setValue(e.target.value);
   };
 
-  const columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      width: 400,
-    },
-    {
-      title: "Value",
-      dataIndex: "value",
-      key: "value",
-    },
-  ];
+  
+  // const columns = [
+  //   {
+  //     title: "Name",
+  //     dataIndex: "name",
+  //     key: "name",
+  //     width: 400,
+  //   },
+  //   {
+  //     title: "Information",
+  //     dataIndex: "value",
+  //     key: "value",
+  //   },
+  // ];
 
-  const tableData = useMemo(() => {
-    return [
-      {
-        key: "1",
-        name: "Decode time",
-        value: data?.decode_time || "",
-      },
-      {
-        key: "2",
-        name: "Clust time",
-        value: data?.clust_method || "",
-      },
-      {
-        key: "3",
-        name: "Encode DNA sequence number",
-        value: data?.encode_dna_sequence_number || "",
-      },
-      {
-        key: "4",
-        name: "Simulation DNA sequence number",
-        value: data?.encode_dna_sequence_number || "",
-      },
-      {
-        key: "5",
-        name: "Cluster DNA sequence number",
-        value: data?.after_clust_dna_sequence_number || "",
-      },
-      {
-        key: "6",
-        name: "Recall DNA sequence number",
-        value: data?.recall_dna_sequence_number || "",
-      },
-      {
-        key: "7",
-        name: "Recall rate",
-        value: data?.recall_dna_sequence_rate || "",
-      },
-      {
-        key: "8",
-        name: "Encode bits fragments",
-        value: data?.verify_method_remove_bits || "",
-      },
-      {
-        key: "9",
-        name: "Decode bits fragments",
-        value: data?.encode_bits_number || "",
-      },
-      {
-        key: "10",
-        name: "Recall bits fragments",
-        value: data?.final_decode_bits_number || "",
-      },
+  // const tableData = useMemo(() => {
+  //   return [
+  //     {
+  //       key: "1",
+  //       name: "Decode time",
+  //       value: data?.decode_time || "",
+  //     },
+  //     {
+  //       key: "2",
+  //       name: "Clust time",
+  //       value: data?.clust_method || "",
+  //     },
+  //     {
+  //       key: "3",
+  //       name: "Encode DNA sequence number",
+  //       value: data?.encode_dna_sequence_number || "",
+  //     },
+  //     {
+  //       key: "4",
+  //       name: "Simulation DNA sequence number",
+  //       value: data?.encode_dna_sequence_number || "",
+  //     },
+  //     {
+  //       key: "5",
+  //       name: "Cluster DNA sequence number",
+  //       value: data?.after_clust_dna_sequence_number || "",
+  //     },
+  //     {
+  //       key: "6",
+  //       name: "Recall DNA sequence number",
+  //       value: data?.recall_dna_sequence_number || "",
+  //     },
+  //     {
+  //       key: "7",
+  //       name: "Recall rate",
+  //       value: data?.recall_dna_sequence_rate || "",
+  //     },
+  //     {
+  //       key: "8",
+  //       name: "Encode bits fragments",
+  //       value: data?.verify_method_remove_bits || "",
+  //     },
+  //     {
+  //       key: "9",
+  //       name: "Decode bits fragments",
+  //       value: data?.encode_bits_number || "",
+  //     },
+  //     {
+  //       key: "10",
+  //       name: "Recall bits fragments",
+  //       value: data?.final_decode_bits_number || "",
+  //     },
 
-    ];
-  }, [data]);
+  //   ];
+  // }, [data]);
+
 
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
       clust_method: value,
     };
-  }, [value]);
+  }, [value, props.fileId]);
 
   const onDecode = function () {
     axios
       .post(API_PREFIX + "/decode", params)
       .then(function (response) {
         //console.log("decode", response);
-        setData(response?.data);
+        props.setDecodeData(response?.data);
+        props.setIsDecode(true);
+        props.changeSider(["0-2-1"]);
       });
   };
 
+  const onExample = function () {
+    axios
+      .post(API_PREFIX + "/example", {type: "decode"})
+      .then(function (response) {
+        //console.log("decode", response);
+        props.setDecodeData(response?.data);
+        props.setIsDecode(true);
+        props.changeSider(["0-2-1"]);
+      });
+  }
   return (
     <div className="decode-content">
       <div style={{ paddingLeft: "30px", paddingTop: "20px" }}>
@@ -143,7 +160,7 @@ export const Decode: React.FC<DecodeProps> = (props) => {
                 type="primary"
                 shape="round"
                 size={"large"}
-                style={{width:"100px", margin:"5px 20px"}}
+                style={{width:"100px", margin:"20% 35%"}}
               >
                 Example
               </Button>
@@ -152,27 +169,28 @@ export const Decode: React.FC<DecodeProps> = (props) => {
                 </div>
               </Card>
               <Card title="Cluster algorithms" style={{width:"90%"}} headStyle={{backgroundColor:'#99CCFF'}} >
-                <div style={{ paddingLeft: "20px" }}>
+                <div >
           <Radio.Group onChange={onChange} value={value}>
             <Space direction="vertical">
               <Radio value={"cdhit"}><strong>CD-HIT: </strong>a fast program for clustering and comparing large sets of protein or nucleotide sequences. Bioinformatics 22.13 (2006): 1658-1659. </Radio>
               <Radio value={"starcode"}><strong>Starcode: </strong>sequence clustering based on all-pairs search. Bioinformatics 31.12 (2015): 1913-1919. </Radio>
             </Space>
           </Radio.Group>
+          <Button
+                type="primary"
+                shape="round"
+                size={"large"}
+                style={{width:"100px", margin:"50px 45% 50px"}}
+                onClick={onDecode}
+              >
+                Decode
+              </Button>
         </div>
               </Card>
-              <Card title="Result" style={{width:"90%"}} headStyle={{backgroundColor:'#99CCFF'}} >
-              <div style={{ marginTop: "5px", marginLeft: "30px" }}>
-        <Table
-          columns={columns}
-          dataSource={tableData}
-          pagination={{ position: ["none"] }}
-        />
-      </div>
-              </Card>
+
             </div>
     </div>
   );
 };
 
-Decode.defaultProps = new DecodeProps();
+DecodeSetting.defaultProps = new DecodeProps();

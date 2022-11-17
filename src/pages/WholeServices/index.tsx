@@ -4,7 +4,7 @@ import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
 import { Encode } from "./Encode";
 import { SimulationReport } from "./SimulationReport";
-import { Decode } from "./Decode";
+import { Decode, DecodeSetting } from "./DecodeSetting";
 import { Report } from "./Report";
 import { SimulationSetting } from "../SimulationServices/SimulationSetting";
 
@@ -84,6 +84,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [siderSelect, setSiderSelect] = useState(["0-0-0"]);
   const [fileId, setFileId] = useState("");
   const [isSynthesis, setIsSynthesis] = useState(false);
+  const [isDecode, setIsDecode] = useState(false);
   const [GC, setGC] = useState([]);
   const [homo, setHomo] = useState([]);
   const [energy, setEnergy] = useState([]);
@@ -95,6 +96,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [spinflag, setSpin] = useState(true);
   const [exam, setExam] = useState(false);
   const [mini, setMini] = useState(0);
+  const [decodeData, setDecodeData] = useState()
   const items1 = useMemo(() => {
     return [
       {
@@ -133,9 +135,20 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
         label: "Decode",
         key: "0-2",
         icon: <i className="iconfont icon-Decode-File" style={{ display: "inline" }}></i>,
+        children: [
+          {
+            label: "Setting",
+            key: "0-2-0",
+          },
+          {
+            label: "Report",
+            key: "0-2-1",
+            disabled: !isDecode,
+          },
+        ],
       },
     ];
-  }, [isSynthesis]);
+  }, [isSynthesis, isDecode]);
 
   // const items2 = useMemo(() => {
   //   return [
@@ -194,7 +207,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
         selectedKeys={siderSelect}
         mode="inline"
         items={items1}
-        defaultOpenKeys={["0-0", "0-1"]}
+        defaultOpenKeys={["0-0", "0-1","0-2"]}
       />
 
       {siderSelect[0] === "0-0-0" ? (
@@ -243,7 +256,8 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
       {siderSelect[0] === "0-1-0" ? (
         <SimulationSetting changeSider={setSiderSelect} fileId={fileId} needUploader={false} />
       ) : null}
-      {siderSelect[0] === "0-2" ? <Decode fileId={fileId} /> : null}
+      {siderSelect[0] === "0-2-0" ? <DecodeSetting fileId={fileId} changeSider={setSiderSelect}  setIsDecode={setIsDecode} setDecodeData={setDecodeData}/> : null}\
+      {siderSelect[0] === "0-2-1" ? <DecodeReport fileId={fileId} isDecode={isDecode} decodeData={decodeData}/> : null}
     </div>
   );
 };
