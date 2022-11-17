@@ -105,6 +105,7 @@ class Encoding():
         connected_bit_segments,original_bit_segments,record_index = self.connet_index(data)
 
         verify_method = verify_methods[self.verify_method]
+        print(len(original_bit_segments[0]),len(connected_bit_segments[0]),len(record_index[0]))
         if verify_method == False:
             final_bit_segments, error_correction_length = connected_bit_segments,0
         else:
