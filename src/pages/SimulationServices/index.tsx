@@ -64,10 +64,12 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
 
       <div className="panel">
         {siderSelect[0] === "0-1-0" ? (
+
           <SimulationSetting
             changeSider={setSiderSelect}
             fileId={fileId}
             setFileId={setFileId}
+            clickEXM={clickEXM}
             setclickEXM={setclickEXM}
             setIsdisabled={setIsdisabled}
             needUploader={true}
@@ -75,6 +77,7 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
         ) : null}
         {siderSelect[0] === "0-1-1" ? (
           <SimulationReport fileId={fileId} clickEXM={clickEXM} />
+
         ) : null}
       </div>
     </div>

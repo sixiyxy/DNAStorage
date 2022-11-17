@@ -34,7 +34,10 @@ export class SynthesisProps {
   setAlreadyRun;
   alreadyRun;
   setDECRUN;
-  decrun;
+  setPCRRUN;
+  setSAMRUN;
+  setSEQRUN
+  method1;
 }
 
 export const Synthesis: React.FC<SynthesisProps> = (props) => {
@@ -88,7 +91,18 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       setData(response?.data?.syn_density);
       setHrefLink(response?.data?.synthesis_method_reference);
       setLoading(false);
-      props.setDECRUN(false)
+      if (!props.method1[0]){
+        props.setDECRUN(false)
+      }else if(!props.method1[1]){
+        props.setPCRRUN(false)
+      }else if(!props.method1[2]){
+        props.setSAMRUN(false)
+      }else if(!props.method1[3]){
+        props.setSEQRUN(false)
+      }else{
+        console.log('just synthesis'); 
+      }
+      
     });
     // props.setIsSynthesis(true);
   };

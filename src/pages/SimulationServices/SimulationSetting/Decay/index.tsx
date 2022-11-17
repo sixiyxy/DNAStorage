@@ -27,7 +27,9 @@ export class DecayProps {
   setDECRUN;
   decrun;
   setPCRRUN;
-  pcrrun;
+  setSAMRUN;
+  setSEQRUN;
+  method1;
 }
 
 export const Decay: React.FC<DecayProps> = (props) => {
@@ -88,6 +90,16 @@ export const Decay: React.FC<DecayProps> = (props) => {
     setData(resp.dec_density);
     setHrefLink(resp.storage_host_parameter_reference);
     setLoading(false);
+
+    if(!props.method1[1]){
+      props.setPCRRUN(false)
+    }else if(!props.method1[2]){
+      props.setSAMRUN(false)
+    }else if(!props.method1[3]){
+      props.setSEQRUN(false)
+    }else{
+      console.log('just synthesis'); 
+    }
     props.setPCRRUN(false)
   };
   const param1 = {  file_uid:"1582175684011364352",

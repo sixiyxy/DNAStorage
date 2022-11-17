@@ -20,6 +20,7 @@ export class SimulationSetProps {
   setclickEXM;
   setIsdisabled;
   needUploader: boolean;
+  clickEXM;
 }
 
 let method = [false, false, false, false]; //存放选择的方法
@@ -73,19 +74,19 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     props.changeSider(["0-1-1"]);
   };
   const handleDecay = () => {
-    method[0] = true;
+    method[0] = !method[0];
     setDecayFlag(!decayFlag);
   };
   const handlePCR = () => {
-    method[1] = true;
+    method[1] = !method[1];
     setPcrFlag(!pcrFlag);
   };
   const handleSampling = () => {
-    method[2] = true;
+    method[2] = !method[2];
     setSampleFlag(!sampleFlag);
   };
   const handleSequencing = () => {
-    method[3] = true;
+    method[3] = !method[3];
     setSequenceFlag(!sequenceFlag);
   };
   const handleOK = () => {
@@ -143,11 +144,12 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   };
 
   console.log(okFlag, decayFlag, pcrFlag, sampleFlag, sequenceFlag);
-
+  console.log('method',method)
   const uploadProps = {
     name: "file",
     multiple: true,
     action: API_PREFIX + "/dna_upload",
+    disabled: props.clickEXM,
     onChange(info) {
       const { status, response } = info.file;
       console.log("status", info);
@@ -320,57 +322,63 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
         </Card>
       </div>
       <div>
-        <Synthesis
-          fileId={props.fileId}
-          setFileId={props.setFileId}
-          okFlag={okFlag}
-          effect1={effect1}
-          response={response}
-          setAlreadyRun={setAlreadyRun}
-          alreadyRun={alreadyRun}
-          setDECRUN={setDECRUN}
-          decrun={decrun}
+        <Synthesis 
+          fileId={props.fileId} 
+          setFileId={props.setFileId} 
+          okFlag={okFlag} 
+          effect1={effect1} 
+          response={response} 
+          setAlreadyRun={setAlreadyRun} 
+          alreadyRun={alreadyRun} 
+          setDECRUN={setDECRUN} 
+          setPCRRUN={setPCRRUN} 
+          setSAMRUN={setSAMRUN}  
+          setSEQRUN={setSEQRUN} 
+          method1={method}
         />
-        <Decay
-          fileId={props.fileId}
-          decayFlag={decayFlag}
-          okFlag={okFlag}
-          effect2={effect2}
-          response={response}
-          setDECRUN={setDECRUN}
-          decrun={decrun}
-          setPCRRUN={setPCRRUN}
-          pcrrun={pcrrun}
+        <Decay 
+          fileId={props.fileId} 
+          decayFlag={decayFlag} 
+          okFlag={okFlag} 
+          effect2={effect2} 
+          response={response} 
+          setDECRUN={setDECRUN} 
+          decrun={decrun} 
+          setPCRRUN={setPCRRUN} 
+          setSAMRUN={setSAMRUN}  
+          setSEQRUN={setSEQRUN} 
+          method1={method}
         />
-        <Pcr
-          fileId={props.fileId}
-          pcrFlag={pcrFlag}
-          okFlag={okFlag}
-          effect3={effect3}
-          response={response}
-          setPCRRUN={setPCRRUN}
-          pcrrun={pcrrun}
-          setSAMRUN={setSAMRUN}
-          samrun={samrun}
+        <Pcr 
+          fileId={props.fileId} 
+          pcrFlag={pcrFlag} 
+          okFlag={okFlag} 
+          effect3={effect3} 
+          response={response} 
+          setPCRRUN={setPCRRUN} 
+          pcrrun={pcrrun} 
+          setSAMRUN={setSAMRUN} 
+          setSEQRUN={setSEQRUN} 
+          method1={method}
         />
-        <Sampling
-          fileId={props.fileId}
-          sampleFlag={sampleFlag}
-          okFlag={okFlag}
-          effect4={effect4}
-          response={response}
-          setSAMRUN={setSAMRUN}
-          samrun={samrun}
-          setSEQRUN={setSEQRUN}
-          seqrun={seqrun}
+        <Sampling 
+          fileId={props.fileId} 
+          sampleFlag={sampleFlag} 
+          okFlag={okFlag} 
+          effect4={effect4} 
+          response={response} 
+          setSAMRUN={setSAMRUN} 
+          samrun={samrun} 
+          setSEQRUN={setSEQRUN} 
+          method1={method}
         />
-        <Sequencing
-          fileId={props.fileId}
-          sequenceFlag={sequenceFlag}
-          okFlag={okFlag}
-          effect5={effect5}
-          response={response}
-          setSEQRUN={setSEQRUN}
+        <Sequencing 
+          fileId={props.fileId} 
+          sequenceFlag={sequenceFlag} 
+          okFlag={okFlag} 
+          effect5={effect5} 
+          response={response} 
+          setSEQRUN={setSEQRUN} 
           seqrun={seqrun}
         />
       </div>
