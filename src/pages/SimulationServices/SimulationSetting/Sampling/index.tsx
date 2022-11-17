@@ -12,6 +12,10 @@ export class SamplingProps {
   okFlag;
   effect4;
   response;
+  setSAMRUN;
+  samrun;
+  setSEQRUN;
+  seqrun;
 }
 
 export const Sampling: React.FC<SamplingProps> = (props) => {
@@ -49,7 +53,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   const handleOk = async () => {
     setLoading(true);
     setNoDataTipsShow(false);
-    setAlreadyRun(true);
+    props.setSAMRUN(true);
     // todo 对请求接口 ts 化
     const resp: any = await doPost("/simu_sam", {body: params});
     setCountLen(resp.sam_density.length);
@@ -57,6 +61,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     setDensityData(resp.sam_density);
     setHrefLink(resp.synthesis_method_reference);
     setLoading(false);
+    props.setSEQRUN(false)
   };
   const param1 = {
   sam_ratio:0.005,
@@ -67,7 +72,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     if (props.effect4 == true){
     setLoading(true);
     setNoDataTipsShow(false);
-    setAlreadyRun(true);
+    props.setSAMRUN(true);
     setCountLen(props.response.SAM.sam_density.length);
     setGroup(props.response.SAM.sam_group);
     setDensityData(props.response.SAM.sam_density);
@@ -182,7 +187,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
                 size="large"
                 shape="round"
                 onClick={handleOk}
-                disabled={alreadyRun}
+                disabled={props.samrun}
               >
                 OK
               </Button>

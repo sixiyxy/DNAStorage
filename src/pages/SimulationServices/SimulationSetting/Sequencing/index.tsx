@@ -24,6 +24,9 @@ export class SequencingProps {
   okFlag;
   effect5;
   response;
+  setSEQRUN;
+  seqrun;
+  
 }
 
 export const Sequencing: React.FC<SequencingProps> = (props) => {
@@ -66,7 +69,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
   const handleOk = async () => {
     setLoading(true);
     setNoDataTipsShow(false);
-    setAlreadyRun(true);
+    props.setSEQRUN(true);
     const resp: any = await doPost("/simu_seq", {body: params});
     // console.log("sequencing response", response);
     //setErrorData(response?.data?.seq_error_density);
@@ -81,7 +84,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       if (props.effect5 == true){
       setLoading(true);
       setNoDataTipsShow(false);
-      setAlreadyRun(true);
+      props.setSEQRUN(true);
       setLen(props.response.SEQ.seq_density.length);
       setDensityData(props.response.SEQ.seq_density);
       setGroup(props.response.SEQ.seq_group);
@@ -226,7 +229,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                     size="large"
                     shape="round"
                     onClick={handleOk}
-                    disabled={alreadyRun}
+                    disabled={props.seqrun}
                   >
                     OK
                   </Button>

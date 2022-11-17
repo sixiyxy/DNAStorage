@@ -31,6 +31,10 @@ export class SynthesisProps {
   okFlag;
   effect1;
   response;
+  setAlreadyRun;
+  alreadyRun;
+  setDECRUN;
+  decrun;
 }
 
 export const Synthesis: React.FC<SynthesisProps> = (props) => {
@@ -46,7 +50,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const [loading, setLoading] = useState(false);
   
   const [group, setGroup] = useState();
-  const [alreadyRun, setAlreadyRun] = useState(false);
+ 
 
   //处理函数
   const cycleChange = (value: number) => {
@@ -76,7 +80,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const handleOk = () => {
     setLoading(true);
     setNoDataTipsShow(false);
-    setAlreadyRun(true);
+    props.setAlreadyRun(true);
     axios.post(API_PREFIX + "/simu_synthesis", params).then(function (response) {
       setCountLen(response?.data?.syn_density.length);
       console.log("synthesis response", response);
@@ -84,6 +88,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       setData(response?.data?.syn_density);
       setHrefLink(response?.data?.synthesis_method_reference);
       setLoading(false);
+      props.setDECRUN(false)
     });
     // props.setIsSynthesis(true);
   };
@@ -99,7 +104,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     if (props.effect1 == true){
     setLoading(true);
     setNoDataTipsShow(false);
-    setAlreadyRun(true);
+    props.setAlreadyRun(true);
     console.log('SYN',props.response);
     setCountLen(props.response.SYN.syn_density.length);
     setGroup(props.response.SYN.density_group);
@@ -249,7 +254,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   </Col>
                 </Row>
               </div>
-              <div className="simulation-bar">
+              <div className="SynthesisYield">
                 <span>Synthesis Yield :</span>
                 <Tooltip
                   title="The possibility of adding one nucleoside to the current synthesizing strand is defined as coupling efficiency. The process might be terminated because of unsuccessful coupling so imperfect coupling efficiency limits the length of the final sequence. Typically, it ranges about 98-99.5.">
@@ -308,7 +313,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 </Select>
               </div>
               <div className="simulation-buttons">
-                <Button size="large" shape="round" onClick={handleOk} disabled={alreadyRun}>
+                <Button size="large" shape="round" onClick={handleOk} disabled={props.alreadyRun}>
                   OK
                 </Button>
                 {/* <Button shape="round" size="large" onClick={handleReset}>
