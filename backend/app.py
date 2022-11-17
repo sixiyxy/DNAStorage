@@ -338,13 +338,19 @@ def download():
     else:
         return "Please make sure the uid has been encode or simulation!"
 
-@app.route('/simu_example',methods=['GET','POST'])
-def simu_example():
-    yaml_path='backend/upload_dna/example.yaml'
-    f = open(yaml_path)
-    config_data = f.read()
-    config = yaml.load(config_data,Loader=yaml.FullLoader)
-    return json.dumps(config)
+@app.route('/example',methods=['GET','POST'])
+def example():
+    print('\n','#'*25,'display example','#'*25,'\n','#'*60)
+    front_data = json.loads(request.data)
+    type = front_data['type']
+    if type == 'encode':
+        pass
+    elif type == 'simulation':
+        yaml_path= '{}/upload_dna/example.yaml'.format(backend_dir)
+        f = open(yaml_path)
+        config_data = f.read()
+        config = yaml.load(config_data,Loader=yaml.FullLoader)
+        return json.dumps(config)
 
 if __name__ == '__main__':
     CORS(app,supports_credentials=True)
