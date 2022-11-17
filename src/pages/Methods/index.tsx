@@ -4,6 +4,7 @@ export class MethodsProps {}
 import { Anchor } from 'antd';
 import { useEffect, useState } from 'react';
 import { Breadcrumb } from 'antd';
+import { Image } from 'antd';
 
 import {
   ContainerTwoTone,
@@ -53,7 +54,10 @@ export const Methods: React.FC<MethodsProps> = (props) => {
             <br/>
             All the mentioned methods are provided and users could choose based on their needs. The following part will introduce these methods in one by one.
             Their corresponding references are also provided.
-</p>
+            </p>
+            <br/>
+            <br/>
+
           <h3 id="encode-method" className="second-title">1	Encoding Method</h3>
             <h4 id="vanilla-code" className="third-title">1.1 Vanilla code</h4>
               <p className="text-content"><i>Vanilla code</i> is the most basic one, it simply transforms the data according to the naive rules:
@@ -64,7 +68,8 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               which uses two rules to encode two binary bits into one double-stranded DNA molecule,
               to generate DNA sequences that are highly compatible with synthesis and sequencing technologies.
               </p>
-              <img src="/src/assets/methods/yinyang.png" className="image"/>
+              <Image src="/src/assets/methods/yinyang.png" />
+
               <p className="text-content"><strong>Paper: </strong>
               Ping, Z., Chen, S., Zhou, G., Huang, X., Zhu, S. J., Zhang, H., ... &Shen, Y. (2022).
               <i><strong> Towards practical and robust DNA-based data archiving using the yin-yang codec system. </strong></i>
@@ -78,7 +83,8 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <p className="text-content"> Erlich and Zielinski present <i>DNA Fountain</i>,
               which approaches the theoretical maximum for information stored per nucleotide.
               </p>
-              <img src="/src/assets/methods/dnafountain.png" className="image"/>
+              <Image src="/src/assets/methods/dnafountain.png" />
+
               <p className="text-content"><strong>Paper: </strong>
               Erlich, Yaniv, and Dina Zielinski.
               <i><strong> DNA Fountain enables a robust and efficient storage architecture. </strong></i>
@@ -95,16 +101,16 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               to problems like extreme GC content, repeats, and secondary structure flexibly.
               It also splits the bit stream into addressed data blocks that eliminate the need for long DNA constructs.
               </p>
-              <img src="/src/assets/methods/dnainfo.png" className="image"/>
+              <Image src="/src/assets/methods/dnainfo.png" />
               <p className="text-content"><strong>Paper: </strong>
               Church, G. M., Gao, Y., &Kosuri, S. (2012).
               <i><strong> Next-generation digital information storage in DNA. </strong></i>
               Science,337(6102), 1628-1628.</p>
-              <p className="text-content"><strong>Code method:</strong>
-              <a href="https://www.science.org/doi/suppl/10.1126/science.1226355/suppl_file/church.sm.pdf" target="_blank" title="click me">
-              https://www.science.org/doi/suppl/10.1126/science.1226355/suppl_file/church.sm.pdf
-              </a>
-              </p>
+              <p className="text-content"><strong><a href="https://www.science.org/doi/suppl/10.1126/science.1226355/suppl_file/church.sm.pdf" target="_blank" title="click me">
+              Code method
+              </a></strong></p>
+
+
               <h4 id="nick-doldman" className="third-title">1.5 Nick Goldman Code</h4>
               <p className="text-content"> As for <i>Nick Goldman Code</i>, the bytes comprising each file were represented as single DNA sequences with no homopolymers.
               Each DNA sequence was split into overlapping segments, generating fourfold redundancy, and alternate segments were converted to their reverse complement.
@@ -112,15 +118,15 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               Then, each segment was augmented with indexing information that permitted the determination of the file from which it originated and its location within
               that file, and simple parity-check error detection.
               </p>
-              <img src="/src/assets/methods/nick.png" className="image"/>
+              <Image src="/src/assets/methods/nick.png" />
               <p className="text-content"><strong>Paper: </strong>
               Goldman, N., Bertone, P., Chen, S., Dessimoz, C., LeProust, E. M., Sipos, B., &Birney, E. (2013).  (2012).
               <i><strong> Towards practical, high-capacity, low-maintenance information storage in synthesized DNA. </strong></i>
               nature, 494(7435), 77-80.</p>
-              <p className="text-content"><strong>Code method:</strong>
-              <a href="https://static-content.springer.com/esm/art%3A10.1038%2Fnature11875/MediaObjects/41586_2013_BFnature11875_MOESM337_ESM.pdf" target="_blank" title="click me">
-              https://static-content.springer.com/esm/art%3A10.1038%2Fnature11875/MediaObjects/41586_2013_BFnature11875_MOESM337_ESM.pdf
-              </a>
+              <p className="text-content"><strong><a href="https://static-content.springer.com/esm/art%3A10.1038%2Fnature11875/MediaObjects/41586_2013_BFnature11875_MOESM337_ESM.pdf" target="_blank" title="click me">
+              Code method
+              </a></strong>
+
               </p>
               <h4 id="robert" className="third-title">1.6 Robert N. Grass Code</h4>
               <p className="text-content"> This is the first encoding method to use <i>Reed-Solomon Verify Code</i>. Specifically, the procedures are as follows:
@@ -140,7 +146,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               sorting the sequences by means of the index,
               followed by outer-decoding, which allows the correction of whole sequences and the recovery of completely lost sequences.
               </p>
-              <img src="/src/assets/methods/reedsolomon.png" className="image"/>
+              <Image src="/src/assets/methods/reedsolomon.png" />
               <p className="text-content"><strong>Paper: </strong>
               Grass, R. N., Heckel, R., Puddu, M., Paunescu, D., &Stark, W. J. (2015).
               <i><strong> Robust chemical preservation of digital information on DNA in silica with error-correcting codes.</strong></i>
@@ -150,7 +156,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               the authors propose the forward error scheme,
               which is able to cope with all error types of today's DNA synthesis, amplification and sequencing processes.
               </p>
-              <img src="/src/assets/methods/forwarderror.png" className="image"/>
+              <Image src="/src/assets/methods/forwarderror.png" />
               <p className="text-content"><strong>Paper: </strong>
               Blawat, M., Gaedke, K., Huetter, I., Chen, X. M., Turczyk, B., Inverso, S., ... &Church, G. M. (2016).
               <i><strong> Forward error correction for DNA data storage. </strong></i>
@@ -162,11 +168,14 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               Then, some of the remaining errors can be corrected by multiple alignments of character sequences.
               Finally, a word spelling check is applied to further recover the file content.
               </p>
-              <img src="/src/assets/methods/hierarchical.png" className="image"/>
+              <Image src="/src/assets/methods/hierarchical.png" />
               <p className="text-content"><strong>Paper: </strong>
               Zan, X., Yao, X., Xu, P., Chen, Z., Xie, L., Li, S., &Liu, W. (2022).
               <i><strong> A hierarchical error correction strategy for text DNA storage. </strong></i>
               Interdisciplinary Sciences: Computational Life Sciences, 14(1), 141-150.</p>
+
+              <br/>
+            <br/>
               <h3 id="verify-code" className="second-title">2	Verify code</h3>
               <h4 id="hamming" className="third-title">2.1  Hamming code</h4>
               <p className="text-content"> In computer science and telecommunication, <i>Hamming codes </i>are a family of linear error-correcting codes.
@@ -202,12 +211,14 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               https://en.wikipedia.org/wiki
               </a>
               </p>
-              <p className="text-content"><strong>See the video:</strong>
+              <p className="text-content"><strong>See the video: </strong>
 
               <a href="https://web.archive.org/web/20130313033107/http:/ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-451-principles-of-digital-communication-ii-spring-2005/lecture-notes/lecture-10-reed-solomon-codes/" target="_blank" title="click me">
               Reed–Solomon Codes MIT Lecture Notes 6.451 (Video)
               </a>
               </p>
+              <br/>
+            <br/>
               <h3 id="simulation" className="second-title">3	Simulation Conditions</h3>
               <h4 id="synthesis" className="third-title">3.1	Synthesis</h4>
               <p className="text-content"> During synthesis process, some molecules might not be able to be synthesized successfully,
@@ -226,7 +237,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               the synthesized number of each oligo <i>n<sub>i</sub></i> is obtained by sampling from a distribution computed with coupling efficiency <i>P<sub>c</sub></i> and length <i>L</i> of sequence.
               </p>
               <h5 className="forth-title">- Methods:</h5>
-              <img src="/src/assets/methods/synthesis.png" className="image"/>
+              <Image src="/src/assets/methods/synthesis.png" className="small-image"/>
               <p className="text-content"><strong>Paper: </strong>
               <br/>
               (1) Kosuri S, Church GM.
@@ -251,7 +262,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <p className="text-content"> For this stage, DNA Storage Designer asks the user for an overall loss rate first and will conduct distribution computation based on the binomial distribution.
               </p>
               <h5 className="forth-title">- Host Organism:</h5>
-              <img src="/src/assets/methods/decay.png" className="image"/>
+              <Image src="/src/assets/methods/decay.png" className="small-image"/>
               <p className="text-content"><strong>Paper: </strong>
               <br/>
               (1) Heckel, R., Mikutis, G. & Grass, R.N.
@@ -277,7 +288,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               Genetics, 156(1), 297-304.
               </p>
               <h5 className="forth-title">- In-Vitro:</h5>
-              <img src="/src/assets/methods/invitro.png" className="image"/>
+              <Image src="/src/assets/methods/invitro.png" className="small-image"/>
               <p className="text-content"><strong>Paper: </strong>
               <br/>
               (1) An, R., Jia, Y., Wan, B., Zhang, Y., Dong, P., Li, J., & Liang, X. (2014).
@@ -342,8 +353,9 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <h5 className="forth-title">- Method:</h5>
               <p className="text-content">
               We provide 6 sequencing methods from the literature as following:
-              <img src="/src/assets/methods/sequencing.png" className="image"/>
+
               </p>
+              <Image src="/src/assets/methods/sequencing.png" className="small-image"/>
 
               <p className="text-content"><strong>Paper: </strong>
               <br/>
@@ -358,6 +370,8 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               Molecular biology international, 2014.
               <br/>
               </p>
+              <br/>
+            <br/>
               <h3 id="cluster" className="second-title">4	Cluster Method</h3>
               <h4 id="cd-hit" className="third-title">4.1	CD-HIT</h4>
               <p className="text-content"> The CD-HIT program takes a fasta format sequence database as input and produces a set of 'non-redundant'
@@ -395,6 +409,8 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <i><strong> Starcode: sequence clustering based on all-pairs search.</strong></i>
               Bioinformatics 31 (12): 1913-1919.
               </p>
+              <br/>
+            <br/>
               <h3 id="minimum-free" className="second-title">5	Minimum Free Energy </h3>
               <p className="text-content"> When DNA sequences contain two or more stretches of complementary sequences,
               DNA molecules form special spatial structures such as hairpins or topological pseudoknots (i.e., secondary structures).
@@ -420,7 +436,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
         </div>
         </div>
         {/*position:"fixed",top:"150px",margin:"0px 1100px",display:"flex" */}
-        <div style={{position:"fixed",top:"100px",margin:"0px 20px"}}>
+        <div style={{position:"fixed",top:"100px",margin:"0px 20px  0px"}}>
             <Anchor targetOffset={targetOffset} onClick={scrollToAnchor} affix={false}>
               <Link href="#summary" title="Summary" />
               <Link href="#encode-method" title="1 Encoding Method" >
