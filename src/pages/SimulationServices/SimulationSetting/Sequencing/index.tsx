@@ -23,6 +23,7 @@ export class SequencingProps {
   sequenceFlag;
   okFlag;
   effect5;
+  response;
 }
 
 export const Sequencing: React.FC<SequencingProps> = (props) => {
@@ -76,24 +77,18 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     setLoading(false);
   };
 
-  const param1 = 
-  { seq_depth:15,
-  seq_meth:"ill_PairedEnd",
-  file_uid:1582175684011364352,
- upload_flag:"True" }
     useEffect(()=>{
       if (props.effect5 == true){
       setLoading(true);
       setNoDataTipsShow(false);
-      axios
-        .post(API_PREFIX + "/simu_pcr", param1)
-        .then(function (response){
-          setLen(response.data.seq_density.length);
-          setDensityData(response.data.seq_density);
-          setGroup(response.data.seq_group);
-          setHrefLink(response.data.synthesis_method_reference);
-          setLoading(false);
-      })}else{
+      setAlreadyRun(true);
+      setLen(props.response.SEQ.seq_density.length);
+      setDensityData(props.response.SEQ.seq_density);
+      setGroup(props.response.SEQ.seq_group);
+      // setHrefLink(props.response.SEQ.synthesis_method_reference);
+      setLoading(false);
+    
+    }else{
         console.log('eff5',props.effect5);
       }
       },[props.effect5])
@@ -162,7 +157,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
 
   return (
     <div className="simulation-step-content">
-      <Card title="Sequencing" className={`${show ? null : "simulation-content-masked"}`}>
+      <Card title="Sequencing" className={`${show ? null : "simulation-content-masked"}`} headStyle={{fontSize:"18px"}}>
         <Row>
           <Col span={12}>
             <div className="SEQLeft">

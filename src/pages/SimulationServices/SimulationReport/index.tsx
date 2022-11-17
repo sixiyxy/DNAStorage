@@ -1,5 +1,5 @@
 import { Bar, DualAxes, Pie } from "@ant-design/charts";
-import { Breadcrumb, Button, Card, Select, Tabs,Table} from "antd";
+import { Breadcrumb, Button, Card, Select, Tabs,Table,Spin} from "antd";
 import React, { useEffect, useMemo, useState } from "react";
 import "./index.less";
 import { doPost } from "../../../utils/request";
@@ -9,6 +9,7 @@ import type { ColumnsType } from "antd/es/table";
 export class SimulationReportProps {
   changeSider?;
   fileId;
+  clickEXM;
 }
 
 export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
@@ -26,7 +27,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const [densityData, setDensityData] = useState([]);
   const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [spinflag,setSpin] = useState(true)
   const [synthesisData, setSynthesisData] = useState();
   const [decayData, setDacayData] = useState();
   const [pcrData, setPcrData] = useState();
@@ -62,11 +63,12 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       setLoading(true);
       setNoDataTipsShow(false);
       const resp = await doPost("/simu_repo", { body: params });
+      setSpin(false)
       console.log("report", resp);
       setSynthesisData(resp.SYN);
       setDacayData(resp.DEC);
       setPcrData(resp.PCR);
-      setSamplingData(resp.sample);
+      setSamplingData(resp.SAM);
       setSequenceingData(resp.SEQ);
       setErrorRecode(resp.Error_Recorder);
       setErrorDensity(resp.Error_Density);
@@ -186,7 +188,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         name: "Percentage",
         value: 100 - samplingData?.sam_ratio * 1000,
-        type: "Others",
+        type: "Rest",
       },
     ];
   }, [samplingData]);
@@ -370,6 +372,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           return `${value}%`;
         },
       },
+
     },
   };
   //混合图数据以及配置
@@ -871,6 +874,12 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {/* <Button size="large" style={{ width: 100 }} onClick={handleOk}>
         OK
       </Button> */}
+      <Spin
+        tip="Loading..."
+        size="large"
+        style={{ marginTop: "250px"}}
+        spinning={spinflag}
+      >
       <Card style={{ width: 800, height: 500, marginLeft: "20px" }}>
         <Tabs defaultActiveKey="1" size={"large"}>
           <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined} >
@@ -881,7 +890,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             <br />
             synthesis_method : {synthesisData?.synthesis_method}
             <br />
-            synthesis_method_reference : {synthesisData?.synthesis_method_reference?.map((link, index) => {
+            {/* synthesis_method_reference : {synthesisData?.synthesis_method_reference?.map((link, index) => {
               return (
                 <>
                   <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank" rel="noreferrer">
@@ -891,7 +900,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 </>
               );
             })}
-            <br />
+            <br /> */}
             </div>
             <p style={{margin:"10px 0 0 100px"}}>The error rate distribution of your chosen synthesis method as follows:</p>
             
@@ -906,7 +915,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             <br />
             decay_loss_rate : {decayData?.decay_loss_rate}
             <br />
-            storage_host_parameter_reference :
+            {/* storage_host_parameter_reference :
             <br />
             {decayData?.storage_host_parameter_reference?.map((link, index) => {
               return (
@@ -917,7 +926,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                   <br />
                 </>
               );
-            })}
+            })} */}
             </div>
             <p style={{margin:"10px 0 0 100px"}}>The error rate distribution of your chosen storage host is as follows:</p>
             <Pie {...decayErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
@@ -947,9 +956,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             <Pie {...pcrErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Sampling" key="4" disabled={samplingData === undefined}>
-            sam_ratio: {samplingData?.sam_ratio}
-            <p style={{margin:"10px 0 0 100px"}}>The sampling ratio your chosen is:</p>
-            <Bar {...samplingErrorParamConfig} style={{ margin: "80px 0 0 0" }} />
+            {/* sam_ratio: {samplingData?.sam_ratio} */}
+            <p style={{margin:"10px 0 0 0px"}}>The sampling ratio your chosen is:</p>
+            <Bar {...samplingErrorParamConfig} style={{ margin: "40px 0 0 0" }} />
             <br />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Sequencing" key="5" disabled={sequencingData === undefined}>
@@ -958,7 +967,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             <br />
             seq_method : {sequencingData?.seq_meth}
             <br />
-            seq_method_reference :
+            {/* seq_method_reference :
             <br />
             {sequencingData?.seq_method_reference?.map((link, index) => {
               return (
@@ -969,7 +978,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                   <br />
                 </>
               );
-            })}
+            })} */}
             </div>
             <p style={{margin:"35px 0 0 100px"}}>The error rate distribution of your chosen sequencing method is as follows:</p>
             <Pie {...sequenceErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
@@ -991,6 +1000,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       >
         Download
       </Button>
+      </Spin>
       {/* <Card style={{ width: 800, height: 500 }}></Card> */}
     </div>
   );

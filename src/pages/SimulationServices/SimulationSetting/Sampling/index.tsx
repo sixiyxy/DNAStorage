@@ -11,6 +11,7 @@ export class SamplingProps {
   sampleFlag;
   okFlag;
   effect4;
+  response;
 }
 
 export const Sampling: React.FC<SamplingProps> = (props) => {
@@ -67,15 +68,12 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     setAlreadyRun(true);
-    axios
-      .post(API_PREFIX + "/simu_sam", param1)
-      .then(function (response){
-        setCountLen(response.data.sam_density.length);
-    setGroup(response.data.sam_group);
-    setDensityData(response.data.sam_density);
-    setHrefLink(response.data.synthesis_method_reference);
+    setCountLen(props.response.SAM.sam_density.length);
+    setGroup(props.response.SAM.sam_group);
+    setDensityData(props.response.SAM.sam_density);
+    // setHrefLink(props.response.SAM.synthesis_method_reference);
     setLoading(false);
-  })}else{
+  }else{
     console.log('eff4',props.effect4);
   }
   },[props.effect4])
@@ -140,7 +138,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
 
   return (
     <div className="simulation-step-content">
-      <Card title="Sampling" className={`${show ? null : "simulation-content-masked"}`}>
+      <Card title="Sampling" className={`${show ? null : "simulation-content-masked"}`} headStyle={{fontSize:"18px"}}>
         <Row>
           <Col span={12}>
             <div className="SAMLeft">

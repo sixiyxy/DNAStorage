@@ -23,6 +23,7 @@ export class DecayProps {
   decayFlag;
   okFlag;
   effect2;
+  response;
 }
 
 export const Decay: React.FC<DecayProps> = (props) => {
@@ -95,15 +96,14 @@ export const Decay: React.FC<DecayProps> = (props) => {
     if (props.effect2 == true){
     setLoading(true);
     setNoDataTipsShow(false);
-    axios
-      .post(API_PREFIX + "/simu_dec", param1)
-      .then(function (response){
-        setCountLen(response.data.dec_density.length);
-        setGroup(response.data.dec_group);
-        setData(response.data.dec_density);
-        setHrefLink(response.data.storage_host_parameter_reference);
-        setLoading(false);
-  })}else{
+    setAlreadyRun(true);
+    setCountLen(props.response.DEC.dec_density.length);
+    setGroup(props.response.DEC.dec_group);
+    setData(props.response.DEC.dec_density);
+    // setHrefLink(response.data.storage_host_parameter_reference);
+    setLoading(false);
+
+  }else{
     console.log('eff2',props.effect2);
   }
   },[props.effect2])
@@ -165,7 +165,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
   const show = props.okFlag && props.decayFlag
   return (
     <div className={`simulation-step-content`}>
-      <Card title="Decay" className={`${show ? null : "simulation-content-masked"}`}>
+      <Card title="Decay" className={`${show ? null : "simulation-content-masked"}`} headStyle={{fontSize:"18px"}}>
         <Row>
           <Col span={12}>
             <div className="decayLeft">

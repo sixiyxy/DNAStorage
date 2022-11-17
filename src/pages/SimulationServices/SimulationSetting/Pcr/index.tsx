@@ -23,7 +23,7 @@ export class PcrProps {
   pcrFlag;
   okFlag;
   effect3;
-  
+  response;
 }
 
 export const Pcr: React.FC<PcrProps> = (props) => {
@@ -98,16 +98,14 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     if (props.effect3 == true){
     setLoading(true);
     setNoDataTipsShow(false);
-    axios
-      .post(API_PREFIX + "/simu_pcr", param1)
-      .then(function (response){
-        setCountLen(response.data.pcr_density.length);
-    // setErrorData(response?.data?.pcr_error_density);
-        setGroup(response.data.pcr_group);
-        setDensityData(response.data.pcr_density);
-        setHrefLink(response.data.synthesis_method_reference);
-        setLoading(false);
-  })}else{
+    setAlreadyRun(true);
+    setCountLen(props.response.PCR.pcr_density.length);
+    setGroup(props.response.PCR.pcr_group);
+    setDensityData(props.response.PCR.pcr_density);
+    // setHrefLink(props.response.PCR.synthesis_method_reference);
+    setLoading(false);
+  
+  }else{
     console.log('eff3',props.effect3);
   }
   },[props.effect3])
@@ -230,7 +228,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
 
   return (
     <div className="simulation-step-content">
-      <Card title="PCR" className={`${show ? null : "simulation-content-masked"}`}>
+      <Card title="PCR" className={`${show ? null : "simulation-content-masked"}`} headStyle={{fontSize:"18px"}}>
         <Row>
           <Col span={12}>
             <div className="PCRLeft">
