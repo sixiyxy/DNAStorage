@@ -1,5 +1,5 @@
 import {Histogram} from "@ant-design/charts";
-import {InboxOutlined} from "@ant-design/icons";
+
 import {
   Button,
   Card,
@@ -21,7 +21,7 @@ import {doPost} from "../../../../utils/request";
 import axios from "axios";
 import {API_PREFIX} from "../../../../common/Config";
 
-const {Dragger} = Upload;
+
 
 export class SynthesisProps {
   changeSider?;
@@ -30,6 +30,7 @@ export class SynthesisProps {
   setFileId;
   okFlag;
   effect1;
+  response;
 }
 
 export const Synthesis: React.FC<SynthesisProps> = (props) => {
@@ -43,7 +44,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [isOkDisable, setIsOkDisable] = useState(true);
+  
   const [group, setGroup] = useState();
   const [alreadyRun, setAlreadyRun] = useState(false);
 
@@ -84,7 +85,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       setHrefLink(response?.data?.synthesis_method_reference);
       setLoading(false);
     });
-    props.setIsSynthesis(true);
+    // props.setIsSynthesis(true);
   };
   const param1 = {
     file_uid: "1582175684011364352", //待确认
@@ -98,18 +99,17 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     if (props.effect1 == true){
     setLoading(true);
     setNoDataTipsShow(false);
-    axios
-      .post(API_PREFIX + "/simu_synthesis", param1)
-      .then(function (response){
-        setCountLen(response.data.syn_density.length);
-        setGroup(response.data.density_group);
-        setData(response.data.syn_density);
-        setHrefLink(response.data.synthesis_method_reference);
-        setLoading(false);
-        props.setIsSynthesis(true);
-        
-        // props.setEffct1(false)
-  })}else{
+    setAlreadyRun(true);
+    console.log('SYN',props.response);
+    setCountLen(props.response.SYN.syn_density.length);
+    setGroup(props.response.SYN.density_group);
+    setData(props.response.SYN.syn_density);
+    // setHrefLink(response.data.synthesis_method_reference);
+    setLoading(false);
+    // props.setIsSynthesis(true);
+
+  // })
+  }else{
     console.log('eff1',props.effect1);
   }
   },[props.effect1])
@@ -130,41 +130,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   //   props.changeSider(["0-1-1"]);
   // };
 
-  const uploadProps = {
-    name: "file",
-    multiple: true,
-    action: API_PREFIX + "/dna_upload",
-    onChange(info) {
-      const {status, response} = info.file;
-      console.log("status", info);
-      if (status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-      if (status === "done") {
-        props.setFileId(response.file_uid);
-
-        setIsOkDisable(false);
-        message.success(`${info.file.name} file uploaded successfully.`);
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-    onDrop(e) {
-      //console.log("Dropped files", e.dataTransfer.files);
-    },
-  };
-
-  const beforeUpload = (file) => {
-    const {name} = file;
-    const type = name.split(".")[1];
-
-    const isFasta = type === "fasta";
-    if (!isFasta) {
-      message.error("You can only upload fasta file!");
-    }
-
-    return isFasta;
-  };
+  
   //数据生成
   // const chartData = useMemo(() => {
   //   return data?.map((item) => {
@@ -248,32 +214,10 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
 
   return (
     <div>
-      <div className="simulation-step-content">
-        <Card className="simulation-card" bordered={false} title="Upload Dna File">
-          <Dragger
-            className="simulation-synthesis-uploader"
-            {...uploadProps}
-            beforeUpload={beforeUpload}
-            accept=".fasta"
-            maxCount={1}
-            onRemove={() => {
-              setIsOkDisable(true);
-            }}
-          >
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined/>
-            </p>
-            <p className="ant-upload-text">Click this area to upload</p>
-            <p className="ant-upload-hint">
-              Support for a single or bulk upload. Strictly prohibit from uploading company data or
-              other band files
-            </p>
-          </Dragger>
-        </Card>
-      </div>
+      
 
       <div className="simulation-step-content">
-        <Card title="Synthesis" className={`${show ? null : "simulation-content-masked"}`}>
+        <Card title="Synthesis" className={`${show ? null : "simulation-content-masked"}`} headStyle={{fontSize:"18px"}}>
           <Row>
             <Col span={12}>
             <div className="simulationLeft">
