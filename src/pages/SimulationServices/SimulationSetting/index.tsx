@@ -225,6 +225,17 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           {/* </div> */}
         </Card>
 
+        {/*据说不要 Note 了但以防该需求先把代码留着*/}
+        {/*{!props.needUploader && (*/}
+        {/*  <Card title="Note" bordered={false}>*/}
+        {/*    <p>*/}
+        {/*      This stage would simulate error occurrences that happened under the real*/}
+        {/*      application.You could adjust the parameters for each stage accordingly or simply skip*/}
+        {/*      some stages.It is also possible to skip the whole error simulation stage.*/}
+        {/*    </p>*/}
+        {/*  </Card>*/}
+        {/*)}*/}
+
         {props.needUploader && (
           <div className="simulation-step-content">
             <Card
