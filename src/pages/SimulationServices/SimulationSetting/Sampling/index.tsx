@@ -15,7 +15,7 @@ export class SamplingProps {
   setSAMRUN;
   samrun;
   setSEQRUN;
-  seqrun;
+  method1;
 }
 
 export const Sampling: React.FC<SamplingProps> = (props) => {
@@ -61,7 +61,12 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     setDensityData(resp.sam_density);
     setHrefLink(resp.synthesis_method_reference);
     setLoading(false);
-    props.setSEQRUN(false)
+
+    if(!props.method1[3]){
+      props.setSEQRUN(false)
+    }else{
+      console.log('just synthesis'); 
+    }
   };
   const param1 = {
   sam_ratio:0.005,

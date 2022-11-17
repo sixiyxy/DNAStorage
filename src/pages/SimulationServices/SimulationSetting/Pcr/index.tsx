@@ -27,7 +27,8 @@ export class PcrProps {
   setPCRRUN;
   pcrrun;
   setSAMRUN;
-  samrun;
+  setSEQRUN;
+  method1;
 
 }
 
@@ -90,7 +91,14 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     setDensityData(resp.pcr_density);
     setHrefLink(resp.synthesis_method_reference);
     setLoading(false);
-    props.setSAMRUN(false)
+
+    if(!props.method1[2]){
+      props.setSAMRUN(false)
+    }else if(!props.method1[3]){
+      props.setSEQRUN(false)
+    }else{
+      console.log('just synthesis'); 
+    }
   };
 
   const param1 = {  

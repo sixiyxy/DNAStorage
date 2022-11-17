@@ -1,23 +1,17 @@
-import React, { createContext, useMemo, useState,useEffect} from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./index.less";
-import { Breadcrumb, Layout, Menu } from "antd";
-
-import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
 import type { MenuProps } from "antd";
+import { Layout, Menu } from "antd";
 import { Encode } from "./Encode";
 import { SimulationReport } from "./SimulationReport";
 import { Decode } from "./Decode";
 import { Report } from "./Report";
-import { SimulationSetting } from "./SimulationSetting";
+import { SimulationSetting } from "../SimulationServices/SimulationSetting";
+
 const { Header, Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
 
 export class ServicesProps {}
-import "./index.less";
 
 const siderLabel = ["Encode Data", "Simulation", "Decode"];
 // function getItem(
@@ -62,7 +56,7 @@ const siderLabel = ["Encode Data", "Simulation", "Decode"];
 //     <i className="iconfont icon-Decode-File" style={{ display: "inline" }}></i>
 //   ),
 // ];
-var infos = {
+const infos = {
   bit_size: 0,
   byte_size: 0,
   encode_method: "None",
@@ -71,16 +65,16 @@ var infos = {
   segment_number: 0,
   verify_method: "None",
 };
-var DNAinfos = {
+const DNAinfos = {
   DNA_sequence: 0,
   encoding_time: 0,
   information_density: 0,
   nucleotide_counts: 0,
   min_free_energy: 0,
-  net_information_density:0,
+  net_information_density: 0,
   // min_free_energy_below_30kcal_mol:"0.0%",
 };
-var FileValue = {
+const FileValue = {
   fileId: "None",
   filerename: "None",
   filetype: "None",
@@ -100,18 +94,13 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [fileURL, setFileURL] = useState("");
   const [spinflag, setSpin] = useState(true);
   const [exam, setExam] = useState(false);
-  const [mini,setMini]=useState(0)
+  const [mini, setMini] = useState(0);
   const items1 = useMemo(() => {
     return [
       {
         label: "Encode",
         key: "0-0",
-        icon: (
-          <i
-            className="iconfont icon-Encode-File"
-            style={{ display: "inline" }}
-          ></i>
-        ),
+        icon: <i className="iconfont icon-Encode-File" style={{ display: "inline" }}></i>,
         children: [
           {
             label: "Setting",
@@ -127,12 +116,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
       {
         label: "Simulation",
         key: "0-1",
-        icon: (
-          <i
-            className="iconfont icon-monidanping"
-            style={{ display: "inline" }}
-          ></i>
-        ),
+        icon: <i className="iconfont icon-monidanping" style={{ display: "inline" }}></i>,
         children: [
           {
             label: "Setting",
@@ -148,12 +132,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
       {
         label: "Decode",
         key: "0-2",
-        icon: (
-          <i
-            className="iconfont icon-Decode-File"
-            style={{ display: "inline" }}
-          ></i>
-        ),
+        icon: <i className="iconfont icon-Decode-File" style={{ display: "inline" }}></i>,
       },
     ];
   }, [isSynthesis]);
@@ -202,9 +181,9 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
   };
-  useEffect(()=>{
-    window.scrollTo(0,0);
-  },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="service-content">
       <Menu
@@ -262,7 +241,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
         <SimulationReport changeSider={setSiderSelect} fileId={fileId} />
       ) : null}
       {siderSelect[0] === "0-1-0" ? (
-        <SimulationSetting changeSider={setSiderSelect} fileId={fileId} />
+        <SimulationSetting changeSider={setSiderSelect} fileId={fileId} needUploader={false} />
       ) : null}
       {siderSelect[0] === "0-2" ? <Decode fileId={fileId} /> : null}
     </div>
