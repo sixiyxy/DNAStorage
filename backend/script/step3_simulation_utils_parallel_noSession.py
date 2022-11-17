@@ -73,7 +73,6 @@ def get_info(file_uid,upload_flag,final_parallel=False):
                 simu_repo[func]["error_param"]=file_info[func]
             except:
                 pass
-        print("ssssssimu",simu_repo)
         simu_dna=simu_dna
         return simu_dna,file_info_path,funcs_final,funcs,file_uid,simu_repo
 
@@ -257,7 +256,7 @@ def get_simu_repo(file_uid,upload_flag):
                             f.write(str(re[2])+"\n") # dna sequence
                             index+=1
                         
-
+        print(simu_repo)
         return simu_repo
 
 def calculate_density(dnas,layer=False):
@@ -278,8 +277,10 @@ def calculate_density(dnas,layer=False):
             n_group-=1
         nums_count = sorted(nums_count.items(), key=lambda e: e[0])
         
-        
-        group=int(len(nums_count)/n_group)
+        try:
+            group=int(len(nums_count)/n_group)
+        except:
+            group=1
         if group>10:
             groups=[]
             for i in range(0,len(nums_count)//group):
@@ -359,7 +360,9 @@ def parallel(simu_dna,funcs,funcs_names):
                 #for front end data processsing 
                 error_recorder_final={}
                 for index,i in enumerate (funcs_names):
+                        error_recorder[index]=density_front_end_solver([error_recorder[index],{'+':0,"-":0,"s":0,"e":0,"n":0}])
                         error_recorder_final[i]=error_recorder[index]
+                print(error_recorder_final)
                 error_density_final=[]
                 for index,density in enumerate(error_density):
                     density = sorted(density.items(), key=lambda e: e[0])
@@ -368,7 +371,18 @@ def parallel(simu_dna,funcs,funcs_names):
         t2 = time.time()
         print('cut size {},threads {}, pool time {}'.format(cut,thread,t2-t1))
         print("Done")
+        print(error_recorder_final)
         return dnas,error_recorder_final,error_density_final
+
+def density_front_end_solver(dictlist):
+    outdic = {}
+    for d in dictlist:
+        for k in d.keys():
+            outdic[k] = 0
+    for d in dictlist:
+        for k in d.keys():
+            outdic[k]=max(outdic[k]+d[k],0.1)
+    return outdic
 
 def cut_file(simu_dna,cut_size):
     

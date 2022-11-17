@@ -127,8 +127,12 @@ class Sequencer_simu:
 
     def sample(self, dnas):
         rNs = [dna['num'] for dna in dnas]
+        
         average_copies = sum(rNs) / len(rNs)
-        ratio = max(self.seq_depth / average_copies,1) #in case too big
+        try:
+            ratio = max(self.seq_depth / average_copies,1) #in case too big
+        except:
+            ratio=0
         dnas = Sampler_simu(p=ratio)(dnas)
         return dnas
 
@@ -239,7 +243,7 @@ class Sampler_simu:
         for dna in out_dnas:
             dna['re'],error_recorder = self.run(dna['re'],error_recorder)
             dna['num'] = sum([tp[0] for tp in dna['re']])
-        #print(error_recorder)
+
         return out_dnas,error_recorder
         
 class ErrorAdder_simu:
@@ -363,7 +367,7 @@ class ErrorAdder_simu:
                 Errors.append([pos,'+',dna[pos]])
         return Errors
 
-    def run(self, ori_dna, re_dnas,new_error_recorder):
+    def run(self, ori_dna, re_dnas):
         ori_dna = np.array(list(ori_dna))
         new_types = []
         for re_dna in re_dnas:
@@ -371,17 +375,14 @@ class ErrorAdder_simu:
                 new_error = self.genNewError(ori_dna)
                 if len(new_error) > 0:
                     new_types.append([1, re_dna[1] + new_error])
-                    for err in new_error:
-                        new_error_recorder[err[1]]+=1
                     re_dna[0] -= 1
        
-        return re_dnas + new_types,new_error_recorder
+        return re_dnas + new_types
 
     def __call__(self, dnas, apply=True):
         out_dnas=dnas
-        new_error_recorder={'+':0,'-':0,'s':0}
         for dna in out_dnas:
-            dna['re'],new_error_recorder = self.run(dna['ori'], dna['re'],new_error_recorder)
+            dna['re'] = self.run(dna['ori'], dna['re'])
         if apply:
             out_dnas,error_recorder = self.apply_batch(out_dnas)
         return out_dnas,error_recorder
@@ -436,8 +437,6 @@ class ErrorAdder_simu:
                             except:
                                 pass
             dna['re']=re
-        #recorder["n"]=recorder['n']-recorder['+']-recorder['-']-recorder['s']
-        #print(recorder)
         return dnas,recorder
 
 def genTm(prob):
