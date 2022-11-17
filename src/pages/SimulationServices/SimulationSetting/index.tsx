@@ -314,6 +314,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
               shape="round"
               size="large"
               onClick={handleOK}
+              disabled={okFlag}
               style={{ marginLeft: "50px" }}
             >
               OK

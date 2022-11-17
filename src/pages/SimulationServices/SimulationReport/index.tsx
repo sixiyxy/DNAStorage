@@ -657,6 +657,26 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
 
     //   },
     // },
+    yAxis:{
+      value:{
+        title:{
+          text:'ln(y1)',
+          offset:60,
+        }
+      },
+      count:{
+        title:{
+          text:'ln(y2)',
+          offset:60,
+        }
+      }
+    },
+    xAxis: {
+      title:{
+        text:'Stage',
+        offset:50,
+      },
+    },
     meta: {
       value: {
         formatter: (value: any) => {
@@ -752,6 +772,18 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     maxBarWidth: 100,
     height: 400,
     barWidthRatio: 0.4,
+    yAxis:{
+      title:{
+        text:'Stage',
+        offset:50,
+      }
+    },
+    xAxis: {
+      title:{
+        text:'Percentage',
+        offset:50,
+      },
+    },
     // isPercent: true,
     label: {
       // 可手动配置 label 数据标签位置
@@ -774,6 +806,29 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         },
       ],
     },
+    // tooltip:{
+    //   position:'bottom',
+    //   customContent:(title,data)=>{
+    //     return (`<div>
+    //     </br>
+    //     <h3>Erro counts</h3>
+    //     </br>
+    //       <h3>0 : ${errorDensity} </h3>
+    //       </br>
+    //       <h3>1 : ${props.index} </h3>
+    //       </br>
+    //       <h3>2 : ${veri} </h3>
+    //       </br>
+    //       <h3>3 : ${props.seg} </h3>
+    //       </br>
+    //       <h3>4 : ${props.index} </h3>
+    //       </br>
+    //       <h3>5 : ${veri} </h3>
+    //       </br>
+    //       <h3>6 : ${veri} </h3>
+    //     </div>`)
+    //   }
+    // }
     // tooltip: {
     //   type: {
     //     formatter: (value: any) => {
@@ -880,7 +935,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         style={{ marginTop: "250px"}}
         spinning={spinflag}
       >
-      <Card style={{ width: 800, height: 500, marginLeft: "20px" }}>
+      <Card style={{ width: 900, height: 500, marginLeft: "20px" }}>
         <Tabs defaultActiveKey="1" size={"large"}>
           <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined} >
           <div className="TabSYN">
@@ -963,9 +1018,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           </Tabs.TabPane>
           <Tabs.TabPane tab="Sequencing" key="5" disabled={sequencingData === undefined}>
             <div className="TabSEQ">
-            seq_depth : {sequencingData?.seq_depth}
+            sequencing_depth : {sequencingData?.seq_depth}
             <br />
-            seq_method : {sequencingData?.seq_meth}
+            sequencing_method : {sequencingData?.seq_meth}
             <br />
             {/* seq_method_reference :
             <br />
@@ -985,21 +1040,40 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           </Tabs.TabPane>
         </Tabs>
       </Card>
-      <Card style={{ width: 800, height: 500, marginLeft: "20px" }}>
+      <Card style={{ width: 900, height: 750, marginLeft: "20px" }}>
+        <h3 style={{margin:"10px 0 40px 320px"}}>Sequences Distribution</h3>
+      <div style={{marginLeft:"40px",width:"90%"}}>
         <DualAxes {...dualConfig} />
+      </div>
+      <div style={{margin:"40px 0 50px 40px",width:"90%",textAlign: "justify",fontSize:"17px",color:"#748189"}}>
+      During the whole process, the number of sequences, causes of erors and proposrtions of different types of errors change from time to time. 
+      Therefore, we counted and compared the numbers of DNA strands with errors and the left 100% correct DNA strands for each stage using stacked column chart, 
+      as well as showed the changes of the strands numbers that contained different types of errors using line chart. 
+      Since the difference between the data is too large, each data x here is percented using ln(x). 
+      </div>
       </Card>
-      <Card style={{ width: 800, height: 500, marginLeft: "20px" }}>
+      <Card style={{ width: 900, height: 900, marginLeft: "20px" }}>
+        <h3 style={{margin:"10px 0 40px 380px"}}>Error  Counts </h3>
+        <div style={{marginLeft:"40px",width:"90%"}}>
         <Bar {...ErrorDensityConfig} />
-      </Card>
-      <Button
+        </div>
+        <div style={{margin:"40px 0 50px 40px",width:"92%",textAlign: "justify",fontSize:"17px",color:"#748189"}}>
+        Because the effects of occurred errors are cumulative, It is reasonable that as the simulation proceeds, 
+        both the percentage of strands with errors as well as the average error number for all strands will increase. 
+        Thus, we count the number of strands with a different number of errors for the different stages as shown above. 
+        As we could see, the later the stage is, the higher the number of chains with errors is.
+        <Button
         shape="round"
         size="large"
         type="primary"
-        style={{ margin: "40px 0px 0px 350px" }}
+        style={{ margin: "100px 0px 0px 320px" }}
         onClick={DownloadURL}
       >
         Download
       </Button>
+      </div>
+      </Card>
+      
       </Spin>
       {/* <Card style={{ width: 800, height: 500 }}></Card> */}
     </div>
