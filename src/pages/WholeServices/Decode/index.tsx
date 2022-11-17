@@ -130,9 +130,10 @@ export const Decode: React.FC<DecodeProps> = (props) => {
                 <div style={{display:"flex"}}>
                   <div>
                   <p style={{
-                    margin: "0px 10px 20px 10px",
+                    margin: "0px 30px 20px 10px",
                     fontSize: "15px",
                     width: "400px",
+                    textAlign:"justify",
                   }}>In the DNA storage process, file recovery needs to decode the DNA sequences according to the reverse process of the encoding roles.
                   However，DNA sequences obtained by sequencing usually have random errors(insert\indel\SNV, we have simulated this).
                   So, we designed two clustering algorithms, CD-HIT and Starcode, to remove de-redundancy and correct the sequencing data.
