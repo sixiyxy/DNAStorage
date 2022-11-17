@@ -4,11 +4,11 @@ import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Image } from 'antd';
 import { Breadcrumb } from 'antd';
-import logo from './professor-img-3.png';
-import jlk from './jlk.jpg';
-import yxy from './yxy.jpg';
-import rxr from './rxr.jpg';
-import zzy from './zzy.jpg';
+import logo from '/src/assets/contact/professor-img-3.png';
+import jlk from '/src/assets/contact/jlk.jpg';
+import yxy from '/src/assets/contact/yxy.jpg';
+import rxr from '/src/assets/contact/rxr.jpg';
+import zzy from '/src/assets/contact/zzy.jpg';
 import {
   Col,
   Row
@@ -29,11 +29,11 @@ export const Contact: React.FC<ContactProps> = (props) => {
               </Breadcrumb>
           </div>
               <h1 style={{paddingTop:"30px"}}>Information</h1>
-                <p style={{textAlign:"justify",width:"90%"}}>DNA Storage Designer is developed and maintained by the DMCI Lab team from Department of Computer Science and Technology of Xiamen University. 
-                  Professor Liu conceived of the study, carried out the web server design. 
-                  Likun Jiang participated in website design and carried out writing back-end code. 
-                  Ziyun Zou design and written “Error Simulation”part back-end code. 
-                  Xinyu Yu and Xinru Ruan helped to code the front-end code. 
+                <p style={{textAlign:"justify",width:"90%"}}>DNA Storage Designer is developed and maintained by the DMCI Lab team from Department of Computer Science and Technology of Xiamen University.
+                  Professor Liu conceived of the study, carried out the web server design.
+                  Likun Jiang participated in website design and carried out writing back-end code.
+                  Ziyun Zou design and written “Error Simulation”part back-end code.
+                  Xinyu Yu and Xinru Ruan helped to code the front-end code.
                   Other students helped to conduct literature method research.
                 </p>
                 {/* <h1 style={{paddingTop:"30px",paddingBottom:"10px"}}>People involved in the DNA Storage project:</h1> */}
@@ -41,7 +41,7 @@ export const Contact: React.FC<ContactProps> = (props) => {
                 <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Ziyun Zou, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
                 <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Xinyu Yu, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
                 <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Xinru Ruan, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p> */}
-                
+
               <h1 style={{paddingTop:"30px",paddingBottom:"30px"}}>Introduction of participating members</h1>
               <Row gutter={20}>
               <Col span={5}>
@@ -50,7 +50,8 @@ export const Contact: React.FC<ContactProps> = (props) => {
                   width={"78%"}
                   height={"100%"}
                   src={jlk}
-                  
+                  preview={false}
+
                   />
                   <br/>
                   <br/>
@@ -65,7 +66,8 @@ export const Contact: React.FC<ContactProps> = (props) => {
                   width={"69%"}
                   height={"100%"}
                   src={zzy}
-                  
+                  preview={false}
+
                   />
                   <br/>
                   <br/>
@@ -80,6 +82,7 @@ export const Contact: React.FC<ContactProps> = (props) => {
                   width={"78%"}
                   height={"100%"}
                   src={rxr}
+                  preview={false}
                   />
                   <br/>
                   <br/>
@@ -87,7 +90,7 @@ export const Contact: React.FC<ContactProps> = (props) => {
                   School of Computer Science and Technology<br/>
                   Xiamen University
                 </p>
-              
+
               </Col>
               <Col span={5}>
               <p style={{margin:"0 0 0 100px",width:"75%"}}>
@@ -95,7 +98,8 @@ export const Contact: React.FC<ContactProps> = (props) => {
                   width={"72%"}
                   height={"100%"}
                   src={yxy}
-                  
+                  preview={false}
+
                   />
                   <br/>
                   <br/>
@@ -120,9 +124,10 @@ export const Contact: React.FC<ContactProps> = (props) => {
                 <Image
                 width={"100%"}
                 src={logo}
+                preview={false}
                 />
               </p>
-                
+
                 </Col>
                 <Col span={20} >
                 <p style={{paddingBottom:"200px",paddingTop:"20px",marginLeft:"20px",width:"100%"}}>
@@ -132,13 +137,13 @@ export const Contact: React.FC<ContactProps> = (props) => {
                   Xiamen University<br/>
                   Fujian, China
                 </p>
-                
+
                 </Col>
               </Row>
-              
-              
+
+
           </div>
-            
+
 
         </div>
     </div>
