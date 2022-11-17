@@ -12,15 +12,17 @@ import {
   Spin,
   Tooltip,
 } from "antd";
-import React, {useMemo, useState} from "react";
+import React, {useMemo, useState,useEffect} from "react";
 import "./index.less";
 import {doPost} from "../../../../utils/request";
-
+import axios from "axios";
+import {API_PREFIX} from "../../../../common/Config";
 export class DecayProps {
   changeSider?;
   fileId;
   decayFlag;
   okFlag;
+  effect2;
 }
 
 export const Decay: React.FC<DecayProps> = (props) => {
@@ -82,6 +84,29 @@ export const Decay: React.FC<DecayProps> = (props) => {
     setHrefLink(resp.storage_host_parameter_reference);
     setLoading(false);
   };
+  const param1 = {  file_uid:"1582175684011364352",
+  months_of_storage:24,
+  decay_loss_rate:0.3,
+  storage_host:"Hsapiens",
+  upload_flag:"True"
+  };
+
+  useEffect(()=>{
+    if (props.effect2 == true){
+    setLoading(true);
+    setNoDataTipsShow(false);
+    axios
+      .post(API_PREFIX + "/simu_dec", param1)
+      .then(function (response){
+        setCountLen(response.data.dec_density.length);
+        setGroup(response.data.dec_group);
+        setData(response.data.dec_density);
+        setHrefLink(response.data.storage_host_parameter_reference);
+        setLoading(false);
+  })}else{
+    console.log('eff2',props.effect2);
+  }
+  },[props.effect2])
 
   const params = useMemo(() => {
     // console.log('decay11.15',props.fileId);
@@ -102,6 +127,18 @@ export const Decay: React.FC<DecayProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
+      yAxis:{
+        title:{
+          text:'Percentage',
+          offset:60,
+        }
+      },
+      xAxis: {
+        title:{
+          text:'Copies Number',
+          offset:50,
+        },
+      },
       meta: {
         count: {
           alias: "percentage",
@@ -231,9 +268,9 @@ export const Decay: React.FC<DecayProps> = (props) => {
           </Col>
           <Col span={12}>
             <Card>
-              <div>
+              {/* <div>
                 After synthesis simulation, the situation of oligonucleotides pool as follows:
-              </div>
+              </div> */}
               <div>
                 {noDataTipsShow ? (
                   <Empty
@@ -249,7 +286,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
                   </div>
                 ) : (
                   <div>
-                    <div style={{marginBottom:"30px"}}>copies:</div>
+                    <div style={{marginBottom:"50px",fontSize:"15px"}}>After simulation of decay, the sequence number distribution of oligonucleotides pool is as follows:</div>
                     <Histogram {...config} />
                   </div>
                 )}

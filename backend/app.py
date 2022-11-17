@@ -1,6 +1,7 @@
 import os
 import json
 import time
+import yaml
 
 from flask import Flask, render_template,session
 from flask import request,send_from_directory
@@ -295,7 +296,7 @@ def simu_repo():
     upload_flag=front_data['upload_flag']
 
     simu_repo=simu_utils.get_simu_repo(file_uid,upload_flag)
-    
+    print(simu_repo)
     return json.dumps(simu_repo)
     
 @app.route('/decode',methods=['GET','POST'])
@@ -337,7 +338,13 @@ def download():
     else:
         return "Please make sure the uid has been encode or simulation!"
 
-
+@app.route('/simu_example',methods=['GET','POST'])
+def simu_example():
+    yaml_path='backend/upload_dna/example.yaml'
+    f = open(yaml_path)
+    config_data = f.read()
+    config = yaml.load(config_data,Loader=yaml.FullLoader)
+    return json.dumps(config)
 
 if __name__ == '__main__':
     CORS(app,supports_credentials=True)

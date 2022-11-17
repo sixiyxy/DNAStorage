@@ -5,7 +5,7 @@ import yaml
 import random
 import tarfile
 from datetime import datetime
-
+from .simulation_utils import funcs_parameter
 
 def get_config(yaml_path=''):
     now_dir = os.path.dirname(os.path.abspath(__file__))
@@ -49,9 +49,10 @@ def write_yaml(yaml_path,data,appending):
                 yaml_ori=yaml.load(f,Loader=yaml.FullLoader)
                 yaml_ori['simu']=data['simu']
             with open(yaml_path,"w",encoding="utf-8") as f:
-                yaml.dump(yaml_ori,f)
                 del data['simu']
                 yaml.dump(data,f)
+                yaml.dump(yaml_ori,f)
+                
     return display_data
 
 def write_dna_file(path,demo_path, dna_sequences):

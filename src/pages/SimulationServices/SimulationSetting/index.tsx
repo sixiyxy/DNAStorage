@@ -30,16 +30,18 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [dis2, setDis2] = useState(false);
   const [dis3, setDis3] = useState(false);
   const [dis4, setDis4] = useState(false);
-  // const handleChange = (value) => {
-  //   if (value.indexOf("synthesis") === -1) {
-  //     value.unshift("synthesis");
-  //     message.error("synthesis is a required step");
-  //   }
-  //   setMethod(value);
-  // };
-  // const handleOk = () => {
-  //   setAlreadyChose(true);
-  // };
+  //控制步骤Effect的状态,一开始为false不执行
+  const [effect1,setEffct1] = useState(false);
+  const [effect2,setEffct2] = useState(false);
+  const [effect3,setEffct3] = useState(false);
+  const [effect4,setEffct4] = useState(false);
+  const [effect5,setEffct5] = useState(false);
+  //控制每个步骤完成的状态
+  // const [ok1,setOK1] = useState(false);
+  // const [ok2,setOK2] = useState(false);
+  // const [ok3,setOK3] = useState(false);
+  // const [ok4,setOK4] = useState(false);
+  // const [ok5,setOK5] = useState(false);
 
   const handleReport = () => {
     method = [false, false, false, false];
@@ -83,14 +85,26 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setDis4(false);
     window.location.reload();
   };
+
   const handleEXM = () =>{
     method = [true, true, true, true];
-    // setOkFlag(false);
-    // setDecayFlag(false);
-    // setPcrFlag(false);
-    // setSampleFlag(false);
-    // setSequenceFlag(false);
-
+    //点击Example后按钮全部禁掉 默认id"1582175684011364352"
+    setOkFlag(true);
+    setDecayFlag(true);
+    setPcrFlag(true);
+    setSampleFlag(true);
+    setSequenceFlag(true);
+    setDis0(true);
+    setDis1(true);
+    setDis2(true);
+    setDis3(true);
+    setDis4(true);
+    //控制每个步骤的useEffect
+    setEffct1(true);
+    setEffct2(true);
+    setEffct3(true);
+    setEffct4(true);
+    setEffct5(true);
   }
   console.log(okFlag, decayFlag, pcrFlag, sampleFlag, sequenceFlag);
 
@@ -154,11 +168,11 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
         </Card>
       </div>
       <div>
-        <Synthesis fileId={props.fileId} setFileId={props.setFileId} okFlag={okFlag}/>
-        <Decay fileId={props.fileId} decayFlag={decayFlag} okFlag={okFlag}/>
-        <Pcr fileId={props.fileId} pcrFlag={pcrFlag} okFlag={okFlag}/>
-        <Sampling fileId={props.fileId} sampleFlag={sampleFlag} okFlag={okFlag}/>
-        <Sequencing fileId={props.fileId} sequenceFlag={sequenceFlag} okFlag={okFlag}/>
+        <Synthesis fileId={props.fileId} setFileId={props.setFileId} okFlag={okFlag} effect1={effect1}/>
+        <Decay fileId={props.fileId} decayFlag={decayFlag} okFlag={okFlag} effect2={effect2} />
+        <Pcr fileId={props.fileId} pcrFlag={pcrFlag} okFlag={okFlag} effect3={effect3}/>
+        <Sampling fileId={props.fileId} sampleFlag={sampleFlag} okFlag={okFlag} effect4={effect4}/>
+        <Sequencing fileId={props.fileId} sequenceFlag={sequenceFlag} okFlag={okFlag} effect5={effect5}/>
       </div>
 
       {/* {method.indexOf("decay") !== -1 ? <Decay fileId={props.fileId} /> : null}
