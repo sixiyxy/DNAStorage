@@ -24,6 +24,11 @@ export class PcrProps {
   okFlag;
   effect3;
   response;
+  setPCRRUN;
+  pcrrun;
+  setSAMRUN;
+  samrun;
+
 }
 
 export const Pcr: React.FC<PcrProps> = (props) => {
@@ -76,7 +81,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   const handleOk = async () => {
     setLoading(true);
     setNoDataTipsShow(false);
-    setAlreadyRun(true);
+    props.setPCRRUN(true);
     // todo 将请求接口 ts 化，否则无法移除警告
     const resp: any = await doPost("/simu_pcr", {body: params});
     setCountLen(resp.pcr_density.length);
@@ -85,6 +90,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     setDensityData(resp.pcr_density);
     setHrefLink(resp.synthesis_method_reference);
     setLoading(false);
+    props.setSAMRUN(false)
   };
 
   const param1 = {  
@@ -98,7 +104,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     if (props.effect3 == true){
     setLoading(true);
     setNoDataTipsShow(false);
-    setAlreadyRun(true);
+    props.setPCRRUN(true);
     setCountLen(props.response.PCR.pcr_density.length);
     setGroup(props.response.PCR.pcr_group);
     setDensityData(props.response.PCR.pcr_density);
@@ -319,7 +325,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
                 size="large"
                 shape="round"
                 onClick={handleOk}
-                disabled={alreadyRun}
+                disabled={props.pcrrun}
               >
                 OK
               </Button>

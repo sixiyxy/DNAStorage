@@ -24,6 +24,10 @@ export class DecayProps {
   okFlag;
   effect2;
   response;
+  setDECRUN;
+  decrun;
+  setPCRRUN;
+  pcrrun;
 }
 
 export const Decay: React.FC<DecayProps> = (props) => {
@@ -73,7 +77,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
   const handleOk = async () => {
     setLoading(true);
     setNoDataTipsShow(false);
-    setAlreadyRun(true);
+    props.setDECRUN(true);
     console.log('decay11.15',props.fileId);
     console.log(typeof(props.fileId));
     
@@ -84,6 +88,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
     setData(resp.dec_density);
     setHrefLink(resp.storage_host_parameter_reference);
     setLoading(false);
+    props.setPCRRUN(false)
   };
   const param1 = {  file_uid:"1582175684011364352",
   months_of_storage:24,
@@ -96,13 +101,13 @@ export const Decay: React.FC<DecayProps> = (props) => {
     if (props.effect2 == true){
     setLoading(true);
     setNoDataTipsShow(false);
-    setAlreadyRun(true);
+    props.setDECRUN(true);
     setCountLen(props.response.DEC.dec_density.length);
     setGroup(props.response.DEC.dec_group);
     setData(props.response.DEC.dec_density);
     // setHrefLink(response.data.storage_host_parameter_reference);
     setLoading(false);
-
+    
   }else{
     console.log('eff2',props.effect2);
   }
@@ -185,14 +190,14 @@ export const Decay: React.FC<DecayProps> = (props) => {
               />
             </div>
             <div className="simulation-row">
-              <div>
+              <div style={{paddingTop:'10px'}}>
                 <span>Loss Rate : </span>
                 <Tooltip title="Total loss rate during storage. ">
                   <i
                     className="iconfont icon-wenhao"
                   />
                 </Tooltip>
-              </div>
+              
               <Row>
                 <Col span={12}>
                   <Slider
@@ -214,8 +219,10 @@ export const Decay: React.FC<DecayProps> = (props) => {
                   />
                 </Col>
               </Row>
+              </div>
             </div>
             <div className="simulation-row">
+              <div style={{paddingTop:'15px'}}>
               <span>Storage Host :</span>
               <Select onChange={handleChange} value={method} className="simulation-selector">
                 <OptGroup label="Eukaryotic">
@@ -243,9 +250,10 @@ export const Decay: React.FC<DecayProps> = (props) => {
                   <Option value="Ecoli">E Coli</Option>
                 </OptGroup>
               </Select>
+              </div>
             </div>
             <div className="simulation-buttons">
-              <Button size="large" shape="round" onClick={handleOk} disabled={alreadyRun}>
+              <Button size="large" shape="round" onClick={handleOk} disabled={props.decrun}>
                 OK
               </Button>
               {/* <Button shape="round" size="large" onClick={handleReset}>

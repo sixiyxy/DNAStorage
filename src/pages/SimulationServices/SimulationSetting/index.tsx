@@ -44,6 +44,12 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [effect5,setEffct5] = useState(false);
   const [isOkDisable, setIsOkDisable] = useState(true);
   const [response,setRes] = useState({})
+  //控制每个步骤按钮disabled状态
+  const [alreadyRun, setAlreadyRun] = useState(false);
+  const [decrun,setDECRUN] = useState(true)
+  const [pcrrun,setPCRRUN] = useState(true)
+  const [samrun,setSAMRUN] = useState(true)
+  const [seqrun,setSEQRUN] = useState(true)
   const {Dragger} = Upload;
   useEffect(() => {
     props.setIsdisabled(true)
@@ -176,30 +182,16 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     <div className="page-simulation-setting">
       {/*头部 Card 部分*/}
       <div>
-      <div style={{width:"100%"}} className="example-setting">
-        <Card title="Run Example!">
-           <Row gutter={15}>
-            <Col span={10}>
-              <Image
-              width={"100%"}
-              // height={"50%"}
-              src={simu}      
-              />
-            </Col>
-            <Col span={5}>
-                <div >
-                  {/* <p style={{fontSize:"18px"}}>
-                      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx<br></br>xxxxxxxxxxxxxxxxx
-                    </p> */}
-                    <p style={{textAlign:"justify"}}>
-                      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
-                  <div style={{margin:"50px 0 0 150px"}}>
+      
+        <Card title="Summary" headStyle={{fontSize:"18px"}} >
+        {/* <div style={{width:"100%"}} className="example-setting"> */}
+           <Row >
+            
+          <Col span={10}>
+                <div style={{marginLeft:"100px"}}>
+                    <div style={{width:"110%",textAlign:"justify",fontSize:"17px"}}>
+                      <p>The simulation service allows user to upload their own fasta DNA file to proceed error simulation stage. It covers the five stages of DNA storage, namely, synthesis, storage decay, PCR, sampling, and sequencing. Except for synthesis, all the other stages are optional, users could simply skip some based on their real needs. They could directly get feedback about how the density changes after setting up each stage and have a detailed report about how errors are introduced and occur at the end.</p>
+                      <div style={{margin:"80px 0 0 0px"}}>
                     <Button
                       className="exm"
                       type="primary"
@@ -210,13 +202,25 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                     Example
                   </Button>
                   </div>
+                      </div>
+                  
                 </div>
-                </Col>
+            </Col>
+            <Col span={10}>
+              <div  style={{marginLeft:"150px"}}  >
+              <Image
+              width={"130%"}
+              // height={"50%"}
+              src={simu}    
+              />
+              </div>
+            </Col>
                 </Row>
+            {/* </div> */}
         </Card>
-        </div>
+        
         <div className="simulation-step-content">
-        <Card className="simulation-card" bordered={false} title="Upload Dna File">
+        <Card className="simulation-card" bordered={false} title="Upload Dna File" headStyle={{fontSize:"18px"}}>
           <Dragger
             className="simulation-synthesis-uploader"
             {...uploadProps}
@@ -232,15 +236,14 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
             </p>
             <p className="ant-upload-text">Click this area to upload</p>
             <p className="ant-upload-hint">
-              Support for a single or bulk upload. Strictly prohibit from uploading company data or
-              other band files
+            Support file types: video, txt, mp3, picture...
             </p>
           </Dragger>
         </Card>
       </div>
 
-        <Card title="Choose the Simulation steps.">
-          <p className="function-bar">
+        <Card title="Choose the Simulation steps." headStyle={{fontSize:"18px"}}>
+          <p className="function-bar" style={{fontSize:"17px"}}>
             Please select the following simulation steps. You can choose to skip some of these
             steps,
             but Synthesis cannot.
@@ -288,11 +291,11 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
         </Card>
       </div>
       <div>
-        <Synthesis fileId={props.fileId} setFileId={props.setFileId} okFlag={okFlag} effect1={effect1} response={response} />
-        <Decay fileId={props.fileId} decayFlag={decayFlag} okFlag={okFlag} effect2={effect2} response={response}/>
-        <Pcr fileId={props.fileId} pcrFlag={pcrFlag} okFlag={okFlag} effect3={effect3} response={response}/>
-        <Sampling fileId={props.fileId} sampleFlag={sampleFlag} okFlag={okFlag} effect4={effect4} response={response}/>
-        <Sequencing fileId={props.fileId} sequenceFlag={sequenceFlag} okFlag={okFlag} effect5={effect5} response={response}/>
+        <Synthesis fileId={props.fileId} setFileId={props.setFileId} okFlag={okFlag} effect1={effect1} response={response} setAlreadyRun={setAlreadyRun} alreadyRun={alreadyRun} setDECRUN={setDECRUN} decrun={decrun}/>
+        <Decay fileId={props.fileId} decayFlag={decayFlag} okFlag={okFlag} effect2={effect2} response={response} setDECRUN={setDECRUN} decrun={decrun} setPCRRUN={setPCRRUN} pcrrun={pcrrun}/>
+        <Pcr fileId={props.fileId} pcrFlag={pcrFlag} okFlag={okFlag} effect3={effect3} response={response} setPCRRUN={setPCRRUN} pcrrun={pcrrun} setSAMRUN={setSAMRUN} samrun={samrun}/>
+        <Sampling fileId={props.fileId} sampleFlag={sampleFlag} okFlag={okFlag} effect4={effect4} response={response} setSAMRUN={setSAMRUN} samrun={samrun} setSEQRUN={setSEQRUN} seqrun={seqrun}/>
+        <Sequencing fileId={props.fileId} sequenceFlag={sequenceFlag} okFlag={okFlag} effect5={effect5} response={response} setSEQRUN={setSEQRUN} seqrun={seqrun}/>
       </div>
       <div className="simulation-footer-buttons">
         <div>
