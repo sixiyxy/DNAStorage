@@ -1,18 +1,10 @@
-import {
-  Breadcrumb,
-  Button,
-  Card,
-  Radio,
-  RadioChangeEvent,
-  Space,
-  Table,
-} from "antd";
+import { Breadcrumb, Button, Card, Radio, RadioChangeEvent, Space, Table } from "antd";
 import axios from "axios";
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Image } from 'antd';
+import { Image } from "antd";
 import "./index.less";
-import {API_PREFIX} from "../../../common/Config";
+import { API_PREFIX } from "../../../common/Config";
 export class DecodeProps {
   fileId;
   changeSider;
@@ -27,7 +19,6 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
     setValue(e.target.value);
   };
 
-  
   // const columns = [
   //   {
   //     title: "Name",
@@ -98,7 +89,6 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
   //   ];
   // }, [data]);
 
-
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
@@ -107,88 +97,97 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
   }, [value, props.fileId]);
 
   const onDecode = function () {
-    axios
-      .post(API_PREFIX + "/decode", params)
-      .then(function (response) {
-        //console.log("decode", response);
-        props.setDecodeData(response?.data);
-        props.setIsDecode(true);
-        props.changeSider(["0-2-1"]);
-      });
+    axios.post(API_PREFIX + "/decode", params).then(function (response) {
+      //console.log("decode", response);
+      props.setDecodeData(response?.data);
+      props.setIsDecode(true);
+      props.changeSider(["0-2-1"]);
+    });
   };
 
   const onExample = function () {
-    axios
-      .post(API_PREFIX + "/example", {type: "decode"})
-      .then(function (response) {
-        //console.log("decode", response);
-        props.setDecodeData(response?.data);
-        props.setIsDecode(true);
-        props.changeSider(["0-2-1"]);
-      });
-  }
+    axios.post(API_PREFIX + "/example", { type: "decode" }).then(function (response) {
+      //console.log("decode", response);
+      props.setDecodeData(response?.data);
+      props.setIsDecode(true);
+      props.changeSider(["0-2-1"]);
+    });
+  };
   return (
-    <div className="decode-content">
-      <div style={{ paddingLeft: "30px", paddingTop: "20px" }}>
-        <Breadcrumb separator=">">
-          <Breadcrumb.Item>
-            <a href="/">Home</a>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <a href="/Services">Service</a>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>Decode</Breadcrumb.Item>
-        </Breadcrumb>
+    <div className="decode-wrapper">
+      {/*导航栏部分*/}
+      <div className="decode-nav-wrapper">
+        <Card>
+          <Breadcrumb separator=">">
+            <Breadcrumb.Item>
+              <a href="/">Home</a>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <a href="/Services">Service</a>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>Decode</Breadcrumb.Item>
+          </Breadcrumb>
+        </Card>
       </div>
-      <div
-              style={{ marginTop: "30px", marginLeft: "120px",width:"100%"}} className="FileInformation"
-            >
-              <Card title="Summary" style={{width:"90%"}} headStyle={{backgroundColor:'#99CCFF'}} >
-                <div style={{display:"flex"}}>
-                  <div>
-                  <p style={{
+      {/*信息介绍部分*/}
+      <div className="decode-information-wrapper">
+        <div className="summary">
+          <Card title="Summary" headStyle={{ backgroundColor: "#99CCFF" }}>
+            <div style={{ display: "flex" }}>
+              <div>
+                <p
+                  style={{
                     margin: "0px 30px 20px 10px",
                     fontSize: "15px",
                     width: "400px",
-                    textAlign:"justify",
-                  }}>In the DNA storage process, file recovery needs to decode the DNA sequences according to the reverse process of the encoding roles.
-                  However，DNA sequences obtained by sequencing usually have random errors(insert\indel\SNV, we have simulated this).
-                  So, we designed two clustering algorithms, CD-HIT and Starcode, to remove de-redundancy and correct the sequencing data.
-                  Then, the clustered sequences will decode according to the rules to obtain bits fragments. Subsequently,
-                  the bits fragments will be removed from the verification code and index code. Finally, we analyze the recovery information of bits fragment in the report.</p>
-                  <Button
-                type="primary"
-                shape="round"
-                size={"large"}
-                style={{width:"100px", margin:"20% 35%"}}
-              >
-                Example
-              </Button>
-                  </div>
-                  <Image src="/src/assets/service/decode.png" />
-                </div>
-              </Card>
-              <Card title="Cluster algorithms" style={{width:"90%"}} headStyle={{backgroundColor:'#99CCFF'}} >
-                <div >
-          <Radio.Group onChange={onChange} value={value}>
-            <Space direction="vertical">
-              <Radio value={"cdhit"}><strong>CD-HIT: </strong>a fast program for clustering and comparing large sets of protein or nucleotide sequences. Bioinformatics 22.13 (2006): 1658-1659. </Radio>
-              <Radio value={"starcode"}><strong>Starcode: </strong>sequence clustering based on all-pairs search. Bioinformatics 31.12 (2015): 1913-1919. </Radio>
-            </Space>
-          </Radio.Group>
-          <Button
-                type="primary"
-                shape="round"
-                size={"large"}
-                style={{width:"100px", margin:"50px 45% 50px"}}
-                onClick={onDecode}
-              >
+                    textAlign: "justify",
+                  }}
+                >
+                  In the DNA storage process, file recovery needs to decode the DNA sequences
+                  according to the reverse process of the encoding roles. However，DNA sequences
+                  obtained by sequencing usually have random errors(insert\indel\SNV, we have
+                  simulated this). So, we designed two clustering algorithms, CD-HIT and Starcode,
+                  to remove de-redundancy and correct the sequencing data. Then, the clustered
+                  sequences will decode according to the rules to obtain bits fragments.
+                  Subsequently, the bits fragments will be removed from the verification code and
+                  index code. Finally, we analyze the recovery information of bits fragment in the
+                  report.
+                </p>
+                <Button
+                  type="primary"
+                  shape="round"
+                  size={"large"}
+                  style={{ width: "100px", margin: "20% 35%" }}
+                >
+                  Example
+                </Button>
+              </div>
+              <Image src="/src/assets/service/decode.png" />
+            </div>
+          </Card>
+        </div>
+        <div className="cluster-algorithm-wrapper">
+          <Card title="Cluster algorithms" headStyle={{ backgroundColor: "#99CCFF" }}>
+            <Radio.Group onChange={onChange} value={value}>
+              <Space direction="vertical">
+                <Radio value={"cdhit"}>
+                  <strong>CD-HIT: </strong>a fast program for clustering and comparing large sets of
+                  protein or nucleotide sequences. Bioinformatics 22.13 (2006): 1658-1659.{" "}
+                </Radio>
+                <Radio value={"starcode"}>
+                  <strong>Starcode: </strong>sequence clustering based on all-pairs search.
+                  Bioinformatics 31.12 (2015): 1913-1919.{" "}
+                </Radio>
+              </Space>
+            </Radio.Group>
+            <div className="decode-button-group">
+              <Button type="primary" shape="round" size={"large"} onClick={onDecode}>
                 Decode
               </Button>
-        </div>
-              </Card>
-
             </div>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 };
