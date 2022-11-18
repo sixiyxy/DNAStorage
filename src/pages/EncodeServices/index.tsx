@@ -89,8 +89,8 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
     window.scrollTo(0,0);
   },[])
   return (
-    <div className="encode-service-content">
-      <div className="service-content">
+    <div className="global-wapper">
+      {/* <div className="encode-service-content"> */}
       
         <Menu
           onClick={onClick}
@@ -102,7 +102,8 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
           items={items1}
           defaultOpenKeys={["0-0"]}
         />
-      
+      <div className="global-encode-content">
+        <div className="encode-service-wrapper">
       {siderSelect[0] === "0-0-0" ? (
       <Encode
         infos={infos}
@@ -146,8 +147,9 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
       />
     
       ) : null}
-      
     </div>
     </div>
+    </div>
+    // </div>
   );
 };

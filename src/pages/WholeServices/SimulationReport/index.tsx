@@ -9,7 +9,7 @@ import type { ColumnsType } from "antd/es/table";
 export class SimulationReportProps {
   changeSider?;
   fileId;
-  clickEXM;
+  
 }
 
 export const SimulationReport: React.FC<SimulationReportProps> = (props) => {

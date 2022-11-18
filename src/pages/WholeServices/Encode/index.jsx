@@ -210,7 +210,7 @@ export const Encode = (props) => {
       <div className="encode-main-body-wrapper">
         <Card>
           {/*标题描述*/}
-          <p>
+          <p className="upload-p">
             <strong>
               <FolderAddTwoTone /> Please upload the storage files:
             </strong>
