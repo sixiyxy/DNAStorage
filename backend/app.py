@@ -36,6 +36,8 @@ def index():
 @app.route('/file_upload',methods=['GET','POST'])
 def file_upload():
     print('\n','#'*25,'File Uploading','#'*25,'\n','#'*60)
+    # don not allow big file than 10M
+    # file size samll than 100kb can not use fundation and yin-yang
     f = request.files['file']
     filename = f.filename
     filetype = f.mimetype

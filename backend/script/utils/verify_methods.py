@@ -192,10 +192,7 @@ class ReedSolomon(AbstractErrorCorrectionCode):
 
         output_list = []
         for one_byte in list(self.tool.encode(byte_list)):
-            # print(one_byte)
             temp_bits = list(map(int, list(bin(one_byte))[2:]))
-            print(one_byte,temp_bits)
-            print([0 for _ in range(8 - len(temp_bits))])
             temp_bits = [0 for _ in range(8 - len(temp_bits))] + temp_bits
             output_list += temp_bits
 
