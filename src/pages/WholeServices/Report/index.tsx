@@ -42,7 +42,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       title: "Name",
       dataIndex: "name1",
-      width: "355px",
+      width: "55%",
       render: (text) => <a>{text}</a>,
     },
     {
@@ -136,7 +136,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "5",
       name1: "Segment number",
-      value1: `${props.info.segment_number} pcs`,
+      value1: props.info.segment_number,
     },
     {
       key: "6",
@@ -151,12 +151,12 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "8",
       name1: "DNA sequence number",
-      value1: `${props.info.segment_number} pcs`,
+      value1: props.info.segment_number,
     },
     {
       key: "9",
       name1: "nucleotide counts",
-      value1: `${props.dnainfo.nucleotide_counts} pcs`,
+      value1: props.dnainfo.nucleotide_counts,
     },
     {
       key: "10",
@@ -208,8 +208,8 @@ export const Report: React.FC<ReportProps> = (props) => {
       <Spin
         tip="Loading..."
         size="large"
-        // spinning={props.spinflag}
-        spinning={false}
+        spinning={props.spinflag}
+        // spinning={false}
         delay={10}
       >
         <div className="encode-report-nav-wrapper">
@@ -223,12 +223,8 @@ export const Report: React.FC<ReportProps> = (props) => {
           </Breadcrumb>
         </div>
         <div className="encode-report-file-information">
-          <Card title="File Information" headStyle={{ backgroundColor: "#99CCFF" }}>
-            <p
-              style={{
-                fontSize: "15px",
-              }}
-            >
+          <Card title="File Information" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
+            <p id="top-word">
               This part displays some basic information about the files uploaded by users.
             </p>
             <Table
@@ -240,16 +236,12 @@ export const Report: React.FC<ReportProps> = (props) => {
           </Card>
         </div>
         <div className="encode-report-encode-information">
-          <Card title="Encode Information" headStyle={{ backgroundColor: "#99CCFF" }}>
-            <p
-              style={{
-                fontSize: "15px",
-              }}
-            >
+          <Card title="Encode Information" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
+            <p id="top-word">
               This part shows the information of the uploaded file during encoding and the result of
-              DNA sequences analysis after encoding. <br></br>
+              DNA sequences analysis after encoding. 
               The analysis of the encoded DNA sequences includes GC-content statics, Homopolymer
-              sequence statics and min free energy calculation.
+              sequence statics and minimum free energy calculation.
             </p>
             <Table columns={columns2} dataSource={data2} pagination={{ position: ["none"] }} />
             <div
@@ -260,18 +252,17 @@ export const Report: React.FC<ReportProps> = (props) => {
                 fontSize: "15px",
               }}
             >
-              <h3>GC_Contact</h3>
+              <h3>GC Content</h3>
               <GLgraph GC={props.GC} />
             </div>
-            <p
-              style={{
-                fontSize: "15px",
-              }}
-            >
+            <div id="gc-word">
+            <p >
               Because the ratio of GC-content is crucial to the stability of DNA sequence. We
-              counted the GC content of each encoded DNA sequence. The X-axis is the percentage of
-              GC content, and the Y-axis is the number of corresponding sequences.
+              counted the GC content of each encoded DNA sequence. The X-Axis is the percentage of
+              GC content, and the Y-Axis is the number of corresponding sequences.
             </p>
+            </div>
+            
             <div
               className="encode-report-graph"
               id="homograph"
@@ -282,16 +273,14 @@ export const Report: React.FC<ReportProps> = (props) => {
               <h3>Homopolymer Length</h3>
               <HomoGraph homo={props.homo} />
             </div>
-            <p
-              style={{
-                fontSize: "15px",
-              }}
-            >
+            <div id="homo-word">
+            <p>
               The presence of repetitive sequences affects the accuracy of synthesis and sequence
               sequencing during DNA storage. So, we counted the number of repeats in the encoded DNA
               sequence. The x-axis is the length of the repeated sequence, and the y-axis is the
               corresponding number.
             </p>
+            </div>
             <div id="energygraph" className="encode-report-graph">
               <h3>Sequence Min Free Energy</h3>
               <EnergyGraph energy={props.energy} />
@@ -307,8 +296,7 @@ export const Report: React.FC<ReportProps> = (props) => {
                   <strong>
                     The sequence average minimum free energy is : {props.dnainfo.min_free_energy}
                   </strong>
-                </p>
-                <p>
+                  <br></br>
                   <strong>
                     The percentage of sequence min free energy below 30 Kcal/mol is : {props.mini} %
                   </strong>

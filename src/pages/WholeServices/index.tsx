@@ -41,7 +41,7 @@ const FileValue = {
 };
 
 export const WholeServices: React.FC<ServicesProps> = (props) => {
-  const [siderSelect, setSiderSelect] = useState(["0-0-1"]);
+  const [siderSelect, setSiderSelect] = useState(["0-0-0"]);
   const [fileId, setFileId] = useState("");
   const [isSynthesis, setIsSynthesis] = useState(false);
   const [isDecode, setIsDecode] = useState(false);

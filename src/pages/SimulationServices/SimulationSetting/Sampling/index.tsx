@@ -71,6 +71,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   const param1 = {
   sam_ratio:0.005,
   file_uid:"1582175684011364352",
+  upload_flag:"True"
   }
   useEffect(()=>{
     if (props.effect4 == true){
@@ -109,6 +110,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
       file_uid: props.fileId,
       // file_uid: "1565536927137009664",
       sam_ratio: samplingRatio,
+      upload_flag:"True"
     };
   }, [samplingRatio, props.fileId]);
 

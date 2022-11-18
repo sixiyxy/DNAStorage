@@ -106,6 +106,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
   months_of_storage:24,
   decay_loss_rate:0.3,
   storage_host:"Hsapiens",
+  upload_flag:"True"
   };
 
   useEffect(()=>{
@@ -132,6 +133,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
       months_of_storage: monthValue,
       decay_loss_rate: lossValue,
       storage_host: method,
+      upload_flag:"True"
     };
   }, [monthValue, lossValue, method, props.fileId]);
 

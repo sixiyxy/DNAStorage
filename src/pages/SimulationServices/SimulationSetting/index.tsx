@@ -57,6 +57,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     if (props.setIsdisabled) {
       props.setIsdisabled(true);
     }
+    props.setclickEXM(false);
   }, []);
   const paramExm = {
     type: "simulation",

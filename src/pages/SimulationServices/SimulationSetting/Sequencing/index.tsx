@@ -118,6 +118,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       // file_uid: "1565536927137009664",
       seq_depth: sequencingDepth,
       seq_meth: method,
+      upload_flag:"True"
     };
   }, [sequencingDepth, method, props.fileId]);
   const config = useMemo(() => {

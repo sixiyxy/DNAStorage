@@ -181,13 +181,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     return [
       {
         name: "Percentage",
-        value: samplingData?.sam_ratio * 1000,
+        value: samplingData?.sam_ratio <= 0.1? samplingData?.sam_ratio * 1000 : samplingData?.sam_ratio*100,
         type: "Ratio Percentage",
       },
 
       {
         name: "Percentage",
-        value: 100 - samplingData?.sam_ratio * 1000,
+        value: samplingData?.sam_ratio <= 0.1? (100 - samplingData?.sam_ratio * 1000): samplingData?.sam_ratio*100,
         type: "Rest",
       },
     ];
