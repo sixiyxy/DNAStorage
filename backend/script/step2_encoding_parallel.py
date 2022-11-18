@@ -23,7 +23,7 @@ encoding_methods = {
     "Goldman":Goldman(need_logs=False),
     "Grass":Grass(need_logs=False),
     "Blawat":Blawat(need_logs=False),
-    "DNA_Fountain":DNAFountain(need_logs=False),
+    "DNA_Fountain":DNAFountain(redundancy=0.5,need_logs=False),
     "Yin_Yang":YinYangCode(need_logs=False)}
 
 
@@ -70,6 +70,7 @@ class Encoding():
         self.decode_file = '{}/{}.npz'.format(self.decode_dir,self.file_uid)
 
     def segment_file(self,data):
+        print('segment files')
         matrix, values = [], data
         self.bit_size = len(values)*8
         for current, value in enumerate(values):
@@ -88,6 +89,7 @@ class Encoding():
         return bit_segments
 
     def connet_index(self,data):
+        print('connect index')
         original_bit_segments = self.segment_file(data)
 
         connected_bit_segments = []
@@ -102,10 +104,11 @@ class Encoding():
         return connected_bit_segments,original_bit_segments,record_index
         
     def verify_code(self,data):
+        print('add verify code')
         connected_bit_segments,original_bit_segments,record_index = self.connet_index(data)
 
         verify_method = verify_methods[self.verify_method]
-        print(len(original_bit_segments[0]),len(connected_bit_segments[0]),len(record_index[0]))
+
         if verify_method == False:
             final_bit_segments, error_correction_length = connected_bit_segments,0
         else:
@@ -231,7 +234,7 @@ class Encoding():
         if self.encode_method in encoding_methods:
             file_data = fromfile(file=self.file_path, dtype=uint8)
             file_size = file_data.shape[0]
-            cut_file_data = cut_file(file_data)
+            cut_file_data = cut_file(file_data,self.encode_method)
 
             with Pool(self.threads) as pool:
                 parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
@@ -311,7 +314,7 @@ if __name__ == '__main__':
     # "verify_method":"Hamming",
     # "encode_method":"Basic"}
     obj = Encoding(file_uid=1565536927137009664,
-                  encode_method='Basic',
+                  encode_method='DNA_Fountain',
                   segment_length=160,
                   index_length=20,
                   verify_method="Hamming")
