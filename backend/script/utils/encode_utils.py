@@ -3,14 +3,18 @@ from numpy import fromfile
 import pandas as pd
 import os
 
-def cut_file(file_data):
+def cut_file(file_data,encode_method):
     file_size = file_data.shape[0]
     cut_file_data = []
-    if file_size <= 1000000000:
-        cut_size = 4000
+    print(file_size)
+    if encode_method == 'DNA_Fountain':
+        cut_size = 1000000
     else:
-        cut_size = 12000 
-            
+        if file_size <= 1000000:
+            cut_size = 4000
+        else:
+            cut_size = 12000 
+
     if file_size <= cut_size:
         cut_file_data.append(list(file_data))
     else:
@@ -21,7 +25,7 @@ def cut_file(file_data):
                 cut_data = file_data[i*cut_size:]
             cut_data = cut_data.tolist()
             cut_file_data.append(cut_data)
-
+    
     return cut_file_data
 
 def gc_homo(dna_sequences):
