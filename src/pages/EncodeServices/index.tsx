@@ -1,21 +1,16 @@
-import React, { createContext, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./index.less";
-import { Breadcrumb, Layout, Menu } from "antd";
-import {
-  AppstoreOutlined,
-  MailOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import  Encode  from "./Encode";
-import { Report } from "./Report";
+import { Layout, Menu } from "antd";
+import { Report } from "../WholeServices/Report";
+import { Encode } from "../WholeServices/Encode";
 
 const { Header, Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
 
 export class ServicesProps {}
-import "./index.less";
-var infos = {
+
+const infos = {
   bit_size: 0,
   byte_size: 0,
   encode_method: "None",
@@ -24,16 +19,16 @@ var infos = {
   segment_number: 0,
   verify_method: "None",
 };
-var DNAinfos = {
+const DNAinfos = {
   DNA_sequence: 0,
   encoding_time: 0,
   information_density: 0,
   nucleotide_counts: 0,
-  min_free_energy:0,
-  net_information_density:0,
+  min_free_energy: 0,
+  net_information_density: 0,
   // min_free_energy_below_30kcal_mol:0,
 };
-var FileValue = {
+const FileValue = {
   fileId: "None",
   filerename: "None",
   filetype: "None",
@@ -52,22 +47,17 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
   const [encodeurl, setEncodeURL] = useState("");
   const [fileURL, setFileURL] = useState("");
   const [spinflag, setSpin] = useState(true);
-  const [exam,setExam] = useState(false)
-  const [mini,setMini]=useState(0)
+  const [exam, setExam] = useState(false);
+  const [mini, setMini] = useState(0);
 
-  let url = new URL(window.location.href);
+  const url = new URL(window.location.href);
   const pathname = url?.pathname;
   const items1 = useMemo(() => {
     return [
       {
         label: "Encode",
         key: "0-0",
-        icon: (
-          <i
-            className="iconfont icon-Encode-File"
-            style={{ display: "inline" }}
-          ></i>
-        ),
+        icon: <i className="iconfont icon-Encode-File" style={{ display: "inline" }}></i>,
         children: [
           {
             label: "Setting",
@@ -79,76 +69,70 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
             disabled: !isSynthesis,
           },
         ],
-      }   
+      },
     ];
   }, [isSynthesis]);
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
   };
-  useEffect(()=>{
-    window.scrollTo(0,0);
-  },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
-    <div className="global-wapper">
-      {/* <div className="encode-service-content"> */}
-      
-        <Menu
-          onClick={onClick}
-          style={{
-            width: 256,
-          }}
-          selectedKeys={siderSelect}
-          mode="inline"
-          items={items1}
-          defaultOpenKeys={["0-0"]}
-        />
-      <div className="global-encode-content">
-        <div className="encode-service-wrapper">
-      {siderSelect[0] === "0-0-0" ? (
-      <Encode
-        infos={infos}
-        setDNAinfo={setDNAinfo}
-        dnainfo={dnainfo}
-        DNAinfos={DNAinfos}
-        changeSider={setSiderSelect}
-        fileId={fileId}
-        setFileId={setFileId}
-        setGC={setGC}
-        setHomo={setHomo}
-        setEncodeURL={setEncodeURL}
-        setFileURL={setFileURL}
-        setEnergy={setEnergy}
-        setInfo={setInfo}
-        setFileInfo={setFileInfo}
-        FileValue={FileValue}
-        fileinfo={fileinfo}
-        setIsSynthesis={setIsSynthesis}
-        setSpin={setSpin}
-        setExam={setExam}
-        setMini={setMini}
-        mini={mini}
-        
-    />
-      ) : null}
-      {siderSelect[0] === "0-0-1" ? (
-        <Report
-          dnainfo={dnainfo}
-          GC={GC}
-          homo={homo}
-          encodeurl={encodeurl}
-          fileURL={fileURL}
-          energy={energy}
-          fileinfo={fileinfo}
-          info={info}
-          fileId={fileId}
-          spinflag={spinflag}
-          exam={exam}
-          mini={mini}
+    <div className="global-wrapper">
+      <Menu
+        className="global-menu"
+        onClick={onClick}
+        selectedKeys={siderSelect}
+        mode="inline"
+        items={items1}
+        defaultOpenKeys={["0-0"]}
       />
-    
-      ) : null}
-    </div>
-    </div>
+      <div className="global-content">
+        <div className="encode-wrapper">
+          {siderSelect[0] === "0-0-0" ? (
+            <Encode
+              infos={infos}
+              setDNAinfo={setDNAinfo}
+              dnainfo={dnainfo}
+              DNAinfos={DNAinfos}
+              changeSider={setSiderSelect}
+              fileId={fileId}
+              setFileId={setFileId}
+              setGC={setGC}
+              setHomo={setHomo}
+              setEncodeURL={setEncodeURL}
+              setFileURL={setFileURL}
+              setEnergy={setEnergy}
+              setInfo={setInfo}
+              setFileInfo={setFileInfo}
+              FileValue={FileValue}
+              fileinfo={fileinfo}
+              setIsSynthesis={setIsSynthesis}
+              setSpin={setSpin}
+              setExam={setExam}
+              setMini={setMini}
+              mini={mini}
+            />
+          ) : null}
+          {siderSelect[0] === "0-0-1" ? (
+            <Report
+              dnainfo={dnainfo}
+              GC={GC}
+              homo={homo}
+              encodeurl={encodeurl}
+              fileURL={fileURL}
+              energy={energy}
+              fileinfo={fileinfo}
+              info={info}
+              fileId={fileId}
+              spinflag={spinflag}
+              exam={exam}
+              mini={mini}
+            />
+          ) : null}
+        </div>
+      </div>
     </div>
     // </div>
   );
