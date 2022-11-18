@@ -271,54 +271,69 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
             Please select the following simulation steps. You can choose to skip some of these
             steps, but Synthesis cannot.
           </p>
-          <div className="button-group">
-            <Button className="step" size="large" disabled={dis0}>
-              Synthesis
-            </Button>
-            <Button
-              className={`step ${decayFlag ? null : "simulation-button-masked"}`}
-              size="large"
-              disabled={dis1}
-              onClick={handleDecay}
-            >
-              Decay
-            </Button>
-            <Button
-              className={`step ${pcrFlag ? null : "simulation-button-masked"}`}
-              size="large"
-              disabled={dis2}
-              onClick={handlePCR}
-            >
-              PCR
-            </Button>
-            <Button
-              className={`step ${sampleFlag ? null : "simulation-button-masked"}`}
-              size="large"
-              disabled={dis3}
-              onClick={handleSampling}
-            >
-              Sampling
-            </Button>
-            <Button
-              className={`step ${sequenceFlag ? null : "simulation-button-masked"}`}
-              size="large"
-              disabled={dis4}
-              onClick={handleSequencing}
-            >
-              Sequencing
-            </Button>
+          <div className="simulation-setting-header-button-group">
+            <div>
+              <Button
+                className="simulation-setting-header-button-step"
+                size="large"
+                disabled={dis0}
+              >
+                Synthesis
+              </Button>
+              <Button
+                className={`simulation-setting-header-button-step ${
+                  decayFlag ? null : "simulation-button-masked"
+                }`}
+                size="large"
+                disabled={dis1}
+                onClick={handleDecay}
+              >
+                Decay
+              </Button>
+              <Button
+                className={`simulation-setting-header-button-step ${
+                  pcrFlag ? null : "simulation-button-masked"
+                }`}
+                size="large"
+                disabled={dis2}
+                onClick={handlePCR}
+              >
+                PCR
+              </Button>
+              <Button
+                className={`simulation-setting-header-button-step ${
+                  sampleFlag ? null : "simulation-button-masked"
+                }`}
+                size="large"
+                disabled={dis3}
+                onClick={handleSampling}
+              >
+                Sampling
+              </Button>
+              <Button
+                className={`simulation-setting-header-button-step ${
+                  sequenceFlag ? null : "simulation-button-masked"
+                }`}
+                size="large"
+                disabled={dis4}
+                onClick={handleSequencing}
+              >
+                Sequencing
+              </Button>
+            </div>
 
-            <Button
-              className="ok"
-              type="primary"
-              shape="round"
-              size="large"
-              onClick={handleOK}
-              disabled={okFlag}
-              style={{ marginLeft: "50px" }}
-            >
-              OK
-            </Button>
+            <div>
+              <Button
+                className="simulation-setting-header-button-ok"
+                type="primary"
+                shape="round"
+                size="large"
+                onClick={handleOK}
+                disabled={okFlag}
+              >
+                OK
+              </Button>
+            </div>
           </div>
         </Card>
       </div>
