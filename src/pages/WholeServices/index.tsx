@@ -57,6 +57,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [exam, setExam] = useState(false);
   const [mini, setMini] = useState(0);
   const [decodeData, setDecodeData] = useState();
+  const [isdisabled, setIsdisabled] = useState(true);
   const items1 = useMemo(() => {
     return [
       {
@@ -87,7 +88,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           {
             label: "Report",
             key: "0-1-1",
-            disabled: !isSynthesis,
+            disabled: !isdisabled,
           },
         ],
       },
@@ -176,7 +177,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
             <SimulationReport changeSider={setSiderSelect} fileId={fileId} />
           ) : null}
           {siderSelect[0] === "0-1-0" ? (
-            <SimulationSetting changeSider={setSiderSelect} fileId={fileId} needUploader={false} />
+            <SimulationSetting changeSider={setSiderSelect} fileId={fileId} needUploader={false} setIsdisabled={setIsdisabled}/>
           ) : null}
           {siderSelect[0] === "0-2-0" ? (
             <DecodeSetting

@@ -205,6 +205,11 @@ def simu_pcr():
     t1=time.time()
     front_data = request.data
     front_data = json.loads(front_data)
+
+    try:
+        upload_flag=front_data['upload_flag']
+    except:
+        upload_flag=False
     '''
     #### Postman test json ####
      {  "file_uid":1582175684011364352,
@@ -218,7 +223,7 @@ def simu_pcr():
     pcr_prob = front_data['pcr_prob']
     pcr_polymerase = front_data['pcr_polymerase']
     file_uid=front_data['file_uid']
-    upload_flag=front_data['upload_flag']
+    # upload_flag=front_data['upload_flag']
 
     simu_pcr_settings=simu_utils.get_simu_pcr_info(
         file_uid=file_uid,
@@ -235,6 +240,11 @@ def simu_sam():
     t1=time.time()
     front_data = request.data
     front_data = json.loads(front_data)
+
+    try:
+        upload_flag=front_data['upload_flag']
+    except:
+        upload_flag=False
     '''
     #### Postman test json ####
     {"sam_ratio":0.005,
@@ -244,7 +254,7 @@ def simu_sam():
     '''
     sam_ratio =front_data['sam_ratio'] 
     file_uid=front_data['file_uid']
-    upload_flag=front_data['upload_flag']
+    # upload_flag=front_data['upload_flag']
 
     simu_sam_settings=simu_utils.get_simu_sam_info(
         sam_ratio=sam_ratio,
@@ -261,6 +271,11 @@ def simu_seq():
     front_data = request.data
     front_data = json.loads(front_data)
 
+    try:
+        upload_flag=front_data['upload_flag']
+    except:
+        upload_flag=False
+
     '''
     #### Postman test json ####
      { "seq_depth":15,
@@ -271,7 +286,7 @@ def simu_seq():
     seq_depth =front_data['seq_depth'] 
     seq_meth=front_data['seq_meth']
     file_uid=front_data['file_uid']
-    upload_flag=front_data['upload_flag']
+    # upload_flag=front_data['upload_flag']
 
     simu_seq_settings=simu_utils.get_simu_seq_info(
         seq_depth=seq_depth,
@@ -284,6 +299,10 @@ def simu_seq():
 
 @app.route('/simu_repo',methods=['GET','POST'])
 def simu_repo():
+    try:
+        upload_flag=front_data['upload_flag']
+    except:
+        upload_flag=False
     '''
      ##Postman test json
      {
@@ -294,7 +313,7 @@ def simu_repo():
     front_data = request.data
     front_data = json.loads(front_data)
     file_uid=front_data['file_uid']
-    upload_flag=front_data['upload_flag']
+    # upload_flag=front_data['upload_flag']
 
     simu_repo=simu_utils.get_simu_repo(file_uid,upload_flag)
     print(simu_repo)
