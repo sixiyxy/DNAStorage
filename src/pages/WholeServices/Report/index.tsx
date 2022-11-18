@@ -208,8 +208,8 @@ export const Report: React.FC<ReportProps> = (props) => {
       <Spin
         tip="Loading..."
         size="large"
-        spinning={props.spinflag}
-        // spinning={false}
+        // spinning={props.spinflag}
+        spinning={false}
         delay={10}
       >
         <div className="encode-report-nav-wrapper">
@@ -253,8 +253,10 @@ export const Report: React.FC<ReportProps> = (props) => {
             </p>
             <Table columns={columns2} dataSource={data2} pagination={{ position: ["none"] }} />
             <div
+              className="encode-report-graph"
               id="gcgraph"
               style={{
+                // width: "650px",
                 fontSize: "15px",
               }}
             >
@@ -271,6 +273,7 @@ export const Report: React.FC<ReportProps> = (props) => {
               GC content, and the Y-axis is the number of corresponding sequences.
             </p>
             <div
+              className="encode-report-graph"
               id="homograph"
               style={{
                 fontSize: "15px",
@@ -289,32 +292,37 @@ export const Report: React.FC<ReportProps> = (props) => {
               sequence. The x-axis is the length of the repeated sequence, and the y-axis is the
               corresponding number.
             </p>
-            <div id="energygraph">
+            <div id="energygraph" className="encode-report-graph">
               <h3>Sequence Min Free Energy</h3>
               <EnergyGraph energy={props.energy} />
             </div>
             <div
+              className="encode-report-footer-text"
               style={{
                 fontSize: "15px",
               }}
             >
-              <p>
-                <strong>
-                  The sequence average minimum free energy is : {props.dnainfo.min_free_energy}
-                </strong>
-              </p>
-              <p>
-                <strong>
-                  The percentage of sequence min free energy below 30 Kcal/mol is : {props.mini} %
-                </strong>
-              </p>
-              <p>
-                The minimum free energy (MFE) of a DNA sequence is the minimum of the Gibbs standard
-                free energy of all possible secondary structures. Therefore, the quality of DNA
-                sequences can be measured by calculating the MFE of each sequence. Here we
-                calculated the minimum free energies if randomly selected 1000 encoded DNA sequences
-                by RNAfold.
-              </p>
+              <div className="encode-report-footer-result">
+                <p>
+                  <strong>
+                    The sequence average minimum free energy is : {props.dnainfo.min_free_energy}
+                  </strong>
+                </p>
+                <p>
+                  <strong>
+                    The percentage of sequence min free energy below 30 Kcal/mol is : {props.mini} %
+                  </strong>
+                </p>
+              </div>
+              <div className="encode-report-footer-information">
+                <p>
+                  The minimum free energy (MFE) of a DNA sequence is the minimum of the Gibbs
+                  standard free energy of all possible secondary structures. Therefore, the quality
+                  of DNA sequences can be measured by calculating the MFE of each sequence. Here we
+                  calculated the minimum free energies if randomly selected 1000 encoded DNA
+                  sequences by RNAfold.
+                </p>
+              </div>
             </div>
             <div className="encode-report-button-wrapper">
               <Button
