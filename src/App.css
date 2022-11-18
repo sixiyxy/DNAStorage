@@ -23,6 +23,16 @@
   /*todo*/
 }
 
-.global-menu {
+.global-wrapper {
+  display: flex;
+}
 
+.global-wrapper .global-menu {
+  width: 20%;
+  max-width: 235px;
+}
+
+.global-wrapper .global-content {
+  width: 75%;
+  margin: 0 auto;
 }

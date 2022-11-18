@@ -52,9 +52,9 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="page-simulation">
+    <div className="global-wrapper">
       <Menu
-        className="menu"
+        className="global-menu"
         onClick={onClick}
         selectedKeys={siderSelect}
         mode="inline"
@@ -62,23 +62,23 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
         defaultOpenKeys={["0-1"]}
       />
 
-      <div className="panel">
-        {siderSelect[0] === "0-1-0" ? (
-
-          <SimulationSetting
-            changeSider={setSiderSelect}
-            fileId={fileId}
-            setFileId={setFileId}
-            clickEXM={clickEXM}
-            setclickEXM={setclickEXM}
-            setIsdisabled={setIsdisabled}
-            needUploader={true}
-          />
-        ) : null}
-        {siderSelect[0] === "0-1-1" ? (
-          <SimulationReport fileId={fileId} clickEXM={clickEXM} />
-
-        ) : null}
+      <div className="global-content">
+        <div className="simulation-wrapper">
+          {siderSelect[0] === "0-1-0" ? (
+            <SimulationSetting
+              changeSider={setSiderSelect}
+              fileId={fileId}
+              setFileId={setFileId}
+              clickEXM={clickEXM}
+              setclickEXM={setclickEXM}
+              setIsdisabled={setIsdisabled}
+              needUploader={true}
+            />
+          ) : null}
+          {siderSelect[0] === "0-1-1" ? (
+            <SimulationReport fileId={fileId} clickEXM={clickEXM} />
+          ) : null}
+        </div>
       </div>
     </div>
   );

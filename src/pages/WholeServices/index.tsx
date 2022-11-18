@@ -4,7 +4,7 @@ import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
 import { Encode } from "./Encode";
 import { SimulationReport } from "./SimulationReport";
-import { Decode, DecodeSetting } from "./DecodeSetting";
+import { DecodeSetting } from "./DecodeSetting";
 import { Report } from "./Report";
 import { SimulationSetting } from "../SimulationServices/SimulationSetting";
 import { DecodeReport } from "./DecodeReport";
@@ -15,48 +15,7 @@ type MenuItem = Required<MenuProps>["items"][number];
 export class ServicesProps {}
 
 const siderLabel = ["Encode Data", "Simulation", "Decode"];
-// function getItem(
-//   label: React.ReactNode,
-//   key: React.Key,
-//   icon?: React.ReactNode,
-//   children?: MenuItem[],
-//   type?: "group",
-//   disabled?: boolean
-// ): MenuItem {
-//   return {
-//     key,
-//     icon,
-//     children,
-//     label,
-//     type,
-//     disabled,
-//   } as MenuItem;
-// }
 
-// const items = [
-// getItem(
-//   "Encode Data",
-//   "0-0",
-//   <i className="iconfont icon-Encode-File" style={{ display: "inline" }}></i>
-// ),
-//   getItem(
-//     "Simulation",
-//     "0-1",
-//     <i className="iconfont icon-monidanping" style={{ display: "inline" }}></i>,
-//     [
-//       getItem("Synthesis", "0-1-0"),
-//       getItem("Decay", "0-1-1"),
-//       getItem("PCR", "0-1-2"),
-//       getItem("Sampling", "0-1-3"),
-//       getItem("Sequencing", "0-1-4"),
-//     ]
-//   ),
-//   getItem(
-//     "Decode",
-//     "0-2",
-//     <i className="iconfont icon-Decode-File" style={{ display: "inline" }}></i>
-//   ),
-// ];
 const infos = {
   bit_size: 0,
   byte_size: 0,
@@ -151,47 +110,6 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
     ];
   }, [isSynthesis, isDecode]);
 
-  // const items2 = useMemo(() => {
-  //   return [
-  //     {
-  //       label: "Simulation",
-  //       key: "0-1",
-  //       icon: (
-  //         <i
-  //           className="iconfont icon-monidanping"
-  //           style={{ display: "inline" }}
-  //         ></i>
-  //       ),
-  //       children: [
-  //         {
-  //           label: "Synthesis",
-  //           key: "0-1-0",
-  //         },
-  //         {
-  //           label: "Decay",
-  //           key: "0-1-1",
-  //           disabled: !isSynthesis,
-  //         },
-  //         {
-  //           label: "PCR",
-  //           key: "0-1-2",
-  //           disabled: !isSynthesis,
-  //         },
-  //         {
-  //           label: "Sampling",
-  //           key: "0-1-3",
-  //           disabled: !isSynthesis,
-  //         },
-  //         {
-  //           label: "Sequencing",
-  //           key: "0-1-4",
-  //           disabled: !isSynthesis,
-  //         },
-  //       ],
-  //     },
-  //   ];
-  // }, [isSynthesis]);
-
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
   };
@@ -199,8 +117,9 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="service-content">
+    <div className="global-wrapper">
       <Menu
+        className="global-menu"
         onClick={onClick}
         style={{
           width: 256,
@@ -211,63 +130,67 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
         defaultOpenKeys={["0-0", "0-1", "0-2"]}
       />
 
-      {siderSelect[0] === "0-0-0" ? (
-        <Encode
-          infos={infos}
-          setDNAinfo={setDNAinfo}
-          DNAinfos={DNAinfos}
-          changeSider={setSiderSelect}
-          fileId={fileId}
-          setFileId={setFileId}
-          setGC={setGC}
-          setHomo={setHomo}
-          setEncodeURL={setEncodeURL}
-          setFileURL={setFileURL}
-          setEnergy={setEnergy}
-          setInfo={setInfo}
-          setFileInfo={setFileInfo}
-          FileValue={FileValue}
-          fileinfo={fileinfo}
-          setIsSynthesis={setIsSynthesis}
-          setSpin={setSpin}
-          setExam={setExam}
-          setMini={setMini}
-        />
-      ) : null}
-      {siderSelect[0] === "0-0-1" ? (
-        <Report
-          dnainfo={dnainfo}
-          GC={GC}
-          homo={homo}
-          encodeurl={encodeurl}
-          fileURL={fileURL}
-          energy={energy}
-          fileinfo={fileinfo}
-          info={info}
-          fileId={fileId}
-          spinflag={spinflag}
-          exam={exam}
-          mini={mini}
-        />
-      ) : null}
+      <div className="global-content">
+        <div className="whole-service-wrapper">
+          {siderSelect[0] === "0-0-0" ? (
+            <Encode
+              infos={infos}
+              setDNAinfo={setDNAinfo}
+              DNAinfos={DNAinfos}
+              changeSider={setSiderSelect}
+              fileId={fileId}
+              setFileId={setFileId}
+              setGC={setGC}
+              setHomo={setHomo}
+              setEncodeURL={setEncodeURL}
+              setFileURL={setFileURL}
+              setEnergy={setEnergy}
+              setInfo={setInfo}
+              setFileInfo={setFileInfo}
+              FileValue={FileValue}
+              fileinfo={fileinfo}
+              setIsSynthesis={setIsSynthesis}
+              setSpin={setSpin}
+              setExam={setExam}
+              setMini={setMini}
+            />
+          ) : null}
+          {siderSelect[0] === "0-0-1" ? (
+            <Report
+              dnainfo={dnainfo}
+              GC={GC}
+              homo={homo}
+              encodeurl={encodeurl}
+              fileURL={fileURL}
+              energy={energy}
+              fileinfo={fileinfo}
+              info={info}
+              fileId={fileId}
+              spinflag={spinflag}
+              exam={exam}
+              mini={mini}
+            />
+          ) : null}
 
-      {siderSelect[0] === "0-1-1" ? (
-        <SimulationReport changeSider={setSiderSelect} fileId={fileId} />
-      ) : null}
-      {siderSelect[0] === "0-1-0" ? (
-        <SimulationSetting changeSider={setSiderSelect} fileId={fileId} needUploader={false} />
-      ) : null}
-      {siderSelect[0] === "0-2-0" ? (
-        <DecodeSetting
-          fileId={fileId}
-          changeSider={setSiderSelect}
-          setIsDecode={setIsDecode}
-          setDecodeData={setDecodeData}
-        />
-      ) : null}
-      {siderSelect[0] === "0-2-1" ? (
-        <DecodeReport fileId={fileId} isDecode={isDecode} decodeData={decodeData} />
-      ) : null}
+          {siderSelect[0] === "0-1-1" ? (
+            <SimulationReport changeSider={setSiderSelect} fileId={fileId} />
+          ) : null}
+          {siderSelect[0] === "0-1-0" ? (
+            <SimulationSetting changeSider={setSiderSelect} fileId={fileId} needUploader={false} />
+          ) : null}
+          {siderSelect[0] === "0-2-0" ? (
+            <DecodeSetting
+              fileId={fileId}
+              changeSider={setSiderSelect}
+              setIsDecode={setIsDecode}
+              setDecodeData={setDecodeData}
+            />
+          ) : null}
+          {siderSelect[0] === "0-2-1" ? (
+            <DecodeReport fileId={fileId} isDecode={isDecode} decodeData={decodeData} />
+          ) : null}
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./index.less";
 import axios from "axios";
-import { Breadcrumb, Col, Row, Spin, notification } from "antd";
-import Encodelists from "./components/Encodelists";
+import { Breadcrumb, Col, Row, Spin, notification, Card } from "antd";
+import EncodeMethodList from "./components/EncodeMethodList";
 import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
 import Graphs from "./components/Graphs";
@@ -192,116 +192,80 @@ export const Encode = (props) => {
   };
 
   return (
-    <div className="encode-container">
+    <div className="encode-wrapper">
       {/*顶部菜单 tab 顺序*/}
-      <div style={{ paddingLeft: "100px", paddingTop: "20px" }}>
-        <Breadcrumb separator=">">
-          <Breadcrumb.Item>
-            <a href="/home">Home</a>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>Services</Breadcrumb.Item>
-          <Breadcrumb.Item>Encode</Breadcrumb.Item>
-          <Breadcrumb.Item>Setting</Breadcrumb.Item>
-        </Breadcrumb>
+      <div className="encode-nav-wrapper">
+        <Card>
+          <Breadcrumb separator=">">
+            <Breadcrumb.Item>
+              <a href="/home">Home</a>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>Services</Breadcrumb.Item>
+            <Breadcrumb.Item>Encode</Breadcrumb.Item>
+            <Breadcrumb.Item>Setting</Breadcrumb.Item>
+          </Breadcrumb>
+        </Card>
       </div>
-      <Row>
-        <Col>
-          <div
-            style={{
-              // marginLeft: "100px",
-              marginTop: "40px",
-              fontSize: "19px",
-            }}
-          >
-            <p>
-              <strong>
-                {" "}
-                <FolderAddTwoTone /> Please upload the storage files:
-              </strong>
-            </p>
-            <div>
-              <Uploads
-                GetFileID={props.setFileId}
-                FileInfoPass={FileInfoPass}
-                setBtn={setBtn}
-                setChange={setChange}
-              />
-            </div>
+      <div className="encode-main-body-wrapper">
+        <Card>
+          {/*标题描述*/}
+          <p>
+            <strong>
+              <FolderAddTwoTone /> Please upload the storage files:
+            </strong>
+          </p>
+          {/*文件上传组件*/}
+          <Uploads
+            GetFileID={props.setFileId}
+            FileInfoPass={FileInfoPass}
+            setBtn={setBtn}
+            setChange={setChange}
+          />
+        </Card>
+      </div>
+      {/*编码方法列表*/}
+      <EncodeMethodList setValue={setValue} value={value} />
+
+      <Sliders
+        indexchange={indexchange}
+        setSeg={setSeg}
+        setIndex={setIndex}
+        setMethod={setMethod}
+        setencodeValue={setencodeValue}
+        encodevalue={encodevalue}
+        SetSegvalue={SetSegvalue}
+        Segment={Segment}
+        Setindexment={Setindexment}
+        indexment={indexment}
+      />
+      <Graphs
+        seg={seg}
+        index={index}
+        method={method}
+        setSeg={setSeg}
+        setIndex={setIndex}
+        setMethod={setMethod}
+      />
+      <div className="encode-button-wrapper">
+        <Card>
+          <div className="encode-button-group">
+            <Button
+              type="primary"
+              shape="round"
+              size={"large"}
+              onClick={btnflag ? handleClick : () => scrollToAnchor("bottomLeft")}
+            >
+              Run
+            </Button>
+            <Button shape="round" size={"large"} onClick={handleExm}>
+              Example
+            </Button>
+            <Button shape="round" size={"large"} onClick={handlereset}>
+              Reset
+            </Button>
           </div>
-          <div
-            id="encodelist"
-            style={{
-              fontSize: "15px",
-            }}
-          >
-            <Encodelists setValue={setValue} value={value} />
-          </div>
-          <div
-            id="sliders"
-            style={{
-              // margin: "50px 0 0 100px",
-              fontSize: "14px",
-            }}
-          >
-            <Sliders
-              indexchange={indexchange}
-              setSeg={setSeg}
-              setIndex={setIndex}
-              setMethod={setMethod}
-              setencodeValue={setencodeValue}
-              encodevalue={encodevalue}
-              SetSegvalue={SetSegvalue}
-              Segment={Segment}
-              Setindexment={Setindexment}
-              indexment={indexment}
-            />
-          </div>
-          <div id="graphs" style={{ paddingTop: "20px" }}>
-            <hr></hr>
-            {/*<Graphs*/}
-            {/*  seg={seg}*/}
-            {/*  index={index}*/}
-            {/*  method={method}*/}
-            {/*  setSeg={setSeg}*/}
-            {/*  setIndex={setIndex}*/}
-            {/*  setMethod={setMethod}*/}
-            {/*/>*/}
-            <hr />
-          </div>
-        </Col>
-      </Row>
-      {/*<div style={{margin:"80px 0 150px 100px"}}>*/}
-      {/*  */}
-      {/*        <Button*/}
-      {/*          type="primary"*/}
-      {/*          shape="round"*/}
-      {/*          size={"large"}*/}
-      {/*          style={{width:"100px"}}*/}
-      {/*          onClick={btnflag ? handleClick : () => scrollToAnchor('bottomLeft')}*/}
-      {/*        >*/}
-      {/*          Run*/}
-      {/*        </Button>*/}
-      {/*    */}
-      {/*   */}
-      {/*        <Button*/}
-      {/*         shape="round"*/}
-      {/*         size={"large"}*/}
-      {/*          onClick={handleExm}*/}
-      {/*          style={{marginLeft:"15px"}}*/}
-      {/*        >*/}
-      {/*          Example*/}
-      {/*        </Button>*/}
-      {/*    */}
-      {/*        <Button*/}
-      {/*        shape="round"*/}
-      {/*        size={"large"}*/}
-      {/*        onClick={handlereset}*/}
-      {/*        style={{marginLeft:"440px",width:"100px"}}*/}
-      {/*        >*/}
-      {/*          Reset*/}
-      {/*        </Button>*/}
-      {/*   */}
-      {/*  </div>*/}
+        </Card>
+      </div>
     </div>
   );
 };
