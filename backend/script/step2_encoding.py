@@ -5,9 +5,9 @@ import pandas as pd
 import numpy as np
 from numpy import fromfile, array, uint8
 
-from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from .utils.verify_methods import Hamming,ReedSolomon
-from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode,SrcCode
+from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+from utils.verify_methods import Hamming,ReedSolomon
+from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode,SrcCode
 
 verify_methods = {
     "WithoutVerifycode":False,
@@ -138,6 +138,7 @@ class Encoding():
         start_time = datetime.now()
         original_bit_segments,record_index,connected_bit_segments,final_bit_segments = self.verify_code()
         encode_method = encoding_methods[self.encode_method]
+        print("\n ",self.encode_method)
         dna_sequences = encode_method.encode(final_bit_segments)
         print('Encode bit segments to DNA sequences by coding scheme.\n')
 
@@ -273,20 +274,16 @@ class Encoding():
 
 
 if __name__ == '__main__':
-    # obj = Encoding(file_uid=1565536927137009664,
-    # encode_method='Basic',
+    obj = Encoding(file_uid=1565536927137009664,
+                  encode_method='DNA_Fountain',
+                  segment_length=160,
+                  index_length=20,
+                  verify_method="Hamming")
+    obj.bit_to_dna()
+    
+    # obj = Encoding(file_uid=1585911198753361920,
+    #                 encode_method='SrcCode',
     #               segment_length=160,
     #               index_length=20,
     #               verify_method='Hamming')
-    # # obj.connet_index()
-    # # obj.verify_code()
-    # record_info,bit_segments = obj.bit_to_dna()
-    # # print(dna_sequences)
-
-    
-    obj = Encoding(file_uid=1585911198753361920,
-                    encode_method='SrcCode',
-                  segment_length=160,
-                  index_length=20,
-                  verify_method='Hamming')
-    obj.encoding()
+    # obj.encoding()

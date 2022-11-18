@@ -27,7 +27,6 @@ app.secret_key='xxxxxxx'
 backend_dir = os.path.dirname(os.path.abspath(__file__))
 print("----------------------------------------------------------------",backend_dir)
 
-
     
 
 @app.route('/')
@@ -351,6 +350,10 @@ def example():
         config_data = f.read()
         config = yaml.load(config_data,Loader=yaml.FullLoader)
         return json.dumps(config)
+    elif type == 'decode':
+        pass
+    else:
+        return 'wrong request!'
 
 if __name__ == '__main__':
     CORS(app,supports_credentials=True)

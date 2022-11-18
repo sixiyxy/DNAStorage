@@ -5,7 +5,6 @@ import yaml
 import random
 import tarfile
 from datetime import datetime
-from .simulation_utils import funcs_parameter
 
 def get_config(yaml_path=''):
     now_dir = os.path.dirname(os.path.abspath(__file__))
