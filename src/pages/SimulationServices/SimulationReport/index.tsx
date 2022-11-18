@@ -1,5 +1,5 @@
 import { Bar, DualAxes, Pie } from "@ant-design/charts";
-import { Breadcrumb, Button, Card, Select, Tabs,Table,Spin} from "antd";
+import { Breadcrumb, Button, Card, Select, Tabs, Table, Spin } from "antd";
 import React, { useEffect, useMemo, useState } from "react";
 import "./index.less";
 import { doPost } from "../../../utils/request";
@@ -27,7 +27,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const [densityData, setDensityData] = useState([]);
   const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [spinflag,setSpin] = useState(true)
+  const [spinflag, setSpin] = useState(true);
   const [synthesisData, setSynthesisData] = useState();
   const [decayData, setDacayData] = useState();
   const [pcrData, setPcrData] = useState();
@@ -63,7 +63,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       setLoading(true);
       setNoDataTipsShow(false);
       const resp = await doPost("/simu_repo", { body: params });
-      setSpin(false)
+      setSpin(false);
       console.log("report", resp);
       setSynthesisData(resp.SYN);
       setDacayData(resp.DEC);
@@ -372,7 +372,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           return `${value}%`;
         },
       },
-
     },
   };
   //混合图数据以及配置
@@ -657,35 +656,35 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
 
     //   },
     // },
-    yAxis:{
-      value:{
-        title:{
-          text:'ln(y1)',
-          offset:60,
-        }
+    yAxis: {
+      value: {
+        title: {
+          text: "ln(y1)",
+          offset: 60,
+        },
       },
-      count:{
-        title:{
-          text:'ln(y2)',
-          offset:60,
-        }
-      }
+      count: {
+        title: {
+          text: "ln(y2)",
+          offset: 60,
+        },
+      },
     },
     xAxis: {
-      title:{
-        text:'Stage',
-        offset:50,
+      title: {
+        text: "Stage",
+        offset: 50,
       },
     },
     meta: {
       value: {
         formatter: (value: any) => {
-          return `${(value).toFixed(2)}`;
+          return `${value.toFixed(2)}`;
         },
       },
       count: {
         formatter: (value: any) => {
-          return `${(value).toFixed(2)}`;
+          return `${value.toFixed(2)}`;
         },
       },
     },
@@ -772,16 +771,16 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     maxBarWidth: 100,
     height: 400,
     barWidthRatio: 0.4,
-    yAxis:{
-      title:{
-        text:'Stage',
-        offset:50,
-      }
+    yAxis: {
+      title: {
+        text: "Stage",
+        offset: 50,
+      },
     },
     xAxis: {
-      title:{
-        text:'Percentage',
-        offset:50,
+      title: {
+        text: "Percentage",
+        offset: 50,
       },
     },
     // isPercent: true,
@@ -842,7 +841,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
-      upload_flag:"True" 
+      upload_flag: "True",
       // file_uid: "1565536927137009664",
     };
   }, []);
@@ -876,7 +875,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   //   name1: string;
   //   value1: any;
   // }
-  
+
   // const columns1: ColumnsType<DataType> = [
   //   {
   //     title: "Name",
@@ -894,7 +893,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   //     key: "1",
   //     name1: "synthesis_number",
   //     value1: synthesisData?.synthesis_number,
-      
+
   //   },
   //   {
   //     key: "2",
@@ -913,8 +912,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   //   },
   // ];
   return (
-    <div className="sequencing-content">
-      <div style={{ margin: 20 }}>
+    <div className="simulation-report-wrapper">
+      <div className="simulation-report-nav-wrapper">
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
             <a href="/">Home</a>
@@ -926,51 +925,32 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           <Breadcrumb.Item>Report</Breadcrumb.Item>
         </Breadcrumb>
       </div>
-      {/* <Button size="large" style={{ width: 100 }} onClick={handleOk}>
-        OK
-      </Button> */}
-      <Spin
-        tip="Loading..."
-        size="large"
-        style={{ marginTop: "250px"}}
-        spinning={spinflag}
-      >
-      <Card style={{ width: 900, height: 500, marginLeft: "20px" }}>
-        <Tabs defaultActiveKey="1" size={"large"}>
-          <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined} >
-          <div className="TabSYN">
-            synthesis_number : {synthesisData?.synthesis_number}
-            <br />
-            synthesis_yield : {synthesisData?.synthesis_yield}
-            <br />
-            synthesis_method : {synthesisData?.synthesis_method}
-            <br />
-            {/* synthesis_method_reference : {synthesisData?.synthesis_method_reference?.map((link, index) => {
-              return (
-                <>
-                  <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank" rel="noreferrer">
-                    {link}
-                  </a>
+      <div className="simulation-report-content-wrapper">
+        <Spin tip="Loading..." size="large" spinning={false}>
+          <Card>
+            <Tabs defaultActiveKey="5" size={"large"}>
+              <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined}>
+                <div className="TabSYN">
+                  synthesis_number : {synthesisData?.synthesis_number}
                   <br />
-                </>
-              );
-            })}
-            <br /> */}
-            </div>
-            <p style={{margin:"10px 0 0 100px"}}>The error rate distribution of your chosen synthesis method as follows:</p>
-            
-            <Pie {...synthesisErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
-           
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Decay" key="2" disabled={decayData === undefined}>
-          <div className="TabDEC">
-            storage_host : {decayData?.storage_host}
-            <br />
-            months_of_storage : {decayData?.months_of_storage}
-            <br />
-            decay_loss_rate : {decayData?.decay_loss_rate}
-            <br />
-            {/* storage_host_parameter_reference :
+                  synthesis_yield : {synthesisData?.synthesis_yield}
+                  <br />
+                  synthesis_method : {synthesisData?.synthesis_method}
+                  <br />
+                </div>
+                <p>The error rate distribution of your chosen synthesis method as follows:</p>
+
+                <Pie className="pie" {...synthesisErrorParamConfig} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="Decay" key="2" disabled={decayData === undefined}>
+                <div className="TabDEC">
+                  storage_host : {decayData?.storage_host}
+                  <br />
+                  months_of_storage : {decayData?.months_of_storage}
+                  <br />
+                  decay_loss_rate : {decayData?.decay_loss_rate}
+                  <br />
+                  {/* storage_host_parameter_reference :
             <br />
             {decayData?.storage_host_parameter_reference?.map((link, index) => {
               return (
@@ -982,47 +962,52 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 </>
               );
             })} */}
-            </div>
-            <p style={{margin:"10px 0 0 100px"}}>The error rate distribution of your chosen storage host is as follows:</p>
-            <Pie {...decayErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="PCR" key="3" disabled={pcrData === undefined}>
-            <div className="TabPCR">
-            pcr_polymerase: {pcrData?.pcr_polymerase}
-            <br />
-            pcr_cycle: {pcrData?.pcr_cycle}
-            <br />
-            pcr_prob: {pcrData?.pcr_prob}
-            <br />
-            pcr_method_reference:
-            <br />
-            {pcrData?.pcr_method_reference?.map((link, index) => {
-              return (
-                <>
-                  <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank" rel="noreferrer">
-                    {link}
-                  </a>
+                </div>
+                <p>The error rate distribution of your chosen storage host is as follows:</p>
+                <Pie className="pie" {...decayErrorParamConfig} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="PCR" key="3" disabled={pcrData === undefined}>
+                <div className="TabPCR">
+                  pcr_polymerase: {pcrData?.pcr_polymerase}
                   <br />
-                </>
-              );
-            })}
-            </div>
-            <p style={{margin:"10px 0 0 100px"}}>The error rate distribution of your chosen pcr polymerase is as follows:</p>
-            <Pie {...pcrErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Sampling" key="4" disabled={samplingData === undefined}>
-            {/* sam_ratio: {samplingData?.sam_ratio} */}
-            <p style={{margin:"10px 0 0 0px"}}>The sampling ratio your chosen is:</p>
-            <Bar {...samplingErrorParamConfig} style={{ margin: "40px 0 0 0" }} />
-            <br />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Sequencing" key="5" disabled={sequencingData === undefined}>
-            <div className="TabSEQ">
-            sequencing_depth : {sequencingData?.seq_depth}
-            <br />
-            sequencing_method : {sequencingData?.seq_meth}
-            <br />
-            {/* seq_method_reference :
+                  pcr_cycle: {pcrData?.pcr_cycle}
+                  <br />
+                  pcr_prob: {pcrData?.pcr_prob}
+                  <br />
+                  pcr_method_reference:
+                  <br />
+                  {pcrData?.pcr_method_reference?.map((link, index) => {
+                    return (
+                      <>
+                        <a
+                          style={{ margin: "0 0 0 5px" }}
+                          href={link}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {link}
+                        </a>
+                        <br />
+                      </>
+                    );
+                  })}
+                </div>
+                <p>The error rate distribution of your chosen pcr polymerase is as follows:</p>
+                <Pie className="pie" {...pcrErrorParamConfig} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="Sampling" key="4" disabled={samplingData === undefined}>
+                {/* sam_ratio: {samplingData?.sam_ratio} */}
+                <p style={{ margin: "10px 0 0 0px" }}>The sampling ratio your chosen is:</p>
+                <Bar {...samplingErrorParamConfig} style={{ margin: "40px 0 0 0" }} />
+                <br />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="Sequencing" key="5" disabled={sequencingData === undefined}>
+                <div className="TabSEQ">
+                  sequencing_depth : {sequencingData?.seq_depth}
+                  <br />
+                  sequencing_method : {sequencingData?.seq_meth}
+                  <br />
+                  {/* seq_method_reference :
             <br />
             {sequencingData?.seq_method_reference?.map((link, index) => {
               return (
@@ -1034,48 +1019,61 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 </>
               );
             })} */}
+                </div>
+                <p>The error rate distribution of your chosen sequencing method is as follows:</p>
+                <Pie className="pie" {...sequenceErrorParamConfig} />
+              </Tabs.TabPane>
+            </Tabs>
+          </Card>
+          <Card>
+            <h3>Sequences Distribution</h3>
+            <div>
+              <DualAxes {...dualConfig} />
             </div>
-            <p style={{margin:"35px 0 0 100px"}}>The error rate distribution of your chosen sequencing method is as follows:</p>
-            <Pie {...sequenceErrorParamConfig} style={{ margin: "20px 0 0 0" }} />
-          </Tabs.TabPane>
-        </Tabs>
-      </Card>
-      <Card style={{ width: 900, height: 750, marginLeft: "20px" }}>
-        <h3 style={{margin:"10px 0 40px 320px"}}>Sequences Distribution</h3>
-      <div style={{marginLeft:"40px",width:"90%"}}>
-        <DualAxes {...dualConfig} />
+            <div
+              style={{
+                textAlign: "justify",
+                fontSize: "17px",
+                color: "#748189",
+              }}
+            >
+              During the whole process, the number of sequences, causes of erors and proposrtions of
+              different types of errors change from time to time. Therefore, we counted and compared
+              the numbers of DNA strands with errors and the left 100% correct DNA strands for each
+              stage using stacked column chart, as well as showed the changes of the strands numbers
+              that contained different types of errors using line chart.  Since the difference
+              between the data is too large, each data x here is percented using ln(x).
+            </div>
+          </Card>
+          <Card>
+            <h3>Error Counts </h3>
+            <div>
+              <Bar {...ErrorDensityConfig} />
+            </div>
+            <div
+              style={{
+                textAlign: "justify",
+                fontSize: "17px",
+                color: "#748189",
+              }}
+            >
+              <p>
+                Because the effects of occurred errors are cumulative, It is reasonable that as the
+                simulation proceeds, both the percentage of strands with errors as well as the
+                average error number for all strands will increase. Thus, we count the number of
+                strands with a different number of errors for the different stages as shown above.
+                As we could see, the later the stage is, the higher the number of chains with errors
+                is.
+              </p>
+              <div className="simulation-report-button-group">
+                <Button shape="round" size="large" type="primary" onClick={DownloadURL}>
+                  Download
+                </Button>
+              </div>
+            </div>
+          </Card>
+        </Spin>
       </div>
-      <div style={{margin:"40px 0 50px 40px",width:"90%",textAlign: "justify",fontSize:"17px",color:"#748189"}}>
-      During the whole process, the number of sequences, causes of erors and proposrtions of different types of errors change from time to time. 
-      Therefore, we counted and compared the numbers of DNA strands with errors and the left 100% correct DNA strands for each stage using stacked column chart, 
-      as well as showed the changes of the strands numbers that contained different types of errors using line chart. 
-      Since the difference between the data is too large, each data x here is percented using ln(x). 
-      </div>
-      </Card>
-      <Card style={{ width: 900, height: 900, marginLeft: "20px" }}>
-        <h3 style={{margin:"10px 0 40px 380px"}}>Error  Counts </h3>
-        <div style={{marginLeft:"40px",width:"90%"}}>
-        <Bar {...ErrorDensityConfig} />
-        </div>
-        <div style={{margin:"40px 0 50px 40px",width:"92%",textAlign: "justify",fontSize:"17px",color:"#748189"}}>
-        Because the effects of occurred errors are cumulative, It is reasonable that as the simulation proceeds, 
-        both the percentage of strands with errors as well as the average error number for all strands will increase. 
-        Thus, we count the number of strands with a different number of errors for the different stages as shown above. 
-        As we could see, the later the stage is, the higher the number of chains with errors is.
-        <Button
-        shape="round"
-        size="large"
-        type="primary"
-        style={{ margin: "100px 0px 0px 320px" }}
-        onClick={DownloadURL}
-      >
-        Download
-      </Button>
-      </div>
-      </Card>
-      
-      </Spin>
-      {/* <Card style={{ width: 800, height: 500 }}></Card> */}
     </div>
   );
 };
