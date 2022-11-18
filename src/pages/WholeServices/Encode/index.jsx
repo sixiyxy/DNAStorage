@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./index.less";
 import axios from "axios";
-import { Breadcrumb, Col, Row, Spin,notification } from "antd";
+import { Breadcrumb, Col, Row, Spin, notification } from "antd";
 import Encodelists from "./components/Encodelists";
 import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
 import Graphs from "./components/Graphs";
-import { Anchor,Button} from "antd";
+import { Anchor, Button } from "antd";
 import { FolderAddTwoTone } from "@ant-design/icons";
-import {doPost} from "../../../utils/request";
+import { doPost } from "../../../utils/request";
 const { Link } = Anchor;
 
 export const Encode = (props) => {
@@ -24,14 +24,14 @@ export const Encode = (props) => {
   const [btnflag, setBtn] = useState(false);
   const [encodevalue, setencodeValue] = useState("WithoutVerifycode");
   const [value, setValue] = useState("Basic");
-  const [Segment,SetSegvalue] =useState(160)
-  const [indexment,Setindexment] =useState(20)
-  const [indexchange,setChange]=useState(true) //一开始是小于2M
-  
+  const [Segment, SetSegvalue] = useState(160);
+  const [indexment, Setindexment] = useState(20);
+  const [indexchange, setChange] = useState(true); //一开始是小于2M
+
   useEffect(() => {
     props.setIsSynthesis(false);
   }, []);
- 
+
   const GCPass = (param1) => {
     props.setGC(param1);
   };
@@ -47,19 +47,11 @@ export const Encode = (props) => {
   const FileURLPass = (param1) => {
     props.setFileURL(param1);
   };
-  const miniEnergyPass=(param1)=>{
-    props.setMini(param1)
+  const miniEnergyPass = (param1) => {
+    props.setMini(param1);
     console.log(props.mini);
-  }
-  const InfoPass1 = (
-    param1,
-    param2,
-    param3,
-    param4,
-    param5,
-    param6,
-    param7
-  ) => {
+  };
+  const InfoPass1 = (param1, param2, param3, param4, param5, param6, param7) => {
     props.infos.bit_size = param1;
     props.infos.byte_size = param2;
     props.infos.encode_method = param3;
@@ -77,16 +69,16 @@ export const Encode = (props) => {
     props.setFileInfo(props.FileValue);
     //console.log(props.fileinfo);
   };
-  const DNAInfoPass = (param1, param2, param3, param4,param5,param6) => {
+  const DNAInfoPass = (param1, param2, param3, param4, param5, param6) => {
     //console.log('param6:',param6);
     props.DNAinfos.DNA_sequence = param1;
     props.DNAinfos.encoding_time = param2;
     props.DNAinfos.information_density = param3;
     props.DNAinfos.nucleotide_counts = param4;
-    props.DNAinfos.min_free_energy =param5;
-    props.DNAinfos.net_information_density = param6
+    props.DNAinfos.min_free_energy = param5;
+    props.DNAinfos.net_information_density = param6;
     props.setDNAinfo(props.DNAinfos);
-    console.log('Encode-dnaindo',props.dnainfo);
+    console.log("Encode-dnaindo", props.dnainfo);
   };
   var params1 = {
     file_uid: "1565536927137009664",
@@ -109,43 +101,43 @@ export const Encode = (props) => {
 
     // const body = params1;
 
-    const resp = await doPost("/encode", { body:params1 });
-      console.log("Encode-response: ", resp);
-      console.log("Encode-response: ", typeof(resp.min_free_energy_below_30kcal_mol));
-      InfoPass1(
-          resp.bit_size,
-          resp.byte_size,
-          resp.encode_method,
-          resp.index_length,
-          resp.segment_length,
-          resp.segment_number,
-          resp.verify_method
-      );
-      GCPass(resp.gc_data);
-      HomoPass(resp.homo_data);
-      EnergyPass(resp.energy_plot);
-      EncodeURLPass(resp.user_encode_file);
-      FileURLPass(resp.user_file_infofile);
-      DNAInfoPass(
-          resp.DNA_sequence_length,
-          resp.encoding_time,
-          resp.information_density,
-          resp.nucleotide_counts,
-          resp.min_free_energy,
-          resp.net_information_density,
-          // response.data.min_free_energy_below_30kcal_mol,
-      );
-      miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
-      props.setSpin(false);
-      console.log('完成spin');
-    };
+    const resp = await doPost("/encode", { body: params1 });
+    console.log("Encode-response: ", resp);
+    console.log("Encode-response: ", typeof resp.min_free_energy_below_30kcal_mol);
+    InfoPass1(
+      resp.bit_size,
+      resp.byte_size,
+      resp.encode_method,
+      resp.index_length,
+      resp.segment_length,
+      resp.segment_number,
+      resp.verify_method
+    );
+    GCPass(resp.gc_data);
+    HomoPass(resp.homo_data);
+    EnergyPass(resp.energy_plot);
+    EncodeURLPass(resp.user_encode_file);
+    FileURLPass(resp.user_file_infofile);
+    DNAInfoPass(
+      resp.DNA_sequence_length,
+      resp.encoding_time,
+      resp.information_density,
+      resp.nucleotide_counts,
+      resp.min_free_energy,
+      resp.net_information_density
+      // response.data.min_free_energy_below_30kcal_mol,
+    );
+    miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
+    props.setSpin(false);
+    console.log("完成spin");
+  };
 
   const scrollToAnchor = (placement) => {
-    console.log('toanthor');
+    console.log("toanthor");
     notification.info({
-      message: 'Please make sure you complete the uploading and selection above!',
+      message: "Please make sure you complete the uploading and selection above!",
       description:
-        'Confirm whether the file is uploaded and whether the encoding method is selected.',
+        "Confirm whether the file is uploaded and whether the encoding method is selected.",
       placement,
       duration: 4.5,
     });
@@ -156,14 +148,14 @@ export const Encode = (props) => {
       }
     }
   };
-  const handleExm=async()=>{
+  const handleExm = async () => {
     props.setIsSynthesis(true);
     props.changeSider(["0-0-1"]);
     props.setSpin(true);
     props.setExam(true);
-    const resp = await doPost("/encode", { body:params1 });
+    const resp = await doPost("/encode", { body: params1 });
     console.log("Encode-response: ", resp);
-    console.log("Encode-response: ", typeof(resp.min_free_energy_below_30kcal_mol));
+    console.log("Encode-response: ", typeof resp.min_free_energy_below_30kcal_mol);
     InfoPass1(
       resp.bit_size,
       resp.byte_size,
@@ -172,47 +164,43 @@ export const Encode = (props) => {
       resp.segment_length,
       resp.segment_number,
       resp.verify_method
-        );
+    );
     GCPass(resp.gc_data);
     HomoPass(resp.homo_data);
     EnergyPass(resp.energy_plot);
     EncodeURLPass(resp.user_encode_file);
     FileURLPass(resp.user_file_infofile);
     DNAInfoPass(
-        resp.DNA_sequence_length,
-        resp.encoding_time,
-        resp.information_density,
-        resp.nucleotide_counts,
-        resp.min_free_energy,
-        resp.net_information_density
-        );
+      resp.DNA_sequence_length,
+      resp.encoding_time,
+      resp.information_density,
+      resp.nucleotide_counts,
+      resp.min_free_energy,
+      resp.net_information_density
+    );
     miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
     props.setSpin(false);
-      
-  }
-  const handlereset=()=>{
-    setSeg(160)
-    SetSegvalue(160)
-    Setindexment(20)
-    setIndex(20)
-    setMethod("WithoutVerifycode")
-    setencodeValue('WithoutVerifycode')
-    setValue("Basic")
-  }
+  };
+  const handlereset = () => {
+    setSeg(160);
+    SetSegvalue(160);
+    Setindexment(20);
+    setIndex(20);
+    setMethod("WithoutVerifycode");
+    setencodeValue("WithoutVerifycode");
+    setValue("Basic");
+  };
 
   return (
-    <div className="EncodeContainer">
+    <div className="encode-container">
+      {/*顶部菜单 tab 顺序*/}
       <div style={{ paddingLeft: "100px", paddingTop: "20px" }}>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
             <a href="/home">Home</a>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            Services
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-          Encode
-          </Breadcrumb.Item>
+          <Breadcrumb.Item>Services</Breadcrumb.Item>
+          <Breadcrumb.Item>Encode</Breadcrumb.Item>
           <Breadcrumb.Item>Setting</Breadcrumb.Item>
         </Breadcrumb>
       </div>
@@ -220,7 +208,7 @@ export const Encode = (props) => {
         <Col>
           <div
             style={{
-              marginLeft: "100px",
+              // marginLeft: "100px",
               marginTop: "40px",
               fontSize: "19px",
             }}
@@ -231,7 +219,7 @@ export const Encode = (props) => {
                 <FolderAddTwoTone /> Please upload the storage files:
               </strong>
             </p>
-            <div className="uploads">
+            <div>
               <Uploads
                 GetFileID={props.setFileId}
                 FileInfoPass={FileInfoPass}
@@ -245,79 +233,75 @@ export const Encode = (props) => {
             style={{
               fontSize: "15px",
             }}
-          > 
-            
-            <Encodelists
-              setValue={setValue}
-              value={value}
-            />
+          >
+            <Encodelists setValue={setValue} value={value} />
           </div>
           <div
             id="sliders"
             style={{
-              margin: "50px 0 0 100px",
+              // margin: "50px 0 0 100px",
               fontSize: "14px",
             }}
           >
-            <Sliders 
-            indexchange={indexchange}
-            setSeg={setSeg}
-            setIndex={setIndex}
-            setMethod={setMethod}
-            setencodeValue={setencodeValue}
-            encodevalue={encodevalue}
-            SetSegvalue={SetSegvalue}
-            Segment={Segment}
-            Setindexment={Setindexment}
-            indexment={indexment}
-            />
-          </div>
-          <div id="graphs" style={{ marginLeft: "100px", paddingTop: "20px"}}>
-            <hr></hr>
-            <Graphs
-              seg={seg}
-              index={index}
-              method={method}
+            <Sliders
+              indexchange={indexchange}
               setSeg={setSeg}
               setIndex={setIndex}
               setMethod={setMethod}
+              setencodeValue={setencodeValue}
+              encodevalue={encodevalue}
+              SetSegvalue={SetSegvalue}
+              Segment={Segment}
+              Setindexment={Setindexment}
+              indexment={indexment}
             />
+          </div>
+          <div id="graphs" style={{ paddingTop: "20px" }}>
+            <hr></hr>
+            {/*<Graphs*/}
+            {/*  seg={seg}*/}
+            {/*  index={index}*/}
+            {/*  method={method}*/}
+            {/*  setSeg={setSeg}*/}
+            {/*  setIndex={setIndex}*/}
+            {/*  setMethod={setMethod}*/}
+            {/*/>*/}
             <hr />
           </div>
         </Col>
       </Row>
-      <div style={{margin:"80px 0 150px 100px"}}>
-        
-              <Button
-                type="primary"
-                shape="round"
-                size={"large"}
-                style={{width:"100px"}}
-                onClick={btnflag ? handleClick : () => scrollToAnchor('bottomLeft')}
-              >
-                Run
-              </Button>
-          
-         
-              <Button
-               shape="round"
-               size={"large"}
-                onClick={handleExm}
-                style={{marginLeft:"15px"}}
-              >
-                Example
-              </Button>
-          
-              <Button
-              shape="round"
-              size={"large"}
-              onClick={handlereset}
-              style={{marginLeft:"440px",width:"100px"}}
-              >
-                Reset
-              </Button>
-         
-        </div>
+      {/*<div style={{margin:"80px 0 150px 100px"}}>*/}
+      {/*  */}
+      {/*        <Button*/}
+      {/*          type="primary"*/}
+      {/*          shape="round"*/}
+      {/*          size={"large"}*/}
+      {/*          style={{width:"100px"}}*/}
+      {/*          onClick={btnflag ? handleClick : () => scrollToAnchor('bottomLeft')}*/}
+      {/*        >*/}
+      {/*          Run*/}
+      {/*        </Button>*/}
+      {/*    */}
+      {/*   */}
+      {/*        <Button*/}
+      {/*         shape="round"*/}
+      {/*         size={"large"}*/}
+      {/*          onClick={handleExm}*/}
+      {/*          style={{marginLeft:"15px"}}*/}
+      {/*        >*/}
+      {/*          Example*/}
+      {/*        </Button>*/}
+      {/*    */}
+      {/*        <Button*/}
+      {/*        shape="round"*/}
+      {/*        size={"large"}*/}
+      {/*        onClick={handlereset}*/}
+      {/*        style={{marginLeft:"440px",width:"100px"}}*/}
+      {/*        >*/}
+      {/*          Reset*/}
+      {/*        </Button>*/}
+      {/*   */}
+      {/*  </div>*/}
     </div>
   );
 };

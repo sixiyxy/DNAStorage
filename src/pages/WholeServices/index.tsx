@@ -7,6 +7,7 @@ import { SimulationReport } from "./SimulationReport";
 import { Decode, DecodeSetting } from "./DecodeSetting";
 import { Report } from "./Report";
 import { SimulationSetting } from "../SimulationServices/SimulationSetting";
+import { DecodeReport } from "./DecodeReport";
 
 const { Header, Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
@@ -96,7 +97,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [spinflag, setSpin] = useState(true);
   const [exam, setExam] = useState(false);
   const [mini, setMini] = useState(0);
-  const [decodeData, setDecodeData] = useState()
+  const [decodeData, setDecodeData] = useState();
   const items1 = useMemo(() => {
     return [
       {
@@ -207,7 +208,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
         selectedKeys={siderSelect}
         mode="inline"
         items={items1}
-        defaultOpenKeys={["0-0", "0-1","0-2"]}
+        defaultOpenKeys={["0-0", "0-1", "0-2"]}
       />
 
       {siderSelect[0] === "0-0-0" ? (
@@ -256,8 +257,17 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
       {siderSelect[0] === "0-1-0" ? (
         <SimulationSetting changeSider={setSiderSelect} fileId={fileId} needUploader={false} />
       ) : null}
-      {siderSelect[0] === "0-2-0" ? <DecodeSetting fileId={fileId} changeSider={setSiderSelect}  setIsDecode={setIsDecode} setDecodeData={setDecodeData}/> : null}\
-      {siderSelect[0] === "0-2-1" ? <DecodeReport fileId={fileId} isDecode={isDecode} decodeData={decodeData}/> : null}
+      {siderSelect[0] === "0-2-0" ? (
+        <DecodeSetting
+          fileId={fileId}
+          changeSider={setSiderSelect}
+          setIsDecode={setIsDecode}
+          setDecodeData={setDecodeData}
+        />
+      ) : null}
+      {siderSelect[0] === "0-2-1" ? (
+        <DecodeReport fileId={fileId} isDecode={isDecode} decodeData={decodeData} />
+      ) : null}
     </div>
   );
 };

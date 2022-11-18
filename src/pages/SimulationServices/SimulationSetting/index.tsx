@@ -16,11 +16,11 @@ export class SimulationSetProps {
   fileId;
   // 未使用到的入参，暂时以 ? 形式保留，若无需使用应予以移除
   setIsSynthesis?;
-  setFileId;
-  setclickEXM;
-  setIsdisabled;
+  setFileId?;
+  setclickEXM?;
+  setIsdisabled?;
   needUploader: boolean;
-  clickEXM;
+  clickEXM?;
 }
 
 let method = [false, false, false, false]; //存放选择的方法
@@ -144,7 +144,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   };
 
   console.log(okFlag, decayFlag, pcrFlag, sampleFlag, sequenceFlag);
-  console.log('method',method)
+  console.log("method", method);
   const uploadProps = {
     name: "file",
     multiple: true,
@@ -323,75 +323,89 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
         </Card>
       </div>
       <div>
-        <Synthesis 
-          fileId={props.fileId} 
-          setFileId={props.setFileId} 
-          okFlag={okFlag} 
-          effect1={effect1} 
-          response={response} 
-          setAlreadyRun={setAlreadyRun} 
-          alreadyRun={alreadyRun} 
-          setDECRUN={setDECRUN} 
-          setPCRRUN={setPCRRUN} 
-          setSAMRUN={setSAMRUN}  
-          setSEQRUN={setSEQRUN} 
+        <Synthesis
+          fileId={props.fileId}
+          setFileId={props.setFileId}
+          okFlag={okFlag}
+          effect1={effect1}
+          response={response}
+          setAlreadyRun={setAlreadyRun}
+          alreadyRun={alreadyRun}
+          setDECRUN={setDECRUN}
+          setPCRRUN={setPCRRUN}
+          setSAMRUN={setSAMRUN}
+          setSEQRUN={setSEQRUN}
           method1={method}
         />
-        <Decay 
-          fileId={props.fileId} 
-          decayFlag={decayFlag} 
-          okFlag={okFlag} 
-          effect2={effect2} 
-          response={response} 
-          setDECRUN={setDECRUN} 
-          decrun={decrun} 
-          setPCRRUN={setPCRRUN} 
-          setSAMRUN={setSAMRUN}  
-          setSEQRUN={setSEQRUN} 
+        <Decay
+          fileId={props.fileId}
+          decayFlag={decayFlag}
+          okFlag={okFlag}
+          effect2={effect2}
+          response={response}
+          setDECRUN={setDECRUN}
+          decrun={decrun}
+          setPCRRUN={setPCRRUN}
+          setSAMRUN={setSAMRUN}
+          setSEQRUN={setSEQRUN}
           method1={method}
         />
-        <Pcr 
-          fileId={props.fileId} 
-          pcrFlag={pcrFlag} 
-          okFlag={okFlag} 
-          effect3={effect3} 
-          response={response} 
-          setPCRRUN={setPCRRUN} 
-          pcrrun={pcrrun} 
-          setSAMRUN={setSAMRUN} 
-          setSEQRUN={setSEQRUN} 
+        <Pcr
+          fileId={props.fileId}
+          pcrFlag={pcrFlag}
+          okFlag={okFlag}
+          effect3={effect3}
+          response={response}
+          setPCRRUN={setPCRRUN}
+          pcrrun={pcrrun}
+          setSAMRUN={setSAMRUN}
+          setSEQRUN={setSEQRUN}
           method1={method}
         />
-        <Sampling 
-          fileId={props.fileId} 
-          sampleFlag={sampleFlag} 
-          okFlag={okFlag} 
-          effect4={effect4} 
-          response={response} 
-          setSAMRUN={setSAMRUN} 
-          samrun={samrun} 
-          setSEQRUN={setSEQRUN} 
+        <Sampling
+          fileId={props.fileId}
+          sampleFlag={sampleFlag}
+          okFlag={okFlag}
+          effect4={effect4}
+          response={response}
+          setSAMRUN={setSAMRUN}
+          samrun={samrun}
+          setSEQRUN={setSEQRUN}
           method1={method}
         />
-        <Sequencing 
-          fileId={props.fileId} 
-          sequenceFlag={sequenceFlag} 
-          okFlag={okFlag} 
-          effect5={effect5} 
-          response={response} 
-          setSEQRUN={setSEQRUN} 
+        <Sequencing
+          fileId={props.fileId}
+          sequenceFlag={sequenceFlag}
+          okFlag={okFlag}
+          effect5={effect5}
+          response={response}
+          setSEQRUN={setSEQRUN}
           seqrun={seqrun}
         />
       </div>
-      <div className="simulation-footer-buttons">
-        <div>
-          <Button shape="round" type="primary" size="large" disabled={!dis0} onClick={handleReport}>
-            Report
-          </Button>
-          <Button type="primary" shape="round" size="large" disabled={!dis0} onClick={handleReset}>
-            Reset
-          </Button>
-        </div>
+      <div className="simulation-setting-footer-buttons">
+        <Card>
+          <div className="simulation-setting-footer-buttons-group">
+            <Button
+              shape="round"
+              type="primary"
+              size="large"
+              disabled={!dis0}
+              onClick={handleReport}
+            >
+              Report
+            </Button>
+            <Button
+              type="primary"
+              shape="round"
+              size="large"
+              disabled={!dis0}
+              onClick={handleReset}
+            >
+              Reset
+            </Button>
+          </div>
+        </Card>
       </div>
     </div>
   );

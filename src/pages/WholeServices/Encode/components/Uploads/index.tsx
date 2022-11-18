@@ -2,8 +2,9 @@ import { InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
 import { message, Upload } from "antd";
 import React, { useState } from "react";
-import {API_PREFIX} from "../../../../../common/Config";
+import { API_PREFIX } from "../../../../../common/Config";
 const { Dragger } = Upload;
+import "./index.less";
 
 const Uploads: React.FC = (props: any) => {
   //const [fileID,setfileID] = useState(FileValue)
@@ -11,14 +12,14 @@ const Uploads: React.FC = (props: any) => {
     name: "file",
     multiple: true,
     action: API_PREFIX + "/file_upload",
-    maxCount:1,
+    maxCount: 1,
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
-        console.log('文件上传后端返回值',info.file);
+        console.log("文件上传后端返回值", info.file);
         props.setBtn(true);
-        if(info.file.response.upload_file_szie >= 2048000) {
-          props.setChange(false) //文件大于2M
+        if (info.file.response.upload_file_szie >= 2048000) {
+          props.setChange(false); //文件大于2M
         }
         props.GetFileID(info.file.response.file_uid);
         props.FileInfoPass(
@@ -39,15 +40,13 @@ const Uploads: React.FC = (props: any) => {
   };
 
   return (
-    <div className="dragger">
+    <div className="encode-uploads">
       <Dragger {...Props}>
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
         <p className="ant-upload-text">Let's start!</p>
-        <p className="ant-upload-hint">
-          Support file types: video, txt, mp3, picture...
-        </p>
+        <p className="ant-upload-hint">Support file types: video, txt, mp3, picture...</p>
       </Dragger>
     </div>
   );
