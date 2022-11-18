@@ -3,11 +3,11 @@ import "./index.less";
 import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
 import { Encode } from "./Encode";
-import { SimulationReport } from "./SimulationReport";
 import { DecodeSetting } from "./DecodeSetting";
 import { Report } from "./Report";
-import { SimulationSetting } from "../SimulationServices/SimulationSetting";
 import { DecodeReport } from "./DecodeReport";
+import { SimulationReport } from "./SimulationReport";
+import { SimulationSetting } from "./SimulationSetting";
 
 const { Header, Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>["items"][number];
@@ -41,7 +41,7 @@ const FileValue = {
 };
 
 export const WholeServices: React.FC<ServicesProps> = (props) => {
-  const [siderSelect, setSiderSelect] = useState(["0-0-0"]);
+  const [siderSelect, setSiderSelect] = useState(["0-2-1"]);
   const [fileId, setFileId] = useState("");
   const [isSynthesis, setIsSynthesis] = useState(false);
   const [isDecode, setIsDecode] = useState(false);

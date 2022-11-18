@@ -926,9 +926,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         </Breadcrumb>
       </div>
       <div className="simulation-report-content-wrapper">
-        <Spin tip="Loading..." size="large" spinning={false}>
+        <Spin tip="Loading..." size="large" spinning={spinflag}>
           <Card>
-            <Tabs defaultActiveKey="5" size={"large"}>
+            <Tabs defaultActiveKey="1" size={"large"}>
               <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined}>
                 <div className="TabSYN">
                   synthesis_number : {synthesisData?.synthesis_number}
