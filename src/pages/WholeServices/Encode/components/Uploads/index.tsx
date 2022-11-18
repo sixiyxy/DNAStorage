@@ -13,11 +13,23 @@ const Uploads: React.FC = (props: any) => {
     multiple: true,
     action: API_PREFIX + "/file_upload",
     maxCount: 1,
+    
+    beforeUpload(file, fileList){
+      const islt5M = file.size / 1024 /1024 < 10
+        if (!islt5M) {
+            message.error('文件过大！！')
+            const index = fileList.indexOf(file)
+            fileList.splice(index, 1)
+            return false
+        }
+        else{
+          props.setBtn(true);
+        }
+    },
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
         console.log("文件上传后端返回值", info.file);
-        props.setBtn(true);
         if (info.file.response.upload_file_szie >= 2048000) {
           props.setChange(false); //文件大于2M
         }

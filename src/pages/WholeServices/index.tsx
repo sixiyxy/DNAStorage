@@ -103,7 +103,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           {
             label: "Report",
             key: "0-2-1",
-            disabled: !isDecode,
+            // disabled: !isDecode,
           },
         ],
       },

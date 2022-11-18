@@ -153,6 +153,7 @@ export const Encode = (props) => {
     props.changeSider(["0-0-1"]);
     props.setSpin(true);
     props.setExam(true);
+    props.setFileId('1565536927137009664');
     const resp = await doPost("/encode", { body: params1 });
     console.log("Encode-response: ", resp);
     console.log("Encode-response: ", typeof resp.min_free_energy_below_30kcal_mol);

@@ -23,6 +23,7 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
       title: "Information",
       dataIndex: "value",
       key: "value",
+      align:"center"
     },
   ];
 
@@ -95,6 +96,7 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
           <Breadcrumb.Item>Decode</Breadcrumb.Item>
         </Breadcrumb>
       </div>
+
       <div className="decode-report-file-information">
         <Card title="Result" headStyle={{ backgroundColor: "#99CCFF" }}>
           <div>
@@ -102,10 +104,11 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
               columns={columns}
               dataSource={tableData}
               pagination={{ position: ["none"] }}
-              size={"small"}
+              // size={"small"}
             />
           </div>
         </Card>
+
       </div>
     </div>
   );

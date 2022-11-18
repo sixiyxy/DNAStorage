@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Card, Radio, RadioChangeEvent, Space, Table } from "antd";
+import { Breadcrumb, Button, Card, Radio, RadioChangeEvent, Space, Table,Row,Col} from "antd";
 import axios from "axios";
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
@@ -132,17 +132,11 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
       {/*信息介绍部分*/}
       <div className="decode-information-wrapper">
         <div className="summary">
-          <Card title="Summary" headStyle={{ backgroundColor: "#99CCFF" }}>
-            <div style={{ display: "flex" }}>
-              <div>
-                <p
-                  style={{
-                    margin: "0px 30px 20px 10px",
-                    fontSize: "15px",
-                    width: "400px",
-                    textAlign: "justify",
-                  }}
-                >
+          <Card >
+          <Row>
+            <Col span={10}>
+                <div className="summary-word" >
+                  <p>
                   In the DNA storage process, file recovery needs to decode the DNA sequences
                   according to the reverse process of the encoding roles. However，DNA sequences
                   obtained by sequencing usually have random errors(insert\indel\SNV, we have
@@ -152,18 +146,32 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
                   Subsequently, the bits fragments will be removed from the verification code and
                   index code. Finally, we analyze the recovery information of bits fragment in the
                   report.
-                </p>
-                <Button
-                  type="primary"
-                  shape="round"
-                  size={"large"}
-                  style={{ width: "100px", margin: "20% 35%" }}
-                >
-                  Example
-                </Button>
+                  </p>
+                  
+                </div>
+            </Col>
+            
+            <Col span={10}>
+              <div className="summary-img">
+                <Image
+                  width={"130%"}
+                  // height={"50%"}
+                  src="/src/assets/service/decode.png"
+                />
               </div>
-              <Image src="/src/assets/service/decode.png" />
-            </div>
+            </Col>
+          </Row>
+          <div className="decode-button-group">
+                    <Button
+                      className="exm"
+                      type="primary"
+                      shape="round"
+                      size="large"
+                      // onClick={handleEXM}
+                    >
+                      Example
+                    </Button>
+          </div>
           </Card>
         </div>
         <div className="cluster-algorithm-wrapper">
