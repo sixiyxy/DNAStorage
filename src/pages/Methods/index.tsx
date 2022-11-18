@@ -42,17 +42,19 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           </div>
           <br/>
 
-          <h2 id="summary" className="first-title"> <ContainerTwoTone style={{verticalAlign: "middle"}}/> Summary</h2>
-            <p className="text-content">DNA storage designer is an online web server that provides services for whole-process DNA storage experiment design guidelines and simulation,
+          <h2 id="Introduction" className="first-title"> <ContainerTwoTone style={{verticalAlign: "middle"}}/> Introduction</h2>
+            <p className="text-content">DNA storage designer is an online web server that provides services for whole-process DNA storage experiment design simulation and guidelines,
             from encoding, error simulation to decoding.  Undoubtedly, the very first and key step for DNA storage is the encoding process.
             Thus, we incorporate 8 encoding methods together with 2 mainstream verify codes, Reed Solomon Code and Hamming Code,
             to conduct basic error correction. To maximize the restoration of the mutations and errors that occur in real experiments,
-            we embedded a five-process error simulation of DNA sequence storage (Including synthesis, decay, PCR, sample, and sequencing processes).
+            we embed a five-process error simulation of DNA sequence storage (including synthesis, decay, PCR, sample, and sequencing processes).
             Based on the literature, common experiment settings and conditions are provided. Users could set and simulate their experiments accordingly.
-            Also, stages are optional except that synthesis is a must. Finally, if we want to decode the simulated DNA sequences,
+            Also, stages are optional except that synthesis is a must. Finally, if you want to decode the simulated DNA sequences,
             we utilize Starcode and Cd-hit tools to de-redundancy and cluster the sequences.
+
             <br/>
-            All the mentioned methods are provided and users could choose based on their needs. The following part will introduce these methods in one by one.
+            <br/>
+            All the mentioned methods are provided and users could choose based on your needs. The following part will introduce these methods one by one.
             Their corresponding references are also provided.
             </p>
             <br/>
@@ -61,7 +63,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           <h3 id="encode-method" className="second-title">1	Encoding Method</h3>
             <h4 id="vanilla-code" className="third-title">1.1 Vanilla code</h4>
               <p className="text-content"><i>Vanilla code</i> is the most basic one, it simply transforms the data according to the naive rules:
-              <i>00-{'>'}A; 01-{'>'}C; 10-{'>'}G; 11-{'>'}T</i>. For example, the uploaded file which is converted into binary bits as 01 10 11 10 00 10… will be transferred to a DNA sequence ‘CGTGAG’ accordingly.
+              <i>00-{'>'}A; 01-{'>'}C; 10-{'>'}G; 11-{'>'}T</i>. For example, the uploaded file which is converted into binary bits as "01 10 11 10 00 10" will be transferred to a DNA sequence ‘CGTGAG’ accordingly.
               </p>
               <h4 id="yinyang" className="third-title">1.2 Yin-Yang Code</h4>
               <p className="text-content"> The authors propose a robust transcoding algorithm named <i>the yin–yang code</i>,
@@ -94,8 +96,8 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               https://github.com/TeamErlich/dna-fountain
               </a>
               </p>
-              <h4 id="dna-information" className="third-title">1.4 DNA information Code</h4>
-              <p className="text-content"> <i>DNA information Code</i> has at least five advantages over the previous DNA storage approaches.
+              <h4 id="dna-information" className="third-title">1.4 DNA Information Code</h4>
+              <p className="text-content"> <i>DNA Information Code</i> has at least five advantages over the previous DNA storage encoding approaches.
               It encodes one bit per base (A or C for zero, G or T for one), instead of two.
               This method allows us to encode messages in many ways so that we could avoid sequences that are difficult to read or write due
               to problems like extreme GC content, repeats, and secondary structure flexibly.
@@ -151,7 +153,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               Grass, R. N., Heckel, R., Puddu, M., Paunescu, D., &Stark, W. J. (2015).
               <i><strong> Robust chemical preservation of digital information on DNA in silica with error-correcting codes.</strong></i>
               Angewandte Chemie International Edition, 54(8), 2552-2555.</p>
-              <h4 id="forward-error" className="third-title">1.7 Forward error correction Code</h4>
+              <h4 id="forward-error" className="third-title">1.7 Forward Error Correction Code</h4>
               <p className="text-content"> Based on a proof-of-concept conducted in 2012 by a team from the Harvard Medical School,
               the authors propose the forward error scheme,
               which is able to cope with all error types of today's DNA synthesis, amplification and sequencing processes.
@@ -438,15 +440,15 @@ export const Methods: React.FC<MethodsProps> = (props) => {
         {/*position:"fixed",top:"150px",margin:"0px 1100px",display:"flex" */}
         <div style={{position:"fixed",top:"100px",margin:"0px 20px  0px"}}>
             <Anchor targetOffset={targetOffset} onClick={scrollToAnchor} affix={false}>
-              <Link href="#summary" title="Summary" />
+              <Link href="#Introduction" title="Introduction" />
               <Link href="#encode-method" title="1 Encoding Method" >
                 <Link href="#vanilla-code" title="1.1 Vanilla code" />
                 <Link href="#yinyang" title="1.2 Yin-Yang Code" />
                 <Link href="#dna-fountain" title="1.3 DNA Fountain Code" />
-                <Link href="#dna-information" title="1.4 DNA information Code" />
+                <Link href="#dna-information" title="1.4 DNA Information Code" />
                 <Link href="#nick-doldman" title="1.5 Nick Goldman Code" />
                 <Link href="#robert" title="1.6 Robert N. Grass Code" />
-                <Link href="#forward-error" title="1.7 Forward error correction Code" />
+                <Link href="#forward-error" title="1.7 Forward Error Correction Code" />
                 <Link href="#hierarchical" title="1.8 Hierarchical Error Correction Code" />
               </Link>
               <Link href="#verify-code" title="2 Verify code" >
