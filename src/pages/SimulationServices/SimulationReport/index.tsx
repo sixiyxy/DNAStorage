@@ -193,19 +193,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     ];
   }, [samplingData]);
   const synthesisErrorParamConfig = {
-    appendPadding: 10,
     data:synthesisErrorParamData,
+    appendPadding: 10,
     angleField: 'value',
     colorField: 'type',
-    radius: 0.9,
+    radius: 0.8,
     label: {
-      type: 'inner',
-      offset: '-30%',
-      content: "{value}%",
-      style: {
-        fontSize: 14,
-        textAlign: 'center',
-      },
+      type: 'outer',
     },
     interactions: [
       {
@@ -251,114 +245,48 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   
   const decayErrorParamConfig = {
     data: decayErrorParamData,
-    angleField: "value",
-    colorField: "type",
-    radius: 1,
-    innerRadius: 0.6,
-    width: 200,
-    height: 200,
+    appendPadding: 10,
+    angleField: 'value',
+    colorField: 'type',
+    radius: 0.8,
     label: {
-      type: "inner",
-      offset: "-50%",
-      content: "{value}%",
-      style: {
-        textAlign: "center",
-        fontSize: 14,
-      },
+      type: 'outer',
     },
     interactions: [
       {
-        type: "element-selected",
-      },
-      {
-        type: "element-active",
+        type: 'element-active',
       },
     ],
-    statistic: {
-      title: false,
-      content: {
-        style: {
-          whiteSpace: "pre-wrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        },
-        // content: "Error\nParam",
-      },
-    },
   };
   const pcrErrorParamConfig = {
     data: pcrErrorParamData,
-    angleField: "value",
-    colorField: "type",
-    radius: 1,
-    innerRadius: 0.6,
-    width: 200,
-    height: 200,
+    appendPadding: 10,
+    angleField: 'value',
+    colorField: 'type',
+    radius: 0.8,
     label: {
-      type: "inner",
-      offset: "-50%",
-      content: "{value}%",
-      style: {
-        textAlign: "center",
-        fontSize: 14,
-      },
+      type: 'outer',
     },
     interactions: [
       {
-        type: "element-selected",
-      },
-      {
-        type: "element-active",
+        type: 'element-active',
       },
     ],
-    statistic: {
-      title: false,
-      content: {
-        style: {
-          whiteSpace: "pre-wrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        },
-        // content: "Error\nParam",
-      },
-    },
   };
   const sequenceErrorParamConfig = {
     data: sequenceingErrorParamData,
-    angleField: "value",
-    colorField: "type",
-    radius: 1,
-    innerRadius: 0.6,
-    width: 200,
-    height: 200,
+    appendPadding: 10,
+    angleField: 'value',
+    colorField: 'type',
+    radius: 0.8,
     label: {
-      type: "inner",
-      offset: "-50%",
-      content: "{value}%",
-      style: {
-        textAlign: "center",
-        fontSize: 14,
-      },
+      type: 'outer',
     },
     interactions: [
       {
-        type: "element-selected",
-      },
-      {
-        type: "element-active",
+        type: 'element-active',
       },
     ],
-    statistic: {
-      title: false,
-      content: {
-        style: {
-          whiteSpace: "pre-wrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        },
-        // content: "Error\nParam",
-      },
-    },
   };
   const samplingErrorParamConfig = {
     data: samplingErrorParamData,
@@ -997,23 +925,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                   Pcr Probability: {pcrData?.pcr_prob}
                   <br />
                   <br />
-                  {/* pcr_method_reference:
-                  <br />
-                  {pcrData?.pcr_method_reference?.map((link, index) => {
-                    return (
-                      <>
-                        <a
-                          style={{ margin: "0 0 0 5px" }}
-                          href={link}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {link}
-                        </a>
-                        <br />
-                      </>
-                    );
-                  })} */}
                 </div>
                 <p>The error rate distribution of your chosen pcr polymerase is as follows:</p>
                 <Pie className="pie" {...pcrErrorParamConfig} />
@@ -1031,18 +942,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                   Sequencing Method : {sequencingData?.seq_meth}
                   <br />
                   <br />
-                  {/* seq_method_reference :
-            <br />
-            {sequencingData?.seq_method_reference?.map((link, index) => {
-              return (
-                <>
-                  <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank" rel="noreferrer">
-                    {link}
-                  </a>
-                  <br />
-                </>
-              );
-            })} */}
                 </div>
                 <p>The error rate distribution of your chosen sequencing method is as follows:</p>
                 <Pie className="pie" {...sequenceErrorParamConfig} />

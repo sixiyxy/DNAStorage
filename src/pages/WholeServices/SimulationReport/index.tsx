@@ -194,151 +194,63 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   }, [samplingData]);
   const synthesisErrorParamConfig = {
     data: synthesisErrorParamData,
-    angleField: "value",
-    colorField: "type",
-    radius: 1,
-    innerRadius: 0.6,
-    width: 200,
-    height: 200,
+    appendPadding: 10,
+    angleField: 'value',
+    colorField: 'type',
+    radius: 0.8,
     label: {
-      type: "inner",
-      offset: "-50%",
-      content: "{value}%",
-      style: {
-        textAlign: "center",
-        fontSize: 14,
-      },
+      type: 'outer',
     },
     interactions: [
       {
-        type: "element-selected",
-      },
-      {
-        type: "element-active",
+        type: 'element-active',
       },
     ],
-    statistic: {
-      title: false,
-      content: {
-        style: {
-          whiteSpace: "pre-wrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        },
-        // content: "Error\nParam",
-      },
-    },
   };
   const decayErrorParamConfig = {
     data: decayErrorParamData,
-    angleField: "value",
-    colorField: "type",
-    radius: 1,
-    innerRadius: 0.6,
-    width: 200,
-    height: 200,
+    appendPadding: 10,
+    angleField: 'value',
+    colorField: 'type',
+    radius: 0.8,
     label: {
-      type: "inner",
-      offset: "-50%",
-      content: "{value}%",
-      style: {
-        textAlign: "center",
-        fontSize: 14,
-      },
+      type: 'outer',
     },
     interactions: [
       {
-        type: "element-selected",
-      },
-      {
-        type: "element-active",
+        type: 'element-active',
       },
     ],
-    statistic: {
-      title: false,
-      content: {
-        style: {
-          whiteSpace: "pre-wrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        },
-        // content: "Error\nParam",
-      },
-    },
   };
   const pcrErrorParamConfig = {
     data: pcrErrorParamData,
-    angleField: "value",
-    colorField: "type",
-    radius: 1,
-    innerRadius: 0.6,
-    width: 200,
-    height: 200,
+    appendPadding: 10,
+    angleField: 'value',
+    colorField: 'type',
+    radius: 0.8,
     label: {
-      type: "inner",
-      offset: "-50%",
-      content: "{value}%",
-      style: {
-        textAlign: "center",
-        fontSize: 14,
-      },
+      type: 'outer',
     },
     interactions: [
       {
-        type: "element-selected",
-      },
-      {
-        type: "element-active",
+        type: 'element-active',
       },
     ],
-    statistic: {
-      title: false,
-      content: {
-        style: {
-          whiteSpace: "pre-wrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        },
-        // content: "Error\nParam",
-      },
-    },
   };
   const sequenceErrorParamConfig = {
     data: sequenceingErrorParamData,
-    angleField: "value",
-    colorField: "type",
-    radius: 1,
-    innerRadius: 0.6,
-    width: 200,
-    height: 200,
+    appendPadding: 10,
+    angleField: 'value',
+    colorField: 'type',
+    radius: 0.8,
     label: {
-      type: "inner",
-      offset: "-50%",
-      content: "{value}%",
-      style: {
-        textAlign: "center",
-        fontSize: 14,
-      },
+      type: 'outer',
     },
     interactions: [
       {
-        type: "element-selected",
-      },
-      {
-        type: "element-active",
+        type: 'element-active',
       },
     ],
-    statistic: {
-      title: false,
-      content: {
-        style: {
-          whiteSpace: "pre-wrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        },
-        // content: "Error\nParam",
-      },
-    },
   };
   const samplingErrorParamConfig = {
     data: samplingErrorParamData,
@@ -893,24 +805,25 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             <Tabs defaultActiveKey="1" size={"large"}>
               <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined}>
                 <div className="TabSYN">
-                  synthesis_number : {synthesisData?.synthesis_number}
+                  synthesis number : {synthesisData?.synthesis_number}
                   <br />
-                  synthesis_yield : {synthesisData?.synthesis_yield}
+                  synthesis yield : {synthesisData?.synthesis_yield}
                   <br />
-                  synthesis_method : {synthesisData?.synthesis_method}
+                  synthesis method : {synthesisData?.synthesis_method}
                   <br />
                 </div>
                 <p>The error rate distribution of your chosen synthesis method is as follows:</p>
-
+              
                 <Pie className="pie" {...synthesisErrorParamConfig} />
+              
               </Tabs.TabPane>
               <Tabs.TabPane tab="Decay" key="2" disabled={decayData === undefined}>
                 <div className="TabDEC">
-                  storage_host : {decayData?.storage_host}
+                  storage host : {decayData?.storage_host}
                   <br />
-                  months_of_storage : {decayData?.months_of_storage}
+                  months of storage : {decayData?.months_of_storage}
                   <br />
-                  decay_loss_rate : {decayData?.decay_loss_rate}
+                  decay loss rate : {decayData?.decay_loss_rate}
                   <br />
                   {/* storage_host_parameter_reference :
             <br />
@@ -930,14 +843,14 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               </Tabs.TabPane>
               <Tabs.TabPane tab="PCR" key="3" disabled={pcrData === undefined}>
                 <div className="TabPCR">
-                  pcr_polymerase: {pcrData?.pcr_polymerase}
+                  pcr polymerase : {pcrData?.pcr_polymerase}
                   <br />
-                  pcr_cycle: {pcrData?.pcr_cycle}
+                  pcr cycle : {pcrData?.pcr_cycle}
                   <br />
-                  pcr_prob: {pcrData?.pcr_prob}
+                  pcr prob : {pcrData?.pcr_prob}
                   <br />
-                  pcr_method_reference:
-                  <br />
+                  {/* pcr_method_reference : */}
+                  {/* <br />
                   {pcrData?.pcr_method_reference?.map((link, index) => {
                     return (
                       <>
@@ -952,7 +865,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                         <br />
                       </>
                     );
-                  })}
+                  })} */}
                 </div>
                 <p>The error rate distribution of your chosen pcr polymerase is as follows:</p>
                 <Pie className="pie" {...pcrErrorParamConfig} />
@@ -965,9 +878,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sequencing" key="5" disabled={sequencingData === undefined}>
                 <div className="TabSEQ">
-                  sequencing_depth : {sequencingData?.seq_depth}
+                  sequencing depth : {sequencingData?.seq_depth}
                   <br />
-                  sequencing_method : {sequencingData?.seq_meth}
+                  sequencing method : {sequencingData?.seq_meth}
                   <br />
                   {/* seq_method_reference :
             <br />
