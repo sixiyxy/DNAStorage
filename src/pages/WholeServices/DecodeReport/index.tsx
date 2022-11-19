@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Card, Radio, RadioChangeEvent, Space, Table } from "antd";
+import { Breadcrumb, Button, Card, Radio, RadioChangeEvent, Space, Table,Spin} from "antd";
 import axios from "axios";
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
@@ -9,6 +9,7 @@ export class DecodeProps {
   fileId;
   decodeData;
   isDecode;
+  spinflag;
 }
 
 export const DecodeReport: React.FC<DecodeProps> = (props) => {
@@ -37,54 +38,71 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
       },
       {
         key: "2",
-        name: "Clust time",
+        name: "Clust method",
         value: data?.clust_method || "",
       },
       {
         key: "3",
+        name: "Clust time",
+        value: data?.clust_time || "",
+      },
+      {
+        key: "4",
         name: "Encode DNA sequence number",
         value: data?.encode_dna_sequence_number || "",
       },
       {
-        key: "4",
-        name: "Simulation DNA sequence number",
-        value: data?.simulation_dna_sequence_number || "",
-      },
-      {
         key: "5",
-        name: "Cluster DNA sequence number",
-        value: data?.after_cluster_dna_sequence_number || "",
+        name: "Simulation DNA sequence number",
+        value: data?.simulation_dna_number || "",
       },
       {
         key: "6",
+        name: "Cluster DNA sequence number",
+        value: data?.after_clust_dna_sequence_number || "",
+      },
+      {
+        key: "7",
         name: "Recall DNA sequence number",
         value: data?.recall_dna_sequence_number || "",
       },
       {
-        key: "7",
+        key: "8",
         name: "Recall rate",
         value: data?.recall_dna_sequence_rate || "",
       },
       {
-        key: "8",
-        name: "Encode bits fragments",
-        value: data?.verify_method_remove_bits || "",
-      },
-      {
         key: "9",
-        name: "Decode bits fragments",
+        name: "Encode bits fragments",
         value: data?.encode_bits_number || "",
       },
       {
         key: "10",
+        name: "Decode bits fragments",
+        value: data?.fianl_decode_bits_number || "",
+      },
+      {
+        key: "11",
         name: "Recall bits fragments",
-        value: data?.final_decode_bits_number || "",
+        value: data?.recall_bits_number || "",
+      },
+      {
+        key: "12",
+        name: "Recall bits rate",
+        value: data?.recall_bits_rate || "",
       },
     ];
   }, [props.decodeData]);
 
   return (
     <div className="decode-report-wrapper">
+      <Spin
+        tip="Loading..."
+        size="large"
+        spinning={props.spinflag}
+        // spinning={false}
+        delay={10}
+      >
       <div>
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
@@ -103,13 +121,14 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
             <Table
               columns={columns}
               dataSource={tableData}
-              pagination={{ position: ["none"] }}
+              pagination={{ position: ["none"],pageSize:15}}
+              // pagination={{}}
               // size={"small"}
             />
           </div>
         </Card>
-
       </div>
+      </Spin>
     </div>
   );
 };

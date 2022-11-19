@@ -185,10 +185,11 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               changeSider={setSiderSelect}
               setIsDecode={setIsDecode}
               setDecodeData={setDecodeData}
+              setSpin={setSpin}
             />
           ) : null}
           {siderSelect[0] === "0-2-1" ? (
-            <DecodeReport fileId={fileId} isDecode={isDecode} decodeData={decodeData} />
+            <DecodeReport fileId={fileId} isDecode={isDecode} decodeData={decodeData} spinflag={spinflag}/>
           ) : null}
         </div>
       </div>

@@ -10,6 +10,7 @@ export class DecodeProps {
   changeSider;
   setIsDecode;
   setDecodeData;
+  setSpin;
 }
 
 export const DecodeSetting: React.FC<DecodeProps> = (props) => {
@@ -19,76 +20,6 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
     setValue(e.target.value);
   };
 
-  // const columns = [
-  //   {
-  //     title: "Name",
-  //     dataIndex: "name",
-  //     key: "name",
-  //     width: 400,
-  //   },
-  //   {
-  //     title: "Information",
-  //     dataIndex: "value",
-  //     key: "value",
-  //   },
-  // ];
-
-  // const tableData = useMemo(() => {
-  //   return [
-  //     {
-  //       key: "1",
-  //       name: "Decode time",
-  //       value: data?.decode_time || "",
-  //     },
-  //     {
-  //       key: "2",
-  //       name: "Clust time",
-  //       value: data?.clust_method || "",
-  //     },
-  //     {
-  //       key: "3",
-  //       name: "Encode DNA sequence number",
-  //       value: data?.encode_dna_sequence_number || "",
-  //     },
-  //     {
-  //       key: "4",
-  //       name: "Simulation DNA sequence number",
-  //       value: data?.encode_dna_sequence_number || "",
-  //     },
-  //     {
-  //       key: "5",
-  //       name: "Cluster DNA sequence number",
-  //       value: data?.after_clust_dna_sequence_number || "",
-  //     },
-  //     {
-  //       key: "6",
-  //       name: "Recall DNA sequence number",
-  //       value: data?.recall_dna_sequence_number || "",
-  //     },
-  //     {
-  //       key: "7",
-  //       name: "Recall rate",
-  //       value: data?.recall_dna_sequence_rate || "",
-  //     },
-  //     {
-  //       key: "8",
-  //       name: "Encode bits fragments",
-  //       value: data?.verify_method_remove_bits || "",
-  //     },
-  //     {
-  //       key: "9",
-  //       name: "Decode bits fragments",
-  //       value: data?.encode_bits_number || "",
-  //     },
-  //     {
-  //       key: "10",
-  //       name: "Recall bits fragments",
-  //       value: data?.final_decode_bits_number || "",
-  //     },
-
-  //   ];
-  // }, [data]);
-
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
@@ -97,11 +28,14 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
   }, [value, props.fileId]);
 
   const onDecode = function () {
+    props.changeSider(["0-2-1"]);
+    props.setSpin(true)
     axios.post(API_PREFIX + "/decode", params).then(function (response) {
       //console.log("decode", response);
       props.setDecodeData(response?.data);
       props.setIsDecode(true);
-      props.changeSider(["0-2-1"]);
+      props.setSpin(false)
+      
     });
   };
 

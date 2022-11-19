@@ -3,7 +3,7 @@ import "./index.less";
 import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
 import { SimulationSetting } from "../SimulationServices/SimulationSetting";
-import { SimulationReport } from "../WholeServices/SimulationReport";
+import { SimulationReport } from "../SimulationServices/SimulationReport";
 
 // import { Synthesis } from "./SimulationSetting/Synthesis";
 // import { Decay } from "./Decay";

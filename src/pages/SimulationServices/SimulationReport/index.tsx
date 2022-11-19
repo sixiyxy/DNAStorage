@@ -841,7 +841,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
-      // upload_flag: "True",
+      upload_flag: "True",
       // file_uid: "1565536927137009664",
     };
   }, []);
