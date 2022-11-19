@@ -844,7 +844,7 @@ class DNAFountain(AbstractCodingAlgorithm):
 class YinYangCode(AbstractCodingAlgorithm):
 
     def __init__(self, yang_rule=None, yin_rule=None, virtual_nucleotide="A", max_iterations=100,
-                 max_ratio=0.8, faster=True, max_homopolymer=4, max_content=0.6, need_logs=False):
+                 max_ratio=0.8, faster=True, max_homopolymer=4, max_content=0.6,index_length=0, need_logs=False):
         super().__init__(need_logs)
 
         if not yang_rule:
@@ -860,8 +860,8 @@ class YinYangCode(AbstractCodingAlgorithm):
         self.max_content = max_content
         self.max_ratio = max_ratio
         self.faster = faster
-        self.index_length = 0
-        self.total_count = 0
+        self.index_length = index_length
+        self.total_count = 100000
 
         self.__init_check__()
 
@@ -1100,6 +1100,8 @@ class YinYangCode(AbstractCodingAlgorithm):
 
         remain_bit_segments = []
         for bit_segment in bit_segments:
+            # print(bit_segment,len(bit_segment),self.index_length)
+            # print(bit_segment[:self.index_length])
             segment_index = int("".join(list(map(str, bit_segment[:self.index_length]))), 2)
             if segment_index < self.total_count:
                 remain_bit_segments.append(bit_segment)

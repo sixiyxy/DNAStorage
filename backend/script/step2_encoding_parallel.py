@@ -242,6 +242,7 @@ class Encoding():
                 parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
             
             run_time = (datetime.now() - start_time).total_seconds()
+            run_time = '%.2f'%(run_time)
             record_info = self.contact_result(parallel_results)
         # txt method
         elif self.encode_method == 'SrcCode':
@@ -297,9 +298,9 @@ class Encoding():
         record_info['physical_information_density_ug'] = '{} petabyte/ug'.format(record_info['physical_information_density_ug'])
 
         # record energy
-        # record_info,free_energy_plotdata = add_min_free_energydata(self.min_free_energy_tools,self.dna_demo_file,
-        #                                     self.free_enerfy_file,record_info)
-        # record_info['energy_plot']=free_energy_plotdata
+        record_info,free_energy_plotdata = add_min_free_energydata(self.min_free_energy_tools,self.dna_demo_file,
+                                            self.free_enerfy_file,record_info)
+        record_info['energy_plot']=free_energy_plotdata
         record_info = write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print(record_info)
         
