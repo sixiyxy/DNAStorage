@@ -57,6 +57,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     if (props.setIsdisabled) {
       props.setIsdisabled(true);
     }
+    window.scrollTo(0, 0);
   }, []);
   const paramExm = {
     type: "simulation",
@@ -199,7 +200,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           <Row>
             <Col span={10}>
               <div className="decode-button-group">
-                <div className="summary-word">
+                <div className="Whole-summary-word">
                   <p>
                     The simulation service allows user to upload their own fasta DNA file to proceed
                     error simulation stage. It covers the five stages of DNA storage, namely,
@@ -212,7 +213,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                   </div>
                     <Button
                       className="exm"
-                      type="primary"
+                      // type="primary"
                       shape="round"
                       size="large"
                       onClick={handleEXM}
@@ -223,7 +224,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
               </div>
             </Col>
             <Col span={10}>
-              <div style={{ marginLeft: "150px" }}>
+              <div className="summary-img">
                 <Image
                   width={"130%"}
                   // height={"50%"}

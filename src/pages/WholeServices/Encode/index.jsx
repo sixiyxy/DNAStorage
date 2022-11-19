@@ -69,7 +69,7 @@ export const Encode = (props) => {
     props.setFileInfo(props.FileValue);
     //console.log(props.fileinfo);
   };
-  const DNAInfoPass = (param1, param2, param3, param4, param5, param6) => {
+  const DNAInfoPass = (param1, param2, param3, param4, param5, param6, param7) => {
     //console.log('param6:',param6);
     props.DNAinfos.DNA_sequence = param1;
     props.DNAinfos.encoding_time = param2;
@@ -77,6 +77,7 @@ export const Encode = (props) => {
     props.DNAinfos.nucleotide_counts = param4;
     props.DNAinfos.min_free_energy = param5;
     props.DNAinfos.net_information_density = param6;
+    props.DNAinfos.physical_information_density_g = param7
     props.setDNAinfo(props.DNAinfos);
     console.log("Encode-dnaindo", props.dnainfo);
   };
@@ -124,7 +125,8 @@ export const Encode = (props) => {
       resp.information_density,
       resp.nucleotide_counts,
       resp.min_free_energy,
-      resp.net_information_density
+      resp.net_information_density,
+      resp.physical_information_density_g
       // response.data.min_free_energy_below_30kcal_mol,
     );
     miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
@@ -177,7 +179,8 @@ export const Encode = (props) => {
       resp.information_density,
       resp.nucleotide_counts,
       resp.min_free_energy,
-      resp.net_information_density
+      resp.net_information_density,
+      resp.physical_information_density_g
     );
     miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
     props.setSpin(false);
@@ -223,7 +226,7 @@ export const Encode = (props) => {
                 </div>
                 <Button
                       className="exm"
-                      type="primary"
+                      // type="primary"
                       shape="round"
                       size="large"
                       onClick={handleExm}
