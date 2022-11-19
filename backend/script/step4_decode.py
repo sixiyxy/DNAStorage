@@ -15,14 +15,7 @@ verify_methods = {
     "Hamming":Hamming(need_logs=False),
     "ReedSolomon":ReedSolomon(need_logs=False)}
 
-encoding_methods = {
-    "Basic":BaseCodingAlgorithm(need_logs=False),
-    "Church":Church(need_logs=False),
-    "Goldman":Goldman(need_logs=False),
-    "Grass":Grass(need_logs=False),
-    "Blawat":Blawat(need_logs=False),
-    "DNAFountain":DNAFountain(need_logs=False),
-    "YinYang":YinYangCode(need_logs=False)}
+
 
 class ClusterDecode():
     def __init__(self,file_uid,clust_method):
@@ -45,11 +38,20 @@ class ClusterDecode():
         self.out_file = '{}/{}_cdhit.fasta'.format(self.out_dir,self.file_uid)
         self.index_length =  self.file_info_dict['index_length']
         self.verify_method = verify_methods[self.file_info_dict['verify_method']]
-        self.decode_method = encoding_methods[self.file_info_dict['encode_method']]
+        
         self.bit_size = self.file_info_dict['bit_size']
         self.segment_length = self.file_info_dict['segment_length']
 
         # encode
+        self.method_dict = encoding_methods = {
+                    "Basic":BaseCodingAlgorithm(need_logs=False),
+                     "Church":Church(need_logs=False),
+                        "Goldman":Goldman(need_logs=False),
+                        "Grass":Grass(need_logs=False),
+                        "Blawat":Blawat(need_logs=False),
+                        "DNA_Fountain":DNAFountain(redundancy=0.5,need_logs=False),
+                        "Yin_Yang":YinYangCode(index_length =self.index_length ,need_logs=False)}
+        self.decode_method = self.method_dict[self.file_info_dict['encode_method']]
         self.encode_file = '{}/{}.npz'.format(self.out_dir,self.file_uid)
         self.encode_data = np.load(self.encode_file)
         
@@ -59,7 +61,7 @@ class ClusterDecode():
             length_difference_cutoff=0.7,amino_acid_length_difference_cutoff=60, 
             long_seq_alignment_coverage=0.7,long_seq_alignment_coverage_control=60,
             short_seq_alignment_coverage=0.7,short_seq_alignment_coverage_control=70,
-            nthreads=512)       
+            nthreads=5120)       
         
         cdh.from_file(self.simulation_dna_file,self.out_file,threshold=0.99)
 
@@ -101,10 +103,12 @@ class ClusterDecode():
         simulation_dna_number= len(simulation_dna_seq)
 
         # get after clust simulation sequences
-        start_time = datetime.time()
+        start_time = datetime.now()
         clust_dna_sequences = self.run_clust()
         clust_dna_sequences_list = [list(i) for i in clust_dna_sequences]
-        clust_time = datetime.time() - start_time
+        clust_time = (datetime.now() - start_time).total_seconds()
+        clust_time = '%.3f'%(clust_time)
+
         # report dna sequence
         encoding_dna_sequences_set = set(encode_dna_sequences)
         clust_dna_sequences_set = set(clust_dna_sequences)
@@ -113,6 +117,7 @@ class ClusterDecode():
         right_dna_rate = str(round(right_dna_number/len(encoding_dna_sequences_set)*100,2)) + '%'
 
         # dna to 01
+        print(len(clust_dna_sequences_list),len(clust_dna_sequences_list[0]))
         decode_result = self.decode_method.carbon_to_silicon(clust_dna_sequences_list,)
         decode_bit_segments = decode_result['bit']
 
@@ -127,7 +132,7 @@ class ClusterDecode():
             print('#'*10,'decode success!!!')
 
         decoding_time = decode_result['t']
-
+        decoding_time = '%.3f'%(decoding_time)
 
         print(self.verify_method,'####')
         # remove verify code
@@ -160,8 +165,10 @@ class ClusterDecode():
 
 
         recall_bits = encode_bits & decode_bits
+        recall_bits_rate=  round((len(recall_bits)/len(encode_bits))*100,2)
         error_bits_number = len(decode_bits) -  len(recall_bits)
         error_bits_rate = str(round(error_bits_number/len(decode_bits) * 100, 2)) + "%"
+
 
         # record
         record_info = {"decode_time":decoding_time,
@@ -178,7 +185,7 @@ class ClusterDecode():
                         "recall_bits_number": len(recall_bits),
                         "error_bits_number":error_bits_number,
                         "error_bits_rate":error_bits_rate,
-                        "recall_bits_rate":'{} %'.format(round(recall_bits/encode_bit_segment,2))}
+                        "recall_bits_rate":'{} %'.format()}
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print(record_info)
         print('Decoding Done!')
@@ -189,6 +196,6 @@ if __name__ == '__main__':
     # obj = Encoding(1565536927137009664)
     # record_info,bit_segments = obj.bit_to_dna()
 
-    obj = ClusterDecode(file_uid = 1593806601213579264,clust_method= 'cdhit')
+    obj = ClusterDecode(file_uid = 1593865967526612992,clust_method= 'cdhit')
 
     obj.decode_stat()
