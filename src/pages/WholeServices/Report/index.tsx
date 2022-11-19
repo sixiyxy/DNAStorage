@@ -50,15 +50,6 @@ export const Report: React.FC<ReportProps> = (props) => {
       dataIndex: "value1",
       align: "center",
     },
-    // {
-    //   title: "Name",
-    //   dataIndex: "name2",
-    //   render: (text) => <a>{text}</a>,
-    // },
-    // {
-    //   title: "Value",
-    //   dataIndex: "value2",
-    // },
   ];
   const columns2: ColumnsType<DataType> = [
     {
