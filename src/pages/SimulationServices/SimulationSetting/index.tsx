@@ -275,10 +275,10 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
         )}
 
         <Card title="Choose the Simulation Steps" headStyle={{ fontSize: "18px" }}>
-          <p className="function-bar" style={{ fontSize: "17px" }}>
+           <p className="function-bar" style={{ fontSize: "17px" }}>
             Please select the following simulation steps. You can choose to skip some of these
             steps, but Synthesis is the must.
-          </p>
+          </p> 
           <div className="simulation-setting-header-button-group">
             <div>
               <Button
