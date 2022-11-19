@@ -202,11 +202,10 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
               <div className="decode-button-group">
                 <div className="summary-word">
                   <p>
-                    The simulation service allows user to upload their own fasta DNA file to proceed
-                    error simulation stage. It covers the five stages of DNA storage, namely,
+                    You could upload your own fasta DNA file to proceed this seperate error simulation stage. It covers the five stages of DNA storage, namely,
                     synthesis, storage decay, PCR, sampling, and sequencing. Except for synthesis,
-                    all the other stages are optional, users could simply skip some based on their
-                    real needs. They could directly get feedback about how the density changes after
+                    all the other stages are optional, you could simply skip some based on your
+                    needs. What's more, you could directly get feedback about how the density changes after
                     setting up each stage and have a detailed report about how errors are introduced
                     and occur at the end.
                   </p>
@@ -252,7 +251,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
             <Card
               className="simulation-card"
               bordered={false}
-              title="Upload Dna File"
+              title="Upload DNA File"
               headStyle={{ fontSize: "18px" }}
             >
               <Dragger
@@ -269,16 +268,16 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                   <InboxOutlined />
                 </p>
                 <p className="ant-upload-text">Click this area to upload</p>
-                <p className="ant-upload-hint">Support file types: video, txt, mp3, picture...</p>
+                <p className="ant-upload-hint">Only FASTA files are supported</p>
               </Dragger>
             </Card>
           </div>
         )}
 
-        <Card title="Choose the Simulation steps." headStyle={{ fontSize: "18px" }}>
+        <Card title="Choose the Simulation Steps" headStyle={{ fontSize: "18px" }}>
           <p className="function-bar" style={{ fontSize: "17px" }}>
             Please select the following simulation steps. You can choose to skip some of these
-            steps, but Synthesis cannot.
+            steps, but Synthesis is the must.
           </p>
           <div className="simulation-setting-header-button-group">
             <div>

@@ -312,7 +312,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
               </Row>
             </div>
             <div className="simulation-row">
-              <span>Storage Host :</span>
+              <span>PCR Polymerase :</span>
               <Select className="simulation-selector"
                       onChange={handleChange}
                       value={method}

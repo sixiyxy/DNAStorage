@@ -358,7 +358,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                       imageStyle={{
                         height: 60,
                       }}
-                      description={<span>No simulation result, please select parameter</span>}
+                      description={<span>No simulation result, please set the parameters.</span>}
                     />
                   ) : loading ? (
                     <div>

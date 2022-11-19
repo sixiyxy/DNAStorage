@@ -29,6 +29,8 @@ import yaml
 def get_info(file_uid,upload_flag,final_parallel=False):
     config = get_config(yaml_path='config')
     backend_dir = config['backend_dir']
+    print(upload_flag)
+    print(not upload_flag)
     if not upload_flag:
         file_dir=config['file_save_dir']
         file_info_path='{}/{}/{}.yaml'.format(backend_dir,file_dir,file_uid)
