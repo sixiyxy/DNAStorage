@@ -44,3 +44,12 @@ decode_time: 0.187457
 encode_dna_sequence_number: 4877
 recall_dna_sequence_number: 4740
 recall_dna_sequence_rate: 0.97
+SYN:
+  del: 0.6
+  ins: 0.2
+  sub: 0.2
+simu:
+- SYN
+synthesis_method: ErrASE
+synthesis_number: 30
+synthesis_yield: 0.99
