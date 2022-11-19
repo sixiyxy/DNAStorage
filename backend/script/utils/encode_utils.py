@@ -6,8 +6,8 @@ import os
 def cut_file(file_data,encode_method):
     file_size = file_data.shape[0]
     cut_file_data = []
-    print(file_size)
-    if encode_method == 'DNA_Fountain':
+    print('file size:',file_size)
+    if encode_method in ['DNA_Fountain',"Yin_Yang"]:
         cut_size = 1000000
     else:
         if file_size <= 1000000:

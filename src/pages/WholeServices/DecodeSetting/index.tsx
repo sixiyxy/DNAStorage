@@ -98,7 +98,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
           <div className="decode-button-group">
                     <Button
                       className="exm"
-                      type="primary"
+                      // type="primary"
                       shape="round"
                       size="large"
                       // onClick={handleEXM}

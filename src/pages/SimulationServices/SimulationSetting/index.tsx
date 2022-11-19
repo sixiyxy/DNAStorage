@@ -212,7 +212,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                   </div>
                     <Button
                       className="exm"
-                      type="primary"
+                      // type="primary"
                       shape="round"
                       size="large"
                       onClick={handleEXM}

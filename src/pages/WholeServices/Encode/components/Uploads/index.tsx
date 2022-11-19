@@ -15,8 +15,8 @@ const Uploads: React.FC = (props: any) => {
     maxCount: 1,
     
     beforeUpload(file, fileList){
-      const islt5M = file.size / 1024 /1024 < 10
-        if (!islt5M) {
+      const islt10M = file.size / 1024 /1024 < 10
+        if (!islt10M) {
             message.error('The upload file size is too large, please try with a samller file !')
             const index = fileList.indexOf(file)
             fileList.splice(index, 1)

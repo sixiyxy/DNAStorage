@@ -870,47 +870,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         console.log(error);
       });
   };
-  // interface DataType {
-  //   key: string;
-  //   name1: string;
-  //   value1: any;
-  // }
-
-  // const columns1: ColumnsType<DataType> = [
-  //   {
-  //     title: "Name",
-  //     dataIndex: "name1",
-  //     render: (text) => <a>{text}</a>,
-  //   },
-  //   {
-  //     title: "Information",
-  //     dataIndex: "value1",
-  //     align:"center"
-  //   },
-  // ];
-  // const data1: DataType[] = [
-  //   {
-  //     key: "1",
-  //     name1: "synthesis_number",
-  //     value1: synthesisData?.synthesis_number,
-
-  //   },
-  //   {
-  //     key: "2",
-  //     name1: "synthesis_yield",
-  //     value1: synthesisData?.synthesis_yield,
-  //   },
-  //   {
-  //     key: "3",
-  //     name1: "synthesis_method",
-  //     value1: synthesisData?.synthesis_yield,
-  //   },
-  //   {
-  //     key: "4",
-  //     name1: "synthesis_method_reference",
-  //     value1: synthesisData?.synthesis_yield,
-  //   },
-  // ];
+  const handleNext=()=>{
+    props.changeSider(["0-2-0"])
+  }
   return (
     <div className="simulation-report-wrapper">
       <div className="simulation-report-nav-wrapper">
@@ -1070,6 +1032,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               <div className="simulation-report-button-group">
                 <Button shape="round" size="large" type="primary" onClick={DownloadURL}>
                   Download
+                </Button>
+                <Button shape="round" size="large" type="primary" onClick={handleNext} style={{marginLeft:"100px",width:"100px"}}>
+                  Next
                 </Button>
               </div>
             </div>
