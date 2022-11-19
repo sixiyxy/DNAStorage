@@ -299,10 +299,7 @@ def simu_seq():
 
 @app.route('/simu_repo',methods=['GET','POST'])
 def simu_repo():
-    try:
-        upload_flag=front_data['upload_flag']
-    except:
-        upload_flag=False
+    
     '''
      ##Postman test json
      {
@@ -312,6 +309,10 @@ def simu_repo():
     '''
     front_data = request.data
     front_data = json.loads(front_data)
+    try:
+        upload_flag=front_data['upload_flag']
+    except:
+        upload_flag=False
     file_uid=front_data['file_uid']
     # upload_flag=front_data['upload_flag']
 
