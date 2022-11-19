@@ -1,6 +1,7 @@
 import imp
 import os
 import numpy as np
+from datetime import datetime
 from .utils.cd_hit  import CD_HIT
 from .utils.cd_hit import read_fasta
 from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
@@ -51,8 +52,7 @@ class ClusterDecode():
         # encode
         self.encode_file = '{}/{}.npz'.format(self.out_dir,self.file_uid)
         self.encode_data = np.load(self.encode_file)
-        self.encode_dna_sequences = self.encode_data['dna_sequences']
-        self.encode_bit_segment = self.encode_data['bit_sequences']
+        
 
     def method_cdhit(self):
         cdh=CD_HIT(max_memory=320000,throw_away_sequences_length=60,
@@ -61,8 +61,7 @@ class ClusterDecode():
             short_seq_alignment_coverage=0.7,short_seq_alignment_coverage_control=70,
             nthreads=512)       
         
-        print(self.simulation_dna_file)
-        cdh.from_file(self.simulation_dna_file,self.out_file,threshold=0.97)
+        cdh.from_file(self.simulation_dna_file,self.out_file,threshold=0.99)
 
         clust_dna_sequences = open(self.out_file).read().splitlines()[1::2]
 
@@ -92,12 +91,22 @@ class ClusterDecode():
         pass
 
     def decode_stat(self):
+        # encode information
+        encode_dna_sequences = self.encode_data['dna_sequences']
+        encode_index_payload = self.encode_data['index_payload']
+        encode_bit_segment = self.encode_data['bit_sequences']
+
+        # simulation dna sequence
+        simulation_dna_seq = open(self.simulation_dna_file).read().splitlines()[1::2]
+        simulation_dna_number= len(simulation_dna_seq)
+
         # get after clust simulation sequences
+        start_time = datetime.time()
         clust_dna_sequences = self.run_clust()
         clust_dna_sequences_list = [list(i) for i in clust_dna_sequences]
-
+        clust_time = datetime.time() - start_time
         # report dna sequence
-        encoding_dna_sequences_set = set(self.encode_dna_sequences)
+        encoding_dna_sequences_set = set(encode_dna_sequences)
         clust_dna_sequences_set = set(clust_dna_sequences)
         right_dna_number = len(encoding_dna_sequences_set & clust_dna_sequences_set)
 
@@ -106,8 +115,21 @@ class ClusterDecode():
         # dna to 01
         decode_result = self.decode_method.carbon_to_silicon(clust_dna_sequences_list,)
         decode_bit_segments = decode_result['bit']
+
+        decode_bit_segments_length = len(decode_bit_segments[0])
+        encode_bit_segments_length = len(encode_bit_segment[0])
+
+        decode_bit_segments_str = [''.join(list(map(str,i))) for i in decode_bit_segments]
+        decode_bit_segments_str = set(decode_bit_segments_str)
+        encode_bit_segment_str = set(encode_bit_segment)
+        in_label = len(decode_bit_segments_str&encode_bit_segment_str)
+        if decode_bit_segments_length == encode_bit_segments_length and in_label>0:
+            print('#'*10,'decode success!!!')
+
         decoding_time = decode_result['t']
 
+
+        print(self.verify_method,'####')
         # remove verify code
         if self.verify_method == False:
             error_rate = 0
@@ -119,13 +141,23 @@ class ClusterDecode():
             error_indices = verified_data["e_bit"]
             error_rate = str(round(verified_data["e_r"] * 100, 2)) + "%"
         
-        # remove index
-        indices, final_bit_segments = remove_index(verified_segments, self.index_length, True)
+        # decode index with payload
+        decode_index_payload = [''.join(list(map(str,i))) for i in verified_segments]
 
+        decode_remove_verify_len = len(verified_segments[0])
+        encode_index_payload_len = len(encode_index_payload[0])
+        if decode_remove_verify_len == encode_index_payload_len:
+            print('#'*10,'remove verify code success!!!')
+
+        # remove index
+        # indices, decode_payload = remove_index(verified_segments, self.index_length, True)
+        # decode_payload = [''.join(list(map(str,i))) for i in decode_payload]
+        
         # report file data  
-        encode_bits = set([str(segment) for segment in self.encode_bit_segment])
-        decode_bits = set([str(segment) for segment in final_bit_segments]) 
+        encode_bits = set([str(segment) for segment in encode_index_payload])
+        decode_bits = set([str(segment) for segment in decode_index_payload]) 
         # after set，so number is less than dna sequence number - error indeice number
+
 
         recall_bits = encode_bits & decode_bits
         error_bits_number = len(decode_bits) -  len(recall_bits)
@@ -134,7 +166,9 @@ class ClusterDecode():
         # record
         record_info = {"decode_time":decoding_time,
                         "clust_method":self.clust_method,
-                        "encode_dna_sequence_number":len(self.encode_dna_sequences) ,
+                        "clust_time":clust_time,
+                        "encode_dna_sequence_number":len(encode_dna_sequences) ,
+                        "simulation_dna_number":simulation_dna_number,
                         "after_clust_dna_sequence_number":len(clust_dna_sequences_set),
                         "recall_dna_sequence_number": right_dna_number,
                         "recall_dna_sequence_rate":right_dna_rate,
@@ -143,7 +177,8 @@ class ClusterDecode():
                         "final_decode_bits_number":len(decode_bits),
                         "recall_bits_number": len(recall_bits),
                         "error_bits_number":error_bits_number,
-                        "error_bits_rate":error_bits_rate}
+                        "error_bits_rate":error_bits_rate,
+                        "recall_bits_rate":'{} %'.format(round(recall_bits/encode_bit_segment,2))}
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print(record_info)
         print('Decoding Done!')
@@ -154,6 +189,6 @@ if __name__ == '__main__':
     # obj = Encoding(1565536927137009664)
     # record_info,bit_segments = obj.bit_to_dna()
 
-    obj = ClusterDecode(file_uid = 1591324456964460544,clust_method= 'cdhit')
+    obj = ClusterDecode(file_uid = 1593806601213579264,clust_method= 'cdhit')
 
     obj.decode_stat()

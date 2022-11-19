@@ -214,10 +214,12 @@ class Encoding():
                         connected_bit_segments_all,final_bit_segments_all,dna_sequences_all)
 
         # record decode file
-        bit_sequences = [''.join(list(map(str,i))) for i in final_bit_segments_all]
+        ori_bit_sequences = [''.join(list(map(str,i))) for i in connected_bit_segments_all]
+        final_bit_sequences = [''.join(list(map(str,i))) for i in final_bit_segments_all]
         dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences_all]
         
-        save_decode_file(self.decode_file,bit_sequences,dna_sequences)
+
+        save_decode_file(self.decode_file,ori_bit_sequences,final_bit_sequences,dna_sequences)
 
 
         return final_record_info

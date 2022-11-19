@@ -170,7 +170,8 @@ class Hamming(AbstractErrorCorrectionCode):
             else:
                 output_list.append(output_list_copy[index])
 
-        output_list.reverse()
+        # ？？？ 留个疑问
+        # output_list.reverse()
 
         return {"data": output_list, "type": True}
 

@@ -203,8 +203,10 @@ def contact_result(self,parallel_results):
 
         return final_record_info
 
-def save_decode_file(file_dir,bit_sequences,dna_sequences):
-    save_dict = {'bit_sequences':bit_sequences,
-                 'dna_sequences':dna_sequences
+def save_decode_file(file_dir,payload,bit_sequences,dna_sequences):
+    save_dict = {
+        'index_payload':payload,
+        'bit_sequences':bit_sequences,
+         'dna_sequences':dna_sequences
     }
     np.savez(file_dir,**save_dict)
