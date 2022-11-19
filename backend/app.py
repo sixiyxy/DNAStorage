@@ -311,11 +311,13 @@ def simu_repo():
     front_data = json.loads(front_data)
     try:
         upload_flag=front_data['upload_flag']
-    except:
+    except Exception as e:
+        print(e)
+        print(front_data)
         upload_flag=False
+    
     file_uid=front_data['file_uid']
-    # upload_flag=front_data['upload_flag']
-
+    #upload_flag=front_data['upload_flag']
     simu_repo=simu_utils.get_simu_repo(file_uid,upload_flag)
     print(simu_repo)
     return json.dumps(simu_repo)
