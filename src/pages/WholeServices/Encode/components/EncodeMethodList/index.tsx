@@ -18,7 +18,7 @@ const EncodeMethodList: React.FC = (props: any) => {
         <h2>
           <CheckCircleTwoTone /> <strong>Encode method</strong>
         </h2>
-        <div>
+        <div className="encode-inner">
           <Radio.Group onChange={onChange} value={props.value}>
             <Space direction="vertical">
               <Radio value={"Basic"}>

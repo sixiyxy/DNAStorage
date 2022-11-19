@@ -70,7 +70,6 @@ class Encoding():
         self.decode_file = '{}/{}.npz'.format(self.decode_dir,self.file_uid)
 
     def segment_file(self,data):
-        print('segment files')
         matrix, values = [], data
         self.bit_size = len(values)*8
         for current, value in enumerate(values):
@@ -89,7 +88,6 @@ class Encoding():
         return bit_segments
 
     def connet_index(self,data):
-        print('connect index')
         original_bit_segments = self.segment_file(data)
 
         connected_bit_segments = []
@@ -104,7 +102,6 @@ class Encoding():
         return connected_bit_segments,original_bit_segments,record_index
         
     def verify_code(self,data):
-        print('add verify code')
         connected_bit_segments,original_bit_segments,record_index = self.connet_index(data)
 
         verify_method = verify_methods[self.verify_method]
@@ -295,7 +292,7 @@ class Encoding():
 
         # record energy
         # record_info,free_energy_plotdata = add_min_free_energydata(self.min_free_energy_tools,self.dna_demo_file,
-                                            # self.free_enerfy_file,record_info)
+        #                                     self.free_enerfy_file,record_info)
         # record_info['energy_plot']=free_energy_plotdata
         record_info = write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print(record_info)

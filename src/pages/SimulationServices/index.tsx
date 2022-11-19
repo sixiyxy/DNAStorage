@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import "./index.less";
 import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
-import { SimulationSetting } from "../WholeServices/SimulationSetting";
+import { SimulationSetting } from "../SimulationServices/SimulationSetting";
 import { SimulationReport } from "../WholeServices/SimulationReport";
 
 // import { Synthesis } from "./SimulationSetting/Synthesis";

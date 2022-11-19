@@ -181,13 +181,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     return [
       {
         name: "Percentage",
-        value: samplingData?.sam_ratio * 1000,
+        value: samplingData?.sam_ratio <= 0.1? samplingData?.sam_ratio * 1000 : samplingData?.sam_ratio*100,
         type: "Ratio Percentage",
       },
 
       {
         name: "Percentage",
-        value: 100 - samplingData?.sam_ratio * 1000,
+        value: samplingData?.sam_ratio <= 0.1? (100 - samplingData?.sam_ratio * 1000): samplingData?.sam_ratio*100,
         type: "Rest",
       },
     ];
@@ -841,7 +841,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
-      upload_flag: "True",
+      // upload_flag: "True",
       // file_uid: "1565536927137009664",
     };
   }, []);
@@ -938,7 +938,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                   synthesis_method : {synthesisData?.synthesis_method}
                   <br />
                 </div>
-                <p>The error rate distribution of your chosen synthesis method as follows:</p>
+                <p>The error rate distribution of your chosen synthesis method is as follows:</p>
 
                 <Pie className="pie" {...synthesisErrorParamConfig} />
               </Tabs.TabPane>

@@ -86,6 +86,7 @@ const Sliders = (props) => {
             <BulbTwoTone /> Verify method{" "}
           </strong>
           <br />
+          <div className="slider-inner">
           <Radio.Group
             onChange={onChange1}
             value={props.encodevalue}
@@ -104,12 +105,13 @@ const Sliders = (props) => {
               </Radio>
             </Space>
           </Radio.Group>
+          </div>
           <p style={{ marginTop: "10px" }}>
-            <span style={{ marginLeft: "20px", fontSize: "16px" }}>
+            <span style={{ marginLeft: "20px", fontSize: "14px" }}>
               Method details please click the{" "}
             </span>
             <Link to="/methods">
-              <span style={{ fontSize: "16px" }}>Method Paper</span>
+              <span style={{ fontSize: "14px" }}>Method Paper</span>
             </Link>
           </p>
         </div>

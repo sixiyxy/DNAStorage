@@ -238,22 +238,13 @@ class Goldman(AbstractCodingAlgorithm):
 
             ternary_segment = []
             for position in range(0, len(bit_segment), 8):
-                # print(position)
-                # print(bit_segment[position:position+8])
-                # print(list(map(str,bit_segment[position:position+8])))
-                # print("".join(list(map(str, bit_segment[position: position + 8]))))
-                # break
                 current_number = int("".join(list(map(str, bit_segment[position: position + 8]))), 2)
                 # print('cur',current_number)
                 # print(self.huffman_tree,len(self.huffman_tree))
                 huffman_code = self.huffman_tree[current_number]
                 # print('huff',huffman_code)
                 for code_index in range(len(huffman_code)):
-                    # print(code_index)
-                    # print(huffman_code[code_index])
-                    # print(int(huffman_code[code_index]))
                     ternary_segment.append(int(huffman_code[code_index]))
-                # print(ternary_segment)
 
 
             last_nucleotide = self.support_nucleotide
@@ -261,11 +252,6 @@ class Goldman(AbstractCodingAlgorithm):
                 current_base = rotate_codes.get(last_nucleotide)[value]
                 dna_sequence.append(current_base)
                 last_nucleotide = current_base
-            # print('bit len',len(bit_segment))
-            # print('huff len',len(ternary_segment))
-            # print('dna length',len(dna_sequence))
-            # print(dna_sequence)
-            # break
             dna_sequences.append(dna_sequence)
 
 
@@ -858,7 +844,7 @@ class DNAFountain(AbstractCodingAlgorithm):
 class YinYangCode(AbstractCodingAlgorithm):
 
     def __init__(self, yang_rule=None, yin_rule=None, virtual_nucleotide="A", max_iterations=100,
-                 max_ratio=0.8, faster=False, max_homopolymer=4, max_content=0.6, need_logs=False):
+                 max_ratio=0.8, faster=True, max_homopolymer=4, max_content=0.6, need_logs=False):
         super().__init__(need_logs)
 
         if not yang_rule:

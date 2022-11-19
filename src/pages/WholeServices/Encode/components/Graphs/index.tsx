@@ -254,8 +254,10 @@ const Graphs: React.FC = (props: any) => {
 
   return (
     <div className="encode-graph-wrapper">
-      <Card>
+      <Card >
+        <div style={{padding:"20px 250px 0 20px"}}>
         <Bar {...config} />
+        </div>
       </Card>
     </div>
   );

@@ -106,6 +106,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       pcr_cycle:12,
       pcr_prob:0.8,
       pcr_polymerase:"Taq",
+      upload_flag:"True"
   }
   useEffect(()=>{
     if (props.effect3 == true){
@@ -160,7 +161,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       pcr_cycle: pcrCycleValue,
       pcr_prob: pcrProbability,
       pcr_polymerase: method,
-      // upload_flag:"True"
+      upload_flag:"True"
     };
   }, [pcrCycleValue, pcrProbability, method, props.fileId]);
   //console.log("params", params);

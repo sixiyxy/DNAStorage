@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./index.less";
 import axios from "axios";
-import { Breadcrumb, Col, Row, Spin, notification, Card } from "antd";
+import { Breadcrumb, Col, Row, Spin, notification, Card,Image} from "antd";
 import EncodeMethodList from "./components/EncodeMethodList";
 import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
@@ -208,6 +208,54 @@ export const Encode = (props) => {
         </Card>
       </div>
       <div className="encode-main-body-wrapper">
+      <div className="summary">
+          <Card >
+          <Row>
+            <Col span={10}>
+            <div className="decode-button-group">
+                <div className="summary-word" >
+                  <p>
+                  The encode service integrates the most common and popular DNA storage encoding and verifying methods.
+                   After uploading the file, users could simply select corresponding methods, elegantly slide the sliders to set the segment length, 
+                   and wait for the result. The website will not only convert the file into DNA sequences but also calculate GC content and homopolymer length as well as the minimum free energy out directly.
+                  </p>
+                  
+                </div>
+                <Button
+                      className="exm"
+                      type="primary"
+                      shape="round"
+                      size="large"
+                      onClick={handleExm}
+                    >
+                      Example
+                    </Button>
+                </div>
+            </Col>
+            
+            <Col span={10}>
+              <div className="summary-img">
+                <Image
+                  width={"130%"}
+                  // height={"50%"}
+                  src="/src/assets/service/encode.png"
+                />
+              </div>
+            </Col>
+          </Row>
+          {/* <div className="decode-button-group">
+                    <Button
+                      className="exm"
+                      type="primary"
+                      shape="round"
+                      size="large"
+                      // onClick={handleEXM}
+                    >
+                      Example
+                    </Button>
+          </div> */}
+          </Card>
+        </div>
         <Card>
           {/*标题描述*/}
           <p className="upload-p">
@@ -258,9 +306,9 @@ export const Encode = (props) => {
             >
               Run
             </Button>
-            <Button shape="round" size={"large"} onClick={handleExm}>
+            {/* <Button shape="round" size={"large"} onClick={handleExm}>
               Example
-            </Button>
+            </Button> */}
             <Button shape="round" size={"large"} onClick={handlereset}>
               Reset
             </Button>

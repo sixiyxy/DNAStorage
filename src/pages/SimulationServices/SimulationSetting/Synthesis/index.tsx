@@ -111,6 +111,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     synthesis_number: 30,
     synthesis_yield: 0.99,
     synthesis_method: "ErrASE",
+    upload_flag:"True"
   };
 
   useEffect(()=>{
@@ -171,6 +172,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       synthesis_number: cycleValue,
       synthesis_yield: yieldValue,
       synthesis_method: method,
+      upload_flag:"True"
     };
   }, [cycleValue, yieldChange, method]);
   //console.log("params", params);

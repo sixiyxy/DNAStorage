@@ -14,7 +14,7 @@ def cut_file(file_data,encode_method):
     file_size = file_data.shape[0]
     cut_file_data = []
     print(file_size)
-    if encode_method == 'DNA_Fountain':
+    if encode_method in ['DNA_Fountain','Yin_Yang']:
         cut_size = 1000000
     else:
         if file_size <= 1000000:
@@ -42,13 +42,13 @@ verify_methods = {
     "ReedSolomon":ReedSolomon()}
 
 encoding_methods = {
-    "Basic":BaseCodingAlgorithm(need_logs=True),
-    "Church":Church(need_logs=True),
-    "Goldman":Goldman(need_logs=True),
-    "Grass":Grass(need_logs=True),
-    "Blawat":Blawat(need_logs=True),
-    "DNA_Fountain":DNAFountain(need_logs=True),
-    "Yin_Yang":YinYangCode(need_logs=True)}
+    "Basic":BaseCodingAlgorithm(need_logs=False),
+    "Church":Church(need_logs=False),
+    "Goldman":Goldman(need_logs=False),
+    "Grass":Grass(need_logs=False),
+    "Blawat":Blawat(need_logs=False),
+    "DNA_Fountain":DNAFountain(need_logs=False),
+    "Yin_Yang":YinYangCode(need_logs=False)}
 
 
 
@@ -100,29 +100,35 @@ class Encoding():
         self.monitor = Monitor()
 
 
+    def segment_file(self):
+        # compute file size
+        print("Read binary matrix from file: " + self.file_path)
 
-    def segment_file(self,data):
+        matrix, values = [], fromfile(file=self.file_path, dtype=uint8)
+        print(values)
 
-        matrix, values = [], data
-        self.bit_size = len(values)*8
         for current, value in enumerate(values):
             matrix += list(map(int, list(str(bin(value))[2:].zfill(8))))
+            self.monitor.output(current + 1, len(values))
 
         if len(matrix) % self.segment_length != 0:
             matrix += [0] * (self.segment_length - len(matrix) % self.segment_length)
 
         self.byte_size = len(values)
-        
+        self.bit_size = len(matrix)
         matrix = array(matrix)
         matrix = matrix.reshape(int(len(matrix) / self.segment_length), self.segment_length)
         bit_segments =matrix.tolist()
         self.segment_number = len(bit_segments)
 
+        print('Segment the unload file....')
+        print("There are " + str(len(values) * 8) + " bits in the inputted file. ")
+        print("There are " + str(len(bit_segments)) + " bits sequences.\n ")
+        print("There are " + str(len(bit_segments[0])) + "  segment.\n ")
         return bit_segments
 
-    def connet_index(self,data):
-
-        original_bit_segments = self.segment_file(data)
+    def connet_index(self):
+        original_bit_segments = self.segment_file()
 
         connected_bit_segments = []
         record_index = []
@@ -132,75 +138,160 @@ class Encoding():
             record_index.append(index_code)
             add_index_seg = index_code + original_bit_segments[index]
             connected_bit_segments.append(add_index_seg)
+            self.monitor.output(index + 1, len(original_bit_segments))
+        
+        print("There are " + str(len(connected_bit_segments[0])) + " index segment.\n ")
+
+        print('After segment,add index to the bit sequences.\n')
 
         return connected_bit_segments,original_bit_segments,record_index
         
-    def verify_code(self,data):
-
-        connected_bit_segments,original_bit_segments,record_index = self.connet_index(data)
+    def verify_code(self):
+        connected_bit_segments,original_bit_segments,record_index = self.connet_index()
 
         verify_method = verify_methods[self.verify_method]
-
         if verify_method == False:
             final_bit_segments, error_correction_length = connected_bit_segments,0
         else:
             final_bit_segments, error_correction_length = verify_method.insert(connected_bit_segments)
         
+        # verify_code_length = len(bit_segments[0]) - len(connected_bit_segments[0])
         self.verify_code_length = error_correction_length
         record_info = {"verify_code_length":error_correction_length,
                         "final_segment_bit_length":len(final_bit_segments[0])}
 
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
+        print('After add index,add verify code to the bit sequences.\n')
+        print("There are " + str(len(final_bit_segments[0])) + "  verify.\n ")
 
         return original_bit_segments,record_index,connected_bit_segments,final_bit_segments
-        # return [1],[22]
-
-    def encoding_normal(self,data): 
-        original_bit_segments,record_index,connected_bit_segments,final_bit_segments = self.verify_code(data)
-        encode_method = encoding_methods[self.encode_method]
-        dna_sequences = encode_method.encode(final_bit_segments)
-        return dna_sequences
 
     def bit_to_dna(self): 
         start_time = datetime.now()
-        
+        original_bit_segments,record_index,connected_bit_segments,final_bit_segments = self.verify_code()
         encode_method = encoding_methods[self.encode_method]
-        print(self.encode_method)
-
-        file_data = fromfile(file=self.file_path, dtype=uint8)
-
-        cut_file_data = cut_file(file_data,self.encode_method)
-        print(len(cut_file_data))
-
-        with Pool(8) as pool:
-            parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
-            pool.close()
-            pool.join()
-        d = [i[-1] for i in parallel_results]
-
-
-        # print(d[0],d[0][0],type(d[0]),len(d[0]),len(d[0][0]))
+        print("\n ",self.encode_method)
+        dna_sequences = encode_method.encode(final_bit_segments)
+        print('Encode bit segments to DNA sequences by coding scheme. \n')
         
-        # print(final_bit_segments,type(final_bit_segments))
-
-
-
         t = datetime.now()
         print(t-start_time)
-        print(len(parallel_results))
-        # print(len(parallel_results[0]))
-        # print(parallel_results[0][-1])
-        # print(parallel_results)
-        print('Encode bit segments to DNA sequences by coding scheme.\n')
-
-        
+      
 if __name__ == '__main__':
-    obj = Encoding(file_uid=1582258845189804032,
-                  encode_method='DNA_Fountain',
-                  segment_length=160,
-                  index_length=20,
-                  verify_method="Hamming")
-    obj.bit_to_dna()
+    # obj = Encoding(file_uid=1582258845189804032,
+    #               encode_method='Yin_Yang',
+    #               segment_length=120,
+    #               index_length=15,
+    #               verify_method="Hamming")
+
+    # "Goldman","Grass","Blawat"
+    # "Basic"
+    # mm = ["Church" ,"DNA_Fountain","Yin_Yang"]
+    # mm = ['Basic']
+    # index = 16
+    # for m in mm:
+    #     for v in ["Hamming","ReedSolomon","WithoutVerifycode"]:
+    #         for s in range(120,200,2):
+    #             print('### begin',m,v,s,index)
+    #             t1 = datetime.now()
+                
+    #             # if m == 'Basic':
+    #                 # while (s + index)%4 !=0:
+    #                     # index +=1  
+    #             print('### deal',m,v,s,index)
+    #             obj = Encoding(file_uid=1593443692746772480,
+    #                         encode_method=m,
+    #                         segment_length=s,
+    #                         index_length=index,
+    #                         verify_method=v)
+                
+    #             obj.bit_to_dna()
+    #             t2 = datetime.now()
+    #             print('### final',m,v,s,index,t2-t1)
+
+    index_dict = {10: 1023, 11: 2047, 12: 4095, 13: 8191,
+                  14: 16383, 15: 32767, 16: 65535, 17: 131071, 
+                  18: 262143, 19: 524287, 20: 1048575, 21: 2097151, 
+                  22: 4194303, 23: 8388607, 24: 16777215, 25: 33554431, 
+                  26: 67108863, 27: 99999999}
+    segnumber = (108096*8)/100
+    for index in index_dict:
+        if index_dict[index] > segnumber:
+            index = index
+            break
+    print('##### ',index,segnumber)
+    
+
+    m = "Basic"
+    # v = 'WithoutVerifycode'
+    # v = "Hamming"
+    v = 'ReedSolomon'
+    if m == 'Basic':
+        if v == 'WithoutVerifycode':
+            for s in range(100,200):
+                print('### begin',m,v,s,index)
+                while (index +  s)%2 != 0:
+                    index +=1
+                t1 = datetime.now() 
+                print('### deal',m,v,s,index)
+                obj = Encoding(file_uid=1593443692746772480,
+                                encode_method=m,
+                                segment_length=s,
+                                index_length=index,
+                                verify_method=v)
+                for index in index_dict:
+                    if index_dict[index] > segnumber:
+                            index = index
+                            break
+                obj.bit_to_dna()
+                t2 = datetime.now()
+                print('### final',m,v,s,index,t2-t1)
+        elif v == "Hamming":
+            for s in range(100,200):
+                print('### begin',m,v,s,index)
+                if (index + s) < 120:
+                    while (index +  s +7)%2 != 0:
+                        index +=1
+                elif (index + s ) == 120:
+                    if (index + s + 7) == 127:
+                        index +=2
+                else:
+                    while (index +  s + 8)%2 != 0:
+                        index +=1
+                t1 = datetime.now() 
+                print('### deal',m,v,s,index)
+                obj = Encoding(file_uid=1593443692746772480,
+                                encode_method=m,
+                                segment_length=s,
+                                index_length=index,
+                                verify_method=v)
+                for index in index_dict:
+                    if index_dict[index] > segnumber:
+                            index = index
+                            break
+                obj.bit_to_dna()
+                t2 = datetime.now()
+                print('### final',m,v,s,index,t2-t1)
+        elif v == "ReedSolomon":
+            for s in range(100,200):
+                print('### begin',m,v,s,index)
+                while (index + s) % 8 !=0 :
+                    index +=1
+                
+                t1 = datetime.now() 
+                print('### deal',m,v,s,index)
+                obj = Encoding(file_uid=1593443692746772480,
+                                encode_method=m,
+                                segment_length=s,
+                                index_length=index,
+                                verify_method=v)
+                for index in index_dict:
+                    if index_dict[index] > segnumber:
+                            index = index
+                            break
+                obj.bit_to_dna()
+                t2 = datetime.now()
+                print('### final',m,v,s,index,t2-t1)
     
     # obj = Encoding(file_uid=1585911198753361920,
     #                 encode_method='SrcCode',
