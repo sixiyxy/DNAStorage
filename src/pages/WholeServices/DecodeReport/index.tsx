@@ -79,7 +79,7 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
       {
         key: "10",
         name: "Decode bits fragments",
-        value: data?.fianl_decode_bits_number || "",
+        value: data?.final_decode_bits_number || "",
       },
       {
         key: "11",

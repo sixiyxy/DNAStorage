@@ -69,7 +69,8 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
           <Card >
           <Row>
             <Col span={10}>
-                <div className="summary-word" >
+            <div className="decode-button-group">
+                <div className="whole-summary-word" >
                   <p>
                   In the DNA storage process, file recovery needs to decode the DNA sequences
                   according to the reverse process of the encoding roles. However，DNA sequences
@@ -81,8 +82,17 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
                   index code. Finally, we analyze the recovery information of bits fragment in the
                   report.
                   </p>
-                  
                 </div>
+                <Button
+                      className="exm"
+                      // type="primary"
+                      shape="round"
+                      size="large"
+                      // onClick={handleEXM}
+                    >
+                      Example
+                    </Button>
+            </div>
             </Col>
             
             <Col span={10}>
@@ -95,17 +105,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
               </div>
             </Col>
           </Row>
-          <div className="decode-button-group">
-                    <Button
-                      className="exm"
-                      // type="primary"
-                      shape="round"
-                      size="large"
-                      // onClick={handleEXM}
-                    >
-                      Example
-                    </Button>
-          </div>
+          
           </Card>
         </div>
         <div className="cluster-algorithm-wrapper">

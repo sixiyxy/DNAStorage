@@ -193,42 +193,62 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     ];
   }, [samplingData]);
   const synthesisErrorParamConfig = {
-    data: synthesisErrorParamData,
-    angleField: "value",
-    colorField: "type",
-    radius: 1,
-    innerRadius: 0.6,
-    width: 200,
-    height: 200,
+    appendPadding: 10,
+    data:synthesisErrorParamData,
+    angleField: 'value',
+    colorField: 'type',
+    radius: 0.9,
     label: {
-      type: "inner",
-      offset: "-50%",
+      type: 'inner',
+      offset: '-30%',
       content: "{value}%",
       style: {
-        textAlign: "center",
         fontSize: 14,
+        textAlign: 'center',
       },
     },
     interactions: [
       {
-        type: "element-selected",
-      },
-      {
-        type: "element-active",
+        type: 'element-active',
       },
     ],
-    statistic: {
-      title: false,
-      content: {
-        style: {
-          whiteSpace: "pre-wrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        },
-        // content: "Error\nParam",
-      },
-    },
   };
+    // data: synthesisErrorParamData,
+    // angleField: "value",
+    // colorField: "type",
+    // radius: 1,
+    // innerRadius: 0.6,
+    // width: 200,
+    // height: 200,
+    // label: {
+    //   // type: "inner",
+    //   offset: "-50%",
+    //   content: "{value}%",
+    //   style: {
+    //     textAlign: "center",
+    //     fontSize: 14,
+    //   },
+    // },
+    // interactions: [
+    //   {
+    //     type: "element-selected",
+    //   },
+    //   {
+    //     type: "element-active",
+    //   },
+    // ],
+    // statistic: {
+    //   title: false,
+    //   content: {
+    //     style: {
+    //       whiteSpace: "pre-wrap",
+    //       overflow: "hidden",
+    //       textOverflow: "ellipsis",
+    //     },
+    //     // content: "Error\nParam",
+    //   },
+    // },
+  
   const decayErrorParamConfig = {
     data: decayErrorParamData,
     angleField: "value",
