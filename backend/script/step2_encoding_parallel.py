@@ -3,6 +3,7 @@ import re
 from datetime import datetime
 import pandas as pd
 import numpy as np
+import copy
 from decimal import Decimal
 from multiprocessing import Pool
 from numpy import fromfile, array, uint8
@@ -121,8 +122,9 @@ class Encoding():
 
     def encoding_normal(self,data): 
         original_bit_segments,record_index,connected_bit_segments,final_bit_segments = self.verify_code(data)
+        final_bit_segments_2 = copy.deepcopy(final_bit_segments) 
         encode_method = encoding_methods[self.encode_method]
-        dna_sequences = encode_method.encode(final_bit_segments)
+        dna_sequences = encode_method.encode(final_bit_segments_2)
 
         # record encode value
         nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
@@ -136,7 +138,7 @@ class Encoding():
         physical_information_density = self.byte_size/(nucleotide_count/(9.03*10**14))
         physical_information_density_ug = physical_information_density*(10**3)
         physical_information_density_g = physical_information_density*(10**9)
-        
+
         # together
         record_info = {"bit_size":self.bit_size,
                     "segment_number":self.segment_number,
@@ -200,7 +202,7 @@ class Encoding():
                     "physical_information_density_ug":'%.2E'%Decimal('{}'.format(physical_information_density_ug_all/result_number,3)),
                     "physical_information_density_g":'%.2E'%Decimal('{}'.format(physical_information_density_g_all/result_number,3))
                     }
-
+        
         
         gc_data,homo_data = gc_homo(dna_sequences_all)
         final_record_info['gc_data'] = gc_data
@@ -234,9 +236,11 @@ class Encoding():
             file_data = fromfile(file=self.file_path, dtype=uint8)
             file_size = file_data.shape[0]
             cut_file_data = cut_file(file_data,self.encode_method)
+            print('cut file number',len(cut_file_data))
 
             with Pool(self.threads) as pool:
                 parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
+            
             run_time = (datetime.now() - start_time).total_seconds()
             record_info = self.contact_result(parallel_results)
         # txt method
@@ -317,6 +321,12 @@ if __name__ == '__main__':
                   segment_length=160,
                   index_length=20,
                   verify_method="Hamming")
+    obj = Encoding(file_uid=1593856235290103808,
+                  encode_method='Yin_Yang',
+                  segment_length=120,
+                  index_length=16,
+                  verify_method="Hamming")
+    
     obj.parallel_run()
 
 
