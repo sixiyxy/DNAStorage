@@ -841,7 +841,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
-      // upload_flag: "True",
+      upload_flag: "True",
       // file_uid: "1565536927137009664",
     };
   }, []);
@@ -1027,7 +1027,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           </Card>
           <Card>
             <h3>Sequences Distribution</h3>
-            <div>
+            <div style={{padding:"40px 50px 0 50px"}}>
               <DualAxes {...dualConfig} />
             </div>
             <div
@@ -1035,6 +1035,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 textAlign: "justify",
                 fontSize: "17px",
                 color: "#748189",
+                padding:"20px 100px 0 100px"
               }}
             >
               During the whole process, the number of sequences, causes of erors and proposrtions of
@@ -1047,7 +1048,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           </Card>
           <Card>
             <h3>Error Counts </h3>
-            <div>
+            <div style={{padding:"40px 100px 0 50px"}}>
               <Bar {...ErrorDensityConfig} />
             </div>
             <div
@@ -1055,6 +1056,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 textAlign: "justify",
                 fontSize: "17px",
                 color: "#748189",
+                padding:"20px 100px 0 100px"
               }}
             >
               <p>
