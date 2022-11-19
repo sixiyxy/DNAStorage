@@ -25,6 +25,7 @@ export class ReportProps {
   fileURL;
   exam;
   mini;
+  changeSider;
 }
 interface DataType {
   key: string;
@@ -63,18 +64,7 @@ export const Report: React.FC<ReportProps> = (props) => {
       align: "center",
     },
   ];
-  const columns3: ColumnsType<DataType> = [
-    {
-      title: "Name",
-      dataIndex: "name1",
-      width: "340px",
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Information",
-      dataIndex: "value1",
-    },
-  ];
+ 
 
   const data1: DataType[] = [
     {
@@ -154,19 +144,13 @@ export const Report: React.FC<ReportProps> = (props) => {
       name1: "Information density",
       value1: `${props.dnainfo.information_density} bits/nt`,
     },
-  ];
-  const data3: DataType[] = [
     {
-      key: "1",
-      name1: "Min free energy",
-      value1: props.dnainfo.min_free_energy,
-    },
-    {
-      key: "2",
-      name1: "Min free energy below 30kcal/mol",
-      value1: `${props.mini} %`,
+      key: "11",
+      name1: "Physical information density",
+      value1: props.dnainfo.physical_information_density_g,
     },
   ];
+ 
   console.log("dnainfo:", props.dnainfo);
 
   const DownloadURL = () => {
@@ -193,7 +177,9 @@ export const Report: React.FC<ReportProps> = (props) => {
         console.log(error);
       });
   };
-
+  const handleNext=()=>{
+    props.changeSider(["0-1-0"]);
+  }
   return (
     <div className="encode-report-wrapper">
       <Spin
@@ -234,7 +220,7 @@ export const Report: React.FC<ReportProps> = (props) => {
               The analysis of the encoded DNA sequences includes GC-content statics, Homopolymer
               sequence statics and minimum free energy calculation.
             </p>
-            <Table columns={columns2} dataSource={data2} pagination={{ position: ["none"] }} />
+            <Table columns={columns2} dataSource={data2} pagination={{ position: ["none"],pageSize:15}} />
             <div
               className="encode-report-graph"
               id="gcgraph"
@@ -312,6 +298,15 @@ export const Report: React.FC<ReportProps> = (props) => {
                 onClick={DownloadURL}
               >
                 Download
+              </Button>
+              <Button
+              style={{marginLeft:"100px",width:"100px"}}
+                type="primary"
+                shape="round"
+                size={size}
+                onClick={handleNext}
+              >
+                Next
               </Button>
             </div>
           </Card>

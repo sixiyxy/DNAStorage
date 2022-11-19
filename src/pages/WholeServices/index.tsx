@@ -32,6 +32,7 @@ const DNAinfos = {
   nucleotide_counts: 0,
   min_free_energy: 0,
   net_information_density: 0,
+  physical_information_density_g:"None"
   // min_free_energy_below_30kcal_mol:"0.0%",
 };
 const FileValue = {
@@ -170,6 +171,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               spinflag={spinflag}
               exam={exam}
               mini={mini}
+              changeSider={setSiderSelect}
             />
           ) : null}
 

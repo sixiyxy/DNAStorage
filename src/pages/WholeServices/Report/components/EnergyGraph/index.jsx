@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 const EnergyGraph = (props) => {
 
   const data =useMemo(() => {
-    return props.energy
+    return props.energy ? props.energy : []
 }, [props.energy]);
 console.log("energydata", data);
   const config = {
