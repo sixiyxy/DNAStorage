@@ -242,6 +242,7 @@ class Encoding():
                 parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
             
             run_time = (datetime.now() - start_time).total_seconds()
+            run_time = '%.2f'%(run_time)
             record_info = self.contact_result(parallel_results)
         # txt method
         elif self.encode_method == 'SrcCode':
