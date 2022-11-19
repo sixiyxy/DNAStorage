@@ -931,11 +931,12 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             <Tabs defaultActiveKey="1" size={"large"}>
               <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined}>
                 <div className="TabSYN">
-                  synthesis_number : {synthesisData?.synthesis_number}
+                  Synthesis Number : {synthesisData?.synthesis_number}
                   <br />
-                  synthesis_yield : {synthesisData?.synthesis_yield}
+                  Synthesis Yield : {synthesisData?.synthesis_yield}
                   <br />
-                  synthesis_method : {synthesisData?.synthesis_method}
+                  Synthesis Method : {synthesisData?.synthesis_method}
+                  <br />
                   <br />
                 </div>
                 <p>The error rate distribution of your chosen synthesis method is as follows:</p>
@@ -944,11 +945,12 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               </Tabs.TabPane>
               <Tabs.TabPane tab="Decay" key="2" disabled={decayData === undefined}>
                 <div className="TabDEC">
-                  storage_host : {decayData?.storage_host}
+                  Storage Host : {decayData?.storage_host}
                   <br />
-                  months_of_storage : {decayData?.months_of_storage}
+                  Months of Storage : {decayData?.months_of_storage}
                   <br />
-                  decay_loss_rate : {decayData?.decay_loss_rate}
+                  Decay Loss Rate : {decayData?.decay_loss_rate}
+                  <br />
                   <br />
                   {/* storage_host_parameter_reference :
             <br />
@@ -968,13 +970,14 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               </Tabs.TabPane>
               <Tabs.TabPane tab="PCR" key="3" disabled={pcrData === undefined}>
                 <div className="TabPCR">
-                  pcr_polymerase: {pcrData?.pcr_polymerase}
+                  Pcr Polymerase: {pcrData?.pcr_polymerase}
                   <br />
-                  pcr_cycle: {pcrData?.pcr_cycle}
+                  Pcr Cycle: {pcrData?.pcr_cycle}
                   <br />
-                  pcr_prob: {pcrData?.pcr_prob}
+                  Pcr Probability: {pcrData?.pcr_prob}
                   <br />
-                  pcr_method_reference:
+                  <br />
+                  {/* pcr_method_reference:
                   <br />
                   {pcrData?.pcr_method_reference?.map((link, index) => {
                     return (
@@ -990,7 +993,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                         <br />
                       </>
                     );
-                  })}
+                  })} */}
                 </div>
                 <p>The error rate distribution of your chosen pcr polymerase is as follows:</p>
                 <Pie className="pie" {...pcrErrorParamConfig} />
@@ -1003,9 +1006,10 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sequencing" key="5" disabled={sequencingData === undefined}>
                 <div className="TabSEQ">
-                  sequencing_depth : {sequencingData?.seq_depth}
+                  Sequencing Depth : {sequencingData?.seq_depth}
                   <br />
-                  sequencing_method : {sequencingData?.seq_meth}
+                  Sequencing Method : {sequencingData?.seq_meth}
+                  <br />
                   <br />
                   {/* seq_method_reference :
             <br />
