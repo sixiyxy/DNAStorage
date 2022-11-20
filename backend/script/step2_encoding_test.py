@@ -48,7 +48,7 @@ encoding_methods = {
     "Grass":Grass(need_logs=False),
     "Blawat":Blawat(need_logs=False),
     "DNA_Fountain":DNAFountain(need_logs=False),
-    "Yin_Yang":YinYangCode(need_logs=False)}
+    "Yin_Yang":YinYangCode(need_logs=True)}
 
 
 
@@ -105,7 +105,6 @@ class Encoding():
         print("Read binary matrix from file: " + self.file_path)
 
         matrix, values = [], fromfile(file=self.file_path, dtype=uint8)
-        print(values)
 
         for current, value in enumerate(values):
             matrix += list(map(int, list(str(bin(value))[2:].zfill(8))))
@@ -170,7 +169,7 @@ class Encoding():
         start_time = datetime.now()
         original_bit_segments,record_index,connected_bit_segments,final_bit_segments = self.verify_code()
         encode_method = encoding_methods[self.encode_method]
-        print("\n ",self.encode_method)
+        print("\n ",self.encode_method,len(final_bit_segments[0]))
         dna_sequences = encode_method.encode(final_bit_segments)
         print('Encode bit segments to DNA sequences by coding scheme. \n')
         
@@ -178,124 +177,270 @@ class Encoding():
         print(t-start_time)
       
 if __name__ == '__main__':
-    # obj = Encoding(file_uid=1582258845189804032,
+
+    def hamming(segment_length,index_length):
+        if segment_length + index_length<=120:
+            return 7
+        elif segment_length + index_length >120:
+            return 8
+    
+    def rscode():
+        return 24
+
+    def get_progress_bar(file_size,encode_method,verify_method):
+        index_dict = {10: 1023, 11: 2047, 12: 4095, 13: 8191,
+                    14: 16383, 15: 32767, 16: 65535, 17: 131071, 
+                    18: 262143, 19: 524287, 20: 1048575, 21: 2097151, 
+                    22: 4194303, 23: 8388607, 24: 16777215, 25: 33554431, 
+                    26: 67108863, 27: 99999999}
+        progress_bar = {
+                    "Basic":[100,200],
+                    "Church":[100,200],
+                    "Goldman":[100,200],
+                    "Grass":[100,200],
+                    "Blawat":[100,200],
+                    "DNA_Fountain":[80,150],
+                    "Yin_Yang":[80,150]}
+
+        progress_bar_rule = {
+                    "Basic":2,
+                    "Church":1,
+                    "Goldman":8,
+                    "Grass":16,
+                    "Blawat":8,
+                    "DNA_Fountain":1,
+                    "Yin_Yang":1}
+
+        bar_star = progress_bar[encode_method][0]
+        bar_end = progress_bar[encode_method][1]
+        segnumber = (file_size)/bar_star
+        for size in index_dict:
+            if index_dict[size] > segnumber:
+                index_length = size
+                break    
+        save_dict = {}
+        save_dict['encode_method'] = encode_method
+        save_dict['verify_method'] = verify_method
+        save_dict['index'] = index_length
+        save_dict['progress_bar'] = []
+
+        method_rule = progress_bar_rule[encode_method]
+        n = 0 
+        for s in range(bar_star,bar_end):
+            if verify_method == 'WithoutVerifycode':
+                while (index_length +  s)% method_rule != 0:
+                    s +=1
+                if s not in save_dict['progress_bar']:
+                    save_dict['progress_bar'].append(s)
+            elif verify_method == "Hamming":
+                while (index_length +s + hamming(s,index_length))% method_rule !=0:
+                    s +=1
+                if s not in save_dict['progress_bar']:
+                    save_dict['progress_bar'].append(s)
+            elif verify_method == "ReedSolomon":
+                while ((index_length + s) % 8 !=0) or ((index_length + s + rscode()) % method_rule !=0) :
+                    s +=1
+                if s not in save_dict['progress_bar']:
+                    save_dict['progress_bar'].append(s)
+            
+        
+        return index_length,save_dict['progress_bar']
+            
+            # print('#',encode_method,verify_method,index_length,s)
+            # obj = Encoding(file_uid=1593936476343767040,
+            #                             encode_method=encode_method,
+            #                             segment_length=s,
+            #                             index_length=index_length,
+            #                             verify_method=verify_method)
+            # obj.bit_to_dna()
+            # n +=1
+            # if n ==9:
+            #     break
+                                        
+        return save_dict
+
+    ooo = []
+    for e in ["DNA_Fountain","Yin_Yang","Basic","Church","Goldman","Grass","Blawat"]:
+        for v in ['ReedSolomon','WithoutVerifycode',"Hamming"]:
+            a = get_progress_bar(864768,encode_method=e,verify_method=v)
+            ooo.append(a)
+            print(e,v,a)
+    print(ooo)
+
+    # 1593936476343767040
+    # 1582258845189804032
+    
+    # obj = Encoding(file_uid=1593936476343767040,
     #               encode_method='Yin_Yang',
-    #               segment_length=120,
-    #               index_length=15,
-    #               verify_method="Hamming")
+    #               segment_length=106,
+    #               index_length=14,
+    #               verify_method="ReedSolomon")
+    # t1 = datetime.now()
+    # obj.bit_to_dna()
+    # t2 = datetime.now()
+    # print(t2-t1)
 
-    # "Goldman","Grass","Blawat"
-    # "Basic"
-    # mm = ["Church" ,"DNA_Fountain","Yin_Yang"]
-    # mm = ['Basic']
-    # index = 16
-    # for m in mm:
-    #     for v in ["Hamming","ReedSolomon","WithoutVerifycode"]:
-    #         for s in range(120,200,2):
-    #             print('### begin',m,v,s,index)
-    #             t1 = datetime.now()
-                
-    #             # if m == 'Basic':
-    #                 # while (s + index)%4 !=0:
-    #                     # index +=1  
-    #             print('### deal',m,v,s,index)
-    #             obj = Encoding(file_uid=1593443692746772480,
-    #                         encode_method=m,
-    #                         segment_length=s,
-    #                         index_length=index,
-    #                         verify_method=v)
-                
-    #             obj.bit_to_dna()
-    #             t2 = datetime.now()
-    #             print('### final',m,v,s,index,t2-t1)
+    # {'encode_method': 'Basic', 'verify_method': 'ReedSolomon', 'index': {15: [105, 113, 121, 129, 137, 145, 153, 161, 169, 177, 185, 193, 201]}}
+    # Basic ReedSolomon {'encode_method': 'Basic', 'verify_method': 'ReedSolomon', 'index': 17, 'progress_bar': [101, 103, 105, 107, 109, 111, 113, 115, 117, 119, 121, 123, 125, 127, 129, 131, 133, 135, 137, 139, 141, 143, 145, 147, 149, 151, 153, 155, 157, 159, 161, 163, 165, 167, 169, 171, 173, 175, 177, 179, 181, 183, 185, 187, 189, 191, 193, 195, 197, 199]}
+        # if encoding_method == 'Basic':
+        #     if verify_method == 'WithoutVerifycode':
+        #             for s in range(100,200):
+        #                 while (index_length +  s)%2 != 0:
+        #                     s +=1
+        #                 if s not in save_dict['progress_bar']:
+        #                     save_dict['progress_bar'].append(s)
+        #     elif verify_method == "Hamming":
+        #             for s in range(100,200):
+        #                 while (index +s + hamming(s,index))%2 !=0:
+        #                         s +=1
+        #                 if s not in save_dict['progress_bar']:
+        #                     save_dict['progress_bar'].append(s)
+        #     elif verify_method == "ReedSolomon":
+        #             for s in range(100,200):
+        #                 while  (index_length + s)%8 !=0 and (index_length + s + rscode()) % 2 !=0 :
+        #                     s +=1
+        #                 if s not in save_dict['progress_bar']:
+        #                     save_dict['progress_bar'].append(s)
+        # elif  encoding_method == 'Church':
+        #     if verify_method == 'WithoutVerifycode':
+        #             for s in range(100,200):
+        #                 save_dict['progress_bar'].append(s)
+        #     elif verify_method == "Hamming":
+        #             for s in range(100,200):
+        #                 save_dict['progress_bar'].append(s)
+        #     elif verify_method == "ReedSolomon":
+        #             for s in range(100,200):
+        #                 while (index_length + s + rscode()) % 8 !=0 :
+        #                     s +=1
+        #                 if s not in save_dict['progress_bar']:
+        #                     save_dict['progress_bar'].append(s)
+        # elif encoding_method == "Goldman":
+        #     if verify_method == 'WithoutVerifycode':
+        #             for s in range(100,200):
+        #                 while (index_length +  s)%8 != 0:
+        #                     s +=1
+        #                 if s not in save_dict['progress_bar']:
+        #                     save_dict['progress_bar'].append(s)
+        #     elif verify_method == "Hamming":
+        #             for s in range(100,200):
+        #                 while (index +s + hamming(s,index))%8 !=0:
+        #                     s +=1 
+        #                 if s not in save_dict['progress_bar']:
+        #                     save_dict['progress_bar'].append(s)
+        #     elif verify_method == "ReedSolomon":
+        #             for s in range(100,200):
+        #                 while (index_length + s + rscode()) % 8 !=0 :
+        #                     s +=1
+        #                 if s not in save_dict['progress_bar']:
+        #                     save_dict['progress_bar'].append(s)
+        # elif encoding_method == "Grass":
+        #     if verify_method == 'WithoutVerifycode':
+        #             for s in range(100,200):
+        #                 while (index_length +  s)%16 != 0:
+        #                     s +=1
+        #                 if s not in save_dict['progress_bar']:
+        #                     save_dict['progress_bar'].append(s)
+        #     elif verify_method == "Hamming":
+        #             for s in range(97,200):
+        #                 while (index +s + hamming(s,index))%16 !=0:
+        #                     s +=1 
+        #                 if s not in save_dict['progress_bar']:
+        #                     save_dict['progress_bar'].append(s)
+        #     for s in range(100,200):
+        #                 while (index_length + s +rscode() ) % 16 !=0 :
+        #                     s +=1
+        #                 if s not in save_dict['progress_bar']:
+        #                     save_dict['progress_bar'].append(s)
 
-    index_dict = {10: 1023, 11: 2047, 12: 4095, 13: 8191,
-                  14: 16383, 15: 32767, 16: 65535, 17: 131071, 
-                  18: 262143, 19: 524287, 20: 1048575, 21: 2097151, 
-                  22: 4194303, 23: 8388607, 24: 16777215, 25: 33554431, 
-                  26: 67108863, 27: 99999999}
-    segnumber = (108096*8)/100
-    for index in index_dict:
-        if index_dict[index] > segnumber:
-            index = index
-            break
-    print('##### ',index,segnumber)
+            
+
+    
+      
     
 
-    m = "Basic"
-    # v = 'WithoutVerifycode'
-    # v = "Hamming"
-    v = 'ReedSolomon'
-    if m == 'Basic':
-        if v == 'WithoutVerifycode':
-            for s in range(100,200):
-                print('### begin',m,v,s,index)
-                while (index +  s)%2 != 0:
-                    index +=1
-                t1 = datetime.now() 
-                print('### deal',m,v,s,index)
-                obj = Encoding(file_uid=1593443692746772480,
-                                encode_method=m,
-                                segment_length=s,
-                                index_length=index,
-                                verify_method=v)
-                for index in index_dict:
-                    if index_dict[index] > segnumber:
-                            index = index
-                            break
-                obj.bit_to_dna()
-                t2 = datetime.now()
-                print('### final',m,v,s,index,t2-t1)
-        elif v == "Hamming":
-            for s in range(100,200):
-                print('### begin',m,v,s,index)
-                if (index + s) < 120:
-                    while (index +  s +7)%2 != 0:
-                        index +=1
-                elif (index + s ) == 120:
-                    if (index + s + 7) == 127:
-                        index +=2
-                else:
-                    while (index +  s + 8)%2 != 0:
-                        index +=1
-                t1 = datetime.now() 
-                print('### deal',m,v,s,index)
-                obj = Encoding(file_uid=1593443692746772480,
-                                encode_method=m,
-                                segment_length=s,
-                                index_length=index,
-                                verify_method=v)
-                for index in index_dict:
-                    if index_dict[index] > segnumber:
-                            index = index
-                            break
-                obj.bit_to_dna()
-                t2 = datetime.now()
-                print('### final',m,v,s,index,t2-t1)
-        elif v == "ReedSolomon":
-            for s in range(100,200):
-                print('### begin',m,v,s,index)
-                while (index + s) % 8 !=0 :
-                    index +=1
-                
-                t1 = datetime.now() 
-                print('### deal',m,v,s,index)
-                obj = Encoding(file_uid=1593443692746772480,
-                                encode_method=m,
-                                segment_length=s,
-                                index_length=index,
-                                verify_method=v)
-                for index in index_dict:
-                    if index_dict[index] > segnumber:
-                            index = index
-                            break
-                obj.bit_to_dna()
-                t2 = datetime.now()
-                print('### final',m,v,s,index,t2-t1)
+    # save_dict = {}
+    # encoding_method = "Basic"
+    # # # encoding_method = "Church"
+    # # # encoding_method =  "Goldman"
+    # # encoding_method ="Grass"
+
+    # # # encoding_method = "Blawat"
+
+    # # # verify_method = 'WithoutVerifycode'
+    # # # verify_method = "Hamming"
+    # verify_method = 'ReedSolomon'
+
+    # save_dict['encode_method'] = encoding_method
+    # save_dict['verify_method'] = verify_method
+    # save_dict['index'] = {}
+
     
-    # obj = Encoding(file_uid=1585911198753361920,
-    #                 encode_method='SrcCode',
-    #               segment_length=160,
-    #               index_length=20,
-    #               verify_method='Hamming')
-    # obj.encoding()
+    # if encoding_method == "Basic":
+    #     if verify_method == 'WithoutVerifycode':
+    #         for index in range(14,30):
+    #             save_dict['index'][index] = []
+    #             for s in range(100,200):
+    #                 print('### begin',encoding_method,verify_method,s,index)
+    #                 while (index +  s)%8 != 0:
+    #                     s +=1
+    #                 t1 = datetime.now() 
+    #                 print('### deal',encoding_method,verify_method,s,index)
+    #                 obj = Encoding(file_uid=1593936476343767040,
+    #                                 encode_method=encoding_method,
+    #                                 segment_length=s,
+    #                                 index_length=index,
+    #                                 verify_method=verify_method)
+
+    #                 obj.bit_to_dna()
+    #                 t2 = datetime.now()
+    #                 print('### final',encoding_method,verify_method,s,index,t2-t1)
+    #                 if s not in save_dict['index'][index]:
+    #                     save_dict['index'][index].append(s)
+    #             print(save_dict)
+    #     elif verify_method == "Hamming":
+    #         for index in range(15,30):
+    #             save_dict['index'][index] = []
+    #             for s in range(100,200):
+    #                 print('### begin',encoding_method,verify_method,s,index)
+
+    #                 while (index +s + hamming(s,index))%8 !=0:
+    #                     s +=1 
+
+    #                 t1 = datetime.now() 
+    #                 print('### deal',encoding_method,verify_method,s,index)
+    #                 obj = Encoding(file_uid=1593936476343767040,
+    #                                 encode_method=encoding_method,
+    #                                 segment_length=s,
+    #                                 index_length=index,
+    #                                 verify_method=verify_method)
+
+    #                 obj.bit_to_dna()
+    #                 t2 = datetime.now()
+    #                 print('### final',encoding_method,verify_method,s,index,t2-t1)
+    #                 if s not in save_dict['index'][index]:
+    #                     save_dict['index'][index].append(s)
+    #             print(save_dict)
+    #     elif verify_method == "ReedSolomon":
+    #         for index in range(15,16):
+    #             save_dict['index'][index] = []
+    #             for s in range(100,200):
+    #                 print('### begin',encoding_method,verify_method,s,index)
+    #                 while (index + s + rscode()) % 8 !=0 :
+    #                     s +=1
+
+    #                 t1 = datetime.now() 
+    #                 print('### deal',encoding_method,verify_method,s,index)
+    #                 obj = Encoding(file_uid=1593936476343767040,
+    #                                 encode_method=encoding_method,
+    #                                 segment_length=s,
+    #                                 index_length=index,
+    #                                 verify_method=verify_method)
+
+    #                 obj.bit_to_dna()
+    #                 t2 = datetime.now()
+    #                 print('### final',encoding_method,verify_method,s,index,t2-t1)
+    #                 if s not in save_dict['index'][index]:
+    #                     save_dict['index'][index].append(s)
+    #             print(save_dict)
+       
+   

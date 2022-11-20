@@ -28,6 +28,88 @@ encoding_methods = {
     "Yin_Yang":YinYangCode(need_logs=False)}
 
 
+class get_progress_bar():
+    def __init__(self,file_uid,encode_method,verify_method):
+        # methods
+        self.encode_method = encode_method
+        self.verify_method = verify_method
+
+         # file save dir and file information
+        self.config = get_config(yaml_path='config')
+        self.backend_dir = self.config['backend_dir']
+        self.file_dir = '{}/{}'.format(self.backend_dir,self.config['file_save_dir'])
+        self.file_info_path = '{}/{}.yaml'.format(self.file_dir,file_uid)
+        self.file_info_dict = get_config(yaml_path=self.file_info_path)
+        self.file_size = self.file_info_dict['bit_size']
+
+        # define info
+        self.progress_bar = {"Basic":[100,200],
+                        "Church":[100,200],
+                        "Goldman":[100,200],
+                        "Grass":[100,200],
+                        "Blawat":[100,200],
+                        "DNA_Fountain":[80,150],
+                        "Yin_Yang":[80,150]}
+
+        self.progress_bar_rule = {"Basic":2,
+                        "Church":1,
+                        "Goldman":8,
+                        "Grass":16,
+                        "Blawat":8,
+                        "DNA_Fountain":1,
+                        "Yin_Yang":1}
+
+    def hamming_length(self,segment_length,index_length):
+        if segment_length + index_length<=120:
+            return 7
+        elif segment_length + index_length >120:
+            return 8
+    def rscode_length(self):
+        return 24
+
+    def get_index_length(self):
+        index_dict = {10: 1023, 11: 2047, 12: 4095, 13: 8191,
+                    14: 16383, 15: 32767, 16: 65535, 17: 131071, 
+                    18: 262143, 19: 524287, 20: 1048575, 21: 2097151, 
+                    22: 4194303, 23: 8388607, 24: 16777215, 25: 33554431, 
+                    26: 67108863, 27: 99999999}
+        bar_star = self.progress_bar[self.encode_method][0]
+        segnumber = (self.file_size)/bar_star
+        for size in index_dict:
+            if index_dict[size] > segnumber:
+                index_length = size
+                break  
+        return index_length
+
+    def get_bar(self):
+        bar_star = self.progress_bar[self.encode_method][0]
+        bar_end = self.progress_bar[self.encode_method][1]
+
+        index_length = self.get_index_length()
+        print(index_length)
+          
+        progress_bar = []
+        method_rule = self.progress_bar_rule[self.encode_method]
+        for s in range(bar_star,bar_end):
+            if self.verify_method == 'WithoutVerifycode':
+                while (index_length +  s)% method_rule != 0:
+                    s +=1
+                if s not in progress_bar:
+                    progress_bar.append(s)
+            elif self.verify_method == "Hamming":
+                while (index_length +s + self.hamming_length(s,index_length))% method_rule !=0:
+                    s +=1
+                if s not in progress_bar:
+                    progress_bar.append(s)
+            elif self.verify_method == "ReedSolomon":
+                while ((index_length + s) % 8 !=0) or ((index_length + s + self.rscode_length()) % method_rule !=0) :
+                    s +=1
+                if s not in progress_bar:
+                    progress_bar.append(s)
+
+        return index_length, progress_bar
+
+
 class Encoding():
     def __init__(self,file_uid,segment_length,index_length,verify_method,encode_method):
         self.file_uid = file_uid
