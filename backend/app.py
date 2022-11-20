@@ -6,11 +6,10 @@ import yaml
 from flask import Flask, render_template,session
 from flask import request,send_from_directory
 from flask_cors import CORS
-from flask_session import Session
+
 
 from script.step1_get_file_uid import get_file_uid
-from script.step2_encoding_parallel import Encoding
-
+from script.step2_encoding_parallel import Encoding,get_progress_bar
 import script.step3_simulation_utils_parallel_noSession as simu_utils
 from script.step4_decode import ClusterDecode
 from script.utils.simulation_utils import is_fasta,fasta_to_dna
@@ -18,16 +17,10 @@ from script.utils.utils_basic import get_config,write_yaml,get_download_path
 from app_utils import set_session,get_session
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
-app.config['SESSION_TYPE']='filesystem'
-app.config['SECRET_KEY'] = 'XXXXX'
-app.secret_key='xxxxxxx'
-# Session(app)
 # CORS(app, resources=r'/*')
-
 backend_dir = os.path.dirname(os.path.abspath(__file__))
 print("----------------------------------------------------------------",backend_dir)
 
-    
 
 @app.route('/')
 def index():
@@ -54,6 +47,29 @@ def file_upload():
     write_yaml(yaml_path=yaml_file,data=file_base_info,appending=False)
 
     return json.dumps(file_base_info)
+
+@app.route('/progress_bar',methods=['GET','POST'])
+def progress_bar():
+    print('\n','#'*25,'Progress bar','#'*25,'\n','#'*60)
+    #### Postman test json ####
+    # {"file_uid":1565237658387615744,
+    # "verify_method":"Hamming",
+    # "encode_method":"Basic"}
+
+    front_data = request.data
+    front_data = json.loads(front_data)
+    file_uid = front_data['file_uid'] #'1566....'
+    verify_method = front_data['verify_method'] #'HammingCode'
+    encode_method = front_data['encode_method'] #'Basic'
+
+
+    obj = get_progress_bar(file_uid,encode_method,verify_method)
+    index_length,bar = obj.get_bar()
+
+    info = {'index_length':index_length,'bar':bar}
+
+    return json.dumps(info)
+
 
 @app.route('/encode',methods=['GET','POST'])
 def file_encode():
