@@ -84,7 +84,7 @@ def get_download_path(type,file_uid):
 
         # file encode dir
         dna_dir = os.path.join(backend_dir,config['encode_dir'])
-        dna_file = '{}.txt'.format(file_uid)
+        dna_file = '{}.csv'.format(file_uid)
 
     elif type =='simulation':
         file_dir = os.path.join(backend_dir,config['upload_dna_save_dir'])

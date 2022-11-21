@@ -1,4 +1,3 @@
-from math import inf
 import os,sys
 from datetime import datetime
 from multiprocessing import Pool
@@ -270,7 +269,7 @@ if __name__ == '__main__':
     # 1593936476343767040
     # 1582258845189804032
     
-    obj = Encoding(file_uid=1594216853138444288,
+    obj = Encoding(file_uid=1565536927137009664,
                   encode_method='Yin_Yang',
                   segment_length=106,
                   index_length=14,

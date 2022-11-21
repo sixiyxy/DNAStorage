@@ -605,12 +605,20 @@ class DNAFountain(AbstractCodingAlgorithm):
     def encode(self, bit_segments):
         for segment_index, bit_segment in enumerate(bit_segments):
             if len(bit_segment) % 2 != 0:
-                bit_segments[segment_index] = [0] + bit_segment
+                try:
+                    bit_segments[segment_index] = [0] + bit_segment
+                except:
+                    # print(bit_segment,len(bit_segment))
+                    raise ValueError("xxxx")
+
 
         self.decode_packets = len(bit_segments)
 
         dna_sequences = []
-        final_count = math.ceil(len(bit_segments) * (1 + self.redundancy))
+        # final_count = math.ceil(len(bit_segments) * (1 + self.redundancy))
+        final_count = math.ceil(len(bit_segments) * (1 + 0))
+
+        # print('penquan',final_count)
 
         # things related to random number generator, starting an lfsr with a certain state and a polynomial for 32bits.
         lfsr = DNAFountain.LFSR().lfsr_s_p()
@@ -732,13 +740,13 @@ class DNAFountain(AbstractCodingAlgorithm):
                     self.payload = bit_segments[chuck_index]
                 else:
                     self.payload = list(map(self.xor, self.payload, bit_segments[chuck_index]))
-
+            # print(self.payload,len(self.payload),chuck_index)
             bit_list = self._get_seed_list(header_size) + self.payload
 
             dna_sequence = []
             for index in range(0, len(bit_list), 2):
                 dna_sequence.append(index_base.get(bit_list[index] * 2 + bit_list[index + 1]))
-
+            # print(dna_sequence,len(dna_sequence))
             return dna_sequence
 
         def init_binaries(self, prng, dna_sequence, header_size):
@@ -911,16 +919,11 @@ class YinYangCode(AbstractCodingAlgorithm):
 
         print('here number',len(bit_segments))
 
-        if self.faster:
-            dna_sequences = self.jlk_encode(bit_segments)
-        else:
-            dna_sequences = self.normal_encode(bit_segments)
 
-        if self.need_logs:
-            print("There are " + str(len(dna_sequences) * 2 - self.total_count)
-                  + " random bit segment(s) adding for logical reliability.")
+        result = self.jlk_encode(bit_segments)
+       
 
-        return dna_sequences
+        return result
 
     def normal_encode(self, bit_segments):
         dna_sequences = []
@@ -1098,6 +1101,8 @@ class YinYangCode(AbstractCodingAlgorithm):
         dna_sequences = []
         copy_bit_segments = copy.deepcopy(bit_segments)
 
+        id = 0
+        fail_list = []
         while len(bit_segments) > 0:
             fixed_bit_segment, is_finish = bit_segments.pop(), False
             for pair_time in range(self.max_iterations):
@@ -1122,15 +1127,15 @@ class YinYangCode(AbstractCodingAlgorithm):
                         break
                 
             if not is_finish and pair_time == (self.max_iterations-1):
-                dna_sequences.append(['fail'])
+                fail_list.append(id)
                 print('####',pair_time,len(bit_segments),is_finish)
-
+            id += 1
             if self.need_logs:
                 self.monitor.output(self.total_count - len(bit_segments), self.total_count)
 
         print('bit number, dna number',len(copy_bit_segments),len(dna_sequences))
-
-        return dna_sequences
+        print(fail_list)
+        return dna_sequences,fail_list
     
 
     def decode(self, dna_sequences):
@@ -1271,6 +1276,7 @@ class SrcCode():
     def encodeing(self):
         contentlines = self.upload_file.read()
         original_charater_list = []
+        index_ori_charater_list = []
         dna_sequences_list = []
 
         linenumber = 0
@@ -1302,6 +1308,8 @@ class SrcCode():
             if len(dna_sequence)>=self.dna_sequence_length:
                 dna_sequences_list.append(dna_sequence)
                 original_charater_list.append(charater_sequence)
+                index_ori_charater = str(charater_sequence) + str(linenumber)
+                index_ori_charater_list.append(index_ori_charater)
                 linenumber += 1
                 dna_sequence="" + self.code_num(linenumber)
                 charater_sequence=""
@@ -1309,7 +1317,10 @@ class SrcCode():
             dna_sequence+=((180-len(dna_sequence))//6)*"CGGTAT"
             dna_sequences_list.append(dna_sequence)
             original_charater_list.append(charater_sequence)
-        return dna_sequences_list,original_charater_list
-    
+        record_data = {'dna_sequences':dna_sequences_list,
+                       "original_charater_list":original_charater_list,
+                       "index_ori_charater_list": index_ori_charater_list
+                      }
+        return record_data
     def decoding(self):
         pass

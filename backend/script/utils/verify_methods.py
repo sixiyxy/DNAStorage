@@ -17,8 +17,8 @@ class AbstractErrorCorrectionCode(object):
             verified_bit_segments.append(self.insert_one(bit_segment))
             # self.monitor.output(index + 1, len(bit_segments))
 
-        return verified_bit_segments, len(verified_bit_segments[0]) - len(bit_segments[0])
-
+        return verified_bit_segments
+        
     def remove(self, verified_bit_segments):
         if self.need_logs:
             print("Check and remove the error-correction code from the bit segments.")
