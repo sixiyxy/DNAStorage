@@ -62,7 +62,6 @@ def progress_bar():
     verify_method = front_data['verify_method'] #'HammingCode'
     encode_method = front_data['encode_method'] #'Basic'
 
-
     obj = get_progress_bar(file_uid,encode_method,verify_method)
     index_length,bar = obj.get_bar()
 
