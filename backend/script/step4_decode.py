@@ -185,7 +185,7 @@ class ClusterDecode():
                         "recall_bits_number": len(recall_bits),
                         "error_bits_number":error_bits_number,
                         "error_bits_rate":error_bits_rate,
-                        "recall_bits_rate":'{} %'.format()}
+                        "recall_bits_rate":'{} %'.format(recall_bits_rate)}
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print(record_info)
         print('Decoding Done!')
