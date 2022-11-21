@@ -237,7 +237,8 @@ export const Encode = (props) => {
             </Col>
             
             <Col span={10}>
-              <div className="summary-img">
+            
+              <div style={{ marginLeft:"150px"}} className="summary-img">
                 <Image
                   width={"130%"}
                   // height={"50%"}

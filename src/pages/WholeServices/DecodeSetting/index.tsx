@@ -72,12 +72,12 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
             <div className="decode-button-group">
                 <div className="whole-summary-word" >
                   <p>
-                  In the DNA storage process, file recovery needs to decode the DNA sequences
-                  according to the reverse process of the encoding roles. However，DNA sequences
+                  In the last stage of DNA storage process, we need to decode the DNA sequences
+                  according to the reverse process of the encoding roles. However，DNA strands
                   obtained by sequencing usually have random errors(insert\indel\SNV, we have
                   simulated this). So, we designed two clustering algorithms, CD-HIT and Starcode,
-                  to remove de-redundancy and correct the sequencing data. Then, the clustered
-                  sequences will decode according to the rules to obtain bits fragments.
+                  to remove de-redundancy and correct the data. Then, the clustered
+                  sequences will be decoded to obtain bits fragments.
                   Subsequently, the bits fragments will be removed from the verification code and
                   index code. Finally, we analyze the recovery information of bits fragment in the
                   report.
@@ -96,7 +96,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
             </Col>
             
             <Col span={10}>
-              <div className="summary-img">
+              <div style={{ marginLeft: "150px" }} className="summary-img">
                 <Image
                   width={"130%"}
                   // height={"50%"}
