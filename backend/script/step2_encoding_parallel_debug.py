@@ -95,17 +95,17 @@ class get_progress_bar():
                 while (index_length +  s)% method_rule != 0:
                     s +=1
                 if s not in progress_bar:
-                    progress_bar[s] = s
+                    progress_bar[s] = ' '
             elif self.verify_method == "Hamming":
                 while (index_length +s + self.hamming_length(s,index_length))% method_rule !=0:
                     s +=1
                 if s not in progress_bar:
-                    progress_bar[s]=s
+                    progress_bar[s]= ' '
             elif self.verify_method == "ReedSolomon":
                 while ((index_length + s) % 8 !=0) or ((index_length + s + self.rscode_length()) % method_rule !=0) :
                     s +=1
                 if s not in progress_bar:
-                    progress_bar[s] = s
+                    progress_bar[s] = ' '
 
         return index_length, progress_bar
 

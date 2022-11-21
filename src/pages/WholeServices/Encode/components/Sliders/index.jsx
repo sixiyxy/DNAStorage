@@ -28,10 +28,10 @@ const Sliders = (props) => {
   //   props.ParamPass(method, values);
   // }, [count]);
   const marks = {
-    0: '0',
-    26: '26',
-    37: '37',
-    100: '100'
+    0: ' ',
+    26: ' ',
+    37: ' ',
+    100: ' '
   };
   return (
     <div className="encode-sider-wrapper">
@@ -43,10 +43,10 @@ const Sliders = (props) => {
             <HighlightTwoTone /> Segment length
           </strong>
           <Slider
-            marks={marks} 
+            marks={props.processRes.bar} 
             step={null}
-            // max={200}
-            // min={120}
+            max={200}
+            min={Number(Object.keys(props.processRes.bar ? props.processRes.bar : {80:' '} )[0])}
             value={props.Segment}
             // step={8}
             // defaultValue={160}
@@ -55,13 +55,7 @@ const Sliders = (props) => {
             onChange={onChange_seg}
             style={{ marginLeft: "20px", marginTop: "20px" }}
           />
-          {/* <span style={{ marginLeft: "20px" }}>
-            According to the existing synthesis and sequencing technology, the recommended length is
-            160 bits.
-          </span> */}
-          <br />
-          <br />
-          {/*index length阈值设置条*/}
+          
           <div style={{ marginTop: "30px" }}>
             <strong style={{ fontSize: "19px" }}>
               {" "}
