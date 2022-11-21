@@ -28,6 +28,7 @@ export const Encode = (props) => {
   const [indexment, Setindexment] = useState(20);
   const [indexchange, setChange] = useState(true); //一开始是小于2M
   const [upload100kb, setUpload100] = useState(false); //一开始假设文件都大于100kb
+  const [processRes, setprocessRes] = useState({})
   useEffect(() => {
     props.setIsSynthesis(false);
   }, []);
@@ -278,7 +279,18 @@ export const Encode = (props) => {
         </Card>
       </div>
       {/*编码方法列表*/}
-      <EncodeMethodList setValue={setValue} value={value} upload100kb={upload100kb} setMethod={setMethod} setencodeValue={setencodeValue}  encodevalue={encodevalue}/>
+      <EncodeMethodList 
+        setValue={setValue} 
+        value={value} 
+        upload100kb={upload100kb} 
+        setMethod={setMethod} 
+        setencodeValue={setencodeValue}  
+        encodevalue={encodevalue} 
+        method={method} 
+        fileId={props.fileId} 
+        setprocessRes={setprocessRes} 
+        setIndex={setIndex}
+      />
 
       <Sliders
         indexchange={indexchange}
@@ -288,7 +300,7 @@ export const Encode = (props) => {
         Segment={Segment}
         Setindexment={Setindexment}
         indexment={indexment}
-        
+        processRes={processRes}
       />
       <Graphs
         seg={seg}

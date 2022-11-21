@@ -1,8 +1,9 @@
 import type { RadioChangeEvent } from "antd";
 import { Input, Radio, Space, Col, Row, Card } from "antd";
 import { Button, notification } from "antd";
-import React, { useState } from "react";
-
+import React, { useState,useEffect} from "react";
+import axios from "axios";
+import {API_PREFIX} from "../../../../../common/Config";
 import "./index.less";
 import type { NotificationPlacement } from "antd/es/notification";
 import { Link } from "react-router-dom";
@@ -10,6 +11,20 @@ import { CheckCircleTwoTone,BulbTwoTone} from "@ant-design/icons";
 
 const EncodeMethodList: React.FC = (props: any) => {
   const [count, setCount] = useState(0); //触发标志
+  const progressParam = {
+    file_uid:props.fileID ? props.fileID : "1565536927137009664",
+    verify_method:props.method,
+    encode_method:props.value
+  }
+  useEffect(()=>{
+    axios.post(API_PREFIX + "/progress_bar", progressParam)
+    .then(function (response) {
+      console.log('ProcessResp:',response);
+      props.setprocessRes(response.data)
+      props.setIndex(response.data.index_length)
+    })
+  },[props.value,props.method,props.fileID])
+
   const onChange = (e: RadioChangeEvent) => {
     props.setValue(e.target.value);
   };
