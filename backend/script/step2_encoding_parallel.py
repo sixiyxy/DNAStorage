@@ -318,20 +318,19 @@ class Encoding():
         if self.encode_method in encoding_methods:
             file_data = fromfile(file=self.file_path, dtype=uint8)
             file_size = file_data.shape[0]
-            if file_size <= 500000:
-                record_info = self.encoding_normal(file_data)
-                run_time = (datetime.now() - start_time).total_seconds()
-                run_time = '%.2f'%(run_time)
-            else:
-                cut_file_data = cut_file(file_data,self.encode_method)
-                print('cut file number',len(cut_file_data))
-
-                with Pool(self.threads) as pool:
-                    parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
+            # if file_size <= 500000:
+            #     record_info = self.encoding_normal(file_data)
+            #     run_time = (datetime.now() - start_time).total_seconds()
+            #     run_time = '%.2f'%(run_time)
+            # else:
+            cut_file_data = cut_file(file_data,self.encode_method)
+            print('cut file number',len(cut_file_data))
+            with Pool(self.threads) as pool:
+                parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
                 
-                run_time = (datetime.now() - start_time).total_seconds()
-                run_time = '%.2f'%(run_time)
-                record_info = self.contact_result(parallel_results)
+            run_time = (datetime.now() - start_time).total_seconds()
+            run_time = '%.2f'%(run_time)
+            record_info = self.contact_result(parallel_results)
         # txt method
         elif self.encode_method == 'SrcCode':
             upload_file = open(self.file_path,"r",encoding='UTF-8')
