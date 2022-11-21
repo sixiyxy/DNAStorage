@@ -7,13 +7,7 @@ import "./index.less";
 
 const Sliders = (props) => {
   const [disabled, setDisabled] = useState(false);
-  const [count, setCount] = useState(0); //触发标志
-
-  const onChange1 = (e) => {
-    setCount(count + 1);
-    props.setencodeValue(e.target.value);
-    props.setMethod(e.target.value);
-  };
+ 
 
   //获取segment和index的值
   const onAfterChange_seg = (value1) => {
@@ -81,40 +75,7 @@ const Sliders = (props) => {
             </span>
           </div>
         </div>
-        <div style={{ paddingLeft: "0px", marginTop: "50px", fontSize: "19px" }}>
-          <strong>
-            <BulbTwoTone /> Verify method{" "}
-          </strong>
-          <br />
-          <div className="slider-inner">
-          <Radio.Group
-            onChange={onChange1}
-            value={props.encodevalue}
-            defaultValue={"WithoutVerifycode"}
-            style={{ marginLeft: "20px", marginTop: "20px" }}
-          >
-            <Space direction="vertical">
-              <Radio value={"WithoutVerifycode"}>
-                <span>WithoutVerifycode</span>
-              </Radio>
-              <Radio value={"Hamming"}>
-                <span>Hamming</span>
-              </Radio>
-              <Radio value={"ReedSolomon"}>
-                <span>ReedSolomon</span>
-              </Radio>
-            </Space>
-          </Radio.Group>
-          </div>
-          <p style={{ marginTop: "10px" }}>
-            <span style={{ marginLeft: "20px", fontSize: "14px" }}>
-              Method details please click the{" "}
-            </span>
-            <Link to="/methods">
-              <span style={{ fontSize: "14px" }}>Method Paper</span>
-            </Link>
-          </p>
-        </div>
+        
       </Card>
     </div>
   );
