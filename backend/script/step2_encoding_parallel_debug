@@ -88,24 +88,24 @@ class get_progress_bar():
         index_length = self.get_index_length()
         print(index_length)
           
-        progress_bar = {}
+        progress_bar = []
         method_rule = self.progress_bar_rule[self.encode_method]
         for s in range(bar_star,bar_end):
             if self.verify_method == 'WithoutVerifycode':
                 while (index_length +  s)% method_rule != 0:
                     s +=1
                 if s not in progress_bar:
-                    progress_bar[s] = ''
+                    progress_bar.append(s)
             elif self.verify_method == "Hamming":
                 while (index_length +s + self.hamming_length(s,index_length))% method_rule !=0:
                     s +=1
                 if s not in progress_bar:
-                    progress_bar[s]=''
+                    progress_bar.append(s)
             elif self.verify_method == "ReedSolomon":
                 while ((index_length + s) % 8 !=0) or ((index_length + s + self.rscode_length()) % method_rule !=0) :
                     s +=1
                 if s not in progress_bar:
-                    progress_bar[s] = ''
+                    progress_bar.append(s)
 
         return index_length, progress_bar
 
@@ -129,12 +129,6 @@ class Encoding():
         self.file_name = self.file_info_dict['file_name']
         self.file_path = '{}/{}_{}'.format(self.file_dir,file_uid,self.file_name)
 
-        # define useful value
-        self.byte_size = 0
-        self.bit_size = 0
-        self.segment_number = 0
-        self.verify_code_length = 0
-
         # file encode dir
         self.dna_dir = self.config['encode_dir']
         self.dna_file = '{}/{}/{}.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
@@ -154,24 +148,25 @@ class Encoding():
 
     def segment_file(self,data):
         matrix, values = [], data
-        self.bit_size = len(values)*8
+        
         for current, value in enumerate(values):
             matrix += list(map(int, list(str(bin(value))[2:].zfill(8))))
 
         if len(matrix) % self.segment_length != 0:
             matrix += [0] * (self.segment_length - len(matrix) % self.segment_length)
-
-        self.byte_size = len(values)
         
         matrix = array(matrix)
         matrix = matrix.reshape(int(len(matrix) / self.segment_length), self.segment_length)
         bit_segments =matrix.tolist()
-        self.segment_number = len(bit_segments)
 
-        return bit_segments
+        fragment_info = { "original_bit_segments":bit_segments}
+
+        return fragment_info
+
 
     def connet_index(self,data):
-        original_bit_segments = self.segment_file(data)
+        fragment_info = self.segment_file(data)
+        original_bit_segments = fragment_info["original_bit_segments"]
 
         connected_bit_segments = []
         record_index = []
@@ -181,63 +176,92 @@ class Encoding():
             record_index.append(index_code)
             add_index_seg = index_code + original_bit_segments[index]
             connected_bit_segments.append(add_index_seg)
+        
+        fragment_info = { "original_bit_segments":original_bit_segments,
+                        "record_index":record_index,
+                        "connected_bit_segments":connected_bit_segments}
 
-        return connected_bit_segments,original_bit_segments,record_index
+        return fragment_info
         
     def verify_code(self,data):
-        connected_bit_segments,original_bit_segments,record_index = self.connet_index(data)
+        fragment_info = self.connet_index(data)
+        original_bit_segments = fragment_info["original_bit_segments"]
+        record_index = fragment_info["record_index"]
+        connected_bit_segments = fragment_info["connected_bit_segments"]
 
         verify_method = verify_methods[self.verify_method]
 
         if verify_method == False:
-            final_bit_segments, error_correction_length = connected_bit_segments,0
+            final_bit_segments = connected_bit_segments
         else:
-            final_bit_segments, error_correction_length = verify_method.insert(connected_bit_segments)
-        
-        self.verify_code_length = error_correction_length
-        record_info = {"verify_code_length":error_correction_length,
-                        "final_segment_bit_length":len(final_bit_segments[0])}
+            final_bit_segments = verify_method.insert(connected_bit_segments)
 
-        write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
+        fragment_info = { "original_bit_segments":original_bit_segments,
+                        "record_index":record_index,
+                        "connected_bit_segments":connected_bit_segments,
+                        "final_bit_segments":final_bit_segments}
 
-        return original_bit_segments,record_index,connected_bit_segments,final_bit_segments
+        return fragment_info
+    
+    def encoding(self,data):
+        pass
+
 
     def encoding_normal(self,data): 
-        original_bit_segments,record_index,connected_bit_segments,final_bit_segments = self.verify_code(data)
-        final_bit_segments_2 = copy.deepcopy(final_bit_segments) 
+        fragment_info = self.verify_code(data)
+        original_bit_segments = fragment_info["original_bit_segments"]
+        record_index = fragment_info["record_index"]
+        connected_bit_segments = fragment_info["connected_bit_segments"]
+        final_bit_segments = fragment_info["final_bit_segments"]
+
+        # encode to dna sequence
+        final_bit_segments_copy = copy.deepcopy(final_bit_segments) 
         encode_method = encoding_methods[self.encode_method]
-        
-        dna_sequences = encode_method.encode(final_bit_segments_2)
+        dna_sequences = encode_method.encode(final_bit_segments_copy)
+        if self.encode_method == 'Yin_Yang':
+            pass
+
+
+        bit_size = len(data)*8
+        byte_size = len(data)
+        segment_number = len(original_bit_segments)
+        if self.verify_method == False:
+            error_correction_length = 0
+        else:
+            error_correction_length = len(final_bit_segments[0]) - len(connected_bit_segments[0])
 
         # record encode value
         nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
-        information_density = self.bit_size/nucleotide_count
+        information_density = bit_size/nucleotide_count
 
         # net information density is wrong do not display
-        net_nucleotide_count = len(dna_sequences)*(len(dna_sequences[0]) - self.index_length - self.verify_code_length)
-        net_information_density = self.bit_size/net_nucleotide_count
+        net_nucleotide_count = len(dna_sequences)*(len(dna_sequences[0]) - self.index_length - error_correction_length)
+        net_information_density = bit_size/net_nucleotide_count
 
         # 1ug = 9.03*10^14bp       
-        physical_information_density = self.byte_size/(nucleotide_count/(9.03*10**14))
+        physical_information_density = byte_size/(nucleotide_count/(9.03*10**14))
         physical_information_density_ug = physical_information_density*(10**3)
         physical_information_density_g = physical_information_density*(10**9)
 
         # together
-        record_info = {"bit_size":self.bit_size,
-                        "segment_number":self.segment_number,
+        record_info = {"bit_size":bit_size,
+                        "segment_number":segment_number,
+                        "verify_code_length":error_correction_length,
+                        "final_segment_bit_length":len(final_bit_segments[0]),
                         "DNA_sequence_length":len(dna_sequences[0]),
                         "nucleotide_counts":nucleotide_count,
                         "information_density":information_density,
                         "net_information_density":net_information_density,
                         "physical_information_density_ug":physical_information_density_ug,
-                        "physical_information_density_g":physical_information_density_g,
-                        "original_bit_segments":original_bit_segments,
+                        "physical_information_density_g":physical_information_density_g}
+        
+        fragment_info = { "original_bit_segments":original_bit_segments,
                         "record_index":record_index,
                         "connected_bit_segments":connected_bit_segments,
                         "final_bit_segments":final_bit_segments,
                         "dna_sequences":dna_sequences}
         
-        return record_info
+        return record_info,fragment_info
 
     def contact_result(self,parallel_results):
         bit_szie_all = 0
@@ -302,8 +326,6 @@ class Encoding():
         ori_bit_sequences = [''.join(list(map(str,i))) for i in connected_bit_segments_all]
         final_bit_sequences = [''.join(list(map(str,i))) for i in final_bit_segments_all]
         dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences_all]
-        
-
         save_decode_file(self.decode_file,ori_bit_sequences,final_bit_sequences,dna_sequences)
 
 
