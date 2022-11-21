@@ -844,8 +844,10 @@ class DNAFountain(AbstractCodingAlgorithm):
 
 class YinYangCode(AbstractCodingAlgorithm):
 
-    def __init__(self, yang_rule=None, yin_rule=None, virtual_nucleotide="A", max_iterations=1000,
-                 max_ratio=0.8, faster=True, max_homopolymer=4, max_content=0.6,index_length=0, need_logs=False):
+    def __init__(self, yang_rule=None, yin_rule=None, virtual_nucleotide="A", 
+                    max_iterations=10,
+                 max_ratio=0.8, faster=True, max_homopolymer=4, 
+                 max_content=0.6,index_length=0, need_logs=False):
         super().__init__(need_logs)
 
         if not yang_rule:
@@ -862,7 +864,7 @@ class YinYangCode(AbstractCodingAlgorithm):
         self.max_ratio = max_ratio
         self.faster = faster
         self.index_length = index_length
-        self.total_count = 100000
+        self.total_count = 10000
 
         self.__init_check__()
 
@@ -1105,30 +1107,28 @@ class YinYangCode(AbstractCodingAlgorithm):
 
                     dna_sequence = []
                     support_nucleotide_1 = self.virtual_nucleotide
-                    # print(fixed_bit_segment)
-                    # print(selected_bit_segment)
-                    # print('#',support_nucleotide_1)
+
                     for bit_1, bit_2 in zip(fixed_bit_segment, selected_bit_segment):
                         current_nucleotide_1 = self._bits_to_nucleotide(bit_1, bit_2, support_nucleotide_1)
                         dna_sequence.append(current_nucleotide_1)
                         support_nucleotide_1 = current_nucleotide_1
                     
-                    # print(dna_sequence)
 
                     if check("".join(dna_sequence),
                                     max_homopolymer=self.max_homopolymer,
                                     max_content=self.max_content):
                         is_finish = True
-                        dna_sequences.append(dna_sequence)
-                        
+                        dna_sequences.append(dna_sequence)    
                         break
-
-                # print(pair_time,len(bit_segments),is_finish)
+                
+            if not is_finish and pair_time == (self.max_iterations-1):
+                dna_sequences.append(['fail'])
+                print('####',pair_time,len(bit_segments),is_finish)
 
             if self.need_logs:
                 self.monitor.output(self.total_count - len(bit_segments), self.total_count)
 
-        # print('wwww',len(copy_bit_segments),len(dna_sequences))
+        print('bit number, dna number',len(copy_bit_segments),len(dna_sequences))
 
         return dna_sequences
     

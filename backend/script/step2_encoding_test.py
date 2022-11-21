@@ -259,26 +259,26 @@ if __name__ == '__main__':
                                         
         return save_dict
 
-    ooo = []
-    for e in ["DNA_Fountain","Yin_Yang","Basic","Church","Goldman","Grass","Blawat"]:
-        for v in ['ReedSolomon','WithoutVerifycode',"Hamming"]:
-            a = get_progress_bar(864768,encode_method=e,verify_method=v)
-            ooo.append(a)
-            print(e,v,a)
-    print(ooo)
+    # ooo = []
+    # for e in ["DNA_Fountain","Yin_Yang","Basic","Church","Goldman","Grass","Blawat"]:
+    #     for v in ['ReedSolomon','WithoutVerifycode',"Hamming"]:
+    #         a = get_progress_bar(864768,encode_method=e,verify_method=v)
+    #         ooo.append(a)
+    #         print(e,v,a)
+    # print(ooo)
 
     # 1593936476343767040
     # 1582258845189804032
     
-    # obj = Encoding(file_uid=1593936476343767040,
-    #               encode_method='Yin_Yang',
-    #               segment_length=106,
-    #               index_length=14,
-    #               verify_method="ReedSolomon")
-    # t1 = datetime.now()
-    # obj.bit_to_dna()
-    # t2 = datetime.now()
-    # print(t2-t1)
+    obj = Encoding(file_uid=1594216853138444288,
+                  encode_method='Yin_Yang',
+                  segment_length=106,
+                  index_length=14,
+                  verify_method="ReedSolomon")
+    t1 = datetime.now()
+    obj.bit_to_dna()
+    t2 = datetime.now()
+    print(t2-t1)
 
     # {'encode_method': 'Basic', 'verify_method': 'ReedSolomon', 'index': {15: [105, 113, 121, 129, 137, 145, 153, 161, 169, 177, 185, 193, 201]}}
     # Basic ReedSolomon {'encode_method': 'Basic', 'verify_method': 'ReedSolomon', 'index': 17, 'progress_bar': [101, 103, 105, 107, 109, 111, 113, 115, 117, 119, 121, 123, 125, 127, 129, 131, 133, 135, 137, 139, 141, 143, 145, 147, 149, 151, 153, 155, 157, 159, 161, 163, 165, 167, 169, 171, 173, 175, 177, 179, 181, 183, 185, 187, 189, 191, 193, 195, 197, 199]}
