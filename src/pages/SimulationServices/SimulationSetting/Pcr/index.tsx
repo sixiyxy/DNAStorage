@@ -29,7 +29,8 @@ export class PcrProps {
   setSAMRUN;
   setSEQRUN;
   method1;
-
+  exmSpinFlag;
+ 
 }
 
 export const Pcr: React.FC<PcrProps> = (props) => {
@@ -358,10 +359,8 @@ export const Pcr: React.FC<PcrProps> = (props) => {
           </Col>
           <Col span={12}>
             <Card>
-              {/* <div>
-                After Decay simulation, the situation of oligonucleotides pool as
-                follows:
-              </div> */}
+            <Spin size="large" spinning={props.exmSpinFlag}>
+    
               <div>
                 {noDataTipsShow ? (
                   <Empty
@@ -379,11 +378,12 @@ export const Pcr: React.FC<PcrProps> = (props) => {
                   </div>
                 ) : (
                   <div >
-                    <div style={{marginBottom:'50px',fontSize:"15px"}}>After simulation of PCR，the sequence number distribution of oligonucleotides pool is as follows:</div>
+                    <div style={{marginBottom:'50px',fontSize:"15px"}}>After simulation of PCR, the sequence number distribution of oligonucleotides pool is as follows:</div>
                     <Histogram {...config} />
                   </div>
                 )}
               </div>
+              </Spin>
             </Card>
           </Col>
         </Row>

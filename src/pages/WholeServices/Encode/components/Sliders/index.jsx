@@ -11,21 +11,28 @@ const Sliders = (props) => {
 
   //获取segment和index的值
   const onAfterChange_seg = (value1) => {
+    console.log('segmentAfter',value1);
     props.setSeg(value1);
   };
-  const onAfterChange_index = (value2) => {
-    props.setIndex(value2);
-  };
+  // const onAfterChange_index = (value2) => {
+  //   props.setIndex(value2);
+  // };
   const onChange_seg = (value1) => {
+    console.log('segmentChange',value1);
     props.SetSegvalue(value1);
   };
-  const onChange_inde = (value2) => {
-    props.Setindexment(value2);
-  };
+  // const onChange_inde = (value2) => {
+  //   props.Setindexment(value2);
+  // };
   // useEffect(() => {
   //   props.ParamPass(method, values);
   // }, [count]);
-
+  const marks = {
+    0: '0',
+    26: '26',
+    37: '37',
+    100: '100'
+  };
   return (
     <div className="encode-sider-wrapper">
       <Card>
@@ -36,20 +43,22 @@ const Sliders = (props) => {
             <HighlightTwoTone /> Segment length
           </strong>
           <Slider
-            max={200}
-            min={120}
+            marks={marks} 
+            step={null}
+            // max={200}
+            // min={120}
             value={props.Segment}
-            step={8}
-            defaultValue={160}
-            disabled={disabled}
+            // step={8}
+            // defaultValue={160}
+            // disabled={disabled}
             onAfterChange={onAfterChange_seg}
             onChange={onChange_seg}
             style={{ marginLeft: "20px", marginTop: "20px" }}
           />
-          <span style={{ marginLeft: "20px" }}>
+          {/* <span style={{ marginLeft: "20px" }}>
             According to the existing synthesis and sequencing technology, the recommended length is
             160 bits.
-          </span>
+          </span> */}
           <br />
           <br />
           {/*index length阈值设置条*/}
