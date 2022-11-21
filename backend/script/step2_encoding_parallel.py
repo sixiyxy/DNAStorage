@@ -320,6 +320,8 @@ class Encoding():
             file_size = file_data.shape[0]
             if file_size <= 500000:
                 record_info = self.encoding_normal(file_data)
+                run_time = (datetime.now() - start_time).total_seconds()
+                run_time = '%.2f'%(run_time)
             else:
                 cut_file_data = cut_file(file_data,self.encode_method)
                 print('cut file number',len(cut_file_data))
