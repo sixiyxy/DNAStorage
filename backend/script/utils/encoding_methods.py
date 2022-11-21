@@ -853,7 +853,7 @@ class DNAFountain(AbstractCodingAlgorithm):
 class YinYangCode(AbstractCodingAlgorithm):
 
     def __init__(self, yang_rule=None, yin_rule=None, virtual_nucleotide="A", 
-                    max_iterations=10,
+                    max_iterations=1000,
                  max_ratio=0.8, faster=True, max_homopolymer=4, 
                  max_content=0.6,index_length=0, need_logs=False):
         super().__init__(need_logs)
@@ -916,9 +916,6 @@ class YinYangCode(AbstractCodingAlgorithm):
     def encode(self, bit_segments):
         self.index_length = int(len(str(bin(len(bit_segments)))) - 2)
         self.total_count = len(bit_segments)
-
-        print('here number',len(bit_segments))
-
 
         result = self.jlk_encode(bit_segments)
        
@@ -1128,13 +1125,13 @@ class YinYangCode(AbstractCodingAlgorithm):
                 
             if not is_finish and pair_time == (self.max_iterations-1):
                 fail_list.append(id)
-                print('####',pair_time,len(bit_segments),is_finish)
+                # print('####',pair_time,len(bit_segments),is_finish)
             id += 1
             if self.need_logs:
                 self.monitor.output(self.total_count - len(bit_segments), self.total_count)
 
-        print('bit number, dna number',len(copy_bit_segments),len(dna_sequences))
-        print(fail_list)
+        # print('bit number, dna number',len(copy_bit_segments),len(dna_sequences))
+        # print(fail_list)
         return dna_sequences,fail_list
     
 

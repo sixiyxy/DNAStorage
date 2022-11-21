@@ -86,7 +86,7 @@ class get_progress_bar():
         bar_end = self.progress_bar[self.encode_method][1]
 
         index_length = self.get_index_length()
-        print(index_length)
+        print('### According the file size, recommend index length is:',index_length)
           
         progress_bar = {}
         method_rule = self.progress_bar_rule[self.encode_method]
@@ -228,8 +228,10 @@ class Encoding():
             fail_segemnt_number = len(fail_list)
             successful_bit_size = bit_size - self.segment_length*fail_segemnt_number
             successful_byte_size = byte_size - (self.segment_length/8)* fail_segemnt_number
+            print('#### fail encoding number is {} !'.format(len(fail_list)))
+
             for id in fail_list:
-                print('#### del fail bits!')
+                print('#### fail encoding number is {} !'.format(len(fail_list)))
                 record_dna_sequence.insert(id,'encoding fail!') 
 
 
@@ -239,6 +241,9 @@ class Encoding():
                         "final_bit_segments":final_bit_segments,
                         "dna_sequences":dna_sequences,
                         "user_record_dna":record_dna_sequence}
+        elif self.encode_method == 'DNA_Fountain':
+            pass
+
         else:
             dna_sequences = encode_method.encode(final_bit_segments_copy)
             successful_bit_size = bit_size

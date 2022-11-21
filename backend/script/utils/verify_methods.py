@@ -14,6 +14,7 @@ class AbstractErrorCorrectionCode(object):
         verified_bit_segments = []
         self.segment_length = len(bit_segments[0])
         for index, bit_segment in enumerate(bit_segments):
+            # print(index,len(bit_segments))
             verified_bit_segments.append(self.insert_one(bit_segment))
             # self.monitor.output(index + 1, len(bit_segments))
 
@@ -183,6 +184,7 @@ class ReedSolomon(AbstractErrorCorrectionCode):
         super().__init__(need_logs)
 
     def insert_one(self, input_list):
+        # print(len(input_list))
         if len(input_list) % 8 != 0:
             raise ValueError("The length of inputted binary segment must be divided by 8!")
 

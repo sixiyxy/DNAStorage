@@ -91,7 +91,7 @@ def file_encode():
     index_length = front_data['index_length'] #128
     verify_method = front_data['verify_method'] #'HammingCode'
     encode_method = front_data['encode_method'] #'Basic'
-    print('Encoding file id is:{}'.format(file_uid))
+    print('Encoding parameters is:',front_data)
 
     obj = Encoding(file_uid=file_uid,
                   encode_method=encode_method,
