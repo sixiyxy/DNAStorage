@@ -143,8 +143,8 @@ export const Encode = (props) => {
       placement,
       duration: 4.5,
     });
-    if ("uploads") {
-      let anchorElement = document.getElementById("uploads");
+    if ("upload-p") {
+      let anchorElement = document.getElementById("upload-p");
       if (anchorElement) {
         anchorElement.scrollIntoView();
       }
@@ -261,7 +261,7 @@ export const Encode = (props) => {
         </div>
         <Card>
           {/*标题描述*/}
-          <p className="upload-p">
+          <p id="upload-p">
             <strong>
               <FolderAddTwoTone /> Please upload the storage files:
             </strong>
@@ -277,15 +277,12 @@ export const Encode = (props) => {
         </Card>
       </div>
       {/*编码方法列表*/}
-      <EncodeMethodList setValue={setValue} value={value} upload100kb={upload100kb}/>
+      <EncodeMethodList setValue={setValue} value={value} upload100kb={upload100kb} setMethod={setMethod} setencodeValue={setencodeValue}  encodevalue={encodevalue}/>
 
       <Sliders
         indexchange={indexchange}
         setSeg={setSeg}
         setIndex={setIndex}
-        setMethod={setMethod}
-        setencodeValue={setencodeValue}
-        encodevalue={encodevalue}
         SetSegvalue={SetSegvalue}
         Segment={Segment}
         Setindexment={Setindexment}

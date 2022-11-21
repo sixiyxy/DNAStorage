@@ -24,6 +24,7 @@ const Uploads: React.FC = (props: any) => {
             return false
         }else if(islt100k){
           console.log('文件小于100kb');
+          props.setBtn(true);
           props.setUpload100(true)
         }
         else{

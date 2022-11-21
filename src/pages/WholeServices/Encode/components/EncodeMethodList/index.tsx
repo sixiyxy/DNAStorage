@@ -6,11 +6,18 @@ import React, { useState } from "react";
 import "./index.less";
 import type { NotificationPlacement } from "antd/es/notification";
 import { Link } from "react-router-dom";
-import { CheckCircleTwoTone } from "@ant-design/icons";
+import { CheckCircleTwoTone,BulbTwoTone} from "@ant-design/icons";
 
 const EncodeMethodList: React.FC = (props: any) => {
+  const [count, setCount] = useState(0); //触发标志
   const onChange = (e: RadioChangeEvent) => {
     props.setValue(e.target.value);
+  };
+  
+  const onChange1 = (e) => {
+    setCount(count + 1);
+    props.setencodeValue(e.target.value);
+    props.setMethod(e.target.value);
   };
   return (
     <div className="encode-method-list-wrapper">
@@ -85,6 +92,41 @@ const EncodeMethodList: React.FC = (props: any) => {
         <p>
           Method details please click the <Link to="/methods">Method Paper</Link>
         </p>
+
+        <div style={{ paddingLeft: "0px", marginTop: "50px", fontSize: "19px" }}>
+          <strong>
+            <BulbTwoTone /> Verify method{" "}
+          </strong>
+          <br />
+          <div className="slider-inner">
+          <Radio.Group
+            onChange={onChange1}
+            value={props.encodevalue}
+            defaultValue={"WithoutVerifycode"}
+            style={{ marginLeft: "20px", marginTop: "20px" }}
+          >
+            <Space direction="vertical">
+              <Radio value={"WithoutVerifycode"}>
+                <span>WithoutVerifycode</span>
+              </Radio>
+              <Radio value={"Hamming"}>
+                <span>Hamming</span>
+              </Radio>
+              <Radio value={"ReedSolomon"}>
+                <span>ReedSolomon</span>
+              </Radio>
+            </Space>
+          </Radio.Group>
+          </div>
+          <p style={{ marginTop: "10px" }}>
+            <span style={{ marginLeft: "20px", fontSize: "14px" }}>
+              Method details please click the{" "}
+            </span>
+            <Link to="/methods">
+              <span style={{ fontSize: "14px" }}>Method Paper</span>
+            </Link>
+          </p>
+        </div>
       </Card>
     </div>
   );
