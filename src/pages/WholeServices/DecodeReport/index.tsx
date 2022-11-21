@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Card, Radio, RadioChangeEvent, Space, Table,Spin} from "antd";
+import { Breadcrumb, Button, Card, Radio, RadioChangeEvent, Space, Table, Spin } from "antd";
 import axios from "axios";
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
@@ -24,7 +24,7 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
       title: "Information",
       dataIndex: "value",
       key: "value",
-      align:"center"
+      align: "center",
     },
   ];
 
@@ -103,31 +103,31 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
         // spinning={false}
         delay={10}
       >
-      <div>
-        <Breadcrumb separator=">">
-          <Breadcrumb.Item>
-            <a href="/">Home</a>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <a href="/Services">Service</a>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>Decode</Breadcrumb.Item>
-        </Breadcrumb>
-      </div>
+        <div>
+          <Breadcrumb separator=">">
+            <Breadcrumb.Item>
+              <a href="/">Home</a>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <a href="/Services">Service</a>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>Decode</Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
 
-      <div className="decode-report-file-information">
-        <Card title="Result" headStyle={{ backgroundColor: "#99CCFF" }}>
-          <div>
-            <Table
-              columns={columns}
-              dataSource={tableData}
-              pagination={{ position: ["none"],pageSize:15}}
-              // pagination={{}}
-              // size={"small"}
-            />
-          </div>
-        </Card>
-      </div>
+        <div className="decode-report-file-information">
+          <Card title="Result" headStyle={{ backgroundColor: "#99CCFF" }}>
+            <div className="decode-report-table-wrapper">
+              <Table
+                columns={columns}
+                dataSource={tableData}
+                pagination={{ position: ["none"], pageSize: 15 }}
+                // pagination={{}}
+                // size={"small"}
+              />
+            </div>
+          </Card>
+        </div>
       </Spin>
     </div>
   );
