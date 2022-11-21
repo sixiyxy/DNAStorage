@@ -344,7 +344,7 @@ def parallel(simu_dna,funcs,funcs_names):
             cut=50
         t1 = time.time()
         cut_file_list = cut_file(simu_dna,cut)
-        thread=8
+        thread=32
         with Pool(thread) as pool:
                 r = list(tqdm(pool.starmap(funcs_parallel,[(funcs,item) for item in cut_file_list])))   
                 pool.close()
