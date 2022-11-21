@@ -56,9 +56,9 @@ const Sliders = (props) => {
           <div style={{ marginTop: "30px" }}>
             <strong style={{ fontSize: "19px" }}>
               {" "}
-              <HighlightTwoTone /> Index length
+              <HighlightTwoTone /> Index length : {props.processRes.index_length} bits
             </strong>{" "}
-            <Slider
+            {/* <Slider
               max={30}
               min={props.indexchange ? 16 : 18}
               value={props.indexment}
@@ -72,7 +72,7 @@ const Sliders = (props) => {
             <span style={{ marginLeft: "20px" }}>
               According to the existing synthesis and sequencing technology, the recommended length
               is 20 bits.
-            </span>
+            </span> */}
           </div>
         </div>
         
