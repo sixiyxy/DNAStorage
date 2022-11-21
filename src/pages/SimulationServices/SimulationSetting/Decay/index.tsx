@@ -30,6 +30,7 @@ export class DecayProps {
   setSAMRUN;
   setSEQRUN;
   method1;
+  exmSpinFlag;
 }
 
 export const Decay: React.FC<DecayProps> = (props) => {
@@ -288,9 +289,8 @@ export const Decay: React.FC<DecayProps> = (props) => {
           </Col>
           <Col span={12}>
             <Card>
-              {/* <div>
-                After synthesis simulation, the situation of oligonucleotides pool as follows:
-              </div> */}
+            <Spin size="large" spinning={props.exmSpinFlag}>
+              
               <div>
                 {noDataTipsShow ? (
                   <Empty
@@ -311,6 +311,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
                   </div>
                 )}
               </div>
+              </Spin>
             </Card>
           </Col>
         </Row>

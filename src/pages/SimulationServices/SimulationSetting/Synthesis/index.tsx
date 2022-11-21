@@ -38,6 +38,8 @@ export class SynthesisProps {
   setSAMRUN;
   setSEQRUN
   method1;
+  exmSpinFlag;
+ 
 }
 
 export const Synthesis: React.FC<SynthesisProps> = (props) => {
@@ -115,49 +117,21 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   };
 
   useEffect(()=>{
+    // setLoading(true);
     if (props.effect1 == true){
-    setLoading(true);
     setNoDataTipsShow(false);
     props.setAlreadyRun(true);
     console.log('SYN',props.response);
     setCountLen(props.response.SYN.syn_density.length);
     setGroup(props.response.SYN.density_group);
     setData(props.response.SYN.syn_density);
-    setLoading(false);
-    // props.setIsSynthesis(true);
+    
 
-  // })
   }else{
     console.log('eff1',props.effect1);
   }
   },[props.effect1])
-  // const handleExample = async () => {
-  //   setLoading(true);
-  //   setNoDataTipsShow(false);
-  //   // todo 对响应结果 TS 化，否则无法消除警告
-  //   const resp: any = await doPost("/simu_synthesis", {body: param1});
-  //   setCountLen(resp.syn_density.length);
-  //   setGroup(resp.density_group);
-  //   setData(resp.syn_density);
-  //   setHrefLink(resp.synthesis_method_reference);
-  //   setLoading(false);
-
-  //   props.setIsSynthesis(true);
-  // };
-  // const handleContinue = () => {
-  //   props.changeSider(["0-1-1"]);
-  // };
-
   
-  //数据生成
-  // const chartData = useMemo(() => {
-  //   return data?.map((item) => {
-  //     return {
-  //       copyNumber: item[0],
-  //       density: Number(item[1].toFixed(3)),
-  //     };
-  //   });
-  // }, [data]);
   const handleReset = function () {
     console.log("ressssssss....");
 
@@ -175,28 +149,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       upload_flag:"True"
     };
   }, [cycleValue, yieldChange, method]);
-  //console.log("params", params);
-  // const config = {
-  //   data: chartData,
-  //   width: 200,
-  //   height: 300,
-  //   xField: "copyNumber",
-  //   yField: "density",
-  //   autoFit: true,
-  //   smooth: true,
-  //   xAxis: {
-  //     // range: [0, 200],
-  //     title: {
-  //       text: "Copy Number",
-  //     },
-  //   },
-  //   yAxis: {
-  //     // range: [0, 0.5],
-  //     title: {
-  //       text: "Density",
-  //     },
-  //   },
-  // };
+  
 
   const config = useMemo(() => {
     return {
@@ -351,6 +304,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
             </Col>
             <Col span={12}>
               <Card>
+                <Spin size="large" spinning={props.exmSpinFlag}>
                 <div>
                   {noDataTipsShow ? (
                     <Empty
@@ -371,6 +325,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                     </div>
                   )}
                 </div>
+                </Spin>
               </Card>
             </Col>
           </Row>

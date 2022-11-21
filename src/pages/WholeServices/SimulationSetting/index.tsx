@@ -27,6 +27,7 @@ let method = [false, false, false, false]; //存放选择的方法
 export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   // 控制全局和各个步骤是否启用，true 表示启用，false 表示不起用，会被遮罩遮住
   const [okFlag, setOkFlag] = useState(false);
+  const [examFlag, setExamFlag]=useState(false);
   const [decayFlag, setDecayFlag] = useState(true);
   const [pcrFlag, setPcrFlag] = useState(true);
   const [sampleFlag, setSampleFlag] = useState(true);
@@ -52,6 +53,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [pcrrun, setPCRRUN] = useState(true);
   const [samrun, setSAMRUN] = useState(true);
   const [seqrun, setSEQRUN] = useState(true);
+  
   const { Dragger } = Upload;
   useEffect(() => {
     if (props.setIsdisabled) {
@@ -91,6 +93,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setSequenceFlag(!sequenceFlag);
   };
   const handleOK = () => {
+    setExamFlag(true)
     setOkFlag(true);
     setDis1(true);
     setDis2(true);
@@ -159,7 +162,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       }
       if (status === "done") {
         props.setFileId(response.file_uid);
-
         setIsOkDisable(false);
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === "error") {
@@ -182,6 +184,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
 
     return isFasta;
   };
+  
   return (
     <div className="page-simulation-setting">
       {/*头部 Card 部分*/}
@@ -217,6 +220,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                       shape="round"
                       size="large"
                       onClick={handleEXM}
+                      disabled={examFlag}
                     >
                       Example
                     </Button>
