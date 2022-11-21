@@ -206,35 +206,38 @@ class Encoding():
         original_bit_segments,record_index,connected_bit_segments,final_bit_segments = self.verify_code(data)
         final_bit_segments_2 = copy.deepcopy(final_bit_segments) 
         encode_method = encoding_methods[self.encode_method]
-        dna_sequences = encode_method.encode(final_bit_segments_2)
+        if self.encode_method == "Yin_Yang":
+            pass
+        else:
+            dna_sequences = encode_method.encode(final_bit_segments_2)
 
-        # record encode value
-        nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
-        information_density = self.bit_size/nucleotide_count
+            # record encode value
+            nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
+            information_density = self.bit_size/nucleotide_count
 
-        # net information density is wrong do not display
-        net_nucleotide_count = len(dna_sequences)*(len(dna_sequences[0]) - self.index_length - self.verify_code_length)
-        net_information_density = self.bit_size/net_nucleotide_count
+            # net information density is wrong do not display
+            net_nucleotide_count = len(dna_sequences)*(len(dna_sequences[0]) - self.index_length - self.verify_code_length)
+            net_information_density = self.bit_size/net_nucleotide_count
 
-        # 1ug = 9.03*10^14bp       
-        physical_information_density = self.byte_size/(nucleotide_count/(9.03*10**14))
-        physical_information_density_ug = physical_information_density*(10**3)
-        physical_information_density_g = physical_information_density*(10**9)
+            # 1ug = 9.03*10^14bp       
+            physical_information_density = self.byte_size/(nucleotide_count/(9.03*10**14))
+            physical_information_density_ug = physical_information_density*(10**3)
+            physical_information_density_g = physical_information_density*(10**9)
 
-        # together
-        record_info = {"bit_size":self.bit_size,
-                    "segment_number":self.segment_number,
-                    "DNA_sequence_length":len(dna_sequences[0]),
-                    "nucleotide_counts":nucleotide_count,
-                    "information_density":information_density,
-                    "net_information_density":net_information_density,
-                    "physical_information_density_ug":physical_information_density_ug,
-                    "physical_information_density_g":physical_information_density_g,
-                    "original_bit_segments":original_bit_segments,
-                    "record_index":record_index,
-                    "connected_bit_segments":connected_bit_segments,
-                    "final_bit_segments":final_bit_segments,
-                    "dna_sequences":dna_sequences}
+            # together
+            record_info = {"bit_size":self.bit_size,
+                        "segment_number":self.segment_number,
+                        "DNA_sequence_length":len(dna_sequences[0]),
+                        "nucleotide_counts":nucleotide_count,
+                        "information_density":information_density,
+                        "net_information_density":net_information_density,
+                        "physical_information_density_ug":physical_information_density_ug,
+                        "physical_information_density_g":physical_information_density_g,
+                        "original_bit_segments":original_bit_segments,
+                        "record_index":record_index,
+                        "connected_bit_segments":connected_bit_segments,
+                        "final_bit_segments":final_bit_segments,
+                        "dna_sequences":dna_sequences}
         
         return record_info
 
@@ -317,15 +320,18 @@ class Encoding():
         if self.encode_method in encoding_methods:
             file_data = fromfile(file=self.file_path, dtype=uint8)
             file_size = file_data.shape[0]
-            cut_file_data = cut_file(file_data,self.encode_method)
-            print('cut file number',len(cut_file_data))
+            if file_size <= 500000:
+                record_info = self.encoding_normal(file_data)
+            else:
+                cut_file_data = cut_file(file_data,self.encode_method)
+                print('cut file number',len(cut_file_data))
 
-            with Pool(self.threads) as pool:
-                parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
-            
-            run_time = (datetime.now() - start_time).total_seconds()
-            run_time = '%.2f'%(run_time)
-            record_info = self.contact_result(parallel_results)
+                with Pool(self.threads) as pool:
+                    parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
+                
+                run_time = (datetime.now() - start_time).total_seconds()
+                run_time = '%.2f'%(run_time)
+                record_info = self.contact_result(parallel_results)
         # txt method
         elif self.encode_method == 'SrcCode':
             upload_file = open(self.file_path,"r",encoding='UTF-8')
