@@ -24,7 +24,7 @@ const EncodeMethodList: React.FC = (props: any) => {
               <Radio value={"Basic"}>
                 <span>Vanilla code</span>
               </Radio>
-              <Radio value={"Yin_Yang"}>
+              <Radio value={"Yin_Yang"} disabled={props.upload100kb}>
                 <span>
                   Ping, Zhi, et al. "Towards practical and robust DNA-based data archiving using the
                   yin–yang codec system."<br></br>
@@ -33,7 +33,7 @@ const EncodeMethodList: React.FC = (props: any) => {
                   </span>
                 </span>
               </Radio>
-              <Radio value={"DNA_Fountain"}>
+              <Radio value={"DNA_Fountain"} disabled={props.upload100kb}>
                 <span>
                   Erlich, Yaniv, and Dina Zielinski. "DNA Fountain enables a robust and efficient
                   storage architecture." <br></br>
