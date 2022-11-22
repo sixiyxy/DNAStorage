@@ -35,15 +35,19 @@ def gc_homo(dna_sequences):
 
     for dna_sequence in dna_sequences:
         dna_segment = "".join(dna_sequence)
+        # print(dna_segment)
         gc_content = int(((dna_segment.count("C") + dna_segment.count("G")) / len(dna_segment) * 100) + 0.5)
         gc_distribution[gc_content] += 1
+        # print([homo + 1 for homo in range(len(dna_sequence))][::-1])
         for homo_length in [homo + 1 for homo in range(len(dna_sequence))][::-1]:
+            # print(homo_length)
             is_find = False
             missing_segments = ["A" * homo_length, "C" * homo_length, "G" * homo_length, "T" * homo_length]
             for missing_segment in missing_segments:
                 if missing_segment in dna_segment:
                     is_find = True
-                    homo_distribution[homo_length-1] += 1
+                    # print(missing_segment,homo_length)
+                    homo_distribution[homo_length] += 1
                     break
                 if is_find:
                     break
@@ -56,9 +60,9 @@ def gc_homo(dna_sequences):
     
 
     # for i in range(max(list(map(len, dna_sequences)))):
-    front_homo.append({'x_value':1,'y_value':0})
-    front_homo.append({'x_value':2,'y_value':0})
-    for i in range(3,51):
+    # front_homo.append({'x_value':1,'y_value':0})
+    # front_homo.append({'x_value':2,'y_value':0})
+    for i in range(1,20):
         plot_dict = {'x_value':i,'y_value':homo_distribution[i]}
         front_homo.append(plot_dict)
 
