@@ -376,7 +376,7 @@ class Encoding():
         # for simulation enerfy
         write_dna_file(path=self.dna_file,demo_path=self.dna_demo_file,dna_sequences=dna_sequences_all)
 
-        
+        print('#####',len(dna_sequences_all))
         if self.encode_method in encoding_methods:
             # for dowdload file
             download_normal(self.user_download_file,data)
@@ -497,11 +497,11 @@ class Encoding():
         return record_info
 
 if __name__ == '__main__':
-    obj = Encoding(file_uid=1594899412327469056,
-                  encode_method='SrcCode',
-                  segment_length=None,
-                  index_length=None,
-                  verify_method=None)
+    # obj = Encoding(file_uid=1594899412327469056,
+    #               encode_method='SrcCode',
+    #               segment_length=None,
+    #               index_length=None,
+    #               verify_method=None)
     # print('here')
     # {"file_uid":1565237658387615744,
     # "segment_length":160,
@@ -513,11 +513,19 @@ if __name__ == '__main__':
     #               segment_length=160,
     #               index_length=20,
     #               verify_method="Hamming")
-    # obj = Encoding(file_uid=1593856235290103808,
-    #               encode_method='Yin_Yang',
-    #               segment_length=120,
-    #               index_length=16,
-    #               verify_method="Hamming")
+    # encoding_methods = {
+    # "Basic":BaseCodingAlgorithm(need_logs=False),
+    # "Church":Church(need_logs=False),
+    # "Goldman":Goldman(need_logs=False),
+    # "Grass":Grass(need_logs=False),
+    # "Blawat":Blawat(need_logs=False),
+    # "DNA_Fountain":DNAFountain(redundancy=0.5,need_logs=False),
+    # "Yin_Yang":YinYangCode(need_logs=False)}
+    obj = Encoding(file_uid=1594952553521614848,
+                  encode_method='Church',
+                  segment_length=120,
+                  index_length=16,
+                  verify_method="Hamming")
     
     obj.parallel_run()
 
