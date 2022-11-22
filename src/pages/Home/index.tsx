@@ -72,47 +72,48 @@ export const Home: React.FC<HomeProps> = (props) => {
           </Button>
         </div>
       </div>
-      <div className="home-content2" style={{ height: "100%", backgroundColor: "white" }}>
-        <div style={{ float: "left", width: "100%", marginLeft: "200px", paddingTop: "30px" }}>
-          <h2>Encode File</h2>
-          <p style={{ fontSize: "20px", textAlign: "justify" }}>
-            The encode service integrates the most common and popular DNA storage encoding and
-            verifying methods. After uploading the file, users could simply select corresponding
-            methods, elegantly slide the sliders to set the segment length, and wait for the result.
-          </p>
-          <Button
-            className="home-button"
-            shape="round"
-            size="large"
-            style={{ backgroundColor: "#83c5b7" }}
-          >
-            <Link to="/services/encode"> Try </Link>
-          </Button>
+      <div className="home-introduce-wrapper" style={{ height: "100%", backgroundColor: "white" }}>
+        <div className="home-introduce-line">
+          <div className="home-introduce-item">
+            <h2>Encode File</h2>
+            <p style={{ fontSize: "20px", textAlign: "justify" }}>
+              The encode service integrates the most common and popular DNA storage encoding and
+              verifying methods. After uploading the file, users could simply select corresponding
+              methods, elegantly slide the sliders to set the segment length, and wait for the
+              result.
+            </p>
+          </div>
+          <div className="home-introduce-item">
+            <h2>Error Simulation</h2>
+            <p style={{ fontSize: "20px", textAlign: "justify" }}>
+              The simulation service allows user to upload their own fasta DNA file to proceed error
+              simulation stage. It covers the five stages of DNA storage, namely, synthesis, storage
+              decay, PCR, sampling, and sequencing.
+            </p>
+          </div>
         </div>
-        <div
-          style={{
-            paddingTop: "30px",
-            marginLeft: "400px",
-            marginRight: "250px",
-            paddingBottom: "80px",
-          }}
-        >
-          <h2>Error Simulation</h2>
-          <p style={{ fontSize: "20px", textAlign: "justify" }}>
-            The simulation service allows user to upload their own fasta DNA file to proceed error
-            simulation stage. It covers the five stages of DNA storage, namely, synthesis, storage
-            decay, PCR, sampling, and sequencing.
-          </p>
-          <Button
-            className="home-button"
-            shape="round"
-            size="large"
-            style={{ backgroundColor: "#83c5b7", marginTop: "30px" }}
-          >
-            <Link to="/services/simulation">Try</Link>
-          </Button>
+        <div className="home-introduce-line home-introduce-button-line">
+          <div className="home-introduce-item">
+            <Button
+              className="home-button"
+              shape="round"
+              size="large"
+              style={{ backgroundColor: "#83c5b7" }}
+            >
+              <Link to="/services/encode"> Try </Link>
+            </Button>
+          </div>
+          <div className="home-introduce-item">
+            <Button
+              className="home-button"
+              shape="round"
+              size="large"
+              style={{ backgroundColor: "#83c5b7" }}
+            >
+              <Link to="/services/simulation">Try</Link>
+            </Button>
+          </div>
         </div>
-
         {/* <div className="button-container">
             <Button className="home-button" shape="round" size="large">
               <Link to="/services">Getting Start</Link>
