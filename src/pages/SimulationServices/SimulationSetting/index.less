@@ -83,6 +83,7 @@
       max-width: 333px;
       justify-content: space-between;
       align-items: center;
+
     }
 
     //button {
@@ -142,3 +143,91 @@
   }
 
 }
+//#fff, #29c0d5, #1897c0, 22px, 8em, 2em, right
+// .btn-right {
+//   @include arrow-button(#fff, #29c0d5, #1897c0, 22px, 8em, 2em, right);
+  
+//   &:hover {
+//     //animation: zoom 2s;
+//   }
+// }
+// @color:#fff;
+// @background:#29c0d5;
+// @shadow:#1897c0;
+// @font-size:22px; 
+// @width:8em; 
+// @height:2em;
+// @direction:right;
+
+// @include arrow-button(@color, @background, @shadow, @font-size, @width, @height, @direction) {  
+  
+//   background: none;
+//   border: 0;
+//   font-size: @font-size;
+//   line-height: @height;
+//   position: relative;
+//   width: @width;
+//   height: @height;
+  
+//   @if @direction == "up" {
+//     transform: rotate(-90deg);
+//   }  @else if @direction == "down" {
+//     transform: rotate(90deg);
+//   }
+  
+//   a {
+//     color: @color;
+//     text-decoration: none;
+//     position: relative;
+//     z-index: 10;
+//   }
+  
+//   &::before,
+//   &::after {
+//     background: @background;
+//     border-radius: 2px;
+//     content: '';
+//     display: block;
+//     position: absolute;
+//       left: 0;
+//       right: 0;
+//     transition: all 1s;
+//     height: @height/2;
+//   }
+  
+
+//   &::before { 
+//     box-shadow: 
+//       -1px 1px 0 @shadow,
+//       -2px 2px 0 @shadow,
+//       -3px 3px 0 @shadow,
+//       -4px 4px 0 @shadow;
+//     transform: skew(45deg);
+//     @if @direction == "left" { bottom: 0; z-index: 1 }
+//     @else { top: 0; }
+//   }
+
+//   &::after {
+//     box-shadow: 1px 1px 0 @shadow, 
+//       2px 2px 0 @shadow,
+//       3px 3px 0 @shadow, 
+//       4px 4px 0 @shadow;
+//     transform: skew(-45deg);
+//     @if @direction == "left" { top: 0;}
+//     @else { bottom: 0; }
+//   }
+  
+//   &:hover::before,
+//   &:hover::after {
+//     background: lighten(@background,15%);
+//   }
+  
+//   &:focus {
+//       &::before,
+//       &::after {
+//         background: lighten(@background,15%);
+//       }
+//       outline: 0;
+//   }
+// }
+

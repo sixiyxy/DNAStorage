@@ -917,8 +917,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               different types of errors change from time to time. Therefore, we counted and compared
               the numbers of DNA strands with errors and the left 100% correct DNA strands for each
               stage using stacked column chart, as well as showed the changes of the strands numbers
-              that contained different types of errors using line chart.  Since the difference
-              between the data is too large, each data x here is percented using ln(x).
+              that contained different types of errors using line chart. Since the difference
+              between the data is too large, each data y here is percented using ln(y).
             </div>
           </Card>
           <Card>

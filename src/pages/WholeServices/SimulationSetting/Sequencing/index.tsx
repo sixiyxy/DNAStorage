@@ -166,7 +166,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
               <div>
                 <div className="simulation-row">
                   <span>Sequencing Depth :</span>
-                  <Tooltip title="111">
+                  <Tooltip title="The number of times that a given nucleotide has been read in an experiment.">
                     <i
                       className="iconfont icon-wenhao"
                       style={{verticalAlign: "middle", margin: "0 0 0 5px"}}

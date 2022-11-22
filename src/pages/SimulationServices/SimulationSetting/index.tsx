@@ -155,7 +155,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     name: "file",
     multiple: true,
     action: API_PREFIX + "/dna_upload",
-    disabled: props.clickEXM,
+    disabled: SimuOK ? SimuOK : props.clickEXM,
     onChange(info) {
       const { status, response } = info.file;
       console.log("status", info);
@@ -304,6 +304,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           </p> 
           <div className="simulation-setting-header-button-group">
             <div>
+            {/* <button className="btn-right"><a href="#">Synthesis</a></button> */}
               <Button
                 className="simulation-setting-header-button-step"
                 size="large"

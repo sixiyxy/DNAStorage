@@ -26,6 +26,7 @@ export class ReportProps {
   exam;
   mini;
   changeSider;
+  fileOver2M;
 }
 interface DataType {
   key: string;
@@ -183,7 +184,7 @@ export const Report: React.FC<ReportProps> = (props) => {
   return (
     <div className="encode-report-wrapper">
       <Spin
-        tip="Loading..."
+        tip={props.fileOver2M ? "Please wait about 2mins...":"Loading..."}
         size="large"
         spinning={props.spinflag}
         // spinning={false}

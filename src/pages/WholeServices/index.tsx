@@ -59,6 +59,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [mini, setMini] = useState(0);
   const [decodeData, setDecodeData] = useState();
   const [isdisabled, setIsdisabled] = useState(true);
+  const [fileOver2M,setFileOver] = useState(false) //假设一开始不超过2M
   const items1 = useMemo(() => {
     return [
       {
@@ -155,6 +156,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setSpin={setSpin}
               setExam={setExam}
               setMini={setMini}
+              setFileOver={setFileOver}
             />
           ) : null}
           {siderSelect[0] === "0-0-1" ? (
@@ -172,6 +174,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               exam={exam}
               mini={mini}
               changeSider={setSiderSelect}
+              fileOver2M={fileOver2M}
             />
           ) : null}
 

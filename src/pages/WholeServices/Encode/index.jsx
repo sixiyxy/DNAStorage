@@ -30,6 +30,7 @@ export const Encode = (props) => {
   const [indexchange, setChange] = useState(true); //一开始是小于2M
   const [upload100kb, setUpload100] = useState(false); //一开始假设文件都大于100kb
   const [processRes, setprocessRes] = useState({})
+  
   useEffect(() => {
     props.setIsSynthesis(false);
   }, []);
@@ -280,6 +281,7 @@ export const Encode = (props) => {
             setBtn={setBtn}
             setChange={setChange}
             setUpload100={setUpload100}
+            setFileOver={props.setFileOver}
           />
         </Card>
       </div>

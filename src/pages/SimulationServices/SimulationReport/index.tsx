@@ -626,11 +626,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     },
     meta: {
       value: {
+       
         formatter: (value: any) => {
           return `${value.toFixed(2)}`;
         },
       },
       count: {
+       
         formatter: (value: any) => {
           return `${value.toFixed(2)}`;
         },
@@ -660,6 +662,22 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         // },
       },
     ],
+    // tooltip:{
+    //   customContent: (title, data) => {
+    //     if data.
+    //     return `<div>
+    //     </br>
+    //     <h3>${props.method}</h3>
+    //     </br>
+    //       <h3>Payload Length : ${props.seg} bits</h3>
+    //       </br>
+    //       <h3>Index Length : ${props.index} bits</h3>
+    //       </br>
+    //       <h3>Verify Code : ${veri} bits</h3>
+    //       </br>
+    //     </div>`;
+    //   },
+    // }
   };
 
   // //气泡图数据以及配置
@@ -965,7 +983,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               different types of errors change from time to time. Therefore, we counted and compared
               the numbers of DNA strands with errors and the left 100% correct DNA strands for each
               stage using stacked column chart, as well as showed the changes of the strands numbers
-              that contained different types of errors using line chart.  Since the difference
+              that contained different types of errors using line chart. Since the difference
               between the data is too large, each data x here is percented using ln(x).
             </div>
           </Card>
