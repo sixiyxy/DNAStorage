@@ -74,7 +74,7 @@ class get_progress_bar():
                     22: 4194303, 23: 8388607, 24: 16777215, 25: 33554431, 
                     26: 67108863, 27: 99999999}
         bar_star = self.progress_bar[self.encode_method][0]
-        segnumber = (self.file_size)/bar_star
+        segnumber = (self.file_size*8)/bar_star
         for size in index_dict:
             if index_dict[size] > segnumber:
                 index_length = size
@@ -139,7 +139,7 @@ class Encoding():
         # self.free_enerfy_file = '{}/{}/{}_min_free_energy.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
 
         # user download file
-        self.user_download_file = '{}/{}/{}.csv'.format(self.backend_dir,self.dna_dir,self.file_uid)
+        self.user_download_file = '{}/{}/{}.txt'.format(self.backend_dir,self.dna_dir,self.file_uid)
         
         # prepare for decode
         self.decode_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
@@ -390,10 +390,14 @@ class Encoding():
         elif self.encode_method == 'SrcCode':
             # for download file
             original_chracter_segments = data['original_bit_segments']
+            index_ori_bit_sequences = data['connected_bit_segments']
             dna_sequences = data["dna_sequences"]
+            dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences_all]
             download_txt(self.user_download_file,dna_sequences,original_chracter_segments)
             # for decode data
-            # save_decode_file()
+            save_decode_file(self.decode_file,index_ori_bit_sequences,
+            index_ori_bit_sequences,dna_sequences)
+
 
         # record run time
         run_time = '%.2f'%(run_time)
@@ -412,12 +416,10 @@ class Encoding():
         
         # format data
         filebytes = info['byte_size']
-        filebytes_kb = filebytes/1024
-        filebytes_mb = filebytes_kb/1024
+        # filebytes_kb = filebytes/1024
+        # filebytes_mb = filebytes_kb/1024
         physical_information_density_ug = '{} petabyte/gram'.format('%.2E'%Decimal(info['physical_information_density_ug'])),
         physical_information_density_g = '{} petabyte/ug'.format('%.2E'%Decimal(info['physical_information_density_g']))
-        # physical_information_density_ug = '%.2E'%Decimal('{} petabyte/gram'.format(info['physical_information_density_ug'])),
-        # physical_information_density_g = '%.2E'%Decimal('{} petabyte/ug'.format(info[' physical_information_density_g']))
         info['physical_information_density_g'] = physical_information_density_g
         info['physical_information_density_ug'] = physical_information_density_ug
         info = write_yaml(yaml_path=self.file_info_path,data=info,appending=True)
@@ -459,7 +461,7 @@ class Encoding():
             information_density = round(information_density,3)
 
             net_nucleotide_count = nucleotide_count - len(original_charater_list)*30 #index dna length is 30
-            net_information_density = self.bit_size/net_nucleotide_count
+            net_information_density = bit_size/net_nucleotide_count
             net_information_density = round(net_information_density,3)
 
             physical_information_density = file_size/(nucleotide_count/(9.03*10**14))
@@ -478,9 +480,9 @@ class Encoding():
                     "physical_information_density_ug":physical_information_density_ug,
                     "physical_information_density_g":physical_information_density_g
                     }
-            record_data = {"original_bit_segments_all":original_charater_list, 
-            "connected_bit_segments_all" : index_ori_charater_list,
-            "dna_sequences_all":dna_sequences}
+            record_data = {"original_bit_segments":original_charater_list, 
+            "connected_bit_segments" : index_ori_charater_list,
+            "dna_sequences":dna_sequences}
             run_time = (datetime.now() - start_time).total_seconds()
             record_info = self.record_file(record_info,record_data,run_time)
 
@@ -495,21 +497,22 @@ class Encoding():
         return record_info
 
 if __name__ == '__main__':
-    # obj = Encoding(file_uid=1586245992909508608,
-    #               encode_method='Starcode',
-    #               segment_length=None,
-    #               index_length=None,
-    #               verify_method=None)
+    obj = Encoding(file_uid=1594899412327469056,
+                  encode_method='SrcCode',
+                  segment_length=None,
+                  index_length=None,
+                  verify_method=None)
+    # print('here')
     # {"file_uid":1565237658387615744,
     # "segment_length":160,
     # "index_length":20,
     # "verify_method":"Hamming",
     # "encode_method":"Basic"}
-    obj = Encoding(file_uid=1565536927137009664,
-                  encode_method='DNA_Fountain',
-                  segment_length=160,
-                  index_length=20,
-                  verify_method="Hamming")
+    # obj = Encoding(file_uid=1565536927137009664,
+    #               encode_method='DNA_Fountain',
+    #               segment_length=160,
+    #               index_length=20,
+    #               verify_method="Hamming")
     # obj = Encoding(file_uid=1593856235290103808,
     #               encode_method='Yin_Yang',
     #               segment_length=120,

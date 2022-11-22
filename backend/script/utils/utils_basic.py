@@ -24,6 +24,15 @@ def get_config(yaml_path=''):
         config['backend_dir'] = backend_dir
     return config
 
+def is_txt(file):
+    try:
+        upload_file = open(file,"r",encoding='UTF-8')
+        upload_file.read()
+        return True
+    except:
+        return False
+
+
 def write_yaml(yaml_path,data,appending):
     display_data = copy.deepcopy(data)
     if appending==False:
@@ -84,7 +93,7 @@ def get_download_path(type,file_uid):
 
         # file encode dir
         dna_dir = os.path.join(backend_dir,config['encode_dir'])
-        dna_file = '{}.csv'.format(file_uid)
+        dna_file = '{}.txt'.format(file_uid)
 
     elif type =='simulation':
         file_dir = os.path.join(backend_dir,config['upload_dna_save_dir'])
