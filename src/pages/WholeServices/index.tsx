@@ -24,6 +24,8 @@ const infos = {
   segment_length: 0,
   segment_number: 0,
   verify_method: "None",
+  verify_code_length:0,
+  final_segment_bit_length:0
 };
 const DNAinfos = {
   DNA_sequence: 0,
@@ -43,7 +45,7 @@ const FileValue = {
 
 export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [siderSelect, setSiderSelect] = useState(["0-0-0"]);
-  const [fileId, setFileId] = useState("");
+  const [fileId, setFileId] = useState("testID");
   const [isSynthesis, setIsSynthesis] = useState(false);
   const [isDecode, setIsDecode] = useState(false);
   const [GC, setGC] = useState([]);
@@ -60,6 +62,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [decodeData, setDecodeData] = useState();
   const [isdisabled, setIsdisabled] = useState(true);
   const [fileOver2M,setFileOver] = useState(false) //假设一开始不超过2M
+  
   const items1 = useMemo(() => {
     return [
       {

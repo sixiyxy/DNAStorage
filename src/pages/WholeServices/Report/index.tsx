@@ -117,36 +117,46 @@ export const Report: React.FC<ReportProps> = (props) => {
     },
     {
       key: "5",
+      name1: "Verify code length",
+      value1: `${props.info.verify_code_length} bits`,
+    },
+    {
+      key: "6",
+      name1: "Encode segment length",
+      value1: `${props.info.final_segment_bit_length} bits`,
+    },
+    {
+      key: "7",
       name1: "Segment number",
       value1: props.info.segment_number,
     },
     {
-      key: "6",
+      key: "8",
       name1: "Encoding time",
       value1: `${props.dnainfo.encoding_time} s`,
     },
     {
-      key: "7",
+      key: "9",
       name1: "Single DNA length",
       value1: `${props.dnainfo.DNA_sequence} bits`,
     },
     {
-      key: "8",
+      key: "10",
       name1: "DNA sequence number",
       value1: props.info.segment_number,
     },
     {
-      key: "9",
+      key: "11",
       name1: "nucleotide counts",
       value1: props.dnainfo.nucleotide_counts,
     },
     {
-      key: "10",
+      key: "12",
       name1: "Information density",
       value1: `${props.dnainfo.information_density} bits/nt`,
     },
     {
-      key: "11",
+      key: "13",
       name1: "Physical information density",
       value1: props.dnainfo.physical_information_density_g,
     },
@@ -248,7 +258,7 @@ export const Report: React.FC<ReportProps> = (props) => {
                 fontSize: "15px",
               }}
             >
-              <h3>Homopolymer Length</h3>
+              <h3>Repeated Sequences Length</h3>
               <HomoGraph homo={props.homo} />
             </div>
             <div id="homo-word">
@@ -260,7 +270,7 @@ export const Report: React.FC<ReportProps> = (props) => {
             </p>
             </div>
             <div id="energygraph" className="encode-report-graph">
-              <h3>Sequence Min Free Energy</h3>
+              <h3>Sequence minimum Free Energy</h3>
               <EnergyGraph energy={props.energy} />
             </div>
             <div
@@ -276,7 +286,7 @@ export const Report: React.FC<ReportProps> = (props) => {
                   </strong>
                   <br></br>
                   <strong>
-                    The percentage of sequence min free energy below 30 Kcal/mol is : {props.mini} %
+                    The percentage of sequence minimum free energy below 30 Kcal/mol is : {props.mini} %
                   </strong>
                 </p>
               </div>

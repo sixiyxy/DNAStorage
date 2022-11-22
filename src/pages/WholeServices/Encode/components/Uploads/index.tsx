@@ -53,6 +53,7 @@ const Uploads: React.FC = (props: any) => {
         );
       }
       if (status === "done") {
+        // props.GetFileID(info.file.response.file_uid);
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
