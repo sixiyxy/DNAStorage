@@ -9,6 +9,8 @@ import Graphs from "./components/Graphs";
 import { Anchor, Button } from "antd";
 import { FolderAddTwoTone } from "@ant-design/icons";
 import { doPost } from "../../../utils/request";
+import encode from "../../../assets/service/encode.png";
+
 const { Link } = Anchor;
 
 export const Encode = (props) => {
@@ -30,7 +32,7 @@ export const Encode = (props) => {
   const [indexchange, setChange] = useState(true); //一开始是小于2M
   const [upload100kb, setUpload100] = useState(false); //一开始假设文件都大于100kb
   const [processRes, setprocessRes] = useState({})
-  
+  const [Zan,setZan] = useState(false) //其他方法都不能使用zan
   useEffect(() => {
     props.setIsSynthesis(false);
   }, []);
@@ -249,22 +251,11 @@ export const Encode = (props) => {
                 <Image
                   width={"130%"}
                   // height={"50%"}
-                  src="/src/assets/service/encode.png"
+                  src={encode}
                 />
               </div>
             </Col>
           </Row>
-          {/* <div className="decode-button-group">
-                    <Button
-                      className="exm"
-                      type="primary"
-                      shape="round"
-                      size="large"
-                      // onClick={handleEXM}
-                    >
-                      Example
-                    </Button>
-          </div> */}
           </Card>
         </div>
         <Card>
@@ -282,6 +273,7 @@ export const Encode = (props) => {
             setChange={setChange}
             setUpload100={setUpload100}
             setFileOver={props.setFileOver}
+            setZan={setZan}
           />
         </Card>
       </div>
@@ -297,6 +289,7 @@ export const Encode = (props) => {
         fileId={props.fileId} 
         setprocessRes={setprocessRes} 
         setIndex={setIndex}
+        Zan={Zan}
       />
 
       <Sliders

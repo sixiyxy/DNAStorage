@@ -53,85 +53,50 @@ const Graphs: React.FC = (props: any) => {
       ];
     }
     if (props.method === "Hamming") {
-      let n = 1;
+      let sum=0
+      let sub={}
+      let sub1={}
+      let info={}
+      let check={}
       const data1 = [];
-      let sub = {
-        // 'name':'',
-        // 'method':'Hamming',
-        // 'value':0
-      };
-      let check = {};
-      let info = {};
-      // var index={}
-      let sub1 = {};
-      while (2 ** n <= props.seg) {
-        if (n <= 5) {
-          {
-            sub = {
-              type: `Hamming${n - 1}`,
-              name: "Hamming",
-              value: 2 ** n,
-            };
-            data1.push(sub);
-            check = {
-              type: `check${n - 1}`,
-              name: "Hamming",
-              value: 1,
-            };
-            data1.push(check);
-          }
-        }
-        if (props.seg < 126 && props.seg >= 120 && n == 6) {
-          sub = {
-            type: "Hamming5",
-            name: "Hamming",
-            value: props.seg - 62,
-          };
-          info = {
-            type: "Information Area",
-            name: "Hamming",
-            value: props.index,
-          };
-          data1.push(sub);
-          data1.push(info);
-          console.log(data1);
-          break;
-        } else if (n > 6) {
-          sub1 = {
-            type: "Hamming5",
-            name: "Hamming",
-            value: 64,
-          };
-          check = {
-            type: "check5",
-            name: "Hamming",
-            value: 1,
-          };
-          sub = {
-            type: "Hamming6",
-            name: "Hamming",
-            value: props.seg - 126,
-          };
-          info = {
-            type: "Information Area",
-            name: "Hamming",
-            value: props.index,
-          };
-          data1.push(sub1);
-          data1.push(check);
-          data1.push(sub);
-          data1.push(info);
-          console.log(data1);
-          break;
-        } else {
-          console.log("finish");
-        }
-
-        n += 1;
+      for (var i=1;i<=7;i++){
+        sum += 2**i
+        if (sum <= props.seg){
+        sub = {
+                  type: `Hamming${i - 1}`,
+                  name: "Hamming",
+                  value: 2 ** i,
+                };
+        check = {
+                  type: `check${i - 1}`,
+                  name: "Hamming",
+                  value: 1,
+                };
+        data1.push(sub);
+        data1.push(check);
       }
-      setveri(n - 1);
-      return data1;
+        if(sum > props.seg){
+          console.log('sum',sum);
+          sub = {
+                  type: `Hamming${i - 1}`,
+                  name: "Hamming",
+                  value: props.seg-(sum-2**i),
+                };
+          data1.push(sub);
+          info = {
+                  type: "Information Area",
+                  name: "Hamming",
+                  value: props.index,
+                };
+          data1.push(info)
+          break
+        }
+      }
+      setveri(i - 1);
+      console.log('data1',data1);
+      return data1; 
     }
+   
     if (props.method === "ReedSolomon") {
       setveri(8);
       return [

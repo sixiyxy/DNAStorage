@@ -45,6 +45,7 @@ const Uploads: React.FC = (props: any) => {
           props.setChange(false); //文件大于2M
         }
         props.GetFileID(info.file.response.file_uid);
+        props.setZan(info.file.response.eight_can)
         props.FileInfoPass(
           info.file.response.file_uid,
           info.file.response.file_name,
