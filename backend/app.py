@@ -135,19 +135,30 @@ def dna_upload():
                 if i[0]=='>':
                     strand_count+=1
         print("strand_count",strand_count)
+        if strand_count>=200000:
+            json={"overCount":True}
+            os.remove(ori_save_dir)
+            return json.jumps(json)
+        if strand_count>150000:
+            time=True
+        else:
+            time=False
+
         file_basic_info={
             "file_uid":file_uid,
             "file_name":filename,
             "file_rename":file_rename,
-            'upload':True
+            'upload':True,
+            'time':time
             }
         yaml_file='{}/upload_dna/{}.yaml'.format(backend_dir,file_uid)
         write_yaml(yaml_path=yaml_file,data=file_basic_info,appending=False)
 
         return json.dumps(file_basic_info)
     else:
+        json={"format":False}
         os.remove(ori_save_dir)
-        return "Invalid"
+        return json.jumps(json)
 
 #now_simu=Simu()
 @app.route('/simu_synthesis',methods=['GET','POST'])
