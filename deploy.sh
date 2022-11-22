@@ -5,6 +5,7 @@
 #ssh lyh@121.192.180.202 "rm -rf /home/lyh/deployment/dna-storage-designer; tar -zxvf /home/lyh/deployment/dna-storage-designer.tar.gz -C /home/lyh/deployment/;"
 #rm -rf dna-storage-designer/
 #rm -f dna-storage-designer.tar.gz
+# scp -i ~/.ssh/id_rsa_202 dna-storage-designer.tar.gz dna@121.192.180.202:/home/dna/front 
 
 # 配置 dna 免密登录后可直接部署，部署到 /home/dna/front 下
 rm -rf dna-storage-designer/

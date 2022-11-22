@@ -107,7 +107,7 @@ class BaseCodingAlgorithm(AbstractCodingAlgorithm):
 
         for segment_index, bit_segment in enumerate(bit_segments):
             dna_sequence = []
-
+            # print(segment_index,len(bit_segment),len(bit_segments))
             if len(bit_segment) % 2 != 0:
                 raise ValueError("The length of inputted binary segment must be divided by 2!")
 
@@ -1280,44 +1280,61 @@ class SrcCode():
         dna_sequence = ''+self.code_num(linenumber) # first line
         charater_sequence = ''
         for ch in contentlines:
-            if ch==' ':#空格
-                dna_sequence+="CGGTAT"
-                charater_sequence += ch
-            elif str.isalpha(ch):#字母字符
-                if str.isupper(ch):#大写字母
+            if ch.lower() not in self.encodetable:
+                pass
+                # original_charater_list.append(ch)
+                # dna_sequences_list.append('fail')
+                # index_ori_charater_list.append('fail')
+                # # print(original_charater_list)
+                # # print(dna_sequences_list)
+            else:
+                if ch==' ':#空格
+                    dna_sequence+="CGGTAT"
+                    charater_sequence += ch
+                elif str.isalpha(ch):#字母字符
+                
+                    if str.isupper(ch):#大写字母
+                        dna_sequence+="TGCATA"
+                    charater_sequence += ch
+                    dna_sequence+=self.encodetable[ch.lower()][1]
+                    
+                elif self.encodetable[ch][0]==2:#数字表
                     dna_sequence+="TGCATA"
-                charater_sequence += ch
-                dna_sequence+=self.encodetable[ch.lower()][1]
-            elif self.encodetable[ch][0]==2:#数字表
-                dna_sequence+="TGCATA"
-                dna_sequence+=self.encodetable[ch][1]
-                charater_sequence += ch
-            else:#符号表
-                dna_sequence+="GTATGA"
-                if ch==")":
-                    ch="("
-                if ch=="}":
-                    ch="{"
-                if ch=="]":
-                    ch="["
-                dna_sequence += self.encodetable[ch][1]
-                charater_sequence = charater_sequence + '/'+ ch
+                    dna_sequence+=self.encodetable[ch][1]
+                    charater_sequence += ch
+                else:#符号表
+                    dna_sequence+="GTATGA"
+                    if ch==")":
+                        ch="("
+                    if ch=="}":
+                        ch="{"
+                    if ch=="]":
+                        ch="["
+                    dna_sequence += self.encodetable[ch][1]
+                    charater_sequence = charater_sequence + '/'+ ch
+                
             if len(dna_sequence)>=self.dna_sequence_length:
-                dna_sequences_list.append(dna_sequence)
-                original_charater_list.append(charater_sequence)
-                index_ori_charater = str(charater_sequence) + str(linenumber)
-                index_ori_charater_list.append(index_ori_charater)
-                linenumber += 1
-                dna_sequence="" + self.code_num(linenumber)
-                charater_sequence=""
+                    dna_sequences_list.append(dna_sequence)
+                    original_charater_list.append(charater_sequence)
+                    index_ori_charater = str(charater_sequence) + str(linenumber)
+                    # print(linenumber,str(charater_sequence),index_ori_charater,len(dna_sequence))
+                    index_ori_charater_list.append(index_ori_charater)
+                    linenumber += 1
+                    dna_sequence="" + self.code_num(linenumber)
+                    charater_sequence=""
         if len(dna_sequence)<180:
+            # print(linenumber)
             dna_sequence+=((180-len(dna_sequence))//6)*"CGGTAT"
+            index_ori_charater = str(charater_sequence) + str(linenumber)
+            index_ori_charater_list.append(index_ori_charater)
             dna_sequences_list.append(dna_sequence)
             original_charater_list.append(charater_sequence)
+        
+        # print(len(original_charater_list),len(dna_sequences_list),len(index_ori_charater_list))
         record_data = {'dna_sequences':dna_sequences_list,
                        "original_charater_list":original_charater_list,
-                       "index_ori_charater_list": index_ori_charater_list
-                      }
+                       "index_ori_charater_list": index_ori_charater_list}    
+        # print(record_data)
         return record_data
     def decoding(self):
         pass

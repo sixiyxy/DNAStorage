@@ -125,6 +125,7 @@ def SrcCode_rule():
 
     label_dic = {"space_label": "CGGTAT","up_letter_label": "TGCATA",
                 "number_label" : "TGCATA","symbol_label": "GTATGA"}
+    # print(encodetable)
 
     return encodetable
 

@@ -15,7 +15,7 @@ from script.step2_encoding_parallel_debug import Encoding,get_progress_bar
 import script.step3_simulation_utils_parallel_noSession as simu_utils
 from script.step4_decode import ClusterDecode
 from script.utils.simulation_utils import is_fasta,fasta_to_dna
-from script.utils.utils_basic import get_config,write_yaml,get_download_path
+from script.utils.utils_basic import get_config,write_yaml,get_download_path,is_txt
 from app_utils import set_session,get_session
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
@@ -36,15 +36,24 @@ def file_upload():
     f = request.files['file']
     filename = f.filename
     filetype = f.mimetype
+
     file_uid = get_file_uid()
     file_rename = '{}_{}'.format(file_uid,filename)
     save_dir = '{}/upload/{}'.format(backend_dir,file_rename)
     f.save(save_dir)
+     
+    if filetype == 'text/plain':
+        label = is_txt(save_dir)
+    else:
+        label = False
+        
     file_base_info = {'file_uid':file_uid,
                 'file_name':filename,
                 'file_rename':file_rename,
                 'upload_file_szie':os.path.getsize(save_dir),
-                'file_type':filetype}
+                'file_type':filetype,
+                'eight_can':label}
+    print('upload file info:',file_base_info)
     yaml_file = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
     write_yaml(yaml_path=yaml_file,data=file_base_info,appending=False)
 
@@ -78,7 +87,7 @@ def file_encode():
 
     front_data = request.data
     front_data = json.loads(front_data)
-
+    print('Encoding parameters:',front_data)
     #### Postman test json ####
     # {"file_uid":1565237658387615744,
     # "segment_length":160,
@@ -91,7 +100,6 @@ def file_encode():
     index_length = front_data['index_length'] #128
     verify_method = front_data['verify_method'] #'HammingCode'
     encode_method = front_data['encode_method'] #'Basic'
-    print('Encoding parameters is:',front_data)
 
     obj = Encoding(file_uid=file_uid,
                   encode_method=encode_method,
