@@ -2,8 +2,6 @@ import imp
 import os
 import numpy as np
 from datetime import datetime
-from .utils.cd_hit  import CD_HIT
-from .utils.cd_hit import read_fasta
 from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
 from .utils.verify_methods import Hamming,ReedSolomon
 from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
@@ -32,10 +30,11 @@ class ClusterDecode():
         self.simulation_dir = '{}/{}'.format(self.backend_dir,self.config['simulation_dir'])
         self.simulation_dna_file = '{}/{}.fasta'.format(self.simulation_dir,self.file_uid)
         self.out_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
-        self.starcode = self.config['starcode_local']
+        self.starcode = self.config['starcode_remote']
+        self.cdhit = self.config['cdhit']
 
         # decode
-        self.out_file = '{}/{}_cdhit.fasta'.format(self.out_dir,self.file_uid)
+        self.out_file = '{}/{}.fasta'.format(self.out_dir,self.file_uid)
         self.index_length =  self.file_info_dict['index_length']
         self.verify_method = verify_methods[self.file_info_dict['verify_method']]
         
@@ -43,7 +42,7 @@ class ClusterDecode():
         self.segment_length = self.file_info_dict['segment_length']
 
         # encode
-        self.method_dict = encoding_methods = {
+        self.method_dict = {
                     "Basic":BaseCodingAlgorithm(need_logs=False),
                      "Church":Church(need_logs=False),
                         "Goldman":Goldman(need_logs=False),
@@ -57,14 +56,10 @@ class ClusterDecode():
         
 
     def method_cdhit(self):
-        cdh=CD_HIT(max_memory=320000,throw_away_sequences_length=60,
-            length_difference_cutoff=0.7,amino_acid_length_difference_cutoff=60, 
-            long_seq_alignment_coverage=0.7,long_seq_alignment_coverage_control=60,
-            short_seq_alignment_coverage=0.7,short_seq_alignment_coverage_control=70,
-            nthreads=5120)       
-        
-        cdh.from_file(self.simulation_dna_file,self.out_file,threshold=0.99)
-
+        os.system('{tool} -T {threads} -c 0.99 -i {in_file} -o {out_file} '.format(
+            tool = self.cdhit, threads = self.threas,
+            in_file = self.simulation_dna_file,
+            out_file = self.out_file))
         clust_dna_sequences = open(self.out_file).read().splitlines()[1::2]
 
         return clust_dna_sequences

@@ -25,7 +25,8 @@ simulation_dir: simulation
 # decode
 starcode_local: /data2/dna/Software/starcode/starcode
 starcode_remote: /Users/jianglikun/VScode/DNAStorage
+cdhit: /home/dna/Software/cdhit-4.8.1/cd-hit
 decode_dir: decode
 
 # threads
-threads: 8
+threads: 30
