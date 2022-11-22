@@ -113,12 +113,6 @@ def dna_upload():
     file_rename=file_uid+".fasta"
     ori_save_dir='{}/upload_dna/{}'.format(backend_dir,file_rename)
     f.save(ori_save_dir)
-
-    '''
-    #### Postman Test Content
-    a .fasta file with key 'file'
-    '''
-    
     try:
         flag=is_fasta(ori_save_dir)
         print(flag)
@@ -126,6 +120,13 @@ def dna_upload():
         os.remove(ori_save_dir)
         return "Invalid"
     if flag:
+        strand_count=0
+        print("Here")
+        with open(ori_save_dir,'r') as fp:
+            for i in fp:
+                if i[0]=='>':
+                    strand_count+=1
+        print("strand_count",strand_count)
         file_basic_info={
             "file_uid":file_uid,
             "file_name":filename,
@@ -137,6 +138,7 @@ def dna_upload():
 
         return json.dumps(file_basic_info)
     else:
+        os.remove(ori_save_dir)
         return "Invalid"
 
 #now_simu=Simu()

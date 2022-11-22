@@ -986,7 +986,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 Because the effects of occurred errors are cumulative, It is reasonable that as the
                 simulation proceeds, both the percentage of strands with errors as well as the
                 average error number for all strands will increase. Thus, we count the number of
-                strands with a different number of errors for the different stages as shown above.
+                strands with different number of errors for the different stages as shown above.
                 As we could see, the later the stage is, the higher the number of chains with errors
                 is.
               </p>
