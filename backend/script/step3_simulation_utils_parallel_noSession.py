@@ -383,7 +383,7 @@ def density_front_end_solver(dictlist):
             outdic[k] = 0
     for d in dictlist:
         for k in d.keys():
-            outdic[k]=max(outdic[k]+d[k],0.1)
+            outdic[k]=max(outdic[k]+d[k],1)
     return outdic
 
 def cut_file(simu_dna,cut_size):

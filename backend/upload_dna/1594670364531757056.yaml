@@ -1,0 +1,38 @@
+SEQ:
+  del: 0.0016
+  ins: 0.0012
+  sub: 0.9972
+seq_depth: 1
+seq_meth: ill_PairedEnd
+DEC:
+  del: 0.06
+  ins: 0.06
+  sub: 0.88
+PCR:
+  del: 0.01
+  ins: 0
+  sub: 0.99
+SYN:
+  del: 0.6
+  ins: 0.2
+  sub: 0.2
+decay_loss_rate: 0.3
+file_name: 1586989647354007552.fasta
+file_rename: 1594670364531757056.fasta
+file_uid: '1594670364531757056'
+months_of_storage: 24
+pcr_cycle: 16
+pcr_polymerase: Taq
+pcr_prob: 0.8
+sam_ratio: 0.005
+simu:
+- SYN
+- DEC
+- PCR
+- SAM
+- SEQ
+storage_host: Hsapiens
+synthesis_method: ErrASE
+synthesis_number: 30
+synthesis_yield: 0.99
+upload: true
