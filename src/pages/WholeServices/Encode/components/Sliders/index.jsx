@@ -46,6 +46,7 @@ const Sliders = (props) => {
           <Slider
             marks={props.processRes.bar} 
             step={null}
+            disabled={props.Zan?true:false}
             max={props.processRes.bar ? Number(Object.keys(props.processRes.bar)[Object.keys(props.processRes.bar).length-1]) : 200}
             min={Number(Object.keys(props.processRes.bar ? props.processRes.bar : {80:' '} )[0])}
             value={props.Segment}
@@ -60,7 +61,7 @@ const Sliders = (props) => {
           <div style={{ marginTop: "30px" }}>
             <strong style={{ fontSize: "19px" }}>
               {" "}
-              <HighlightTwoTone /> Index length : {props.processRes.index_length} bits
+              <HighlightTwoTone /> Index length : {props.Zan? 0 : props.processRes.index_length} bits
             </strong>{" "}
           </div>
         </div>

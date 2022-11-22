@@ -32,7 +32,7 @@ console.log("energydata", data);
     },
     xAxis: {
       title:{
-        text:'min free energy (kcal/mol)',
+        text:'minimum free energy (kcal/mol)',
         offset:50,
       },
       label: {

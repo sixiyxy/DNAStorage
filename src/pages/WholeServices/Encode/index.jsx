@@ -37,10 +37,11 @@ export const Encode = (props) => {
     props.setIsSynthesis(false);
   }, []);
   useEffect(()=>{
-    setSeg(Number(Object.keys(processRes.bar ? processRes.bar : {80:' '} )[1]))
+    if(Zan){setIndex(0)}
+    setSeg(Zan? 0 : Number(Object.keys(processRes.bar ? processRes.bar : {80:' '} )[1]))
     SetSegvalue(Number(Object.keys(processRes.bar ? processRes.bar : {80:' '} )[1]))
-  },[processRes])
-  
+  },[processRes,Zan])
+  console.log('承载方法列表组件的父组件的ID',props.fileId);
   const GCPass = (param1) => {
     props.setGC(param1);
   };
@@ -60,7 +61,7 @@ export const Encode = (props) => {
     props.setMini(param1);
     console.log(props.mini);
   };
-  const InfoPass1 = (param1, param2, param3, param4, param5, param6, param7) => {
+  const InfoPass1 = (param1, param2, param3, param4, param5, param6, param7,param8,param9) => {
     props.infos.bit_size = param1;
     props.infos.byte_size = param2;
     props.infos.encode_method = param3;
@@ -68,6 +69,9 @@ export const Encode = (props) => {
     props.infos.segment_length = param5;
     props.infos.segment_number = param6;
     props.infos.verify_method = param7;
+    props.infos.verify_code_length = param8;
+    props.infos.final_segment_bit_length = param9;
+    
     props.setInfo(props.infos);
     //console.log("InfoPass1", info);
   };
@@ -111,7 +115,7 @@ export const Encode = (props) => {
 
     // const body = params1;
 
-    const resp = await doPost("/encode", { body: params1 });
+    const resp = await doPost("/encode", { body: param1 });
     console.log("Encode-response: ", resp);
     console.log("Encode-response: ", typeof resp.min_free_energy_below_30kcal_mol);
     InfoPass1(
@@ -121,7 +125,9 @@ export const Encode = (props) => {
       resp.index_length,
       resp.segment_length,
       resp.segment_number,
-      resp.verify_method
+      resp.verify_method,
+      resp.verify_code_length,
+      resp.final_segment_bit_length
     );
     GCPass(resp.gc_data);
     HomoPass(resp.homo_data);
@@ -175,7 +181,9 @@ export const Encode = (props) => {
       resp.index_length,
       resp.segment_length,
       resp.segment_number,
-      resp.verify_method
+      resp.verify_method,
+      resp.verify_code_length,
+      resp.final_segment_bit_length
     );
     GCPass(resp.gc_data);
     HomoPass(resp.homo_data);
@@ -195,10 +203,10 @@ export const Encode = (props) => {
     props.setSpin(false);
   };
   const handlereset = () => {
-    setSeg(160);
-    SetSegvalue(160);
-    Setindexment(20);
-    setIndex(20);
+    // setSeg(160);
+    // SetSegvalue(160);
+    // Setindexment(20);
+    // setIndex(20);
     setMethod("WithoutVerifycode");
     setencodeValue("WithoutVerifycode");
     setValue("Basic");
@@ -290,6 +298,7 @@ export const Encode = (props) => {
         setprocessRes={setprocessRes} 
         setIndex={setIndex}
         Zan={Zan}
+        btnflag={btnflag}
       />
 
       <Sliders
@@ -301,6 +310,7 @@ export const Encode = (props) => {
         Setindexment={Setindexment}
         indexment={indexment}
         processRes={processRes}
+        Zan={Zan}
       />
       <Graphs
         seg={seg}

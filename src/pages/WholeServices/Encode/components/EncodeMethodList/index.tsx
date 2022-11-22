@@ -11,8 +11,9 @@ import { CheckCircleTwoTone,BulbTwoTone} from "@ant-design/icons";
 
 const EncodeMethodList: React.FC = (props: any) => {
   const [count, setCount] = useState(0); //触发标志
+  console.log('方法列表子组件fileID',props.fileID);
   const progressParam = {
-    file_uid:props.fileID ? props.fileID : "1565536927137009664",
+    file_uid:props.fileID === undefined ? "1565536927137009664" : props.fileID,
     verify_method:props.method,
     encode_method:props.value
   }
@@ -21,7 +22,7 @@ const EncodeMethodList: React.FC = (props: any) => {
     .then(function (response) {
       console.log('ProcessResp:',response);
       props.setprocessRes(response.data)
-      props.setIndex(response.data.index_length)
+      props.setIndex(props.Zan ? 0 : response.data.index_length)
       console.log(Number(Object.keys(response.data.bar)[Object.keys(response.data.bar).length-1]));
       
     })
@@ -94,7 +95,7 @@ const EncodeMethodList: React.FC = (props: any) => {
                   </span>
                 </span>
               </Radio>
-              <Radio value={"Zan"} disabled={!props.Zan}>
+              <Radio value={"SrcCode"} disabled={!props.Zan}>
                 <span>
                   Zan, Xiangzhen, et al. "A hierarchical error correction strategy for text DNA
                   storage."<br></br>
@@ -118,6 +119,7 @@ const EncodeMethodList: React.FC = (props: any) => {
           <div className="slider-inner">
           <Radio.Group
             onChange={onChange1}
+            disabled={props.Zan?true:false}
             value={props.encodevalue}
             defaultValue={"WithoutVerifycode"}
             style={{ marginLeft: "20px", marginTop: "20px" }}
