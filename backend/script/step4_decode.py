@@ -65,11 +65,18 @@ class ClusterDecode():
         return clust_dna_sequences
         
     def method_starcode(self):
-        os.system('{tool} -d 4 -s -t {threads} -i {in_file} -o {out_file}'.format(
-            tool = self.starcode,
-            threads = self.threads,
-            in_file = self.simulation_dna_file,
-            out_file = self.out_file))
+        try:
+            os.system('{tool} -d 4 -s -t {threads} -i {in_file} -o {out_file}'.format(
+                tool = self.starcode,
+                threads = self.threads,
+                in_file = self.simulation_dna_file,
+                out_file = self.out_file))
+        except:
+                os.system('{tool} -d 4 -s -t {threads} -i {in_file} -o {out_file}'.format(
+                tool = self.starcode,
+                threads = self.threads/2,
+                in_file = self.simulation_dna_file,
+                out_file = self.out_file))
         
         clust_dna_sequences = open(self.out_file).read().splitlines()[1::2]
 
