@@ -94,7 +94,7 @@ const EncodeMethodList: React.FC = (props: any) => {
                   </span>
                 </span>
               </Radio>
-              <Radio value={"Zan"}>
+              <Radio value={"Zan"} disabled={!props.Zan}>
                 <span>
                   Zan, Xiangzhen, et al. "A hierarchical error correction strategy for text DNA
                   storage."<br></br>

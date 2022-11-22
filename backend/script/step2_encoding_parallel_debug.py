@@ -82,30 +82,34 @@ class get_progress_bar():
         return index_length
 
     def get_bar(self):
-        bar_star = self.progress_bar[self.encode_method][0]
-        bar_end = self.progress_bar[self.encode_method][1]
+        if self.encode_method == 'SrcCode':
+            index_length = 0
+            progress_bar = {1,' '}
+        else:
+            bar_star = self.progress_bar[self.encode_method][0]
+            bar_end = self.progress_bar[self.encode_method][1]
 
-        index_length = self.get_index_length()
-        print('### According the file size, recommend index length is:',index_length)
-          
-        progress_bar = {}
-        method_rule = self.progress_bar_rule[self.encode_method]
-        for s in range(bar_star,bar_end):
-            if self.verify_method == 'WithoutVerifycode':
-                while (index_length +  s)% method_rule != 0:
-                    s +=1
-                if s not in progress_bar:
-                    progress_bar[s] = ' '
-            elif self.verify_method == "Hamming":
-                while (index_length +s + self.hamming_length(s,index_length))% method_rule !=0:
-                    s +=1
-                if s not in progress_bar:
-                    progress_bar[s]= ' '
-            elif self.verify_method == "ReedSolomon":
-                while ((index_length + s) % 8 !=0) or ((index_length + s + self.rscode_length()) % method_rule !=0) :
-                    s +=1
-                if s not in progress_bar:
-                    progress_bar[s] = ' '
+            index_length = self.get_index_length()
+            print('### According the file size, recommend index length is:',index_length)
+            
+            progress_bar = {}
+            method_rule = self.progress_bar_rule[self.encode_method]
+            for s in range(bar_star,bar_end):
+                if self.verify_method == 'WithoutVerifycode':
+                    while (index_length +  s)% method_rule != 0:
+                        s +=1
+                    if s not in progress_bar:
+                        progress_bar[s] = ' '
+                elif self.verify_method == "Hamming":
+                    while (index_length +s + self.hamming_length(s,index_length))% method_rule !=0:
+                        s +=1
+                    if s not in progress_bar:
+                        progress_bar[s]= ' '
+                elif self.verify_method == "ReedSolomon":
+                    while ((index_length + s) % 8 !=0) or ((index_length + s + self.rscode_length()) % method_rule !=0) :
+                        s +=1
+                    if s not in progress_bar:
+                        progress_bar[s] = ' '
 
         return index_length, progress_bar
 

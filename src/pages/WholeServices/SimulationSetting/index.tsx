@@ -8,7 +8,7 @@ import { Sampling } from "./Sampling";
 import { Sequencing } from "./Sequencing";
 import axios from "axios";
 import { API_PREFIX } from "../../../common/Config";
-import simu from "./simu.png";
+import simu from "../../../assets/service/simu.png";
 import { InboxOutlined } from "@ant-design/icons";
 
 export class SimulationSetProps {

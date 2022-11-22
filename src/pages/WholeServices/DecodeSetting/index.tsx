@@ -4,6 +4,7 @@ import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Image } from "antd";
 import "./index.less";
+import decode from "../../../assets/service/decode.png";
 import { API_PREFIX } from "../../../common/Config";
 export class DecodeProps {
   fileId;
@@ -100,7 +101,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
                 <Image
                   width={"130%"}
                   // height={"50%"}
-                  src="/src/assets/service/decode.png"
+                  src={decode}
                 />
               </div>
             </Col>
