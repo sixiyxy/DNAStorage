@@ -114,8 +114,8 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   };
 
   useEffect(()=>{
-    if (props.effect1 == true){
     setLoading(true);
+    if (props.effect1 == true){
     setNoDataTipsShow(false);
     props.setAlreadyRun(true);
     console.log('SYN',props.response);
@@ -130,22 +130,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     console.log('eff1',props.effect1);
   }
   },[props.effect1])
-  // const handleExample = async () => {
-  //   setLoading(true);
-  //   setNoDataTipsShow(false);
-  //   // todo 对响应结果 TS 化，否则无法消除警告
-  //   const resp: any = await doPost("/simu_synthesis", {body: param1});
-  //   setCountLen(resp.syn_density.length);
-  //   setGroup(resp.density_group);
-  //   setData(resp.syn_density);
-  //   setHrefLink(resp.synthesis_method_reference);
-  //   setLoading(false);
-
-  //   props.setIsSynthesis(true);
-  // };
-  // const handleContinue = () => {
-  //   props.changeSider(["0-1-1"]);
-  // };
+  
 
   
   //数据生成

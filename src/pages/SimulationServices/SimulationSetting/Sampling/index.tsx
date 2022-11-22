@@ -16,6 +16,8 @@ export class SamplingProps {
   samrun;
   setSEQRUN;
   method1;
+  exmSpinFlag;
+  
 }
 
 export const Sampling: React.FC<SamplingProps> = (props) => {
@@ -218,9 +220,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
           </Col>
           <Col span={12}>
             <Card>
-              {/* <div>
-                After PCR simulation, the situation of oligonucleotides pool as follows:
-              </div> */}
+            <Spin size="large" spinning={props.exmSpinFlag}>
               <div>
                 {noDataTipsShow ? (
                   <Empty
@@ -243,6 +243,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
                   </div>
                 )}
               </div>
+            </Spin>
             </Card>
           </Col>
           <div className="common-masker" hidden={show}/>

@@ -64,7 +64,7 @@ def gc_homo(dna_sequences):
 
     return front_gc,front_homo
 
-def add_min_free_energydata(tools,dna_demo_file,free_enerfy_file,final_record_info):
+def add_min_free_energydata(tools,dna_demo_file,free_enerfy_file):
 
     # run tools
     os.system("{tools} --noPS --noGU --noconv -T 59.1"
@@ -97,15 +97,23 @@ def add_min_free_energydata(tools,dna_demo_file,free_enerfy_file,final_record_in
         range_label = '{} : {}'.format(interval_cate[idx].left,interval_cate[idx].right)
         data = {'x_value':x_value,'y_value':int(interval_value[idx]),'range':range_label}
         free_energy_plotdata.append(data)
+    info = {}
+    info['min_free_energy'] = float(avg_free_energy)
+    info['min_free_energy_below_30kcal_mol'] = float(free_energy_30)
+    info['energy_plot']=free_energy_plotdata
+    return info
 
-    final_record_info['min_free_energy'] = float(avg_free_energy)
-    final_record_info['min_free_energy_below_30kcal_mol'] = float(free_energy_30)
-
-        
-    return final_record_info,free_energy_plotdata
-
-def download_normal(file,original_bit_segments,record_index,connected_bit_segments,final_bit_segments,dna_sequences):
+def download_normal(file,download_data):
     # record dowdload file
+    original_bit_segments = download_data["original_bit_segments"] 
+    record_index = download_data["record_index"]
+    connected_bit_segments = download_data["connected_bit_segments"]
+    final_bit_segments = download_data["final_bit_segments"]
+    dna_sequences = download_data["user_record_dna"]
+    # print(len(original_bit_segments),len(record_index),
+    #       len(connected_bit_segments),len(final_bit_segments),
+    #       len(dna_sequences))
+
     f = open(file,'w')
     f.write('payload,index,index_payload,index_payload_verfiycode,DNA_sequence\n')
     for idx in range(len(dna_sequences)):

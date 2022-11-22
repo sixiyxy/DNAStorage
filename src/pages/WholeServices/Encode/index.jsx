@@ -18,13 +18,14 @@ export const Encode = (props) => {
     setTargetOffset(window.innerHeight / 2);
   }, []);
 
-  const [seg, setSeg] = useState(160);
+  //作图的初始值
+  const [seg, setSeg] = useState()
   const [index, setIndex] = useState(20);
   const [method, setMethod] = useState("WithoutVerifycode");
   const [btnflag, setBtn] = useState(false);
   const [encodevalue, setencodeValue] = useState("WithoutVerifycode");
   const [value, setValue] = useState("Basic");
-  const [Segment, SetSegvalue] = useState(160);
+  const [Segment, SetSegvalue] = useState();
   const [indexment, Setindexment] = useState(20);
   const [indexchange, setChange] = useState(true); //一开始是小于2M
   const [upload100kb, setUpload100] = useState(false); //一开始假设文件都大于100kb
@@ -32,7 +33,11 @@ export const Encode = (props) => {
   useEffect(() => {
     props.setIsSynthesis(false);
   }, []);
-
+  useEffect(()=>{
+    setSeg(Number(Object.keys(processRes.bar ? processRes.bar : {80:' '} )[1]))
+    SetSegvalue(Number(Object.keys(processRes.bar ? processRes.bar : {80:' '} )[1]))
+  },[processRes])
+  
   const GCPass = (param1) => {
     props.setGC(param1);
   };

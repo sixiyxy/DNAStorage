@@ -86,29 +86,28 @@ class get_progress_bar():
         bar_end = self.progress_bar[self.encode_method][1]
 
         index_length = self.get_index_length()
-        print(index_length)
+        print('### According the file size, recommend index length is:',index_length)
           
-        progress_bar = []
+        progress_bar = {}
         method_rule = self.progress_bar_rule[self.encode_method]
         for s in range(bar_star,bar_end):
             if self.verify_method == 'WithoutVerifycode':
                 while (index_length +  s)% method_rule != 0:
                     s +=1
                 if s not in progress_bar:
-                    progress_bar.append(s)
+                    progress_bar[s] = ' '
             elif self.verify_method == "Hamming":
                 while (index_length +s + self.hamming_length(s,index_length))% method_rule !=0:
                     s +=1
                 if s not in progress_bar:
-                    progress_bar.append(s)
+                    progress_bar[s]= ' '
             elif self.verify_method == "ReedSolomon":
                 while ((index_length + s) % 8 !=0) or ((index_length + s + self.rscode_length()) % method_rule !=0) :
                     s +=1
                 if s not in progress_bar:
-                    progress_bar.append(s)
+                    progress_bar[s] = ' '
 
         return index_length, progress_bar
-
 
 class Encoding():
     def __init__(self,file_uid,segment_length,index_length,verify_method,encode_method):
@@ -180,7 +179,6 @@ class Encoding():
         fragment_info = { "original_bit_segments":original_bit_segments,
                         "record_index":record_index,
                         "connected_bit_segments":connected_bit_segments}
-
         return fragment_info
         
     def verify_code(self,data):
@@ -190,7 +188,6 @@ class Encoding():
         connected_bit_segments = fragment_info["connected_bit_segments"]
 
         verify_method = verify_methods[self.verify_method]
-
         if verify_method == False:
             final_bit_segments = connected_bit_segments
         else:
@@ -200,28 +197,18 @@ class Encoding():
                         "record_index":record_index,
                         "connected_bit_segments":connected_bit_segments,
                         "final_bit_segments":final_bit_segments}
-
         return fragment_info
-    
-    def encoding(self,data):
-        pass
 
 
     def encoding_normal(self,data): 
+        
         fragment_info = self.verify_code(data)
         original_bit_segments = fragment_info["original_bit_segments"]
         record_index = fragment_info["record_index"]
         connected_bit_segments = fragment_info["connected_bit_segments"]
         final_bit_segments = fragment_info["final_bit_segments"]
 
-        # encode to dna sequence
-        final_bit_segments_copy = copy.deepcopy(final_bit_segments) 
-        encode_method = encoding_methods[self.encode_method]
-        dna_sequences = encode_method.encode(final_bit_segments_copy)
-        if self.encode_method == 'Yin_Yang':
-            pass
-
-
+        # data information 
         bit_size = len(data)*8
         byte_size = len(data)
         segment_number = len(original_bit_segments)
@@ -230,22 +217,66 @@ class Encoding():
         else:
             error_correction_length = len(final_bit_segments[0]) - len(connected_bit_segments[0])
 
+
+        # encode to dna sequence
+        final_bit_segments_copy = copy.deepcopy(final_bit_segments) 
+        encode_method = encoding_methods[self.encode_method]
+        
+        if self.encode_method == 'Yin_Yang':
+            dna_sequences,fail_list = encode_method.encode(final_bit_segments_copy)
+            record_dna_sequence = copy.deepcopy(dna_sequences)
+            fail_segemnt_number = len(fail_list)
+            successful_bit_size = bit_size - self.segment_length*fail_segemnt_number
+            successful_byte_size = byte_size - (self.segment_length/8)* fail_segemnt_number
+            print('#### fail encoding number is {} !'.format(len(fail_list)))
+
+            for id in fail_list:
+                print('#### fail encoding number is {} !'.format(len(fail_list)))
+                record_dna_sequence.insert(id,'encoding fail!') 
+
+
+            fragment_info = { "original_bit_segments":original_bit_segments,
+                        "record_index":record_index,
+                        "connected_bit_segments":connected_bit_segments,
+                        "final_bit_segments":final_bit_segments,
+                        "dna_sequences":dna_sequences,
+                        "user_record_dna":record_dna_sequence}
+        elif self.encode_method == 'DNA_Fountain':
+            pass
+
+        else:
+            dna_sequences = encode_method.encode(final_bit_segments_copy)
+            successful_bit_size = bit_size
+            successful_byte_size = byte_size
+            fragment_info = {"original_bit_segments":original_bit_segments,
+                        "record_index":record_index,
+                        "connected_bit_segments":connected_bit_segments,
+                        "final_bit_segments":final_bit_segments,
+                        "dna_sequences":dna_sequences,
+                        "user_record_dna":dna_sequences}
+
         # record encode value
         nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
-        information_density = bit_size/nucleotide_count
+        information_density = successful_bit_size/nucleotide_count
 
         # net information density is wrong do not display
         net_nucleotide_count = len(dna_sequences)*(len(dna_sequences[0]) - self.index_length - error_correction_length)
-        net_information_density = bit_size/net_nucleotide_count
+        net_information_density = successful_bit_size/net_nucleotide_count
+        information_density = round(information_density,3)
 
         # 1ug = 9.03*10^14bp       
-        physical_information_density = byte_size/(nucleotide_count/(9.03*10**14))
+        physical_information_density = successful_byte_size/(nucleotide_count/(9.03*10**14))
         physical_information_density_ug = physical_information_density*(10**3)
         physical_information_density_g = physical_information_density*(10**9)
 
         # together
         record_info = {"bit_size":bit_size,
+                        "byte_size":byte_size,
                         "segment_number":segment_number,
+                        "segment_length":self.segment_length,
+                        "index_length":self.index_length,
+                        "verify_method":self.verify_method,
+                        "encode_method":self.encode_method,
                         "verify_code_length":error_correction_length,
                         "final_segment_bit_length":len(final_bit_segments[0]),
                         "DNA_sequence_length":len(dna_sequences[0]),
@@ -255,122 +286,179 @@ class Encoding():
                         "physical_information_density_ug":physical_information_density_ug,
                         "physical_information_density_g":physical_information_density_g}
         
-        fragment_info = { "original_bit_segments":original_bit_segments,
-                        "record_index":record_index,
-                        "connected_bit_segments":connected_bit_segments,
-                        "final_bit_segments":final_bit_segments,
-                        "dna_sequences":dna_sequences}
-        
         return record_info,fragment_info
 
     def contact_result(self,parallel_results):
+       
+        ### information data
+        # sum
         bit_szie_all = 0
+        byte_size_all = 0
         segment_number_all = 0
         nucleotide_counts_all = 0
+        # original
+        verify_code_length = 0
+        final_bit_segments_length =0 
+        DNA_sequence_length = 0
+        # mean
         information_density_all = 0
         net_information_density_all = 0
-        DNA_sequence_length = 0
         physical_information_density_ug_all = 0
         physical_information_density_g_all = 0
+        
+        ### fragment data
         original_bit_segments_all= []
         record_index_all = []
         connected_bit_segments_all = []
         final_bit_segments_all = []
         dna_sequences_all = []
+        user_record_dna_all = []
 
         result_number = len(parallel_results)
-        for one_result in parallel_results:  
-            bit_szie_all += one_result['bit_size']
-            segment_number_all += int(one_result['segment_number'])
-            DNA_sequence_length = one_result['DNA_sequence_length']
-            nucleotide_counts_all += one_result['nucleotide_counts']
-            information_density_all +=one_result['information_density']
-            net_information_density_all += one_result['net_information_density']
-            physical_information_density_ug_all += one_result['physical_information_density_ug']
-            physical_information_density_g_all += one_result['physical_information_density_g']
-            original_bit_segments_all += one_result['original_bit_segments']
-            record_index_all += one_result['record_index']
-            connected_bit_segments_all += one_result['connected_bit_segments']
-            final_bit_segments_all += one_result['final_bit_segments']
-            dna_sequences_all += one_result['dna_sequences']
+        for result in parallel_results:
+            info_result = result[0]
+            bit_szie_all += info_result['bit_size']
+            byte_size_all += info_result['byte_size']
+            segment_number_all += int(info_result['segment_number'])
+            nucleotide_counts_all += info_result['nucleotide_counts']
+
+            verify_code_length = info_result["verify_code_length"]
+            DNA_sequence_length = info_result['DNA_sequence_length']
+            final_bit_segments_length = info_result["final_segment_bit_length"]
+            
+            information_density_all += info_result['information_density']
+            net_information_density_all += info_result['net_information_density']
+            physical_information_density_ug_all += info_result['physical_information_density_ug']
+            physical_information_density_g_all += info_result['physical_information_density_g']
+
+
+            fragment_data_result = result[1]
+            original_bit_segments_all += fragment_data_result['original_bit_segments']
+            record_index_all += fragment_data_result['record_index']
+            connected_bit_segments_all += fragment_data_result['connected_bit_segments']
+            final_bit_segments_all += fragment_data_result['final_bit_segments']
+            dna_sequences_all += fragment_data_result['dna_sequences']
+            user_record_dna_all += fragment_data_result['user_record_dna']
 
         
         final_record_info = {
                     "bit_size":bit_szie_all,
+                    'byte_size':byte_size_all,
                     "segment_number":segment_number_all,
+                    "nucleotide_counts":nucleotide_counts_all,
+
                     "segment_length":self.segment_length,
                     "index_length":self.index_length,
                     "verify_method":self.verify_method,
                     "encode_method":self.encode_method,
+
+                    "verify_code_length":verify_code_length,
+                    "final_bit_segments_length" :final_bit_segments_length,
                     "DNA_sequence_length":DNA_sequence_length,
-                    "nucleotide_counts":nucleotide_counts_all,
+                    
                     "information_density":round(information_density_all/result_number,3),
                     "net_information_density":round(net_information_density_all/result_number,3),
-                    "physical_information_density_ug":'%.2E'%Decimal('{}'.format(physical_information_density_ug_all/result_number,3)),
-                    "physical_information_density_g":'%.2E'%Decimal('{}'.format(physical_information_density_g_all/result_number,3))
+                    "physical_information_density_ug":physical_information_density_ug_all/result_number,
+                    "physical_information_density_g":physical_information_density_g_all/result_number
                     }
-        
-        
-        gc_data,homo_data = gc_homo(dna_sequences_all)
-        final_record_info['gc_data'] = gc_data
-        final_record_info['homo_data'] = homo_data
+        final_data = {"original_bit_segments" : original_bit_segments_all, 
+            "record_index" : record_index_all, 
+            "connected_bit_segments" : connected_bit_segments_all,
+            "final_bit_segments" : final_bit_segments_all,
+            "dna_sequences":dna_sequences_all,
+            "user_record_dna" : user_record_dna_all}
 
-        # record file
+        return final_record_info,final_data
+    
+    def record_file(self,info,data,run_time):
+       
+        dna_sequences_all = data['dna_sequences']
+        # for simulation enerfy
         write_dna_file(path=self.dna_file,demo_path=self.dna_demo_file,dna_sequences=dna_sequences_all)
 
-        # record dowdload file
-        download_normal(self.user_download_file ,original_bit_segments_all,record_index_all,
-                        connected_bit_segments_all,final_bit_segments_all,dna_sequences_all)
+        
+        if self.encode_method in encoding_methods:
+            # for dowdload file
+            download_normal(self.user_download_file,data)
+            # for decode data
+            connected_bit_segments_all = data['connected_bit_segments']
+            final_bit_segments_all = data['final_bit_segments']
+            index_ori_bit_sequences = [''.join(list(map(str,i))) for i in connected_bit_segments_all]
+            final_bit_sequences = [''.join(list(map(str,i))) for i in final_bit_segments_all]
+            dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences_all]
+            save_decode_file(self.decode_file,index_ori_bit_sequences,final_bit_sequences,dna_sequences)
+        elif self.encode_method == 'SrcCode':
+            # for download file
+            original_chracter_segments = data['original_bit_segments']
+            dna_sequences = data["dna_sequences"]
+            download_txt(self.user_download_file,dna_sequences,original_chracter_segments)
+            # for decode data
+            # save_decode_file()
 
-        # record decode file
-        ori_bit_sequences = [''.join(list(map(str,i))) for i in connected_bit_segments_all]
-        final_bit_sequences = [''.join(list(map(str,i))) for i in final_bit_segments_all]
-        dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences_all]
-        save_decode_file(self.decode_file,ori_bit_sequences,final_bit_sequences,dna_sequences)
+        # record run time
+        run_time = '%.2f'%(run_time)
+        info["encoding_time"]=run_time
 
-
-        return final_record_info
+        # plot data
+        gc_data,homo_data = gc_homo(dna_sequences_all)
+        info['gc_data'] = gc_data
+        info['homo_data'] = homo_data
+        # energy_info = add_min_free_energydata(self.min_free_energy_tools,
+        #                                     self.dna_demo_file,
+        #                                     self.free_enerfy_file)
+        # info['min_free_energy'] = energy_info['min_free_energy'] 
+        # info['min_free_energy_below_30kcal_mol'] = energy_info['min_free_energy_below_30kcal_mol']
+        # info['energy_plot']=energy_info['energy_plot']
+        
+        # format data
+        filebytes = info['byte_size']
+        filebytes_kb = filebytes/1024
+        filebytes_mb = filebytes_kb/1024
+        physical_information_density_ug = '{} petabyte/gram'.format('%.2E'%Decimal(info['physical_information_density_ug'])),
+        physical_information_density_g = '{} petabyte/ug'.format('%.2E'%Decimal(info['physical_information_density_g']))
+        # physical_information_density_ug = '%.2E'%Decimal('{} petabyte/gram'.format(info['physical_information_density_ug'])),
+        # physical_information_density_g = '%.2E'%Decimal('{} petabyte/ug'.format(info[' physical_information_density_g']))
+        info['physical_information_density_g'] = physical_information_density_g
+        info['physical_information_density_ug'] = physical_information_density_ug
+        info = write_yaml(yaml_path=self.file_info_path,data=info,appending=True)
+        return info
 
     def parallel_run(self):
         file_data = fromfile(file=self.file_path, dtype=uint8)
         file_size = file_data.shape[0]
-
         start_time = datetime.now()
-        # parallel run 7 method
+
+        ### parallel run 7 method
         if self.encode_method in encoding_methods:
             file_data = fromfile(file=self.file_path, dtype=uint8)
             file_size = file_data.shape[0]
-            # if file_size <= 500000:
-            #     record_info = self.encoding_normal(file_data)
-            #     run_time = (datetime.now() - start_time).total_seconds()
-            #     run_time = '%.2f'%(run_time)
-            # else:
-            cut_file_data = cut_file(file_data,self.encode_method)
-            print('cut file number',len(cut_file_data))
-            with Pool(self.threads) as pool:
-                parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
-                
+            if file_size > 1000000:
+                cut_file_data = cut_file(file_data,self.encode_method)
+
+                with Pool(self.threads) as pool:
+                    parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
+                record_info,record_data = self.contact_result(parallel_results)
+            else:
+                record_info,record_data = self.encoding_normal(file_data)
             run_time = (datetime.now() - start_time).total_seconds()
-            run_time = '%.2f'%(run_time)
-            record_info = self.contact_result(parallel_results)
-        # txt method
+            record_info = self.record_file(record_info,record_data,run_time)
+        ### txt method
         elif self.encode_method == 'SrcCode':
             upload_file = open(self.file_path,"r",encoding='UTF-8')
-            dna_file = open(self.dna_file,'w',encoding="UTF-8")
             encode_class = SrcCode(upload_file=upload_file)
-            dna_sequences,original_chracter_segments = encode_class.encodeing()
-
-            download_txt(self.user_download_file,dna_sequences,original_chracter_segments)
-
-            dna_sequences = list(map(list,dna_sequences))
-
+            record_data = encode_class.encodeing()
+            dna_sequences =  record_data['dna_sequences']
+            original_charater_list = record_data["original_charater_list"]
+            index_ori_charater_list = record_data["index_ori_charater_list"]
+                      
             # information
+            dna_sequences = list(map(list,dna_sequences))
             bit_size = file_size*8
             nucleotide_count = sum(map(len,dna_sequences))
             information_density = bit_size/nucleotide_count
             information_density = round(information_density,3)
 
-            net_nucleotide_count = nucleotide_count - len(original_chracter_segments)*30 #index dna length is 30
+            net_nucleotide_count = nucleotide_count - len(original_charater_list)*30 #index dna length is 30
             net_information_density = self.bit_size/net_nucleotide_count
             net_information_density = round(net_information_density,3)
 
@@ -378,41 +466,32 @@ class Encoding():
             physical_information_density_ug = physical_information_density*(10**3)
             physical_information_density_g = physical_information_density*(10**9)
 
-            
             record_info = {"bit_szie" : file_size*8,
+                    "byte_size":file_size,
                     "segment_length":self.segment_length,
                     "index_length":self.index_length,
-                    "segment_number":len(original_chracter_segments),
+                    "segment_number":len(original_charater_list),
                     "DNA_sequence_length":len(dna_sequences[0]),
                     "nucleotide_counts":sum(map(len,dna_sequences)),
                     "information_density":information_density,
                     "net_information_density":net_information_density,
-                    "physical_information_density_ug":'%.2E'%Decimal('{}'.format(physical_information_density_ug)),
-                    "physical_information_density_g":'%.2E'%Decimal('{}'.format(physical_information_density_g))
+                    "physical_information_density_ug":physical_information_density_ug,
+                    "physical_information_density_g":physical_information_density_g
                     }
-            gc_data,homo_data = gc_homo(dna_sequences)
-            record_info['gc_data'] = gc_data
-            record_info['homo_data'] = homo_data
+            record_data = {"original_bit_segments_all":original_charater_list, 
+            "connected_bit_segments_all" : index_ori_charater_list,
+            "dna_sequences_all":dna_sequences}
             run_time = (datetime.now() - start_time).total_seconds()
-        # image method
+            record_info = self.record_file(record_info,record_data,run_time)
+
+        ### waiting for zzy....
         elif self.encode_method == 'xxx':
             run_time = (datetime.now() - start_time).total_seconds()
+            record_info = 'None'
         else:
-            return "make sure encode method is right!"
-        
-        # final record information
-        record_info["byte_size"]=file_size
-        record_info["encoding_time"]=run_time
-        record_info['physical_information_density_g'] = '{} petabyte/gram'.format(record_info['physical_information_density_g'])
-        record_info['physical_information_density_ug'] = '{} petabyte/ug'.format(record_info['physical_information_density_ug'])
-
-        # record energy
-        # record_info,free_energy_plotdata = add_min_free_energydata(self.min_free_energy_tools,self.dna_demo_file,
-        #                                     self.free_enerfy_file,record_info)
-        # record_info['energy_plot']=free_energy_plotdata
-        record_info = write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
+            record_info = 'None'
+            return "make sure encode method is right!"     
         print(record_info)
-        
         return record_info
 
 if __name__ == '__main__':
@@ -431,11 +510,11 @@ if __name__ == '__main__':
                   segment_length=160,
                   index_length=20,
                   verify_method="Hamming")
-    obj = Encoding(file_uid=1593856235290103808,
-                  encode_method='Yin_Yang',
-                  segment_length=120,
-                  index_length=16,
-                  verify_method="Hamming")
+    # obj = Encoding(file_uid=1593856235290103808,
+    #               encode_method='Yin_Yang',
+    #               segment_length=120,
+    #               index_length=16,
+    #               verify_method="Hamming")
     
     obj.parallel_run()
 

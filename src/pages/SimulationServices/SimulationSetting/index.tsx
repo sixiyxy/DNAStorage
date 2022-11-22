@@ -1,4 +1,4 @@
-import { Button, Card, Image, Row, Col, Upload, message,Breadcrumb} from "antd";
+import { Button, Card, Image, Row, Col, Upload, message,Breadcrumb,notification} from "antd";
 import React, { useState, useEffect } from "react";
 import "./index.less";
 import { Synthesis } from "./Synthesis";
@@ -27,10 +27,12 @@ let method = [false, false, false, false]; //存放选择的方法
 export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   // 控制全局和各个步骤是否启用，true 表示启用，false 表示不起用，会被遮罩遮住
   const [okFlag, setOkFlag] = useState(false);
+  const [examFlag, setExamFlag]=useState(false);
   const [decayFlag, setDecayFlag] = useState(true);
   const [pcrFlag, setPcrFlag] = useState(true);
   const [sampleFlag, setSampleFlag] = useState(true);
   const [sequenceFlag, setSequenceFlag] = useState(true);
+  const [exmSpinFlag,setexmSpinFlag] = useState(false)
   // 未使用的变量：alreadyChose，暂予以注释，同时 Choose 拼写有误，确认无用后移除
   // const [alreadyChose, setAlreadyChose] = useState(false);
   const [dis0, setDis0] = useState(false);
@@ -52,6 +54,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [pcrrun, setPCRRUN] = useState(true);
   const [samrun, setSAMRUN] = useState(true);
   const [seqrun, setSEQRUN] = useState(true);
+  //控制OK回弹按钮
+  const [SimuOK,setSimuOK] = useState(false) //默认还没有上传文件
   const { Dragger } = Upload;
   useEffect(() => {
     if (props.setIsdisabled) {
@@ -91,6 +95,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setSequenceFlag(!sequenceFlag);
   };
   const handleOK = () => {
+    setExamFlag(true)
     setOkFlag(true);
     setDis1(true);
     setDis2(true);
@@ -114,6 +119,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   };
 
   const handleEXM = () => {
+    setexmSpinFlag(true)
     method = [true, true, true, true];
     //点击Example后按钮全部禁掉 默认id"1582175684011364352"
     setOkFlag(true);
@@ -132,6 +138,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     console.log("开始请求");
     axios.post(API_PREFIX + "/example", paramExm).then(function (response) {
       console.log("请求中");
+      setexmSpinFlag(false)
       console.log("example-simu", response);
       setEffct1(true);
       setEffct2(true);
@@ -139,8 +146,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       setEffct4(true);
       setEffct5(true);
       setRes(response.data);
-
-      // props.setEffct1(false)
     });
   };
 
@@ -159,7 +164,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       }
       if (status === "done") {
         props.setFileId(response.file_uid);
-
+        setSimuOK(true)
         setIsOkDisable(false);
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === "error") {
@@ -181,6 +186,23 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     }
 
     return isFasta;
+  };
+
+  const scrollToAnchor = (placement) => {
+    console.log("toanthor");
+    notification.info({
+      message: "Please make sure you complete the uploading!",
+      description:
+        "Confirm whether the file is uploaded.",
+      placement,
+      duration: 4.5,
+    });
+    if ("simulation-synthesis-uploader") {
+      let anchorElement = document.getElementById("simulation-synthesis-uploader");
+      if (anchorElement) {
+        anchorElement.scrollIntoView();
+      }
+    }
   };
   return (
     <div className="page-simulation-setting">
@@ -216,6 +238,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                       shape="round"
                       size="large"
                       onClick={handleEXM}
+                      disabled={examFlag}
                     >
                       Example
                     </Button>
@@ -255,7 +278,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
               headStyle={{ fontSize: "18px" }}
             >
               <Dragger
-                className="simulation-synthesis-uploader"
+                id="simulation-synthesis-uploader"
                 {...uploadProps}
                 beforeUpload={beforeUpload}
                 accept=".fasta"
@@ -336,7 +359,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                 type="primary"
                 shape="round"
                 size="large"
-                onClick={handleOK}
+                onClick={SimuOK ? handleOK : scrollToAnchor}
                 disabled={okFlag}
               >
                 OK
@@ -359,6 +382,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSAMRUN={setSAMRUN}
           setSEQRUN={setSEQRUN}
           method1={method}
+          exmSpinFlag={exmSpinFlag}
+        
         />
         <Decay
           fileId={props.fileId}
@@ -372,6 +397,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSAMRUN={setSAMRUN}
           setSEQRUN={setSEQRUN}
           method1={method}
+          exmSpinFlag={exmSpinFlag}
+         
         />
         <Pcr
           fileId={props.fileId}
@@ -384,6 +411,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSAMRUN={setSAMRUN}
           setSEQRUN={setSEQRUN}
           method1={method}
+          exmSpinFlag={exmSpinFlag}
+         
         />
         <Sampling
           fileId={props.fileId}
@@ -395,6 +424,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           samrun={samrun}
           setSEQRUN={setSEQRUN}
           method1={method}
+          exmSpinFlag={exmSpinFlag}
+         
         />
         <Sequencing
           fileId={props.fileId}
@@ -404,6 +435,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           response={response}
           setSEQRUN={setSEQRUN}
           seqrun={seqrun}
+          exmSpinFlag={exmSpinFlag}
+          
         />
       </div>
       <div className="simulation-setting-footer-buttons">

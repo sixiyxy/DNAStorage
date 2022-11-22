@@ -9,7 +9,9 @@ from flask_cors import CORS
 
 
 from script.step1_get_file_uid import get_file_uid
-from script.step2_encoding_parallel import Encoding,get_progress_bar
+# from script.step2_encoding_parallel import Encoding,get_progress_bar
+from script.step2_encoding_parallel_debug import Encoding,get_progress_bar
+
 import script.step3_simulation_utils_parallel_noSession as simu_utils
 from script.step4_decode import ClusterDecode
 from script.utils.simulation_utils import is_fasta,fasta_to_dna
@@ -89,6 +91,7 @@ def file_encode():
     index_length = front_data['index_length'] #128
     verify_method = front_data['verify_method'] #'HammingCode'
     encode_method = front_data['encode_method'] #'Basic'
+    print('Encoding parameters is:',front_data)
 
     obj = Encoding(file_uid=file_uid,
                   encode_method=encode_method,
