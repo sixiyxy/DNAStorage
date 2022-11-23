@@ -95,7 +95,7 @@ const EncodeMethodList: React.FC = (props: any) => {
                   </span>
                 </span>
               </Radio>
-              <Radio value={"SrcCode"} disabled={!props.Zan}>
+              <Radio value={"SrcCode"} disabled={props.ZanRadio}>
                 <span>
                   Zan, Xiangzhen, et al. "A hierarchical error correction strategy for text DNA
                   storage."<br></br>
@@ -107,7 +107,7 @@ const EncodeMethodList: React.FC = (props: any) => {
             </Space>
           </Radio.Group>
         </div>
-        <p>
+        <p style={{marginLeft:"40px"}}>
           Method details please click the <Link to="/methods">Method Paper</Link>
         </p>
 

@@ -118,12 +118,12 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "5",
       name1: "Verify code length",
-      value1: `${props.info.verify_code_length} bits`,
+      value1: props.info.verify_code_length,
     },
     {
       key: "6",
       name1: "Encode segment length",
-      value1: `${props.info.final_segment_bit_length} bits`,
+      value1: props.info.final_segment_bit_length ? props.info.final_segment_bit_length :'None',
     },
     {
       key: "7",

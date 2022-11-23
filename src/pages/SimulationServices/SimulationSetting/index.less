@@ -40,14 +40,40 @@
       justify-content: space-between;
 
       button.simulation-setting-header-button-step {
-        width: 17%;
-        max-width: 150px;
-        height: 60px;
-        background-color: #1396DB;
-        color: white;
-        font-size: 19px;
-        font-weight: 450;
-        border-radius: 3px;
+        // width: 17%;
+        // max-width: 150px;
+        // height: 60px;
+        // background-color: #1396DB;
+        // color: white;
+        // font-size: 19px;
+        // font-weight: 450;
+        // border-radius: 3px;
+          width: 250px;
+          height: 50px;
+          background: #32557f;
+          position: relative;
+        
+          &:after {
+            content: '';
+            position: absolute;
+            left: 145px; bottom: -3px; width: 0; height: 0;
+            border-left: 25px solid #32557f;
+            border-top: 28px solid transparent;
+            border-radius: 6ch;
+            border-bottom: 26px solid transparent;
+            border-bottom-right-radius: 6ch;
+          }
+          
+          
+          // &:before {
+          //   content: '';
+          //   position: absolute;
+          //   right: 25px;bottom: 10px;width: 0;height: 0;
+          //   border-left: 25px solid #051223;
+          //   border-top: 25px solid transparent;
+          //   border-bottom: 25px solid transparent;
+          // }
+        
       }
     }
 

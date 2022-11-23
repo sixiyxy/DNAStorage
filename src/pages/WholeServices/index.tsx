@@ -24,8 +24,8 @@ const infos = {
   segment_length: 0,
   segment_number: 0,
   verify_method: "None",
-  verify_code_length:0,
-  final_segment_bit_length:0
+  verify_code_length:"None",
+  final_segment_bit_length:"None"
 };
 const DNAinfos = {
   DNA_sequence: 0,
