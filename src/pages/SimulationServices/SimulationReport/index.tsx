@@ -9,7 +9,9 @@ import type { ColumnsType } from "antd/es/table";
 export class SimulationReportProps {
   changeSider?;
   fileId;
-  
+  setTime;
+  clickEXM;
+  time3min;
 }
 
 export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
@@ -36,6 +38,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const [errorRecoder, setErrorRecode] = useState();
   const [errorDensity, setErrorDensity] = useState();
   const [strand,setStrand] = useState(0)
+  
   //处理函数
   const monthChange = (value: number) => {
     if (isNaN(value)) {
@@ -894,7 +897,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         </Breadcrumb>
       </div>
       <div className="simulation-report-content-wrapper">
-        <Spin tip="Loading..." size="large" spinning={spinflag}>
+        <Spin tip={props.time3min? "Please waiting 3 mins!": "Loading..."} size="large" spinning={spinflag}>
           <Card title="Stage summary" headStyle={{ backgroundColor: "#99CCFF"}}>
             <Tabs defaultActiveKey="1" >
               <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined}>
@@ -970,8 +973,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           </Card>
           <Card title="Simulation Result" headStyle={{ backgroundColor: "#99CCFF"}}>
             
-            <div style={{padding:"40px 150px 0 50px"}}>
-              <h3>Sequences Distribution</h3>
+            <div style={{padding:"100px 150px 0 50px"}}>
+              {/* <h3>Sequences Distribution</h3> */}
               <DualAxes {...dualConfig} />
             </div>
             <div
@@ -994,8 +997,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           <Card>
             <h3>Error Counts </h3> */}
              
-            <div style={{padding:"50px 220px 0 80px"}}>
-                <h3>Error Counts </h3>
+            <div style={{padding:"100px 220px 0 80px"}}>
+                {/* <h3>Error Counts </h3> */}
               <Bar {...ErrorDensityConfig} />
             </div>
             <div
