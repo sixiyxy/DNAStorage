@@ -31,7 +31,7 @@ encoding_methods = {
 class get_progress_bar():
     def __init__(self,file_uid,encode_method,verify_method):
         # methods
-        print('Now used file uid is :{}'.format(file_uid))
+        print('### Now used file uid is :{}'.format(file_uid))
         self.encode_method = encode_method
         self.verify_method = verify_method
 
