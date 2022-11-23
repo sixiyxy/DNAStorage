@@ -40,7 +40,6 @@ class get_progress_bar():
         self.file_dir = '{}/{}'.format(self.backend_dir,self.config['file_save_dir'])
         self.file_info_path = '{}/{}.yaml'.format(self.file_dir,file_uid)
         self.file_info_dict = get_config(yaml_path=self.file_info_path)
-        self.file_size = self.file_info_dict['bit_size']
 
         # define info
         self.progress_bar = {"Basic":[100,200],
@@ -67,14 +66,14 @@ class get_progress_bar():
     def rscode_length(self):
         return 24
 
-    def get_index_length(self):
+    def get_index_length(self,file_size):
         index_dict = {10: 1023, 11: 2047, 12: 4095, 13: 8191,
                     14: 16383, 15: 32767, 16: 65535, 17: 131071, 
                     18: 262143, 19: 524287, 20: 1048575, 21: 2097151, 
                     22: 4194303, 23: 8388607, 24: 16777215, 25: 33554431, 
                     26: 67108863, 27: 99999999}
         bar_star = self.progress_bar[self.encode_method][0]
-        segnumber = (self.file_size*8)/bar_star
+        segnumber = (file_size*8)/bar_star
         for size in index_dict:
             if index_dict[size] > segnumber:
                 index_length = size
@@ -85,11 +84,12 @@ class get_progress_bar():
         if self.encode_method == 'SrcCode':
             index_length = 0
             progress_bar = {1,' '}
-        else:
+        else:    
             bar_star = self.progress_bar[self.encode_method][0]
             bar_end = self.progress_bar[self.encode_method][1]
 
-            index_length = self.get_index_length()
+            file_size = self.file_info_dict['bit_size']
+            index_length = self.get_index_length(file_size)
             print('### According the file size, recommend index length is:',index_length)
             
             progress_bar = {}
