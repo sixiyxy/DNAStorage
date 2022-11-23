@@ -73,7 +73,6 @@ class ClusterDecode():
                 in_file = self.simulation_dna_file,
                 out_file = self.out_file))
 
-        
         clust_dna_sequences = open(self.out_file).read().splitlines()[1::2]
 
         return clust_dna_sequences
