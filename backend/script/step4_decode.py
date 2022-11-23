@@ -77,6 +77,7 @@ class ClusterDecode():
         print(cmd)
         os.system(cmd)
         cmd = "cut -f 1 {} > {}".format(self.starcode_outfile,self.out_file)
+        os.system(cmd)
         clust_dna_sequences = open(self.out_file).read().splitlines()
 
         return clust_dna_sequences
