@@ -15,7 +15,7 @@ export class DecodeProps {
 }
 
 export const DecodeSetting: React.FC<DecodeProps> = (props) => {
-  const [value, setValue] = useState("cdhit");
+  const [value, setValue] = useState("starcode");
   const [data, setData] = useState();
   const onChange = (e: RadioChangeEvent) => {
     setValue(e.target.value);
@@ -113,14 +113,15 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
           <Card title="Cluster algorithms" headStyle={{ backgroundColor: "#99CCFF" }}>
             <Radio.Group onChange={onChange} value={value}>
               <Space direction="vertical">
+              <Radio value={"starcode"}>
+                  <strong>Starcode: </strong>sequence clustering based on all-pairs search.
+                  Bioinformatics 31.12 (2015): 1913-1919.{" "}
+                </Radio>
                 <Radio value={"cdhit"}>
                   <strong>CD-HIT: </strong>a fast program for clustering and comparing large sets of
                   protein or nucleotide sequences. Bioinformatics 22.13 (2006): 1658-1659.{" "}
                 </Radio>
-                <Radio value={"starcode"}>
-                  <strong>Starcode: </strong>sequence clustering based on all-pairs search.
-                  Bioinformatics 31.12 (2015): 1913-1919.{" "}
-                </Radio>
+                
               </Space>
             </Radio.Group>
             <div className="decode-button-group">

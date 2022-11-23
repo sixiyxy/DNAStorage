@@ -33,6 +33,7 @@ export const Encode = (props) => {
   const [upload100kb, setUpload100] = useState(false); //一开始假设文件都大于100kb
   const [processRes, setprocessRes] = useState({})
   const [Zan,setZan] = useState(false) //其他方法都不能使用zan
+  const [ZanRadio,setZanRadio]=useState(false) //一开始不禁
   useEffect(() => {
     props.setIsSynthesis(false);
   }, []);
@@ -270,7 +271,7 @@ export const Encode = (props) => {
           {/*标题描述*/}
           <p id="upload-p">
             <strong>
-              <FolderAddTwoTone /> Please upload the storage files:
+              <FolderAddTwoTone /> Upload the storage file
             </strong>
           </p>
           {/*文件上传组件*/}
@@ -282,6 +283,7 @@ export const Encode = (props) => {
             setUpload100={setUpload100}
             setFileOver={props.setFileOver}
             setZan={setZan}
+            setZanRadio={setZanRadio}
           />
         </Card>
       </div>
@@ -299,6 +301,8 @@ export const Encode = (props) => {
         setIndex={setIndex}
         Zan={Zan}
         btnflag={btnflag}
+        setZanRadio={setZanRadio}
+        ZanRadio={ZanRadio}
       />
 
       <Sliders

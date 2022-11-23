@@ -46,6 +46,7 @@ const Uploads: React.FC = (props: any) => {
         }
         props.GetFileID(info.file.response.file_uid);
         props.setZan(info.file.response.eight_can)
+        props.setZanRadio(info.file.response.eight_can ? false : true)
         props.FileInfoPass(
           info.file.response.file_uid,
           info.file.response.file_name,
