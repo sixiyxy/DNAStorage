@@ -904,15 +904,16 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           </Card>
           <Card title="Simulation Result" headStyle={{ backgroundColor: "#99CCFF" }}>
             {/* <h3>Sequences Distribution</h3> */}
-            <div style={{padding:"40px 100px 0 50px"}}>
+            <div style={{padding:"100px 150px 0 100px"}}>
+              {/* <h3>Sequences Distribution</h3> */}
               <DualAxes {...dualConfig} />
             </div>
             <div
               style={{
                 textAlign: "justify",
-                fontSize: "17px",
+                
                 color: "#748189",
-                padding:"20px 180px 0 100px"
+                padding:"20px 200px 0 120px"
               }}
             >
               <br></br>
@@ -927,15 +928,17 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           {/* </Card> */}
           {/* <Card> */}
             {/* <h3>Error Counts </h3> */}
-            <div style={{padding:"100px 200px 0 80px"}}>
+            {/* <h3>Error Counts </h3> */}
+            <div style={{padding:"100px 200px 0 100px"}}>
+              
               <Bar {...ErrorDensityConfig} />
             </div>
             <div
               style={{
                 textAlign: "justify",
-                fontSize: "17px",
+                
                 color: "#748189",
-                padding:"20px 180px 50px 100px"
+                padding:"20px 200px 50px 120px"
               }}
             >
               <p>

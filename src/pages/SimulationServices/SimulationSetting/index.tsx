@@ -8,7 +8,7 @@ import { Sampling } from "./Sampling";
 import { Sequencing } from "./Sequencing";
 import axios from "axios";
 import { API_PREFIX } from "../../../common/Config";
-import simu from "../../../assets/service/serviceSimu.png";
+import simu from "../../../assets/service/simuAlone.png";
 import { InboxOutlined } from "@ant-design/icons";
 
 export class SimulationSetProps {
@@ -248,7 +248,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
             <Col span={10}>
               <div style={{ marginLeft: "150px" }} className="summary-img">
                 <Image
-                  width={"100%"}
+                  width={"120%"}
                   // height={"50%"}
                   src={simu}
                 />
