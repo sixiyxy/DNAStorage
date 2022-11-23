@@ -38,6 +38,7 @@ export class SynthesisProps {
   setSAMRUN;
   setSEQRUN
   method1;
+  exmSpinFlag;
 }
 
 export const Synthesis: React.FC<SynthesisProps> = (props) => {
@@ -334,6 +335,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
             </Col>
             <Col span={12}>
               <Card>
+              <Spin size="large" spinning={props.exmSpinFlag}>
                 <div>
                   {noDataTipsShow ? (
                     <Empty
@@ -354,6 +356,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                     </div>
                   )}
                 </div>
+              </Spin>
               </Card>
             </Col>
           </Row>
