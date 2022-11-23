@@ -395,6 +395,7 @@ def download():
     front_data = json.loads(request.data)
     file_uid = front_data['file_uid']
     type = front_data['type']
+    print('### Decoding parameters:',front_data)
     if type == 'encode':
         dna_dir,downfile_name = get_download_path(type='encode',file_uid=file_uid)
         print(dna_dir,downfile_name)
