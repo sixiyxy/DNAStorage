@@ -31,6 +31,7 @@ encoding_methods = {
 class get_progress_bar():
     def __init__(self,file_uid,encode_method,verify_method):
         # methods
+        print('Now used file uid is :{}'.format(file_uid))
         self.encode_method = encode_method
         self.verify_method = verify_method
 
@@ -245,8 +246,8 @@ class Encoding():
                         "final_bit_segments":final_bit_segments,
                         "dna_sequences":dna_sequences,
                         "user_record_dna":record_dna_sequence}
-        elif self.encode_method == 'DNA_Fountain':
-            pass
+        # elif self.encode_method == 'DNA_Fountain':
+        #     pass
 
         else:
             dna_sequences = encode_method.encode(final_bit_segments_copy)
@@ -357,7 +358,7 @@ class Encoding():
                     "encode_method":self.encode_method,
 
                     "verify_code_length":verify_code_length,
-                    "final_bit_segments_length" :final_bit_segments_length,
+                    "final_segment_bit_length" :final_bit_segments_length,
                     "DNA_sequence_length":DNA_sequence_length,
                     
                     "information_density":round(information_density_all/result_number,3),
@@ -378,9 +379,7 @@ class Encoding():
        
         dna_sequences_all = data['dna_sequences']
         # for simulation enerfy
-        write_dna_file(path=self.dna_file,demo_path=self.dna_demo_file,dna_sequences=dna_sequences_all)
-
-        print('#####',len(dna_sequences_all))
+        demo_dna_sequences = write_dna_file(path=self.dna_file,demo_path=self.dna_demo_file,dna_sequences=dna_sequences_all)
         if self.encode_method in encoding_methods:
             # for dowdload file
             download_normal(self.user_download_file,data)
@@ -391,6 +390,9 @@ class Encoding():
             final_bit_sequences = [''.join(list(map(str,i))) for i in final_bit_segments_all]
             dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences_all]
             save_decode_file(self.decode_file,index_ori_bit_sequences,final_bit_sequences,dna_sequences)
+            
+            info['verify_code_length'] = '{} Bits'.format(info['verify_code_length'])
+            info['final_segment_bit_length'] = '{} Bits'.format(info['final_segment_bit_length'])
         elif self.encode_method == 'SrcCode':
             # for download file
             original_chracter_segments = data['original_bit_segments']
@@ -408,18 +410,21 @@ class Encoding():
         info["encoding_time"]=run_time
 
         # plot data
-        gc_data,homo_data = gc_homo(dna_sequences_all)
+        gc_data,homo_data = gc_homo(demo_dna_sequences)
         info['gc_data'] = gc_data
         info['homo_data'] = homo_data
+        print('### get GC plot and repeated length plot data, Done !')
+
         # energy_info = add_min_free_energydata(self.min_free_energy_tools,
         #                                     self.dna_demo_file,
         #                                     self.free_enerfy_file)
         # info['min_free_energy'] = energy_info['min_free_energy'] 
         # info['min_free_energy_below_30kcal_mol'] = energy_info['min_free_energy_below_30kcal_mol']
         # info['energy_plot']=energy_info['energy_plot']
+        # print('### Free energy plot data, Done !')
         
         # format data
-        filebytes = info['byte_size']
+        # filebytes = info['byte_size']
         # filebytes_kb = filebytes/1024
         # filebytes_mb = filebytes_kb/1024
         physical_information_density_ug = '{} petabyte/gram'.format('%.2E'%Decimal(info['physical_information_density_ug'])),
@@ -427,13 +432,14 @@ class Encoding():
         info['physical_information_density_g'] = physical_information_density_g
         info['physical_information_density_ug'] = physical_information_density_ug
         info = write_yaml(yaml_path=self.file_info_path,data=info,appending=True)
+        
         return info
 
     def parallel_run(self):
         file_data = fromfile(file=self.file_path, dtype=uint8)
         file_size = file_data.shape[0]
         start_time = datetime.now()
-
+        print('### Encoding star!')
         ### parallel run 7 method
         if self.encode_method in encoding_methods:
             file_data = fromfile(file=self.file_path, dtype=uint8)
@@ -447,6 +453,8 @@ class Encoding():
             else:
                 record_info,record_data = self.encoding_normal(file_data)
             run_time = (datetime.now() - start_time).total_seconds()
+            print('### Encoding done,now anaysis plto data(GC content,energy plot..)!')
+
             record_info = self.record_file(record_info,record_data,run_time)
         ### txt method
         elif self.encode_method == 'SrcCode':
@@ -476,6 +484,8 @@ class Encoding():
                     "byte_size":file_size,
                     "segment_length":self.segment_length,
                     "index_length":self.index_length,
+                    "verify_code_length":"None",
+                    "final_bit_segments_length" :"None",
                     "segment_number":len(original_charater_list),
                     "DNA_sequence_length":len(dna_sequences[0]),
                     "nucleotide_counts":sum(map(len,dna_sequences)),
@@ -496,7 +506,8 @@ class Encoding():
             record_info = 'None'
         else:
             record_info = 'None'
-            return "make sure encode method is right!"     
+            return "make sure encode method is right!"    
+        print('### Front data is ready, Done!')
         print(record_info)
         return record_info
 
