@@ -31,9 +31,11 @@ class ClusterDecode():
         self.simulation_dna_file = '{}/{}.fasta'.format(self.simulation_dir,self.file_uid)
         self.out_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
         self.starcode = self.config['starcode']
+        # self.starcode = '/Users/jianglikun/VScode/starcode/starcode'
         self.cdhit = self.config['cdhit']
 
         # decode
+        self.starcode_outfile = '{}/{}_mid.fasta'.format(self.out_dir,self.file_uid)
         self.out_file = '{}/{}.fasta'.format(self.out_dir,self.file_uid)
         self.index_length =  self.file_info_dict['index_length']
         self.verify_method = verify_methods[self.file_info_dict['verify_method']]
@@ -56,24 +58,26 @@ class ClusterDecode():
         
 
     def method_cdhit(self):
-        os.system('{tool} -T {threads} -c 0.99 -i {in_file} -o {out_file} '.format(
+        cmd = '{tool} -T {threads} -c 0.99 -i {in_file} -o {out_file} '.format(
             tool = self.cdhit, 
             threads = 16,
             in_file = self.simulation_dna_file,
-            out_file = self.out_file))
+            out_file = self.out_file)
+        os.system(cmd)
         clust_dna_sequences = open(self.out_file).read().splitlines()[1::2]
 
         return clust_dna_sequences
         
     def method_starcode(self):
-
-        os.system('{tool} -d 4 -s -t {threads} -i {in_file} -o {out_file}'.format(
+        cmd = '{tool} -d 4 -s -t {threads} -i {in_file} -o {out_file}'.format(
                 tool = self.starcode,
                 threads = self.threads,
                 in_file = self.simulation_dna_file,
-                out_file = self.out_file))
-
-        clust_dna_sequences = open(self.out_file).read().splitlines()[1::2]
+                out_file = self.starcode_outfile)
+        print(cmd)
+        os.system(cmd)
+        cmd = "cut -f 1 {} > {}".format(self.starcode_outfile,self.out_file)
+        clust_dna_sequences = open(self.out_file).read().splitlines()
 
         return clust_dna_sequences
 
@@ -104,7 +108,7 @@ class ClusterDecode():
         clust_dna_sequences = self.run_clust()
         clust_dna_sequences_list = [list(i) for i in clust_dna_sequences]
         clust_time = (datetime.now() - start_time).total_seconds()
-        clust_time = '%.3f'%(clust_time)
+        clust_time = '%.2f s'%(clust_time)
 
         # report dna sequence
         encoding_dna_sequences_set = set(encode_dna_sequences)
@@ -126,10 +130,10 @@ class ClusterDecode():
         encode_bit_segment_str = set(encode_bit_segment)
         in_label = len(decode_bit_segments_str&encode_bit_segment_str)
         if decode_bit_segments_length == encode_bit_segments_length and in_label>0:
-            print('#'*10,'decode success!!!')
+            print('###','decode success!!!')
 
         decoding_time = decode_result['t']
-        decoding_time = '%.3f'%(decoding_time)
+        decoding_time = '%.2f s'%(decoding_time)
 
         print(self.verify_method,'####')
         # remove verify code
@@ -149,7 +153,7 @@ class ClusterDecode():
         decode_remove_verify_len = len(verified_segments[0])
         encode_index_payload_len = len(encode_index_payload[0])
         if decode_remove_verify_len == encode_index_payload_len:
-            print('#'*10,'remove verify code success!!!')
+            print('###','remove verify code success!!!')
 
         # remove index
         # indices, decode_payload = remove_index(verified_segments, self.index_length, True)

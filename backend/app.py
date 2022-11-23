@@ -380,6 +380,7 @@ def decode():
     front_data = json.loads(front_data)
     file_uid = front_data['file_uid'] 
     clust_method = front_data['clust_method']
+    print('### Decode parameters is:',front_data)
 
     Decode_obj = ClusterDecode(file_uid = file_uid,clust_method= clust_method)
     decode_info = Decode_obj.decode_stat()
