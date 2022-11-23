@@ -26,7 +26,7 @@ export class SequencingProps {
   response;
   setSEQRUN;
   seqrun;
-  
+  exmSpinFlag;
 }
 
 export const Sequencing: React.FC<SequencingProps> = (props) => {
@@ -254,6 +254,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
           </Col>
           <Col span={12}>
             <Card>
+            <Spin size="large" spinning={props.exmSpinFlag}>
               {/* <div>
                 After Sequencing simulation, the situation of oligonucleotides pool as follows:
               </div> */}
@@ -279,6 +280,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                   </div>
                 )}
               </div>
+              </Spin>
             </Card>
           </Col>
         </Row>

@@ -35,6 +35,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const [sequencingData, setSequenceingData] = useState();
   const [errorRecoder, setErrorRecode] = useState();
   const [errorDensity, setErrorDensity] = useState();
+  const [strand,setStrand] = useState(0)
   //处理函数
   const monthChange = (value: number) => {
     if (isNaN(value)) {
@@ -72,6 +73,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       setSequenceingData(resp.SEQ);
       setErrorRecode(resp.Error_Recorder);
       setErrorDensity(resp.Error_Density);
+      setStrand(resp.Strand_Count)
       setLoading(false);
     }
 
@@ -801,7 +803,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       </div>
       <div className="simulation-report-content-wrapper">
         <Spin tip="Loading..." size="large" spinning={spinflag}>
-          <Card>
+          <Card title="Stage summary" headStyle={{ backgroundColor: "#99CCFF" }}>
             <Tabs defaultActiveKey="1" size={"large"}>
               <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined}>
                 <div className="TabSYN">
@@ -900,9 +902,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               </Tabs.TabPane>
             </Tabs>
           </Card>
-          <Card>
-            <h3>Sequences Distribution</h3>
-            <div style={{padding:"40px 50px 0 50px"}}>
+          <Card title="Simulation Result" headStyle={{ backgroundColor: "#99CCFF" }}>
+            {/* <h3>Sequences Distribution</h3> */}
+            <div style={{padding:"40px 100px 0 50px"}}>
               <DualAxes {...dualConfig} />
             </div>
             <div
@@ -910,9 +912,11 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 textAlign: "justify",
                 fontSize: "17px",
                 color: "#748189",
-                padding:"20px 100px 0 100px"
+                padding:"20px 180px 0 100px"
               }}
             >
+              <br></br>
+              <strong>After simulation, the number of strands in oligo pool is : {strand}</strong><br></br><br></br>
               During the whole process, the number of sequences, causes of erors and proposrtions of
               different types of errors change from time to time. Therefore, we counted and compared
               the numbers of DNA strands with errors and the left 100% correct DNA strands for each
@@ -920,10 +924,10 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               that contained different types of errors using line chart. Since the difference
               between the data is too large, each data y here is percented using ln(y).
             </div>
-          </Card>
-          <Card>
-            <h3>Error Counts </h3>
-            <div style={{padding:"40px 100px 0 50px"}}>
+          {/* </Card> */}
+          {/* <Card> */}
+            {/* <h3>Error Counts </h3> */}
+            <div style={{padding:"100px 200px 0 80px"}}>
               <Bar {...ErrorDensityConfig} />
             </div>
             <div
@@ -931,7 +935,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 textAlign: "justify",
                 fontSize: "17px",
                 color: "#748189",
-                padding:"20px 100px 0 100px"
+                padding:"20px 180px 50px 100px"
               }}
             >
               <p>

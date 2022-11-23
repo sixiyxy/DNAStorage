@@ -17,7 +17,7 @@ export class SimulationSetProps {
   // 未使用到的入参，暂时以 ? 形式保留，若无需使用应予以移除
   setIsSynthesis?;
   setFileId?;
-  setclickEXM?;
+  // setclickEXM?;
   setIsdisabled?;
   needUploader: boolean;
   clickEXM?;
@@ -32,6 +32,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [pcrFlag, setPcrFlag] = useState(true);
   const [sampleFlag, setSampleFlag] = useState(true);
   const [sequenceFlag, setSequenceFlag] = useState(true);
+  const [exmSpinFlag,setexmSpinFlag] = useState(false)
   // 未使用的变量：alreadyChose，暂予以注释，同时 Choose 拼写有误，确认无用后移除
   // const [alreadyChose, setAlreadyChose] = useState(false);
   const [dis0, setDis0] = useState(false);
@@ -117,6 +118,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   };
 
   const handleEXM = () => {
+    setexmSpinFlag(true)
     method = [true, true, true, true];
     //点击Example后按钮全部禁掉 默认id"1582175684011364352"
     setOkFlag(true);
@@ -129,12 +131,13 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setDis2(true);
     setDis3(true);
     setDis4(true);
-    props.setclickEXM(true);
-    props.setFileId("1582175684011364352");
+    // props.setclickEXM(true);
+    props.setFileId("1565536927137009664");
     //控制每个步骤的useEffect
     console.log("开始请求");
     axios.post(API_PREFIX + "/example", paramExm).then(function (response) {
       console.log("请求中");
+      setexmSpinFlag(false)
       console.log("example-simu", response);
       setEffct1(true);
       setEffct2(true);
@@ -228,7 +231,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
               </div>
             </Col>
             <Col span={10}>
-              <div style={{ marginLeft: "150px" }} className="summary-img">
+              <div style={{ marginLeft: "150px"}} className="summary-img">
                 <Image
                   width={"130%"}
                   // height={"50%"}
@@ -364,6 +367,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSAMRUN={setSAMRUN}
           setSEQRUN={setSEQRUN}
           method1={method}
+          exmSpinFlag={exmSpinFlag}
         />
         <Decay
           fileId={props.fileId}
@@ -377,6 +381,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSAMRUN={setSAMRUN}
           setSEQRUN={setSEQRUN}
           method1={method}
+          exmSpinFlag={exmSpinFlag}
         />
         <Pcr
           fileId={props.fileId}
@@ -389,6 +394,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSAMRUN={setSAMRUN}
           setSEQRUN={setSEQRUN}
           method1={method}
+          exmSpinFlag={exmSpinFlag}
         />
         <Sampling
           fileId={props.fileId}
@@ -400,6 +406,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           samrun={samrun}
           setSEQRUN={setSEQRUN}
           method1={method}
+          exmSpinFlag={exmSpinFlag}
+          pcrFlag={pcrFlag}
         />
         <Sequencing
           fileId={props.fileId}
@@ -409,6 +417,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           response={response}
           setSEQRUN={setSEQRUN}
           seqrun={seqrun}
+          exmSpinFlag={exmSpinFlag}
         />
       </div>
       <div className="simulation-setting-footer-buttons">
