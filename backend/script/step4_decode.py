@@ -31,8 +31,8 @@ class ClusterDecode():
         self.simulation_dna_file = '{}/{}.fasta'.format(self.simulation_dir,self.file_uid)
         self.out_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
         self.starcode = self.config['starcode']
-        # self.starcode = '/Users/jianglikun/VScode/starcode/starcode'
-        self.cdhit = self.config['cdhit']
+        self.starcode = '/Users/jianglikun/VScode/starcode/starcode'
+        # self.cdhit = self.config['cdhit']
 
         # decode
         self.starcode_outfile = '{}/{}_mid.fasta'.format(self.out_dir,self.file_uid)
@@ -119,24 +119,29 @@ class ClusterDecode():
         right_dna_rate = str(round(right_dna_number/len(encoding_dna_sequences_set)*100,2)) + '%'
 
         # dna to 01
-        print(len(clust_dna_sequences_list),len(clust_dna_sequences_list[0]))
+        print(len(encode_bit_segment),len(clust_dna_sequences_list),len(clust_dna_sequences_list[0]))
+        if self.file_info_dict['encode_method'] == "DNA_Fountain":
+            self.decode_method =DNAFountain(decode_packets=len(encode_bit_segment),need_logs=False)
+
         decode_result = self.decode_method.carbon_to_silicon(clust_dna_sequences_list,)
         decode_bit_segments = decode_result['bit']
-
-        decode_bit_segments_length = len(decode_bit_segments[0])
-        encode_bit_segments_length = len(encode_bit_segment[0])
+        print(decode_bit_segments)
+        # decode_bit_segments_length = len(decode_bit_segments[0])
+        # encode_bit_segments_length = len(encode_bit_segment[0])
 
         decode_bit_segments_str = [''.join(list(map(str,i))) for i in decode_bit_segments]
         decode_bit_segments_str = set(decode_bit_segments_str)
         encode_bit_segment_str = set(encode_bit_segment)
+
         in_label = len(decode_bit_segments_str&encode_bit_segment_str)
-        if decode_bit_segments_length == encode_bit_segments_length and in_label>0:
-            print('###','decode success!!!')
+        if in_label>0:
+            print('### decode success!!!')
+        else:
+            print('### decode failed!!!')
 
         decoding_time = decode_result['t']
         decoding_time = '%.2f s'%(decoding_time)
 
-        print(self.verify_method,'####')
         # remove verify code
         if self.verify_method == False:
             error_rate = 0
@@ -170,7 +175,6 @@ class ClusterDecode():
         recall_bits_rate=  round((len(recall_bits)/len(encode_bits))*100,2)
         error_bits_number = len(decode_bits) -  len(recall_bits)
         error_bits_rate = str(round(error_bits_number/len(decode_bits) * 100, 2)) + "%"
-
 
         # record
         record_info = {"decode_time":decoding_time,
