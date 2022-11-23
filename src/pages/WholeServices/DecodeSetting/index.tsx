@@ -73,10 +73,9 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
             <div className="decode-button-group">
                 <div className="whole-summary-word" >
                   <p>
-                  In the last stage of DNA storage process, we need to decode the DNA sequences
-                  according to the reverse process of the encoding roles. However，DNA strands
-                  obtained by sequencing usually have random errors(insert\indel\SNV, we have
-                  simulated this). So, we designed two clustering algorithms, CD-HIT and Starcode,
+                  In this last stage, we need to decode the DNA sequences
+                  according to the reverse rules of the encoding ones. However，DNA strands obtained in this stage usually have random errors(insert\indel\SNV, we have
+                  simulated this). So, we embedded two clustering algorithms, CD-HIT and Starcode,
                   to remove de-redundancy and correct the data. Then, the clustered
                   sequences will be decoded to obtain bits fragments.
                   Subsequently, the bits fragments will be removed from the verification code and
