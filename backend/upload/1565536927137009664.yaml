@@ -2,6 +2,7 @@ file_name: upload_test_picture.jpg
 file_rename: 1565536927137009664_upload_test_picture.jpg
 file_type: picture
 file_uid: 1565536927137009664
+upload_file_size: 97530
 bit_size: 780320
 byte_size: 97530
 encode_method: Basic

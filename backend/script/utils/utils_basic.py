@@ -78,8 +78,8 @@ def write_dna_file(path,demo_path, dna_sequences):
         with open(demo_path, "a+") as demo_file:
             for index, dna_sequence in enumerate(demo_dna_sequences):
                 demo_file.write("".join(dna_sequence) + "\n")
-        print("Write 1000 demo DNA sequences to file: " + path + '\n')
-    return True
+        print("### Write 1000 demo DNA sequences for Simulation:\n {} ".format(path))
+    return demo_dna_sequences
 
 def get_download_path(type,file_uid):
     current_dir = os.getcwd()

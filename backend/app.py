@@ -53,7 +53,7 @@ def file_upload():
                 'upload_file_size':os.path.getsize(save_dir),
                 'file_type':filetype,
                 'eight_can':label}
-    print('upload file info:',file_base_info)
+    print('### Upload file info:',file_base_info)
     yaml_file = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
     write_yaml(yaml_path=yaml_file,data=file_base_info,appending=False)
 
@@ -87,7 +87,7 @@ def file_encode():
 
     front_data = request.data
     front_data = json.loads(front_data)
-    print('Encoding parameters:',front_data)
+    print('### Encoding parameters:',front_data)
     #### Postman test json ####
     # {"file_uid":1565237658387615744,
     # "segment_length":160,
