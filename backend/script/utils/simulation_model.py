@@ -130,7 +130,7 @@ class Sequencer_simu:
         
         average_copies = sum(rNs) / len(rNs)
         try:
-            ratio = max(self.seq_depth / average_copies,1) #in case too big
+            ratio = min(self.seq_depth / average_copies,1) #in case too big
         except:
             ratio=0
         dnas = Sampler_simu(p=ratio)(dnas)
