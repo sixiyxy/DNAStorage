@@ -171,10 +171,16 @@ class PCRer_simu:
     def distribution(self, ori):
         assert ori >= 0
         p = np.random.uniform(self.p - self.pBias, self.p + self.pBias)  # 左闭右开，随机采样
+        if p>=1:
+            return ori
+            
         N = self.N
         u0 = (1 + p) ** N
         sigma0 = np.sqrt((1 - p) / (1 + p) * ((1 + p) ** (2 * N) - (1 + p) ** N))
+        
         return max(int(np.random.normal(u0 * ori, sigma0 * sqrt(ori))), 0)  # 从高斯分布中随机抽取样本，最小为0
+        
+
 
     def run(self, re_dnas,error_recorder):
         out = []

@@ -245,6 +245,7 @@ def get_simu_repo(file_uid,upload_flag):
         dnas,error_recorder,error_density_final=parallel(simu_dna,funcs,funcs_name)
         simu_repo["Error_Recorder"]=error_recorder
         simu_repo["Error_Density"]=error_density_final
+        
 
         config = get_config(yaml_path='config')
         backend_dir = config['backend_dir']
@@ -258,7 +259,7 @@ def get_simu_repo(file_uid,upload_flag):
                             f.write('>'+str(index)+"|"+str(re[1])+"\n") #index | errors
                             f.write(str(re[2])+"\n") # dna sequence
                             index+=1
-                        
+        simu_repo["Strand_Count"]=index
         print(simu_repo)
         return simu_repo
 
@@ -345,7 +346,7 @@ def parallel(simu_dna,funcs,funcs_names):
             cut=50
         t1 = time.time()
         cut_file_list = cut_file(simu_dna,cut)
-        thread=32
+        thread=8
         with Pool(thread) as pool:
                 r = list(tqdm(pool.starmap(funcs_parallel,[(funcs,item) for item in cut_file_list])))   
                 pool.close()

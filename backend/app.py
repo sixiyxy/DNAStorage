@@ -135,10 +135,14 @@ def dna_upload():
                 if i[0]=='>':
                     strand_count+=1
         print("strand_count",strand_count)
-        if strand_count>=200000:
-            json={"overCount":True}
+
+        if strand_count>=200000: 
+            file_basic_info={"file_uid":file_uid,
+                "overCount":True}
             os.remove(ori_save_dir)
-            return json.jumps(json)
+            print(file_basic_info)
+            return json.dumps(file_basic_info)
+
         if strand_count>150000:
             time=True
         else:
@@ -156,9 +160,12 @@ def dna_upload():
 
         return json.dumps(file_basic_info)
     else:
-        json={"format":False}
+        file_basic_info={
+            "file_uid":file_uid,
+            "format":False
+            }
         os.remove(ori_save_dir)
-        return json.jumps(json)
+        return json.dumps(file_basic_info)
 
 #now_simu=Simu()
 @app.route('/simu_synthesis',methods=['GET','POST'])
@@ -398,7 +405,7 @@ def download():
         response = send_from_directory(dna_dir,downfile_name.encode('utf-8').decode('utf-8'),as_attachment=True)
         return response
     else:
-        return "Please make sure the uid has been encode or simulation!"
+        return "Please make sure the uid has been encoded or simulated!"
 
 @app.route('/example',methods=['GET','POST'])
 def example():
