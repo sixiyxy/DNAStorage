@@ -42,7 +42,7 @@ export const Encode = (props) => {
     setSeg(Zan? 0 : Number(Object.keys(processRes.bar ? processRes.bar : {80:' '} )[1]))
     SetSegvalue(Number(Object.keys(processRes.bar ? processRes.bar : {80:' '} )[1]))
   },[processRes,Zan])
-  console.log('承载方法列表组件的父组件的ID',props.fileId);
+  
   const GCPass = (param1) => {
     props.setGC(param1);
   };

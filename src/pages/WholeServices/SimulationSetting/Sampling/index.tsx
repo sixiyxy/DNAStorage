@@ -16,9 +16,12 @@ export class SamplingProps {
   samrun;
   setSEQRUN;
   method1;
+  exmSpinFlag;
+  pcrFlag
 }
 
 export const Sampling: React.FC<SamplingProps> = (props) => {
+  // console.log(props.pcrFlag);
   const [samplingRatio, setSamplingRatio] = useState(0.005);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
   const [hrefLink, setHrefLink] = useState([]);
@@ -30,7 +33,12 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   const [loading, setLoading] = useState(false);
   const [alreadyRun, setAlreadyRun] = useState(false);
   const [group, setGroup] = useState();
-
+  useEffect(() => {
+    if (!props.pcrFlag){
+      setSamplingRatio(0.5)
+    }
+  }, [props.pcrFlag]);
+  
   //处理函数
   const lossChange = (value: number) => {
     if (isNaN(value)) {
@@ -216,9 +224,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
           </Col>
           <Col span={12}>
             <Card>
-              {/* <div>
-                After PCR simulation, the situation of oligonucleotides pool as follows:
-              </div> */}
+            <Spin size="large" spinning={props.exmSpinFlag}>
               <div>
                 {noDataTipsShow ? (
                   <Empty
@@ -241,6 +247,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
                   </div>
                 )}
               </div>
+              </Spin>
             </Card>
           </Col>
           <div className="common-masker" hidden={show}/>

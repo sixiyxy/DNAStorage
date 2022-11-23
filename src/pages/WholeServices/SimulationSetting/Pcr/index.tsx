@@ -29,7 +29,7 @@ export class PcrProps {
   setSAMRUN;
   setSEQRUN;
   method1;
-
+  exmSpinFlag;
 }
 
 export const Pcr: React.FC<PcrProps> = (props) => {
@@ -357,10 +357,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
           </Col>
           <Col span={12}>
             <Card>
-              {/* <div>
-                After Decay simulation, the situation of oligonucleotides pool as
-                follows:
-              </div> */}
+            <Spin size="large" spinning={props.exmSpinFlag}>
               <div>
                 {noDataTipsShow ? (
                   <Empty
@@ -383,6 +380,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
                   </div>
                 )}
               </div>
+              </Spin>
             </Card>
           </Col>
         </Row>

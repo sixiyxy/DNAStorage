@@ -979,6 +979,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 padding:"20px 100px 0 100px"
               }}
             >
+              <strong>After simulation, the number of strands in oligo pool is : {errorRecoder?.Strand_Count}</strong>
               During the whole process, the number of sequences, causes of erors and proposrtions of
               different types of errors change from time to time. Therefore, we counted and compared
               the numbers of DNA strands with errors and the left 100% correct DNA strands for each
