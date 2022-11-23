@@ -6,6 +6,7 @@ import math
 import numpy
 from re import search
 from datetime import datetime
+from collections import defaultdict
 from .utils_basic import Monitor
 from .encoding_method_rule import *
 
@@ -275,8 +276,7 @@ class Goldman(AbstractCodingAlgorithm):
                     last_nucleotide = nucleotide
 
                 temp_ternary, bit_segment = "", []
-                print(ternary_segment)
-                break
+                
                 for value in ternary_segment:
                     temp_ternary += str(value)
                     if temp_ternary in self.huffman_tree:
@@ -618,7 +618,6 @@ class DNAFountain(AbstractCodingAlgorithm):
         # final_count = math.ceil(len(bit_segments) * (1 + self.redundancy))
         final_count = math.ceil(len(bit_segments) * (1 + 0))
 
-        # print('penquan',final_count)
 
         # things related to random number generator, starting an lfsr with a certain state and a polynomial for 32bits.
         lfsr = DNAFountain.LFSR().lfsr_s_p()
@@ -680,7 +679,7 @@ class DNAFountain(AbstractCodingAlgorithm):
         # creating the solition distribution object
         self.prng = DNAFountain.PRNG(number=self.decode_packets, delta=self.delta, c=self.c_dist)
 
-        bit_segments = [None] * self.decode_packets
+        bit_segments = [[1]] * self.decode_packets
         done_segments = set()
         chunk_to_droplets = defaultdict(set)
 
@@ -699,8 +698,8 @@ class DNAFountain(AbstractCodingAlgorithm):
             if len(done_segments) == self.decode_packets:
                 break
 
-        if None in bit_segments or self.decode_packets - len(done_segments) > 0:
-            raise ValueError("Couldn't decode the whole file, because some bit segments are not recovered!")
+        # if None in bit_segments or self.decode_packets - len(done_segments) > 0:
+        #     raise ValueError("Couldn't decode the whole file, because some bit segments are not recovered!")
 
         return bit_segments
 
