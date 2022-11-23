@@ -391,8 +391,8 @@ class Encoding():
             dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences_all]
             save_decode_file(self.decode_file,index_ori_bit_sequences,final_bit_sequences,dna_sequences)
             
-            info['verify_code_length'] = '{} Bits'.format(info['verify_code_length'])
-            info['final_segment_bit_length'] = '{} Bits'.format(info['final_segment_bit_length'])
+            info['verify_code_length'] = '{} bits'.format(info['verify_code_length'])
+            info['final_segment_bit_length'] = '{} bits'.format(info['final_segment_bit_length'])
         elif self.encode_method == 'SrcCode':
             # for download file
             original_chracter_segments = data['original_bit_segments']
