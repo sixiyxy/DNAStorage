@@ -24,7 +24,7 @@ class ClusterDecode():
         self.file_dir = '{}/{}'.format(self.backend_dir,self.config['file_save_dir'])
         self.file_info_path = '{}/{}.yaml'.format(self.file_dir,file_uid)
         self.file_info_dict = get_config(yaml_path=self.file_info_path)
-        self.threas = self.config['threads']
+        self.threads = self.config['threads']
 
         # cluster
         self.simulation_dir = '{}/{}'.format(self.backend_dir,self.config['simulation_dir'])
@@ -57,7 +57,8 @@ class ClusterDecode():
 
     def method_cdhit(self):
         os.system('{tool} -T {threads} -c 0.99 -i {in_file} -o {out_file} '.format(
-            tool = self.cdhit, threads = 16,
+            tool = self.cdhit, 
+            threads = 16,
             in_file = self.simulation_dna_file,
             out_file = self.out_file))
         clust_dna_sequences = open(self.out_file).read().splitlines()[1::2]
