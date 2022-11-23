@@ -1,4 +1,4 @@
-import { Button, Card, Image, Row, Col, Upload, message,Breadcrumb,notification} from "antd";
+import { Button, Card, Image, Row, Col, Upload, message,Breadcrumb,notification,Modal} from "antd";
 import React, { useState, useEffect } from "react";
 import "./index.less";
 import { Synthesis } from "./Synthesis";
@@ -21,6 +21,7 @@ export class SimulationSetProps {
   setIsdisabled?;
   needUploader: boolean;
   clickEXM?;
+  setTime;
 }
 
 let method = [false, false, false, false]; //存放选择的方法
@@ -56,6 +57,13 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [seqrun, setSEQRUN] = useState(true);
   //控制OK回弹按钮
   const [SimuOK,setSimuOK] = useState(false) //默认还没有上传文件
+  //文件是不是fasta
+  // const [isFastaText,setFasta] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [changeTxt,setChangeTxt]=useState(false)
+  
+  var format = true
+  var overCount = false
   const { Dragger } = Upload;
   useEffect(() => {
     if (props.setIsdisabled) {
@@ -63,6 +71,20 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     }
     props.setclickEXM(false);
   }, []);
+  // useEffect(()=>{
+  //   if(!isFastaText){
+  //     //刷新页面，提示重新上传
+  //     const handleOk = () => {
+  //       setIsModalOpen(false);
+  //       window.location.reload();
+  //     };
+  //     <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk}>
+  //       <p>Some contents...</p>
+  //       <p>Some contents...</p>
+  //       <p>Some contents...</p>
+  //     </Modal>
+  //   }
+  // },[isFastaText])
   const paramExm = {
     type: "simulation",
   };
@@ -148,7 +170,11 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       setRes(response.data);
     });
   };
-
+  
+  const handleOk1 = () => {
+    setIsModalOpen(false); 
+    window.location.reload();
+  }
   console.log(okFlag, decayFlag, pcrFlag, sampleFlag, sequenceFlag);
   console.log("method", method);
   const uploadProps = {
@@ -163,10 +189,29 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
         console.log(info.file, info.fileList);
       }
       if (status === "done") {
+        // setFasta(response.format)
+        if(response.format!= undefined)
+        {
+        format = response.format
+      } //原始值true
+        if (response.overCount != undefined)
+        {
+          setChangeTxt(true)
+        overCount = response.overCount
+        } //原始值false
+        console.log('format',format);
+        console.log('overCount',overCount);
+        
+        if(!format || overCount){
+          console.log('格式不对，刷新页面');
+          setIsModalOpen(true)
+        }else{
         props.setFileId(response.file_uid);
+        props.setTime(response.time)
         setSimuOK(true)
         setIsOkDisable(false);
         message.success(`${info.file.name} file uploaded successfully.`);
+      }
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
       }
@@ -206,6 +251,19 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   };
   return (
     <div className="page-simulation-setting">
+      <Modal title="Warning" 
+      visible={isModalOpen} 
+      onOk={handleOk1} 
+      closable={false} 
+      footer={[
+        <Button key="back" onClick={handleOk1}>
+          OK
+        </Button>
+      ]}
+      >
+        
+         <p>{changeTxt ? 'You have uploaded too many Fasta files to process, please upload again!' : 'The file you uploaded is not in Fasta format, please upload again!'}</p>
+       </Modal>
       {/*头部 Card 部分*/}
       <div>
       <Card>
