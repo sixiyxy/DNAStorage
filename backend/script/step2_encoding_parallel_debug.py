@@ -233,7 +233,7 @@ class Encoding():
             fail_segemnt_number = len(fail_list)
             successful_bit_size = bit_size - self.segment_length*fail_segemnt_number
             successful_byte_size = byte_size - (self.segment_length/8)* fail_segemnt_number
-            print('#### fail encoding number is {} !'.format(len(fail_list)))
+            print('### fail encoding number is {} !'.format(len(fail_list)))
 
             for id in fail_list:
                 print('#### fail encoding number is {} !'.format(len(fail_list)))
