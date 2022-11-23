@@ -115,7 +115,7 @@ export const Encode = (props) => {
 
     // const body = params1;
 
-    const resp = await doPost("/encode", { body: param1 });
+    const resp = await doPost("/encode", { body: params1 });
     console.log("Encode-response: ", resp);
     console.log("Encode-response: ", typeof resp.min_free_energy_below_30kcal_mol);
     InfoPass1(

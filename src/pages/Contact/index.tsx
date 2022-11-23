@@ -4,11 +4,11 @@ import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Image } from 'antd';
 import { Breadcrumb } from 'antd';
-import logo from '/src/assets/contact/professor-img-3.png';
-import jlk from '/src/assets/contact/jlk.jpg';
-import yxy from '/src/assets/contact/yxy.jpg';
-import rxr from '/src/assets/contact/rxr.jpg';
-import zzy from '/src/assets/contact/zzy.jpg';
+import logo from '../../assets/contact/logo.png';
+import jlk from '../../assets/contact/jlk.jpg';
+import yxy from '../../assets/contact/yxy.jpg';
+import rxr from '../../assets/contact/rxr.jpg';
+import zzy from '../../assets/contact/zzy.jpg';
 import {
   Col,
   Row

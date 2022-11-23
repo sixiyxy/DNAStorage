@@ -50,7 +50,7 @@ def file_upload():
     file_base_info = {'file_uid':file_uid,
                 'file_name':filename,
                 'file_rename':file_rename,
-                'upload_file_szie':os.path.getsize(save_dir),
+                'upload_file_size':os.path.getsize(save_dir),
                 'file_type':filetype,
                 'eight_can':label}
     print('upload file info:',file_base_info)

@@ -98,7 +98,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "1",
       name1: "Encode method",
-      value1: props.info.encode_method,
+      value1: props.info.encode_method ? props.info.encode_method:'None',
     },
     {
       key: "2",
@@ -113,7 +113,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "4",
       name1: "Verify method",
-      value1: props.info.verify_method,
+      value1: props.info.verify_method ? props.info.verify_method : 'None',
     },
     {
       key: "5",

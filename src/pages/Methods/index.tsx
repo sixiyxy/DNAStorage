@@ -5,7 +5,17 @@ import { Anchor } from 'antd';
 import { useEffect, useState } from 'react';
 import { Breadcrumb } from 'antd';
 import { Image } from 'antd';
-
+import yinyang from '../../assets/methods/yinyang.png'
+import dnafountain from '../../assets/methods/dnafountain.png'
+import dnainfo from '../../assets/methods/dnainfo.png'
+import nick from '../../assets/methods/nick.png'
+import reedsolomon from '../../assets/methods/reedsolomon.png'
+import forwarderror from '../../assets/methods/forwarderror.png'
+import hierarchical from '../../assets/methods/hierarchical.png'
+import synthesis from '../../assets/methods/synthesis.png'
+import decay from '../../assets/methods/decay.png'
+import invitro from '../../assets/methods/invitro.png'
+import sequencing from '../../assets/methods/sequencing.png'
 import {
   ContainerTwoTone,
 } from '@ant-design/icons';
@@ -70,7 +80,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               which uses two rules to encode two binary bits into one double-stranded DNA molecule,
               to generate DNA sequences that are highly compatible with synthesis and sequencing technologies.
               </p>
-              <Image src="/src/assets/methods/yinyang.png" width={"70%"} rootClassName="image"/>
+              <Image src={yinyang} width={"70%"} rootClassName="image"/>
 
               <p className="text-content"><strong>Paper: </strong>
               Ping, Z., Chen, S., Zhou, G., Huang, X., Zhu, S. J., Zhang, H., ... &Shen, Y. (2022).
@@ -85,7 +95,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <p className="text-content"> Erlich and Zielinski present <i>DNA Fountain</i>,
               which approaches the theoretical maximum for information stored per nucleotide.
               </p>
-              <Image src="/src/assets/methods/dnafountain.png"  width={"70%"} rootClassName="image"/>
+              <Image src={dnafountain}  width={"70%"} rootClassName="image"/>
 
               <p className="text-content"><strong>Paper: </strong>
               Erlich, Yaniv, and Dina Zielinski.
@@ -103,7 +113,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               to problems like extreme GC content, repeats, and secondary structure flexibly.
               It also splits the bit stream into addressed data blocks that eliminate the need for long DNA constructs.
               </p>
-              <Image src="/src/assets/methods/dnainfo.png"  width={"70%"} rootClassName="image" />
+              <Image src={dnainfo}  width={"70%"} rootClassName="image" />
               <p className="text-content"><strong>Paper: </strong>
               Church, G. M., Gao, Y., &Kosuri, S. (2012).
               <i><strong> Next-generation digital information storage in DNA. </strong></i>
@@ -120,7 +130,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               Then, each segment was augmented with indexing information that permitted the determination of the file from which it originated and its location within
               that file, and simple parity-check error detection.
               </p>
-              <Image src="/src/assets/methods/nick.png"  width={"70%"} rootClassName="image"/>
+              <Image src={nick}  width={"70%"} rootClassName="image"/>
               <p className="text-content"><strong>Paper: </strong>
               Goldman, N., Bertone, P., Chen, S., Dessimoz, C., LeProust, E. M., Sipos, B., &Birney, E. (2013).  (2012).
               <i><strong> Towards practical, high-capacity, low-maintenance information storage in synthesized DNA. </strong></i>
@@ -148,7 +158,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               sorting the sequences by means of the index,
               followed by outer-decoding, which allows the correction of whole sequences and the recovery of completely lost sequences.
               </p>
-              <Image src="/src/assets/methods/reedsolomon.png" width={"70%"} rootClassName="image"/>
+              <Image src={reedsolomon} width={"70%"} rootClassName="image"/>
               <p className="text-content"><strong>Paper: </strong>
               Grass, R. N., Heckel, R., Puddu, M., Paunescu, D., &Stark, W. J. (2015).
               <i><strong> Robust chemical preservation of digital information on DNA in silica with error-correcting codes.</strong></i>
@@ -158,7 +168,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               the authors propose the forward error scheme,
               which is able to cope with all error types of today's DNA synthesis, amplification and sequencing processes.
               </p>
-              <Image src="/src/assets/methods/forwarderror.png"  width={"70%"} rootClassName="image"/>
+              <Image src={forwarderror}  width={"70%"} rootClassName="image"/>
               <p className="text-content"><strong>Paper: </strong>
               Blawat, M., Gaedke, K., Huetter, I., Chen, X. M., Turczyk, B., Inverso, S., ... &Church, G. M. (2016).
               <i><strong> Forward error correction for DNA data storage. </strong></i>
@@ -170,7 +180,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               Then, some of the remaining errors can be corrected by multiple alignments of character sequences.
               Finally, a word spelling check is applied to further recover the file content.
               </p>
-              <Image src="/src/assets/methods/hierarchical.png"  width={"70%"} rootClassName="image"/>
+              <Image src={hierarchical}  width={"70%"} rootClassName="image"/>
               <p className="text-content"><strong>Paper: </strong>
               Zan, X., Yao, X., Xu, P., Chen, Z., Xie, L., Li, S., &Liu, W. (2022).
               <i><strong> A hierarchical error correction strategy for text DNA storage. </strong></i>
@@ -239,7 +249,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               the synthesized number of each oligo <i>n<sub>i</sub></i> is obtained by sampling from a distribution computed with coupling efficiency <i>P<sub>c</sub></i> and length <i>L</i> of sequence.
               </p>
               <h5 className="forth-title">- Methods:</h5>
-              <Image src="/src/assets/methods/synthesis.png"  width={"60%"} rootClassName="image"/>
+              <Image src={synthesis}  width={"60%"} rootClassName="image"/>
               <p className="text-content"><strong>Paper: </strong>
               <br/>
               (1) Kosuri S, Church GM.
@@ -264,7 +274,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <p className="text-content"> For this stage, DNA Storage Designer asks the user for an overall loss rate first and will conduct distribution computation based on the binomial distribution.
               </p>
               <h5 className="forth-title">- Host Organism:</h5>
-              <Image src="/src/assets/methods/decay.png"  width={"60%"} rootClassName="image"/>
+              <Image src={decay}  width={"60%"} rootClassName="image"/>
               <p className="text-content"><strong>Paper: </strong>
               <br/>
               (1) Heckel, R., Mikutis, G. & Grass, R.N.
@@ -290,7 +300,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               Genetics, 156(1), 297-304.
               </p>
               <h5 className="forth-title">- In-Vitro:</h5>
-              <Image src="/src/assets/methods/invitro.png"  width={"60%"} rootClassName="image"/>
+              <Image src={invitro}  width={"60%"} rootClassName="image"/>
               <p className="text-content"><strong>Paper: </strong>
               <br/>
               (1) An, R., Jia, Y., Wan, B., Zhang, Y., Dong, P., Li, J., & Liang, X. (2014).
@@ -357,7 +367,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               We provide 6 sequencing methods from the literature as following:
 
               </p>
-              <Image src="/src/assets/methods/sequencing.png"  width={"60%"} rootClassName="image"/>
+              <Image src={sequencing}  width={"60%"} rootClassName="image"/>
 
               <p className="text-content"><strong>Paper: </strong>
               <br/>

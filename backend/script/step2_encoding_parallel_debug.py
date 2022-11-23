@@ -88,7 +88,7 @@ class get_progress_bar():
             bar_star = self.progress_bar[self.encode_method][0]
             bar_end = self.progress_bar[self.encode_method][1]
 
-            file_size = self.file_info_dict['bit_size']
+            file_size = self.file_info_dict['upload_file_size']
             index_length = self.get_index_length(file_size)
             print('### According the file size, recommend index length is:',index_length)
             

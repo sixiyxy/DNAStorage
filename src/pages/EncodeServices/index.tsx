@@ -18,6 +18,8 @@ const infos = {
   segment_length: 0,
   segment_number: 0,
   verify_method: "None",
+  verify_code_length:0,
+  final_segment_bit_length:0
 };
 const DNAinfos = {
   DNA_sequence: 0,
@@ -36,7 +38,7 @@ const FileValue = {
 
 export const EncodeServices: React.FC<ServicesProps> = (props) => {
   const [siderSelect, setSiderSelect] = useState(["0-0-0"]);
-  const [fileId, setFileId] = useState("");
+  const [fileId, setFileId] = useState("1");
   const [isSynthesis, setIsSynthesis] = useState(false);
   const [GC, setGC] = useState([]);
   const [homo, setHomo] = useState([]);
@@ -49,7 +51,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
   const [spinflag, setSpin] = useState(true);
   const [exam, setExam] = useState(false);
   const [mini, setMini] = useState(0);
-
+  const [fileOver2M,setFileOver] = useState(false) //假设一开始不超过2M
   const url = new URL(window.location.href);
   const pathname = url?.pathname;
   const items1 = useMemo(() => {
@@ -129,6 +131,8 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
               spinflag={spinflag}
               exam={exam}
               mini={mini}
+              changeSider={setSiderSelect}
+              fileOver2M={fileOver2M}
             />
           ) : null}
         </div>

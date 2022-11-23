@@ -11,9 +11,9 @@ import { CheckCircleTwoTone,BulbTwoTone} from "@ant-design/icons";
 
 const EncodeMethodList: React.FC = (props: any) => {
   const [count, setCount] = useState(0); //触发标志
-  console.log('方法列表子组件fileID',props.fileID);
+  console.log('方法列表子组件fileID',props.fileId);
   const progressParam = {
-    file_uid:props.fileID === undefined ? "1565536927137009664" : props.fileID,
+    file_uid:props.fileId==='1' ? "1565536927137009664" : props.fileId,
     verify_method:props.method,
     encode_method:props.value
   }
