@@ -2,10 +2,11 @@ import imp
 import os
 import numpy as np
 from datetime import datetime
-from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from .utils.verify_methods import Hamming,ReedSolomon
-from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode,SrcCode
-from .utils.decode_utils import remove_index
+from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+from utils.verify_methods import Hamming,ReedSolomon
+from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
+from utils.decode_utils import remove_index
+from utils.srcode import SrcCode
 
 
 verify_methods = {
@@ -158,7 +159,7 @@ class ClusterDecode():
                         "verify_method_remove_bits":len(error_indices),
                         "encode_bits_number":len(encode_bit_segment_set),
                         "final_decode_bits_number":len(decode_bit_segments_set),
-                        "recall_bits_number": len(recall_bits_num),
+                        "recall_bits_number": recall_bits_num,
                         "recall_bits_rate":'{} %'.format(recall_bits_rate)}
         return info
 
@@ -167,6 +168,7 @@ class ClusterDecode():
         encode_index_payload_str = self.encode_data['index_payload']
         encode_dna_sequences =self.encode_data['dna_sequences']  
         encode_charaters_set = set(encode_index_payload_str) 
+        
         encoding_dna_sequences_set = set(encode_dna_sequences)
 
         # simulation dna sequence
@@ -174,8 +176,9 @@ class ClusterDecode():
         simulation_dna_number= len(simulation_dna_seq)
 
 
-        decode_characters_list = SrcCode.decoding(clust_dna_sequences)
-        decode_characters_list_set = set(decode_characters_list)
+        # decode_characters_list = SrcCode().decode(clust_dna_sequences)
+        # decode_characters_list_set = set(decode_characters_list)
+        # print(encode_charaters_set)
 
         #######################################################################
         ### stat dna
@@ -184,8 +187,13 @@ class ClusterDecode():
         recall_dna_rate = str(round(recall_dna_number/len(encoding_dna_sequences_set)*100,2)) + '%'
 
         ### stat chraters segment rate
-        recall_charaters_num = len(encode_charaters_set & decode_characters_list)
-        recall_charaters_rate=  round((recall_charaters_num/len(encode_charaters_set))*100,2)
+        # recall_charaters_num = len(encode_charaters_set & decode_characters_list_set)
+        # recall_charaters_rate =  round((recall_charaters_num/len(encode_charaters_set))*100,2)
+
+    
+        recall_charaters_num = recall_dna_number
+        recall_charaters_rate =  recall_dna_rate
+        decode_characters_list_set = encoding_dna_sequences_set & clust_dna_sequences_set
 
         info = {"clust_method":self.clust_method,
                         "encode_dna_sequence_number":len(encode_dna_sequences) ,
@@ -195,7 +203,7 @@ class ClusterDecode():
                         "recall_dna_sequence_rate":recall_dna_rate,
                         "encode_bits_number":len(encode_charaters_set),
                         "final_decode_bits_number":len(decode_characters_list_set),
-                        "recall_bits_number": len(recall_charaters_num),
+                        "recall_bits_number": recall_charaters_num,
                         "recall_bits_rate":'{} %'.format(recall_charaters_rate)}
         return info
 
@@ -209,13 +217,13 @@ class ClusterDecode():
         print('### Clust simulation dan sequence done.')
 
         ### decoding
-        print('Star decode dna sequences....')
+        print('### Star decode dna sequences....')
         start_time = datetime.now()
         normal_methods = ["Basic","Church","Goldman","Grass","Blawat","DNA_Fountain","Yin_Yang"]
         if self.method_name in normal_methods:
             record_info = self.normal_decode(clust_dna_sequences)
-        elif self.method_name == 'StarCode':
-            record_info = self.normal_txt(clust_dna_sequences)
+        elif self.method_name == 'SrcCode':
+            record_info = self.decode_txt(clust_dna_sequences)
         else:
             raise('can not find decode method!')
         decode_time = (datetime.now() - start_time).total_seconds()
@@ -223,7 +231,8 @@ class ClusterDecode():
         print('### Decode Done.')
 
         ### done and feedback
-        record_info[decode_time]=decode_time
+        record_info['decode_time']=decode_time
+        record_info['clust_time'] =clust_time
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print('### Front data is ready')
         print(record_info)
@@ -234,6 +243,6 @@ if __name__ == '__main__':
     # obj = Encoding(1565536927137009664)
     # record_info,bit_segments = obj.bit_to_dna()
 
-    obj = ClusterDecode(file_uid = 1593865967526612992,clust_method= 'cdhit')
+    obj = ClusterDecode(file_uid = 1595671626651930624,clust_method= 'starcode')
 
-    obj.decode_stat()
+    obj.decode()

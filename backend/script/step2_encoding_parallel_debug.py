@@ -75,6 +75,7 @@ class get_progress_bar():
                     26: 67108863, 27: 99999999}
         bar_star = self.progress_bar[self.encode_method][0]
         segnumber = (file_size*8)/bar_star
+        print(file_size,file_size*8,segnumber)
         for size in index_dict:
             if index_dict[size] > segnumber:
                 index_length = size
@@ -482,10 +483,12 @@ class Encoding():
             physical_information_density_ug = physical_information_density*(10**3)
             physical_information_density_g = physical_information_density*(10**9)
 
-            record_info = {"bit_szie" : file_size*8,
+            record_info = {"bit_size" : file_size*8,
                     "byte_size":file_size,
                     "segment_length":self.segment_length,
                     "index_length":self.index_length,
+                    "verify_method":self.verify_method,
+                     "encode_method":self.encode_method,
                     "verify_code_length":"None",
                     "final_bit_segments_length" :"None",
                     "segment_number":len(original_charater_list),
