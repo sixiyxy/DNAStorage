@@ -9,7 +9,8 @@ import type { ColumnsType } from "antd/es/table";
 export class SimulationReportProps {
   changeSider?;
   fileId;
-  
+  // controlReport;
+  // setControl;
 }
 
 export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
@@ -75,9 +76,10 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       setErrorDensity(resp.Error_Density);
       setStrand(resp.Strand_Count)
       setLoading(false);
+      // props.setControl(false)//不知道为什么每次点report就会发请求，设置这个变量控制只点击SimuSetting的report后才发请求
     }
-
-    fetchData();
+    
+      fetchData();
     // axios
     //   .post("http://localhost:5000//simu_repo", params)
     //   .then(function (response) {
@@ -875,7 +877,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               <Tabs.TabPane tab="Sampling" key="4" disabled={samplingData === undefined}>
                 {/* sam_ratio: {samplingData?.sam_ratio} */}
                 <p style={{ margin: "10px 0 0 0px" }}>The sampling ratio your chosen is:</p>
-                <Bar {...samplingErrorParamConfig} style={{ margin: "40px 0 0 0" }} />
+                <div style={{ margin: "40px 80px 0 80px" }}>
+                <Bar {...samplingErrorParamConfig} />
+                </div>
                 <br />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sequencing" key="5" disabled={sequencingData === undefined}>
@@ -904,7 +908,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           </Card>
           <Card title="Simulation Result" headStyle={{ backgroundColor: "#99CCFF" }}>
             {/* <h3>Sequences Distribution</h3> */}
-            <div style={{padding:"100px 150px 0 100px"}}>
+            <h3>Sequences Distribution</h3>
+            <div style={{padding:"50px 150px 0 150px"}}>
               {/* <h3>Sequences Distribution</h3> */}
               <DualAxes {...dualConfig} />
             </div>
@@ -913,7 +918,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 textAlign: "justify",
                 
                 color: "#748189",
-                padding:"20px 200px 0 120px"
+                padding:"20px 200px 0 180px"
               }}
             >
               <br></br>
@@ -928,8 +933,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           {/* </Card> */}
           {/* <Card> */}
             {/* <h3>Error Counts </h3> */}
-            {/* <h3>Error Counts </h3> */}
-            <div style={{padding:"100px 200px 0 100px"}}>
+            <h3>Error Counts </h3>
+            <div style={{padding:"50px 200px 0 150px"}}>
               
               <Bar {...ErrorDensityConfig} />
             </div>
@@ -938,7 +943,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 textAlign: "justify",
                 
                 color: "#748189",
-                padding:"20px 200px 50px 120px"
+                padding:"20px 200px 50px 180px"
               }}
             >
               <p>
