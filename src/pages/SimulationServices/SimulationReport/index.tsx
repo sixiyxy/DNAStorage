@@ -1009,7 +1009,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               }}
             >
               <p>
-                Because the effects of occurred errors are cumulative, It is reasonable that as the
+                Because the effects of occurred errors are cumulative, it is reasonable that as the
                 simulation proceeds, both the percentage of strands with errors as well as the
                 average error number for all strands will increase. Thus, we count the number of
                 strands with different number of errors for the different stages as shown above.
