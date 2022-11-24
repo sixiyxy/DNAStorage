@@ -383,7 +383,7 @@ def decode():
     print('### Decode parameters is:',front_data)
 
     Decode_obj = ClusterDecode(file_uid = file_uid,clust_method= clust_method)
-    decode_info = Decode_obj.decode_stat()
+    decode_info = Decode_obj.decode()
     print(decode_info)
     return json.dumps(decode_info)
 
@@ -415,7 +415,7 @@ def example():
     front_data = json.loads(request.data)
     type = front_data['type']
     if type == 'encode':
-        pass
+        yaml_path = '{}/upload/example'
     elif type == 'simulation':
         yaml_path= '{}/upload_dna/example.yaml'.format(backend_dir)
         f = open(yaml_path)
