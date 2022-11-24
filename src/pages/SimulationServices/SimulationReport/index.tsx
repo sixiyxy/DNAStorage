@@ -954,7 +954,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sampling" key="4" disabled={samplingData === undefined}>
                 {/* sam_ratio: {samplingData?.sam_ratio} */}
-                <p style={{ margin: "10px 0 0 0px" }}>The sampling ratio your chosen is:</p>
+                <p style={{ margin: "10px 0 0 0px" }}>The sampling ratio you chose is:</p>
                 <Bar {...samplingErrorParamConfig} style={{ margin: "40px 0 0 0" }} />
                 <br />
               </Tabs.TabPane>
@@ -1009,7 +1009,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               }}
             >
               <p>
-                Because the effects of occurred errors are cumulative, It is reasonable that as the
+                Because the effects of occurred errors are cumulative, it is reasonable that as the
                 simulation proceeds, both the percentage of strands with errors as well as the
                 average error number for all strands will increase. Thus, we count the number of
                 strands with different number of errors for the different stages as shown above.
