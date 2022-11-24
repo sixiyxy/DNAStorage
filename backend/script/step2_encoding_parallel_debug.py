@@ -11,7 +11,7 @@ from numpy import fromfile, array, uint8
 from .utils.utils_basic import get_config,write_yaml,write_dna_file
 from .utils.verify_methods import Hamming,ReedSolomon
 from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode,SrcCode
-from .utils.encode_utils import cut_file, gc_homo,download_normal,download_txt,add_min_free_energydata,save_decode_file
+from .utils.encode_utils import cut_file, gc_homo,download_normal,download_txt,add_min_free_energydata
 
 verify_methods = {
     "WithoutVerifycode":False,
@@ -167,7 +167,6 @@ class Encoding():
 
         return fragment_info
 
-
     def connet_index(self,data):
         fragment_info = self.segment_file(data)
         original_bit_segments = fragment_info["original_bit_segments"]
@@ -203,7 +202,6 @@ class Encoding():
                         "connected_bit_segments":connected_bit_segments,
                         "final_bit_segments":final_bit_segments}
         return fragment_info
-
 
     def encoding_normal(self,data): 
         
@@ -389,8 +387,11 @@ class Encoding():
             index_ori_bit_sequences = [''.join(list(map(str,i))) for i in connected_bit_segments_all]
             final_bit_sequences = [''.join(list(map(str,i))) for i in final_bit_segments_all]
             dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences_all]
-            save_decode_file(self.decode_file,index_ori_bit_sequences,final_bit_sequences,dna_sequences)
-            
+            save_dict = {'index_payload':index_ori_bit_sequences,
+                    'bit_sequences':final_bit_sequences,
+                    'dna_sequences':dna_sequences}
+            np.savez(self.decode_file,**save_dict)
+
             info['verify_code_length'] = '{} bits'.format(info['verify_code_length'])
             info['final_segment_bit_length'] = '{} bits'.format(info['final_segment_bit_length'])
         elif self.encode_method == 'SrcCode':
@@ -401,8 +402,9 @@ class Encoding():
             dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences_all]
             download_txt(self.user_download_file,dna_sequences,original_chracter_segments)
             # for decode data
-            save_decode_file(self.decode_file,index_ori_bit_sequences,
-            index_ori_bit_sequences,dna_sequences)
+            save_dict = {'index_payload':index_ori_bit_sequences,
+                        'dna_sequences':dna_sequences}
+            np.savez(self.decode_file,**save_dict)
 
 
         # record run time
@@ -459,8 +461,8 @@ class Encoding():
         ### txt method
         elif self.encode_method == 'SrcCode':
             upload_file = open(self.file_path,"r",encoding='UTF-8')
-            encode_class = SrcCode(upload_file=upload_file)
-            record_data = encode_class.encodeing()
+            encode_class = SrcCode()
+            record_data = encode_class.encodeing(file=upload_file)
             dna_sequences =  record_data['dna_sequences']
             original_charater_list = record_data["original_charater_list"]
             index_ori_charater_list = record_data["index_ori_charater_list"]

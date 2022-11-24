@@ -1246,8 +1246,7 @@ class YinYangCode(AbstractCodingAlgorithm):
 
 
 class SrcCode():
-    def __init__(self,upload_file):
-        self.upload_file = upload_file
+    def __init__(self):
         self.encodetable = SrcCode_rule()
         self.dna_sequence_length = 180
 
@@ -1269,8 +1268,8 @@ class SrcCode():
         tmpstr=tenthousand[p5]+thousand[p4]+hundred[p3]+decade[p2]+unit[p1]
         return tmpstr
 
-    def encodeing(self):
-        contentlines = self.upload_file.read()
+    def encodeing(self,file):
+        contentlines = file.read()
         original_charater_list = []
         index_ori_charater_list = []
         dna_sequences_list = []
@@ -1335,5 +1334,5 @@ class SrcCode():
                        "index_ori_charater_list": index_ori_charater_list}    
         # print(record_data)
         return record_data
-    def decoding(self):
+    def decoding(self,file):
         pass
