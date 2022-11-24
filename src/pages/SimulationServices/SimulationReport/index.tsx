@@ -187,12 +187,12 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         name: "Percentage",
         value: samplingData?.sam_ratio <= 0.1? samplingData?.sam_ratio * 1000 : samplingData?.sam_ratio*100,
-        type: "Ratio Percentage",
+        type: "Ratio",
       },
 
       {
         name: "Percentage",
-        value: samplingData?.sam_ratio <= 0.1? (100 - samplingData?.sam_ratio * 1000): samplingData?.sam_ratio*100,
+        value: samplingData?.sam_ratio <= 0.1? (100 - samplingData?.sam_ratio * 1000): 100-samplingData?.sam_ratio*100,
         type: "Rest",
       },
     ];
@@ -955,7 +955,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               <Tabs.TabPane tab="Sampling" key="4" disabled={samplingData === undefined}>
                 {/* sam_ratio: {samplingData?.sam_ratio} */}
                 <p style={{ margin: "10px 0 0 0px" }}>The sampling ratio you chose is:</p>
-                <Bar {...samplingErrorParamConfig} style={{ margin: "40px 0 0 0" }} />
+
+                <Bar {...samplingErrorParamConfig}  />
+                
                 <br />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sequencing" key="5" disabled={sequencingData === undefined}>
@@ -972,16 +974,16 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             </Tabs>
           </Card>
           <Card title="Simulation Result" headStyle={{ backgroundColor: "#99CCFF"}}>
+          <h3>Sequences Distribution</h3>
+            <div style={{padding:"50px 150px 0 150px"}}>
             
-            <div style={{padding:"100px 150px 0 50px"}}>
-              {/* <h3>Sequences Distribution</h3> */}
               <DualAxes {...dualConfig} />
             </div>
             <div
               style={{
                 textAlign: "justify",
                 color: "#748189",
-                padding:"20px 200px 0 100px"
+                padding:"20px 200px 0 180px"
               }}
             >
               <br></br>
@@ -996,8 +998,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           {/* </Card>
           <Card>
             <h3>Error Counts </h3> */}
-             
-            <div style={{padding:"100px 220px 0 80px"}}>
+              <h3>Error Counts </h3>
+            <div style={{padding:"50px 220px 0 150px"}}>
                 {/* <h3>Error Counts </h3> */}
               <Bar {...ErrorDensityConfig} />
             </div>
@@ -1005,7 +1007,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               style={{
                 textAlign: "justify",
                 color: "#748189",
-                padding:"20px 200px 0 100px"
+                padding:"20px 200px 0 180px"
               }}
             >
               <p>

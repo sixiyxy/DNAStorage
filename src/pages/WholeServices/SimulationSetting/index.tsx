@@ -21,6 +21,7 @@ export class SimulationSetProps {
   setIsdisabled?;
   needUploader: boolean;
   clickEXM?;
+  // setControl;
 }
 
 let method = [false, false, false, false]; //存放选择的方法
@@ -74,7 +75,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
 
   const handleReport = () => {
     method = [false, false, false, false];
-    props.setIsdisabled(false);
+    props.setIsdisabled(true);
+    props.setControl(true)
     props.changeSider(["0-1-1"]);
   };
   const handleDecay = () => {

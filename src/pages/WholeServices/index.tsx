@@ -62,7 +62,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [decodeData, setDecodeData] = useState();
   const [isdisabled, setIsdisabled] = useState(true);
   const [fileOver2M,setFileOver] = useState(false) //假设一开始不超过2M
-  
+  // const [controlReport,setControl]=useState(false)
   const items1 = useMemo(() => {
     return [
       {
@@ -77,7 +77,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           {
             label: "Report",
             key: "0-0-1",
-            disabled: !isSynthesis,
+            // disabled: !isSynthesis,
           },
         ],
       },
@@ -93,7 +93,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           {
             label: "Report",
             key: "0-1-1",
-            disabled: !isdisabled,
+            // disabled: !isdisabled,
           },
         ],
       },
@@ -185,7 +185,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
             <SimulationReport changeSider={setSiderSelect} fileId={fileId} />
           ) : null}
           {siderSelect[0] === "0-1-0" ? (
-            <SimulationSetting changeSider={setSiderSelect} fileId={fileId} needUploader={false} setIsdisabled={setIsdisabled} setFileId={setFileId}/>
+            <SimulationSetting changeSider={setSiderSelect} fileId={fileId} needUploader={false} setIsdisabled={setIsdisabled} setFileId={setFileId} />
           ) : null}
           {siderSelect[0] === "0-2-0" ? (
             <DecodeSetting
