@@ -1,0 +1,407 @@
+SEQ:
+  del: 0.0016
+  ins: 0.0012
+  sub: 0.9972
+seq_depth: 1
+seq_meth: ill_PairedEnd
+DEC:
+  del: 0.06
+  ins: 0.06
+  sub: 0.88
+DNA_sequence_length: 121
+PCR:
+  del: 0.01
+  ins: 0
+  sub: 0.99
+SYN:
+  del: 0.6
+  ins: 0.2
+  sub: 0.2
+bit_size: 864768
+byte_size: 108096
+decay_loss_rate: 0.3
+eight_can: false
+encode_method: Yin_Yang
+encoding_time: '6.19'
+energy_plot:
+- range: '-21.32 : -20.609'
+  x_value: '-21.0'
+  y_value: 1
+- range: '-20.609 : -19.899'
+  x_value: '-20.3'
+  y_value: 0
+- range: '-19.899 : -19.188'
+  x_value: '-19.5'
+  y_value: 1
+- range: '-19.188 : -18.477'
+  x_value: '-18.8'
+  y_value: 4
+- range: '-18.477 : -17.767'
+  x_value: '-18.1'
+  y_value: 1
+- range: '-17.767 : -17.056'
+  x_value: '-17.4'
+  y_value: 9
+- range: '-17.056 : -16.345'
+  x_value: '-16.7'
+  y_value: 12
+- range: '-16.345 : -15.635'
+  x_value: '-16.0'
+  y_value: 14
+- range: '-15.635 : -14.924'
+  x_value: '-15.3'
+  y_value: 21
+- range: '-14.924 : -14.213'
+  x_value: '-14.6'
+  y_value: 17
+- range: '-14.213 : -13.503'
+  x_value: '-13.9'
+  y_value: 31
+- range: '-13.503 : -12.792'
+  x_value: '-13.1'
+  y_value: 36
+- range: '-12.792 : -12.081'
+  x_value: '-12.4'
+  y_value: 46
+- range: '-12.081 : -11.371'
+  x_value: '-11.7'
+  y_value: 41
+- range: '-11.371 : -10.66'
+  x_value: '-11.0'
+  y_value: 56
+- range: '-10.66 : -9.949'
+  x_value: '-10.3'
+  y_value: 68
+- range: '-9.949 : -9.239'
+  x_value: '-9.6'
+  y_value: 66
+- range: '-9.239 : -8.528'
+  x_value: '-8.9'
+  y_value: 60
+- range: '-8.528 : -7.817'
+  x_value: '-8.2'
+  y_value: 73
+- range: '-7.817 : -7.107'
+  x_value: '-7.5'
+  y_value: 78
+- range: '-7.107 : -6.396'
+  x_value: '-6.8'
+  y_value: 80
+- range: '-6.396 : -5.685'
+  x_value: '-6.0'
+  y_value: 72
+- range: '-5.685 : -4.975'
+  x_value: '-5.3'
+  y_value: 54
+- range: '-4.975 : -4.264'
+  x_value: '-4.6'
+  y_value: 50
+- range: '-4.264 : -3.553'
+  x_value: '-3.9'
+  y_value: 31
+- range: '-3.553 : -2.843'
+  x_value: '-3.2'
+  y_value: 35
+- range: '-2.843 : -2.132'
+  x_value: '-2.5'
+  y_value: 13
+- range: '-2.132 : -1.421'
+  x_value: '-1.8'
+  y_value: 7
+- range: '-1.421 : -0.711'
+  x_value: '-1.1'
+  y_value: 8
+- range: '-0.711 : 0.0'
+  x_value: '-0.4'
+  y_value: 14
+file_name: Xiamen_University.png
+file_rename: 1595746294532542464_Xiamen_University.png
+file_type: image/png
+file_uid: '1595746294532542464'
+final_segment_bit_length: 121 bits
+gc_data:
+- x_value: 0
+  y_value: 0
+- x_value: 1
+  y_value: 0
+- x_value: 2
+  y_value: 0
+- x_value: 3
+  y_value: 0
+- x_value: 4
+  y_value: 0
+- x_value: 5
+  y_value: 0
+- x_value: 6
+  y_value: 0
+- x_value: 7
+  y_value: 0
+- x_value: 8
+  y_value: 0
+- x_value: 9
+  y_value: 0
+- x_value: 10
+  y_value: 0
+- x_value: 11
+  y_value: 0
+- x_value: 12
+  y_value: 0
+- x_value: 13
+  y_value: 0
+- x_value: 14
+  y_value: 0
+- x_value: 15
+  y_value: 0
+- x_value: 16
+  y_value: 0
+- x_value: 17
+  y_value: 0
+- x_value: 18
+  y_value: 0
+- x_value: 19
+  y_value: 0
+- x_value: 20
+  y_value: 0
+- x_value: 21
+  y_value: 0
+- x_value: 22
+  y_value: 0
+- x_value: 23
+  y_value: 0
+- x_value: 24
+  y_value: 0
+- x_value: 25
+  y_value: 0
+- x_value: 26
+  y_value: 0
+- x_value: 27
+  y_value: 0
+- x_value: 28
+  y_value: 0
+- x_value: 29
+  y_value: 0
+- x_value: 30
+  y_value: 0
+- x_value: 31
+  y_value: 0
+- x_value: 32
+  y_value: 0
+- x_value: 33
+  y_value: 0
+- x_value: 34
+  y_value: 0
+- x_value: 35
+  y_value: 0
+- x_value: 36
+  y_value: 0
+- x_value: 37
+  y_value: 0
+- x_value: 38
+  y_value: 0
+- x_value: 39
+  y_value: 0
+- x_value: 40
+  y_value: 6
+- x_value: 41
+  y_value: 9
+- x_value: 42
+  y_value: 18
+- x_value: 43
+  y_value: 26
+- x_value: 44
+  y_value: 28
+- x_value: 45
+  y_value: 97
+- x_value: 46
+  y_value: 58
+- x_value: 47
+  y_value: 53
+- x_value: 48
+  y_value: 63
+- x_value: 49
+  y_value: 82
+- x_value: 50
+  y_value: 165
+- x_value: 51
+  y_value: 58
+- x_value: 52
+  y_value: 67
+- x_value: 53
+  y_value: 60
+- x_value: 54
+  y_value: 57
+- x_value: 55
+  y_value: 81
+- x_value: 56
+  y_value: 23
+- x_value: 57
+  y_value: 20
+- x_value: 58
+  y_value: 11
+- x_value: 59
+  y_value: 11
+- x_value: 60
+  y_value: 7
+- x_value: 61
+  y_value: 0
+- x_value: 62
+  y_value: 0
+- x_value: 63
+  y_value: 0
+- x_value: 64
+  y_value: 0
+- x_value: 65
+  y_value: 0
+- x_value: 66
+  y_value: 0
+- x_value: 67
+  y_value: 0
+- x_value: 68
+  y_value: 0
+- x_value: 69
+  y_value: 0
+- x_value: 70
+  y_value: 0
+- x_value: 71
+  y_value: 0
+- x_value: 72
+  y_value: 0
+- x_value: 73
+  y_value: 0
+- x_value: 74
+  y_value: 0
+- x_value: 75
+  y_value: 0
+- x_value: 76
+  y_value: 0
+- x_value: 77
+  y_value: 0
+- x_value: 78
+  y_value: 0
+- x_value: 79
+  y_value: 0
+- x_value: 80
+  y_value: 0
+- x_value: 81
+  y_value: 0
+- x_value: 82
+  y_value: 0
+- x_value: 83
+  y_value: 0
+- x_value: 84
+  y_value: 0
+- x_value: 85
+  y_value: 0
+- x_value: 86
+  y_value: 0
+- x_value: 87
+  y_value: 0
+- x_value: 88
+  y_value: 0
+- x_value: 89
+  y_value: 0
+- x_value: 90
+  y_value: 0
+- x_value: 91
+  y_value: 0
+- x_value: 92
+  y_value: 0
+- x_value: 93
+  y_value: 0
+- x_value: 94
+  y_value: 0
+- x_value: 95
+  y_value: 0
+- x_value: 96
+  y_value: 0
+- x_value: 97
+  y_value: 0
+- x_value: 98
+  y_value: 0
+- x_value: 99
+  y_value: 0
+- x_value: 100
+  y_value: 0
+homo_data:
+- x_value: 1
+  y_value: 1000
+- x_value: 2
+  y_value: 1000
+- x_value: 3
+  y_value: 999
+- x_value: 4
+  y_value: 706
+- x_value: 5
+  y_value: 0
+- x_value: 6
+  y_value: 0
+- x_value: 7
+  y_value: 0
+- x_value: 8
+  y_value: 0
+- x_value: 9
+  y_value: 0
+- x_value: 10
+  y_value: 0
+- x_value: 11
+  y_value: 0
+- x_value: 12
+  y_value: 0
+- x_value: 13
+  y_value: 0
+- x_value: 14
+  y_value: 0
+- x_value: 15
+  y_value: 0
+- x_value: 16
+  y_value: 0
+- x_value: 17
+  y_value: 0
+- x_value: 18
+  y_value: 0
+- x_value: 19
+  y_value: 0
+index_length: 14
+information_density: 0.826
+min_free_energy: -8.71
+min_free_energy_below_30kcal_mol: 0.0
+months_of_storage: 24
+net_information_density: 0.9999629929455303
+nucleotide_counts: 1046287
+pcr_cycle: 12
+pcr_polymerase: Taq
+pcr_prob: 0.8
+physical_information_density_g: 9.33E+22 petabyte/ug
+physical_information_density_ug: !!python/tuple
+- 9.33E+16 petabyte/gram
+sam_ratio: 0.005
+segment_length: 100
+segment_number: 8648
+simu:
+- SYN
+- DEC
+- PCR
+- SAM
+- SEQ
+storage_host: Hsapiens
+synthesis_method: ErrASE
+synthesis_number: 30
+synthesis_yield: 0.99
+upload_file_size: 108096
+verify_code_length: 7 bits
+verify_method: Hamming
+after_clust_dna_sequence_number: 8712
+clust_method: starcode
+clust_time: 3.32 s
+decode_time: 0.46 s
+encode_bits_number: 8648
+encode_dna_sequence_number: 8647
+error_bits_number: 173
+error_bits_rate: 1.96%
+final_decode_bits_number: 8808
+recall_bits_number: 8635
+recall_bits_rate: 99.85 %
+recall_dna_sequence_number: 8550
+recall_dna_sequence_rate: 98.88%
+simulation_dna_number: 318029
+verify_method_remove_bits: 2
