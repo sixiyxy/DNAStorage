@@ -4858,7 +4858,7 @@ SAM:
   - value: 6
 SEQ:
   density_group: 2
-  pcr_density:
+  seq_density:
   - value: 9
   - value: 1
   - value: 1
