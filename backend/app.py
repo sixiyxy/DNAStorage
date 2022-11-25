@@ -421,7 +421,7 @@ def example():
         config = yaml.load(config_data,Loader=yaml.FullLoader)
         return json.dumps(config)
     elif type == 'simulation':
-        yaml_path= '{}/upload_dna/example.yaml'.format(backend_dir)
+        yaml_path= '{}/upload_dna/example_1.yaml'.format(backend_dir)
         f = open(yaml_path)
         config_data = f.read()
         config = yaml.load(config_data,Loader=yaml.FullLoader)
