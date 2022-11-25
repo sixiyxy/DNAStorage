@@ -69,6 +69,8 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [SimuRepo,setSimuRepo]=useState(false)
   const [DeSet,setDeSet]=useState(false)
   const [DeRepo,setDerepo]=useState(false)
+  //控制所有导航栏全部展示完毕恢复原始的状态
+  const [resetMenu,setResetMenu] = useState(false) //还没有全部展示完
   // const [controlReport,setControl]=useState(false)
   const items1 = useMemo(() => {
     return [
@@ -102,7 +104,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           {
             label: "Report",
             key: "0-1-1",
-            disabled: !SimuRepo,
+            disabled:!SimuRepo,
           },
         ],
       },
@@ -124,7 +126,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
         ],
       },
     ];
-  }, [isSynthesis, isDecode]);
+  }, [EncodeSet, EncodeRepo,SimuSet,SimuRepo,DeSet,DeRepo]);
 
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
@@ -132,6 +134,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  
   return (
     <div className="global-wrapper">
       <Menu
@@ -172,6 +175,10 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setFileOver={setFileOver}
               setEncodeRepo={setEncodeRepo}
               setSimuSet={setSimuSet}
+              setSimuRepo={setSimuRepo}
+              setDeSet={setDeSet}
+              setDerepo={setDerepo}
+              resetMenu={resetMenu}
             />
           ) : null}
           {siderSelect[0] === "0-0-1" ? (
@@ -208,10 +215,11 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setDecodeData={setDecodeData}
               setSpin={setSpin}
               setDerepo={setDerepo}
+              
             />
           ) : null}
           {siderSelect[0] === "0-2-1" ? (
-            <DecodeReport fileId={fileId} isDecode={isDecode} decodeData={decodeData} spinflag={spinflag}/>
+            <DecodeReport fileId={fileId} isDecode={isDecode} decodeData={decodeData} spinflag={spinflag} setResetMenu={setResetMenu}/>
           ) : null}
         </div>
       </div>

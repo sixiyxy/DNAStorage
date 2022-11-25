@@ -29,7 +29,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const [densityData, setDensityData] = useState([]);
   const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [spinflag, setSpin] = useState(true);
+  const [spinflag, setSimuSpin] = useState(true);
   const [synthesisData, setSynthesisData] = useState();
   const [decayData, setDacayData] = useState();
   const [pcrData, setPcrData] = useState();
@@ -66,7 +66,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       setLoading(true);
       setNoDataTipsShow(false);
       const resp = await doPost("/simu_repo", { body: params });
-      setSpin(false);
+      setSimuSpin(false);
       console.log("report", resp);
       setSynthesisData(resp.SYN);
       setDacayData(resp.DEC);
