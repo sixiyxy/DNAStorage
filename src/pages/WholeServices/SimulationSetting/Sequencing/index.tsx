@@ -73,8 +73,8 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     const resp: any = await doPost("/simu_seq", {body: params});
     // console.log("sequencing response", response);
     //setErrorData(response?.data?.seq_error_density);
-    setLen(resp.pcr_density.length);
-    setDensityData(resp.pcr_density);
+    setLen(resp.seq_density.length);
+    setDensityData(resp.seq_density);
     setGroup(resp.pcr_group);
     setHrefLink(resp.synthesis_method_reference);
     setLoading(false);
@@ -85,8 +85,8 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       setLoading(true);
       setNoDataTipsShow(false);
       props.setSEQRUN(true);
-      setLen(props.response.SEQ.pcr_density.length);
-      setDensityData(props.response.SEQ.pcr_density);
+      setLen(props.response.SEQ.seq_density.length);
+      setDensityData(props.response.SEQ.seq_density);
       setGroup(props.response.SEQ.pcr_group);
       // setHrefLink(props.response.SEQ.synthesis_method_reference);
       setLoading(false);
