@@ -106,11 +106,12 @@ export const Encode = (props) => {
     console.log("Encode-dnaindo", props.dnainfo);
   };
   var params1 = {
-    file_uid: "1565536927137009664",
-    segment_length: 160,
-    index_length: 16,
-    verify_method: "WithoutVerifycode",
-    encode_method: "Basic",
+    // file_uid: "1565536927137009664",
+    // segment_length: 160,
+    // index_length: 16,
+    // verify_method: "WithoutVerifycode",
+    // encode_method: "Basic",
+    type:'encode'
   };
   const handleClick = async () => {
     //console.log("加载中");
@@ -184,8 +185,8 @@ export const Encode = (props) => {
     props.changeSider(["0-0-1"]);
     props.setSpin(true);
     props.setExam(true);
-    props.setFileId('1565536927137009664');
-    const resp = await doPost("/encode", { body: params1 });
+    props.setFileId('example');
+    const resp = await doPost("/example", { body: params1 });
     console.log("Encode-response: ", resp);
     console.log("Encode-response: ", typeof resp.min_free_energy_below_30kcal_mol);
     InfoPass1(

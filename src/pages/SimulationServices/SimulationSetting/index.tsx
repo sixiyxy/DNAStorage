@@ -155,7 +155,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setDis3(true);
     setDis4(true);
     props.setclickEXM(true);
-    props.setFileId("1582175684011364352");
+    props.setFileId("example");
     //控制每个步骤的useEffect
     console.log("开始请求");
     axios.post(API_PREFIX + "/example", paramExm).then(function (response) {

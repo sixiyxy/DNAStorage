@@ -150,6 +150,7 @@ var paramsRepo={
     setexmSpinFlag(true)
     method = [true, true, true, true];
     //点击Example后按钮全部禁掉 默认id"1582175684011364352"
+    
     setOkFlag(true);
     setDecayFlag(true);
     setPcrFlag(true);
@@ -161,7 +162,7 @@ var paramsRepo={
     setDis3(true);
     setDis4(true);
     // props.setclickEXM(true);
-    props.setFileId("1565536927137009664");
+    props.setFileId("example");
     //控制每个步骤的useEffect
     console.log("开始请求");
     axios.post(API_PREFIX + "/example", paramExm).then(function (response) {
@@ -179,8 +180,8 @@ var paramsRepo={
     });
   };
 
-  console.log(okFlag, decayFlag, pcrFlag, sampleFlag, sequenceFlag);
-  console.log("method", method);
+  // console.log(okFlag, decayFlag, pcrFlag, sampleFlag, sequenceFlag);
+  // console.log("method", method);
   const uploadProps = {
     name: "file",
     multiple: true,

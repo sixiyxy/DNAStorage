@@ -38,7 +38,7 @@ interface DataType {
 export const Report: React.FC<ReportProps> = (props) => {
   const [size, setSize] = useState<SizeType>("large");
   const params1 = {
-    file_uid: props.exam ? "1565536927137009664" : props.fileId,
+    file_uid: props.exam ? "example" : props.fileId,
     type: "encode",
   };
   const columns1: ColumnsType<DataType> = [

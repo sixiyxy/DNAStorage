@@ -415,7 +415,7 @@ def example():
     front_data = json.loads(request.data)
     type = front_data['type']
     if type == 'encode':
-        yaml_path = '{}/upload/example.yaml'
+        yaml_path = '{}/upload/example.yaml'.format(backend_dir)
         f = open(yaml_path)
         config_data = f.read()
         config = yaml.load(config_data,Loader=yaml.FullLoader)
@@ -427,7 +427,7 @@ def example():
         config = yaml.load(config_data,Loader=yaml.FullLoader)
         return json.dumps(config)
     elif type == 'decode':
-        yaml_path = '{}/upload/example.yaml'
+        yaml_path = '{}/upload/example.yaml'.format(backend_dir)
         f = open(yaml_path)
         config_data = f.read()
         config = yaml.load(config_data,Loader=yaml.FullLoader)

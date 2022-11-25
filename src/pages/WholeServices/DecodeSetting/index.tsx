@@ -1,6 +1,6 @@
 import { Breadcrumb, Button, Card, Radio, RadioChangeEvent, Space, Table,Row,Col} from "antd";
 import axios from "axios";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState,useEffect} from "react";
 import { Link } from "react-router-dom";
 import { Image } from "antd";
 import "./index.less";
@@ -21,7 +21,12 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
   const onChange = (e: RadioChangeEvent) => {
     setValue(e.target.value);
   };
-
+  useEffect(() => {
+    // if (props.setIsdisabled) {
+    //   props.setIsdisabled(true);
+    // }
+    window.scrollTo(0, 0);
+  }, []);
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
@@ -36,7 +41,6 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
     axios.post(API_PREFIX + "/decode", params).then(function (response) {
       //console.log("decode", response);
       props.setDecodeData(response?.data);
-      props.setIsDecode(true);
       props.setSpin(false)
       
     });
@@ -45,8 +49,8 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
   const onExample = function () {
     axios.post(API_PREFIX + "/example", { type: "decode" }).then(function (response) {
       //console.log("decode", response);
+      props.setDerepo(true)
       props.setDecodeData(response?.data);
-      props.setIsDecode(true);
       props.changeSider(["0-2-1"]);
     });
   };
@@ -90,7 +94,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
                       // type="primary"
                       shape="round"
                       size="large"
-                      // onClick={handleEXM}
+                      onClick={onExample}
                     >
                       Example
                     </Button>

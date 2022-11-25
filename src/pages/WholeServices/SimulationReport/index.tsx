@@ -29,40 +29,10 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     type: "simulation",
   };
   const { Option, OptGroup } = Select;
- 
-  // const [spinflag, setSimuSpin] = useState(true);
-  // const [props.synthesisData, setprops.synthesisData] = useState();
-  // const [props.decayData, setDacayData] = useState();
-  // const [props.pcrData, setprops.pcrData] = useState();
-  // const [props.samplingData, setprops.samplingData] = useState();
-  // const [props.sequencingData, setSequenceingData] = useState();
-  // const [props.errorRecoder, setErrorRecode] = useState();
-  // const [props.errorDensity, setprops.errorDensity] = useState();
-  // const [strand,setStrand] = useState(0)
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const resp = await doPost("/simu_repo", { body: params });
-  //     setSimuSpin(false);
-  //     console.log("report", resp);
-  //     setprops.synthesisData(resp.SYN);
-  //     setDacayData(resp.DEC);
-  //     setprops.pcrData(resp.PCR);
-  //     setprops.samplingData(resp.SAM);
-  //     setSequenceingData(resp.SEQ);
-  //     setErrorRecode(resp.Error_Recorder);
-  //     setprops.errorDensity(resp.Error_Density);
-  //     setStrand(resp.Strand_Count)
-  //     props.setDeSet(true)
-  //     // props.setControl(false)//不知道为什么每次点report就会发请求，设置这个变量控制只点击SimuSetting的report后才发请求
-  //   }
-    
-  //     fetchData();
-  // }, [props.fileId]);
-
 
   //数据生成
 
@@ -573,8 +543,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
 
 
   const DownloadURL = () => {
-    // console.log(props.encodeurl);
-    // console.log(props.fileURL);
     axios
       .post(API_PREFIX + "/download", downinfo, { responseType: "blob" })
       .then(function (response) {
@@ -586,7 +554,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         //设置下载下来后文件的名字以及文件格式
         link.setAttribute(
           "download",
-          `${props.fileId}.` + `${"zip"}` //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
+          `SimulationReport-${props.fileId}.` + `${"zip"}` //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
         );
         document.body.appendChild(link);
         link.click(); //下载该文件
@@ -620,11 +588,11 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             <Tabs defaultActiveKey="1" size={"large"}>
               <Tabs.TabPane tab="Synthesis" key="1" disabled={props.synthesisData === undefined}>
                 <div className="TabSYN">
-                  synthesis number : {props.synthesisData?.synthesis_number}
+                  Synthesis Number : {props.synthesisData?.synthesis_number}
                   <br />
-                  synthesis yield : {props.synthesisData?.synthesis_yield}
+                  Synthesis Yield : {props.synthesisData?.synthesis_yield}
                   <br />
-                  synthesis method : {props.synthesisData?.synthesis_method}
+                  Synthesis Method : {props.synthesisData?.synthesis_method}
                   <br />
                 </div>
                 <p>The error rate distribution of your chosen synthesis method is as follows:</p>
@@ -634,11 +602,11 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               </Tabs.TabPane>
               <Tabs.TabPane tab="Decay" key="2" disabled={props.decayData === undefined}>
                 <div className="TabDEC">
-                  storage host : {props.decayData?.storage_host}
+                  Storage Host : {props.decayData?.storage_host}
                   <br />
-                  months of storage : {props.decayData?.months_of_storage}
+                  Months of Storage : {props.decayData?.months_of_storage}
                   <br />
-                  decay loss rate : {props.decayData?.decay_loss_rate}
+                  Decay Loss Rate : {props.decayData?.decay_loss_rate}
                   <br />
                   {/* storage_host_parameter_reference :
             <br />
@@ -658,11 +626,11 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               </Tabs.TabPane>
               <Tabs.TabPane tab="PCR" key="3" disabled={props.pcrData === undefined}>
                 <div className="TabPCR">
-                  pcr polymerase : {props.pcrData?.pcr_polymerase}
+                  Pcr Polymerase : {props.pcrData?.pcr_polymerase}
                   <br />
-                  pcr cycle : {props.pcrData?.pcr_cycle}
+                  Pcr Cycle : {props.pcrData?.pcr_cycle}
                   <br />
-                  pcr prob : {props.pcrData?.pcr_prob}
+                  Pcr Prob : {props.pcrData?.pcr_prob}
                   <br />
                   {/* pcr_method_reference : */}
                   {/* <br />
@@ -695,9 +663,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sequencing" key="5" disabled={props.sequencingData === undefined}>
                 <div className="TabSEQ">
-                  sequencing depth : {props.sequencingData?.seq_depth}
+                  Sequencing Depth : {props.sequencingData?.seq_depth}
                   <br />
-                  sequencing method : {props.sequencingData?.seq_meth}
+                  Sequencing Method : {props.sequencingData?.seq_meth}
                   <br />
                   {/* seq_method_reference :
             <br />
