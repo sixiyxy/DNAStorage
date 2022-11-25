@@ -2,7 +2,7 @@ SEQ:
   del: 0.0016
   ins: 0.0012
   sub: 0.9972
-seq_depth: 1
+seq_depth: 15
 seq_meth: ill_PairedEnd
 DEC:
   del: 0.06
@@ -13,14 +13,24 @@ PCR:
   del: 0.01
   ins: 0
   sub: 0.99
+SEQ:
+  del: 0.0016
+  ins: 0.0012
+  sub: 0.9972
 SYN:
   del: 0.6
   ins: 0.2
   sub: 0.2
+after_clust_dna_sequence_number: 8712
 bit_size: 864768
 byte_size: 108096
+clust_method: starcode
+clust_time: 3.32 s
 decay_loss_rate: 0.3
+decode_time: 0.46 s
 eight_can: false
+encode_bits_number: 8648
+encode_dna_sequence_number: 8647
 encode_method: Yin_Yang
 encoding_time: '6.19'
 energy_plot:
@@ -114,10 +124,13 @@ energy_plot:
 - range: '-0.711 : 0.0'
   x_value: '-0.4'
   y_value: 14
+error_bits_number: 173
+error_bits_rate: 1.96%
 file_name: Xiamen_University.png
 file_rename: 1595746294532542464_Xiamen_University.png
 file_type: image/png
 file_uid: '1595746294532542464'
+final_decode_bits_number: 8808
 final_segment_bit_length: 121 bits
 gc_data:
 - x_value: 0
@@ -374,15 +387,22 @@ pcr_prob: 0.8
 physical_information_density_g: 9.33E+22 petabyte/ug
 physical_information_density_ug: !!python/tuple
 - 9.33E+16 petabyte/gram
+recall_bits_number: 8635
+recall_bits_rate: 99.85 %
+recall_dna_sequence_number: 8550
+recall_dna_sequence_rate: 98.88%
 sam_ratio: 0.005
 segment_length: 100
 segment_number: 8648
+seq_depth: 1
+seq_meth: ill_PairedEnd
 simu:
 - SYN
 - DEC
 - PCR
 - SAM
 - SEQ
+simulation_dna_number: 318029
 storage_host: Hsapiens
 synthesis_method: ErrASE
 synthesis_number: 30
@@ -390,18 +410,4 @@ synthesis_yield: 0.99
 upload_file_size: 108096
 verify_code_length: 7 bits
 verify_method: Hamming
-after_clust_dna_sequence_number: 8712
-clust_method: starcode
-clust_time: 3.32 s
-decode_time: 0.46 s
-encode_bits_number: 8648
-encode_dna_sequence_number: 8647
-error_bits_number: 173
-error_bits_rate: 1.96%
-final_decode_bits_number: 8808
-recall_bits_number: 8635
-recall_bits_rate: 99.85 %
-recall_dna_sequence_number: 8550
-recall_dna_sequence_rate: 98.88%
-simulation_dna_number: 318029
 verify_method_remove_bits: 2

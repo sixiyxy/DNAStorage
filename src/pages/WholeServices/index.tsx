@@ -62,6 +62,25 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [decodeData, setDecodeData] = useState();
   const [isdisabled, setIsdisabled] = useState(true);
   const [fileOver2M,setFileOver] = useState(false) //假设一开始不超过2M
+  //左侧导航栏逻辑状态
+  const [EncodeSet,setEncodeSet] = useState(true) //true代表可以看见
+  const [EncodeRepo,setEncodeRepo] = useState(false)
+  const [SimuSet,setSimuSet]=useState(false)
+  const [SimuRepo,setSimuRepo]=useState(false)
+  const [DeSet,setDeSet]=useState(false)
+  const [DeRepo,setDerepo]=useState(false)
+  //控制所有导航栏全部展示完毕恢复原始的状态
+  const [resetMenu,setResetMenu] = useState(false) //还没有全部展示完
+  //report页面参数
+  const [spinflags, setSimuSpin] = useState(true);
+  const [synthesisData, setSynthesisData] = useState();
+  const [decayData, setDacayData] = useState();
+  const [pcrData, setPcrData] = useState();
+  const [samplingData, setSamplingData] = useState();
+  const [sequencingData, setSequenceingData] = useState();
+  const [errorRecoder, setErrorRecode] = useState();
+  const [errorDensity, setErrorDensity] = useState();
+  const [strand,setStrand] = useState(0)
   // const [controlReport,setControl]=useState(false)
   const items1 = useMemo(() => {
     return [
@@ -73,11 +92,12 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           {
             label: "Setting",
             key: "0-0-0",
+            disabled: !EncodeSet
           },
           {
             label: "Report",
             key: "0-0-1",
-            // disabled: !isSynthesis,
+            disabled: !EncodeRepo,
           },
         ],
       },
@@ -89,11 +109,12 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           {
             label: "Setting",
             key: "0-1-0",
+            disabled:!SimuSet
           },
           {
             label: "Report",
             key: "0-1-1",
-            // disabled: !isdisabled,
+            disabled:!SimuRepo,
           },
         ],
       },
@@ -105,16 +126,17 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           {
             label: "Setting",
             key: "0-2-0",
+            disabled:!DeSet
           },
           {
             label: "Report",
             key: "0-2-1",
-            // disabled: !isDecode,
+            disabled:!DeRepo,
           },
         ],
       },
     ];
-  }, [isSynthesis, isDecode]);
+  }, [EncodeSet, EncodeRepo,SimuSet,SimuRepo,DeSet,DeRepo]);
 
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
@@ -122,6 +144,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  
   return (
     <div className="global-wrapper">
       <Menu
@@ -160,6 +183,12 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setExam={setExam}
               setMini={setMini}
               setFileOver={setFileOver}
+              setEncodeRepo={setEncodeRepo}
+              setSimuSet={setSimuSet}
+              setSimuRepo={setSimuRepo}
+              setDeSet={setDeSet}
+              setDerepo={setDerepo}
+              resetMenu={resetMenu}
             />
           ) : null}
           {siderSelect[0] === "0-0-1" ? (
@@ -178,14 +207,45 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               mini={mini}
               changeSider={setSiderSelect}
               fileOver2M={fileOver2M}
+              setSimuSet={setSimuSet}
             />
           ) : null}
 
           {siderSelect[0] === "0-1-1" ? (
-            <SimulationReport changeSider={setSiderSelect} fileId={fileId} />
+            <SimulationReport 
+            changeSider={setSiderSelect} 
+            fileId={fileId}
+            spinflags={spinflags}
+            synthesisData={synthesisData}
+            decayData={decayData}
+            pcrData={pcrData}
+            samplingData={samplingData}
+            sequencingData={sequencingData}
+            errorRecoder={errorRecoder}
+            errorDensity={errorDensity}
+            strand={strand}
+            setDeSet={setDeSet}
+            />
           ) : null}
           {siderSelect[0] === "0-1-0" ? (
-            <SimulationSetting changeSider={setSiderSelect} fileId={fileId} needUploader={false} setIsdisabled={setIsdisabled} setFileId={setFileId} />
+            <SimulationSetting 
+            changeSider={setSiderSelect} 
+            fileId={fileId} 
+            needUploader={false}  
+            setFileId={setFileId} 
+            setSimuRepo={setSimuRepo} 
+            SimuRepo={SimuRepo} 
+            setDeSet={setDeSet}
+            setSimuSpin={setSimuSpin}
+            setSynthesisData={setSynthesisData}
+            setDacayData={setDacayData}
+            setPcrData={setPcrData}
+            setSamplingData={setSamplingData}
+            setSequenceingData={setSequenceingData}
+            setErrorRecode={setErrorRecode}
+            setErrorDensity={setErrorDensity}
+            setStrand={setStrand}
+            />
           ) : null}
           {siderSelect[0] === "0-2-0" ? (
             <DecodeSetting
@@ -194,10 +254,12 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setIsDecode={setIsDecode}
               setDecodeData={setDecodeData}
               setSpin={setSpin}
+              setDerepo={setDerepo}
+              
             />
           ) : null}
           {siderSelect[0] === "0-2-1" ? (
-            <DecodeReport fileId={fileId} isDecode={isDecode} decodeData={decodeData} spinflag={spinflag}/>
+            <DecodeReport fileId={fileId} isDecode={isDecode} decodeData={decodeData} spinflag={spinflag} setResetMenu={setResetMenu}/>
           ) : null}
         </div>
       </div>

@@ -27,6 +27,7 @@ export class ReportProps {
   mini;
   changeSider;
   fileOver2M;
+  setSimuSet;
 }
 interface DataType {
   key: string;
@@ -189,6 +190,7 @@ export const Report: React.FC<ReportProps> = (props) => {
       });
   };
   const handleNext=()=>{
+    props.setSimuSet(true)
     props.changeSider(["0-1-0"]);
   }
   return (

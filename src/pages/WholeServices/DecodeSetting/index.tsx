@@ -12,6 +12,7 @@ export class DecodeProps {
   setIsDecode;
   setDecodeData;
   setSpin;
+  setDerepo;
 }
 
 export const DecodeSetting: React.FC<DecodeProps> = (props) => {
@@ -29,6 +30,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
   }, [value, props.fileId]);
 
   const onDecode = function () {
+    props.setDerepo(true)
     props.changeSider(["0-2-1"]);
     props.setSpin(true)
     axios.post(API_PREFIX + "/decode", params).then(function (response) {

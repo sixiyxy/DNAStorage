@@ -44,6 +44,7 @@ const Uploads: React.FC = (props: any) => {
         if (info.file.response.upload_file_size >= 2048000) {
           props.setChange(false); //文件大于2M
         }
+        props.setUpload(!props.isUpload)
         props.GetFileID(info.file.response.file_uid);
         props.setZan(info.file.response.eight_can)
         props.setZanRadio(info.file.response.eight_can ? false : true)

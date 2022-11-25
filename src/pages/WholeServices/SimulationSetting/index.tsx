@@ -7,6 +7,7 @@ import { Pcr } from "./Pcr";
 import { Sampling } from "./Sampling";
 import { Sequencing } from "./Sequencing";
 import axios from "axios";
+import { doPost } from "../../../utils/request";
 import { API_PREFIX } from "../../../common/Config";
 import simu from "../../../assets/service/simu.png";
 import { InboxOutlined } from "@ant-design/icons";
@@ -18,10 +19,21 @@ export class SimulationSetProps {
   setIsSynthesis?;
   setFileId?;
   // setclickEXM?;
-  setIsdisabled?;
+  // setIsdisabled?;
   needUploader: boolean;
   clickEXM?;
-  // setControl;
+  setSimuRepo;
+  SimuRepo;
+  setDeSet;
+  setSimuSpin;
+  setSynthesisData;
+  setDacayData;
+  setPcrData;
+  setSamplingData;
+  setSequenceingData;
+  setErrorRecode;
+  setErrorDensity;
+  setStrand;
 }
 
 let method = [false, false, false, false]; //存放选择的方法
@@ -58,9 +70,9 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   
   const { Dragger } = Upload;
   useEffect(() => {
-    if (props.setIsdisabled) {
-      props.setIsdisabled(true);
-    }
+    // if (props.setIsdisabled) {
+    //   props.setIsdisabled(true);
+    // }
     window.scrollTo(0, 0);
   }, []);
   const paramExm = {
@@ -72,13 +84,28 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   // const [ok3,setOK3] = useState(false);
   // const [ok4,setOK4] = useState(false);
   // const [ok5,setOK5] = useState(false);
-
-  const handleReport = () => {
+var paramsRepo={
+    file_uid: props.fileId, 
+  }
+  const handleReport = async() => {
     method = [false, false, false, false];
-    props.setIsdisabled(true);
-    props.setControl(true)
+    props.setSimuRepo(true);
     props.changeSider(["0-1-1"]);
+    const resp = await doPost("/simu_repo", { body: paramsRepo });
+    props.setSimuSpin(false);
+    console.log("report", resp);
+    props.setSynthesisData(resp.SYN);
+    props.setDacayData(resp.DEC);
+    props.setPcrData(resp.PCR);
+    props.setSamplingData(resp.SAM);
+    props.setSequenceingData(resp.SEQ);
+    props.setErrorRecode(resp.Error_Recorder);
+    props.setErrorDensity(resp.Error_Density);
+    props.setStrand(resp.Strand_Count)
+    props.setDeSet(true)
   };
+  
+  
   const handleDecay = () => {
     method[0] = !method[0];
     setDecayFlag(!decayFlag);

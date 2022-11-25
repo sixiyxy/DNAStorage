@@ -109,7 +109,11 @@ def get_simu_synthesis_info(file_uid,
         syn_info['syn_density']=syn_density
         syn_info['density_group']=group
         syn_info['error_param']={"sub":arg.syn_sub_prob,"ins":arg.syn_ins_prob,"del":arg.syn_del_prob}
-        
+        # example_info={}
+        # example_info['SYN']={}
+        # example_info['SYN']['density_group']=group
+        # example_info['SYN']['syn_density']=syn_density
+        # write_yaml(yaml_path='backend/upload_dna/example_1.yaml',data=example_info,appending=False)
         return syn_info
 
 def get_simu_dec_info(file_uid,
@@ -143,6 +147,11 @@ def get_simu_dec_info(file_uid,
         dec_info['dec_density']=dec_density
         dec_info['dec_group']=group
         dec_info['error_param']={"sub":arg.dec_sub_prob,"ins":arg.dec_ins_prob,"del":arg.dec_del_prob}
+        # example_info={}
+        # example_info['DEC']={}
+        # example_info['DEC']['density_group']=group
+        # example_info['DEC']['dec_density']=dec_density
+        # write_yaml(yaml_path='backend/upload_dna/example_1.yaml',data=example_info,appending=True)
         return dec_info
 
 def get_simu_pcr_info(
@@ -178,7 +187,11 @@ def get_simu_pcr_info(
         pcr_info["pcr_density"]=density
         pcr_info['pcr_group']=group
         pcr_info['error_param']={"sub":arg.pcr_sub_prob,"ins":arg.pcr_ins_prob,"del":arg.pcr_del_prob}
-
+        # example_info={}
+        # example_info["PCR"]={}
+        # example_info['PCR']['density_group']=group
+        # example_info['PCR']['pcr_density']=density
+        # write_yaml(yaml_path='backend/upload_dna/example_1.yaml',data=example_info,appending=True)
         return pcr_info
 
 def get_simu_sam_info(file_uid,
@@ -206,6 +219,11 @@ def get_simu_sam_info(file_uid,
         write_yaml(yaml_path=file_info_path,data=sam_info,appending=True)
         sam_info["sam_density"]=density
         sam_info['sam_group']=group
+        # example_info={}
+        # example_info["SAM"]={}
+        # example_info['SAM']['density_group']=group
+        # example_info['SAM']['sam_density']=density
+        # write_yaml(yaml_path='backend/upload_dna/example_1.yaml',data=example_info,appending=True)
 
         return sam_info
 
@@ -238,6 +256,11 @@ def get_simu_seq_info(file_uid,
         seq_info["seq_density"]=density
         seq_info['seq_group']=group
         seq_info['error_param']={"sub":arg.seq_sub_prob,"ins":arg.seq_ins_prob,"del":arg.seq_del_prob}
+        # example_info={}
+        # example_info["SEQ"]={}
+        # example_info['SEQ']['density_group']=group
+        # example_info['SEQ']['seq_density']=density
+        # write_yaml(yaml_path='backend/upload_dna/example_1.yaml',data=example_info,appending=True)
         return seq_info
 
 def get_simu_repo(file_uid,upload_flag):
