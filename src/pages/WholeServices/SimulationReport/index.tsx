@@ -9,6 +9,15 @@ import type { ColumnsType } from "antd/es/table";
 export class SimulationReportProps {
   changeSider?;
   fileId;
+  spinflags;
+  synthesisData;
+  decayData;
+  pcrData;
+  samplingData;
+  sequencingData;
+  errorRecoder;
+  errorDensity;
+  strand;
   setDeSet;
   // controlReport;
   // setControl;
@@ -20,101 +29,40 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     type: "simulation",
   };
   const { Option, OptGroup } = Select;
+ 
+  // const [spinflag, setSimuSpin] = useState(true);
+  // const [props.synthesisData, setprops.synthesisData] = useState();
+  // const [props.decayData, setDacayData] = useState();
+  // const [props.pcrData, setprops.pcrData] = useState();
+  // const [props.samplingData, setprops.samplingData] = useState();
+  // const [props.sequencingData, setSequenceingData] = useState();
+  // const [props.errorRecoder, setErrorRecode] = useState();
+  // const [props.errorDensity, setprops.errorDensity] = useState();
+  // const [strand,setStrand] = useState(0)
 
-  const [sequencingDepth, setSequencingDepth] = useState(1);
-  const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  const [hrefLink, setHrefLink] = useState();
-  const [method, setMethod] = useState("ill_PairedEnd");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [densityData, setDensityData] = useState([]);
-  const [errorData, setErrorData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [spinflag, setSimuSpin] = useState(true);
-  const [synthesisData, setSynthesisData] = useState();
-  const [decayData, setDacayData] = useState();
-  const [pcrData, setPcrData] = useState();
-  const [samplingData, setSamplingData] = useState();
-  const [sequencingData, setSequenceingData] = useState();
-  const [errorRecoder, setErrorRecode] = useState();
-  const [errorDensity, setErrorDensity] = useState();
-  const [strand,setStrand] = useState(0)
-  //处理函数
-  const monthChange = (value: number) => {
-    if (isNaN(value)) {
-      return;
-    }
-    setSequencingDepth(value);
-  };
-
-  const handleChange = (value: string) => {
-    setMethod(value);
-  };
-  const skipDecay = function () {
-    props.changeSider(["0-2"]);
-  };
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      setNoDataTipsShow(false);
-      const resp = await doPost("/simu_repo", { body: params });
-      setSimuSpin(false);
-      console.log("report", resp);
-      setSynthesisData(resp.SYN);
-      setDacayData(resp.DEC);
-      setPcrData(resp.PCR);
-      setSamplingData(resp.SAM);
-      setSequenceingData(resp.SEQ);
-      setErrorRecode(resp.Error_Recorder);
-      setErrorDensity(resp.Error_Density);
-      setStrand(resp.Strand_Count)
-      setLoading(false);
-      props.setDeSet(true)
-      // props.setControl(false)//不知道为什么每次点report就会发请求，设置这个变量控制只点击SimuSetting的report后才发请求
-    }
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const resp = await doPost("/simu_repo", { body: params });
+  //     setSimuSpin(false);
+  //     console.log("report", resp);
+  //     setprops.synthesisData(resp.SYN);
+  //     setDacayData(resp.DEC);
+  //     setprops.pcrData(resp.PCR);
+  //     setprops.samplingData(resp.SAM);
+  //     setSequenceingData(resp.SEQ);
+  //     setErrorRecode(resp.Error_Recorder);
+  //     setprops.errorDensity(resp.Error_Density);
+  //     setStrand(resp.Strand_Count)
+  //     props.setDeSet(true)
+  //     // props.setControl(false)//不知道为什么每次点report就会发请求，设置这个变量控制只点击SimuSetting的report后才发请求
+  //   }
     
-      fetchData();
-    // axios
-    //   .post("http://localhost:5000//simu_repo", params)
-    //   .then(function (response) {
-    //     console.log("report", response);
-    //     setSynthesisData(response?.data?.synthesis);
-    //     setDacayData(response?.data?.decay);
-    //     setPcrData(response?.data?.pcr);
-    //     setSamplingData(response?.data?.sample);
-    //     setSequenceingData(response?.data?.sequence);
-    //     setErrorRecode(response?.data?.Error_Recorder);
-    //     setErrorDensity(response?.data?.Error_Density);
-    //     setLoading(false);
-    //   });
-  }, [props.fileId]);
-  // const handleOk = () => {
-  //   setLoading(true);
-  //   setNoDataTipsShow(false);
-  //   axios
-  //     .post("http://localhost:5000//simu_repo", params)
-  //     .then(function (response) {
-  //       console.log("report", response);
-  //       setSynthesisData(response?.data?.synthesis);
-  //       setDacayData(response?.data?.decay);
-  //       setPcrData(response?.data?.pcr);
-  //       setSamplingData(response?.data?.sample);
-  //       setSequenceingData(response?.data?.sequence);
-  //       setErrorRecode(response?.data?.Error_Recorder);
-  //       setLoading(false);
-  //     });
-  // };
-  const handleContinue = () => {
-    props.changeSider(["0-2"]);
-  };
+  //     fetchData();
+  // }, [props.fileId]);
+
 
   //数据生成
 
@@ -123,81 +71,81 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     return [
       {
         type: "sub",
-        value: Number(synthesisData?.error_param?.sub).toFixed(3) * 100,
+        value: Number(props.synthesisData?.error_param?.sub).toFixed(3) * 100,
       },
       {
         type: "ins",
-        value: Number(synthesisData?.error_param?.ins).toFixed(3) * 100,
+        value: Number(props.synthesisData?.error_param?.ins).toFixed(3) * 100,
       },
       {
         type: "del",
-        value: Number(synthesisData?.error_param?.del).toFixed(3) * 100,
+        value: Number(props.synthesisData?.error_param?.del).toFixed(3) * 100,
       },
     ];
-  }, [synthesisData]);
+  }, [props.synthesisData]);
   const decayErrorParamData = useMemo(() => {
     return [
       {
         type: "sub",
-        value: Number(decayData?.error_param?.sub).toFixed(3) * 100,
+        value: Number(props.decayData?.error_param?.sub).toFixed(3) * 100,
       },
       {
         type: "ins",
-        value: Number(decayData?.error_param?.ins).toFixed(3) * 100,
+        value: Number(props.decayData?.error_param?.ins).toFixed(3) * 100,
       },
       {
         type: "del",
-        value: Number(decayData?.error_param?.del).toFixed(3) * 100,
+        value: Number(props.decayData?.error_param?.del).toFixed(3) * 100,
       },
     ];
-  }, [decayData]);
+  }, [props.decayData]);
   const pcrErrorParamData = useMemo(() => {
     return [
       {
         type: "sub",
-        value: Number(pcrData?.error_param?.sub).toFixed(3) * 100,
+        value: Number(props.pcrData?.error_param?.sub).toFixed(3) * 100,
       },
       {
         type: "ins",
-        value: Number(pcrData?.error_param?.ins).toFixed(3) * 100,
+        value: Number(props.pcrData?.error_param?.ins).toFixed(3) * 100,
       },
       {
         type: "del",
-        value: Number(pcrData?.error_param?.del).toFixed(3) * 100,
+        value: Number(props.pcrData?.error_param?.del).toFixed(3) * 100,
       },
     ];
-  }, [pcrData]);
+  }, [props.pcrData]);
   const sequenceingErrorParamData = useMemo(() => {
     return [
       {
         type: "sub",
-        value: Number(sequencingData?.error_param?.sub).toFixed(3) * 100,
+        value: Number(props.sequencingData?.error_param?.sub).toFixed(3) * 100,
       },
       {
         type: "ins",
-        value: Number(sequencingData?.error_param?.ins).toFixed(3) * 100,
+        value: Number(props.sequencingData?.error_param?.ins).toFixed(3) * 100,
       },
       {
         type: "del",
-        value: Number(sequencingData?.error_param?.del).toFixed(3) * 100,
+        value: Number(props.sequencingData?.error_param?.del).toFixed(3) * 100,
       },
     ];
-  }, [sequencingData]);
+  }, [props.sequencingData]);
   const samplingErrorParamData = useMemo(() => {
     return [
       {
         name: "Percentage",
-        value: samplingData?.sam_ratio <= 0.1? samplingData?.sam_ratio * 1000 : samplingData?.sam_ratio*100,
+        value: props.samplingData?.sam_ratio <= 0.1? props.samplingData?.sam_ratio * 1000 : props.samplingData?.sam_ratio*100,
         type: "Ratio",
       },
 
       {
         name: "Percentage",
-        value: samplingData?.sam_ratio <= 0.1? (100 - samplingData?.sam_ratio * 1000): 100-samplingData?.sam_ratio*100,
+        value: props.samplingData?.sam_ratio <= 0.1? (100 - props.samplingData?.sam_ratio * 1000): 100-props.samplingData?.sam_ratio*100,
         type: "Rest",
       },
     ];
-  }, [samplingData]);
+  }, [props.samplingData]);
   const synthesisErrorParamConfig = {
     data: synthesisErrorParamData,
     appendPadding: 10,
@@ -292,275 +240,141 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       },
     },
   };
-  //混合图数据以及配置
-  // const columnData = useMemo(() => {
-  //   return [
-  //     {
-  //       step: "synthesis",
-  //       value: errorRecoder?.Synthesis
-  //         ? errorRecoder?.Synthesis.n
-  //         : 0,
-  //       type: "total",
-  //     },
-  //     {
-  //       step: "synthesis",
-  //       value: errorRecoder?.Synthesis ? errorRecoder?.Synthesis.e : 0,
-  //       type: "error",
-  //     },
-  //     {
-  //       step: "decay",
-  //       value: errorRecoder?.Decay ? errorRecoder?.Decay.n : 0,
-  //       type: "total",
-  //     },
-  //     {
-  //       step: "decay",
-  //       value: errorRecoder?.Decay ? errorRecoder?.Decay.e : 0,
-  //       type: "error",
-  //     },
-  //     {
-  //       step: "pcr",
-  //       value: errorRecoder?.PCR ? errorRecoder?.PCR.n : 0,
-  //       type: "total",
-  //     },
-  //     {
-  //       step: "pcr",
-  //       value: errorRecoder?.PCR ? errorRecoder?.PCR.e : 0,
-  //       type: "error",
-  //     },
-  //     {
-  //       step: "sample",
-  //       value: errorRecoder?.Sam ? errorRecoder?.Sam.n : 0,
-  //       type: "total",
-  //     },
-  //     {
-  //       step: "sample",
-  //       value: errorRecoder?.Sam ? errorRecoder?.Sam.e : 0,
-  //       type: "error",
-  //     },
-  //     {
-  //       step: "sequence",
-  //       value: errorRecoder?.Seq ? errorRecoder?.Seq.n : 0,
-  //       type: "total",
-  //     },
-  //     {
-  //       step: "sequence",
-  //       value: errorRecoder?.Seq ? errorRecoder?.Seq.e : 0,
-  //       type: "error",
-  //     },
-  //   ];
-  // }, [errorRecoder]);
+
   const columnData = useMemo(() => {
     return [
       {
         step: "synthesis",
-        value: errorRecoder?.SYN ? Math.log(errorRecoder?.SYN.n) : 0,
+        value: props.errorRecoder?.SYN ? Math.log(props.errorRecoder?.SYN.n) : 0,
         type: "total",
       },
       {
         step: "synthesis",
-        value: errorRecoder?.SYN ? Math.log(errorRecoder?.SYN.e) : 0,
+        value: props.errorRecoder?.SYN ? Math.log(props.errorRecoder?.SYN.e) : 0,
         type: "error",
       },
       {
         step: "decay",
-        value: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.n) : null,
+        value: props.errorRecoder?.DEC ? Math.log(props.errorRecoder?.DEC.n) : null,
         type: "total",
       },
       {
         step: "decay",
-        value: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.e) : null,
+        value: props.errorRecoder?.DEC ? Math.log(props.errorRecoder?.DEC.e) : null,
         type: "error",
       },
       {
         step: "pcr",
-        value: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.n) : null,
+        value: props.errorRecoder?.PCR ? Math.log(props.errorRecoder?.PCR.n) : null,
         type: "total",
       },
       {
         step: "pcr",
-        value: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.e) : null,
+        value: props.errorRecoder?.PCR ? Math.log(props.errorRecoder?.PCR.e) : null,
         type: "error",
       },
       {
         step: "sample",
-        value: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.n) : null,
+        value: props.errorRecoder?.SAM ? Math.log(props.errorRecoder?.SAM.n) : null,
         type: "total",
       },
       {
         step: "sample",
-        value: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.e) : null,
+        value: props.errorRecoder?.SAM ? Math.log(props.errorRecoder?.SAM.e) : null,
         type: "error",
       },
       {
         step: "sequence",
-        value: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.n) : null,
+        value: props.errorRecoder?.SEQ ? Math.log(props.errorRecoder?.SEQ.n) : null,
         type: "total",
       },
       {
         step: "sequence",
-        value: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.e) : null,
+        value: props.errorRecoder?.SEQ ? Math.log(props.errorRecoder?.SEQ.e) : null,
         type: "error",
       },
     ];
-  }, [errorRecoder]);
-  // const lineData = useMemo(() => {
-  //   return [
-  //     {
-  //       step: "synthesis",
-  //       count: errorRecoder?.Synthesis ? errorRecoder?.Synthesis["+"] : 0,
-  //       name: "insert",
-  //     },
-  //     {
-  //       step: "synthesis",
-  //       count: errorRecoder?.Synthesis ? errorRecoder?.Synthesis["-"] : 0,
-  //       name: "delete",
-  //     },
-  //     {
-  //       step: "synthesis",
-  //       count: errorRecoder?.Synthesis ? errorRecoder?.Synthesis.s : 0,
-  //       name: "substitute",
-  //     },
-  //     {
-  //       step: "decay",
-  //       count: errorRecoder?.Decay ? errorRecoder?.Decay["+"] : 0,
-  //       name: "insert",
-  //     },
-  //     {
-  //       step: "decay",
-  //       count: errorRecoder?.Decay ? errorRecoder?.Decay["-"] : 0,
-  //       name: "delete",
-  //     },
-  //     {
-  //       step: "decay",
-  //       count: errorRecoder?.Decay ? errorRecoder?.Decay.s : 0,
-  //       name: "substitute",
-  //     },
-  //     {
-  //       step: "pcr",
-  //       count: errorRecoder?.PCR ? errorRecoder?.PCR["+"] : 0,
-  //       name: "insert",
-  //     },
-  //     {
-  //       step: "pcr",
-  //       count: errorRecoder?.PCR ? errorRecoder?.PCR["-"] : 0,
-  //       name: "delete",
-  //     },
-  //     {
-  //       step: "pcr",
-  //       count: errorRecoder?.PCR ? errorRecoder?.PCR.s : 0,
-  //       name: "substitute",
-  //     },
-  //     {
-  //       step: "sample",
-  //       count: errorRecoder?.Sam ? errorRecoder?.Sam["+"] : 0,
-  //       name: "insert",
-  //     },
-  //     {
-  //       step: "sample",
-  //       count: errorRecoder?.Sam ? errorRecoder?.Sam["-"] : 0,
-  //       name: "delete",
-  //     },
-  //     {
-  //       step: "sample",
-  //       count: errorRecoder?.Sam ? errorRecoder?.Sam.s : 0,
-  //       name: "substitute",
-  //     },
-  //     {
-  //       step: "sequence",
-  //       count: errorRecoder?.Seq ? errorRecoder?.Seq["+"] : 0,
-  //       name: "insert",
-  //     },
-  //     {
-  //       step: "sequence",
-  //       count: errorRecoder?.Seq ? errorRecoder?.Seq["-"] : 0,
-  //       name: "delete",
-  //     },
-  //     {
-  //       step: "sequence",
-  //       count: errorRecoder?.Seq ? errorRecoder?.Seq.s : 0,
-  //       name: "substitute",
-  //     },
-  //   ];
-  // }, [errorRecoder]);
+  }, [props.errorRecoder]);
+
   const lineData = useMemo(() => {
     return [
       {
         step: "synthesis",
-        count: errorRecoder?.SYN ? Math.log(errorRecoder?.SYN["+"]) : 0,
+        count: props.errorRecoder?.SYN ? Math.log(props.errorRecoder?.SYN["+"]) : 0,
         name: "insert",
       },
       {
         step: "synthesis",
-        count: errorRecoder?.SYN ? Math.log(errorRecoder?.SYN["-"]) : 0,
+        count: props.errorRecoder?.SYN ? Math.log(props.errorRecoder?.SYN["-"]) : 0,
         name: "delete",
       },
       {
         step: "synthesis",
-        count: errorRecoder?.SYN ? Math.log(errorRecoder?.SYN.s) : 0,
+        count: props.errorRecoder?.SYN ? Math.log(props.errorRecoder?.SYN.s) : 0,
         name: "substitute",
       },
       {
         step: "decay",
-        count: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC["+"]) : null,
+        count: props.errorRecoder?.DEC ? Math.log(props.errorRecoder?.DEC["+"]) : null,
         name: "insert",
       },
       {
         step: "decay",
-        count: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC["-"]) : null,
+        count: props.errorRecoder?.DEC ? Math.log(props.errorRecoder?.DEC["-"]) : null,
         name: "delete",
       },
       {
         step: "decay",
-        count: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.s) : null,
+        count: props.errorRecoder?.DEC ? Math.log(props.errorRecoder?.DEC.s) : null,
         name: "substitute",
       },
       {
         step: "pcr",
-        count: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR["+"]) : null,
+        count: props.errorRecoder?.PCR ? Math.log(props.errorRecoder?.PCR["+"]) : null,
         name: "insert",
       },
       {
         step: "pcr",
-        count: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR["-"]) : null,
+        count: props.errorRecoder?.PCR ? Math.log(props.errorRecoder?.PCR["-"]) : null,
         name: "delete",
       },
       {
         step: "pcr",
-        count: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.s) : null,
+        count: props.errorRecoder?.PCR ? Math.log(props.errorRecoder?.PCR.s) : null,
         name: "substitute",
       },
       {
         step: "sample",
-        count: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM["+"]) : null,
+        count: props.errorRecoder?.SAM ? Math.log(props.errorRecoder?.SAM["+"]) : null,
         name: "insert",
       },
       {
         step: "sample",
-        count: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM["-"]) : null,
+        count: props.errorRecoder?.SAM ? Math.log(props.errorRecoder?.SAM["-"]) : null,
         name: "delete",
       },
       {
         step: "sample",
-        count: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.s) : null,
+        count: props.errorRecoder?.SAM ? Math.log(props.errorRecoder?.SAM.s) : null,
         name: "substitute",
       },
       {
         step: "sequence",
-        count: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ["+"]) : null,
+        count: props.errorRecoder?.SEQ ? Math.log(props.errorRecoder?.SEQ["+"]) : null,
         name: "insert",
       },
       {
         step: "sequence",
-        count: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ["-"]) : null,
+        count: props.errorRecoder?.SEQ ? Math.log(props.errorRecoder?.SEQ["-"]) : null,
         name: "delete",
       },
       {
         step: "sequence",
-        count: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.s) : null,
+        count: props.errorRecoder?.SEQ ? Math.log(props.errorRecoder?.SEQ.s) : null,
         name: "substitute",
       },
     ];
-  }, [errorRecoder]);
+  }, [props.errorRecoder]);
   console.log(lineData);
   const dualConfig = {
     data: [columnData, lineData],
@@ -638,7 +452,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   //   // height: 200,
   //   autoFit: true,
   //   appendPadding: 16,
-  //   data: errorDensity || [],
+  //   data: props.errorDensity || [],
   //   xField: "error",
   //   yField: "type",
   //   sizeField: "count",
@@ -679,8 +493,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   //     line: null,
   //   },
   // };
-  const ErrorDensityConfig = {
-    data: errorDensity || [],
+  const errorDensityConfig = {
+    data: props.errorDensity || [],
     isStack: true,
     isPercent: true,
     xField: "count",
@@ -730,7 +544,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     //     </br>
     //     <h3>Erro counts</h3>
     //     </br>
-    //       <h3>0 : ${errorDensity} </h3>
+    //       <h3>0 : ${props.errorDensity} </h3>
     //       </br>
     //       <h3>1 : ${props.index} </h3>
     //       </br>
@@ -756,13 +570,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   };
 
   //接口配置
-  const params = useMemo(() => {
-    return {
-      file_uid: props.fileId,
-      // upload_flag: "True",
-      // file_uid: "1565536927137009664",
-    };
-  }, []);
+
 
   const DownloadURL = () => {
     // console.log(props.encodeurl);
@@ -807,16 +615,16 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         </Breadcrumb>
       </div>
       <div className="simulation-report-content-wrapper">
-        <Spin tip="Loading..." size="large" spinning={spinflag}>
+        <Spin tip="Loading..." size="large" spinning={props.spinflags}>
           <Card title="Stage summary" headStyle={{ backgroundColor: "#99CCFF" }}>
             <Tabs defaultActiveKey="1" size={"large"}>
-              <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined}>
+              <Tabs.TabPane tab="Synthesis" key="1" disabled={props.synthesisData === undefined}>
                 <div className="TabSYN">
-                  synthesis number : {synthesisData?.synthesis_number}
+                  synthesis number : {props.synthesisData?.synthesis_number}
                   <br />
-                  synthesis yield : {synthesisData?.synthesis_yield}
+                  synthesis yield : {props.synthesisData?.synthesis_yield}
                   <br />
-                  synthesis method : {synthesisData?.synthesis_method}
+                  synthesis method : {props.synthesisData?.synthesis_method}
                   <br />
                 </div>
                 <p>The error rate distribution of your chosen synthesis method is as follows:</p>
@@ -824,17 +632,17 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 <Pie className="pie" {...synthesisErrorParamConfig} />
               
               </Tabs.TabPane>
-              <Tabs.TabPane tab="Decay" key="2" disabled={decayData === undefined}>
+              <Tabs.TabPane tab="Decay" key="2" disabled={props.decayData === undefined}>
                 <div className="TabDEC">
-                  storage host : {decayData?.storage_host}
+                  storage host : {props.decayData?.storage_host}
                   <br />
-                  months of storage : {decayData?.months_of_storage}
+                  months of storage : {props.decayData?.months_of_storage}
                   <br />
-                  decay loss rate : {decayData?.decay_loss_rate}
+                  decay loss rate : {props.decayData?.decay_loss_rate}
                   <br />
                   {/* storage_host_parameter_reference :
             <br />
-            {decayData?.storage_host_parameter_reference?.map((link, index) => {
+            {props.decayData?.storage_host_parameter_reference?.map((link, index) => {
               return (
                 <>
                   <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank" rel="noreferrer">
@@ -848,17 +656,17 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 <p>The error rate distribution of your chosen storage host is as follows:</p>
                 <Pie className="pie" {...decayErrorParamConfig} />
               </Tabs.TabPane>
-              <Tabs.TabPane tab="PCR" key="3" disabled={pcrData === undefined}>
+              <Tabs.TabPane tab="PCR" key="3" disabled={props.pcrData === undefined}>
                 <div className="TabPCR">
-                  pcr polymerase : {pcrData?.pcr_polymerase}
+                  pcr polymerase : {props.pcrData?.pcr_polymerase}
                   <br />
-                  pcr cycle : {pcrData?.pcr_cycle}
+                  pcr cycle : {props.pcrData?.pcr_cycle}
                   <br />
-                  pcr prob : {pcrData?.pcr_prob}
+                  pcr prob : {props.pcrData?.pcr_prob}
                   <br />
                   {/* pcr_method_reference : */}
                   {/* <br />
-                  {pcrData?.pcr_method_reference?.map((link, index) => {
+                  {props.pcrData?.pcr_method_reference?.map((link, index) => {
                     return (
                       <>
                         <a
@@ -877,23 +685,23 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 <p>The error rate distribution of your chosen pcr polymerase is as follows:</p>
                 <Pie className="pie" {...pcrErrorParamConfig} />
               </Tabs.TabPane>
-              <Tabs.TabPane tab="Sampling" key="4" disabled={samplingData === undefined}>
-                {/* sam_ratio: {samplingData?.sam_ratio} */}
+              <Tabs.TabPane tab="Sampling" key="4" disabled={props.samplingData === undefined}>
+                {/* sam_ratio: {props.samplingData?.sam_ratio} */}
                 <p style={{ margin: "10px 0 0 0px" }}>The sampling ratio your chosen is:</p>
                 <div style={{ margin: "40px 80px 0 80px" }}>
                 <Bar {...samplingErrorParamConfig} />
                 </div>
                 <br />
               </Tabs.TabPane>
-              <Tabs.TabPane tab="Sequencing" key="5" disabled={sequencingData === undefined}>
+              <Tabs.TabPane tab="Sequencing" key="5" disabled={props.sequencingData === undefined}>
                 <div className="TabSEQ">
-                  sequencing depth : {sequencingData?.seq_depth}
+                  sequencing depth : {props.sequencingData?.seq_depth}
                   <br />
-                  sequencing method : {sequencingData?.seq_meth}
+                  sequencing method : {props.sequencingData?.seq_meth}
                   <br />
                   {/* seq_method_reference :
             <br />
-            {sequencingData?.seq_method_reference?.map((link, index) => {
+            {props.sequencingData?.seq_method_reference?.map((link, index) => {
               return (
                 <>
                   <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank" rel="noreferrer">
@@ -925,7 +733,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               }}
             >
               <br></br>
-              <strong>After simulation, the number of strands in oligo pool is : {strand}</strong><br></br><br></br>
+              <strong>After simulation, the number of strands in oligo pool is : {props.strand}</strong><br></br><br></br>
               During the whole process, the number of sequences, causes of erors and proposrtions of
               different types of errors change from time to time. Therefore, we counted and compared
               the numbers of DNA strands with errors and the left 100% correct DNA strands for each
@@ -939,7 +747,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             <h3>Error Counts </h3>
             <div style={{padding:"50px 200px 0 150px"}}>
               
-              <Bar {...ErrorDensityConfig} />
+              <Bar {...errorDensityConfig} />
             </div>
             <div
               style={{

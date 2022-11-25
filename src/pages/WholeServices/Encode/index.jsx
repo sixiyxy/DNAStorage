@@ -34,6 +34,7 @@ export const Encode = (props) => {
   const [processRes, setprocessRes] = useState({})
   const [Zan,setZan] = useState(false) //其他方法都不能使用zan
   const [ZanRadio,setZanRadio]=useState(false) //一开始不禁
+  const [isUpload,setUpload] = useState(false) //假设一开始没有上传文件
   // useEffect(() => {
   //   props.setIsSynthesis(false);
   // }, []);
@@ -296,6 +297,8 @@ export const Encode = (props) => {
             setFileOver={props.setFileOver}
             setZan={setZan}
             setZanRadio={setZanRadio}
+            setUpload={setUpload}
+            isUpload={isUpload}
           />
         </Card>
       </div>
@@ -315,6 +318,7 @@ export const Encode = (props) => {
         btnflag={btnflag}
         setZanRadio={setZanRadio}
         ZanRadio={ZanRadio}
+        isUpload={isUpload}
       />
 
       <Sliders

@@ -71,6 +71,16 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [DeRepo,setDerepo]=useState(false)
   //控制所有导航栏全部展示完毕恢复原始的状态
   const [resetMenu,setResetMenu] = useState(false) //还没有全部展示完
+  //report页面参数
+  const [spinflags, setSimuSpin] = useState(true);
+  const [synthesisData, setSynthesisData] = useState();
+  const [decayData, setDacayData] = useState();
+  const [pcrData, setPcrData] = useState();
+  const [samplingData, setSamplingData] = useState();
+  const [sequencingData, setSequenceingData] = useState();
+  const [errorRecoder, setErrorRecode] = useState();
+  const [errorDensity, setErrorDensity] = useState();
+  const [strand,setStrand] = useState(0)
   // const [controlReport,setControl]=useState(false)
   const items1 = useMemo(() => {
     return [
@@ -202,10 +212,40 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           ) : null}
 
           {siderSelect[0] === "0-1-1" ? (
-            <SimulationReport changeSider={setSiderSelect} fileId={fileId} setDeSet={setDeSet}/>
+            <SimulationReport 
+            changeSider={setSiderSelect} 
+            fileId={fileId}
+            spinflags={spinflags}
+            synthesisData={synthesisData}
+            decayData={decayData}
+            pcrData={pcrData}
+            samplingData={samplingData}
+            sequencingData={sequencingData}
+            errorRecoder={errorRecoder}
+            errorDensity={errorDensity}
+            strand={strand}
+            setDeSet={setDeSet}
+            />
           ) : null}
           {siderSelect[0] === "0-1-0" ? (
-            <SimulationSetting changeSider={setSiderSelect} fileId={fileId} needUploader={false}  setFileId={setFileId} setSimuRepo={setSimuRepo} SimuRepo={SimuRepo}/>
+            <SimulationSetting 
+            changeSider={setSiderSelect} 
+            fileId={fileId} 
+            needUploader={false}  
+            setFileId={setFileId} 
+            setSimuRepo={setSimuRepo} 
+            SimuRepo={SimuRepo} 
+            setDeSet={setDeSet}
+            setSimuSpin={setSimuSpin}
+            setSynthesisData={setSynthesisData}
+            setDacayData={setDacayData}
+            setPcrData={setPcrData}
+            setSamplingData={setSamplingData}
+            setSequenceingData={setSequenceingData}
+            setErrorRecode={setErrorRecode}
+            setErrorDensity={setErrorDensity}
+            setStrand={setStrand}
+            />
           ) : null}
           {siderSelect[0] === "0-2-0" ? (
             <DecodeSetting
