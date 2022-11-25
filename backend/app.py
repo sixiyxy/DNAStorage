@@ -19,7 +19,7 @@ from script.utils.utils_basic import get_config,write_yaml,get_download_path,is_
 from app_utils import set_session,get_session
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
-# CORS(app, resources=r'/*')
+CORS(app, resources=r'/*')
 backend_dir = os.path.dirname(os.path.abspath(__file__))
 print("----------------------------------------------------------------",backend_dir)
 
