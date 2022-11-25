@@ -105,6 +105,8 @@ export const Encode = (props) => {
   const handleClick = async () => {
     //console.log("加载中");
     props.setIsSynthesis(true);
+    props.setEncodeRepo(true)
+    props.setSimuSet(true)
     props.changeSider(["0-0-1"]);
     props.setSpin(true);
     props.setExam(false);
@@ -113,7 +115,7 @@ export const Encode = (props) => {
     params1.index_length = index;
     params1.verify_method = method;
     params1.encode_method = value;
-
+    
     // const body = params1;
 
     const resp = await doPost("/encode", { body: params1 });
@@ -168,6 +170,7 @@ export const Encode = (props) => {
   };
   const handleExm = async () => {
     props.setIsSynthesis(true);
+    props.setEncodeRepo(true)
     props.changeSider(["0-0-1"]);
     props.setSpin(true);
     props.setExam(true);

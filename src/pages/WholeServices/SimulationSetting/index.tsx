@@ -18,9 +18,11 @@ export class SimulationSetProps {
   setIsSynthesis?;
   setFileId?;
   // setclickEXM?;
-  setIsdisabled?;
+  // setIsdisabled?;
   needUploader: boolean;
   clickEXM?;
+  setSimuRepo;
+  SimuRepo;
   // setControl;
 }
 
@@ -58,9 +60,9 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   
   const { Dragger } = Upload;
   useEffect(() => {
-    if (props.setIsdisabled) {
-      props.setIsdisabled(true);
-    }
+    // if (props.setIsdisabled) {
+    //   props.setIsdisabled(true);
+    // }
     window.scrollTo(0, 0);
   }, []);
   const paramExm = {
@@ -75,10 +77,14 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
 
   const handleReport = () => {
     method = [false, false, false, false];
-    props.setIsdisabled(true);
-    props.setControl(true)
+    // props.setIsdisabled(true);
+    // props.setControl(true)
+    props.setSimuRepo(true);
+    //console.log('SimuRepo:',props.SimuRepo); 
     props.changeSider(["0-1-1"]);
   };
+  console.log('SimuRepo:',props.SimuRepo);
+  
   const handleDecay = () => {
     method[0] = !method[0];
     setDecayFlag(!decayFlag);

@@ -9,6 +9,7 @@ import type { ColumnsType } from "antd/es/table";
 export class SimulationReportProps {
   changeSider?;
   fileId;
+  setDeSet;
   // controlReport;
   // setControl;
 }
@@ -76,6 +77,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       setErrorDensity(resp.Error_Density);
       setStrand(resp.Strand_Count)
       setLoading(false);
+      props.setDeSet(true)
       // props.setControl(false)//不知道为什么每次点report就会发请求，设置这个变量控制只点击SimuSetting的report后才发请求
     }
     
@@ -787,6 +789,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       });
   };
   const handleNext=()=>{
+    props.setDeSet(true)
     props.changeSider(["0-2-0"])
   }
   return (
