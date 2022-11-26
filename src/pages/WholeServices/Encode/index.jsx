@@ -72,7 +72,7 @@ export const Encode = (props) => {
     props.setMini(param1);
     console.log(props.mini);
   };
-  const InfoPass1 = (param1, param2, param3, param4, param5, param6, param7,param8,param9) => {
+  const InfoPass1 = (param1, param2, param3, param4, param5, param6, param7,param8,param9,param10) => {
     props.infos.bit_size = param1;
     props.infos.byte_size = param2;
     props.infos.encode_method = param3;
@@ -82,7 +82,7 @@ export const Encode = (props) => {
     props.infos.verify_method = param7;
     props.infos.verify_code_length = param8;
     props.infos.final_segment_bit_length = param9;
-    
+    props.infos.DNA_sequence_length = param10;
     props.setInfo(props.infos);
     //console.log("InfoPass1", info);
   };
@@ -141,7 +141,8 @@ export const Encode = (props) => {
       resp.segment_number,
       resp.verify_method,
       resp.verify_code_length,
-      resp.final_segment_bit_length
+      resp.final_segment_bit_length,
+      resp.DNA_sequence_length
     );
     GCPass(resp.gc_data);
     HomoPass(resp.homo_data);
@@ -198,7 +199,8 @@ export const Encode = (props) => {
       resp.segment_number,
       resp.verify_method,
       resp.verify_code_length,
-      resp.final_segment_bit_length
+      resp.final_segment_bit_length,
+      resp.DNA_sequence_length
     );
     GCPass(resp.gc_data);
     HomoPass(resp.homo_data);

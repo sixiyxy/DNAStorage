@@ -33,7 +33,7 @@ export const Home: React.FC<HomeProps> = (props) => {
           }}
         >
           DNA Storage Designer is an easy-to-use online webserver that covers the simulation of
-          whole process of DNA storage application. It includes x popular encoding methods and
+          whole process of DNA storage application. It includes eight popular encoding methods and
           realized the corresponding decoding process. In addition, it also simulated the sequence
           errors in the five DNA sequences storage processes of synthesis, decay, PCR, sample and
           sequencing. Users can not only use independent encode modules to encode files and obtain

@@ -40,12 +40,12 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
       },
       {
         key: "2",
-        name: "Clust method",
+        name: "Clustering method",
         value: data?.clust_method || "",
       },
       {
         key: "3",
-        name: "Clust time",
+        name: "Clustering time",
         value: data?.clust_time || "",
       },
       {
@@ -60,7 +60,7 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
       },
       {
         key: "6",
-        name: "Cluster DNA sequence number",
+        name: "Clustering DNA sequence number",
         value: data?.after_clust_dna_sequence_number || "",
       },
       {
@@ -75,17 +75,17 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
       },
       {
         key: "9",
-        name: "Encode bits fragments",
+        name: "Encode segment bits number",
         value: data?.encode_bits_number || "",
       },
       {
         key: "10",
-        name: "Decode bits fragments",
+        name: "Decode segment bits number",
         value: data?.final_decode_bits_number || "",
       },
       {
         key: "11",
-        name: "Recall bits fragments",
+        name: "Recall segment bits number",
         value: data?.recall_bits_number || "",
       },
       {
