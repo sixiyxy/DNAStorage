@@ -47,14 +47,12 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const [yieldValue, setYieldValue] = useState(0.99);
   const [cycleValue, setCycleValue] = useState(10);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  const [hrefLink, setHrefLink] = useState("");
   const [method, setMethod] = useState("ErrASE");
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  
   const [group, setGroup] = useState();
  
+  
 
   //处理函数
   const cycleChange = (value: number) => {
@@ -72,15 +70,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const handleChange = (value: string) => {
     setMethod(value);
   };
-  const skipSynthesis = function () {
-    props.changeSider(["0-2"]);
-  };
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  
   const handleOk = () => {
     setLoading(true);
     setNoDataTipsShow(false);
@@ -90,7 +80,9 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       console.log("synthesis response", response);
       setGroup(response?.data?.density_group);
       setData(response?.data?.syn_density);
-      setHrefLink(response?.data?.synthesis_method_reference);
+      // sessionStorage.setItem("respdata", JSON.stringify(response?.data));
+      // var getdata0 = JSON.parse(sessionStorage.getItem("respdata"));
+      // console.log(getdata0);
       setLoading(false);
       if (!props.method1[0]){
         props.setDECRUN(false)
@@ -159,28 +151,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       synthesis_method: method,
     };
   }, [cycleValue, yieldChange, method]);
-  //console.log("params", params);
-  // const config = {
-  //   data: chartData,
-  //   width: 200,
-  //   height: 300,
-  //   xField: "copyNumber",
-  //   yField: "density",
-  //   autoFit: true,
-  //   smooth: true,
-  //   xAxis: {
-  //     // range: [0, 200],
-  //     title: {
-  //       text: "Copy Number",
-  //     },
-  //   },
-  //   yAxis: {
-  //     // range: [0, 0.5],
-  //     title: {
-  //       text: "Density",
-  //     },
-  //   },
-  // };
+  
 
   const config = useMemo(() => {
     return {
@@ -213,11 +184,20 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   }, [group, data, countLen]);
 
   const show = props.okFlag;
+  //存储数据
+  // const [countLen, setCountLen] = useState(0);
+  // const [yieldValue, setYieldValue] = useState(0.99);
+  // const [cycleValue, setCycleValue] = useState(10);
+  // const [noDataTipsShow, setNoDataTipsShow] = useState(true);
+  // const [method, setMethod] = useState("ErrASE");
+  // const [data, setData] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  // const [group, setGroup] = useState();
+
+
 
   return (
     <div>
-      
-
       <div className="simulation-step-content">
         <Card title="Synthesis" className={`${show ? null : "simulation-content-masked"}`} headStyle={{fontSize:"18px"}}>
           <Row>
@@ -317,7 +297,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   Reset
                 </Button> */}
               </div>
-              <Modal
+              {/* <Modal
                 title="Warning"
                 visible={isModalOpen}
                 onOk={skipSynthesis}
@@ -330,7 +310,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 <p>Synthesis is the basic process of the error simulation stage.</p>
                 <p>Skipping this step means skipping the whole stage. </p>
                 <p>Do you still want to skip it?</p>
-              </Modal>
+              </Modal> */}
               </div>
             </Col>
             <Col span={12}>

@@ -2,6 +2,11 @@ import React from "react";
 import { useEffect, useState } from 'react';
 import { Breadcrumb,Image,Table,Anchor} from 'antd';
 import "./index.less";
+import Home1031 from "../../assets/tutorial/Home1031.png"
+import xiamen from "../../assets/tutorial/xiamen.png"
+import gc from "../../assets/tutorial/gc.png"
+import rp from "../../assets/tutorial/rp.png"
+import free from "../../assets/tutorial/rp.png"
 import type { ColumnsType } from "antd/es/table";
 export class TutorialProps {}
 
@@ -112,7 +117,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               </div>
           <div id="DNA-storage-designer">
             <h3 id="first-title">DNA storage designer</h3>
-            <Image src="/src/assets/tutorial/Home1031.png" width={"90%"} rootClassName="image1"/>
+            <Image src={Home1031} width={"90%"} rootClassName="image1"/>
           </div>
           <div id="what-is-it">
             <h3 id="second-title">What is it</h3>
@@ -133,31 +138,28 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
           <div id="example-file">
               <h3 id="third-title">Example file</h3>
               <p id="text-content">
-              We use the Xiamen University badge picture as a demo file to introduce the process of encoding, 
-              simulation, and decoding of the website.
+              We use the Xiamen University badge picture as an example file to introduce the working process of the website.
               </p>
-              <Image src="/src/assets/tutorial/xiamen.png" width={"50%"} rootClassName="image2"/>
+              <Image src={xiamen} width={"50%"} rootClassName="image2"/>
+              <p style={{textAlign:"center"}}>Example File</p>
               <p id="text-content">
-              Other test files can be downloaded from here.<br></br>
-              The file types include: Image, video, audio, text, and binary.
+              Other demo files can be downloaded from here. The file types include: Image, video, audio, text, and binary.
 
               </p>
           </div>
           <div id="usage">
               <h3 id="fourth-title">Usage</h3>
               <h3 id="fourth-first-title">Encode/Simulation/Decode</h3>
-              <p id="text-content">
-              To enter the process <a> /home -{">"} start</a> OR <a>/services -{">"} Encode/Simulation/Decode -{">"} start</a>
-              </p>
               <h3 id="fiveth-title">1	Encode</h3>
+              <p id="text-content">The encode service integrates the most common and popular DNA storage encoding and verifying methods. After uploading the file, users could simply select corresponding methods, elegantly slide the sliders to set the segment length, and wait for the result. The website will not only convert the file into DNA sequences but also calculate GC content and homopolymer length as well as the minimum free energy out directly.</p>
             <div id="usage-setting">
               <h3 id="sixth-title">1.1 Setting</h3>
               <ul>
-                <li><strong>Upload file : </strong> You can use the example file or your own files, but the file size is limited to less than 20M (the encoding time for large files is too long).</li>
-                <li><strong>Encode Method : </strong>You can choose one of the existing popular encoding methods to encode the file, but x can only encode the English letters in the txt file. For more details on each method, please refers to the “Methods” page.</li>
+              <li><strong>Example run : </strong>The embedded example file will be encoded and corresponding results could be shown. Here, we use <i>Ping-Zhi's</i> yin-yang code and <i>Hamming</i> verify code to encode the example file.</li>
+              <li><strong>Upload the storage file : </strong>You can use the demo file or your own files, but the file size is limited to less than 10M (the encoding time for large files is too long).</li>
+                <li><strong>Encode Method : </strong>You can choose one of the existing popular encoding methods to encode the file, but <i>Zan's</i> code can only encode the English letters in the txt file. For more details on each method, please refers to the <a href="/methods#/methods">Method</a>. </li>
+                <li><strong>Verify code : </strong>Because the DNA sequence will inevitably have errors during the storage process, in order to ensure the accuracy of data, we integrated two <strong>verify codes</strong>, which is <i>Reed Solomon Code and Hamming Code.</i></li>
                 <li><strong>Segment length and Index length : </strong>The upload file will be compiled into binary data, it will be split into fixed lengths and converted to DNA sequence using the chosen method, this fixed length is the segment length. Since the existing synthesis and sequencing technology do not support long sequences, the segment length is less than 200. At the same time, in order to restore the data, each segment will add address information, and its length is the index length.</li>
-                <li><strong>Verify code : </strong>Because the DNA sequence will inevitably have errors during the storage process, in order to ensure the accuracy of data, we integrated two <strong>verify code</strong>, which is Reed Solomon Code and Hamming Code.</li>
-                <li><strong>Example run : </strong>The embedded demo file will be encoded and corresponding results could be shown.</li>
                 <li><strong>Run : </strong>Encode the upload file with the chosen setting parameters.</li>
               </ul>
             </div>
@@ -165,14 +167,20 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               <h3 id="seventh-title">1.2 Report</h3>
               <ul>
                 <li><strong>File information : </strong>The basic information of files uploaded by users</li>
-                <li><strong>Encode information : </strong>This part shows the information of the uploaded file during encoding and the result of DNA sequences analysis after encoding. The analysis of the encoded DNA sequences includes GC-content statics, Homopolymer sequence statics, and min free energy calculation.</li>
+                <li><strong>Encode information : </strong>This part shows the information of the uploaded file during encoding and the result of DNA sequences analysis after encoding.</li>
               </ul>
               <Table
               columns={columns1}
               dataSource={data1}
               size={"large"}
-              pagination={{ position: ["none"] }}
+              pagination={{ position: ["none"],pageSize:15}}
             />
+            <p id="report-content">The analysis of the encoded DNA sequences includes GC-content statics, Repeated sequence statics, and minimum free energy calculation. Here, we randomly sampled only 1000 DNA sequences for analysis.</p>
+            <Image src={gc} width={"50%"} rootClassName="image3"/>
+            <p id="report-content">Because the ratio of GC content is the crucial indicator of the stability of DNA sequence, we counted the GC content of each encoded DNA sequence. The X-axis is the percentage of GC content, and the Y-axis is the number of corresponding sequences.</p>
+            <Image src={rp} width={"50%"} rootClassName="image4"/>
+            <p id="report-content">The presence of repetitive sequences affects the accuracy of synthesis and sequence sequencing during DNA storage. So, we counted the number of repeats in the encoded DNA sequence. The X-axis is the length of the repeated sequence, and the Y-axis is the corresponding number.</p>
+            <Image src={free} width={"50%"} rootClassName="image5"/>
             </div>
           </div>
 

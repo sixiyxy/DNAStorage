@@ -538,7 +538,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     //   },
     // },
   };
-
+  const handleBack=()=>{
+    window.history.back()
+  }
   //接口配置
 
 
@@ -739,6 +741,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 </Button>
                 <Button shape="round" size="large" type="primary" onClick={handleNext} style={{marginLeft:"100px",width:"100px"}}>
                   Next
+                </Button>
+                <Button shape="round" size="large" type="primary" onClick={handleBack} style={{marginLeft:"100px",width:"100px"}}>
+                  Back
                 </Button>
               </div>
             </div>
