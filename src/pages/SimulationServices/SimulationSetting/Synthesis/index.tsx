@@ -46,7 +46,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   const {Option, OptGroup} = Select;
   const [countLen, setCountLen] = useState(0);
   const [yieldValue, setYieldValue] = useState(0.99);
-  const [cycleValue, setCycleValue] = useState(30);
+  const [cycleValue, setCycleValue] = useState(10);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
   const [hrefLink, setHrefLink] = useState("");
   const [method, setMethod] = useState("ErrASE");
@@ -204,7 +204,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   <Col span={12}>
                     <Slider
                       min={10}
-                      max={50}
+                      max={20}
                       onChange={cycleChange}
                       value={typeof cycleValue === "number" ? cycleValue : 0}
                     />
@@ -213,7 +213,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                     <InputNumber
                       className="simulation-input"
                       min={10}
-                      max={50}
+                      max={20}
                       value={cycleValue}
                       onChange={cycleChange}
                     />
