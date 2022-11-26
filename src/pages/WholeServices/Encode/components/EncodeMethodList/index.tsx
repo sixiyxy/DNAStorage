@@ -108,7 +108,7 @@ const EncodeMethodList: React.FC = (props: any) => {
           </Radio.Group>
         </div>
         <p style={{marginLeft:"40px"}}>
-          Method details please click the <Link to="/methods">Method Paper</Link>
+          method details please click the <Link to="/methods">method paper</Link>
         </p>
 
         <div style={{ paddingLeft: "0px", marginTop: "50px", fontSize: "19px" }}>
@@ -139,10 +139,10 @@ const EncodeMethodList: React.FC = (props: any) => {
           </div>
           <p style={{ marginTop: "10px" }}>
             <span style={{ marginLeft: "20px", fontSize: "14px" }}>
-              Method details please click the{" "}
+              method details please click the{" "}
             </span>
             <Link to="/methods">
-              <span style={{ fontSize: "14px" }}>Method Paper</span>
+              <span style={{ fontSize: "14px" }}>method paper</span>
             </Link>
           </p>
         </div>

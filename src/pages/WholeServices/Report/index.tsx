@@ -139,16 +139,16 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "9",
       name1: "Single DNA length",
-      value1: `${props.dnainfo.DNA_sequence} bits`,
+      value1: props.dnainfo.DNA_sequence,
     },
     {
       key: "10",
       name1: "DNA sequence number",
-      value1: props.info.segment_number,
+      value1: props.info.DNA_sequence_length,
     },
     {
       key: "11",
-      name1: "nucleotide counts",
+      name1: "Nucleotide counts",
       value1: props.dnainfo.nucleotide_counts,
     },
     {
@@ -230,8 +230,8 @@ export const Report: React.FC<ReportProps> = (props) => {
             <p id="top-word">
               This part shows the information of the uploaded file during encoding and the result of
               DNA sequences analysis after encoding. 
-              The analysis of the encoded DNA sequences includes GC-content statics, Homopolymer
-              sequence statics and minimum free energy calculation.
+              The analysis of the encoded DNA sequences includes GC-content statics, repeated sequences
+              statics and minimum free energy calculation.
             </p>
             <Table columns={columns2} dataSource={data2} pagination={{ position: ["none"],pageSize:15}} />
             <div
