@@ -389,7 +389,6 @@ def parallel(simu_dna,funcs,funcs_names):
                 for index,i in enumerate (funcs_names):
                         error_recorder[index]=density_front_end_solver([error_recorder[index],{'+':0,"-":0,"s":0,"e":0,"n":0}])
                         error_recorder_final[i]=error_recorder[index]
-                print(error_recorder_final)
                 error_density_final=[]
                 for index,density in enumerate(error_density):
                     density = sorted(density.items(), key=lambda e: e[0])

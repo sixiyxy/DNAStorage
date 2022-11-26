@@ -39,3 +39,4 @@ storage_host: Hsapiens
 synthesis_method: ErrASE
 synthesis_number: 30
 synthesis_yield: 0.99
+months_of_storage: 24

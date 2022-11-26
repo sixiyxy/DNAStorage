@@ -655,7 +655,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sampling" key="4" disabled={props.samplingData === undefined}>
                 {/* sam_ratio: {props.samplingData?.sam_ratio} */}
-                <p style={{ margin: "10px 0 0 0px" }}>The sampling ratio your chosen is:</p>
+                <p style={{ margin: "10px 0 0 0px" }}>The sampling ratio you chose is:</p>
                 <div style={{ margin: "40px 80px 0 80px" }}>
                 <Bar {...samplingErrorParamConfig} />
                 </div>
