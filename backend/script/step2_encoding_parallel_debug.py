@@ -363,7 +363,7 @@ class Encoding():
                     'byte_size':byte_size_all,
                     "segment_number":segment_number_all,
                     "nucleotide_counts":nucleotide_counts_all,
-                    "DNA_sequence_number":dna_sequences_all,
+                    "DNA_sequence_number":dna_sequence_number_all,
 
                     "segment_length":self.segment_length,
                     "index_length":self.index_length,
@@ -448,7 +448,7 @@ class Encoding():
         # filebytes_kb = filebytes/1024
         # filebytes_mb = filebytes_kb/1024
         info['nucleotide_counts'] = '{} nt'.format(info['nucleotide_counts'])
-        info['DNA_sequence_length'] = '{} nt'.format(info['DNA_sequence_length'])
+        info['DNA_sequence_length'] = '{} nt'.format(info[''])
         physical_information_density_ug = '{} petabyte/gram'.format('%.2E'%Decimal(info['physical_information_density_ug'])),
         physical_information_density_g = '{} petabyte/ug'.format('%.2E'%Decimal(info['physical_information_density_g']))
         info['physical_information_density_g'] = physical_information_density_g
