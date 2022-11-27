@@ -742,9 +742,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 <Button shape="round" size="large" type="primary" onClick={handleNext} style={{marginLeft:"100px",width:"100px"}}>
                   Next
                 </Button>
-                <Button shape="round" size="large" type="primary" onClick={handleBack} style={{marginLeft:"100px",width:"100px"}}>
+                {/* <Button shape="round" size="large" type="primary" onClick={handleBack} style={{marginLeft:"100px",width:"100px"}}>
                   Back
-                </Button>
+                </Button> */}
               </div>
             </div>
           </Card>
