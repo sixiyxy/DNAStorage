@@ -69,16 +69,16 @@ def write_dna_file(path,demo_path, dna_sequences):
         for index, dna_sequence in enumerate(dna_sequences):
             file.write("".join(dna_sequence) + "\n")
     
-    if not os.path.exists(demo_path):
-        if len(dna_sequences)<=1000:
-            demo_dna_sequences =dna_sequences
-        else:
-            demo_dna_sequences = random.sample(dna_sequences,1000)
+    
+    if len(dna_sequences)<=1000:
+        demo_dna_sequences =dna_sequences
+    else:
+        demo_dna_sequences = random.sample(dna_sequences,1000)
         
-        with open(demo_path, "a+") as demo_file:
-            for index, dna_sequence in enumerate(demo_dna_sequences):
-                demo_file.write("".join(dna_sequence) + "\n")
-        print("### Write 1000 demo DNA sequences for Simulation:\n {} ".format(path))
+    with open(demo_path, "a+") as demo_file:
+        for index, dna_sequence in enumerate(demo_dna_sequences):
+            demo_file.write("".join(dna_sequence) + "\n")
+    print("### Write 1000 demo DNA sequences for Simulation:\n {} ".format(path))
     return demo_dna_sequences
 
 def get_download_path(type,file_uid):
