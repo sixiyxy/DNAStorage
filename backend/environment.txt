@@ -7,4 +7,5 @@ flask_session
 biopython
 flask_cors
 pandas
+celery
 uwsgi

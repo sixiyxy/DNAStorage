@@ -512,6 +512,7 @@ class Encoding():
                     "final_bit_segments_length" :"None",
                     "segment_number":len(original_charater_list),
                     "DNA_sequence_length":len(dna_sequences[0]),
+                    "DNA_sequence_number":len(dna_sequences),
                     "nucleotide_counts":sum(map(len,dna_sequences)),
                     "information_density":information_density,
                     "net_information_density":net_information_density,
