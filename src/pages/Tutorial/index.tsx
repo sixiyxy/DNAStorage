@@ -6,7 +6,7 @@ import Home1031 from "../../assets/tutorial/Home1031.png"
 import xiamen from "../../assets/tutorial/xiamen.png"
 import gc from "../../assets/tutorial/gc.png"
 import rp from "../../assets/tutorial/rp.png"
-import free from "../../assets/tutorial/rp.png"
+import free from "../../assets/tutorial/free.png"
 import type { ColumnsType } from "antd/es/table";
 export class TutorialProps {}
 
@@ -168,19 +168,35 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               <ul>
                 <li><strong>File information : </strong>The basic information of files uploaded by users</li>
                 <li><strong>Encode information : </strong>This part shows the information of the uploaded file during encoding and the result of DNA sequences analysis after encoding.</li>
+                      <Table
+                    columns={columns1}
+                    dataSource={data1}
+                    size={"large"}
+                    pagination={{ position: ["none"],pageSize:15}}
+                  />
+                  <p id="report-content">The analysis of the encoded DNA sequences includes GC-content statics, Repeated sequence statics, and minimum free energy calculation. Here, we randomly sampled only 1000 DNA sequences for analysis.</p>
+                  <Image src={gc} width={"50%"} rootClassName="image3"/>
+                  <p id="report-content">Because the ratio of GC content is the crucial indicator of the stability of DNA sequence, we counted the GC content of each encoded DNA sequence. The X-axis is the percentage of GC content, and the Y-axis is the number of corresponding sequences.</p>
+                  <Image src={rp} width={"50%"} rootClassName="image4"/>
+                  <p id="report-content">The presence of repetitive sequences affects the accuracy of synthesis and sequence sequencing during DNA storage. So, we counted the number of repeats in the encoded DNA sequence. The X-axis is the length of the repeated sequence, and the Y-axis is the corresponding number.</p>
+                  <Image src={free} width={"50%"} rootClassName="image5"/>
+                  <p id="report-content"><strong>The sequence average minimum free energy is : -5.82</strong><br></br>
+                  The minimum free energy (MFE) of a DNA sequence is the minimum of the Gibbs standard free energy of all possible secondary structures. Therefore, the quality of DNA sequences can be measured by calculating the MFE of each sequence. Here we calculated the minimum free energies if randomly selected 1000 encoded DNA sequences by RNAfold(see methods).<br></br><br></br>
+                  Here we use the RNAfold command is:<br></br>
+                  <code className="code1">{'{RNAfold} --noPS --noGU --noconv -T 59.1 < {encode dna sequence file} > {outfile}'}</code>
+                  </p>
+                  <li><strong>Download : </strong>Include two files in the downloaded compressed file, one is the encoding settings information of the uploaded file(named as file_id.yaml), and the other is the encoded DNA sequence file (including: payload, index, index_payload, index_payload_verfiycode, DNA_sequence. namely file_id.csv).</li>
               </ul>
-              <Table
-              columns={columns1}
-              dataSource={data1}
-              size={"large"}
-              pagination={{ position: ["none"],pageSize:15}}
-            />
-            <p id="report-content">The analysis of the encoded DNA sequences includes GC-content statics, Repeated sequence statics, and minimum free energy calculation. Here, we randomly sampled only 1000 DNA sequences for analysis.</p>
-            <Image src={gc} width={"50%"} rootClassName="image3"/>
-            <p id="report-content">Because the ratio of GC content is the crucial indicator of the stability of DNA sequence, we counted the GC content of each encoded DNA sequence. The X-axis is the percentage of GC content, and the Y-axis is the number of corresponding sequences.</p>
-            <Image src={rp} width={"50%"} rootClassName="image4"/>
-            <p id="report-content">The presence of repetitive sequences affects the accuracy of synthesis and sequence sequencing during DNA storage. So, we counted the number of repeats in the encoded DNA sequence. The X-axis is the length of the repeated sequence, and the Y-axis is the corresponding number.</p>
-            <Image src={free} width={"50%"} rootClassName="image5"/>
+            </div>
+            <div id="errorsimu">
+              <h3 id="fiveth-title">2	Error Simulation</h3>
+              <div id="usage-setting">
+                <h3 id="sixth-title">2.1 Settings</h3>
+                <ul>
+                  <li><strong>Example : </strong>An example is embedded in this part based on the previous encoding example, and all the simulation settings are using the default ones.</li>
+                  <li><strong>Stages Setting : </strong>We list out five processes, namely, synthesis, decay(storage), PCR, sampling, and sequencing. You could decide whether these stages are needed or not to get a final workflow based on your experiment design. By default, all stages are simulated. If you want to skip some of them, you could click on the corresponding buttons. However, because the synthesis of sequences is the base of the following stages, this stage is a must for the simulation part and can not be ignored. After your decision is done, please click the “ok” button to start your detailed settings.</li>
+                </ul>
+              </div>
             </div>
           </div>
 
