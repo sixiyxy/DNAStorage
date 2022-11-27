@@ -7,6 +7,11 @@ import xiamen from "../../assets/tutorial/xiamen.png"
 import gc from "../../assets/tutorial/gc.png"
 import rp from "../../assets/tutorial/rp.png"
 import free from "../../assets/tutorial/free.png"
+import simubtn from "../../assets/tutorial/simubtn.png"
+import SYN from "../../assets/tutorial/SYN.png"
+import simutab from "../../assets/tutorial/simutab.png"
+import simuseq from "../../assets/tutorial/simuseq.png"
+import simucounts from "../../assets/tutorial/simucounts.png"
 import type { ColumnsType } from "antd/es/table";
 export class TutorialProps {}
 
@@ -15,7 +20,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
   const [targetOffset, setTargetOffset] = useState<number | undefined>(undefined);
   useEffect(() => {
     setTargetOffset(window.innerHeight / 2);
-    window.scrollTo(0,0);
+    // window.scrollTo(0,0);
   }, []);
 
   const scrollToAnchor = (e, link) => {
@@ -117,7 +122,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               </div>
           <div id="DNA-storage-designer">
             <h3 id="first-title">DNA storage designer</h3>
-            <Image src={Home1031} width={"90%"} rootClassName="image1"/>
+            <Image src={Home1031} width={"80%"} rootClassName="image1"/>
           </div>
           <div id="what-is-it">
             <h3 id="second-title">What is it</h3>
@@ -195,8 +200,42 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 <ul>
                   <li><strong>Example : </strong>An example is embedded in this part based on the previous encoding example, and all the simulation settings are using the default ones.</li>
                   <li><strong>Stages Setting : </strong>We list out five processes, namely, synthesis, decay(storage), PCR, sampling, and sequencing. You could decide whether these stages are needed or not to get a final workflow based on your experiment design. By default, all stages are simulated. If you want to skip some of them, you could click on the corresponding buttons. However, because the synthesis of sequences is the base of the following stages, this stage is a must for the simulation part and can not be ignored. After your decision is done, please click the “ok” button to start your detailed settings.</li>
+                  <Image src={simubtn} width={"80%"} rootClassName="image6"/>
+                  <li><strong>Detail Settings : </strong>Because the errors that occur in stages have accumulative effects, the execution order of stages is fixed. You should set the stages accordingly. For each parameter, you could hover your mouse over the question mark aside, the explanation will be popped out. As for the settings with provided options, you could see their corresponding short introduction and references from the “Methods” page. After setting up parameters for one stage, please click on the “ok” button to confirm and the sequence distribution changes result of this stage will be shown instantly right. Then, you could move to the next stage. </li>
+                </ul>
+                <p id='simuset-report'>After all the stages are done and the diagrams are shown, please click on the report button to get the overall result and summary. </p>
+                  <Image src={SYN} width={"40%"} rootClassName="image6"/>
+              </div>
+              <div id="usage-report">
+                <h3 id="seventh-title">2.2 Report</h3>
+                <p id='text-content'>The report consists of three parts, Settings Report, Sequences Distribution, and Error Counts. You could also download the simulated file together with the setting information using the “Download” button. </p>
+                <ul>
+                  <li><strong>Settings Report : </strong>This part lists out the choices you made in the setting part. Also, it uses pie charts to uncover the distribution of different error types of corresponding chosen methods. You could click on the stages and double-check previous settings.</li>
+                  <Image src={simutab} width={"75%"} rootClassName="image6"/>
+                  <li><strong>Sequence Distribution : </strong>During the whole process, the number of sequences, causes of errors and proportions of different types of errors change from time to time. Therefore, we counted and compared the numbers of DNA strands with errors and the left 100% correct DNA strands for each stage using a stacked column chart, as well as showed the changes in the strand numbers that contained different types of errors using line charts. Since the difference between the data is too large, each value y here is presented using ln(y).</li>
+                  <Image src={simuseq} width={"75%"} rootClassName="image6"/>
+                  <li><strong>Error Counts : </strong>Because the effects of occurred errors are cumulative, it is reasonable that as the simulation proceeds, both the percentage of strands with errors as well as the average error number for all strands will increase. Thus, we count the number of strands with a different number of errors for the different stages as shown above. As we could see, the later the stage is, the higher the number of chains with errors is. Different colors here stand for different number of errors contained in the strands.</li>
+                  <Image src={simucounts} width={"75%"} rootClassName="image6"/>
+                  <li><strong>Download : </strong>After clicking on the download button, a zip folder containing simulated DNA sequences and an information YAML file will be downloaded automatically.</li>
+                  <ul>
+                    <li><strong>Simulated DNA Sequences : </strong>This file is in fasta format. The label of each sequence contains the error simulation results. For example, “{">"}11079[(77, 's', 'T'), (23, '+', 'C'), (36, '-', 'A')]” means, the 77th base, “T”,  of 11079th sequence has been substituted, 23rd position has inserted a 'C', and the 'A' on 36th has been deleted. </li>
+                    <li><strong>Information File : </strong>This information file contains the related settings of the uploaded file, from encoding to simulation part, all information is included. </li>
+                  </ul>
                 </ul>
               </div>
+            </div>
+            <div id="decode">
+              <h3 id="decode-title1">3 Decode</h3>
+              <p id='text-content'>In this last stage, we need to decode the DNA sequences according to the reverse rules of the encoding ones. However, DNA strands obtained in this stage usually have random errors( insert\indel\SNV, we have simulated this). So, we embedded two clustering algorithms, CD-HIT and Starcode, to remove de-redundancy and correct the data. Then, the clustered sequences will be decoded to obtain bits fragments. Subsequently, the bits fragments will be removed from the verification code and index code. Finally, we analyze the recovery information of bits fragment in the report.</p>
+              <h3 id="decode-title2">3.1 Cluster algorithms</h3>
+              <p id='simuset-report'>Starcode command : <br></br>
+              <code className="code2">{'{starcode} -d 4 -s -t {threads} -i {simulation_dna_file} -o {out_file}'}</code>
+              </p>
+              <p id='simuset-report'>Cdhit command : <br></br>
+              <code className="code2">{'{cd-hit} -T {threads} -c 0.99 -i {simulation_dna_file} -o {out_file}'}</code>
+              </p>
+              <p id='simuset-report'>method details please click the <a href="/methods#/methods">Method</a></p>
+              <h3 id="decode-title2">3.2	Result</h3>
             </div>
           </div>
 
