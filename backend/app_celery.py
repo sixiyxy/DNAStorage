@@ -42,6 +42,6 @@ def encode_celery(self,file_uid,segment_length,index_length,verify_method,encode
     #                     mete = {'label':obj.status,
     #                         'current':encode_status[obj.status],
     #                             'total':total_status})
-    # return {'current':total_status,'total':total_status,
-    #         'callback':encode_info,'result':'successful'}
-    return 'jlk'
+    return {'current':total_status,'total':total_status,
+            'callback':encode_info,'result':'successful'}
+    # return 'jlk'
