@@ -19,13 +19,18 @@ def encode_star():
                     "verify_method":"Hamming",
                     "encode_method":"Basic"}
 
+    # front_data = {"file_uid":1565536927137009664,
+    #                 "segment_length":160,
+    #                 "index_length":20,
+    #                 "verify_method":"Hamming",
+    #                 "encode_method":"Basic"}
+
     file_uid = front_data['file_uid'] #'1566....'
     segment_length = front_data['segment_length'] #4
     index_length = front_data['index_length'] #128
     verify_method = front_data['verify_method'] #'HammingCode'
     encode_method = front_data['encode_method'] #'Basic'
     args = [file_uid,segment_length,index_length,verify_method,encode_method]
-
     encode_task = encode_celery.apply_async(args=args)
     task_id = encode_task.id
     print(task_id)
