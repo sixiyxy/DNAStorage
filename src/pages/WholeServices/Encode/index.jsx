@@ -47,8 +47,38 @@ export const Encode = (props) => {
       props.setDerepo(false)
     }
   },[props.resetMenu])
+  const close = () => {
+    console.log(
+      'Notification was closed. Either the close button was clicked or duration time elapsed.',
+    );
+  };
+  const btn = (
+    <Button type="primary" size="middle" onClick={() => notification.close(key)}>
+      OK
+    </Button>
+  );
+  const key = `open${Date.now()}`;
+
   useEffect(()=>{
-    if(Zan){setIndex(0)}
+    if(Zan){
+      setIndex(0)
+    }
+    if (Zan && index){
+      notification.open({
+        message: "Zan's encode method directly converts letters into DNA base sequences. The file will not be binary compiled, so there is no segment length selection and no verification code can be added.",
+        description:
+          '',
+        btn,
+        key,
+        duration:null,
+        placement:'bottom',
+        style: {
+          width: '1000px',
+          fontSize:'20px'
+        },
+        onClose: close,
+      });
+    }
     setSeg(Zan? 0 : Number(Object.keys(processRes.bar ? processRes.bar : {80:' '} )[1]))
     SetSegvalue(Number(Object.keys(processRes.bar ? processRes.bar : {80:' '} )[1]))
   },[processRes,Zan])
