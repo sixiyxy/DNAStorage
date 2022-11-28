@@ -589,9 +589,12 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       <div className="simulation-report-content-wrapper">
         <Spin tip="Loading..." size="large" spinning={props.spinflags}>
           <Card title="Stage summary" headStyle={{ backgroundColor: "#99CCFF" }}>
+          <p style={{
+                textAlign: "justify",
+              }}>This part reviews user settings.</p>
             <Tabs defaultActiveKey="1" size={"large"}>
               <Tabs.TabPane tab="Synthesis" key="1" disabled={props.synthesisData === undefined}>
-                <div className="TabSYN">
+                <div className="TabSYN" id='table'>
                   Synthesis number : {props.synthesisData?.synthesis_number}
                   <br />
                   Synthesis yield : {props.synthesisData?.synthesis_yield}
@@ -599,7 +602,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                   Synthesis method : {props.synthesisData?.synthesis_method}
                   <br />
                 </div>
-                <p>The error rate distribution of your chosen synthesis method is as follows:</p>
+                <p id='illstr'>The error rate distribution of your chosen synthesis method is as follows:</p>
               
                 <Pie className="pie" {...synthesisErrorParamConfig} />
               
@@ -625,7 +628,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               );
             })} */}
                 </div>
-                <p>The error rate distribution of your chosen storage host is as follows:</p>
+                <p id='illstr'>The error rate distribution of your chosen storage host is as follows:</p>
                 <Pie className="pie" {...decayErrorParamConfig} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="PCR" key="3" disabled={props.pcrData === undefined}>
@@ -654,7 +657,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                     );
                   })} */}
                 </div>
-                <p>The error rate distribution of your chosen pcr polymerase is as follows:</p>
+                <p id='illstr'>The error rate distribution of your chosen pcr polymerase is as follows:</p>
                 <Pie className="pie" {...pcrErrorParamConfig} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sampling" key="4" disabled={props.samplingData === undefined}>
@@ -684,12 +687,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               );
             })} */}
                 </div>
-                <p>The error rate distribution of your chosen sequencing method is as follows:</p>
+                <p id='illstr'>The error rate distribution of your chosen sequencing method is as follows:</p>
                 <Pie className="pie" {...sequenceErrorParamConfig} />
               </Tabs.TabPane>
             </Tabs>
           </Card>
-          <Card title="Simulation Result" headStyle={{ backgroundColor: "#99CCFF" }}>
+          <Card title="Simulation result" headStyle={{ backgroundColor: "#99CCFF" }}>
+          <p style={{"textAlign":"justify"}}>During simulation, sequence density, distribution and error occurrance vary from stages.Down below, we provide a Sequence distribution and a Error counts diagram to illustrate these change tendency. Simple explanation are provided beneath the diagrams and more details could be found in tutorial. </p>
             {/* <h3>Sequences Distribution</h3> */}
             <h3>Sequences distribution</h3>
             <div style={{padding:"50px 150px 0 150px"}}>

@@ -312,7 +312,7 @@ var paramsRepo={
           </div>
         )}
 
-        <Card title="Choose the Simulation steps." headStyle={{ fontSize: "18px" }}>
+        <Card title="Choose the simulation steps" headStyle={{ fontSize: "18px" }}>
           <p className="function-bar" style={{ fontSize: "17px" }}>
             Please select the following simulation steps. You can choose to skip some of these
             steps, but Synthesis cannot.
