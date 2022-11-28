@@ -6,7 +6,6 @@ import os
 def cut_file(file_data,encode_method):
     file_size = file_data.shape[0]
     cut_file_data = []
-    print('file size:',file_size)
     if encode_method in ['DNA_Fountain',"Yin_Yang"]:
         cut_size = 1000000
     else:
@@ -109,6 +108,7 @@ def add_min_free_energydata(tools,dna_demo_file,free_enerfy_file):
 
 def download_normal(file,download_data):
     # record dowdload file
+    
     original_bit_segments = download_data["original_bit_segments"] 
     record_index = download_data["record_index"]
     connected_bit_segments = download_data["connected_bit_segments"]
@@ -120,6 +120,7 @@ def download_normal(file,download_data):
 
     f = open(file,'w')
     f.write('payload,index,index_payload,index_payload_verfiycode,DNA_sequence\n')
+
     for idx in range(len(dna_sequences)):
         payload = ''.join(map(str,original_bit_segments[idx]))
         index = ''.join(map(str,record_index[idx]))
