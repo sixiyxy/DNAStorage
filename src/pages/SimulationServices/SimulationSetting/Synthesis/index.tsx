@@ -193,7 +193,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
             <Col span={12}>
             <div className="simulationLeft">
               <div className="simulation-bar">
-                <span>Synthesis Cycles :</span>
+                <span>Synthesis cycles :</span>
                 <Tooltip title="The copied number of each oligo you want it to have.">
                   <i
                     className="iconfont icon-wenhao"
@@ -221,7 +221,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 </Row>
               </div>
               <div className="SynthesisYield">
-                <span>Synthesis Yield :</span>
+                <span>Synthesis yield :</span>
                 <Tooltip
                   title="The possibility of adding one nucleoside to the current synthesizing strand is defined as coupling efficiency. The process might be terminated because of unsuccessful coupling so imperfect coupling efficiency limits the length of the final sequence. Typically, it ranges about 98-99.5.">
                   <i
@@ -252,7 +252,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 </Row>
               </div>
               <div className="simulation-row">
-                <span>Synthesis Method :&nbsp;</span>
+                <span>Synthesis method :&nbsp;</span>
                 <Select
                   className="simulation-selector"
                   onChange={handleChange}

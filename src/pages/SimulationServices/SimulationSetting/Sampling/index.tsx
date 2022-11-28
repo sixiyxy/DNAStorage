@@ -155,7 +155,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
           <Col span={12}>
             <div className="SAMLeft">
             <div className="simulation-row">
-              <span>Sampling Ratio :</span>
+              <span>Sampling ratio :</span>
               <Tooltip title="The ratio of each oligo to be sampled.">
                 <i
                   className="iconfont icon-wenhao"

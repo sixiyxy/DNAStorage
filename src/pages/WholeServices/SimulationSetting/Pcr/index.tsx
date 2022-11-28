@@ -246,7 +246,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
           <Col span={12}>
             <div className="PCRLeft">
             <div className="simulation-row">
-              <span>PCR Cycle : </span>
+              <span>PCR cycle : </span>
               <Tooltip title="Cycle number of the PCR process.">
                 <i
                   className="iconfont icon-wenhao"
@@ -276,7 +276,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
               </Row>
             </div>
             <div className="simulation-row">
-              <span>PCR Probability : </span>
+              <span>PCR probability : </span>
               <Tooltip
                 title="In each PCR cycle, a sequence has a possibility of p being amplified. ">
                 <i
@@ -311,7 +311,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
               </Row>
             </div>
             <div className="simulation-row">
-              <span>Storage Host :</span>
+              <span>Storage host :</span>
               <Select className="simulation-selector"
                       onChange={handleChange}
                       value={method}

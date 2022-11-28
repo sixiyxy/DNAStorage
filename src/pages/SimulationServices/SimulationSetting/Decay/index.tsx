@@ -188,7 +188,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
           <Col span={12}>
             <div className="decayLeft">
             <div className="simulation-row">
-              <span>Month of Storage : </span>
+              <span>Month of storage : </span>
               <Tooltip
                 title="During storage, depurination and deamination are the two main factors of the decay of strands, where the ratio could be computed with temperature, PH, and storage time. Other factors relate to the storage host you choose. ">
                 <i
@@ -204,7 +204,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
             </div>
             <div className="simulation-row">
               <div style={{paddingTop:'10px'}}>
-                <span>Loss Rate : </span>
+                <span>Loss rate : </span>
                 <Tooltip title="Total loss rate during storage. ">
                   <i
                     className="iconfont icon-wenhao"
@@ -236,7 +236,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
             </div>
             <div className="simulation-row">
               <div style={{paddingTop:'15px'}}>
-              <span>Storage Host :</span>
+              <span>Storage host :</span>
               <Select onChange={handleChange} value={method} className="simulation-selector">
                 <OptGroup label="Eukaryotic">
                   <Option value="Hsapiens">H sapiens</Option>
