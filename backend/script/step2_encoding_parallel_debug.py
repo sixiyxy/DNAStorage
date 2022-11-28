@@ -336,7 +336,7 @@ class Encoding():
             bit_szie_all += info_result['bit_size']
             byte_size_all += info_result['byte_size']
             segment_number_all += int(info_result['segment_number'])
-            dna_sequences_all += info_result['DNA_sequence_number']
+            dna_sequence_number_all+= info_result['DNA_sequence_number']
             nucleotide_counts_all += info_result['nucleotide_counts']
 
             verify_code_length = info_result["verify_code_length"]

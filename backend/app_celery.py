@@ -2,6 +2,8 @@ import os
 import json
 import time
 import yaml
+from numpy import fromfile,uint8
+from datetime import datetime
 from celery import Celery
 # from concurrent.futures import ThreadPoolExecutor
 # this method can not get the status
@@ -27,21 +29,53 @@ def encode_celery(self,file_uid,segment_length,index_length,verify_method,encode
                   segment_length=segment_length,
                   index_length=index_length,
                   verify_method=verify_method)  
-    encode_info= obj.parallel_run()
-    encode_status = {'star':0,'segment':1,'index':2,'verify':3,'encode':4,'plot':5,'energy':6}
+    file_data = fromfile(file=obj.file_path, dtype=uint8)
+    file_size = file_data.shape[0]
+    start_time = datetime.now()
+    encode_status = {'start':0,'segment':1,'index':2,'verify':3,'encode':4,'plot':5,'concat':6}
     total_status = len(encode_status) 
     self.update_state(state = 'ENCODING',
-                        meta = {'label':obj.status,
-                            'current':encode_status[obj.status],
+                        meta = {'label':'start',
+                                'current':0,
                                 'total':total_status})             
+    info = None
+    data = None
+    step = 'segment'
+    segment_data = obj.run(step,file_data,file_size,start_time,info,data)
+    self.update_state(state = 'ENCODING',
+                        meta = {'label':'segment_file',
+                                'current':1,
+                                'total':total_status}) 
+    step = 'index'
+    index_data = obj.run(step,file_data,file_size,start_time,info,segment_data)
+    self.update_state(state = 'ENCODING',
+                        meta = {'label':'add_index',
+                                'current':2,
+                                'total':total_status}) 
+    step = 'verify'
+    verify_data = obj.run(step,file_data,file_size,start_time,info,index_data)
+    self.update_state(state = 'ENCODING',
+                        meta = {'label':'add_verify',
+                                'current':3,
+                                'total':total_status}) 
+    step='encode'
+    info,data = obj.run(step,file_data,file_size,start_time,info,verify_data)
+    self.update_state(state = 'ENCODING',
+                        meta = {'label':'encode',
+                                'current':4,
+                                'total':total_status}) 
+    step ='record'
+    info,data = obj.run(step,file_data,file_size,start_time,info,data)
+    self.update_state(state = 'ENCODING',
+                        meta = {'label':'record',
+                                'current':5,
+                                'total':total_status}) 
+    step = 'plot'
+    encode_info = obj.run(step,file_data,file_size,start_time,info,data)
+    self.update_state(state = 'ENCODING',
+                        meta = {'label':'plot',
+                                'current':6,
+                                'total':total_status}) 
     
-    # print(encode_info)
-    
-    # print(obj.status)
-    # self.update_state(state = 'JLK',
-    #                     mete = {'label':obj.status,
-    #                         'current':encode_status[obj.status],
-    #                             'total':total_status})
     return {'current':total_status,'total':total_status,
             'callback':encode_info,'result':'successful'}
-    # return 'jlk'

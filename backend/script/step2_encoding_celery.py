@@ -128,6 +128,8 @@ class Encoding():
         self.config = get_config(yaml_path='config')
         self.backend_dir = self.config['backend_dir']
         self.threads = self.config['threads']
+        self.threads = 4
+
 
         # file save dir and file information
         self.file_dir = '{}/{}'.format(self.backend_dir,self.config['file_save_dir'])
@@ -169,7 +171,8 @@ class Encoding():
         matrix = matrix.reshape(int(len(matrix) / self.segment_length), self.segment_length)
         bit_segments =matrix.tolist()
 
-        fragment_info = { "original_bit_segments":bit_segments}
+        fragment_info = {"input_data":data,
+            "original_bit_segments":bit_segments}
 
         return fragment_info
 
@@ -185,15 +188,12 @@ class Encoding():
             add_index_seg = index_code + original_bit_segments[index]
             connected_bit_segments.append(add_index_seg)
         
-        fragment_info = { "original_bit_segments":original_bit_segments,
-                        "record_index":record_index,
-                        "connected_bit_segments":connected_bit_segments}
+        fragment_info["record_index"]=record_index
+        fragment_info["connected_bit_segments"]=connected_bit_segments
         
         return fragment_info
         
     def verify_code(self,fragment_info):
-        original_bit_segments = fragment_info["original_bit_segments"]
-        record_index = fragment_info["record_index"]
         connected_bit_segments = fragment_info["connected_bit_segments"]
 
         verify_method = verify_methods[self.verify_method]
@@ -202,16 +202,12 @@ class Encoding():
         else:
             final_bit_segments = verify_method.insert(connected_bit_segments)
 
-        fragment_info = { "original_bit_segments":original_bit_segments,
-                        "record_index":record_index,
-                        "connected_bit_segments":connected_bit_segments,
-                        "final_bit_segments":final_bit_segments}
+        fragment_info["final_bit_segments"]=final_bit_segments
        
         return fragment_info
 
-    def encoding_normal(self,data): 
-        
-        fragment_info = self.verify_code(data)
+    def encoding_normal(self,fragment_info): 
+        data = fragment_info['input_data']
         original_bit_segments = fragment_info["original_bit_segments"]
         record_index = fragment_info["record_index"]
         connected_bit_segments = fragment_info["connected_bit_segments"]
@@ -339,7 +335,7 @@ class Encoding():
             bit_szie_all += info_result['bit_size']
             byte_size_all += info_result['byte_size']
             segment_number_all += int(info_result['segment_number'])
-            dna_sequences_all += info_result['DNA_sequence_number']
+            dna_sequence_number_all += info_result['DNA_sequence_number']
             nucleotide_counts_all += info_result['nucleotide_counts']
 
             verify_code_length = info_result["verify_code_length"]
@@ -388,12 +384,10 @@ class Encoding():
             "final_bit_segments" : final_bit_segments_all,
             "dna_sequences":dna_sequences_all,
             "user_record_dna" : user_record_dna_all}
-        
-        self.status = 'encode'
 
         return final_record_info,final_data
     
-    def record_file(self,info,data,run_time):
+    def record_file(self,info,data):
        
         dna_sequences_all = data['dna_sequences']
         # for simulation enerfy
@@ -427,13 +421,9 @@ class Encoding():
             # for user
             original_chracter_segments = [i.replace('\n',' <n> ') for i in original_chracter_segments] 
             download_txt(self.user_download_file,dna_sequences,original_chracter_segments)
+        return info,demo_dna_sequences
 
-
-
-        # record run time
-        run_time = '%.2f'%(run_time)
-        info["encoding_time"]=run_time
-
+    def plot_data(self,info,demo_dna_sequences):
         # plot data
         gc_data,homo_data = gc_homo(demo_dna_sequences)
         info['gc_data'] = gc_data
@@ -448,8 +438,6 @@ class Encoding():
         # info['min_free_energy_below_30kcal_mol'] = energy_info['min_free_energy_below_30kcal_mol']
         # info['energy_plot']=energy_info['energy_plot']
         # print('### Free energy plot data, Done !')
-        self.status = 'energy'
-                           
         
         # format data
         # filebytes = info['byte_size']
@@ -465,45 +453,61 @@ class Encoding():
         
         return info
 
-    def format_file(self):
-        pass
-    
-    def parallel_run(self,step):
-        file_data = fromfile(file=self.file_path, dtype=uint8)
-        file_size = file_data.shape[0]
-        start_time = datetime.now()
-        print('### Encoding star!')
+
+    def run(self,step,file_data,file_size,start_time,info,data):
         ### parallel run 7 method
         if self.encode_method in encoding_methods:
-            file_data = fromfile(file=self.file_path, dtype=uint8)
-            file_size = file_data.shape[0]
-            if file_size > 500000:
-                cut_file_data = cut_file(file_data,self.encode_method)
-                if step == 'segment':
+            if file_size > 1000000:
+                if step == 'segment':            
+                    cut_file_data = cut_file(file_data,self.encode_method)
                     with multiprocessing.Pool(self.threads) as pool:
                         parallel_results = list(pool.imap(self.segment_file,cut_file_data))
+                    return parallel_results
                 if step =='index':
-                     with multiprocessing.Pool(self.threads) as pool:
-                        parallel_results = list(pool.imap(self.connet_index,cut_file_data))
-                if step == 'verficode':
-                     with multiprocessing.Pool(self.threads) as pool:
-                        parallel_results = list(pool.imap(self.verify_code,cut_file_data))
+                    with multiprocessing.Pool(self.threads) as pool:
+                        parallel_results = list(pool.imap(self.connet_index,data))
+                    return parallel_results
+                if step == 'verify':
+                    with multiprocessing.Pool(self.threads) as pool:
+                        parallel_results = list(pool.imap(self.verify_code,data))
+                    return parallel_results
                 if step == 'encode':
-                     with multiprocessing.Pool(self.threads) as pool:
-                        parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
-                if step == 'concat':
-                    pass
-                if step == 'plot':
-                    pass
-                if step == 'energy':
-                    pass
-                record_info,record_data = self.contact_result(parallel_results)
+                    with multiprocessing.Pool(self.threads) as pool:
+                        parallel_results = list(pool.imap(self.encoding_normal,data))
+                    record_info,record_data = self.contact_result(parallel_results)
+                    return record_info,record_data
+                
+                if step == 'record':
+                    info,demo_dna_sequences = self.record_file(info,data)
+                    return info,demo_dna_sequences
+                if step == 'plot':  
+                    info = self.plot_data(info,data)
+                    return info
             else:
-                record_info,record_data = self.encoding_normal(file_data)
-            run_time = (datetime.now() - start_time).total_seconds()
-            print('### Encoding done,now anaysis plto data(GC content,energy plot..)!')
+                if step == 'segment':
+                    file_data = fromfile(file=self.file_path, dtype=uint8)
+                    fragment_info = self.segment_file(file_data)
+                    return fragment_info
+                if step =='index':
+                    fragment_info = self.connet_index(data)
+                    return fragment_info
+                if step == 'verify':
+                    fragment_info = self.verify_code(data)
+                    return fragment_info
+                if step == 'encode':
+                    record_info,record_data =  self.encoding_normal(data)
+                    return record_info,record_data
 
-            record_info = self.record_file(record_info,record_data,run_time)
+                if step == 'record':
+                    info,demo_dna_sequences = self.record_file(info,data)
+                    return info,demo_dna_sequences
+                if step == 'plot':  
+                    info = self.plot_data(info,data)
+                    run_time = (datetime.now() - start_time).total_seconds()
+                    run_time = '%.2f'%(run_time)
+                    info["encoding_time"]=run_time
+                    return info
+            
         ### txt method
         elif self.encode_method == 'SrcCode':
             upload_file = open(self.file_path,"r",encoding='UTF-8')
@@ -550,17 +554,10 @@ class Encoding():
             "dna_sequences":dna_sequences}
             run_time = (datetime.now() - start_time).total_seconds()
             record_info = self.record_file(record_info,record_data,run_time)
-
-        ### waiting for zzy....
-        elif self.encode_method == 'xxx':
-            run_time = (datetime.now() - start_time).total_seconds()
-            record_info = 'None'
+            return record_info
         else:
-            record_info = 'None'
             return "make sure encode method is right!"    
-        print('### Front data is ready, Done!')
-        print(record_info)
-        return record_info
+        
 
 if __name__ == '__main__':
     # obj = Encoding(file_uid=1594899412327469056,
