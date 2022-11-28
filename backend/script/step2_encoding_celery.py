@@ -5,7 +5,8 @@ import pandas as pd
 import numpy as np
 import copy
 from decimal import Decimal
-from multiprocessing import Pool
+# from multiprocessing import Pool
+import billiard as multiprocessing
 from numpy import fromfile, array, uint8
 
 from .utils.utils_basic import get_config,write_yaml,write_dna_file
@@ -155,8 +156,6 @@ class Encoding():
         # record process status
         # encode_status = {'segment':1,'index':2,'verify':3,'encode':4,'plot':5,'energy':6}
 
-        self.status = 'star'
-
     def segment_file(self,data):
         matrix, values = [], data
         
@@ -169,14 +168,12 @@ class Encoding():
         matrix = array(matrix)
         matrix = matrix.reshape(int(len(matrix) / self.segment_length), self.segment_length)
         bit_segments =matrix.tolist()
-        self.status = 'segment'
 
         fragment_info = { "original_bit_segments":bit_segments}
 
         return fragment_info
 
-    def connet_index(self,data):
-        fragment_info = self.segment_file(data)
+    def connet_index(self,fragment_info):
         original_bit_segments = fragment_info["original_bit_segments"]
 
         connected_bit_segments = []
@@ -191,11 +188,10 @@ class Encoding():
         fragment_info = { "original_bit_segments":original_bit_segments,
                         "record_index":record_index,
                         "connected_bit_segments":connected_bit_segments}
-        self.status = 'index'
+        
         return fragment_info
         
-    def verify_code(self,data):
-        fragment_info = self.connet_index(data)
+    def verify_code(self,fragment_info):
         original_bit_segments = fragment_info["original_bit_segments"]
         record_index = fragment_info["record_index"]
         connected_bit_segments = fragment_info["connected_bit_segments"]
@@ -210,7 +206,7 @@ class Encoding():
                         "record_index":record_index,
                         "connected_bit_segments":connected_bit_segments,
                         "final_bit_segments":final_bit_segments}
-        self.status = 'verify'
+       
         return fragment_info
 
     def encoding_normal(self,data): 
@@ -308,7 +304,6 @@ class Encoding():
                         "net_information_density":net_information_density,
                         "physical_information_density_ug":physical_information_density_ug,
                         "physical_information_density_g":physical_information_density_g}
-        self.status = 'encode'
         return record_info,fragment_info
 
     def contact_result(self,parallel_results):
@@ -470,7 +465,10 @@ class Encoding():
         
         return info
 
-    def parallel_run(self):
+    def format_file(self):
+        pass
+    
+    def parallel_run(self,step):
         file_data = fromfile(file=self.file_path, dtype=uint8)
         file_size = file_data.shape[0]
         start_time = datetime.now()
@@ -479,11 +477,26 @@ class Encoding():
         if self.encode_method in encoding_methods:
             file_data = fromfile(file=self.file_path, dtype=uint8)
             file_size = file_data.shape[0]
-            if file_size > 10000000:
+            if file_size > 500000:
                 cut_file_data = cut_file(file_data,self.encode_method)
-
-                with Pool(self.threads) as pool:
-                    parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
+                if step == 'segment':
+                    with multiprocessing.Pool(self.threads) as pool:
+                        parallel_results = list(pool.imap(self.segment_file,cut_file_data))
+                if step =='index':
+                     with multiprocessing.Pool(self.threads) as pool:
+                        parallel_results = list(pool.imap(self.connet_index,cut_file_data))
+                if step == 'verficode':
+                     with multiprocessing.Pool(self.threads) as pool:
+                        parallel_results = list(pool.imap(self.verify_code,cut_file_data))
+                if step == 'encode':
+                     with multiprocessing.Pool(self.threads) as pool:
+                        parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
+                if step == 'concat':
+                    pass
+                if step == 'plot':
+                    pass
+                if step == 'energy':
+                    pass
                 record_info,record_data = self.contact_result(parallel_results)
             else:
                 record_info,record_data = self.encoding_normal(file_data)

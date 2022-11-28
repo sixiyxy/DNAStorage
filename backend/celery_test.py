@@ -24,7 +24,16 @@ def encode_star():
     index_length = front_data['index_length'] #128
     verify_method = front_data['verify_method'] #'HammingCode'
     encode_method = front_data['encode_method'] #'Basic'
-    args = [file_uid,segment_length,index_length,verify_method,encode_method]
+    # args = [file_uid,segment_length,index_length,verify_method,encode_method]
+    obj = Encoding(file_uid=file_uid,
+                  encode_method=encode_method,
+                  segment_length=segment_length,
+                  index_length=index_length,
+                  verify_method=verify_method) 
+    if encode_method != 'SrcCode':
+        data_list = obj.format_file()
+    else:
+        data_list = obj
 
     encode_task = encode_celery.apply_async(args=args)
     task_id = encode_task.id
