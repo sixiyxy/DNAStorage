@@ -121,15 +121,15 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const synthesisErrorParamData = useMemo(() => {
     return [
       {
-        type: "sub",
+        type: "substitute",
         value: Number(synthesisData?.error_param?.sub).toFixed(3) * 100,
       },
       {
-        type: "ins",
+        type: "insertion",
         value: Number(synthesisData?.error_param?.ins).toFixed(3) * 100,
       },
       {
-        type: "del",
+        type: "deletion",
         value: Number(synthesisData?.error_param?.del).toFixed(3) * 100,
       },
     ];
@@ -137,15 +137,15 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const decayErrorParamData = useMemo(() => {
     return [
       {
-        type: "sub",
+        type: "substitute",
         value: Number(decayData?.error_param?.sub).toFixed(3) * 100,
       },
       {
-        type: "ins",
+        type: "insertion",
         value: Number(decayData?.error_param?.ins).toFixed(3) * 100,
       },
       {
-        type: "del",
+        type: "deletion",
         value: Number(decayData?.error_param?.del).toFixed(3) * 100,
       },
     ];
@@ -153,15 +153,15 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const pcrErrorParamData = useMemo(() => {
     return [
       {
-        type: "sub",
+        type: "substitute",
         value: Number(pcrData?.error_param?.sub).toFixed(3) * 100,
       },
       {
-        type: "ins",
+        type: "insertion",
         value: Number(pcrData?.error_param?.ins).toFixed(3) * 100,
       },
       {
-        type: "del",
+        type: "deletion",
         value: Number(pcrData?.error_param?.del).toFixed(3) * 100,
       },
     ];
@@ -169,15 +169,15 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const sequenceingErrorParamData = useMemo(() => {
     return [
       {
-        type: "sub",
+        type: "substitute",
         value: Number(sequencingData?.error_param?.sub).toFixed(3) * 100,
       },
       {
-        type: "ins",
+        type: "insertion",
         value: Number(sequencingData?.error_param?.ins).toFixed(3) * 100,
       },
       {
-        type: "del",
+        type: "deletion",
         value: Number(sequencingData?.error_param?.del).toFixed(3) * 100,
       },
     ];
@@ -614,12 +614,14 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         title: {
           text: "ln(y1)",
           offset: 60,
+          rotate:14.13
         },
       },
       count: {
         title: {
           text: "ln(y2)",
           offset: 60,
+          rotate:14.10
         },
       },
     },
@@ -667,71 +669,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         // },
       },
     ],
-    // tooltip:{
-    //   customContent: (title, data) => {
-    //     if data.
-    //     return `<div>
-    //     </br>
-    //     <h3>${props.method}</h3>
-    //     </br>
-    //       <h3>Payload Length : ${props.seg} bits</h3>
-    //       </br>
-    //       <h3>Index Length : ${props.index} bits</h3>
-    //       </br>
-    //       <h3>Verify Code : ${veri} bits</h3>
-    //       </br>
-    //     </div>`;
-    //   },
-    // }
   };
 
-  // //气泡图数据以及配置
-  // const scatterConfig = {
-  //   // width: 800,
-  //   // height: 200,
-  //   autoFit: true,
-  //   appendPadding: 16,
-  //   data: errorDensity || [],
-  //   xField: "error",
-  //   yField: "type",
-  //   sizeField: "count",
-  //   size: [5, 50],
-  //   shape: "circle",
-  //   colorField: "type",
-  //   color: ["#ffd500", "#82cab2", "#193442", "#d18768", "#7e827a"],
-  //   pointStyle: {
-  //     fillOpacity: 0.8,
-  //     stroke: "#bbb",
-  //   },
-  //   tooltip: {
-  //     showTitle: false,
-  //     showMarkers: false,
-  //     fields: ["count", "error", "type"],
-  //   },
-  //   xAxis: {
-  //     grid: {
-  //       line: {
-  //         style: {
-  //           stroke: "#eee",
-  //         },
-  //       },
-  //     },
-  //     line: null,
-  //   },
-  //   label: {
-  //     formatter: (item) => {
-  //       return item.city;
-  //     },
-  //     offsetY: 12,
-  //     style: {
-  //       fontSize: 12,
-  //     },
-  //   },
-  //   yAxis: {
-  //     min: 0,
-  //     line: null,
-  //   },
-  // };
+ 
   const ErrorDensityConfig = {
     data: errorDensity || [],
     isStack: true,
@@ -841,47 +781,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         console.log(error);
       });
   };
-  // interface DataType {
-  //   key: string;
-  //   name1: string;
-  //   value1: any;
-  // }
-
-  // const columns1: ColumnsType<DataType> = [
-  //   {
-  //     title: "Name",
-  //     dataIndex: "name1",
-  //     render: (text) => <a>{text}</a>,
-  //   },
-  //   {
-  //     title: "Information",
-  //     dataIndex: "value1",
-  //     align:"center"
-  //   },
-  // ];
-  // const data1: DataType[] = [
-  //   {
-  //     key: "1",
-  //     name1: "synthesis_number",
-  //     value1: synthesisData?.synthesis_number,
-
-  //   },
-  //   {
-  //     key: "2",
-  //     name1: "synthesis_yield",
-  //     value1: synthesisData?.synthesis_yield,
-  //   },
-  //   {
-  //     key: "3",
-  //     name1: "synthesis_method",
-  //     value1: synthesisData?.synthesis_yield,
-  //   },
-  //   {
-  //     key: "4",
-  //     name1: "synthesis_method_reference",
-  //     value1: synthesisData?.synthesis_yield,
-  //   },
-  // ];
+  
   return (
     <div className="simulation-report-wrapper">
       <div className="simulation-report-nav-wrapper">
@@ -897,30 +797,35 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         </Breadcrumb>
       </div>
       <div className="simulation-report-content-wrapper">
+       
         <Spin tip={props.time3min? "Please waiting 3 mins!": "Loading..."} size="large" spinning={spinflag}>
           <Card title="Stage summary" headStyle={{ backgroundColor: "#99CCFF"}}>
-            <Tabs defaultActiveKey="1" >
+          <p style={{
+                textAlign: "justify",
+              }}>This part reviews user settings.</p>
+            <Tabs defaultActiveKey="1" style={{paddingLeft:"20px",fontSize:"14px"}}>
               <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined}>
-                <div className="TabSYN">
-                  Synthesis Number : {synthesisData?.synthesis_number}
+                <div className="TabSYN" id='table'>
+                  
+                  Synthesis number  : {synthesisData?.synthesis_number}
                   <br />
-                  Synthesis Yield : {synthesisData?.synthesis_yield}
+                  Synthesis yield   : {synthesisData?.synthesis_yield}
                   <br />
-                  Synthesis Method : {synthesisData?.synthesis_method}
+                  Synthesis method  : {synthesisData?.synthesis_method}
                   <br />
                   <br />
                 </div>
-                <p>The error rate distribution of your chosen synthesis method is as follows:</p>
+                <p id='illstr'>The error rate distribution of your chosen synthesis method is as follows:</p>
 
                 <Pie className="pie" {...synthesisErrorParamConfig} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Decay" key="2" disabled={decayData === undefined}>
                 <div className="TabDEC">
-                  Storage Host : {decayData?.storage_host}
+                  Storage host : {decayData?.storage_host}
                   <br />
-                  Months of Storage : {decayData?.months_of_storage}
+                  Months of storage : {decayData?.months_of_storage}
                   <br />
-                  Decay Loss Rate : {decayData?.decay_loss_rate}
+                  Decay loss rate : {decayData?.decay_loss_rate}
                   <br />
                   <br />
                   {/* storage_host_parameter_reference :
@@ -936,20 +841,20 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               );
             })} */}
                 </div>
-                <p>The error rate distribution of your chosen storage host is as follows:</p>
+                <p id='illstr'>The error rate distribution of your chosen storage host is as follows:</p>
                 <Pie className="pie" {...decayErrorParamConfig} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="PCR" key="3" disabled={pcrData === undefined}>
                 <div className="TabPCR">
-                  Pcr Polymerase: {pcrData?.pcr_polymerase}
+                  Pcr polymerase: {pcrData?.pcr_polymerase}
                   <br />
-                  Pcr Cycle: {pcrData?.pcr_cycle}
+                  Pcr cycle: {pcrData?.pcr_cycle}
                   <br />
-                  Pcr Probability: {pcrData?.pcr_prob}
+                  Pcr probability: {pcrData?.pcr_prob}
                   <br />
                   <br />
                 </div>
-                <p>The error rate distribution of your chosen pcr polymerase is as follows:</p>
+                <p id='illstr'>The error rate distribution of your chosen pcr polymerase is as follows:</p>
                 <Pie className="pie" {...pcrErrorParamConfig} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sampling" key="4" disabled={samplingData === undefined}>
@@ -962,19 +867,20 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sequencing" key="5" disabled={sequencingData === undefined}>
                 <div className="TabSEQ">
-                  Sequencing Depth : {sequencingData?.seq_depth}
+                  Sequencing depth : {sequencingData?.seq_depth}
                   <br />
-                  Sequencing Method : {sequencingData?.seq_meth}
+                  Sequencing method : {sequencingData?.seq_meth}
                   <br />
                   <br />
                 </div>
-                <p>The error rate distribution of your chosen sequencing method is as follows:</p>
+                <p id='illstr'>The error rate distribution of your chosen sequencing method is as follows:</p>
                 <Pie className="pie" {...sequenceErrorParamConfig} />
               </Tabs.TabPane>
             </Tabs>
           </Card>
-          <Card title="Simulation Result" headStyle={{ backgroundColor: "#99CCFF"}}>
-          <h3>Sequences Distribution</h3>
+          <Card title="Simulation result" headStyle={{ backgroundColor: "#99CCFF"}}>
+          <p style={{"textAlign":"justify"}}>During simulation, sequence density, distribution and error occurrance vary from stages.Down below, we provide a Sequence distribution and a Error counts diagram to illustrate these change tendency. Simple explanation are provided beneath the diagrams and more details could be found in tutorial. </p>
+          <h3>Sequences distribution</h3>
             <div style={{padding:"50px 150px 0 150px"}}>
             
               <DualAxes {...dualConfig} />
@@ -998,7 +904,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           {/* </Card>
           <Card>
             <h3>Error Counts </h3> */}
-              <h3>Error Counts </h3>
+              <h3>Error counts </h3>
             <div style={{padding:"50px 220px 0 150px"}}>
                 {/* <h3>Error Counts </h3> */}
               <Bar {...ErrorDensityConfig} />

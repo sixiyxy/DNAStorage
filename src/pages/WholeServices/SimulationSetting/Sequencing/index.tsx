@@ -165,7 +165,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
             <div className="simulation-sequencing-function-content">
               <div>
                 <div className="simulation-row">
-                  <span>Sequencing Depth :</span>
+                  <span>Sequencing depth :</span>
                   <Tooltip title="The number of times that a given nucleotide has been read in an experiment.">
                     <i
                       className="iconfont icon-wenhao"
@@ -198,7 +198,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                 </div>
 
                 <div className="simulation-row">
-                  <span>Sequencing Method :</span>
+                  <span>Sequencing method :</span>
                   <Select
                     className="simulation-selector"
                     onChange={handleChange}

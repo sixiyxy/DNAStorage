@@ -40,15 +40,15 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const synthesisErrorParamData = useMemo(() => {
     return [
       {
-        type: "sub",
+        type: "substitute",
         value: Number(props.synthesisData?.error_param?.sub).toFixed(3) * 100,
       },
       {
-        type: "ins",
+        type: "insertion",
         value: Number(props.synthesisData?.error_param?.ins).toFixed(3) * 100,
       },
       {
-        type: "del",
+        type: "deletion",
         value: Number(props.synthesisData?.error_param?.del).toFixed(3) * 100,
       },
     ];
@@ -56,15 +56,15 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const decayErrorParamData = useMemo(() => {
     return [
       {
-        type: "sub",
+        type: "substitute",
         value: Number(props.decayData?.error_param?.sub).toFixed(3) * 100,
       },
       {
-        type: "ins",
+        type: "insertion",
         value: Number(props.decayData?.error_param?.ins).toFixed(3) * 100,
       },
       {
-        type: "del",
+        type: "deletion",
         value: Number(props.decayData?.error_param?.del).toFixed(3) * 100,
       },
     ];
@@ -72,15 +72,15 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const pcrErrorParamData = useMemo(() => {
     return [
       {
-        type: "sub",
+        type: "substitute",
         value: Number(props.pcrData?.error_param?.sub).toFixed(3) * 100,
       },
       {
-        type: "ins",
+        type: "insertion",
         value: Number(props.pcrData?.error_param?.ins).toFixed(3) * 100,
       },
       {
-        type: "del",
+        type: "deletion",
         value: Number(props.pcrData?.error_param?.del).toFixed(3) * 100,
       },
     ];
@@ -88,15 +88,15 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const sequenceingErrorParamData = useMemo(() => {
     return [
       {
-        type: "sub",
+        type: "substitute",
         value: Number(props.sequencingData?.error_param?.sub).toFixed(3) * 100,
       },
       {
-        type: "ins",
+        type: "insertion",
         value: Number(props.sequencingData?.error_param?.ins).toFixed(3) * 100,
       },
       {
-        type: "del",
+        type: "deletion",
         value: Number(props.sequencingData?.error_param?.del).toFixed(3) * 100,
       },
     ];
@@ -216,7 +216,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         step: "synthesis",
         value: props.errorRecoder?.SYN ? Math.log(props.errorRecoder?.SYN.n) : 0,
-        type: "total",
+        type: "left",
       },
       {
         step: "synthesis",
@@ -226,7 +226,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         step: "decay",
         value: props.errorRecoder?.DEC ? Math.log(props.errorRecoder?.DEC.n) : null,
-        type: "total",
+        type: "left",
       },
       {
         step: "decay",
@@ -236,7 +236,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         step: "pcr",
         value: props.errorRecoder?.PCR ? Math.log(props.errorRecoder?.PCR.n) : null,
-        type: "total",
+        type: "left",
       },
       {
         step: "pcr",
@@ -246,7 +246,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         step: "sample",
         value: props.errorRecoder?.SAM ? Math.log(props.errorRecoder?.SAM.n) : null,
-        type: "total",
+        type: "left",
       },
       {
         step: "sample",
@@ -256,7 +256,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         step: "sequence",
         value: props.errorRecoder?.SEQ ? Math.log(props.errorRecoder?.SEQ.n) : null,
-        type: "total",
+        type: "left",
       },
       {
         step: "sequence",
@@ -363,12 +363,14 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         title: {
           text: "ln(y1)",
           offset: 60,
+          rotate:14.13
         },
       },
       count: {
         title: {
           text: "ln(y2)",
           offset: 60,
+          rotate:14.10
         },
       },
     },
@@ -587,28 +589,31 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       <div className="simulation-report-content-wrapper">
         <Spin tip="Loading..." size="large" spinning={props.spinflags}>
           <Card title="Stage summary" headStyle={{ backgroundColor: "#99CCFF" }}>
+          <p style={{
+                textAlign: "justify",
+              }}>This part reviews user settings.</p>
             <Tabs defaultActiveKey="1" size={"large"}>
               <Tabs.TabPane tab="Synthesis" key="1" disabled={props.synthesisData === undefined}>
-                <div className="TabSYN">
-                  Synthesis Number : {props.synthesisData?.synthesis_number}
+                <div className="TabSYN" id='table'>
+                  Synthesis number : {props.synthesisData?.synthesis_number}
                   <br />
-                  Synthesis Yield : {props.synthesisData?.synthesis_yield}
+                  Synthesis yield : {props.synthesisData?.synthesis_yield}
                   <br />
-                  Synthesis Method : {props.synthesisData?.synthesis_method}
+                  Synthesis method : {props.synthesisData?.synthesis_method}
                   <br />
                 </div>
-                <p>The error rate distribution of your chosen synthesis method is as follows:</p>
+                <p id='illstr'>The error rate distribution of your chosen synthesis method is as follows:</p>
               
                 <Pie className="pie" {...synthesisErrorParamConfig} />
               
               </Tabs.TabPane>
               <Tabs.TabPane tab="Decay" key="2" disabled={props.decayData === undefined}>
                 <div className="TabDEC">
-                  Storage Host : {props.decayData?.storage_host}
+                  Storage host : {props.decayData?.storage_host}
                   <br />
-                  Months of Storage : {props.decayData?.months_of_storage}
+                  Months of storage : {props.decayData?.months_of_storage}
                   <br />
-                  Decay Loss Rate : {props.decayData?.decay_loss_rate}
+                  Decay loss rate : {props.decayData?.decay_loss_rate}
                   <br />
                   {/* storage_host_parameter_reference :
             <br />
@@ -623,16 +628,16 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               );
             })} */}
                 </div>
-                <p>The error rate distribution of your chosen storage host is as follows:</p>
+                <p id='illstr'>The error rate distribution of your chosen storage host is as follows:</p>
                 <Pie className="pie" {...decayErrorParamConfig} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="PCR" key="3" disabled={props.pcrData === undefined}>
                 <div className="TabPCR">
-                  Pcr Polymerase : {props.pcrData?.pcr_polymerase}
+                  Pcr polymerase : {props.pcrData?.pcr_polymerase}
                   <br />
-                  Pcr Cycle : {props.pcrData?.pcr_cycle}
+                  Pcr cycle : {props.pcrData?.pcr_cycle}
                   <br />
-                  Pcr Prob : {props.pcrData?.pcr_prob}
+                  Pcr prob : {props.pcrData?.pcr_prob}
                   <br />
                   {/* pcr_method_reference : */}
                   {/* <br />
@@ -652,7 +657,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                     );
                   })} */}
                 </div>
-                <p>The error rate distribution of your chosen pcr polymerase is as follows:</p>
+                <p id='illstr'>The error rate distribution of your chosen pcr polymerase is as follows:</p>
                 <Pie className="pie" {...pcrErrorParamConfig} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sampling" key="4" disabled={props.samplingData === undefined}>
@@ -665,9 +670,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sequencing" key="5" disabled={props.sequencingData === undefined}>
                 <div className="TabSEQ">
-                  Sequencing Depth : {props.sequencingData?.seq_depth}
+                  Sequencing depth : {props.sequencingData?.seq_depth}
                   <br />
-                  Sequencing Method : {props.sequencingData?.seq_meth}
+                  Sequencing method : {props.sequencingData?.seq_meth}
                   <br />
                   {/* seq_method_reference :
             <br />
@@ -682,14 +687,15 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               );
             })} */}
                 </div>
-                <p>The error rate distribution of your chosen sequencing method is as follows:</p>
+                <p id='illstr'>The error rate distribution of your chosen sequencing method is as follows:</p>
                 <Pie className="pie" {...sequenceErrorParamConfig} />
               </Tabs.TabPane>
             </Tabs>
           </Card>
-          <Card title="Simulation Result" headStyle={{ backgroundColor: "#99CCFF" }}>
+          <Card title="Simulation result" headStyle={{ backgroundColor: "#99CCFF" }}>
+          <p style={{"textAlign":"justify"}}>During simulation, sequence density, distribution and error occurrance vary from stages.Down below, we provide a Sequence distribution and a Error counts diagram to illustrate these change tendency. Simple explanation are provided beneath the diagrams and more details could be found in tutorial. </p>
             {/* <h3>Sequences Distribution</h3> */}
-            <h3>Sequences Distribution</h3>
+            <h3>Sequences distribution</h3>
             <div style={{padding:"50px 150px 0 150px"}}>
               {/* <h3>Sequences Distribution</h3> */}
               <DualAxes {...dualConfig} />
@@ -714,7 +720,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           {/* </Card> */}
           {/* <Card> */}
             {/* <h3>Error Counts </h3> */}
-            <h3>Error Counts </h3>
+            <h3>Error counts </h3>
             <div style={{padding:"50px 200px 0 150px"}}>
               
               <Bar {...errorDensityConfig} />

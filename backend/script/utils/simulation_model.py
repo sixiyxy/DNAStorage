@@ -432,6 +432,7 @@ class ErrorAdder_simu:
                 flag=0
                 if len(re_dna[1])!=0:
                     recorder['e']=recorder.get("e",0)+re_dna[0]
+                    recorder['n']=recorder.get('n',0)-re_dna[0]
                     for tmp in re_dna[1]:
                         if not flags[tmp[1]]:
                             try:
