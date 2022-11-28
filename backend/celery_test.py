@@ -6,14 +6,14 @@ from celery import Celery
 # from concurrent.futures import ThreadPoolExecutor
 # this method can not get the status
 
-from app_celery import enocde_celery
+from app_celery import encode_celery
 from script.step1_get_file_uid import get_file_uid
 from script.step2_encoding_celery import Encoding,get_progress_bar
 
 def encode_star():
     print('\n','#'*25,'Encoding','#'*25,'\n','#'*60)
 
-    front_data = {"file_uid":1565536927137009664,
+    front_data = {"file_uid":1582258845189804032,
                     "segment_length":160,
                     "index_length":20,
                     "verify_method":"Hamming",
@@ -24,9 +24,9 @@ def encode_star():
     index_length = front_data['index_length'] #128
     verify_method = front_data['verify_method'] #'HammingCode'
     encode_method = front_data['encode_method'] #'Basic'
-    args = [Celery, file_uid,segment_length,index_length,verify_method,encode_method]
+    args = [file_uid,segment_length,index_length,verify_method,encode_method]
 
-    encode_task = enocde_celery.apply_async(args=args)
+    encode_task = encode_celery.apply_async(args=args)
     task_id = encode_task.id
     print(task_id)
     return task_id
@@ -35,13 +35,14 @@ def encode_star():
 # @app.route('/status/<task_id>',methods=['POST'])
 
 def taskstatus(task_id):
-    task = enocde_celery.AsyncResult(task_id)
-    print(task.info)
+    task = encode_celery.AsyncResult(task_id)
+    print(task.state,task.info)
 
     # waiting 
     if task.state == 'PENDING':
         response = {'state':task.state,'current':0,'total':1}
     elif task.state != 'FAILURE':
+        print(task.state,task.info)
         # running
         response = {'state':task.state,
                     'current':task.info.get('current',0),
@@ -59,7 +60,7 @@ def taskstatus(task_id):
 
 if __name__ == '__main__':
     task_id = encode_star()
-    for i in range(10):
-        time.sleep(0.5)
+    for i in range(200):
+        time.sleep(3)
         response = taskstatus(task_id=task_id)
         # print(response)

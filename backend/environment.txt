@@ -8,4 +8,5 @@ biopython
 flask_cors
 pandas
 celery
+redis
 uwsgi

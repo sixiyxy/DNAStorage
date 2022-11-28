@@ -466,7 +466,7 @@ class Encoding():
         if self.encode_method in encoding_methods:
             file_data = fromfile(file=self.file_path, dtype=uint8)
             file_size = file_data.shape[0]
-            if file_size > 1000000:
+            if file_size > 10000000:
                 cut_file_data = cut_file(file_data,self.encode_method)
 
                 with Pool(self.threads) as pool:
