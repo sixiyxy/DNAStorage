@@ -10,8 +10,8 @@ from app_celery import encode_celery
 from script.step1_get_file_uid import get_file_uid
 from script.step2_encoding_celery import Encoding,get_progress_bar
 
-def encode_star():
-    print('\n','#'*25,'Encoding','#'*25,'\n','#'*60)
+def encode_start():
+    print('\n','#'*25,'Encoding Start','#'*25,'\n','#'*60)
 
     front_data = {"file_uid":1582258845189804032,
                     "segment_length":160,
@@ -35,6 +35,18 @@ def encode_star():
     task_id = encode_task.id
     print(task_id)
     return task_id
+
+def decode_start():
+    print('\n','#'*25,'Encoding Start','#'*25,'\n','#'*60)
+    front_data = {"file_uid":1565536927137009664,
+                    # "clust_method":"cdhit"}
+                    "clust_method":'starcode'}
+    file_uid = front_data['file_uid'] 
+    clust_method = front_data['clust_method']
+    print('### Decode parameters is:',front_data)
+
+    args = [file_uid,clust_method]
+    
 
 
 # @app.route('/status/<task_id>',methods=['POST'])
@@ -64,7 +76,7 @@ def taskstatus(task_id):
 
 
 if __name__ == '__main__':
-    task_id = encode_star()
+    task_id = encode_start()
     for i in range(200):
         time.sleep(3)
         response = taskstatus(task_id=task_id)

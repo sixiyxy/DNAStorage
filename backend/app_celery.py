@@ -10,6 +10,8 @@ from celery import Celery
 
 from script.step1_get_file_uid import get_file_uid
 from script.step2_encoding_celery import Encoding,get_progress_bar
+from script.step4_decode import ClusterDecode
+
 
 backend = 'redis://121.192.180.202:6379/1'
 broker = 'redis://121.192.180.202:6379/2'
@@ -37,45 +39,73 @@ def encode_celery(self,file_uid,segment_length,index_length,verify_method,encode
     self.update_state(state = 'ENCODING',
                         meta = {'label':'start',
                                 'current':0,
-                                'total':total_status})             
-    info = None
-    data = None
-    step = 'segment'
-    segment_data = obj.run(step,file_data,file_size,start_time,info,data)
-    self.update_state(state = 'ENCODING',
-                        meta = {'label':'segment_file',
-                                'current':1,
-                                'total':total_status}) 
-    step = 'index'
-    index_data = obj.run(step,file_data,file_size,start_time,info,segment_data)
-    self.update_state(state = 'ENCODING',
-                        meta = {'label':'add_index',
-                                'current':2,
-                                'total':total_status}) 
-    step = 'verify'
-    verify_data = obj.run(step,file_data,file_size,start_time,info,index_data)
-    self.update_state(state = 'ENCODING',
-                        meta = {'label':'add_verify',
-                                'current':3,
-                                'total':total_status}) 
-    step='encode'
-    info,data = obj.run(step,file_data,file_size,start_time,info,verify_data)
-    self.update_state(state = 'ENCODING',
-                        meta = {'label':'encode',
-                                'current':4,
-                                'total':total_status}) 
-    step ='record'
-    info,data = obj.run(step,file_data,file_size,start_time,info,data)
-    self.update_state(state = 'ENCODING',
-                        meta = {'label':'record',
-                                'current':5,
-                                'total':total_status}) 
-    step = 'plot'
-    encode_info = obj.run(step,file_data,file_size,start_time,info,data)
-    self.update_state(state = 'ENCODING',
-                        meta = {'label':'plot',
-                                'current':6,
-                                'total':total_status}) 
+                                'total':total_status})   
+    if obj.encode_method == 'SrcCode':
+        info = None
+        data = None
+        step='encode'
+        info,data = obj.run(step,file_data,file_size,start_time,info,verify_data)
+        self.update_state(state = 'ENCODING',
+                            meta = {'label':'encode',
+                                    'current':4,
+                                    'total':total_status}) 
+        step ='record'
+        info,data = obj.run(step,file_data,file_size,start_time,info,data)
+        self.update_state(state = 'ENCODING',
+                            meta = {'label':'record',
+                                    'current':5,
+                                    'total':total_status}) 
+        step = 'plot'
+        encode_info = obj.run(step,file_data,file_size,start_time,info,data)
+        self.update_state(state = 'ENCODING',
+                            meta = {'label':'plot',
+                                    'current':6,
+                                    'total':total_status})     
+    else:     
+        info = None
+        data = None
+        step = 'segment'
+        segment_data = obj.run(step,file_data,file_size,start_time,info,data)
+        self.update_state(state = 'ENCODING',
+                            meta = {'label':'segment_file',
+                                    'current':1,
+                                    'total':total_status}) 
+        step = 'index'
+        index_data = obj.run(step,file_data,file_size,start_time,info,segment_data)
+        self.update_state(state = 'ENCODING',
+                            meta = {'label':'add_index',
+                                    'current':2,
+                                    'total':total_status}) 
+        step = 'verify'
+        verify_data = obj.run(step,file_data,file_size,start_time,info,index_data)
+        self.update_state(state = 'ENCODING',
+                            meta = {'label':'add_verify',
+                                    'current':3,
+                                    'total':total_status}) 
+        step='encode'
+        info,data = obj.run(step,file_data,file_size,start_time,info,verify_data)
+        self.update_state(state = 'ENCODING',
+                            meta = {'label':'encode',
+                                    'current':4,
+                                    'total':total_status}) 
+        step ='record'
+        info,data = obj.run(step,file_data,file_size,start_time,info,data)
+        self.update_state(state = 'ENCODING',
+                            meta = {'label':'record',
+                                    'current':5,
+                                    'total':total_status}) 
+        step = 'plot'
+        encode_info = obj.run(step,file_data,file_size,start_time,info,data)
+        self.update_state(state = 'ENCODING',
+                            meta = {'label':'plot',
+                                    'current':6,
+                                    'total':total_status}) 
     
     return {'current':total_status,'total':total_status,
             'callback':encode_info,'result':'successful'}
+
+@celery.task(bind=True)
+def decode_celery(self,file_uid,clust_method):
+    Decode_obj = ClusterDecode(file_uid = file_uid,clust_method= clust_method)
+    decode_info = Decode_obj.decode()
+    
