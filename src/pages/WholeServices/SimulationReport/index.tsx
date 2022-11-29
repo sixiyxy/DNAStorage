@@ -679,10 +679,10 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       <div className="simulation-report-nav-wrapper">
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
-            <a href="/">Home</a>
+            Home
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="/Services">Service</a>
+            Service
           </Breadcrumb.Item>
           <Breadcrumb.Item>Simulation</Breadcrumb.Item>
           <Breadcrumb.Item>Report</Breadcrumb.Item>
