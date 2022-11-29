@@ -198,12 +198,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                       <Breadcrumb.Item>Tutorial</Breadcrumb.Item>
                   </Breadcrumb>
               </div>
-          <div id="DNA-storage-designer">
-            
-            <Image src={Home1031} width={"80%"} rootClassName="image1"/>
-            <p style={{textAlign:"center",fontSize:13}}>Figure 1: DNA storage designer</p>
-          </div>
-          <div id="what-is-it">
+              <div id="what-is-it">
             <h3 id="second-title">What is it</h3>
             <p id="text-content">
             With the total amount of worldwide data skyrocketing, traditional storage methods face daunting challenges. 
@@ -219,6 +214,12 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
             It also gives thorough guidelines and simulated feedback based on user settings so that user could adjust their experimental plan according to the feedback report.
             </p>
           </div>
+          <div id="DNA-storage-designer">
+            
+            <Image src={Home1031} width={"80%"} rootClassName="image1"/>
+            <p style={{textAlign:"center",fontSize:13}}>Figure 1: DNA storage designer</p>
+          </div>
+          
           <div id="example-file">
               <h3 id="third-title">Example file</h3>
               <p id="text-content">
@@ -242,7 +243,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               <li><strong>Example run: </strong>The embedded example file will be encoded and corresponding results could be shown. Here, we use <i>Ping-Zhi's</i> yin-yang code and <i>Hamming</i> verify code to encode the example file.</li>
               <li><strong>Upload the storage file: </strong>You can use the demo file or your own files, but the file size is limited to less than 10M (the encoding time for large files is too long).</li>
                 <li><strong>Encode Method: </strong>You can choose one of the existing popular encoding methods to encode the file, but <i>Zan's</i> code can only encode the English letters in the txt file. For more details on each method, please refers to the <a href="/methods#/methods">Method</a>. </li>
-                <li><strong>Verify code: </strong>Because the DNA sequence will inevitably have errors during the storage process, in order to ensure the accuracy of data, we integrated two <strong>verify codes</strong>, which is <i>Reed Solomon Code and Hamming Code.</i></li>
+                <li><strong>Verify code: </strong>Because the DNA sequence will inevitably have errors during the storage process, in order to ensure the accuracy of data, we integrated two <strong>verify codes</strong>, which is <i>Reed Solomon Code and Hamming Code.</i>For more details on each method, please refers to the <a href="/methods#/methods">Method</a></li>
                 <li><strong>Segment length and Index length: </strong>The upload file will be compiled into binary data, it will be split into fixed lengths and converted to DNA sequence using the chosen method, this fixed length is the segment length. Since the existing synthesis and sequencing technology do not support long sequences, the segment length should be less than 200. At the same time, in order to restore the data, each segment will be added on address information, and the length is the index length.</li>
                 <li><strong>Run: </strong>Encode the upload file with the chosen setting parameters.</li>
               </ul>

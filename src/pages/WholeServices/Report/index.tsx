@@ -12,6 +12,7 @@ import "./index.less";
 
 import { Spin } from "antd";
 import { API_PREFIX } from "../../../common/Config";
+import { Opacity } from "@antv/attr";
 export class ReportProps {
   GC;
   homo;
@@ -38,6 +39,7 @@ interface DataType {
 
 export const Report: React.FC<ReportProps> = (props) => {
   const [size, setSize] = useState<SizeType>("large");
+  const [isClickDown,setDown] = useState(false)
   const params1 = {
     file_uid: props.exam ? "example" : props.fileId,
     type: "encode",
@@ -169,6 +171,7 @@ export const Report: React.FC<ReportProps> = (props) => {
   const DownloadURL = () => {
     // console.log(props.encodeurl);
     // console.log(props.fileURL);
+    setDown(true)
     axios
       .post(API_PREFIX + "/download", params1, { responseType: "blob" })
       .then(function (response) {
@@ -189,6 +192,7 @@ export const Report: React.FC<ReportProps> = (props) => {
       .catch(function (error) {
         console.log(error);
       });
+      setDown(false)
   };
   const handleNext=()=>{
     props.setSimuSet(true)
@@ -310,6 +314,7 @@ export const Report: React.FC<ReportProps> = (props) => {
                 icon={<DownloadOutlined />}
                 size={size}
                 onClick={DownloadURL}
+                style={{opacity:isClickDown?0.5:1}}
               >
                 Download
               </Button>

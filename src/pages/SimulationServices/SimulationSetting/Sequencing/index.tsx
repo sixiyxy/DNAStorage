@@ -75,7 +75,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     //setErrorData(response?.data?.seq_error_density);
     setLen(resp.seq_density.length);
     setDensityData(resp.seq_density);
-    setGroup(resp.seq_group);
+    setGroup(resp.density_group);
     setHrefLink(resp.synthesis_method_reference);
     setLoading(false);
   };
@@ -87,7 +87,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       props.setSEQRUN(true);
       setLen(props.response.SEQ.seq_density.length);
       setDensityData(props.response.SEQ.seq_density);
-      setGroup(props.response.SEQ.seq_group);
+      setGroup(props.response.SEQ.density_group);
       // setHrefLink(props.response.SEQ.synthesis_method_reference);
       setLoading(false);
     

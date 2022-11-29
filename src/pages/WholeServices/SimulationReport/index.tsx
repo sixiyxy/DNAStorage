@@ -3,6 +3,7 @@ import { Breadcrumb, Button, Card, Select, Tabs, Table, Spin } from "antd";
 import React, { useEffect, useMemo, useState } from "react";
 import "./index.less";
 import { doPost } from "../../../utils/request";
+import { DownloadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { API_PREFIX } from "../../../common/Config";
 import type { ColumnsType } from "antd/es/table";
@@ -28,6 +29,7 @@ interface DataType {
   value1: any;
 }
 export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
+  const [isClickDown,setDown] = useState(false)
   const downinfo = {
     file_uid: props.fileId,
     type: "simulation",
@@ -129,6 +131,10 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     label: {
       type: 'outer',
     },
+    // legend:{
+    //   // position: 'left'
+    //   offsetX:2
+    // },
     meta:{
       value:{
         formatter:(val)=>{
@@ -571,6 +577,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
 
 
   const DownloadURL = () => {
+    setDown(true)
     axios
       .post(API_PREFIX + "/download", downinfo, { responseType: "blob" })
       .then(function (response) {
@@ -591,6 +598,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       .catch(function (error) {
         console.log(error);
       });
+      setDown(false)
   };
   const handleNext=()=>{
     props.setDeSet(true)
@@ -598,7 +606,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   }
   const columns1: ColumnsType<DataType> = [
     {
-      title: "Name",
+      title: "Setting",
       dataIndex: "name1",
       // width: "55%",
       align: "center",
@@ -690,10 +698,10 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       </div>
       <div className="simulation-report-content-wrapper">
         <Spin tip="Loading..." size="large" spinning={props.spinflags}>
-          <Card title="Stage summary" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
-          <p style={{
+          <Card title="Stage summary (steps review)" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
+          {/* <p style={{
                 textAlign: "center",
-              }}><strong>Setting Review</strong></p>
+              }}><strong>Setting Review</strong></p> */}
             <Tabs defaultActiveKey="1" size={"large"} type="card">
               <Tabs.TabPane tab="Synthesis" key="1" disabled={props.synthesisData === undefined}>
                 <div className="TabSYN">
@@ -706,6 +714,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                       columns={columns1}
                       dataSource={data1}
                       size={"small"}
+                      // style={{textAlign:'center'}}
                       // showHeader={false}
                       pagination={{ position: ["none"] }}
                     />
@@ -872,7 +881,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 is.
               </p>
               <div className="simulation-report-button-group">
-                <Button shape="round" size="large" type="primary" onClick={DownloadURL}>
+                <Button shape="round" size="large" type="primary" icon={<DownloadOutlined />} style={{opacity:isClickDown?0.5:1}} onClick={DownloadURL}>
                   Download
                 </Button>
                 <Button shape="round" size="large" type="primary" onClick={handleNext} style={{marginLeft:"100px",width:"100px"}}>

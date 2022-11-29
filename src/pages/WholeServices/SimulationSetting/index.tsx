@@ -247,8 +247,8 @@ var paramsRepo={
                     and occur at the end.
                   </p>
                   </div>
-                    <Button
-                      className="exm"
+                  <Button
+                      // className="exm"
                       // type="primary"
                       shape="round"
                       size="large"
@@ -312,7 +312,7 @@ var paramsRepo={
           </div>
         )}
 
-        <Card title="Choose the simulation steps" headStyle={{ fontSize: "18px" }}>
+        <Card title="Choose the simulation steps" headStyle={{ fontSize: "18px",backgroundColor:"#cccfd4",textAlign:"center"}}>
           <p className="function-bar" style={{ fontSize: "17px" }}>
             Please select the following simulation steps. You can choose to skip some of these
             steps, but Synthesis cannot.

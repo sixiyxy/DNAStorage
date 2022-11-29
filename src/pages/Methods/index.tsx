@@ -113,14 +113,12 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               to problems like extreme GC content, repeats, and secondary structure flexibly.
               It also splits the bit stream into addressed data blocks that eliminate the need for long DNA constructs.
               </p>
-              <Image src={dnainfo}  width={"70%"} rootClassName="image" />
+              <Image src={dnainfo}  width={"45%"} rootClassName="image" />
               <p className="text-content"><strong>Paper: </strong>
               Church, G. M., Gao, Y., &Kosuri, S. (2012).
               <i><strong> Next-generation digital information storage in DNA. </strong></i>
               Science,337(6102), 1628-1628.</p>
-              <p className="text-content"><strong><a href="https://www.science.org/doi/suppl/10.1126/science.1226355/suppl_file/church.sm.pdf" target="_blank" title="click me">
-              Code method
-              </a></strong></p>
+              <p className="text-content"><strong><span style={{color:'black'}}>Code: </span></strong><strong><a href="https://www.science.org/doi/suppl/10.1126/science.1226355/suppl_file/church.sm.pdf" target="_blank" title="click me">code method</a></strong></p>
 
 
               <h4 id="nick-doldman" className="third-title">1.5 Nick Goldman Code</h4>
@@ -135,8 +133,8 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               Goldman, N., Bertone, P., Chen, S., Dessimoz, C., LeProust, E. M., Sipos, B., &Birney, E. (2013).  (2012).
               <i><strong> Towards practical, high-capacity, low-maintenance information storage in synthesized DNA. </strong></i>
               nature, 494(7435), 77-80.</p>
-              <p className="text-content"><strong><a href="https://static-content.springer.com/esm/art%3A10.1038%2Fnature11875/MediaObjects/41586_2013_BFnature11875_MOESM337_ESM.pdf" target="_blank" title="click me">
-              Code method
+              <p className="text-content"><strong><span style={{color:'black'}}>Code: </span></strong><strong><a href="https://static-content.springer.com/esm/art%3A10.1038%2Fnature11875/MediaObjects/41586_2013_BFnature11875_MOESM337_ESM.pdf" target="_blank" title="click me">
+              code method
               </a></strong>
 
               </p>
@@ -168,7 +166,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               the authors propose the forward error scheme,
               which is able to cope with all error types of today's DNA synthesis, amplification and sequencing processes.
               </p>
-              <Image src={forwarderror}  width={"70%"} rootClassName="image"/>
+              <Image src={forwarderror}  width={"60%"} rootClassName="image"/>
               <p className="text-content"><strong>Paper: </strong>
               Blawat, M., Gaedke, K., Huetter, I., Chen, X. M., Turczyk, B., Inverso, S., ... &Church, G. M. (2016).
               <i><strong> Forward error correction for DNA data storage. </strong></i>
@@ -249,7 +247,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               the synthesized number of each oligo <i>n<sub>i</sub></i> is obtained by sampling from a distribution computed with coupling efficiency <i>P<sub>c</sub></i> and length <i>L</i> of sequence.
               </p>
               <h5 className="forth-title">- Methods:</h5>
-              <Image src={synthesis}  width={"60%"} rootClassName="image"/>
+              <Image src={synthesis}  width={"40%"} rootClassName="image"/>
               <p className="text-content"><strong>Paper: </strong>
               <br/>
               (1) Kosuri S, Church GM.
@@ -300,7 +298,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               Genetics, 156(1), 297-304.
               </p>
               <h5 className="forth-title">- In-Vitro:</h5>
-              <Image src={invitro}  width={"60%"} rootClassName="image"/>
+              <Image src={invitro}  width={"20%"} rootClassName="image"/>
               <p className="text-content"><strong>Paper: </strong>
               <br/>
               (1) An, R., Jia, Y., Wan, B., Zhang, Y., Dong, P., Li, J., & Liang, X. (2014).
