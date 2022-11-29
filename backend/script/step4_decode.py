@@ -31,8 +31,8 @@ class ClusterDecode():
         self.simulation_dir = '{}/{}'.format(self.backend_dir,self.config['simulation_dir'])
         self.simulation_dna_file = '{}/{}.fasta'.format(self.simulation_dir,self.file_uid)
         self.out_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
-        # self.starcode = self.config['starcode']
-        self.starcode = '/Users/jianglikun/VScode/starcode/starcode'
+        self.starcode = self.config['starcode']
+        # self.starcode = '/Users/jianglikun/VScode/starcode/starcode'
         self.cdhit = self.config['cdhit']
 
         # decode
