@@ -324,19 +324,20 @@ class ErrorAdder_simu:
         for i in range(del_homo_count):
             homos=homopolymer.homopolymer(dna)
             homos_pos=[[i['startpos'],i['endpos']] for i in homos]
-            if self.del_pattern:
-                choose_base=choose_base=np.random.choice(list(self.del_pattern.keys()),p=list(self.del_pattern.values()))
-                count=0
-                while count<=5000:
+            if len(homos_pos)!=0:
+                if self.del_pattern:
+                    choose_base=choose_base=np.random.choice(list(self.del_pattern.keys()),p=list(self.del_pattern.values()))
+                    count=0
+                    while count<=5000:
+                        pos=randomPicker(homos_pos)
+                        if dna[pos]==choose_base:
+                            Errors.append([pos,'-',dna[pos]])
+                            break
+                        else:
+                            count+=1
+                else:
                     pos=randomPicker(homos_pos)
-                    if dna[pos]==choose_base:
-                        Errors.append([pos,'-',dna[pos]])
-                        break
-                    else:
-                        count+=1
-            else:
-                pos=randomPicker(homos_pos)
-                Errors.append([pos,'-',dna[pos]])
+                    Errors.append([pos,'-',dna[pos]])
 
         #insert
         ins_flag=np.random.choice([False,True],size=len(dna),p=[1-self.probI,self.probI])
@@ -358,19 +359,20 @@ class ErrorAdder_simu:
         for i in range(ins_homo_count):
             homos=homopolymer.homopolymer(dna)
             homos_pos=[[i['startpos'],i['endpos']] for i in homos]
-            if self.ins_pattern:
-                choose_base=choose_base=np.random.choice(list(self.ins_pattern.keys()),p=list(self.ins_pattern.values()))
-                count=0
-                while count<=5000:
+            if len(homos_pos)!=0:
+                if self.ins_pattern:
+                    choose_base=choose_base=np.random.choice(list(self.ins_pattern.keys()),p=list(self.ins_pattern.values()))
+                    count=0
+                    while count<=5000:
+                        pos=randomPicker(homos_pos)
+                        if dna[pos]==choose_base:
+                            Errors.append([pos,'+',dna[pos]])
+                            break
+                        else:
+                            count+=1
+                else:
                     pos=randomPicker(homos_pos)
-                    if dna[pos]==choose_base:
-                        Errors.append([pos,'+',dna[pos]])
-                        break
-                    else:
-                        count+=1
-            else:
-                pos=randomPicker(homos_pos)
-                Errors.append([pos,'+',dna[pos]])
+                    Errors.append([pos,'+',dna[pos]])
         return Errors
 
     def run(self, ori_dna, re_dnas):
