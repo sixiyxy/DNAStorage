@@ -92,7 +92,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
     {
       key: "8",
       name1: "DNA sequence number",
-      value1: 'each segment will be encoded as a DNA sequence, it is the same as the number of segments',
+      value1: 'each segment will be encoded as DNA sequence, here is the total number of dna sequences',
     },
     {
       key: "9",
@@ -268,8 +268,11 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   <p style={{textAlign:"center",fontSize:13}}>Figure 4: Minimum free energy diagram</p>
                   <p id="report-content"><strong>The sequence average minimum free energy is: -5.82</strong><br></br>
                   The minimum free energy (MFE) of a DNA sequence is the minimum of the Gibbs standard free energy of all possible secondary structures. Therefore, the quality of DNA sequences can be measured by calculating the MFE of each sequence. Here we calculated the minimum free energies if randomly selected 1000 encoded DNA sequences by RNAfold(see methods).<br></br><br></br>
-                  Here we use the RNAfold command as following:<br></br>
-                  <code className="code1">{'{RNAfold} --noPS --noGU --noconv -T 59.1 < {encode dna sequence file} > {outfile}'}</code>
+                  <pre id="code_block">
+                  Here we use the RNAfold command is:<br></br>
+                  <code >{'{RNAfold} --noPS --noGU --noconv -T 59.1 < {encode dna sequence file} > {outfile}'}</code>
+                  </pre>
+
                   </p>
                   <li><strong>Download: </strong>Include two files in the downloaded compressed file, one is the encoding settings information of the uploaded file(named as file_id.yaml), and the other is the encoded DNA sequence file (including: payload, index, index_payload, index_payload_verfiycode, DNA_sequence. namely file_id.csv).</li>
               </ul>
@@ -324,12 +327,14 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               <h3 id="decode-title1">3 Decode</h3>
               <p id='text-content'>In this last stage, we need to decode the DNA sequences according to the reverse rules of the encoding ones. However, DNA strands obtained in this stage usually have random errors( insert\indel\SNV, we have simulated this). So, we embedded two clustering algorithms, CD-HIT and Starcode, to remove de-redundancy and correct the data. Then, the clustered sequences will be decoded to obtain bits fragments. Subsequently, the bits fragments will be removed from the verification code and index code. Finally, we analyze the recovery information of bits fragment in the report.</p>
               <h3 id="decode-title2">3.1 Cluster algorithms</h3>
-              <p id='simuset-report'>Starcode command: <br></br>
-              <code className="code2">{'{starcode} -d 4 -s -t {threads} -i {simulation_dna_file} -o {out_file}'}</code>
-              </p>
-              <p id='simuset-report'>Cdhit command: <br></br>
-              <code className="code2">{'{cd-hit} -T {threads} -c 0.99 -i {simulation_dna_file} -o {out_file}'}</code>
-              </p>
+                <pre id="code_block">
+                <p id='simuset-report'>Starcode command: <br></br>
+                <code >{'{starcode} -d 4 -s -t {threads} -i {simulation_dna_file} -o {out_file}'}</code>
+                </p>
+                <p id='simuset-report'>Cdhit command: <br></br>
+                <code>{'{cd-hit} -T {threads} -c 0.99 -i {simulation_dna_file} -o {out_file}'}</code>
+                </p>
+                </pre>
               <p id='simuset-report'>method details please click the <a href="/methods#/methods">Method</a></p>
               <h3 id="decode-title3">3.2	Result</h3>
               <Table
@@ -348,11 +353,11 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
           <p id="text-content">If the user just wants to encode the file, we also provide a separate file encode part, it is not necessary for you to go through the whole process. And as for other details, please refer to the “whole process/encode” part. </p>
           <h3 id="Frequently">Frequently Asked Questions</h3>
           <ul>
-            <li>Which file types can users encode with?</li>
+            <li><strong>Which file types can users encode with?</strong></li>
             <p id="text-content">Zan's code can only encode the English letters in the txt file. Other methods can encode any file that can be compiled to binary. Therefore, pictures, videos, audios and txt file types are all allowed.</p>
-            <li>Why the file size cannot exceed 10M?</li>
+            <li><strong>Why the file size cannot exceed 10M?</strong></li>
             <p id="text-content">In fact, file lager than 10M can be processed, but the backend processing time is too long, so we limit the file size.</p>
-            <li>Why can't the 'Ping-zhi's yin-yang code' and 'Erlich's fountain code' method be used for files smaller than 100kb?</li>
+            <li><strong>Why can't the 'Ping-zhi's yin-yang code' and 'Erlich's fountain code' method be used for files smaller than 100kb?</strong></li>
             <p id="text-content">Because these two methods need to use the 'bits sequence' after file segmentation, and combined encoding to find the qualified DNA sequence. If the file is too small, the screened pool will be too small to perform reasonable encoding.</p>
           </ul>
           <div id="Acknowledgment">
