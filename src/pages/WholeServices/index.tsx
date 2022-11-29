@@ -81,6 +81,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [sequencingData, setSequenceingData] = useState();
   const [errorRecoder, setErrorRecode] = useState();
   const [errorDensity, setErrorDensity] = useState();
+  const [btnNext,setBtnNext] = useState(true)
   const [strand,setStrand] = useState(0)
   // const [controlReport,setControl]=useState(false)
   const items1 = useMemo(() => {
@@ -209,6 +210,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               changeSider={setSiderSelect}
               fileOver2M={fileOver2M}
               setSimuSet={setSimuSet}
+              btnNext={btnNext}
             />
           ) : null}
 

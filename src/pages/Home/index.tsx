@@ -44,7 +44,7 @@ export const Home: React.FC<HomeProps> = (props) => {
           thorough guidelines and simulated feedback based on user settings so that user could
           adjust their experimental plan based on the report.
         </p>
-        <div style={{ paddingTop: "30px", marginLeft: "200px" }}>
+        <div style={{ paddingTop: "30px", textAlign:"center"}}>
           <img
             style={{ width: "80%" }}
             // width="80%"

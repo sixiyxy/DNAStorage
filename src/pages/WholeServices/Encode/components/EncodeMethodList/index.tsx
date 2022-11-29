@@ -22,7 +22,7 @@ const EncodeMethodList: React.FC = (props: any) => {
     .then(function (response) {
       console.log('ProcessResp:',response);
       props.setprocessRes(response.data)
-      props.setIndex(props.Zan ? 0 : response.data.index_length)
+      props.setIndex(props.Zan && props.value==='SrcCode' ? 0 : response.data.index_length)
       console.log(Number(Object.keys(response.data.bar)[Object.keys(response.data.bar).length-1]));
       
     })
@@ -119,7 +119,7 @@ const EncodeMethodList: React.FC = (props: any) => {
           <div className="slider-inner">
           <Radio.Group
             onChange={onChange1}
-            disabled={props.Zan?true:false}
+            disabled={props.Zan && props.value==='SrcCode' ? true:false}
             value={props.encodevalue}
             defaultValue={"WithoutVerifycode"}
             style={{ marginLeft: "20px", marginTop: "20px" }}

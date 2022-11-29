@@ -17,6 +17,7 @@ export const Encode = (props) => {
   const [targetOffset, setTargetOffset] = useState(undefined);
 
   useEffect(() => {
+    props.setIsSynthesis(false)
     setTargetOffset(window.innerHeight / 2);
   }, []);
 
@@ -60,10 +61,10 @@ export const Encode = (props) => {
   const key = `open${Date.now()}`;
 
   useEffect(()=>{
-    if(Zan){
+    if(Zan && value==='SrcCode'){
       setIndex(0)
     }
-    if (Zan && index){
+    if (Zan && value==='SrcCode' ){
       notification.open({
         message: "Zan's encode method directly converts letters into DNA base sequences. The file will not be binary compiled, so there is no segment length selection and no verification code can be added.",
         description:
@@ -79,9 +80,9 @@ export const Encode = (props) => {
         onClose: close,
       });
     }
-    setSeg(Zan? 0 : Number(Object.keys(processRes.bar ? processRes.bar : {80:' '} )[1]))
+    setSeg(Zan && value==='SrcCode' ? 0 : Number(Object.keys(processRes.bar ? processRes.bar : {80:' '} )[1]))
     SetSegvalue(Number(Object.keys(processRes.bar ? processRes.bar : {80:' '} )[1]))
-  },[processRes,Zan])
+  },[processRes,Zan,value])
   
   const GCPass = (param1) => {
     props.setGC(param1);
@@ -112,7 +113,7 @@ export const Encode = (props) => {
     props.infos.verify_method = param7;
     props.infos.verify_code_length = param8;
     props.infos.final_segment_bit_length = param9;
-    props.infos.DNA_sequence_length = param10;
+    props.infos.DNA_sequence_number = param10;
     props.setInfo(props.infos);
     //console.log("InfoPass1", info);
   };
@@ -148,6 +149,7 @@ export const Encode = (props) => {
     // props.setIsSynthesis(true);
     props.setEncodeRepo(true)
     props.setSimuSet(true)
+    props.setIsSynthesis(true)
     props.changeSider(["0-0-1"]);
     props.setSpin(true);
     props.setExam(false);
@@ -172,7 +174,7 @@ export const Encode = (props) => {
       resp.verify_method,
       resp.verify_code_length,
       resp.final_segment_bit_length,
-      resp.DNA_sequence_length
+      resp.DNA_sequence_number
     );
     GCPass(resp.gc_data);
     HomoPass(resp.homo_data);
@@ -214,6 +216,7 @@ export const Encode = (props) => {
     // props.setIsSynthesis(true);
     props.setEncodeRepo(true)
     props.changeSider(["0-0-1"]);
+    props.setIsSynthesis(true)
     props.setSpin(true);
     props.setExam(true);
     props.setFileId('example');
@@ -230,7 +233,7 @@ export const Encode = (props) => {
       resp.verify_method,
       resp.verify_code_length,
       resp.final_segment_bit_length,
-      resp.DNA_sequence_length
+      resp.DNA_sequence_number
     );
     GCPass(resp.gc_data);
     HomoPass(resp.homo_data);
@@ -364,6 +367,7 @@ export const Encode = (props) => {
         indexment={indexment}
         processRes={processRes}
         Zan={Zan}
+        value={value}
       />
       <Graphs
         seg={seg}
