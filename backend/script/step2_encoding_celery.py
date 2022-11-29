@@ -510,51 +510,59 @@ class Encoding():
             
         ### txt method
         elif self.encode_method == 'SrcCode':
-            upload_file = open(self.file_path,"r",encoding='UTF-8')
-            encode_class = SrcCode()
-            record_data = encode_class.encodeing(file=upload_file)
-            dna_sequences =  record_data['dna_sequences']
-            original_charater_list = record_data["original_charater_list"]
-            index_ori_charater_list = record_data["index_ori_charater_list"]
-                      
-            # information
-            dna_sequences = list(map(list,dna_sequences))
-            bit_size = file_size*8
-            nucleotide_count = sum(map(len,dna_sequences))
-            information_density = bit_size/nucleotide_count
-            information_density = round(information_density,3)
+            if step == 'encode':
+                upload_file = open(self.file_path,"r",encoding='UTF-8')
+                encode_class = SrcCode()
+                record_data = encode_class.encodeing(file=upload_file)
+                dna_sequences =  record_data['dna_sequences']
+                original_charater_list = record_data["original_charater_list"]
+                index_ori_charater_list = record_data["index_ori_charater_list"]
+                        
+                # information
+                dna_sequences = list(map(list,dna_sequences))
+                bit_size = file_size*8
+                nucleotide_count = sum(map(len,dna_sequences))
+                information_density = bit_size/nucleotide_count
+                information_density = round(information_density,3)
 
-            net_nucleotide_count = nucleotide_count - len(original_charater_list)*30 #index dna length is 30
-            net_information_density = bit_size/net_nucleotide_count
-            net_information_density = round(net_information_density,3)
+                net_nucleotide_count = nucleotide_count - len(original_charater_list)*30 #index dna length is 30
+                net_information_density = bit_size/net_nucleotide_count
+                net_information_density = round(net_information_density,3)
 
-            physical_information_density = file_size/(nucleotide_count/(9.03*10**14))
-            physical_information_density_ug = physical_information_density*(10**3)
-            physical_information_density_g = physical_information_density*(10**9)
+                physical_information_density = file_size/(nucleotide_count/(9.03*10**14))
+                physical_information_density_ug = physical_information_density*(10**3)
+                physical_information_density_g = physical_information_density*(10**9)
 
-            record_info = {"bit_size" : file_size*8,
-                    "byte_size":file_size,
-                    "segment_length":self.segment_length,
-                    "index_length":self.index_length,
-                    "verify_method":self.verify_method,
-                     "encode_method":self.encode_method,
-                    "verify_code_length":"None",
-                    "final_bit_segments_length" :"None",
-                    "segment_number":len(original_charater_list),
-                    "DNA_sequence_length":len(dna_sequences[0]),
-                    "DNA_sequence_number":len(dna_sequences),
-                    "nucleotide_counts":sum(map(len,dna_sequences)),
-                    "information_density":information_density,
-                    "net_information_density":net_information_density,
-                    "physical_information_density_ug":physical_information_density_ug,
-                    "physical_information_density_g":physical_information_density_g
-                    }
-            record_data = {"original_bit_segments":original_charater_list, 
-            "connected_bit_segments" : index_ori_charater_list,
-            "dna_sequences":dna_sequences}
-            run_time = (datetime.now() - start_time).total_seconds()
-            record_info = self.record_file(record_info,record_data,run_time)
-            return record_info
+                record_info = {"bit_size" : file_size*8,
+                        "byte_size":file_size,
+                        "segment_length":self.segment_length,
+                        "index_length":self.index_length,
+                        "verify_method":self.verify_method,
+                        "encode_method":self.encode_method,
+                        "verify_code_length":"None",
+                        "final_bit_segments_length" :"None",
+                        "segment_number":len(original_charater_list),
+                        "DNA_sequence_length":len(dna_sequences[0]),
+                        "DNA_sequence_number":len(dna_sequences),
+                        "nucleotide_counts":sum(map(len,dna_sequences)),
+                        "information_density":information_density,
+                        "net_information_density":net_information_density,
+                        "physical_information_density_ug":physical_information_density_ug,
+                        "physical_information_density_g":physical_information_density_g
+                        }
+                record_data = {"original_bit_segments":original_charater_list, 
+                "connected_bit_segments" : index_ori_charater_list,
+                "dna_sequences":dna_sequences}
+                return record_info,record_data
+            if step == 'record':
+                info,demo_dna_sequences = self.record_file(record_info,record_data,run_time)
+                return info,demo_dna_sequences
+            if step == 'plot':
+                info = self.plot_data(info,data)
+                run_time = (datetime.now() - start_time).total_seconds()
+                run_time = '%.2f'%(run_time)
+                info["encoding_time"]=run_time
+                return info
         else:
             return "make sure encode method is right!"    
         
