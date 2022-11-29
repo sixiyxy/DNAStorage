@@ -75,7 +75,6 @@ def progress_bar():
 
     obj = get_progress_bar(file_uid,encode_method,verify_method)
     index_length,bar = obj.get_bar()
-
     info = {'index_length':index_length,'bar':bar}
 
     return json.dumps(info)

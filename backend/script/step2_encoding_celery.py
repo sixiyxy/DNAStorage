@@ -87,7 +87,7 @@ class get_progress_bar():
     def get_bar(self):
         if self.encode_method == 'SrcCode':
             index_length = 0
-            progress_bar = {1,' '}
+            progress_bar = {1:' '}
         else:    
             bar_star = self.progress_bar[self.encode_method][0]
             bar_end = self.progress_bar[self.encode_method][1]
