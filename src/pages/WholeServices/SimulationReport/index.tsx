@@ -22,7 +22,11 @@ export class SimulationReportProps {
   // controlReport;
   // setControl;
 }
-
+interface DataType {
+  key: string;
+  name1: string;
+  value1: any;
+}
 export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const downinfo = {
     file_uid: props.fileId,
@@ -592,6 +596,84 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     props.setDeSet(true)
     props.changeSider(["0-2-0"])
   }
+  const columns1: ColumnsType<DataType> = [
+    {
+      title: "Name",
+      dataIndex: "name1",
+      // width: "55%",
+      align: "center",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Information",
+      dataIndex: "value1",
+      align: "center",
+    },
+  ];
+  const data1: DataType[] = [
+    {
+      key: "1",
+      name1: "Synthesis number",
+      value1: props.synthesisData?.synthesis_number,
+    },
+    {
+      key: "2",
+      name1: "Synthesis yield",
+      value1: props.synthesisData?.synthesis_yield,
+    },
+    {
+      key: "3",
+      name1: "Synthesis method",
+      value1: props.synthesisData?.synthesis_method,
+    },
+  ];
+  const data2: DataType[] = [
+    {
+      key: "1",
+      name1: "Storage host",
+      value1: props.decayData?.storage_host,
+    },
+    {
+      key: "2",
+      name1: "Months of storage",
+      value1: props.decayData?.months_of_storage,
+    },
+    {
+      key: "3",
+      name1: "Decay loss rate",
+      value1: props.decayData?.decay_loss_rate,
+    },
+  ];
+  const data3: DataType[] = [
+    {
+      key: "1",
+      name1: "Pcr polymerase",
+      value1: props.pcrData?.pcr_polymerase,
+    },
+    {
+      key: "2",
+      name1: "Pcr cycle",
+      value1: props.pcrData?.pcr_cycle,
+    },
+    {
+      key: "3",
+      name1: "Pcr prob",
+      value1: props.pcrData?.pcr_prob,
+    },
+  ];
+  const data4: DataType[] = [
+    {
+      key: "1",
+      name1: "Sequencing depth",
+      value1: props.sequencingData?.seq_depth,
+    },
+    {
+      key: "2",
+      name1: "Sequencing method",
+      value1: props.sequencingData?.seq_meth,
+    },
+  ];
+
   return (
     <div className="simulation-report-wrapper">
       <div className="simulation-report-nav-wrapper">
@@ -608,32 +690,46 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       </div>
       <div className="simulation-report-content-wrapper">
         <Spin tip="Loading..." size="large" spinning={props.spinflags}>
-          <Card title="Stage summary" headStyle={{ backgroundColor: "#99CCFF" }}>
+          <Card title="Stage summary" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
           <p style={{
-                textAlign: "justify",
-              }}>This part reviews user settings.</p>
-            <Tabs defaultActiveKey="1" size={"large"}>
+                textAlign: "center",
+              }}><strong>Setting Review</strong></p>
+            <Tabs defaultActiveKey="1" size={"large"} type="card">
               <Tabs.TabPane tab="Synthesis" key="1" disabled={props.synthesisData === undefined}>
-                <div className="TabSYN" id='table'>
-                  Synthesis number : {props.synthesisData?.synthesis_number}
+                <div className="TabSYN">
+                  {/* Synthesis number : {props.synthesisData?.synthesis_number}
                   <br />
                   Synthesis yield : {props.synthesisData?.synthesis_yield}
                   <br />
-                  Synthesis method : {props.synthesisData?.synthesis_method}
+                  Synthesis method : {props.synthesisData?.synthesis_method} */}
+                  <Table
+                      columns={columns1}
+                      dataSource={data1}
+                      size={"small"}
+                      // showHeader={false}
+                      pagination={{ position: ["none"] }}
+                    />
                   <br />
                 </div>
-                <p id='illstr'>The error rate distribution of your chosen synthesis method is as follows:</p>
+                <p id='illstr'><strong>Error rate distribution of synthesis</strong></p>
               
                 <Pie className="pie" {...synthesisErrorParamConfig} />
               
               </Tabs.TabPane>
               <Tabs.TabPane tab="Decay" key="2" disabled={props.decayData === undefined}>
-                <div className="TabDEC">
-                  Storage host : {props.decayData?.storage_host}
+                <div className="TabSYN">
+                <Table
+                      columns={columns1}
+                      dataSource={data2}
+                      size={"small"}
+                      // showHeader={false}
+                      pagination={{ position: ["none"] }}
+                    />
+                  {/* Storage host : {props.decayData?.storage_host}
                   <br />
                   Months of storage : {props.decayData?.months_of_storage}
                   <br />
-                  Decay loss rate : {props.decayData?.decay_loss_rate}
+                  Decay loss rate : {props.decayData?.decay_loss_rate} */}
                   <br />
                   {/* storage_host_parameter_reference :
             <br />
@@ -648,16 +744,23 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               );
             })} */}
                 </div>
-                <p id='illstr'>The error rate distribution of your chosen storage host is as follows:</p>
+                <p id='illstr'><strong>Error rate distribution of decay</strong></p>
                 <Pie className="pie" {...decayErrorParamConfig} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="PCR" key="3" disabled={props.pcrData === undefined}>
-                <div className="TabPCR">
-                  Pcr polymerase : {props.pcrData?.pcr_polymerase}
+                <div className="TabSYN">
+                <Table
+                      columns={columns1}
+                      dataSource={data3}
+                      size={"small"}
+                      // showHeader={false}
+                      pagination={{ position: ["none"] }}
+                    />
+                  {/* Pcr polymerase : {props.pcrData?.pcr_polymerase}
                   <br />
                   Pcr cycle : {props.pcrData?.pcr_cycle}
                   <br />
-                  Pcr prob : {props.pcrData?.pcr_prob}
+                  Pcr prob : {props.pcrData?.pcr_prob} */}
                   <br />
                   {/* pcr_method_reference : */}
                   {/* <br />
@@ -677,7 +780,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                     );
                   })} */}
                 </div>
-                <p id='illstr'>The error rate distribution of your chosen pcr polymerase is as follows:</p>
+                <p id='illstr'><strong>Error rate distribution of PCR</strong></p>
                 <Pie className="pie" {...pcrErrorParamConfig} />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sampling" key="4" disabled={props.samplingData === undefined}>
@@ -689,11 +792,18 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 <br />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sequencing" key="5" disabled={props.sequencingData === undefined}>
-                <div className="TabSEQ">
-                  Sequencing depth : {props.sequencingData?.seq_depth}
+                <div className="TabSYN">
+                <Table
+                      columns={columns1}
+                      dataSource={data4}
+                      size={"small"}
+                      // showHeader={false}
+                      pagination={{ position: ["none"] }}
+                    />
+                  {/* Sequencing depth : {props.sequencingData?.seq_depth}
                   <br />
                   Sequencing method : {props.sequencingData?.seq_meth}
-                  <br />
+                  <br /> */}
                   {/* seq_method_reference :
             <br />
             {props.sequencingData?.seq_method_reference?.map((link, index) => {
@@ -707,13 +817,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               );
             })} */}
                 </div>
-                <p id='illstr'>The error rate distribution of your chosen sequencing method is as follows:</p>
+                <p id='illstr'><strong>Error rate distribution of sequencing</strong></p>
                 <Pie className="pie" {...sequenceErrorParamConfig} />
               </Tabs.TabPane>
             </Tabs>
           </Card>
-          <Card title="Simulation result" headStyle={{ backgroundColor: "#99CCFF" }}>
-          <p style={{textAlign:"justify",margin:"10px 50px 0 50px"}}>During simulation, sequence density, distribution and error occurrance vary from stages.Down below, we provide a Sequence distribution and a Error counts diagram to illustrate these change tendency. Simple explanation are provided beneath the diagrams and more details could be found in tutorial. </p>
+          <Card title="Simulation result" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
+          <p style={{textAlign:"justify"}}>During simulation, sequence density, distribution and error occurrance vary from stages.Down below, we provide a Sequence distribution and a Error counts diagram to illustrate these change tendency. Simple explanation are provided beneath the diagrams and more details could be found in tutorial. </p>
             {/* <h3>Sequences Distribution</h3> */}
             <h3>Sequences distribution</h3>
             <div style={{padding:"50px 150px 0 150px"}}>
