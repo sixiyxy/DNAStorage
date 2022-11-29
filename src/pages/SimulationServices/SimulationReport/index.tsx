@@ -13,6 +13,11 @@ export class SimulationReportProps {
   clickEXM;
   time3min;
 }
+interface DataType {
+  key: string;
+  name1: string;
+  value1: any;
+}
 
 export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const downinfo = {
@@ -206,6 +211,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     label: {
       type: 'outer',
     },
+    meta:{
+      value:{
+        formatter:(val)=>{
+          return `${val} %`
+        }
+      }
+    },
     interactions: [
       {
         type: 'element-active',
@@ -257,6 +269,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     label: {
       type: 'outer',
     },
+    meta:{
+      value:{
+        formatter:(val)=>{
+          return `${val} %`
+        }
+      }
+    },
     interactions: [
       {
         type: 'element-active',
@@ -272,6 +291,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     label: {
       type: 'outer',
     },
+    meta:{
+      value:{
+        formatter:(val)=>{
+          return `${val} %`
+        }
+      }
+    },
     interactions: [
       {
         type: 'element-active',
@@ -286,6 +312,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     radius: 0.8,
     label: {
       type: 'outer',
+    },
+    meta:{
+      value:{
+        formatter:(val)=>{
+          return `${val} %`
+        }
+      }
     },
     interactions: [
       {
@@ -796,7 +829,83 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         console.log(error);
       });
   };
-  
+  const columns1: ColumnsType<DataType> = [
+    {
+      title: "Name",
+      dataIndex: "name1",
+      // width: "55%",
+      align: "center",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Information",
+      dataIndex: "value1",
+      align: "center",
+    },
+  ];
+  const data1: DataType[] = [
+    {
+      key: "1",
+      name1: "Synthesis number",
+      value1: props.synthesisData?.synthesis_number,
+    },
+    {
+      key: "2",
+      name1: "Synthesis yield",
+      value1: props.synthesisData?.synthesis_yield,
+    },
+    {
+      key: "3",
+      name1: "Synthesis method",
+      value1: props.synthesisData?.synthesis_method,
+    },
+  ];
+  const data2: DataType[] = [
+    {
+      key: "1",
+      name1: "Storage host",
+      value1: props.decayData?.storage_host,
+    },
+    {
+      key: "2",
+      name1: "Months of storage",
+      value1: props.decayData?.months_of_storage,
+    },
+    {
+      key: "3",
+      name1: "Decay loss rate",
+      value1: props.decayData?.decay_loss_rate,
+    },
+  ];
+  const data3: DataType[] = [
+    {
+      key: "1",
+      name1: "Pcr polymerase",
+      value1: props.pcrData?.pcr_polymerase,
+    },
+    {
+      key: "2",
+      name1: "Pcr cycle",
+      value1: props.pcrData?.pcr_cycle,
+    },
+    {
+      key: "3",
+      name1: "Pcr prob",
+      value1: props.pcrData?.pcr_prob,
+    },
+  ];
+  const data4: DataType[] = [
+    {
+      key: "1",
+      name1: "Sequencing depth",
+      value1: props.sequencingData?.seq_depth,
+    },
+    {
+      key: "2",
+      name1: "Sequencing method",
+      value1: props.sequencingData?.seq_meth,
+    },
+  ];
   return (
     <div className="simulation-report-wrapper">
       <div className="simulation-report-nav-wrapper">
@@ -816,34 +925,47 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         <Spin tip={props.time3min? "Please waiting 3 mins!": "Loading..."} size="large" spinning={spinflag}>
           <Card title="Stage Summary" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
           <p style={{
-                textAlign: "justify",
-              }}>This part reviews user settings.</p>
-            <Tabs defaultActiveKey="1" style={{paddingLeft:"20px",fontSize:"14px"}}>
-              <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined}>
+                textAlign: "center",
+              }}><strong>Setting Review</strong></p>
+            <Tabs defaultActiveKey="1" size={"large"} type="card">
+              <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined} >
                 <div className="TabSYN" id='table'>
-                  
-                  Synthesis number  : {synthesisData?.synthesis_number}
+                <Table
+                      columns={columns1}
+                      dataSource={data1}
+                      size={"small"}
+                      // showHeader={false}
+                      pagination={{ position: ["none"] }}
+                    /><br />
+                  {/* Synthesis number  : {synthesisData?.synthesis_number}
                   <br />
                   Synthesis yield   : {synthesisData?.synthesis_yield}
                   <br />
                   Synthesis method  : {synthesisData?.synthesis_method}
                   <br />
-                  <br />
+                  <br /> */}
                 </div>
                 
 
                 <Pie className="pie" {...synthesisErrorParamConfig} />
-                <p id='illstr'>Error rate distribution of your chosen synthesis method</p>
+                <p id='illstr'><strong>Error rate distribution of synthesis</strong></p>
               </Tabs.TabPane>
               <Tabs.TabPane tab="Decay" key="2" disabled={decayData === undefined}>
-                <div className="TabDEC">
-                  Storage host : {decayData?.storage_host}
+                <div className="TabSYN">
+                <Table
+                      columns={columns1}
+                      dataSource={data2}
+                      size={"small"}
+                      // showHeader={false}
+                      pagination={{ position: ["none"] }}
+                    /><br />
+                  {/* Storage host : {decayData?.storage_host}
                   <br />
                   Months of storage : {decayData?.months_of_storage}
                   <br />
                   Decay loss rate : {decayData?.decay_loss_rate}
                   <br />
-                  <br />
+                  <br /> */}
                   {/* storage_host_parameter_reference :
             <br />
             {decayData?.storage_host_parameter_reference?.map((link, index) => {
@@ -859,21 +981,28 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 </div>
                 
                 <Pie className="pie" {...decayErrorParamConfig} />
-                <p id='illstr'>Error rate distribution of your chosen storage host</p>
+                <p id='illstr'><strong>Error rate distribution of decay</strong></p>
               </Tabs.TabPane>
               <Tabs.TabPane tab="PCR" key="3" disabled={pcrData === undefined}>
-                <div className="TabPCR">
-                  Pcr polymerase: {pcrData?.pcr_polymerase}
+                <div className="TabSYN">
+                <Table
+                      columns={columns1}
+                      dataSource={data3}
+                      size={"small"}
+                      // showHeader={false}
+                      pagination={{ position: ["none"] }}
+                    />
+                  {/* Pcr polymerase: {pcrData?.pcr_polymerase}
                   <br />
                   Pcr cycle: {pcrData?.pcr_cycle}
                   <br />
                   Pcr probability: {pcrData?.pcr_prob}
                   <br />
-                  <br />
+                  <br /> */}
                 </div>
                 
                 <Pie className="pie" {...pcrErrorParamConfig} />
-                <p id='illstr'>Error rate distribution of your chosen pcr polymerase</p>
+                <p id='illstr'><strong>Error rate distribution of PCR</strong></p>
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sampling" key="4" disabled={samplingData === undefined}>
                 {/* sam_ratio: {samplingData?.sam_ratio} */}
@@ -885,15 +1014,22 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sequencing" key="5" disabled={sequencingData === undefined}>
                 <div className="TabSEQ">
-                  Sequencing depth : {sequencingData?.seq_depth}
+                <Table
+                      columns={columns1}
+                      dataSource={data4}
+                      size={"small"}
+                      // showHeader={false}
+                      pagination={{ position: ["none"] }}
+                    /><br />
+                  {/* Sequencing depth : {sequencingData?.seq_depth}
                   <br />
                   Sequencing method : {sequencingData?.seq_meth}
                   <br />
-                  <br />
+                  <br /> */}
                 </div>
                 
                 <Pie className="pie" {...sequenceErrorParamConfig} />
-                <p id='illstr'>Error rate distribution of your chosen sequencing method</p>
+                <p id='illstr'><strong>Error rate distribution of sequencing</strong></p>
               </Tabs.TabPane>
             </Tabs>
           </Card>
@@ -924,8 +1060,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           <Card>
             <h3>Error Counts </h3> */}
               <h3>Error counts </h3>
-            <div style={{padding:"50px 220px 0 150px"}}>
-                {/* <h3>Error Counts </h3> */}
+            <div style={{padding:"30px 220px 0 150px"}}>
+                <p>Error number in a strand: </p>
               <Bar {...ErrorDensityConfig} />
             </div>
             <div

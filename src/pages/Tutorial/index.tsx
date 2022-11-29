@@ -199,8 +199,9 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   </Breadcrumb>
               </div>
           <div id="DNA-storage-designer">
-            <h3 id="first-title">DNA storage designer</h3>
+            
             <Image src={Home1031} width={"80%"} rootClassName="image1"/>
+            <p style={{textAlign:"center",fontSize:13}}>Figure 1: DNA storage designer</p>
           </div>
           <div id="what-is-it">
             <h3 id="second-title">What is it</h3>
@@ -224,7 +225,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               We use the Xiamen University badge picture as an example file to introduce the working process of the website.
               </p>
               <Image src={xiamen} width={"50%"} rootClassName="image2"/>
-              <p style={{textAlign:"center",fontSize:13}}>Figure 1: Example file</p>
+              <p style={{textAlign:"center",fontSize:13}}>Figure 2: Example file</p>
               <p id="text-content">
               Other demo files can be downloaded from here. The file types include: Image, video, audio, text, and binary.
 
@@ -259,13 +260,13 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   />
                   <p id="report-content">The analysis of the encoded DNA sequences includes GC-content statics, Repeated sequence statics, and minimum free energy calculation. Here, we randomly sampled only 1000 DNA sequences for analysis.</p>
                   <Image src={gc} width={"50%"} rootClassName="image3"/>
-                  <p style={{textAlign:"center",fontSize:13}}>Figure 2: GC content diagram</p>
+                  <p style={{textAlign:"center",fontSize:13}}>Figure 3: GC content diagram</p>
                   <p id="report-content">Because the ratio of GC content is the crucial indicator of the stability of DNA sequence, we counted the GC content of each encoded DNA sequence. The X-axis is the percentage of GC content, and the Y-axis is the number of corresponding sequences.</p>
                   <Image src={rp} width={"50%"} rootClassName="image4"/>
-                  <p style={{textAlign:"center",fontSize:13}}>Figure 3: Homopolymer diagram</p>
+                  <p style={{textAlign:"center",fontSize:13}}>Figure 4: Homopolymer diagram</p>
                   <p id="report-content">The presence of repetitive sequences affects the accuracy of synthesis and sequence sequencing during DNA storage. So, we counted the number of repeats in the encoded DNA sequence. The X-axis is the length of the repeated sequence, and the Y-axis is the corresponding number.</p>
                   <Image src={free} width={"50%"} rootClassName="image5"/>
-                  <p style={{textAlign:"center",fontSize:13}}>Figure 4: Minimum free energy diagram</p>
+                  <p style={{textAlign:"center",fontSize:13}}>Figure 5: Minimum free energy diagram</p>
                   <p id="report-content"><strong>The sequence average minimum free energy is: -5.82</strong><br></br>
                   The minimum free energy (MFE) of a DNA sequence is the minimum of the Gibbs standard free energy of all possible secondary structures. Therefore, the quality of DNA sequences can be measured by calculating the MFE of each sequence. Here we calculated the minimum free energies if randomly selected 1000 encoded DNA sequences by RNAfold(see methods).<br></br><br></br>
                   <pre id="code_block">
@@ -285,17 +286,17 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   <li><strong>Example: </strong>An example is embedded in this part based on the previous encoding example, and all the simulation settings are using the default ones.</li>
                   <li><strong>Stages Setting: </strong>We list out five processes, namely, synthesis, decay(storage), PCR, sampling, and sequencing. You could decide whether these stages are needed or not to get a final workflow based on your experiment design. By default, all stages are simulated. If you want to skip some of them, you could click on the corresponding buttons. However, because the synthesis of sequences is the base of the following stages, this stage is a must for the simulation part and can not be ignored. After your decision is done, please click the “ok” button to start your detailed settings.</li>
                   <Image src={simubtn} width={"80%"} rootClassName="image6"/>
-                  <p style={{textAlign:"center",fontSize:13}}>Figure 5: Simulation stage settings</p>
+                  <p style={{textAlign:"center",fontSize:13}}>Figure 6: Simulation stage settings</p>
                   <li><strong>Detail Settings: </strong>Because the errors that occur in stages have accumulative effects, the execution order of stages is fixed. You should set the stages accordingly. For each parameter, you could hover your mouse over the question mark aside, the explanation will be popped out. As for the settings with provided options, you could see their corresponding short introduction and references from the “Methods” page. After setting up parameters for one stage, please click on the “ok” button to confirm. </li>
                   <Image src={SYN} width={"40%"} rootClassName="image6"/>
-                  <p style={{textAlign:"center",fontSize:13}}>Figure 6: Sample of hovering information</p>
+                  <p style={{textAlign:"center",fontSize:13}}>Figure 7: Sample of hovering information</p>
                 </ul>
                 <p id='simuset-report'>And the sequence distribution changes result of this stage will be shown instantly right. This diagram shows the sequence number distribution of oligonucleotides pool, which explains the density of DNA strands. </p>
                 <Image src={copynumber} width={"40%"} rootClassName="image6"/> 
-                <p style={{textAlign:"center",fontSize:13}}>Figure 7: Sequence distribution diagram</p>
+                <p style={{textAlign:"center",fontSize:13}}>Figure 8: Sequence distribution diagram</p>
                 <p id='simuset-report'>To be specific, for example, if we have an original sequence<i> M </i>at first, after 10 cycle synthesis, we may get 10 copies for<i>M</i>, among them, some may be embedded with simulated errors (<i>M<sub>1</sub></i>,<i>M<sub>2</sub></i>).</p>
                 <Image src={dnatable} width={"80%"} rootClassName="image6"/> 
-                <p style={{textAlign:"center",fontSize:13}}>Figure 8: Example of simulated situation of <i>M</i></p>
+                <p style={{textAlign:"center",fontSize:13}}>Figure 9: Example of simulated situation of <i>M</i></p>
                 <p id='simuset-report'>Thus, for this example, in this stage, most DNA strands have a copy number around 10, while strands with 1 or 2 copy number also exist.Therefore, the diagrams will help you to intuitively understand the density change of chains in nucleic acid pool. Then, you could move to the next stage.</p>
                 <p id='simuset-report'>After all the stages are done and the diagrams are shown, please click on the report button to get the overall result and summary. </p>
                 
@@ -306,15 +307,15 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 <ul>
                   <li><strong>Stage Summary: </strong>This part lists out the choices you made in the setting part. Also, it uses pie charts to uncover the distribution of different error types of corresponding chosen methods. You could click on the stages and double-check previous settings.</li>
                   <Image src={simutab} width={"75%"} rootClassName="image6"/>
-                  <p style={{textAlign:"center",fontSize:13}}>Figure 9: Example of stage summary</p>
+                  <p style={{textAlign:"center",fontSize:13}}>Figure 10: Example of stage summary</p>
                   <li><strong>Sequence Distribution: </strong>During the whole process, the number of sequences, causes of errors and proportions of different types of errors change from time to time. Therefore, we counted and compared the numbers of DNA strands with errors and the left 100% correct DNA strands for each stage using a stacked column chart, as well as showed the changes in the strand numbers that contained different types of errors using line charts. Since the difference between the data is too large, each value y here is presented using ln(y).</li>
                   <p></p>
                   <p id='simudia-report'>From this chart, vertically, you could compare the ratio of modified strands to original ones and count of different error types for each stage. As for horizontally study, you could see that the total number of DNA strands, the ratio of strands with simulated errors to correct strands, and the number of simulated errors of different types vary with the stages.</p>
                   <Image src={simuseq} width={"75%"} rootClassName="image6"/>
-                  <p style={{textAlign:"center",fontSize:13}}>Figure 10: Example of sequence distribution diagram</p>
+                  <p style={{textAlign:"center",fontSize:13}}>Figure 11: Example of sequence distribution diagram</p>
                   <li><strong>Error Counts: </strong>Because the effects of occurred errors are cumulative, it is reasonable that as the simulation proceeds, both the percentage of strands with errors as well as the average error number for all strands will increase. Thus, we count the number of strands with a different number of errors for the different stages as shown above. As we could see, the later the stage is, the higher the number of chains with errors is. Different colors here stand for different number of errors contained in the strands.</li>
                   <Image src={simucounts} width={"75%"} rootClassName="image6"/>
-                  <p style={{textAlign:"center",fontSize:13}}>Figure 11: Example of error counts diagram</p>
+                  <p style={{textAlign:"center",fontSize:13}}>Figure 12: Example of error counts diagram</p>
                   <li><strong>Download: </strong>After clicking on the download button, a zip folder containing simulated DNA sequences and an information YAML file will be downloaded automatically.</li>
                   <ul>
                     <li><strong>Simulated DNA Sequences: </strong>This file is in fasta format. The label of each sequence contains the error simulation results. For example, “{">"}11079[(77, 's', 'T'), (23, '+', 'C'), (36, '-', 'A')]” means, the 77th base, “T”,  of 11079th sequence has been substituted, 23rd position has inserted a 'C', and the 'A' on 36th has been deleted. </li>
@@ -370,7 +371,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
       </div>
       <div style={{position:"fixed",top:"100px",margin:"0px 20px  0px"}}>
             <Anchor targetOffset={targetOffset} onClick={scrollToAnchor} affix={false}>
-              <Link href="#DNA-storage-designer" title="DNA storage designer" />
+              {/* <Link href="#DNA-storage-designer" title="DNA storage designer" /> */}
               <Link href="#what-is-it" title="What is it" />
               <Link href="#example-file" title="Example file" />
               <Link href="#usage" title="Usage">
@@ -389,9 +390,9 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 </Link>
                 <Link href="#Error-Simulation" title="Error Simulation" />
                 <Link href="#File-Encode" title="File Encode" />
-                <Link href="#Frequently" title="Frequently Asked Questions" />
-                <Link href="#Acknowledgment" title="Acknowledgment" />
               </Link>
+              <Link href="#Frequently" title="Frequently Asked Questions" />
+                <Link href="#Acknowledgment" title="Acknowledgment" />
               
               {/* <Link href="#simulation" title="3 Simulation Conditions" >
                 <Link href="#synthesis" title="3.1 Synthesis" />

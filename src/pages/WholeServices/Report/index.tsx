@@ -206,7 +206,7 @@ export const Report: React.FC<ReportProps> = (props) => {
         <div className="encode-report-nav-wrapper">
           <Breadcrumb separator=">">
             <Breadcrumb.Item>
-              <a href="/">Home</a>
+              Home
             </Breadcrumb.Item>
             <Breadcrumb.Item>Service</Breadcrumb.Item>
             <Breadcrumb.Item>Encode</Breadcrumb.Item>
