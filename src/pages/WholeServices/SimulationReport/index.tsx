@@ -125,11 +125,40 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     label: {
       type: 'outer',
     },
+    meta:{
+      value:{
+        formatter:(val)=>{
+          return `${val} %`
+        }
+      }
+    },
     interactions: [
       {
         type: 'element-active',
       },
     ],
+    // annotations: [
+    //   {
+    //     type: 'text',
+    //     content: 'Hello',
+    //     // position: (xScale, yScale) => {
+    //     //   return [`${xScale.scale('分类三') * 100}%`, `${(1 - yScale.value.scale(19)) * 100}%`];
+    //     // },
+    //     // ✅ 4. 支持直接设置 x,y 坐标 (相对于 canvas 坐标，相对起点在左上方) - 需要外部自我感知画布大小，不建议使用
+    //     x: 180,
+    //     y: 105,
+
+    //     /** 图形样式属性 */
+    //     style: {
+    //       textAlign: 'center',
+    //       fill: 'rgba(0,0,0,0.85)',
+    //     },
+    //   },
+    // ],
+    // legend:{
+    //   title:'Error type',
+    //   spacing:120
+    // }
   };
   const decayErrorParamConfig = {
     data: decayErrorParamData,
@@ -139,6 +168,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     radius: 0.8,
     label: {
       type: 'outer',
+    },
+    meta:{
+      value:{
+        formatter:(val)=>{
+          return `${val} %`
+        }
+      }
     },
     interactions: [
       {
@@ -155,6 +191,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     label: {
       type: 'outer',
     },
+    meta:{
+      value:{
+        formatter:(val)=>{
+          return `${val} %`
+        }
+      }
+    },
     interactions: [
       {
         type: 'element-active',
@@ -169,6 +212,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     radius: 0.8,
     label: {
       type: 'outer',
+    },
+    meta:{
+      value:{
+        formatter:(val)=>{
+          return `${val} %`
+        }
+      }
     },
     interactions: [
       {
@@ -363,14 +413,14 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         title: {
           text: "ln(y1)",
           offset: 60,
-          rotate:14.13
+          // rotate:14.13
         },
       },
       count: {
         title: {
           text: "ln(y2)",
           offset: 60,
-          rotate:14.10
+          // rotate:14.10
         },
       },
     },
@@ -418,53 +468,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     ],
   };
 
-  // //气泡图数据以及配置
-  // const scatterConfig = {
-  //   // width: 800,
-  //   // height: 200,
-  //   autoFit: true,
-  //   appendPadding: 16,
-  //   data: props.errorDensity || [],
-  //   xField: "error",
-  //   yField: "type",
-  //   sizeField: "count",
-  //   size: [5, 50],
-  //   shape: "circle",
-  //   colorField: "type",
-  //   color: ["#ffd500", "#82cab2", "#193442", "#d18768", "#7e827a"],
-  //   pointStyle: {
-  //     fillOpacity: 0.8,
-  //     stroke: "#bbb",
-  //   },
-  //   tooltip: {
-  //     showTitle: false,
-  //     showMarkers: false,
-  //     fields: ["count", "error", "type"],
-  //   },
-  //   xAxis: {
-  //     grid: {
-  //       line: {
-  //         style: {
-  //           stroke: "#eee",
-  //         },
-  //       },
-  //     },
-  //     line: null,
-  //   },
-  //   label: {
-  //     formatter: (item) => {
-  //       return item.city;
-  //     },
-  //     offsetY: 12,
-  //     style: {
-  //       fontSize: 12,
-  //     },
-  //   },
-  //   yAxis: {
-  //     min: 0,
-  //     line: null,
-  //   },
-  // };
+ 
   const errorDensityConfig = {
     data: props.errorDensity || [],
     isStack: true,
@@ -479,6 +483,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       title: {
         text: "Stage",
         offset: 80,
+        rotate:17.26
       },
       label:{
         formatter:(val)=>{
@@ -736,8 +741,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           {/* <Card> */}
             {/* <h3>Error Counts </h3> */}
             <h3>Error counts </h3>
-            <div style={{padding:"50px 200px 0 150px"}}>
-              
+            <div style={{padding:"30px 200px 0 150px"}}>
+            <p>Error number in a strand: </p>
               <Bar {...errorDensityConfig} />
             </div>
             <div

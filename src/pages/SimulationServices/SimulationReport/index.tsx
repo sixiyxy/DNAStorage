@@ -206,6 +206,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     label: {
       type: 'outer',
     },
+    meta:{
+      value:{
+        formatter:(val)=>{
+          return `${val} %`
+        }
+      }
+    },
     interactions: [
       {
         type: 'element-active',
@@ -257,6 +264,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     label: {
       type: 'outer',
     },
+    meta:{
+      value:{
+        formatter:(val)=>{
+          return `${val} %`
+        }
+      }
+    },
     interactions: [
       {
         type: 'element-active',
@@ -272,6 +286,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     label: {
       type: 'outer',
     },
+    meta:{
+      value:{
+        formatter:(val)=>{
+          return `${val} %`
+        }
+      }
+    },
     interactions: [
       {
         type: 'element-active',
@@ -286,6 +307,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     radius: 0.8,
     label: {
       type: 'outer',
+    },
+    meta:{
+      value:{
+        formatter:(val)=>{
+          return `${val} %`
+        }
+      }
     },
     interactions: [
       {
@@ -924,8 +952,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           <Card>
             <h3>Error Counts </h3> */}
               <h3>Error counts </h3>
-            <div style={{padding:"50px 220px 0 150px"}}>
-                {/* <h3>Error Counts </h3> */}
+            <div style={{padding:"30px 220px 0 150px"}}>
+                <p>Error number in a strand: </p>
               <Bar {...ErrorDensityConfig} />
             </div>
             <div
