@@ -685,8 +685,23 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     yAxis: {
       title: {
         text: "Stage",
-        offset: 50,
+        offset: 80,
       },
+      label:{
+        formatter:(val)=>{
+          if (val==='SYN'){
+            return 'Synthesis'
+          }else if (val==='DEC'){
+            return 'Decay'
+          }else if (val==='PCR'){
+            return 'PCR'
+          }else if (val==='SAM'){
+            return 'Sampling'
+          }else{
+            return 'Sequencing'
+          }
+        }
+      }
     },
     xAxis: {
       title: {

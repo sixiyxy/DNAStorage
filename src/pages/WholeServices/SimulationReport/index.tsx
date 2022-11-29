@@ -478,8 +478,23 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     yAxis: {
       title: {
         text: "Stage",
-        offset: 50,
+        offset: 80,
       },
+      label:{
+        formatter:(val)=>{
+          if (val==='SYN'){
+            return 'Synthesis'
+          }else if (val==='DEC'){
+            return 'Decay'
+          }else if (val==='PCR'){
+            return 'PCR'
+          }else if (val==='SAM'){
+            return 'Sampling'
+          }else{
+            return 'Sequencing'
+          }
+        }
+      }
     },
     xAxis: {
       title: {
@@ -693,7 +708,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             </Tabs>
           </Card>
           <Card title="Simulation result" headStyle={{ backgroundColor: "#99CCFF" }}>
-          <p style={{"textAlign":"justify"}}>During simulation, sequence density, distribution and error occurrance vary from stages.Down below, we provide a Sequence distribution and a Error counts diagram to illustrate these change tendency. Simple explanation are provided beneath the diagrams and more details could be found in tutorial. </p>
+          <p style={{textAlign:"justify",margin:"10px 50px 0 50px"}}>During simulation, sequence density, distribution and error occurrance vary from stages.Down below, we provide a Sequence distribution and a Error counts diagram to illustrate these change tendency. Simple explanation are provided beneath the diagrams and more details could be found in tutorial. </p>
             {/* <h3>Sequences Distribution</h3> */}
             <h3>Sequences distribution</h3>
             <div style={{padding:"50px 150px 0 150px"}}>

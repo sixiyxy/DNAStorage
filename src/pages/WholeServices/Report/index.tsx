@@ -28,6 +28,7 @@ export class ReportProps {
   changeSider;
   fileOver2M;
   setSimuSet;
+  btnNext;
 }
 interface DataType {
   key: string;
@@ -144,7 +145,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "10",
       name1: "DNA sequence number",
-      value1: props.info.DNA_sequence_length,
+      value1: props.info.DNA_sequence_number,
     },
     {
       key: "11",
@@ -312,15 +313,16 @@ export const Report: React.FC<ReportProps> = (props) => {
               >
                 Download
               </Button>
-              <Button
-              style={{marginLeft:"100px",width:"100px"}}
-                type="primary"
-                shape="round"
-                size={size}
-                onClick={handleNext}
-              >
-                Next
-              </Button>
+              {props.btnNext?
+                  <Button
+                  style={{marginLeft:"100px",width:"100px"}}
+                    type="primary"
+                    shape="round"
+                    size={size}
+                    onClick={handleNext}
+                  >
+                    Next
+                  </Button>:null}
             </div>
           </Card>
         </div>
