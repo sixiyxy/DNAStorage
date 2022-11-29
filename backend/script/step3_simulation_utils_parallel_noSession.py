@@ -319,7 +319,7 @@ def calculate_density(dnas,layer=False):
                 group=int(sum(groups)/len(groups))
             except:
                 pass
-
+        print("Group is", group)
         return nums,group
         '''
         # nums = {}
