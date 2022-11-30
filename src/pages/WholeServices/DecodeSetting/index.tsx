@@ -61,12 +61,14 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
         <Card>
           <Breadcrumb separator=">">
             <Breadcrumb.Item>
-              <a href="/">Home</a>
+              <Link to="/home">Home</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="/Services">Service</a>
+              <Link to="/services">Service</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Decode</Breadcrumb.Item>
+            <Breadcrumb.Item><Link to="/services/wholeprocess">Decode</Link></Breadcrumb.Item>
+            <Breadcrumb.Item>Setting</Breadcrumb.Item>
+            
           </Breadcrumb>
         </Card>
       </div>

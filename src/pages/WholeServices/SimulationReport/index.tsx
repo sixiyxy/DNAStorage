@@ -7,6 +7,7 @@ import { DownloadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { API_PREFIX } from "../../../common/Config";
 import type { ColumnsType } from "antd/es/table";
+import { Link } from "react-router-dom";
 export class SimulationReportProps {
   changeSider?;
   fileId;
@@ -133,7 +134,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     },
     // legend:{
     //   // position: 'left'
-    //   offsetX:2
+    //   offsetX:0
     // },
     meta:{
       value:{
@@ -242,7 +243,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     xField: "value",
     yField: "name",
     seriesField: "type",
-    maxBarWidth: 60,
+    maxBarWidth: 50,
     height: 200,
     label: {
       // 可手动配置 label 数据标签位置
@@ -686,13 +687,11 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     <div className="simulation-report-wrapper">
       <div className="simulation-report-nav-wrapper">
         <Breadcrumb separator=">">
-          <Breadcrumb.Item>
-            Home
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            Service
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>Simulation</Breadcrumb.Item>
+        <Breadcrumb.Item>
+              <Link to='/home'>Home</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item><Link to='/services'>Services</Link></Breadcrumb.Item>
+            <Breadcrumb.Item><Link to='/services/wholeprocess'>Simulation</Link></Breadcrumb.Item>
           <Breadcrumb.Item>Report</Breadcrumb.Item>
         </Breadcrumb>
       </div>
@@ -881,7 +880,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 is.
               </p>
               <div className="simulation-report-button-group">
-                <Button shape="round" size="large" type="primary" icon={<DownloadOutlined />} style={{opacity:isClickDown?0.5:1}} onClick={DownloadURL}>
+                <Button shape="round" size="large" type="primary" icon={<DownloadOutlined />} style={{backgroundColor:isClickDown ? '#99CCFF':' '}} onClick={DownloadURL}>
                   Download
                 </Button>
                 <Button shape="round" size="large" type="primary" onClick={handleNext} style={{marginLeft:"100px",width:"100px"}}>

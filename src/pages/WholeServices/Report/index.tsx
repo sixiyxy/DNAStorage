@@ -188,11 +188,12 @@ export const Report: React.FC<ReportProps> = (props) => {
         document.body.appendChild(link);
         link.click(); //下载该文件
         document.body.removeChild(link);
+        setDown(false)  
       })
       .catch(function (error) {
         console.log(error);
       });
-      setDown(false)
+      
   };
   const handleNext=()=>{
     props.setSimuSet(true)
@@ -314,7 +315,7 @@ export const Report: React.FC<ReportProps> = (props) => {
                 icon={<DownloadOutlined />}
                 size={size}
                 onClick={DownloadURL}
-                style={{opacity:isClickDown?0.5:1}}
+                style={{backgroundColor:isClickDown ? '#99CCFF':' '}}
               >
                 Download
               </Button>

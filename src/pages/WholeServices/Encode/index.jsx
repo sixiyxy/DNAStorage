@@ -285,8 +285,8 @@ export const Encode = (props) => {
             <Breadcrumb.Item>
               <Link to="/home">Home</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Services</Breadcrumb.Item>
-            <Breadcrumb.Item>Encode</Breadcrumb.Item>
+            <Breadcrumb.Item><Link to="/services">Services</Link></Breadcrumb.Item>
+            <Breadcrumb.Item><Link to="/services/wholeprocess">Encode</Link></Breadcrumb.Item>
             <Breadcrumb.Item>Setting</Breadcrumb.Item>
           </Breadcrumb>
         </Card>

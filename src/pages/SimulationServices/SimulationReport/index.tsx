@@ -1083,7 +1083,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 is.
               </p>
               <div className="simulation-report-button-group">
-                <Button shape="round" size="large" type="primary" onClick={DownloadURL} icon={<DownloadOutlined />} style={{opacity:isClickDown?0.5:1}}>
+                <Button shape="round" size="large" type="primary" onClick={DownloadURL} icon={<DownloadOutlined />} style={{backgroundColor:isClickDown ? '#99CCFF':' '}}>
                   Download
                 </Button>
               </div>

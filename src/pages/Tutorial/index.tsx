@@ -14,11 +14,12 @@ import simuseq from "../../assets/tutorial/simuseq.png";
 import copynumber from "../../assets/tutorial/copynumber.png";
 import simucounts from "../../assets/tutorial/simucounts.png";
 import dnatable from "../../assets/tutorial/dnatable.png";
+import { Link } from "react-router-dom";
 import type { ColumnsType } from "antd/es/table";
 import { Link as RouterLink } from "react-router-dom";
 export class TutorialProps {}
 
-const { Link } = Anchor;
+// const { Link } = Anchor;
 export const Tutorial: React.FC<TutorialProps> = (props) => {
   const [targetOffset, setTargetOffset] = useState<number | undefined>(undefined);
   useEffect(() => {
@@ -271,14 +272,14 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   <strong>Encode Method: </strong>You can choose one of the existing popular
                   encoding methods to encode the file, but <i>Zan's</i> code can only encode the
                   English letters in the txt file. For more details on each method, please refers to
-                  the <a href="/methods#/methods">Method</a>.{" "}
+                  the <Link to="/methods">Method</Link>.{" "}
                 </li>
                 <li>
                   <strong>Verify code: </strong>Because the DNA sequence will inevitably have errors
                   during the storage process, in order to ensure the accuracy of data, we integrated
                   two <strong>verify codes</strong>, which is{" "}
                   <i>Reed Solomon Code and Hamming Code.</i>For more details on each method, please
-                  refers to the <a href="/methods#/methods">Method</a>
+                  refers to the <Link to="methods">Method</Link>
                 </li>
                 <li>
                   <strong>Segment length and Index length: </strong>The upload file will be compiled
@@ -614,41 +615,27 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
       </div>
       <div style={{ position: "fixed", top: "100px", margin: "0px 20px  0px" }}>
         <Anchor targetOffset={targetOffset} onClick={scrollToAnchor} affix={false}>
-          {/* <Link href="#DNA-storage-designer" title="DNA storage designer" /> */}
-          <Link href="#what-is-it" title="What is it" />
-          <Link href="#example-file" title="Example file" />
-          <Link href="#usage" title="Usage">
-            <Link href="#fourth-first-title" title="Encode/Simulation/Decode" />
-            <Link href="#fiveth-title" title="1 Encode">
-              <Link href="#sixth-title" title="1.1 Setting" />
-              <Link href="#seventh-title" title="1.2 Report" />
-            </Link>
-            <Link href="#errorsimu" title="2 Error Simulation">
-              <Link href="#simu-setting" title="2.1 Setting" />
-              <Link href="#simu-report" title="2.2 Report" />
-            </Link>
-            <Link href="#decode" title="3 Decode">
-              <Link href="#decode-title2" title="3.1 Cluster algorithms" />
-              <Link href="decode-title3" title="3.2	Result" />
-            </Link>
-            <Link href="#Error-Simulation" title="Error Simulation" />
-            <Link href="#File-Encode" title="File Encode" />
-          </Link>
-          <Link href="#Frequently" title="Frequently Asked Questions" />
-          <Link href="#Acknowledgment" title="Acknowledgment" />
-
-          {/* <Link href="#simulation" title="3 Simulation Conditions" >
-                <Link href="#synthesis" title="3.1 Synthesis" />
-                <Link href="#decay" title="3.2 Decay Process" />
-                <Link href="#pcr" title="3.3 PCR" />
-                <Link href="#sampling" title="3.4 Sampling" />
-                <Link href="#sequencing" title="3.5 Sequencing" />
-              </Link>
-              <Link href="#cluster" title="4 Cluster Method" >
-                <Link href="#cd-hit" title="4.1 CD-HIT" />
-                <Link href="#starcode" title="4.2 Starcode" />
-              </Link>
-              <Link href="#minimum-free" title="5 Minimum Free Energy" ></Link> */}
+          <Anchor.Link href="#what-is-it" title="What is it" />
+          <Anchor.Link href="#example-file" title="Example file" />
+          <Anchor.Link href="#usage" title="Usage">
+            <Anchor.Link href="#fourth-first-title" title="Encode/Simulation/Decode" />
+            <Anchor.Link href="#fiveth-title" title="1 Encode">
+              <Anchor.Link href="#sixth-title" title="1.1 Setting" />
+              <Anchor.Link href="#seventh-title" title="1.2 Report" />
+            </Anchor.Link>
+            <Anchor.Link href="#errorsimu" title="2 Error Simulation">
+              <Anchor.Link href="#simu-setting" title="2.1 Setting" />
+              <Anchor.Link href="#simu-report" title="2.2 Report" />
+            </Anchor.Link>
+            <Anchor.Link href="#decode" title="3 Decode">
+              <Anchor.Link href="#decode-title2" title="3.1 Cluster algorithms" />
+              <Anchor.Link href="decode-title3" title="3.2	Result" />
+            </Anchor.Link>
+            <Anchor.Link href="#Error-Simulation" title="Error Simulation" />
+            <Anchor.Link href="#File-Encode" title="File Encode" />
+          </Anchor.Link>
+          <Anchor.Link href="#Frequently" title="Frequently Asked Questions" />
+          <Anchor.Link href="#Acknowledgment" title="Acknowledgment" />
         </Anchor>
       </div>
     </div>

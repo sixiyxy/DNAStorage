@@ -107,13 +107,14 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
       >
         <div>
           <Breadcrumb separator=">">
-            <Breadcrumb.Item>
-              <a href="/">Home</a>
+          <Breadcrumb.Item>
+              <Link to="/home">Home</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
-              <a href="/Services">Service</a>
+              <Link to="/services">Service</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Decode</Breadcrumb.Item>
+            <Breadcrumb.Item><Link to="/services/wholeprocess">Decode</Link></Breadcrumb.Item>
+            <Breadcrumb.Item>Report</Breadcrumb.Item>
           </Breadcrumb>
         </div>
 

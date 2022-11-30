@@ -199,6 +199,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       console.log("status", info);
       if (status !== "uploading") {
         console.log(info.file, info.fileList);
+        console.log('1111111');
       }
       if (status === "done") {
         // setFasta(response.format)
@@ -236,11 +237,12 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     const type = name.split(".")[1];
 
     const isFasta = type === "fasta";
-    if (!isFasta) {
-      message.error("You can only upload fasta file!");
+    const isFASTA = type === "FASTA";
+    if (!isFasta && !isFASTA ) {
+      message.error("You can only upload FASTA or fasta file!");
     }
 
-    return isFasta;
+    return isFasta || isFASTA;
   };
 
   const scrollToAnchor = (placement) => {
@@ -362,7 +364,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                   <InboxOutlined />
                 </p>
                 <p className="ant-upload-text">Click this area to upload</p>
-                <p className="ant-upload-hint">Only FASTA files are supported</p>
+                <p className="ant-upload-hint">Only FASTA or fasta files are supported</p>
               </Dragger>
             </Card>
           </div>
