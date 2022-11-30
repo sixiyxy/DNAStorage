@@ -69,11 +69,14 @@ def Seq_arg(seq_meth,left):
 
 def is_fasta(filename):
     with open(filename,'r') as handle:
-        i=handle.readline()
-        if not str(i).startswith(">"): 
-            return False      
-        fasta = SeqIO.parse(handle, "fasta")
-        return any(fasta)  # False when `fasta` is empty, i.e. wasn't a FASTA file
+        try:
+            i=handle.readline()
+            if not str(i).startswith(">"): 
+                return False      
+            fasta = SeqIO.parse(handle, "fasta")
+            return any(fasta)  # False when `fasta` is empty, i.e. wasn't a FASTA file
+        except:
+            return False
 
 def fasta_to_dna(ori_save_dir):
     with open (ori_save_dir) as f:
