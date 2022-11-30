@@ -67,7 +67,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [pcrrun, setPCRRUN] = useState(true);
   const [samrun, setSAMRUN] = useState(true);
   const [seqrun, setSEQRUN] = useState(true);
-  
+  //控制report按钮是否禁用，true表示禁用
+  const [reportFlag,setReport] = useState(true)
   const { Dragger } = Upload;
   useEffect(() => {
     // if (props.setIsdisabled) {
@@ -412,6 +413,7 @@ var paramsRepo={
           setSEQRUN={setSEQRUN}
           method1={method}
           exmSpinFlag={exmSpinFlag}
+          setReport={setReport}
         />
         <Pcr
           fileId={props.fileId}
@@ -425,6 +427,7 @@ var paramsRepo={
           setSEQRUN={setSEQRUN}
           method1={method}
           exmSpinFlag={exmSpinFlag}
+          setReport={setReport}
         />
         <Sampling
           fileId={props.fileId}
@@ -438,6 +441,7 @@ var paramsRepo={
           method1={method}
           exmSpinFlag={exmSpinFlag}
           pcrFlag={pcrFlag}
+          setReport={setReport}
         />
         <Sequencing
           fileId={props.fileId}
@@ -448,6 +452,7 @@ var paramsRepo={
           setSEQRUN={setSEQRUN}
           seqrun={seqrun}
           exmSpinFlag={exmSpinFlag}
+          setReport={setReport}
         />
       </div>
       <div className="simulation-setting-footer-buttons">
@@ -457,7 +462,7 @@ var paramsRepo={
               shape="round"
               type="primary"
               size="large"
-              disabled={!dis0}
+              disabled={reportFlag}
               onClick={handleReport}
             >
               Report
