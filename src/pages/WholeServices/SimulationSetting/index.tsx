@@ -462,7 +462,7 @@ var paramsRepo={
             >
               Report
             </Button>
-            <Button
+            {/* <Button
               type="primary"
               shape="round"
               size="large"
@@ -470,7 +470,7 @@ var paramsRepo={
               onClick={handleReset}
             >
               Reset
-            </Button>
+            </Button> */}
           </div>
         </Card>
       </div>
