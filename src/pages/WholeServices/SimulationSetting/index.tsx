@@ -314,8 +314,8 @@ var paramsRepo={
 
         <Card title="Choose the simulation steps" headStyle={{ fontSize: "18px",backgroundColor:"#cccfd4",textAlign:"center"}}>
           <p className="function-bar" style={{ fontSize: "17px" }}>
-            Please select the following simulation steps. You can choose to skip some of these
-            steps, but Synthesis cannot.
+            <strong>Please select the following simulation steps. You can choose to skip some of these
+            steps, but Synthesis cannot.</strong>
           </p>
           <div className="simulation-setting-header-button-group">
             <div>
@@ -462,7 +462,7 @@ var paramsRepo={
             >
               Report
             </Button>
-            <Button
+            {/* <Button
               type="primary"
               shape="round"
               size="large"
@@ -470,7 +470,7 @@ var paramsRepo={
               onClick={handleReset}
             >
               Reset
-            </Button>
+            </Button> */}
           </div>
         </Card>
       </div>

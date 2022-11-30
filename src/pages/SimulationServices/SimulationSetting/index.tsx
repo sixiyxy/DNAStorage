@@ -375,8 +375,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           headStyle={{ fontSize: "18px", backgroundColor: "#cccfd4", textAlign: "center" }}
         >
           <p className="function-bar" style={{ fontSize: "17px" }}>
-            Please select the following simulation steps. You can choose to skip some of these
-            steps, but Synthesis is the must.
+            <strong>Please select the following simulation steps. You can choose to skip some of these
+            steps, but Synthesis is the must.</strong>
           </p>
           <div className="simulation-setting-header-button-group">
             <div>
