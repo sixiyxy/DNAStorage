@@ -120,12 +120,11 @@ def dna_upload():
     file_rename=file_uid+".fasta"
     ori_save_dir='{}/upload_dna/{}'.format(backend_dir,file_rename)
     f.save(ori_save_dir)
-    try:
-        flag=is_fasta(ori_save_dir)
-        print(flag)
-    except:
-        os.remove(ori_save_dir)
-        return "Invalid"
+    flag=is_fasta(ori_save_dir)
+    print(flag)
+    # except:
+    #     os.remove(ori_save_dir)
+    #     return "Invalid"
     if flag:
         strand_count=0
         print("Here")

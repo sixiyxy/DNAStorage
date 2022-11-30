@@ -610,7 +610,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       dataIndex: "name1",
       // width: "55%",
       align: "center",
-      render: (text) => <a>{text}</a>,
+      // render: (text) => <a>{text}</a>,
     },
     {
       title: "Information",
