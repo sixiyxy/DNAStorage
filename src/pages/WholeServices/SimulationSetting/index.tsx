@@ -11,7 +11,7 @@ import { doPost } from "../../../utils/request";
 import { API_PREFIX } from "../../../common/Config";
 import simu from "../../../assets/service/simu.png";
 import { InboxOutlined } from "@ant-design/icons";
-
+import { Link } from "react-router-dom";
 export class SimulationSetProps {
   changeSider;
   fileId;
@@ -225,10 +225,10 @@ var paramsRepo={
       <Card>
           <Breadcrumb separator=">">
             <Breadcrumb.Item>
-              Home
+              <Link to='/home'>Home</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Services</Breadcrumb.Item>
-            <Breadcrumb.Item>Simulation</Breadcrumb.Item>
+            <Breadcrumb.Item><Link to='/services'>Services</Link></Breadcrumb.Item>
+            <Breadcrumb.Item><Link to='/services/wholeprocess'>Simulation</Link></Breadcrumb.Item>
             <Breadcrumb.Item>Setting</Breadcrumb.Item>
           </Breadcrumb>
         </Card>

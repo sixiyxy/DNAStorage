@@ -49,7 +49,7 @@ export const Report: React.FC<ReportProps> = (props) => {
       title: "Name",
       dataIndex: "name1",
       width: "55%",
-      render: (text) => <a>{text}</a>,
+      // render: (text) => <a>{text}</a>,
     },
     {
       title: "Information",
@@ -61,7 +61,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       title: "Name",
       dataIndex: "name1",
-      render: (text) => <a>{text}</a>,
+      // render: (text) => <a>{text}</a>,
     },
     {
       title: "Information",
@@ -188,11 +188,12 @@ export const Report: React.FC<ReportProps> = (props) => {
         document.body.appendChild(link);
         link.click(); //下载该文件
         document.body.removeChild(link);
+        setDown(false)  
       })
       .catch(function (error) {
         console.log(error);
       });
-      setDown(false)
+      
   };
   const handleNext=()=>{
     props.setSimuSet(true)
@@ -314,7 +315,7 @@ export const Report: React.FC<ReportProps> = (props) => {
                 icon={<DownloadOutlined />}
                 size={size}
                 onClick={DownloadURL}
-                style={{opacity:isClickDown?0.5:1}}
+                style={{backgroundColor:isClickDown ? '#99CCFF':' '}}
               >
                 Download
               </Button>

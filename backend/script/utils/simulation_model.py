@@ -281,7 +281,11 @@ class ErrorAdder_simu:
             sub_true=np.where(sub_flag==True)[0]
             for pos in sub_true:
                 base=dna[pos]
-                subi=np.random.choice(['A','C','G','T'],p=list(self.TM[base].values()))
+                try:
+                    subi=np.random.choice(['A','C','G','T'],p=list(self.TM[base].values()))
+                except Exception as e:
+                    print(e)
+                    print(dna)
                 Errors.append((pos,'s',subi))
         else:
             TM_keys=list(self.TM.keys())
