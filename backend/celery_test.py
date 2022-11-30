@@ -6,7 +6,7 @@ from celery import Celery
 # from concurrent.futures import ThreadPoolExecutor
 # this method can not get the status
 
-from app_celery import encode_celery
+from app_celery import encode_celery,decode_celery
 from script.step1_get_file_uid import get_file_uid
 from script.step2_encoding_celery import Encoding,get_progress_bar
 
@@ -38,7 +38,7 @@ def encode_start():
 
 def decode_start():
     print('\n','#'*25,'Encoding Start','#'*25,'\n','#'*60)
-    front_data = {"file_uid":1565536927137009664,
+    front_data = {"file_uid":'example',
                     # "clust_method":"cdhit"}
                     "clust_method":'starcode'}
     file_uid = front_data['file_uid'] 
@@ -46,13 +46,25 @@ def decode_start():
     print('### Decode parameters is:',front_data)
 
     args = [file_uid,clust_method]
+    decode_task = decode_celery.apply_async(args=args)
+    task_id = decode_task.id
+    print(task_id)
+    return task_id
+
     
 
 
 # @app.route('/status/<task_id>',methods=['POST'])
 
-def taskstatus(task_id):
-    task = encode_celery.AsyncResult(task_id)
+def task_status(task_id,type):
+    if type == 'encode':
+        task = encode_celery.AsyncResult(task_id)
+    elif type == 'simulation':
+        pass
+    elif type == 'decode':
+        task = decode_celery.AsyncResult(task_id) 
+    else:
+        pass
     print(task.state,task.info)
 
     # waiting 
@@ -76,8 +88,9 @@ def taskstatus(task_id):
 
 
 if __name__ == '__main__':
-    task_id = encode_start()
+    # task_id = encode_start()
+    task_id = decode_start()
     for i in range(200):
         time.sleep(3)
-        response = taskstatus(task_id=task_id)
+        response = task_status(task_id=task_id,type='decode')
         # print(response)
