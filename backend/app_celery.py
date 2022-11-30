@@ -125,3 +125,7 @@ def decode_celery(self,file_uid,clust_method):
                                 'total':total_status}) 
     return {'current':total_status,'total':total_status,
             'callback':decode_info,'result':'successful'}
+
+if __name__ == '__main__':
+    # celery -A app_celery worker -l info
+    pass
