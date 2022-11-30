@@ -40,6 +40,9 @@ interface DataType {
 export const Report: React.FC<ReportProps> = (props) => {
   const [size, setSize] = useState<SizeType>("large");
   const [isClickDown,setDown] = useState(false)
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  },[])
   const params1 = {
     file_uid: props.exam ? "example" : props.fileId,
     type: "encode",

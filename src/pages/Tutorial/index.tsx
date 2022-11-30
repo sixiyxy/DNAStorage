@@ -424,7 +424,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   </i>
                   ).
                 </p>
-                <Image src={dnatable} width={"80%"} rootClassName="image6" />
+                <Image src={dnatable} width={"60%"} rootClassName="image6" />
                 <p style={{ textAlign: "center", fontSize: 13 }}>
                   Figure 9: Example of simulated situation of <i>M</i>
                 </p>
@@ -559,14 +559,16 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               error simulation part for users to conduct their experiments. To begin with, you could
               simply upload your own FASTA file. In consideration of computation cost, the maximum
               original sequences number we accept is 200000 in the simulation part.
-            </p>
-            <p id="text-content">
+              <br></br>
               And as for other details, please refer to the “whole process/error simulation” part.{" "}
             </p>
+            {/* <p id="text-content"> */}
+             
+            {/* </p> */}
             <h3 id="File-Encode">File Encode</h3>
             <p id="text-content">
               If the user just wants to encode the file, we also provide a separate file encode
-              part, it is not necessary for you to go through the whole process. And as for other
+              part, it is not necessary for you to go through the whole process. <br></br>And as for other
               details, please refer to the “whole process/encode” part.{" "}
             </p>
             <h3 id="Frequently">Frequently Asked Questions</h3>
@@ -619,17 +621,17 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
           <Anchor.Link href="#example-file" title="Example file" />
           <Anchor.Link href="#usage" title="Usage">
             <Anchor.Link href="#fourth-first-title" title="Encode/Simulation/Decode" />
-            <Anchor.Link href="#fiveth-title" title="1 Encode">
-              <Anchor.Link href="#sixth-title" title="1.1 Setting" />
-              <Anchor.Link href="#seventh-title" title="1.2 Report" />
-            </Anchor.Link>
-            <Anchor.Link href="#errorsimu" title="2 Error Simulation">
-              <Anchor.Link href="#simu-setting" title="2.1 Setting" />
-              <Anchor.Link href="#simu-report" title="2.2 Report" />
-            </Anchor.Link>
-            <Anchor.Link href="#decode" title="3 Decode">
-              <Anchor.Link href="#decode-title2" title="3.1 Cluster algorithms" />
-              <Anchor.Link href="decode-title3" title="3.2	Result" />
+                <Anchor.Link href="#fiveth-title" title="1 Encode">
+                  <Anchor.Link href="#sixth-title" title="1.1 Setting" />
+                  <Anchor.Link href="#seventh-title" title="1.2 Report" />
+                </Anchor.Link>
+                <Anchor.Link href="#errorsimu" title="2 Error Simulation">
+                  <Anchor.Link href="#simu-setting" title="2.1 Setting" />
+                  <Anchor.Link href="#simu-report" title="2.2 Report" />
+                </Anchor.Link>
+                <Anchor.Link href="#decode" title="3 Decode">
+                  <Anchor.Link href="#decode-title2" title="3.1 Cluster algorithms" />
+                  <Anchor.Link href="decode-title3" title="3.2	Result" />
             </Anchor.Link>
             <Anchor.Link href="#Error-Simulation" title="Error Simulation" />
             <Anchor.Link href="#File-Encode" title="File Encode" />
