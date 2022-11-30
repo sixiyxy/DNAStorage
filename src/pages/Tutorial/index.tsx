@@ -15,6 +15,7 @@ import copynumber from "../../assets/tutorial/copynumber.png";
 import simucounts from "../../assets/tutorial/simucounts.png";
 import dnatable from "../../assets/tutorial/dnatable.png";
 import type { ColumnsType } from "antd/es/table";
+import { Link as RouterLink } from "react-router-dom";
 export class TutorialProps {}
 
 const { Link } = Anchor;
@@ -195,7 +196,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
           <div className="Breadcrumb">
             <Breadcrumb separator=">">
               <Breadcrumb.Item>
-                <a href="/home">Home</a>
+                <RouterLink to="/home">Home</RouterLink>
               </Breadcrumb.Item>
               <Breadcrumb.Item>Tutorial</Breadcrumb.Item>
             </Breadcrumb>

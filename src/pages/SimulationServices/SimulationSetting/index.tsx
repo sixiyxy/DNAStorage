@@ -1,4 +1,15 @@
-import { Button, Card, Image, Row, Col, Upload, message,Breadcrumb,notification,Modal} from "antd";
+import {
+  Button,
+  Card,
+  Image,
+  Row,
+  Col,
+  Upload,
+  message,
+  Breadcrumb,
+  notification,
+  Modal,
+} from "antd";
 import React, { useState, useEffect } from "react";
 import "./index.less";
 import { Synthesis } from "./Synthesis";
@@ -10,6 +21,7 @@ import axios from "axios";
 import { API_PREFIX } from "../../../common/Config";
 import simu from "../../../assets/service/simuAlone.png";
 import { InboxOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 export class SimulationSetProps {
   changeSider;
@@ -28,12 +40,12 @@ let method = [false, false, false, false]; //存放选择的方法
 export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   // 控制全局和各个步骤是否启用，true 表示启用，false 表示不起用，会被遮罩遮住
   const [okFlag, setOkFlag] = useState(false);
-  const [examFlag, setExamFlag]=useState(false);
+  const [examFlag, setExamFlag] = useState(false);
   const [decayFlag, setDecayFlag] = useState(true);
   const [pcrFlag, setPcrFlag] = useState(true);
   const [sampleFlag, setSampleFlag] = useState(true);
   const [sequenceFlag, setSequenceFlag] = useState(true);
-  const [exmSpinFlag,setexmSpinFlag] = useState(false)
+  const [exmSpinFlag, setexmSpinFlag] = useState(false);
   // 未使用的变量：alreadyChose，暂予以注释，同时 Choose 拼写有误，确认无用后移除
   // const [alreadyChose, setAlreadyChose] = useState(false);
   const [dis0, setDis0] = useState(false);
@@ -56,14 +68,14 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [samrun, setSAMRUN] = useState(true);
   const [seqrun, setSEQRUN] = useState(true);
   //控制OK回弹按钮
-  const [SimuOK,setSimuOK] = useState(false) //默认还没有上传文件
+  const [SimuOK, setSimuOK] = useState(false); //默认还没有上传文件
   //文件是不是fasta
   // const [isFastaText,setFasta] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [changeTxt,setChangeTxt]=useState(false)
-  
-  var format = true
-  var overCount = false
+  const [changeTxt, setChangeTxt] = useState(false);
+
+  let format = true;
+  let overCount = false;
   const { Dragger } = Upload;
   useEffect(() => {
     if (props.setIsdisabled) {
@@ -117,7 +129,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setSequenceFlag(!sequenceFlag);
   };
   const handleOK = () => {
-    setExamFlag(true)
+    setExamFlag(true);
     setOkFlag(true);
     setDis1(true);
     setDis2(true);
@@ -141,7 +153,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   };
 
   const handleEXM = () => {
-    setexmSpinFlag(true)
+    setexmSpinFlag(true);
     method = [true, true, true, true];
     //点击Example后按钮全部禁掉 默认id"1582175684011364352"
     setOkFlag(true);
@@ -160,7 +172,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     console.log("开始请求");
     axios.post(API_PREFIX + "/example", paramExm).then(function (response) {
       console.log("请求中");
-      setexmSpinFlag(false)
+      setexmSpinFlag(false);
       console.log("example-simu", response);
       setEffct1(true);
       setEffct2(true);
@@ -170,11 +182,11 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       setRes(response.data);
     });
   };
-  
+
   const handleOk1 = () => {
-    setIsModalOpen(false); 
+    setIsModalOpen(false);
     window.location.reload();
-  }
+  };
   console.log(okFlag, decayFlag, pcrFlag, sampleFlag, sequenceFlag);
   console.log("method", method);
   const uploadProps = {
@@ -190,28 +202,26 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       }
       if (status === "done") {
         // setFasta(response.format)
-        if(response.format!= undefined)
-        {
-        format = response.format
-      } //原始值true
-        if (response.overCount != undefined)
-        {
-          setChangeTxt(true)
-        overCount = response.overCount
+        if (response.format != undefined) {
+          format = response.format;
+        } //原始值true
+        if (response.overCount != undefined) {
+          setChangeTxt(true);
+          overCount = response.overCount;
         } //原始值false
-        console.log('format',format);
-        console.log('overCount',overCount);
-        
-        if(!format || overCount){
-          console.log('格式不对，刷新页面');
-          setIsModalOpen(true)
-        }else{
-        props.setFileId(response.file_uid);
-        props.setTime(response.time)
-        setSimuOK(true)
-        setIsOkDisable(false);
-        message.success(`${info.file.name} file uploaded successfully.`);
-      }
+        console.log("format", format);
+        console.log("overCount", overCount);
+
+        if (!format || overCount) {
+          console.log("格式不对，刷新页面");
+          setIsModalOpen(true);
+        } else {
+          props.setFileId(response.file_uid);
+          props.setTime(response.time);
+          setSimuOK(true);
+          setIsOkDisable(false);
+          message.success(`${info.file.name} file uploaded successfully.`);
+        }
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
       }
@@ -237,13 +247,12 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     console.log("toanthor");
     notification.info({
       message: "Please make sure you complete the uploading!",
-      description:
-        "Confirm whether the file is uploaded.",
+      description: "Confirm whether the file is uploaded.",
       placement,
       duration: 4.5,
     });
     if ("simulation-synthesis-uploader") {
-      let anchorElement = document.getElementById("simulation-synthesis-uploader");
+      const anchorElement = document.getElementById("simulation-synthesis-uploader");
       if (anchorElement) {
         anchorElement.scrollIntoView();
       }
@@ -251,25 +260,29 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   };
   return (
     <div className="page-simulation-setting">
-      <Modal title="Warning" 
-      visible={isModalOpen} 
-      onOk={handleOk1} 
-      closable={false} 
-      footer={[
-        <Button key="back" onClick={handleOk1}>
-          OK
-        </Button>
-      ]}
+      <Modal
+        title="Warning"
+        visible={isModalOpen}
+        onOk={handleOk1}
+        closable={false}
+        footer={[
+          <Button key="back" onClick={handleOk1}>
+            OK
+          </Button>,
+        ]}
       >
-        
-         <p>{changeTxt ? 'You have uploaded too many Fasta files to process, please upload again!' : 'The file you uploaded is not in Fasta format, please upload again!'}</p>
-       </Modal>
+        <p>
+          {changeTxt
+            ? "You have uploaded too many Fasta files to process, please upload again!"
+            : "The file you uploaded is not in Fasta format, please upload again!"}
+        </p>
+      </Modal>
       {/*头部 Card 部分*/}
       <div>
-      <Card>
+        <Card>
           <Breadcrumb separator=">">
             <Breadcrumb.Item>
-              <a href="/home">Home</a>
+              <Link to="/home">Home</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>Services</Breadcrumb.Item>
             <Breadcrumb.Item>Simulation</Breadcrumb.Item>
@@ -282,25 +295,25 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
               <div className="decode-button-group">
                 <div className="summary-word">
                   <p>
-                    You could upload your own fasta DNA file to proceed this seperate error simulation stage. It covers the five stages of DNA storage, namely,
-                    synthesis, storage decay, PCR, sampling, and sequencing. Except for synthesis,
-                    all the other stages are optional, you could simply skip some based on your
-                    needs. What's more, you could directly get feedback about how the density changes after
+                    You could upload your own fasta DNA file to proceed this seperate error
+                    simulation stage. It covers the five stages of DNA storage, namely, synthesis,
+                    storage decay, PCR, sampling, and sequencing. Except for synthesis, all the
+                    other stages are optional, you could simply skip some based on your needs.
+                    What's more, you could directly get feedback about how the density changes after
                     setting up each stage and have a detailed report about how errors are introduced
                     and occur at the end.
                   </p>
-                  </div>
-                    <Button
-                      className="exm"
-                      // type="primary"
-                      shape="round"
-                      size="large"
-                      onClick={handleEXM}
-                      disabled={examFlag}
-                    >
-                      Example
-                    </Button>
-                
+                </div>
+                <Button
+                  className="exm"
+                  // type="primary"
+                  shape="round"
+                  size="large"
+                  onClick={handleEXM}
+                  disabled={examFlag}
+                >
+                  Example
+                </Button>
               </div>
             </Col>
             <Col span={10}>
@@ -355,14 +368,17 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           </div>
         )}
 
-        <Card title="Choose the simulation steps" headStyle={{ fontSize: "18px",backgroundColor:"#cccfd4",textAlign:"center"}}>
-           <p className="function-bar" style={{ fontSize: "17px" }}>
+        <Card
+          title="Choose the simulation steps"
+          headStyle={{ fontSize: "18px", backgroundColor: "#cccfd4", textAlign: "center" }}
+        >
+          <p className="function-bar" style={{ fontSize: "17px" }}>
             Please select the following simulation steps. You can choose to skip some of these
             steps, but Synthesis is the must.
-          </p> 
+          </p>
           <div className="simulation-setting-header-button-group">
             <div>
-            {/* <button className="btn-right"><a href="#">Synthesis</a></button> */}
+              {/* <button className="btn-right"><a href="#">Synthesis</a></button> */}
               <Button
                 className="simulation-setting-header-button-step"
                 size="large"
@@ -442,7 +458,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSEQRUN={setSEQRUN}
           method1={method}
           exmSpinFlag={exmSpinFlag}
-        
         />
         <Decay
           fileId={props.fileId}
@@ -457,7 +472,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSEQRUN={setSEQRUN}
           method1={method}
           exmSpinFlag={exmSpinFlag}
-         
         />
         <Pcr
           fileId={props.fileId}
@@ -471,7 +485,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSEQRUN={setSEQRUN}
           method1={method}
           exmSpinFlag={exmSpinFlag}
-         
         />
         <Sampling
           fileId={props.fileId}
@@ -484,7 +497,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSEQRUN={setSEQRUN}
           method1={method}
           exmSpinFlag={exmSpinFlag}
-         
         />
         <Sequencing
           fileId={props.fileId}
@@ -495,7 +507,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSEQRUN={setSEQRUN}
           seqrun={seqrun}
           exmSpinFlag={exmSpinFlag}
-          
         />
       </div>
       <div className="simulation-setting-footer-buttons">
