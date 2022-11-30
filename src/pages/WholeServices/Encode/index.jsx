@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./index.less";
 import axios from "axios";
-import { Breadcrumb, Col, Row, Spin, notification, Card,Image} from "antd";
+import { Breadcrumb, Col, Row, Spin, notification, Card, Image } from "antd";
 import EncodeMethodList from "./components/EncodeMethodList";
 import Uploads from "./components/Uploads";
 import Sliders from "./components/Sliders";
@@ -10,19 +10,18 @@ import { Anchor, Button } from "antd";
 import { FolderAddTwoTone } from "@ant-design/icons";
 import { doPost } from "../../../utils/request";
 import encode from "../../../assets/service/encode.png";
-
-const { Link } = Anchor;
+import { Link } from "react-router-dom";
 
 export const Encode = (props) => {
   const [targetOffset, setTargetOffset] = useState(undefined);
 
   useEffect(() => {
-    props.setIsSynthesis(false)
+    props.setIsSynthesis(false);
     setTargetOffset(window.innerHeight / 2);
   }, []);
 
   //作图的初始值
-  const [seg, setSeg] = useState()
+  const [seg, setSeg] = useState();
   const [index, setIndex] = useState(20);
   const [method, setMethod] = useState("WithoutVerifycode");
   const [btnflag, setBtn] = useState(false);
@@ -32,25 +31,25 @@ export const Encode = (props) => {
   const [indexment, Setindexment] = useState(20);
   const [indexchange, setChange] = useState(true); //一开始是小于2M
   const [upload100kb, setUpload100] = useState(false); //一开始假设文件都大于100kb
-  const [processRes, setprocessRes] = useState({})
-  const [Zan,setZan] = useState(false) //其他方法都不能使用zan
-  const [ZanRadio,setZanRadio]=useState(false) //一开始不禁
-  const [isUpload,setUpload] = useState(false) //假设一开始没有上传文件
+  const [processRes, setprocessRes] = useState({});
+  const [Zan, setZan] = useState(false); //其他方法都不能使用zan
+  const [ZanRadio, setZanRadio] = useState(false); //一开始不禁
+  const [isUpload, setUpload] = useState(false); //假设一开始没有上传文件
   // useEffect(() => {
   //   props.setIsSynthesis(false);
   // }, []);
-  useEffect(()=>{
-    if (props.resetMenu){
-      props.setEncodeRepo(false)
-      props.setSimuSet(false)
-      props.setSimuRepo(false)
-      props.setDeSet(false)
-      props.setDerepo(false)
+  useEffect(() => {
+    if (props.resetMenu) {
+      props.setEncodeRepo(false);
+      props.setSimuSet(false);
+      props.setSimuRepo(false);
+      props.setDeSet(false);
+      props.setDerepo(false);
     }
-  },[props.resetMenu])
+  }, [props.resetMenu]);
   const close = () => {
     console.log(
-      'Notification was closed. Either the close button was clicked or duration time elapsed.',
+      "Notification was closed. Either the close button was clicked or duration time elapsed."
     );
   };
   const btn = (
@@ -60,30 +59,34 @@ export const Encode = (props) => {
   );
   const key = `open${Date.now()}`;
 
-  useEffect(()=>{
-    if(Zan && value==='SrcCode'){
-      setIndex(0)
+  useEffect(() => {
+    if (Zan && value === "SrcCode") {
+      setIndex(0);
     }
-    if (Zan && value==='SrcCode' ){
+    if (Zan && value === "SrcCode") {
       notification.open({
-        message: "Zan's encode method directly converts letters into DNA base sequences. The file will not be binary compiled, so there is no segment length selection and no verification code can be added.",
-        description:
-          '',
+        message:
+          "Zan's encode method directly converts letters into DNA base sequences. The file will not be binary compiled, so there is no segment length selection and no verification code can be added.",
+        description: "",
         btn,
         key,
-        duration:null,
-        placement:'bottom',
+        duration: null,
+        placement: "bottom",
         style: {
-          width: '1000px',
-          fontSize:'20px'
+          width: "1000px",
+          fontSize: "20px",
         },
         onClose: close,
       });
     }
-    setSeg(Zan && value==='SrcCode' ? 0 : Number(Object.keys(processRes.bar ? processRes.bar : {80:' '} )[1]))
-    SetSegvalue(Number(Object.keys(processRes.bar ? processRes.bar : {80:' '} )[1]))
-  },[processRes,Zan,value])
-  
+    setSeg(
+      Zan && value === "SrcCode"
+        ? 0
+        : Number(Object.keys(processRes.bar ? processRes.bar : { 80: " " })[1])
+    );
+    SetSegvalue(Number(Object.keys(processRes.bar ? processRes.bar : { 80: " " })[1]));
+  }, [processRes, Zan, value]);
+
   const GCPass = (param1) => {
     props.setGC(param1);
   };
@@ -103,7 +106,18 @@ export const Encode = (props) => {
     props.setMini(param1);
     console.log(props.mini);
   };
-  const InfoPass1 = (param1, param2, param3, param4, param5, param6, param7,param8,param9,param10) => {
+  const InfoPass1 = (
+    param1,
+    param2,
+    param3,
+    param4,
+    param5,
+    param6,
+    param7,
+    param8,
+    param9,
+    param10
+  ) => {
     props.infos.bit_size = param1;
     props.infos.byte_size = param2;
     props.infos.encode_method = param3;
@@ -132,7 +146,7 @@ export const Encode = (props) => {
     props.DNAinfos.nucleotide_counts = param4;
     props.DNAinfos.min_free_energy = param5;
     props.DNAinfos.net_information_density = param6;
-    props.DNAinfos.physical_information_density_g = param7
+    props.DNAinfos.physical_information_density_g = param7;
     props.setDNAinfo(props.DNAinfos);
     console.log("Encode-dnaindo", props.dnainfo);
   };
@@ -142,14 +156,14 @@ export const Encode = (props) => {
     // index_length: 16,
     // verify_method: "WithoutVerifycode",
     // encode_method: "Basic",
-    type:'encode'
+    type: "encode",
   };
   const handleClick = async () => {
     //console.log("加载中");
     // props.setIsSynthesis(true);
-    props.setEncodeRepo(true)
-    props.setSimuSet(true)
-    props.setIsSynthesis(true)
+    props.setEncodeRepo(true);
+    props.setSimuSet(true);
+    props.setIsSynthesis(true);
     props.changeSider(["0-0-1"]);
     props.setSpin(true);
     props.setExam(false);
@@ -158,7 +172,7 @@ export const Encode = (props) => {
     params1.index_length = index;
     params1.verify_method = method;
     params1.encode_method = value;
-    
+
     // const body = params1;
 
     const resp = await doPost("/encode", { body: params1 });
@@ -214,12 +228,12 @@ export const Encode = (props) => {
   };
   const handleExm = async () => {
     // props.setIsSynthesis(true);
-    props.setEncodeRepo(true)
+    props.setEncodeRepo(true);
     props.changeSider(["0-0-1"]);
-    props.setIsSynthesis(true)
+    props.setIsSynthesis(true);
     props.setSpin(true);
     props.setExam(true);
-    props.setFileId('example');
+    props.setFileId("example");
     const resp = await doPost("/example", { body: params1 });
     console.log("Encode-response: ", resp);
     console.log("Encode-response: ", typeof resp.min_free_energy_below_30kcal_mol);
@@ -269,7 +283,7 @@ export const Encode = (props) => {
         <Card>
           <Breadcrumb separator=">">
             <Breadcrumb.Item>
-              Home
+              <Link to="/home">Home</Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>Services</Breadcrumb.Item>
             <Breadcrumb.Item>Encode</Breadcrumb.Item>
@@ -278,42 +292,43 @@ export const Encode = (props) => {
         </Card>
       </div>
       <div className="encode-main-body-wrapper">
-      <div className="summary">
-          <Card >
-          <Row>
-            <Col span={10}>
-            <div className="decode-button-group">
-                <div className="summary-word" >
-                  <p>
-                  The encode service integrates the most common and popular DNA storage encoding and verifying methods.
-                   After uploading the file, users could simply select corresponding methods, elegantly slide the sliders to set the segment length, 
-                   and wait for the result. The website will not only convert the file into DNA sequences but also calculate GC content and homopolymer length as well as the minimum free energy out directly.
-                  </p>
-                  
+        <div className="summary">
+          <Card>
+            <Row>
+              <Col span={10}>
+                <div className="decode-button-group">
+                  <div className="summary-word">
+                    <p>
+                      The encode service integrates the most common and popular DNA storage encoding
+                      and verifying methods. After uploading the file, users could simply select
+                      corresponding methods, elegantly slide the sliders to set the segment length,
+                      and wait for the result. The website will not only convert the file into DNA
+                      sequences but also calculate GC content and homopolymer length as well as the
+                      minimum free energy out directly.
+                    </p>
+                  </div>
+                  <Button
+                    className="exm"
+                    // type="primary"
+                    shape="round"
+                    size="large"
+                    onClick={handleExm}
+                  >
+                    Example
+                  </Button>
                 </div>
-                <Button
-                      className="exm"
-                      // type="primary"
-                      shape="round"
-                      size="large"
-                      onClick={handleExm}
-                    >
-                      Example
-                    </Button>
+              </Col>
+
+              <Col span={10}>
+                <div style={{ marginLeft: "150px" }} className="summary-img">
+                  <Image
+                    width={"130%"}
+                    // height={"50%"}
+                    src={encode}
+                  />
                 </div>
-            </Col>
-            
-            <Col span={10}>
-            
-              <div style={{ marginLeft:"150px"}} className="summary-img">
-                <Image
-                  width={"130%"}
-                  // height={"50%"}
-                  src={encode}
-                />
-              </div>
-            </Col>
-          </Row>
+              </Col>
+            </Row>
           </Card>
         </div>
         <Card>
@@ -339,16 +354,16 @@ export const Encode = (props) => {
         </Card>
       </div>
       {/*编码方法列表*/}
-      <EncodeMethodList 
-        setValue={setValue} 
-        value={value} 
-        upload100kb={upload100kb} 
-        setMethod={setMethod} 
-        setencodeValue={setencodeValue}  
-        encodevalue={encodevalue} 
-        method={method} 
-        fileId={props.fileId} 
-        setprocessRes={setprocessRes} 
+      <EncodeMethodList
+        setValue={setValue}
+        value={value}
+        upload100kb={upload100kb}
+        setMethod={setMethod}
+        setencodeValue={setencodeValue}
+        encodevalue={encodevalue}
+        method={method}
+        fileId={props.fileId}
+        setprocessRes={setprocessRes}
         setIndex={setIndex}
         Zan={Zan}
         btnflag={btnflag}
