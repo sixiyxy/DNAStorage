@@ -333,7 +333,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     xField: "value",
     yField: "name",
     seriesField: "type",
-    maxBarWidth: 60,
+    maxBarWidth: 45,
     height: 200,
     label: {
       // 可手动配置 label 数据标签位置
@@ -838,7 +838,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       dataIndex: "name1",
       // width: "55%",
       align: "center",
-      render: (text) => <a>{text}</a>,
+      // render: (text) => <a>{text}</a>,
     },
     {
       title: "Information",
@@ -850,63 +850,63 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     {
       key: "1",
       name1: "Synthesis number",
-      value1: props.synthesisData?.synthesis_number,
+      value1: synthesisData?.synthesis_number,
     },
     {
       key: "2",
       name1: "Synthesis yield",
-      value1: props.synthesisData?.synthesis_yield,
+      value1: synthesisData?.synthesis_yield,
     },
     {
       key: "3",
       name1: "Synthesis method",
-      value1: props.synthesisData?.synthesis_method,
+      value1: synthesisData?.synthesis_method,
     },
   ];
   const data2: DataType[] = [
     {
       key: "1",
       name1: "Storage host",
-      value1: props.decayData?.storage_host,
+      value1: decayData?.storage_host,
     },
     {
       key: "2",
       name1: "Months of storage",
-      value1: props.decayData?.months_of_storage,
+      value1: decayData?.months_of_storage,
     },
     {
       key: "3",
       name1: "Decay loss rate",
-      value1: props.decayData?.decay_loss_rate,
+      value1: decayData?.decay_loss_rate,
     },
   ];
   const data3: DataType[] = [
     {
       key: "1",
       name1: "Pcr polymerase",
-      value1: props.pcrData?.pcr_polymerase,
+      value1: pcrData?.pcr_polymerase,
     },
     {
       key: "2",
       name1: "Pcr cycle",
-      value1: props.pcrData?.pcr_cycle,
+      value1: pcrData?.pcr_cycle,
     },
     {
       key: "3",
       name1: "Pcr prob",
-      value1: props.pcrData?.pcr_prob,
+      value1: pcrData?.pcr_prob,
     },
   ];
   const data4: DataType[] = [
     {
       key: "1",
       name1: "Sequencing depth",
-      value1: props.sequencingData?.seq_depth,
+      value1: sequencingData?.seq_depth,
     },
     {
       key: "2",
       name1: "Sequencing method",
-      value1: props.sequencingData?.seq_meth,
+      value1: sequencingData?.seq_meth,
     },
   ];
   return (
@@ -1010,13 +1010,13 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               <Tabs.TabPane tab="Sampling" key="4" disabled={samplingData === undefined}>
                 {/* sam_ratio: {samplingData?.sam_ratio} */}
                 <p style={{ margin: "10px 0 0 0px" }}>The sampling ratio you chose is:</p>
-
-                <Bar {...samplingErrorParamConfig}  />
-                
+                <div style={{padding:"30px 80px 0 80px"}}>
+                  <Bar {...samplingErrorParamConfig}  />
+                </div>
                 <br />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sequencing" key="5" disabled={sequencingData === undefined}>
-                <div className="TabSEQ">
+                <div className="TabSYN">
                 <Table
                       columns={columns1}
                       dataSource={data4}

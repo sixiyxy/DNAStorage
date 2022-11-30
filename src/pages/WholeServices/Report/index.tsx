@@ -49,7 +49,7 @@ export const Report: React.FC<ReportProps> = (props) => {
       title: "Name",
       dataIndex: "name1",
       width: "55%",
-      render: (text) => <a>{text}</a>,
+      // render: (text) => <a>{text}</a>,
     },
     {
       title: "Information",
@@ -61,7 +61,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       title: "Name",
       dataIndex: "name1",
-      render: (text) => <a>{text}</a>,
+      // render: (text) => <a>{text}</a>,
     },
     {
       title: "Information",
