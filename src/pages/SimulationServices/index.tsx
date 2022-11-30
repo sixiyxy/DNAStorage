@@ -78,7 +78,7 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
             />
           ) : null}
           {siderSelect[0] === "0-1-1" ? (
-            <SimulationReport fileId={fileId} clickEXM={clickEXM} time3min={time3min}/>
+            <SimulationReport fileId={fileId} clickEXM={clickEXM} time3min={time3min} />
           ) : null}
         </div>
       </div>

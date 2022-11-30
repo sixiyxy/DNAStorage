@@ -31,8 +31,8 @@ class ClusterDecode():
         self.simulation_dir = '{}/{}'.format(self.backend_dir,self.config['simulation_dir'])
         self.simulation_dna_file = '{}/{}.fasta'.format(self.simulation_dir,self.file_uid)
         self.out_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
-        self.starcode = self.config['starcode']
-        # self.starcode = '/Users/jianglikun/VScode/starcode/starcode'
+        # self.starcode = self.config['starcode']
+        self.starcode = '/Users/jianglikun/VScode/starcode/starcode'
         self.cdhit = self.config['cdhit']
 
         # decode
@@ -77,15 +77,6 @@ class ClusterDecode():
         clust_dna_sequences = open(self.out_file).read().splitlines()
 
         return clust_dna_sequences
-
-    def run_clust(self):
-        if self.clust_method == 'cdhit':
-            dna_sequences = self.method_cdhit()
-        elif self.clust_method == 'starcode':
-            dna_sequences = self.method_starcode()
-        elif self.clust_method == None:
-            dna_sequences = open(self.encode_dna).read().splitlines()
-        return dna_sequences
 
     def normal_decode(self,clust_dna_sequences):
         # encode information
@@ -228,44 +219,50 @@ class ClusterDecode():
                         "recall_bits_rate":'{} %'.format(recall_charaters_rate)}
         return info
 
-    def decode(self,step,record_time):
-        if step == 'clustering':
-            ### get after clust simulation sequences
-            print('### Star clust simulation dna sequence...')
-            start_time = datetime.now()
-            clust_dna_sequences = self.run_clust()
-            clust_time = (datetime.now() - start_time).total_seconds()
-            clust_time = '%.2f s'%(clust_time)
-            print('### Clust simulation dan sequence done.')
-            return clust_dna_sequences,clust_time
 
-        if step == 'decode':
+    def clust(self):
+        ### get after clust simulation sequences
+        print('### Star clust simulation dna sequence...')
+        start_time = datetime.now()
+        if self.clust_method == 'cdhit':
+            clust_dna_sequences = self.method_cdhit()
+        elif self.clust_method == 'starcode':
+            clust_dna_sequences = self.method_starcode()
+        elif self.clust_method == None:
+            clust_dna_sequences = open(self.encode_dna).read().splitlines()
+        clust_time = (datetime.now() - start_time).total_seconds()
+        clust_time = '%.2f s'%(clust_time)
+        print('### Clust simulation dan sequence done.')
+        return clust_dna_sequences,clust_time
+
+    def decode(self,clust_dna_sequences,clust_time):    
         ### decoding
-            print('### Star decode dna sequences....')
-            start_time = datetime.now()
-            normal_methods = ["Basic","Church","Goldman","Grass","Blawat","DNA_Fountain","Yin_Yang"]
-            if self.method_name in normal_methods:
-                record_info = self.normal_decode(clust_dna_sequences)
-            elif self.method_name == 'SrcCode':
-                record_info = self.decode_txt(clust_dna_sequences)
-            else:
-                raise('can not find decode method!')
-            decode_time = (datetime.now() - start_time).total_seconds()
-            decode_time = '%.2f s'%(decode_time)
-            print('### Decode Done.')
+        print('### Star decode dna sequences....')
+        start_time = datetime.now()
+        normal_methods = ["Basic","Church","Goldman","Grass","Blawat","DNA_Fountain","Yin_Yang"]
+        if self.method_name in normal_methods:
+            record_info = self.normal_decode(clust_dna_sequences)
+        elif self.method_name == 'SrcCode':
+            record_info = self.decode_txt(clust_dna_sequences)
+        else:
+            raise('can not find decode method!')
+        decode_time = (datetime.now() - start_time).total_seconds()
+        decode_time = '%.2f s'%(decode_time)
+        print('### Decode Done.')
 
-            ### done and feedback
-            record_info['decode_time']=decode_time
-            record_info['clust_time'] =record_time
-            write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
-            print('### Front data is ready')
-            print(record_info)
-            return record_info
+        ### done and feedback
+        record_info['decode_time']=decode_time
+        record_info['clust_time'] =clust_time
+        write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
+        print('### Front data is ready')
+        print(record_info)
+        return record_info
 
 if __name__ == '__main__':
     # obj = Encoding(1565536927137009664)
     # record_info,bit_segments = obj.bit_to_dna()
 
-    obj = ClusterDecode(file_uid = 1595671626651930624,clust_method= 'starcode')
+    obj = ClusterDecode(file_uid = 159524562738885836,clust_method= 'starcode')
 
-    obj.decode()
+    a,b = obj.clust()
+    obj.decode(a,b)

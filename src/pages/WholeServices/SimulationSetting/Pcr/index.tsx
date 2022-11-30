@@ -30,6 +30,7 @@ export class PcrProps {
   setSEQRUN;
   method1;
   exmSpinFlag;
+  setReport;
 }
 
 export const Pcr: React.FC<PcrProps> = (props) => {
@@ -45,7 +46,6 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   // 未使用的变量，暂予以注释
   // const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [alreadyRun, setAlreadyRun] = useState(false);
   const [group, setGroup] = useState();
 
   //处理函数
@@ -54,11 +54,6 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       return;
     }
     setPcrCycleValue(value);
-  };
-  const handleReset = function () {
-    setPcrCycleValue(12);
-    setPcrProbability(0.8);
-    setMethod("Taq");
   };
   const lossChange = (value: number) => {
     if (isNaN(value)) {
@@ -72,9 +67,6 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   const skipDecay = function () {
     props.changeSider(["0-1-3"]);
   };
-  // const showModal = () => {
-  //   setIsModalOpen(true);
-  // };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -89,7 +81,6 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     // setErrorData(response?.data?.pcr_error_density);
     setGroup(resp.pcr_group);
     setDensityData(resp.pcr_density);
-    setHrefLink(resp.synthesis_method_reference);
     setLoading(false);
 
     if(!props.method1[2]){
@@ -97,16 +88,9 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     }else if(!props.method1[3]){
       props.setSEQRUN(false)
     }else{
-      console.log('just synthesis'); 
+      props.setReport(false)
     }
   };
-
-  const param1 = {  
-      file_uid:"1582175684011364352",
-      pcr_cycle:12,
-      pcr_prob:0.8,
-      pcr_polymerase:"Taq",
-  }
   useEffect(()=>{
     if (props.effect3 == true){
     setLoading(true);
@@ -115,7 +99,6 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     setCountLen(props.response.PCR.pcr_density.length);
     setGroup(props.response.PCR.pcr_group);
     setDensityData(props.response.PCR.pcr_density);
-    // setHrefLink(props.response.PCR.synthesis_method_reference);
     setLoading(false);
   
   }else{
@@ -123,36 +106,6 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   }
   },[props.effect3])
 
-  const methodLink = useMemo(() => {
-    return hrefLink?.map((link, index) => {
-      return (
-        <>
-          <a style={{margin: "0 0 0 5px"}} href={link} target="_blank" rel="noreferrer">
-            {link}
-          </a>
-          <br/>
-        </>
-      );
-    });
-  }, [hrefLink]);
-
-  //数据生成
-  // const chart1Data = useMemo(() => {
-  //   return densityData?.map((item) => {
-  //     return {
-  //       copyNumber: item[0],
-  //       density: Number(item[1].toFixed(3)),
-  //     };
-  //   });
-  // }, [densityData]);
-  // const chart2Data = useMemo(() => {
-  //   return errorData?.map((item) => {
-  //     return {
-  //       copyNumber: item[0],
-  //       density: Number(item[1].toFixed(3)),
-  //     };
-  //   });
-  // }, [errorData]);
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
@@ -163,48 +116,6 @@ export const Pcr: React.FC<PcrProps> = (props) => {
       // upload_flag:"True"
     };
   }, [pcrCycleValue, pcrProbability, method, props.fileId]);
-  //console.log("params", params);
-  // const config1 = {
-  //   data: chart1Data,
-  //   width: 200,
-  //   height: 300,
-  //   xField: "copyNumber",
-  //   yField: "density",
-  //   autoFit: true,
-  //   xAxis: {
-  //     // range: [0, 200],
-  //     title: {
-  //       text: "Copy Number",
-  //     },
-  //   },
-  //   yAxis: {
-  //     // range: [0, 0.5],
-  //     title: {
-  //       text: "Density",
-  //     },
-  //   },
-  // };
-
-  // const config2 = {
-  //   data: chart2Data,
-  //   width: 200,
-  //   height: 150,
-  //   xField: "copyNumber",
-  //   yField: "density",
-  //   autoFit: true,
-  //   xAxis: {
-  //     // range: [0, 200],
-  //     title: {
-  //       text: "Copy Number",
-  //     },
-  //   },
-  //   yAxis: {
-  //     // range: [0, 0.5],
-  //     title: {
-  //       text: "Density",
-  //     },
-  //   },
-  // };
   
   const config = useMemo(() => {
     return {

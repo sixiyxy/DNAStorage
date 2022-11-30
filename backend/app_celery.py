@@ -10,7 +10,7 @@ from celery import Celery
 
 from script.step1_get_file_uid import get_file_uid
 from script.step2_encoding_celery import Encoding,get_progress_bar
-from script.step4_decode import ClusterDecode
+from script.step4_decode_celery import ClusterDecode
 
 
 backend = 'redis://121.192.180.202:6379/1'
@@ -107,5 +107,25 @@ def encode_celery(self,file_uid,segment_length,index_length,verify_method,encode
 @celery.task(bind=True)
 def decode_celery(self,file_uid,clust_method):
     Decode_obj = ClusterDecode(file_uid = file_uid,clust_method= clust_method)
-    decode_info = Decode_obj.decode()
-    
+    total_status = 3
+    self.update_state(state = 'DECODING',
+                        meta = {'label':'start',
+                                'current':0,
+                                'total':total_status}) 
+    clust_dna_sequences,clust_time = Decode_obj.clust()
+    self.update_state(state = 'DECODING',
+                        meta = {'label':'clustering',
+                                'current':1,
+                                'total':total_status}) 
+
+    decode_info = Decode_obj.decode(clust_dna_sequences,clust_time)
+    self.update_state(state = 'DECODING',
+                        meta = {'label':'decode',
+                                'current':2,
+                                'total':total_status}) 
+    return {'current':total_status,'total':total_status,
+            'callback':decode_info,'result':'successful'}
+
+if __name__ == '__main__':
+    # celery -A app_celery worker -l info
+    pass

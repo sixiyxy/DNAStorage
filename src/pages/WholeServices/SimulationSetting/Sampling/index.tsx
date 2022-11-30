@@ -17,7 +17,8 @@ export class SamplingProps {
   setSEQRUN;
   method1;
   exmSpinFlag;
-  pcrFlag
+  pcrFlag;
+  setReport;
 }
 
 export const Sampling: React.FC<SamplingProps> = (props) => {
@@ -28,10 +29,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
   const [countLen, setCountLen] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [densityData, setDensityData] = useState([]);
-  // 未使用变量，暂予以注释
-  // const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [alreadyRun, setAlreadyRun] = useState(false);
   const [group, setGroup] = useState();
   useEffect(() => {
     if (!props.pcrFlag){
@@ -45,9 +43,6 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
       return;
     }
     setSamplingRatio(value);
-  };
-  const handleReset = function () {
-    setSamplingRatio(0.005);
   };
   const skipDecay = function () {
     props.changeSider(["0-1-4"]);
@@ -67,19 +62,14 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     setCountLen(resp.sam_density.length);
     setGroup(resp.sam_group);
     setDensityData(resp.sam_density);
-    setHrefLink(resp.synthesis_method_reference);
     setLoading(false);
 
     if(!props.method1[3]){
       props.setSEQRUN(false)
     }else{
-      console.log('just synthesis'); 
+     props.setReport(false)
     }
   };
-  const param1 = {
-  sam_ratio:0.005,
-  file_uid:"1582175684011364352",
-  }
   useEffect(()=>{
     if (props.effect4 == true){
     setLoading(true);
@@ -88,29 +78,11 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     setCountLen(props.response.SAM.sam_density.length);
     setGroup(props.response.SAM.sam_group);
     setDensityData(props.response.SAM.sam_density);
-    // setHrefLink(props.response.SAM.synthesis_method_reference);
     setLoading(false);
   }else{
     console.log('eff4',props.effect4);
   }
   },[props.effect4])
-  // const handleContinue = () => {
-  //   props.changeSider(["0-1-4"]);
-  // };
-
-  // 未使用代码段，暂予以注释
-  // const methodLink = useMemo(() => {
-  //   return hrefLink?.map((link, index) => {
-  //     return (
-  //       <>
-  //         <a style={{margin: "0 0 0 5px"}} href={link} target="_blank" rel="noreferrer">
-  //           {link}
-  //         </a>
-  //         <br/>
-  //       </>
-  //     );
-  //   });
-  // }, [hrefLink]);
 
   const params = useMemo(() => {
     return {

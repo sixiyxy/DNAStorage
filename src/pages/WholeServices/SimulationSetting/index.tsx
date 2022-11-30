@@ -11,7 +11,7 @@ import { doPost } from "../../../utils/request";
 import { API_PREFIX } from "../../../common/Config";
 import simu from "../../../assets/service/simu.png";
 import { InboxOutlined } from "@ant-design/icons";
-
+import { Link } from "react-router-dom";
 export class SimulationSetProps {
   changeSider;
   fileId;
@@ -67,7 +67,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [pcrrun, setPCRRUN] = useState(true);
   const [samrun, setSAMRUN] = useState(true);
   const [seqrun, setSEQRUN] = useState(true);
-  
+  //控制report按钮是否禁用，true表示禁用
+  const [reportFlag,setReport] = useState(true)
   const { Dragger } = Upload;
   useEffect(() => {
     // if (props.setIsdisabled) {
@@ -225,10 +226,10 @@ var paramsRepo={
       <Card>
           <Breadcrumb separator=">">
             <Breadcrumb.Item>
-              Home
+              <Link to='/home'>Home</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Services</Breadcrumb.Item>
-            <Breadcrumb.Item>Simulation</Breadcrumb.Item>
+            <Breadcrumb.Item><Link to='/services'>Services</Link></Breadcrumb.Item>
+            <Breadcrumb.Item><Link to='/services/wholeprocess'>Simulation</Link></Breadcrumb.Item>
             <Breadcrumb.Item>Setting</Breadcrumb.Item>
           </Breadcrumb>
         </Card>
@@ -314,8 +315,8 @@ var paramsRepo={
 
         <Card title="Choose the simulation steps" headStyle={{ fontSize: "18px",backgroundColor:"#cccfd4",textAlign:"center"}}>
           <p className="function-bar" style={{ fontSize: "17px" }}>
-            Please select the following simulation steps. You can choose to skip some of these
-            steps, but Synthesis cannot.
+            <strong>Please select the following simulation steps. You can choose to skip some of these
+            steps, but Synthesis cannot.</strong>
           </p>
           <div className="simulation-setting-header-button-group">
             <div>
@@ -412,6 +413,7 @@ var paramsRepo={
           setSEQRUN={setSEQRUN}
           method1={method}
           exmSpinFlag={exmSpinFlag}
+          setReport={setReport}
         />
         <Pcr
           fileId={props.fileId}
@@ -425,6 +427,7 @@ var paramsRepo={
           setSEQRUN={setSEQRUN}
           method1={method}
           exmSpinFlag={exmSpinFlag}
+          setReport={setReport}
         />
         <Sampling
           fileId={props.fileId}
@@ -438,6 +441,7 @@ var paramsRepo={
           method1={method}
           exmSpinFlag={exmSpinFlag}
           pcrFlag={pcrFlag}
+          setReport={setReport}
         />
         <Sequencing
           fileId={props.fileId}
@@ -448,6 +452,7 @@ var paramsRepo={
           setSEQRUN={setSEQRUN}
           seqrun={seqrun}
           exmSpinFlag={exmSpinFlag}
+          setReport={setReport}
         />
       </div>
       <div className="simulation-setting-footer-buttons">
@@ -457,12 +462,12 @@ var paramsRepo={
               shape="round"
               type="primary"
               size="large"
-              disabled={!dis0}
+              disabled={reportFlag}
               onClick={handleReport}
             >
               Report
             </Button>
-            <Button
+            {/* <Button
               type="primary"
               shape="round"
               size="large"
@@ -470,7 +475,7 @@ var paramsRepo={
               onClick={handleReset}
             >
               Reset
-            </Button>
+            </Button> */}
           </div>
         </Card>
       </div>

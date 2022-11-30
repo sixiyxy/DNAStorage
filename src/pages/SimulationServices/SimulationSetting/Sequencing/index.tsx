@@ -27,6 +27,7 @@ export class SequencingProps {
   setSEQRUN;
   seqrun;
   exmSpinFlag;
+  setReport;
 }
 
 export const Sequencing: React.FC<SequencingProps> = (props) => {
@@ -34,14 +35,11 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
   const [countlen, setLen] = useState(0)
   const [sequencingDepth, setSequencingDepth] = useState(1);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  const [hrefLink, setHrefLink] = useState([]);
   const [method, setMethod] = useState("ill_PairedEnd");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [densityData, setDensityData] = useState([]);
-  const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [group, setGroup] = useState();
-  const [alreadyRun, setAlreadyRun] = useState(false);
 
   //处理函数
   const monthChange = (value: number) => {
@@ -56,28 +54,21 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
   const skipDecay = function () {
     props.changeSider(["0-1-5"]);
   };
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const handleReset = () => {
-    setMethod("ill_PairedEnd");
-    setSequencingDepth(1);
-  };
+  
   const handleOk = async () => {
     setLoading(true);
     setNoDataTipsShow(false);
     props.setSEQRUN(true);
     const resp: any = await doPost("/simu_seq", {body: params});
-    // console.log("sequencing response", response);
-    //setErrorData(response?.data?.seq_error_density);
     setLen(resp.seq_density.length);
     setDensityData(resp.seq_density);
     setGroup(resp.density_group);
-    setHrefLink(resp.synthesis_method_reference);
     setLoading(false);
+    props.setReport(false)
   };
 
     useEffect(()=>{
@@ -88,30 +79,13 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       setLen(props.response.SEQ.seq_density.length);
       setDensityData(props.response.SEQ.seq_density);
       setGroup(props.response.SEQ.density_group);
-      // setHrefLink(props.response.SEQ.synthesis_method_reference);
       setLoading(false);
-    
+      props.setReport(false)
     }else{
         console.log('eff5',props.effect5);
       }
       },[props.effect5])
-  // const handleContinue = () => {
-  //   props.changeSider(["0-1-5"]);
-  // };
 
-  // 未使用代码段，暂予以注释
-  // const methodLink = useMemo(() => {
-  //   return hrefLink?.map((link, index) => {
-  //     return (
-  //       <>
-  //         <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank">
-  //           {link}
-  //         </a>
-  //         <br />
-  //       </>
-  //     );
-  //   });
-  // }, [hrefLink]);
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
