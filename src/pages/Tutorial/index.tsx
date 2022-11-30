@@ -279,7 +279,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   during the storage process, in order to ensure the accuracy of data, we integrated
                   two <strong>verify codes</strong>, which is{" "}
                   <i>Reed Solomon Code and Hamming Code.</i>For more details on each method, please
-                  refers to the <Link to="methods">Method</Link>
+                  refers to the <Link to="/methods">Method</Link>
                 </li>
                 <li>
                   <strong>Segment length and Index length: </strong>The upload file will be compiled

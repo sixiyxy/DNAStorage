@@ -10,7 +10,7 @@ import type { ColumnsType } from "antd/es/table";
 export class SimulationReportProps {
   changeSider?;
   fileId;
-  setTime;
+  // setTime;
   clickEXM;
   time3min;
 }
@@ -826,11 +826,12 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         document.body.appendChild(link);
         link.click(); //下载该文件
         document.body.removeChild(link);
+        setDown(false)
       })
       .catch(function (error) {
         console.log(error);
       });
-      setDown(false)
+      
   };
   const columns1: ColumnsType<DataType> = [
     {

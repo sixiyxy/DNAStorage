@@ -73,7 +73,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   // const [isFastaText,setFasta] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [changeTxt, setChangeTxt] = useState(false);
-
+  //控制report按钮是否禁用，true表示禁用
+  const [reportFlag,setReport] = useState(true)
   let format = true;
   let overCount = false;
   const { Dragger } = Upload;
@@ -100,12 +101,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const paramExm = {
     type: "simulation",
   };
-  //控制每个步骤完成的状态
-  // const [ok1,setOK1] = useState(false);
-  // const [ok2,setOK2] = useState(false);
-  // const [ok3,setOK3] = useState(false);
-  // const [ok4,setOK4] = useState(false);
-  // const [ok5,setOK5] = useState(false);
 
   const handleReport = () => {
     method = [false, false, false, false];
@@ -460,6 +455,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSEQRUN={setSEQRUN}
           method1={method}
           exmSpinFlag={exmSpinFlag}
+       
         />
         <Decay
           fileId={props.fileId}
@@ -474,6 +470,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSEQRUN={setSEQRUN}
           method1={method}
           exmSpinFlag={exmSpinFlag}
+          setReport={setReport}
         />
         <Pcr
           fileId={props.fileId}
@@ -487,6 +484,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSEQRUN={setSEQRUN}
           method1={method}
           exmSpinFlag={exmSpinFlag}
+          setReport={setReport}
         />
         <Sampling
           fileId={props.fileId}
@@ -499,6 +497,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSEQRUN={setSEQRUN}
           method1={method}
           exmSpinFlag={exmSpinFlag}
+          setReport={setReport}
         />
         <Sequencing
           fileId={props.fileId}
@@ -509,6 +508,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSEQRUN={setSEQRUN}
           seqrun={seqrun}
           exmSpinFlag={exmSpinFlag}
+          setReport={setReport}
         />
       </div>
       <div className="simulation-setting-footer-buttons">
@@ -518,12 +518,12 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
               shape="round"
               type="primary"
               size="large"
-              disabled={!dis0}
+              disabled={reportFlag}
               onClick={handleReport}
             >
               Report
             </Button>
-            <Button
+            {/* <Button
               type="primary"
               shape="round"
               size="large"
@@ -531,7 +531,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
               onClick={handleReset}
             >
               Reset
-            </Button>
+            </Button> */}
           </div>
         </Card>
       </div>
