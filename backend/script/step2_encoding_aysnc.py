@@ -139,7 +139,7 @@ class Encoding():
 
         # file encode dir
         self.dna_dir = self.config['encode_dir']
-        self.dna_file = '{}/{}/{}.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
+        self.dna_file = '{}/{}/{}.fasta'.format(self.backend_dir,self.dna_dir,self.file_uid)
 
         # min free energy
         self.min_free_energy_tools = self.config['min_free_energy']

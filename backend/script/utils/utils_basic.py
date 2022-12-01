@@ -67,8 +67,8 @@ def write_dna_file(path,demo_path, dna_sequences):
    
     with open(path, "a+") as file:
         for index, dna_sequence in enumerate(dna_sequences):
-            file.write("".join(dna_sequence) + "\n")
-    
+            dna_sequence = "".join(dna_sequence)
+            file.write('>{}\n{}\n'.format(index,dna_sequence))
     
     if len(dna_sequences)<=1000:
         demo_dna_sequences =dna_sequences
@@ -95,6 +95,9 @@ def get_download_path(type,file_uid):
         dna_dir = os.path.join(backend_dir,config['encode_dir'])
         dna_file = '{}.txt'.format(file_uid)
 
+        # fasta file
+        fasta_file = '{}.fasta'.format(file_uid)
+
     elif type =='simulation':
         file_dir = os.path.join(backend_dir,config['upload_dna_save_dir'])
         file_info_name = '{}.yaml'.format(file_uid)
@@ -107,6 +110,8 @@ def get_download_path(type,file_uid):
     downfile_name = '{}.tar.gz'.format(file_uid)
     file_obj = tarfile.open(downfile_name,'w:gz')
     file_obj.add(dna_file)
+    if type == 'encode':
+        file_obj.add(fasta_file)
     os.chdir(file_dir)
     file_obj.add(file_info_name)
     os.chdir(current_dir)
