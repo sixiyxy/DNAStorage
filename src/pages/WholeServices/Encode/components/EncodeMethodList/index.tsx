@@ -26,7 +26,7 @@ const EncodeMethodList: React.FC = (props: any) => {
       console.log(Number(Object.keys(response.data.bar)[Object.keys(response.data.bar).length-1]));
       
     })
-  },[props.value,props.method,props.fileID,props.isUpload])
+  },[props.value,props.method,props.fileID,props.isUpload,props.Zan])
 
   const onChange = (e: RadioChangeEvent) => {
     props.setValue(e.target.value);
