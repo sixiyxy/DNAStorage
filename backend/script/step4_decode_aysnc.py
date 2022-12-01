@@ -219,8 +219,7 @@ class ClusterDecode():
                         "recall_bits_rate":'{} %'.format(recall_charaters_rate)}
         return info
 
-
-    def clust(self):
+    def decode(self): 
         ### get after clust simulation sequences
         print('### Star clust simulation dna sequence...')
         start_time = datetime.now()
@@ -233,9 +232,7 @@ class ClusterDecode():
         clust_time = (datetime.now() - start_time).total_seconds()
         clust_time = '%.2f s'%(clust_time)
         print('### Clust simulation dan sequence done.')
-        return clust_dna_sequences,clust_time
 
-    def decode(self,clust_dna_sequences,clust_time):    
         ### decoding
         print('### Star decode dna sequences....')
         start_time = datetime.now()

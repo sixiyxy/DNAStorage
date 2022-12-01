@@ -433,6 +433,75 @@ def example():
     else:
         return 'wrong request!'
 
+
+from celery_task import encode_celery,simulation_celery,decode_celery
+
+@app.route('/encode_start',methods=['POST'])
+def encode_start():
+    print('\n','#'*25,'Encoding Start','#'*25,'\n','#'*60)
+    front_data = request.data
+    front_data = json.loads(front_data)
+
+    file_uid = front_data['file_uid'] #'1566....'
+    segment_length = front_data['segment_length'] #4
+    index_length = front_data['index_length'] #128
+    verify_method = front_data['verify_method'] #'HammingCode'
+    encode_method = front_data['encode_method'] #'Basic'
+    args = [file_uid,segment_length,index_length,verify_method,encode_method]
+    encode_task = encode_celery.apply_async(args=args)
+    task_id = encode_task.id
+    print(task_id)
+    return task_id
+
+@app.route('/simulation_start',methods=['POST'])
+def simulation_start():
+    pass
+
+@app.route('/decode_start',methods=['POST'])
+def decode_start():
+    print('\n','#'*25,'Encoding Start','#'*25,'\n','#'*60)
+    front_data = request.data
+    front_data = json.loads(front_data)
+    file_uid = front_data['file_uid'] 
+    clust_method = front_data['clust_method']
+    print('### Decode parameters is:',front_data)
+
+    args = [file_uid,clust_method]
+    decode_task = decode_celery.apply_async(args=args)
+    task_id = decode_task.id
+    print(task_id)
+    return task_id
+
+@app.route('/task_status',methods=['POST'])
+def task_status(task_id,type):
+    
+    front_data = request.data
+    front_data = json.load(front_data)
+    task_id = front_data['task_id']
+    type = front_data['type']
+    print('\n','#'*25,'Request {} {}'.format(type,task_id),'#'*25,'\n')
+
+    if type == 'encode':
+        task = encode_celery.AsyncResult(task_id)
+    elif type == 'simulation':
+        task == simulation_celery.AsyncResult(task_id)
+    elif type == 'decode':
+        task = decode_celery.AsyncResult(task_id) 
+    else:
+        'Wrong type request!'
+    print(task.state,task.info)
+
+    if task.state == 'PENDING':   # waiting
+        response = {'state':task.state}
+    elif task.state != 'FAILURE': 
+        print(task.state,task.info) # running
+        response = {'state':task.state}
+        if 'result' in task.info:    # successful
+            response['result'] = task.info['result']
+    else:                            # error bug
+        response = {'state':task.state}
+    return json.dumps(response)
+
 if __name__ == '__main__':
     CORS(app,supports_credentials=True)
     app.run('0.0.0.0', port=5000, debug=True)
