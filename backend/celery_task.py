@@ -10,6 +10,7 @@ from celery import Celery
 
 from script.step1_get_file_uid import get_file_uid
 from script.step2_encoding_aysnc import Encoding
+import script.step3_simulation_aysnc as simu_utils
 
 from script.step4_decode_aysnc import ClusterDecode
 
@@ -35,8 +36,10 @@ def encode_celery(self,file_uid,segment_length,index_length,verify_method,encode
     return {'result':encode_info}
 
 @celery.task(bind=True)
-def simulation_celery(self):
-    pass
+def simulation_celery(self,file_uid,upload_flag):
+    simu_repo=simu_utils.get_simu_repo(file_uid,upload_flag)
+    return {'result':simu_repo}
+    
 
 @celery.task(bind=True)
 def decode_celery(self,file_uid,clust_method):

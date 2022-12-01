@@ -436,7 +436,7 @@ def example():
 
 from celery_task import encode_celery,simulation_celery,decode_celery
 
-@app.route('/encode_start',methods=['POST'])
+@app.route('/encode_start',methods=['GET','POST'])
 def encode_start():
     print('\n','#'*25,'Encoding Start','#'*25,'\n','#'*60)
     front_data = request.data
@@ -453,11 +453,23 @@ def encode_start():
     print(task_id)
     return task_id
 
-@app.route('/simulation_start',methods=['POST'])
+@app.route('/simulation_start',methods=['GET','POST'])
 def simulation_start():
-    pass
+    print('\n','#'*25,'Simulation Start','#'*25,'\n','#'*60)
+    front_data = request.data
+    front_data = json.loads(front_data)
+    try:
+        upload_flag=front_data['upload_flag']
+    except Exception as e:
+        upload_flag=False
+    
+    file_uid=front_data['file_uid']
+    args = [file_uid,upload_flag]
+    simulation_task = simulation_celery.apply_async(args=args)
+    task_id= simulation_task.id
+    return task_id
 
-@app.route('/decode_start',methods=['POST'])
+@app.route('/decode_start',methods=['GET','POST'])
 def decode_start():
     print('\n','#'*25,'Encoding Start','#'*25,'\n','#'*60)
     front_data = request.data
@@ -472,10 +484,10 @@ def decode_start():
     print(task_id)
     return task_id
 
-@app.route('/task_status',methods=['POST'])
-def task_status(task_id,type):
+@app.route('/task_status',methods=['GET','POST'])
+def task_status():
     front_data = request.data
-    front_data = json.load(front_data)
+    front_data = json.loads(front_data)
     task_id = front_data['task_id']
     type = front_data['type']
     print('\n','#'*25,'Request {} {}'.format(type,task_id),'#'*25,'\n')
