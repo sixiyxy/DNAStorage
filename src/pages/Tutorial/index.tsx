@@ -42,6 +42,14 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
     name1: string;
     value1: any;
   }
+  interface DataType3 {
+    key: string;
+    p:string;
+    i:string;
+    ip:string;
+    ipv:string;
+    dna:string;
+  }
   const columns1: ColumnsType<DataType> = [
     {
       title: "Name",
@@ -189,7 +197,53 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
       value1: 'the ratio of correct decode segment in "encode segment bits',
     },
   ];
-
+  const columns3: ColumnsType<DataType3> = [
+    {
+      title: "payload",
+      dataIndex: "p",
+      align: "center",
+      // width: "55%",
+      // render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "index",
+      dataIndex: "i",
+      align: "center",
+    },
+    {
+      title: "index_payload",
+      dataIndex: "ip",
+      align: "center",
+    },
+    {
+      title: "index_payload_verifycode",
+      dataIndex: "ipv",
+      align: "center",
+    },
+    {
+      title: "DNA_sequence",
+      dataIndex: "dna",
+      align: "center",
+    },
+  ];
+  const data3: DataType3[] = [
+    {
+      key: "1",
+      p: "100010010…",
+      i: "101011…",
+      ip:"101011100010010…",
+      ipv:"10101110001001000…",
+      dna:"TAAGACC…"
+    },
+    {
+      key: "2",
+      p: "100101001...",
+      i: "100000...",
+      ip:"100000100101001...",
+      ipv:"10000010010100111...",
+      dna:"TAAAGTC…"
+    },
+  ];
   return (
     <div className="tutorial-container">
       <div className="tutorial">
@@ -279,16 +333,16 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   during the storage process, in order to ensure the accuracy of data, we integrated
                   two <strong>verify codes</strong>, which is{" "}
                   <i>Reed Solomon Code and Hamming Code.</i>For more details on each method, please
-                  refers to the <Link to="/methods">Method</Link>
+                  refers to the <Link to="/methods">Method</Link>.
                 </li>
                 <li>
                   <strong>Segment length and Index length: </strong>The upload file will be compiled
-                  into binary data, it will be split into fixed lengths and converted to DNA
+                  into binary data (each byte will be converted to 8 bits ), it will be split into fixed lengths and converted to DNA
                   sequence using the chosen method, this fixed length is the segment length. Since
                   the existing synthesis and sequencing technology do not support long sequences,
                   the segment length should be less than 200. At the same time, in order to restore
                   the data, each segment will be added on address information, and the length is the
-                  index length.
+                  index length (The length is automatically inferred based on the file size).
                 </li>
                 <li>
                   <strong>Run: </strong>Encode the upload file with the chosen setting parameters.
@@ -357,11 +411,21 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   </pre>
                 </p>
                 <li>
-                  <strong>Download: </strong>Include two files in the downloaded compressed file,
-                  one is the encoding settings information of the uploaded file(named as
-                  file_id.yaml), and the other is the encoded DNA sequence file (including: payload,
-                  index, index_payload, index_payload_verfiycode, DNA_sequence. namely file_id.csv).
+                  <strong>Download: </strong>Include three files in the downloaded compressed file, one is the encoding settings information of the uploaded file(named as file_id.yaml), and the other is the encoded DNA sequence file(named as file_id.fasta), and the last one is the detailed information file about the encoded upload file (namely file_id.txt).
+                  <ul>
+                    <li><strong>Encode sequences(fasta):</strong> This file concains the encoded dna sequences of the uploaded file. </li>
+                    <li><strong>Information file(yaml):</strong> This information file contains the related settings  and report information of the uploaded file.</li>
+                    <li><strong>Upload file encode details(txt):</strong> This file contains detailed information about: payload(after file segment), index(address bits), index_payload(payload and index bits), index_payload_verifycode(payload,index,verifycode bits), DNA_sequence.</li>
+                  </ul>
                 </li>
+                <div style={{marginTop:"20px"}}>
+                <Table
+                  columns={columns3}
+                  dataSource={data3}
+                  size={"large"}
+                  pagination={{ position: ["none"]}}
+                />
+                </div>
               </ul>
             </div>
             <div id="errorsimu">
