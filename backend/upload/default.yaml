@@ -1,0 +1,18 @@
+seq_depth: 1
+seq_meth: ill_PairedEnd
+pcr_cycle: 5
+pcr_polymerase: Taq
+pcr_prob: 0.8
+sam_ratio: 0.005
+simu:
+- SYN
+- DEC
+- PCR
+- SAM
+- SEQ
+storage_host: Hsapiens
+months_of_storage : 24
+decay_loss_rate:  0.3
+synthesis_method: ErrASE
+synthesis_number: 10
+synthesis_yield: 0.99

@@ -463,24 +463,22 @@ def simulation_start():
     except Exception as e:
         upload_flag=False
     
-@app.route('/example_whole_simu',methods=['GET','POST'])
-def whole_simu_example():
-    print('\n','#'*25,'display example','#'*25,'\n','#'*60)
-    front_data = json.loads(request.data)
-    type = front_data['type']
-    file_uid=front_data['file_uid']
-    yaml_path = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
-    dna_path='{}/encode/{}.fasta'.format(backend_dir,file_uid)
-    f = open(yaml_path)
-    config_data = f.read()
-    config = yaml.load(config_data,Loader=yaml.FullLoader)
-    return json.dumps(config)
-    
     file_uid=front_data['file_uid']
     args = [file_uid,upload_flag]
     simulation_task = simulation_celery.apply_async(args=args)
     task_id= simulation_task.id
     return task_id
+    
+@app.route('/example_whole_simu',methods=['GET','POST'])
+def whole_simu_example():
+    print('\n','#'*25,'display example','#'*25,'\n','#'*60)
+    front_data = json.loads(request.data)
+    file_uid=front_data['file_uid']
+    result=simu_utils.run_default_settings(file_uid)
+    
+    return json.dumps(result)
+    
+    
 
 @app.route('/decode_start',methods=['GET','POST'])
 def decode_start():
