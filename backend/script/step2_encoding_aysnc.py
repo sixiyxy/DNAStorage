@@ -5,7 +5,8 @@ import pandas as pd
 import numpy as np
 import copy
 from decimal import Decimal
-from multiprocessing import Pool
+# from multiprocessing import Pool
+import billiard as multiprocessing
 from numpy import fromfile, array, uint8
 
 from .utils.utils_basic import get_config,write_yaml,write_dna_file
@@ -126,7 +127,8 @@ class Encoding():
 
         self.config = get_config(yaml_path='config')
         self.backend_dir = self.config['backend_dir']
-        self.threads = self.config['threads']
+        # self.threads = self.config['threads']
+        self.threads = 4
 
         # file save dir and file information
         self.file_dir = '{}/{}'.format(self.backend_dir,self.config['file_save_dir'])
@@ -153,6 +155,7 @@ class Encoding():
         self.decode_file = '{}/{}.npz'.format(self.decode_dir,self.file_uid)
 
     def segment_file(self,data):
+        print('segment start')
         matrix, values = [], data
         
         for current, value in enumerate(values):
@@ -170,6 +173,7 @@ class Encoding():
         return fragment_info
 
     def connet_index(self,data):
+        print('connect start')
         fragment_info = self.segment_file(data)
         original_bit_segments = fragment_info["original_bit_segments"]
 
@@ -188,6 +192,7 @@ class Encoding():
         return fragment_info
         
     def verify_code(self,data):
+        print('verify code start')
         fragment_info = self.connet_index(data)
         original_bit_segments = fragment_info["original_bit_segments"]
         record_index = fragment_info["record_index"]
@@ -206,7 +211,7 @@ class Encoding():
         return fragment_info
 
     def encoding_normal(self,data): 
-        
+        print('encoding start')
         fragment_info = self.verify_code(data)
         original_bit_segments = fragment_info["original_bit_segments"]
         record_index = fragment_info["record_index"]
@@ -389,7 +394,7 @@ class Encoding():
         return final_record_info,final_data
     
     def record_file(self,info,data,run_time):
-       
+        print('record and plot')
         dna_sequences_all = data['dna_sequences']
         # for simulation enerfy
         demo_dna_sequences = write_dna_file(path=self.dna_file,demo_path=self.dna_demo_file,dna_sequences=dna_sequences_all)
@@ -435,12 +440,12 @@ class Encoding():
         info['homo_data'] = homo_data
         print('### get GC plot and repeated length plot data, Done !')
 
-        energy_info = add_min_free_energydata(self.min_free_energy_tools,
-                                             self.dna_demo_file,
-                                            self.free_enerfy_file)
-        info['min_free_energy'] = energy_info['min_free_energy'] 
-        info['min_free_energy_below_30kcal_mol'] = energy_info['min_free_energy_below_30kcal_mol']
-        info['energy_plot']=energy_info['energy_plot']
+        # energy_info = add_min_free_energydata(self.min_free_energy_tools,
+        #                                      self.dna_demo_file,
+        #                                     self.free_enerfy_file)
+        # info['min_free_energy'] = energy_info['min_free_energy'] 
+        # info['min_free_energy_below_30kcal_mol'] = energy_info['min_free_energy_below_30kcal_mol']
+        # info['energy_plot']=energy_info['energy_plot']
         print('### Free energy plot data, Done !')
         
         # format data
@@ -466,10 +471,10 @@ class Encoding():
         if self.encode_method in encoding_methods:
             file_data = fromfile(file=self.file_path, dtype=uint8)
             file_size = file_data.shape[0]
-            if file_size > 10000000:
+            if file_size > 1000000:
                 cut_file_data = cut_file(file_data,self.encode_method)
 
-                with Pool(self.threads) as pool:
+                with multiprocessing.Pool(self.threads) as pool:
                     parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
                 record_info,record_data = self.contact_result(parallel_results)
             else:

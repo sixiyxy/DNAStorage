@@ -14,26 +14,12 @@ const Sliders = (props) => {
     props.setSeg(value1);
     
   };
-  // const onAfterChange_index = (value2) => {
-  //   props.setIndex(value2);
-  // };
   const onChange_seg = (value1) => {
     console.log('segmentChange',value1);
     props.SetSegvalue(value1);
     
   };
-  // const onChange_inde = (value2) => {
-  //   props.Setindexment(value2);
-  // };
-  // useEffect(() => {
-  //   props.ParamPass(method, values);
-  // }, [count]);
-  const marks = {
-    0: ' ',
-    26: ' ',
-    37: ' ',
-    100: ' '
-  };
+
   return (
     <div className="encode-sider-wrapper">
       <Card>
@@ -61,7 +47,7 @@ const Sliders = (props) => {
           <div style={{ marginTop: "30px" }}>
             <strong style={{ fontSize: "19px" }}>
               {" "}
-              <HighlightTwoTone /> Index length : {props.Zan? 0 : props.processRes.index_length} bits
+              <HighlightTwoTone /> Index length : {props.Zan && props.value==='SrcCode' ? 0 : props.processRes.index_length} bits
             </strong>{" "}
           </div>
         </div>

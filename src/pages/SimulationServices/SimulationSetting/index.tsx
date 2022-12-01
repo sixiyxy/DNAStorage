@@ -182,8 +182,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setIsModalOpen(false);
     window.location.reload();
   };
-  console.log(okFlag, decayFlag, pcrFlag, sampleFlag, sequenceFlag);
-  console.log("method", method);
+  // console.log(okFlag, decayFlag, pcrFlag, sampleFlag, sequenceFlag);
+  // console.log("method", method);
   const uploadProps = {
     name: "file",
     multiple: true,
@@ -198,6 +198,9 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       }
       if (status === "done") {
         // setFasta(response.format)
+        if (response === 'Invalid'){
+          setIsModalOpen(true);
+        }
         if (response.format != undefined) {
           format = response.format;
         } //原始值true
@@ -348,8 +351,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
               <Dragger
                 id="simulation-synthesis-uploader"
                 {...uploadProps}
-                beforeUpload={beforeUpload}
-                accept=".fasta"
+                // beforeUpload={beforeUpload}
+                accept=".FASTA"
                 maxCount={1}
                 onRemove={() => {
                   setIsOkDisable(true);
@@ -359,7 +362,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                   <InboxOutlined />
                 </p>
                 <p className="ant-upload-text">Click this area to upload</p>
-                <p className="ant-upload-hint">Only FASTA or fasta files are supported</p>
+                <p className="ant-upload-hint">Only FASTA files are supported</p>
               </Dragger>
             </Card>
           </div>
@@ -369,7 +372,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           title="Choose the simulation steps"
           headStyle={{ fontSize: "18px", backgroundColor: "#cccfd4", textAlign: "center" }}
         >
-          <p className="function-bar" style={{ fontSize: "17px" }}>
+          <p className="function-bar" style={{ fontSize: "16px" }}>
             <strong>Please select the following simulation steps. You can choose to skip some of these
             steps, but Synthesis is the must.</strong>
           </p>

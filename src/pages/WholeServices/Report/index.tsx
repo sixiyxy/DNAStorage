@@ -9,7 +9,7 @@ import HomoGraph from "./components/HomoGraph";
 import EnergyGraph from "./components/EnergyGraph";
 import axios from "axios";
 import "./index.less";
-
+import { Link } from "react-router-dom";
 import { Spin } from "antd";
 import { API_PREFIX } from "../../../common/Config";
 import { Opacity } from "@antv/attr";
@@ -213,11 +213,11 @@ export const Report: React.FC<ReportProps> = (props) => {
       >
         <div className="encode-report-nav-wrapper">
           <Breadcrumb separator=">">
-            <Breadcrumb.Item>
-              Home
+          <Breadcrumb.Item>
+              <Link to="/home">Home</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Service</Breadcrumb.Item>
-            <Breadcrumb.Item>Encode</Breadcrumb.Item>
+            <Breadcrumb.Item><Link to='/services'>Services</Link></Breadcrumb.Item>
+            <Breadcrumb.Item><Link to='/services/wholeprocess'>Encode</Link></Breadcrumb.Item>
             <Breadcrumb.Item>Report</Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -293,12 +293,12 @@ export const Report: React.FC<ReportProps> = (props) => {
               <div className="encode-report-footer-result">
                 <p>
                   <strong>
-                    The sequence average minimum free energy is : {props.dnainfo.min_free_energy}
+                    The sequence average minimum free energy is : {props.dnainfo.min_free_energy} kcal/mol
                   </strong>
                   <br></br>
-                  <strong>
+                  {/* <strong>
                     The percentage of sequence minimum free energy below 30 Kcal/mol is : {props.mini} %
-                  </strong>
+                  </strong> */}
                 </p>
               </div>
               <div className="encode-report-footer-information">

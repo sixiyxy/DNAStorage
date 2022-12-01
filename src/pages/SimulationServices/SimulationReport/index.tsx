@@ -927,10 +927,10 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       <div className="simulation-report-content-wrapper">
        
         <Spin tip={props.time3min? "Please waiting 3 mins!": "Loading..."} size="large" spinning={spinflag}>
-          <Card title="Stage Summary" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
-          <p style={{
+          <Card title="Stage summary (steps review)" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
+          {/* <p style={{
                 textAlign: "center",
-              }}><strong>Setting Review</strong></p>
+              }}><strong>Setting Review</strong></p> */}
             <Tabs defaultActiveKey="1" size={"large"} type="card">
               <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined} >
                 <div className="TabSYN" id='table'>
@@ -1039,7 +1039,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           </Card>
           <Card title="Simulation Result" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
           <p style={{"textAlign":"justify"}}>During simulation, sequence density, distribution and error occurrance vary from stages.Down below, we provide a Sequence distribution and a Error counts diagram to illustrate these change tendency. Simple explanation are provided beneath the diagrams and more details could be found in tutorial. </p>
-          <h3>Sequences distribution</h3>
+          <h3><strong>Sequences distribution</strong></h3>
             <div style={{padding:"50px 150px 0 150px"}}>
             
               <DualAxes {...dualConfig} />
@@ -1063,7 +1063,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
           {/* </Card>
           <Card>
             <h3>Error Counts </h3> */}
-              <h3>Error counts </h3>
+              <h3><strong>Error counts</strong> </h3>
             <div style={{padding:"30px 220px 0 150px"}}>
                 <p>Error number in a strand: </p>
               <Bar {...ErrorDensityConfig} />
@@ -1072,7 +1072,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               style={{
                 textAlign: "justify",
                 color: "#748189",
-                padding:"20px 200px 0 180px"
+                padding:"30px 200px 0 180px"
               }}
             >
               <p>

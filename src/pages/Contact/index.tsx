@@ -4,6 +4,7 @@ import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Image } from 'antd';
 import { Breadcrumb } from 'antd';
+import { Link } from "react-router-dom";
 import logo from '../../assets/contact/logo.png';
 import jlk from '../../assets/contact/jlk.jpg';
 import yxy from '../../assets/contact/yxy.jpg';
@@ -23,7 +24,7 @@ export const Contact: React.FC<ContactProps> = (props) => {
           <div style={{paddingTop:"30px"}}>
             <Breadcrumb separator=">">
                   <Breadcrumb.Item>
-                    <a href="/home">Home</a>
+                    <Link to="/home">Home</Link>
                   </Breadcrumb.Item>
                   <Breadcrumb.Item>Contact</Breadcrumb.Item>
               </Breadcrumb>

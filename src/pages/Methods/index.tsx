@@ -86,10 +86,12 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           <p className="text-content">
             <i>Vanilla code</i> is the most basic one, it simply transforms the data according to
             the naive rules:
-            <i>
+            <pre id="code_block">
+            <code>
               00-{">"}A; 01-{">"}C; 10-{">"}G; 11-{">"}T
-            </i>
-            . For example, the uploaded file which is converted into binary bits as "01 10 11 10 00
+            </code>
+            </pre>
+            For example, the uploaded file which is converted into binary bits as "01 10 11 10 00
             10" will be transferred to a DNA sequence ‘CGTGAG’ accordingly.
           </p>
           <h4 id="yinyang" className="third-title">
