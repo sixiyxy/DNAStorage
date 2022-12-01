@@ -474,7 +474,6 @@ def decode_start():
 
 @app.route('/task_status',methods=['POST'])
 def task_status(task_id,type):
-    
     front_data = request.data
     front_data = json.load(front_data)
     task_id = front_data['task_id']
