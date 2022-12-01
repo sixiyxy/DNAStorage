@@ -433,6 +433,22 @@ def example():
     else:
         return 'wrong request!'
 
+@app.route('/example_whole_simu',methods=['GET','POST'])
+def whole_simu_example():
+    print('\n','#'*25,'display example','#'*25,'\n','#'*60)
+    front_data = json.loads(request.data)
+    type = front_data['type']
+    file_uid=front_data['file_uid']
+    yaml_path = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
+    dna_path='{}/encode/{}.fasta'.format(backend_dir,file_uid)
+    f = open(yaml_path)
+    config_data = f.read()
+    config = yaml.load(config_data,Loader=yaml.FullLoader)
+    return json.dumps(config)
+    
+
+
+
 if __name__ == '__main__':
     CORS(app,supports_credentials=True)
     app.run('0.0.0.0', port=5000, debug=True)
