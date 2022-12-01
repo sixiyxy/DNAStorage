@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./index.less";
 import axios from "axios";
 import { Breadcrumb, Col, Row, Spin, notification, Card, Image } from "antd";
@@ -28,7 +28,7 @@ export const Encode = (props) => {
   const [encodevalue, setencodeValue] = useState("WithoutVerifycode");
   const [value, setValue] = useState("Basic");
   const [Segment, SetSegvalue] = useState();
-  const [indexment, Setindexment] = useState(20);
+  // const [indexment, Setindexment] = useState(20);
   const [indexchange, setChange] = useState(true); //一开始是小于2M
   const [upload100kb, setUpload100] = useState(false); //一开始假设文件都大于100kb
   const [processRes, setprocessRes] = useState({});
@@ -58,9 +58,29 @@ export const Encode = (props) => {
     </Button>
   );
   const key = `open${Date.now()}`;
+  // useEffect((placement)=>{
+  //   if (upload100kb){
+  //     notification.info({
+  //       message: Zan ? "Ping-zhi's yin-yang code and Erlich's fountain code method be used for files larger than 100kb! " : "Ping-zhi's yin-yang code and Erlich's fountain code method be used for files larger than 100kb! Zan's code can only encode the English letters in the txt file!",
+  //       placement,
+  //       duration: 10.5,
+  //     });
+  //   }
+  // },[upload100kb,Zan])
+  const controlPlace = useMemo((placement)=>{
+    if (upload100kb){
+      notification.info({
+        message: Zan ? "Ping-zhi's yin-yang code and Erlich's fountain code method be used for files larger than 100kb! " : "Ping-zhi's yin-yang code and Erlich's fountain code method be used for files larger than 100kb! Zan's code can only encode the English letters in the txt file!",
+        placement,
+        duration: 10.5,
+      });
+    }
+    return '1'
+  },[Zan])
 
   useEffect(() => {
     if (Zan && value === "SrcCode") {
+      console.log('index0');
       setIndex(0);
     }
     if (Zan && value === "SrcCode") {
@@ -85,7 +105,7 @@ export const Encode = (props) => {
         : Number(Object.keys(processRes.bar ? processRes.bar : { 80: " " })[1])
     );
     SetSegvalue(Number(Object.keys(processRes.bar ? processRes.bar : { 80: " " })[1]));
-  }, [processRes, Zan, value]);
+  }, [processRes, Zan]);
 
   const GCPass = (param1) => {
     props.setGC(param1);
@@ -213,9 +233,7 @@ export const Encode = (props) => {
   const scrollToAnchor = (placement) => {
     console.log("toanthor");
     notification.info({
-      message: "Please make sure you complete the uploading and selection above!",
-      description:
-        "Confirm whether the file is uploaded and whether the encoding method is selected.",
+      message: "Please make sure you uploaded the files!",
       placement,
       duration: 4.5,
     });
@@ -267,10 +285,6 @@ export const Encode = (props) => {
     props.setSpin(false);
   };
   const handlereset = () => {
-    // setSeg(160);
-    // SetSegvalue(160);
-    // Setindexment(20);
-    // setIndex(20);
     setMethod("WithoutVerifycode");
     setencodeValue("WithoutVerifycode");
     setValue("Basic");
@@ -375,11 +389,8 @@ export const Encode = (props) => {
       <Sliders
         indexchange={indexchange}
         setSeg={setSeg}
-        setIndex={setIndex}
         SetSegvalue={SetSegvalue}
         Segment={Segment}
-        Setindexment={Setindexment}
-        indexment={indexment}
         processRes={processRes}
         Zan={Zan}
         value={value}

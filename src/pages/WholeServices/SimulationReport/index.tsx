@@ -533,11 +533,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     //   },
     // },
   };
-  const handleBack=()=>{
-    window.history.back()
-  }
-  //接口配置
-
 
   const DownloadURL = () => {
     setDown(true)
