@@ -6,13 +6,13 @@ from celery import Celery
 # from concurrent.futures import ThreadPoolExecutor
 # this method can not get the status
 
-from app_celery import encode_celery,decode_celery
+from app_celery import encode_celery,encode_celery_2,decode_celery
 from script.step1_get_file_uid import get_file_uid
 from script.step2_encoding_celery import Encoding,get_progress_bar
 
+
 def encode_start():
     print('\n','#'*25,'Encoding Start','#'*25,'\n','#'*60)
-
     front_data = {"file_uid":1582258845189804032,
                     "segment_length":160,
                     "index_length":20,
@@ -54,43 +54,18 @@ def decode_start():
     
 
 
-# @app.route('/status/<task_id>',methods=['POST'])
 
-def task_status(task_id,type):
-    if type == 'encode':
-        task = encode_celery.AsyncResult(task_id)
-    elif type == 'simulation':
-        pass
-    elif type == 'decode':
-        task = decode_celery.AsyncResult(task_id) 
-    else:
-        pass
-    print(task.state,task.info)
-
-    # waiting 
-    if task.state == 'PENDING':
-        response = {'state':task.state,'current':0,'total':1}
-    elif task.state != 'FAILURE':
-        print(task.state,task.info)
-        # running
-        response = {'state':task.state,
-                    'current':task.info.get('current',0),
-                    'total':task.info.get('total',1)}
-        # successful
-        if 'callback' in task.info:
-            response['result'] = task.info['result']
-            response['callback'] = task.info['callback']
-    else:
-        # error
-        response = {'state':task.state,'current':1,'total':1}
-    return json.dumps(response)
 
 
 
 if __name__ == '__main__':
-    # task_id = encode_start()
-    task_id = decode_start()
+    task_id = encode_start()
+    # task_id = decode_start()
+    n = 0
     for i in range(200):
         time.sleep(3)
-        response = task_status(task_id=task_id,type='decode')
+        n +=1
+        print(n*3)
+        # response = task_status(task_id=task_id,type='decode')
+        response = task_status(task_id=task_id,type='encode')
         # print(response)
