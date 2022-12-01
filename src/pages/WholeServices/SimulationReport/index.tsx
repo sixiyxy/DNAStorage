@@ -132,10 +132,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     label: {
       type: 'outer',
     },
-    // legend:{
-    //   // position: 'left'
-    //   offsetX:0
-    // },
     meta:{
       value:{
         formatter:(val)=>{
@@ -148,28 +144,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         type: 'element-active',
       },
     ],
-    // annotations: [
-    //   {
-    //     type: 'text',
-    //     content: 'Hello',
-    //     // position: (xScale, yScale) => {
-    //     //   return [`${xScale.scale('分类三') * 100}%`, `${(1 - yScale.value.scale(19)) * 100}%`];
-    //     // },
-    //     // ✅ 4. 支持直接设置 x,y 坐标 (相对于 canvas 坐标，相对起点在左上方) - 需要外部自我感知画布大小，不建议使用
-    //     x: 180,
-    //     y: 105,
-
-    //     /** 图形样式属性 */
-    //     style: {
-    //       textAlign: 'center',
-    //       fill: 'rgba(0,0,0,0.85)',
-    //     },
-    //   },
-    // ],
-    // legend:{
-    //   title:'Error type',
-    //   spacing:120
-    // }
   };
   const decayErrorParamConfig = {
     data: decayErrorParamData,
@@ -463,18 +437,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         geometry: "line",
         seriesField: "name",
-        // lineStyle: ({ name }) => {
-        //   if (name === 'a') {
-        //     return {
-        //       lineDash: [1, 4],
-        //       opacity: 1,
-        //     };
-        //   }
-
-        //   return {
-        //     opacity: 0.5,
-        //   };
-        // },
       },
     ],
   };
@@ -698,9 +660,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       <div className="simulation-report-content-wrapper">
         <Spin tip="Loading..." size="large" spinning={props.spinflags}>
           <Card title="Stage summary (steps review)" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
-          {/* <p style={{
-                textAlign: "center",
-              }}><strong>Setting Review</strong></p> */}
             <Tabs defaultActiveKey="1" size={"large"} type="card">
               <Tabs.TabPane tab="Synthesis" key="1" disabled={props.synthesisData === undefined}>
                 <div className="TabSYN">
@@ -717,12 +676,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                       // showHeader={false}
                       pagination={{ position: ["none"] }}
                     />
-                  <br />
                 </div>
-                <p id='illstr'><strong>Error rate distribution of synthesis</strong></p>
-              
                 <Pie className="pie" {...synthesisErrorParamConfig} />
-              
+                <p id='illstr'><strong>Error rate distribution of synthesis</strong></p>
               </Tabs.TabPane>
               <Tabs.TabPane tab="Decay" key="2" disabled={props.decayData === undefined}>
                 <div className="TabSYN">
@@ -733,27 +689,11 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                       // showHeader={false}
                       pagination={{ position: ["none"] }}
                     />
-                  {/* Storage host : {props.decayData?.storage_host}
                   <br />
-                  Months of storage : {props.decayData?.months_of_storage}
-                  <br />
-                  Decay loss rate : {props.decayData?.decay_loss_rate} */}
-                  <br />
-                  {/* storage_host_parameter_reference :
-            <br />
-            {props.decayData?.storage_host_parameter_reference?.map((link, index) => {
-              return (
-                <>
-                  <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank" rel="noreferrer">
-                    {link}
-                  </a>
-                  <br />
-                </>
-              );
-            })} */}
                 </div>
-                <p id='illstr'><strong>Error rate distribution of decay</strong></p>
+                
                 <Pie className="pie" {...decayErrorParamConfig} />
+                <p id='illstr'><strong>Error rate distribution of decay</strong></p>
               </Tabs.TabPane>
               <Tabs.TabPane tab="PCR" key="3" disabled={props.pcrData === undefined}>
                 <div className="TabSYN">
@@ -764,32 +704,10 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                       // showHeader={false}
                       pagination={{ position: ["none"] }}
                     />
-                  {/* Pcr polymerase : {props.pcrData?.pcr_polymerase}
-                  <br />
-                  Pcr cycle : {props.pcrData?.pcr_cycle}
-                  <br />
-                  Pcr prob : {props.pcrData?.pcr_prob} */}
-                  <br />
-                  {/* pcr_method_reference : */}
-                  {/* <br />
-                  {props.pcrData?.pcr_method_reference?.map((link, index) => {
-                    return (
-                      <>
-                        <a
-                          style={{ margin: "0 0 0 5px" }}
-                          href={link}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {link}
-                        </a>
-                        <br />
-                      </>
-                    );
-                  })} */}
                 </div>
-                <p id='illstr'><strong>Error rate distribution of PCR</strong></p>
+                
                 <Pie className="pie" {...pcrErrorParamConfig} />
+                <p id='illstr'><strong>Error rate distribution of PCR</strong></p>
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sampling" key="4" disabled={props.samplingData === undefined}>
                 {/* sam_ratio: {props.samplingData?.sam_ratio} */}
@@ -808,34 +726,19 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                       // showHeader={false}
                       pagination={{ position: ["none"] }}
                     />
-                  {/* Sequencing depth : {props.sequencingData?.seq_depth}
-                  <br />
-                  Sequencing method : {props.sequencingData?.seq_meth}
-                  <br /> */}
-                  {/* seq_method_reference :
-            <br />
-            {props.sequencingData?.seq_method_reference?.map((link, index) => {
-              return (
-                <>
-                  <a style={{ margin: "0 0 0 5px" }} href={link} target="_blank" rel="noreferrer">
-                    {link}
-                  </a>
-                  <br />
-                </>
-              );
-            })} */}
                 </div>
-                <p id='illstr'><strong>Error rate distribution of sequencing</strong></p>
+                
                 <Pie className="pie" {...sequenceErrorParamConfig} />
+                <p id='illstr'><strong>Error rate distribution of sequencing</strong></p>
               </Tabs.TabPane>
             </Tabs>
           </Card>
           <Card title="Simulation result" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
           <p style={{textAlign:"justify"}}>During simulation, sequence density, distribution and error occurrance vary from stages.Down below, we provide a Sequence distribution and a Error counts diagram to illustrate these change tendency. Simple explanation are provided beneath the diagrams and more details could be found in tutorial. </p>
-            {/* <h3>Sequences Distribution</h3> */}
-            <h3>Sequences distribution</h3>
+        
+            <h3><strong>Sequences distribution</strong></h3>
             <div style={{padding:"50px 150px 0 150px"}}>
-              {/* <h3>Sequences Distribution</h3> */}
+              
               <DualAxes {...dualConfig} />
             </div>
             <div
@@ -855,10 +758,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               that contained different types of errors using line chart. Since the difference
               between the data is too large, each data y here is percented using ln(y).
             </div>
-          {/* </Card> */}
-          {/* <Card> */}
-            {/* <h3>Error Counts </h3> */}
-            <h3>Error counts </h3>
+        
+            <h3><strong>Error counts</strong> </h3>
             <div style={{padding:"30px 200px 0 150px"}}>
             <p>Error number in a strand: </p>
               <Bar {...errorDensityConfig} />
@@ -868,7 +769,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 textAlign: "justify",
                 
                 color: "#748189",
-                padding:"20px 200px 50px 180px"
+                padding:"30px 200px 50px 180px"
               }}
             >
               <p>
