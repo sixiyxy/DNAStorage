@@ -76,7 +76,7 @@ export const Encode = (props) => {
       });
     }
     return '1'
-  },[Zan])
+  },[Zan,upload100kb])
 
   useEffect(() => {
     if (Zan && value === "SrcCode") {
