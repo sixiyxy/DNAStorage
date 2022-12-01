@@ -5,13 +5,10 @@ import yaml
 from numpy import fromfile,uint8
 from datetime import datetime
 from celery import Celery
-# from concurrent.futures import ThreadPoolExecutor
-# this method can not get the status
 
-from script.step1_get_file_uid import get_file_uid
+
 from script.step2_encoding_aysnc import Encoding
 import script.step3_simulation_aysnc as simu_utils
-
 from script.step4_decode_aysnc import ClusterDecode
 
 
