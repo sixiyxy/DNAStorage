@@ -541,7 +541,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 </p>
               </pre>
               <p id="simuset-report">
-                method details please click the <a href="/methods#/methods">Method</a>
+                method details please click the <Link to="/methods">Method</Link>
               </p>
               <h3 id="decode-title3">3.2 Result</h3>
               <Table

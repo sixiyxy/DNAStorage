@@ -293,12 +293,12 @@ export const Report: React.FC<ReportProps> = (props) => {
               <div className="encode-report-footer-result">
                 <p>
                   <strong>
-                    The sequence average minimum free energy is : {props.dnainfo.min_free_energy}
+                    The sequence average minimum free energy is : {props.dnainfo.min_free_energy} kcal/mol
                   </strong>
                   <br></br>
-                  <strong>
+                  {/* <strong>
                     The percentage of sequence minimum free energy below 30 Kcal/mol is : {props.mini} %
-                  </strong>
+                  </strong> */}
                 </p>
               </div>
               <div className="encode-report-footer-information">
