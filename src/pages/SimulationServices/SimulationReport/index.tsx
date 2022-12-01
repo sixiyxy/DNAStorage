@@ -927,10 +927,10 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       <div className="simulation-report-content-wrapper">
        
         <Spin tip={props.time3min? "Please waiting 3 mins!": "Loading..."} size="large" spinning={spinflag}>
-          <Card title="Stage Summary" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
-          <p style={{
+          <Card title="Stage summary (steps review)" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
+          {/* <p style={{
                 textAlign: "center",
-              }}><strong>Setting Review</strong></p>
+              }}><strong>Setting Review</strong></p> */}
             <Tabs defaultActiveKey="1" size={"large"} type="card">
               <Tabs.TabPane tab="Synthesis" key="1" disabled={synthesisData === undefined} >
                 <div className="TabSYN" id='table'>

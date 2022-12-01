@@ -658,17 +658,10 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             <Tabs defaultActiveKey="1" size={"large"} type="card">
               <Tabs.TabPane tab="Synthesis" key="1" disabled={props.synthesisData === undefined}>
                 <div className="TabSYN">
-                  {/* Synthesis number : {props.synthesisData?.synthesis_number}
-                  <br />
-                  Synthesis yield : {props.synthesisData?.synthesis_yield}
-                  <br />
-                  Synthesis method : {props.synthesisData?.synthesis_method} */}
                   <Table
                       columns={columns1}
                       dataSource={data1}
                       size={"small"}
-                      // style={{textAlign:'center'}}
-                      // showHeader={false}
                       pagination={{ position: ["none"] }}
                     />
                 </div>

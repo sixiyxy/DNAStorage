@@ -245,8 +245,8 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
           </div>
           <div id="usage">
             <h3 id="fourth-title">Usage</h3>
-            <h3 id="fourth-first-title">Encode/Simulation/Decode</h3>
-            <h3 id="fiveth-title">1 Encode</h3>
+            <h3 id="fourth-first-title">1 Encode/Simulation/Decode</h3>
+            <h3 id="fiveth-title">1.1 Encode</h3>
             <p id="text-content">
               The encode service integrates the most common and popular DNA storage encoding and
               verifying methods. After uploading the file, users could simply select corresponding
@@ -256,7 +256,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               directly.
             </p>
             <div id="usage-setting">
-              <h3 id="sixth-title">1.1 Setting</h3>
+              <h3 id="sixth-title">1.1.1 Setting</h3>
               <ul>
                 <li>
                   <strong>Example run: </strong>The embedded example file will be encoded and
@@ -296,7 +296,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               </ul>
             </div>
             <div id="usage-report">
-              <h3 id="seventh-title">1.2 Report</h3>
+              <h3 id="seventh-title">1.1.2 Report</h3>
               <ul>
                 <li>
                   <strong>File information: </strong>The basic information of files uploaded by
@@ -365,9 +365,9 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               </ul>
             </div>
             <div id="errorsimu">
-              <h3 id="fiveth-title">2 Error Simulation</h3>
+              <h3 id="fiveth-title">1.2 Error Simulation</h3>
               <div id="simu-setting">
-                <h3 id="sixth-title">2.1 Settings</h3>
+                <h3 id="sixth-title">1.2.1 Settings</h3>
                 <ul>
                   <li>
                     <strong>Example: </strong>An example is embedded in this part based on the
@@ -440,7 +440,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 </p>
               </div>
               <div id="simu-report">
-                <h3 id="seventh-title">2.2 Report</h3>
+                <h3 id="seventh-title">1.2.2 Report</h3>
                 <p id="text-content">
                   The report consists of three parts, Stage Summary, Sequences Distribution, and
                   Error Counts. You could also download the simulated file together with the setting
@@ -514,7 +514,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               </div>
             </div>
             <div id="decode">
-              <h3 id="decode-title1">3 Decode</h3>
+              <h3 id="decode-title1">1.3 Decode</h3>
               <p id="text-content">
                 In this last stage, we need to decode the DNA sequences according to the reverse
                 rules of the encoding ones. However, DNA strands obtained in this stage usually have
@@ -525,7 +525,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 index code. Finally, we analyze the recovery information of bits fragment in the
                 report.
               </p>
-              <h3 id="decode-title2">3.1 Cluster algorithms</h3>
+              <h3 id="decode-title2">1.3.1 Cluster algorithms</h3>
               <pre id="code_block">
                 <p id="simuset-report">
                   Starcode command: <br></br>
@@ -543,7 +543,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               <p id="simuset-report">
                 method details please click the <Link to="/methods">Method</Link>
               </p>
-              <h3 id="decode-title3">3.2 Result</h3>
+              <h3 id="decode-title3">1.3.2 Result</h3>
               <Table
                 columns={columns2}
                 dataSource={data2}
@@ -553,23 +553,23 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
             </div>
           </div>
           <div id="usage">
-            <h3 id="Error-Simulation">Error Simulation</h3>
+            <h3 id="Error-Simulation">2 Error Simulation</h3>
             <p id="text-content">
               Except for dealing with DNA sequences encoded by ourselves, we also provide a separate
               error simulation part for users to conduct their experiments. To begin with, you could
               simply upload your own FASTA file. In consideration of computation cost, the maximum
               original sequences number we accept is 200000 in the simulation part.
               <br></br>
-              And as for other details, please refer to the “whole process/error simulation” part.{" "}
+              And as for other details, please refer to the “1 Encode/Simulation/Decode and 2 Error Simulation” part.{" "}
             </p>
             {/* <p id="text-content"> */}
              
             {/* </p> */}
-            <h3 id="File-Encode">File Encode</h3>
+            <h3 id="File-Encode">3 File Encode</h3>
             <p id="text-content">
               If the user just wants to encode the file, we also provide a separate file encode
               part, it is not necessary for you to go through the whole process. <br></br>And as for other
-              details, please refer to the “whole process/encode” part.{" "}
+              details, please refer to the “1 Encode/Simulation/Decode and 3 File Encode” part.{" "}
             </p>
             <h3 id="Frequently">Frequently Asked Questions</h3>
             <ul>
@@ -620,21 +620,25 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
           <Anchor.Link href="#what-is-it" title="What is it" />
           <Anchor.Link href="#example-file" title="Example file" />
           <Anchor.Link href="#usage" title="Usage">
-            <Anchor.Link href="#fourth-first-title" title="Encode/Simulation/Decode" />
-                <Anchor.Link href="#fiveth-title" title="1 Encode">
-                  <Anchor.Link href="#sixth-title" title="1.1 Setting" />
-                  <Anchor.Link href="#seventh-title" title="1.2 Report" />
+            <Anchor.Link href="#fourth-first-title" title="1 Encode/Simulation/Decode" >
+
+                <Anchor.Link href="#fiveth-title" title="1.1 Encode">
+                  <Anchor.Link href="#sixth-title" title="1.1.1 Setting" />
+                  <Anchor.Link href="#seventh-title" title="1.1.2 Report" />
                 </Anchor.Link>
-                <Anchor.Link href="#errorsimu" title="2 Error Simulation">
-                  <Anchor.Link href="#simu-setting" title="2.1 Setting" />
-                  <Anchor.Link href="#simu-report" title="2.2 Report" />
+
+                <Anchor.Link href="#errorsimu" title="1.2 Error Simulation">
+                  <Anchor.Link href="#simu-setting" title="1.2.1 Setting" />
+                  <Anchor.Link href="#simu-report" title="1.2.2 Report" />
                 </Anchor.Link>
-                <Anchor.Link href="#decode" title="3 Decode">
-                  <Anchor.Link href="#decode-title2" title="3.1 Cluster algorithms" />
-                  <Anchor.Link href="decode-title3" title="3.2	Result" />
-            </Anchor.Link>
-            <Anchor.Link href="#Error-Simulation" title="Error Simulation" />
-            <Anchor.Link href="#File-Encode" title="File Encode" />
+
+                <Anchor.Link href="#decode" title="1.3 Decode">
+                  <Anchor.Link href="#decode-title2" title="1.3.1 Cluster algorithms" />
+                  <Anchor.Link href="decode-title3" title="1.3.2	Result" />
+                </Anchor.Link>
+            </Anchor.Link>  
+            <Anchor.Link href="#Error-Simulation" title="2 Error Simulation" />
+            <Anchor.Link href="#File-Encode" title="3 File Encode" />
           </Anchor.Link>
           <Anchor.Link href="#Frequently" title="Frequently Asked Questions" />
           <Anchor.Link href="#Acknowledgment" title="Acknowledgment" />
