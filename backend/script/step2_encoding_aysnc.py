@@ -127,8 +127,7 @@ class Encoding():
 
         self.config = get_config(yaml_path='config')
         self.backend_dir = self.config['backend_dir']
-        # self.threads = self.config['threads']
-        self.threads = 4
+        self.threads = self.config['threads']
 
         # file save dir and file information
         self.file_dir = '{}/{}'.format(self.backend_dir,self.config['file_save_dir'])

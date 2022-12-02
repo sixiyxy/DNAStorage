@@ -128,7 +128,6 @@ class Encoding():
         self.config = get_config(yaml_path='config')
         self.backend_dir = self.config['backend_dir']
         self.threads = self.config['threads']
-        self.threads = 4
 
 
         # file save dir and file information
@@ -140,7 +139,7 @@ class Encoding():
 
         # file encode dir
         self.dna_dir = self.config['encode_dir']
-        self.dna_file = '{}/{}/{}.dna'.format(self.backend_dir,self.dna_dir,self.file_uid)
+        self.dna_file = '{}/{}/{}.fasta'.format(self.backend_dir,self.dna_dir,self.file_uid)
 
         # min free energy
         self.min_free_energy_tools = self.config['min_free_energy']
