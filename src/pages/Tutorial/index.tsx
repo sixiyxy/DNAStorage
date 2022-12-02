@@ -674,13 +674,14 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               </p>
               <li>
                 <strong>
-                  What is FASTA format file?
+                  How the errors be simulated?
                 </strong>
               </li>
               <p id="text-content">
-                In bioinformatics area, FASTA is the most commonly used text-based format for representing nucleotide sequences, 
-                which uses single-letter codes to present nucleotides. Strating with a ">" symbol, a description of the following Sequence
-                will be given. And the lines beneath are the said sequence before where the next ">" symbol starts. 
+                Generally, errors occur during DNA storage projects come from two aspects: within-sequences errors and between-sequences errors.
+                The former one refers to errors like insertion, deletion and substitution for bases in sequences and the later one means the change of sequence distributon and even 
+                sequences lost. With-in sequences errors are often introduced by the methods or platforms used, whereas the distribution changes relates to human operations, for example,
+                sampling ratio, sequencing depth, etc. Thus, we design our error simulation parts in the combined way to help users most. 
               </p>
             </ul>
             <div id="Acknowledgment">
