@@ -10,3 +10,4 @@ pandas
 celery
 redis
 uwsgi
+importlib-metadata 4.8.3
