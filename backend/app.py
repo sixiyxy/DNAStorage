@@ -56,7 +56,7 @@ def file_upload():
     print('### Upload file info:',file_base_info)
     yaml_file = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
     write_yaml(yaml_path=yaml_file,data=file_base_info,appending=False)
-
+    print(file_base_info)
     return json.dumps(file_base_info)
 
 @app.route('/progress_bar',methods=['GET','POST'])
@@ -507,7 +507,7 @@ def task_status():
     if type == 'encode':
         task = encode_celery.AsyncResult(task_id)
     elif type == 'simulation':
-        task == simulation_celery.AsyncResult(task_id)
+        task = simulation_celery.AsyncResult(task_id)
     elif type == 'decode':
         task = decode_celery.AsyncResult(task_id) 
     else:

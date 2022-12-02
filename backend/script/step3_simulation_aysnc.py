@@ -6,11 +6,26 @@ from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_ar
 import os
 # from multiprocessing import Pool
 import billiard as multiprocessing
+
 import time
 from tqdm import tqdm
 import math
 from collections import Counter
+import Bio
+from Bio import SeqIO
 import yaml
+
+# import utils.simulation_model as Model
+# import numpy as np
+# from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+# from utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna
+# funcs_parameter={
+#     "SYN":["synthesis_method","synthesis_number","synthesis_yield"],
+#     "DEC":["storage_host","months_of_storage","decay_loss_rate"],
+#     "PCR":["pcr_polymerase","pcr_cycle","pcr_prob"],
+#     "SAM":['sam_ratio'],
+#     "SEQ":['seq_meth',"seq_depth"]
+# }
 
 
 def get_info(file_uid,upload_flag,final_parallel=False):
@@ -20,12 +35,15 @@ def get_info(file_uid,upload_flag,final_parallel=False):
     print(not upload_flag)
     if not upload_flag:
         file_dir=config['file_save_dir']
-        file_info_path='{}/{}/{}.yaml'.format(backend_dir,file_dir,file_uid)
+        dna_dir=config['encode_dir']
+        file_path='{}/{}/{}.fasta'.format(backend_dir,dna_dir,file_uid)
+        demo_dna_dir='{}/{}/{}_demo.dna'.format(backend_dir,dna_dir,file_uid)
+        print("Here")
     else:
         file_dir=config['upload_dna_save_dir']
-        file_info_path='{}/{}/{}.yaml'.format(backend_dir,file_dir,file_uid)
-    file_path='{}/{}/{}.fasta'.format(backend_dir,file_dir,file_uid)
-    simu_dna=fasta_to_dna(file_path)
+        file_path='{}/{}/{}.fasta'.format(backend_dir,file_dir,file_uid)
+        demo_dna_dir='{}/{}/{}_demo.dna'.format(backend_dir,file_dir,file_uid)
+    file_info_path='{}/{}/{}.yaml'.format(backend_dir,file_dir,file_uid)
     file_info=get_config(yaml_path=file_info_path)
     funcs_final=[]
     funcs=[]
@@ -45,17 +63,20 @@ def get_info(file_uid,upload_flag,final_parallel=False):
     except Exception as e:
         print("Error",e)
     if not final_parallel:
-        if len(simu_dna)<1000:
-                pass
+        if not upload_flag:
+            with open(demo_dna_dir) as f:
+                dnas=f.readlines()
+            simu_dna=[dna.split('\n')[0] for dna in dnas]
         else:
-            simu_dna=simu_dna[:1000]
+            simu_dna=fasta_to_dna(file_path)
+            simu_dna=simu_dna[1000:]
     else:
+        simu_dna=fasta_to_dna(file_path)
         for func in funcs:
             try:
                 simu_repo[func]["error_param"]=file_info[func]
             except:
                 pass
-        simu_dna=simu_dna
         return simu_dna,file_info_path,funcs_final,funcs,file_uid,simu_repo
 
     return simu_dna,file_info_path,funcs_final,funcs
@@ -267,12 +288,37 @@ def get_simu_repo(file_uid,upload_flag):
         return simu_repo
 
 
+def run_default_settings(file_uid):
+    config = get_config(yaml_path='config')
+    backend_dir = config['backend_dir']
+    yaml_path = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
+    dna_path='{}/encode/{}.fasta'.format(backend_dir,file_uid)
+    simu_dna=fasta_to_dna(dna_path)
+    default_setting_path='{}/upload/default.yaml'.format(backend_dir)
+    file_info=get_config(yaml_path=default_setting_path)
+    funcs_final=[]
+    funcs=[]
+    simu_repo={}
+    funcs=file_info['simu']
+    print('funcs here',funcs)
+    for func in funcs:
+        simu_repo[func]={}
+        func_param_name=funcs_parameter[func]
+        func_param=[]
+        for name in func_param_name:
+            func_param.append(file_info[name])
+            simu_repo[func][name]=file_info[name]
+            # simu_repo[func]["error_param"]=file_info[func]
+            # print(func)
+            func=corresponding_arg(func_param_name[0],func_param[0],func_param[1:])
+            #funcs_final.append(func)
+            dna,_=func(simu_dna)
+            density,group=calculate_density(dna)
+            simu_repo[func]["density"]=density
+            simu_repo[func]['group']=group
     
+    return simu_repo
     
-   
-
-    
-
 def calculate_density(dnas,layer=False):
         nums=[]
         nums_count={}
@@ -348,6 +394,8 @@ def calculate_density(dnas,layer=False):
         #         nums.append([i[0],float(i[1])])
         '''
 
+
+   
 def parallel(simu_dna,funcs,funcs_names):
         if len(simu_dna)<20000:
             cut=5
@@ -413,4 +461,34 @@ def cut_file(simu_dna,cut_size):
 
 
 if __name__ == "__main__":
-    pass
+
+    # _,in_dnas=get_simu_synthesis_info(1565536927137009664,
+    # 30,0.99,'ErrASE')
+
+    # a=get_simu_dec_info(1565536927137009664,24,0.3,'Ecoli',in_dnas)
+    # print(a)
+    files=[1584069747073486848,1584070962381459456]
+    for file in files:
+        simu=Simulation(file)
+        t1=time.time()
+        simu.get_simu_synthesis_info(25,0.99,"ErrASE")
+        simu.get_simu_dec_info(24,0.3,'WhiteGaussian')
+        simu.get_simu_pcr_info( 12,0.8,"Taq")
+        simu.get_simu_sam_info(0.005)
+        simu.get_simu_seq_info(15,"ill_PairedEnd")
+        print("Normal:", time.time() - t1)
+        #simu.parallel_test()
+    # dic={}
+    # for dna in simu.simu_dna:
+    #     for re in dna['re']:
+    #         n=len(re[1])
+    #         dic[n]=dic.get(n,0)+re[0]
+    # print(dic)
+
+
+
+    # with open('simu.txt','w') as f:
+    #     for k,v in simu.__dict__.items():
+    #         f.write(str(k)+":"+str(v)+"\n")
+    #print(simu.get_simu_synthesis_info(30,0.99,'ErrASE'))
+
