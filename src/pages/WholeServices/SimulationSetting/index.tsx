@@ -12,6 +12,7 @@ import { API_PREFIX } from "../../../common/Config";
 import simu from "../../../assets/service/simu.png";
 import { InboxOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { createAsyncStepRequest } from "../../../utils/request-util";
 export class SimulationSetProps {
   changeSider;
   fileId;
@@ -34,7 +35,22 @@ export class SimulationSetProps {
   setErrorRecode;
   setErrorDensity;
   setStrand;
+  encodeInfo;
 }
+
+const sequenceNumTable = [5000, 10000, 100000];
+const intervalTimeTable = [1000, 2000, 5000, 10000];
+
+const getIntervalTimeBySequenceNum = (sequenceNum) => {
+  const len = sequenceNumTable.length;
+
+  for (let i = 0; i < len; i++) {
+    if (sequenceNum < sequenceNumTable[i]) {
+      return intervalTimeTable[i];
+    }
+  }
+  return intervalTimeTable[len];
+};
 
 let method = [false, false, false, false]; //存放选择的方法
 export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
@@ -85,6 +101,10 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   // const [ok3,setOK3] = useState(false);
   // const [ok4,setOK4] = useState(false);
   // const [ok5,setOK5] = useState(false);
+
+  const { encodeInfo } = props;
+  console.log("encodeInfo ", encodeInfo);
+
   const paramsRepo = {
     file_uid: props.fileId,
   };
@@ -92,18 +112,27 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     method = [false, false, false, false];
     props.setSimuRepo(true);
     props.changeSider(["0-1-1"]);
-    const resp = await doPost("/simu_repo", { body: paramsRepo });
-    props.setSimulationSpin(false);
-    console.log("report", resp);
-    props.setSynthesisData(resp.SYN);
-    props.setDacayData(resp.DEC);
-    props.setPcrData(resp.PCR);
-    props.setSamplingData(resp.SAM);
-    props.setSequenceingData(resp.SEQ);
-    props.setErrorRecode(resp.Error_Recorder);
-    props.setErrorDensity(resp.Error_Density);
-    props.setStrand(resp.Strand_Count);
-    props.setDeSet(true);
+    //const resp = await doPost("/simu_repo", { body: paramsRepo });
+    const body = paramsRepo;
+    const intervalTime = getIntervalTimeBySequenceNum(encodeInfo.DNA_sequence_number);
+    await createAsyncStepRequest(
+      "simulation",
+      body,
+      props.setSimulationSpin,
+      intervalTime,
+      null,
+      (resp) => {
+        props.setSynthesisData(resp.SYN);
+        props.setDacayData(resp.DEC);
+        props.setPcrData(resp.PCR);
+        props.setSamplingData(resp.SAM);
+        props.setSequenceingData(resp.SEQ);
+        props.setErrorRecode(resp.Error_Recorder);
+        props.setErrorDensity(resp.Error_Density);
+        props.setStrand(resp.Strand_Count);
+        props.setDeSet(true);
+      }
+    );
   };
 
   const handleDecay = () => {

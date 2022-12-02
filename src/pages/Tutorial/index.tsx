@@ -342,7 +342,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   the existing synthesis and sequencing technology do not support long sequences,
                   the segment length should be less than 200. At the same time, in order to restore
                   the data, each segment will be added on address information, and the length is the
-                  index length (The length is automatically inferred based on the file size).
+                  index length (the length is automatically inferred based on the file size).
                 </li>
                 <li>
                   <strong>Run: </strong>Encode the upload file with the chosen setting parameters.
@@ -418,15 +418,14 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                     <li><strong>Upload file encode details(txt):</strong> This file contains detailed information about: payload(after file segment), index(address bits), index_payload(payload and index bits), index_payload_verifycode(payload,index,verifycode bits), DNA_sequence.</li>
                   </ul>
                 </li>
-                <div style={{marginTop:"20px"}}>
-                <Table
+                
+              </ul>
+              <Table
                   columns={columns3}
                   dataSource={data3}
-                  size={"large"}
+                  size={"small"}
                   pagination={{ position: ["none"]}}
                 />
-                </div>
-              </ul>
             </div>
             <div id="errorsimu">
               <h3 id="fiveth-title">1.2 Error Simulation</h3>

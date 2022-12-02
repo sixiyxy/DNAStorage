@@ -71,19 +71,34 @@ export const Encode = (props) => {
   // },[upload100kb,Zan])
   const controlPlace = useMemo(
     (placement) => {
-      if (upload100kb) {
+      if (upload100kb && Zan) { //小于100k且是英文
         notification.info({
-          message: Zan
-            ? "Ping-zhi's yin-yang code and Erlich's fountain code method be used for files larger than 100kb! "
-            : "Ping-zhi's yin-yang code and Erlich's fountain code method be used for files larger than 100kb! Zan's code can only encode the English letters in the txt file!",
+          message:"Ping-zhi's yin-yang code and Erlich's fountain code method be used for files larger than 100kb!",
+          placement,
+          duration: 10.5,
+        });
+      }else if(upload100kb && !Zan){ //小于100k但是不是英文
+        notification.info({
+          message:"Ping-zhi's yin-yang code and Erlich's fountain code method be used for files larger than 100kb! Zan's code can only encode the English letters in the txt file!",
           placement,
           duration: 10.5,
         });
       }
       return "1";
     },
-    [Zan, upload100kb]
+    [Zan]
   );
+const controlZan = useMemo(
+  (placement)=>{
+    if (!upload100kb && !Zan && isUpload==true) { //大于100k且不是英文（此时不能用Zan）
+      notification.info({
+        message:"Zan's code can only encode the English letters in the txt file!",
+        placement,
+        duration: 10.5,
+      });
+    }
+    return "1";
+},[Zan])
 
   useEffect(() => {
     if (Zan && value === "SrcCode") {
