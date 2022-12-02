@@ -6,6 +6,7 @@ import { Image } from "antd";
 import "./index.less";
 import decode from "../../../assets/service/decode.png";
 import { API_PREFIX } from "../../../common/Config";
+import { createAsyncStepRequest } from "../../../utils/request-util";
 export class DecodeProps {
   fileId;
   changeSider;
@@ -34,15 +35,30 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
     };
   }, [value, props.fileId]);
 
-  const onDecode = function () {
+  const onDecode = async function () {
     props.setDerepo(true);
     props.changeSider(["0-2-1"]);
-    props.setEncodeAndDecodeSpinning(true);
-    axios.post(API_PREFIX + "/decode", params).then(function (response) {
-      //console.log("decode", response);
-      props.setDecodeData(response?.data);
-      props.setEncodeAndDecodeSpinning(false);
-    });
+
+    // props.setEncodeAndDecodeSpinning(true);
+    // axios.post(API_PREFIX + "/decode", params).then(function (response) {
+    //   //console.log("decode", response);
+    //   props.setDecodeData(response?.data);
+    //   props.setEncodeAndDecodeSpinning(false);
+    // });
+
+    const body = params;
+    const intervalTime = 5000;
+    await createAsyncStepRequest(
+      "decode",
+      body,
+      props.setEncodeAndDecodeSpinning,
+      intervalTime,
+      null,
+      (resp) => {
+        props.setDecodeData(resp?.data);
+        props.setEncodeAndDecodeSpinning(false);
+      }
+    );
   };
 
   const onExample = function () {

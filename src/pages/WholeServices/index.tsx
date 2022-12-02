@@ -234,6 +234,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
             <SimulationSetting
               changeSider={setSiderSelect}
               fileId={fileId}
+              encodeInfo={info}
               needUploader={false}
               setFileId={setFileId}
               setSimuRepo={setSimuRepo}

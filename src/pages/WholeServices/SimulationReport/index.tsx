@@ -21,6 +21,7 @@ export class SimulationReportProps {
   errorDensity;
   strand;
   setDeSet;
+  encodeInfo;
   // controlReport;
   // setControl;
 }
@@ -30,7 +31,7 @@ interface DataType {
   value1: any;
 }
 export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
-  const [isClickDown,setDown] = useState(false)
+  const [isClickDown, setDown] = useState(false);
   const downinfo = {
     file_uid: props.fileId,
     type: "simulation",
@@ -112,13 +113,19 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     return [
       {
         name: "Percentage",
-        value: props.samplingData?.sam_ratio <= 0.1? props.samplingData?.sam_ratio * 1000 : props.samplingData?.sam_ratio*100,
+        value:
+          props.samplingData?.sam_ratio <= 0.1
+            ? props.samplingData?.sam_ratio * 1000
+            : props.samplingData?.sam_ratio * 100,
         type: "Ratio",
       },
 
       {
         name: "Percentage",
-        value: props.samplingData?.sam_ratio <= 0.1? (100 - props.samplingData?.sam_ratio * 1000): 100-props.samplingData?.sam_ratio*100,
+        value:
+          props.samplingData?.sam_ratio <= 0.1
+            ? 100 - props.samplingData?.sam_ratio * 1000
+            : 100 - props.samplingData?.sam_ratio * 100,
         type: "Rest",
       },
     ];
@@ -126,88 +133,88 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const synthesisErrorParamConfig = {
     data: synthesisErrorParamData,
     appendPadding: 10,
-    angleField: 'value',
-    colorField: 'type',
+    angleField: "value",
+    colorField: "type",
     radius: 0.8,
     label: {
-      type: 'outer',
+      type: "outer",
     },
-    meta:{
-      value:{
-        formatter:(val)=>{
-          return `${val} %`
-        }
-      }
+    meta: {
+      value: {
+        formatter: (val) => {
+          return `${val} %`;
+        },
+      },
     },
     interactions: [
       {
-        type: 'element-active',
+        type: "element-active",
       },
     ],
   };
   const decayErrorParamConfig = {
     data: decayErrorParamData,
     appendPadding: 10,
-    angleField: 'value',
-    colorField: 'type',
+    angleField: "value",
+    colorField: "type",
     radius: 0.8,
     label: {
-      type: 'outer',
+      type: "outer",
     },
-    meta:{
-      value:{
-        formatter:(val)=>{
-          return `${val} %`
-        }
-      }
+    meta: {
+      value: {
+        formatter: (val) => {
+          return `${val} %`;
+        },
+      },
     },
     interactions: [
       {
-        type: 'element-active',
+        type: "element-active",
       },
     ],
   };
   const pcrErrorParamConfig = {
     data: pcrErrorParamData,
     appendPadding: 10,
-    angleField: 'value',
-    colorField: 'type',
+    angleField: "value",
+    colorField: "type",
     radius: 0.8,
     label: {
-      type: 'outer',
+      type: "outer",
     },
-    meta:{
-      value:{
-        formatter:(val)=>{
-          return `${val} %`
-        }
-      }
+    meta: {
+      value: {
+        formatter: (val) => {
+          return `${val} %`;
+        },
+      },
     },
     interactions: [
       {
-        type: 'element-active',
+        type: "element-active",
       },
     ],
   };
   const sequenceErrorParamConfig = {
     data: sequenceingErrorParamData,
     appendPadding: 10,
-    angleField: 'value',
-    colorField: 'type',
+    angleField: "value",
+    colorField: "type",
     radius: 0.8,
     label: {
-      type: 'outer',
+      type: "outer",
     },
-    meta:{
-      value:{
-        formatter:(val)=>{
-          return `${val} %`
-        }
-      }
+    meta: {
+      value: {
+        formatter: (val) => {
+          return `${val} %`;
+        },
+      },
     },
     interactions: [
       {
-        type: 'element-active',
+        type: "element-active",
       },
     ],
   };
@@ -441,7 +448,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     ],
   };
 
- 
   const errorDensityConfig = {
     data: props.errorDensity || [],
     isStack: true,
@@ -456,23 +462,23 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       title: {
         text: "Stage",
         offset: 80,
-        rotate:17.26
+        rotate: 17.26,
       },
-      label:{
-        formatter:(val)=>{
-          if (val==='SYN'){
-            return 'Synthesis'
-          }else if (val==='DEC'){
-            return 'Decay'
-          }else if (val==='PCR'){
-            return 'PCR'
-          }else if (val==='SAM'){
-            return 'Sampling'
-          }else{
-            return 'Sequencing'
+      label: {
+        formatter: (val) => {
+          if (val === "SYN") {
+            return "Synthesis";
+          } else if (val === "DEC") {
+            return "Decay";
+          } else if (val === "PCR") {
+            return "PCR";
+          } else if (val === "SAM") {
+            return "Sampling";
+          } else {
+            return "Sequencing";
           }
-        }
-      }
+        },
+      },
     },
     xAxis: {
       title: {
@@ -535,7 +541,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   };
 
   const DownloadURL = () => {
-    setDown(true)
+    setDown(true);
     axios
       .post(API_PREFIX + "/download", downinfo, { responseType: "blob" })
       .then(function (response) {
@@ -556,12 +562,12 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       .catch(function (error) {
         console.log(error);
       });
-      setDown(false)
+    setDown(false);
   };
-  const handleNext=()=>{
-    props.setDeSet(true)
-    props.changeSider(["0-2-0"])
-  }
+  const handleNext = () => {
+    props.setDeSet(true);
+    props.changeSider(["0-2-0"]);
+  };
   const columns1: ColumnsType<DataType> = [
     {
       title: "Setting",
@@ -644,101 +650,129 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     <div className="simulation-report-wrapper">
       <div className="simulation-report-nav-wrapper">
         <Breadcrumb separator=">">
-        <Breadcrumb.Item>
-              <Link to='/home'>Home</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item><Link to='/services'>Services</Link></Breadcrumb.Item>
-            <Breadcrumb.Item><Link to='/services/wholeprocess'>Simulation</Link></Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Link to="/home">Home</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Link to="/services">Services</Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <Link to="/services/wholeprocess">Simulation</Link>
+          </Breadcrumb.Item>
           <Breadcrumb.Item>Report</Breadcrumb.Item>
         </Breadcrumb>
       </div>
       <div className="simulation-report-content-wrapper">
         <Spin tip="Loading..." size="large" spinning={props.spinflags}>
-          <Card title="Stage summary (steps review)" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
+          <Card
+            title="Stage summary (steps review)"
+            headStyle={{ backgroundColor: "#99CCFF", fontSize: "18px" }}
+          >
             <Tabs defaultActiveKey="1" size={"large"} type="card">
               <Tabs.TabPane tab="Synthesis" key="1" disabled={props.synthesisData === undefined}>
                 <div className="TabSYN">
                   <Table
-                      columns={columns1}
-                      dataSource={data1}
-                      size={"small"}
-                      pagination={{ position: ["none"] }}
-                    />
+                    columns={columns1}
+                    dataSource={data1}
+                    size={"small"}
+                    pagination={{ position: ["none"] }}
+                  />
                 </div>
                 <Pie className="pie" {...synthesisErrorParamConfig} />
-                <p id='illstr'><strong>Error rate distribution of synthesis</strong></p>
+                <p id="illstr">
+                  <strong>Error rate distribution of synthesis</strong>
+                </p>
               </Tabs.TabPane>
               <Tabs.TabPane tab="Decay" key="2" disabled={props.decayData === undefined}>
                 <div className="TabSYN">
-                <Table
-                      columns={columns1}
-                      dataSource={data2}
-                      size={"small"}
-                      // showHeader={false}
-                      pagination={{ position: ["none"] }}
-                    />
+                  <Table
+                    columns={columns1}
+                    dataSource={data2}
+                    size={"small"}
+                    // showHeader={false}
+                    pagination={{ position: ["none"] }}
+                  />
                   <br />
                 </div>
-                
+
                 <Pie className="pie" {...decayErrorParamConfig} />
-                <p id='illstr'><strong>Error rate distribution of decay</strong></p>
+                <p id="illstr">
+                  <strong>Error rate distribution of decay</strong>
+                </p>
               </Tabs.TabPane>
               <Tabs.TabPane tab="PCR" key="3" disabled={props.pcrData === undefined}>
                 <div className="TabSYN">
-                <Table
-                      columns={columns1}
-                      dataSource={data3}
-                      size={"small"}
-                      // showHeader={false}
-                      pagination={{ position: ["none"] }}
-                    />
+                  <Table
+                    columns={columns1}
+                    dataSource={data3}
+                    size={"small"}
+                    // showHeader={false}
+                    pagination={{ position: ["none"] }}
+                  />
                 </div>
-                
+
                 <Pie className="pie" {...pcrErrorParamConfig} />
-                <p id='illstr'><strong>Error rate distribution of PCR</strong></p>
+                <p id="illstr">
+                  <strong>Error rate distribution of PCR</strong>
+                </p>
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sampling" key="4" disabled={props.samplingData === undefined}>
                 {/* sam_ratio: {props.samplingData?.sam_ratio} */}
                 <p style={{ margin: "10px 0 0 0px" }}>The sampling ratio you chose is:</p>
                 <div style={{ margin: "40px 80px 0 80px" }}>
-                <Bar {...samplingErrorParamConfig} />
+                  <Bar {...samplingErrorParamConfig} />
                 </div>
                 <br />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sequencing" key="5" disabled={props.sequencingData === undefined}>
                 <div className="TabSYN">
-                <Table
-                      columns={columns1}
-                      dataSource={data4}
-                      size={"small"}
-                      // showHeader={false}
-                      pagination={{ position: ["none"] }}
-                    />
+                  <Table
+                    columns={columns1}
+                    dataSource={data4}
+                    size={"small"}
+                    // showHeader={false}
+                    pagination={{ position: ["none"] }}
+                  />
                 </div>
-                
+
                 <Pie className="pie" {...sequenceErrorParamConfig} />
-                <p id='illstr'><strong>Error rate distribution of sequencing</strong></p>
+                <p id="illstr">
+                  <strong>Error rate distribution of sequencing</strong>
+                </p>
               </Tabs.TabPane>
             </Tabs>
           </Card>
-          <Card title="Simulation result" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
-          <p style={{textAlign:"justify"}}>During simulation, sequence density, distribution and error occurrance vary from stages.Down below, we provide a Sequence distribution and a Error counts diagram to illustrate these change tendency. Simple explanation are provided beneath the diagrams and more details could be found in tutorial. </p>
-        
-            <h3><strong>Sequences distribution</strong></h3>
-            <div style={{padding:"50px 150px 0 150px"}}>
-              
+          <Card
+            title="Simulation result"
+            headStyle={{ backgroundColor: "#99CCFF", fontSize: "18px" }}
+          >
+            <p style={{ textAlign: "justify" }}>
+              During simulation, sequence density, distribution and error occurrance vary from
+              stages.Down below, we provide a Sequence distribution and a Error counts diagram to
+              illustrate these change tendency. Simple explanation are provided beneath the diagrams
+              and more details could be found in tutorial.{" "}
+            </p>
+
+            <h3>
+              <strong>Sequences distribution</strong>
+            </h3>
+            <div style={{ padding: "50px 150px 0 150px" }}>
               <DualAxes {...dualConfig} />
             </div>
             <div
               style={{
                 textAlign: "justify",
-                
+
                 color: "#748189",
-                padding:"20px 200px 0 180px"
+                padding: "20px 200px 0 180px",
               }}
             >
               <br></br>
-              <strong>After simulation, the number of strands in oligo pool is : {props.strand}</strong><br></br><br></br>
+              <strong>
+                After simulation, the number of strands in oligo pool is : {props.strand}
+              </strong>
+              <br></br>
+              <br></br>
               During the whole process, the number of sequences, causes of erors and proposrtions of
               different types of errors change from time to time. Therefore, we counted and compared
               the numbers of DNA strands with errors and the left 100% correct DNA strands for each
@@ -746,18 +780,20 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               that contained different types of errors using line chart. Since the difference
               between the data is too large, each data y here is percented using ln(y).
             </div>
-        
-            <h3><strong>Error counts</strong> </h3>
-            <div style={{padding:"30px 200px 0 150px"}}>
-            <p>Error number in a strand: </p>
+
+            <h3>
+              <strong>Error counts</strong>{" "}
+            </h3>
+            <div style={{ padding: "30px 200px 0 150px" }}>
+              <p>Error number in a strand: </p>
               <Bar {...errorDensityConfig} />
             </div>
             <div
               style={{
                 textAlign: "justify",
-                
+
                 color: "#748189",
-                padding:"30px 200px 50px 180px"
+                padding: "30px 200px 50px 180px",
               }}
             >
               <p>
@@ -769,10 +805,23 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 is.
               </p>
               <div className="simulation-report-button-group">
-                <Button shape="round" size="large" type="primary" icon={<DownloadOutlined />} style={{backgroundColor:isClickDown ? '#99CCFF':' '}} onClick={DownloadURL}>
+                <Button
+                  shape="round"
+                  size="large"
+                  type="primary"
+                  icon={<DownloadOutlined />}
+                  style={{ backgroundColor: isClickDown ? "#99CCFF" : " " }}
+                  onClick={DownloadURL}
+                >
                   Download
                 </Button>
-                <Button shape="round" size="large" type="primary" onClick={handleNext} style={{marginLeft:"100px",width:"100px"}}>
+                <Button
+                  shape="round"
+                  size="large"
+                  type="primary"
+                  onClick={handleNext}
+                  style={{ marginLeft: "100px", width: "100px" }}
+                >
                   Next
                 </Button>
                 {/* <Button shape="round" size="large" type="primary" onClick={handleBack} style={{marginLeft:"100px",width:"100px"}}>

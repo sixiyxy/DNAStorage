@@ -1,4 +1,5 @@
 import { doPost } from "./request";
+import { message } from "antd";
 
 type Step = "encode" | "simulation" | "decode";
 
@@ -16,6 +17,7 @@ export const createAsyncStepRequest = async (
   preFunction = null,
   afterFunction = null
 ) => {
+  // 前置回调
   preFunction && preFunction();
 
   const url = StepUrlMap[step];
@@ -27,12 +29,26 @@ export const createAsyncStepRequest = async (
     const body = { type: step, task_id: taskId };
     console.log(`正在以 ${intervalTime} 毫秒为间隔轮询 /task_status，请求体为`, body);
     const responseBody: any = await doPost("/task_status", { body });
+    console.log(`本次 /task_status 轮询结束，得到处理结果 ${responseBody}`);
+
     const { state, result } = responseBody;
-    if (state !== "PENDING") {
-      clearInterval(it);
-      console.log(`轮询 /task_status 结束，得到处理结果 ${result}`);
-      afterFunction && afterFunction(result);
-      setSpin(false);
+
+    // 继续轮询
+    if (state == "PENDING") {
+      return;
     }
+
+    // 出错或成功，都需要清除循环请求并关闭 Spin
+    clearInterval(it);
+    setSpin(false);
+
+    // 后台接口有误或发生异常
+    if (state == "FAILURE") {
+      message.error(`${step} failure....`);
+      return;
+    }
+
+    // 后置回调
+    afterFunction && afterFunction(result);
   }, intervalTime);
 };
