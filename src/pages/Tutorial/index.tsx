@@ -505,20 +505,20 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               <div id="simu-report">
                 <h3 id="seventh-title">1.2.2 Report</h3>
                 <p id="text-content">
-                  The report consists of three parts, Stage Summary, Sequences Distribution, and
+                  The report consists of three parts, Steps Review, Sequences Distribution, and
                   Error Counts. You could also download the simulated file together with the setting
                   information using the “Download” button.{" "}
                 </p>
                 <ul>
                   <li>
-                    <strong>Stage Summary: </strong>This part lists out the choices you made in the
+                    <strong>Steps Review: </strong>This part lists out the choices you made in the
                     setting part. Also, it uses pie charts to uncover the distribution of different
                     error types of corresponding chosen methods. You could click on the stages and
                     double-check previous settings.
                   </li>
                   <Image src={simutab} width={"75%"} rootClassName="image6" />
                   <p style={{ textAlign: "center", fontSize: 13 }}>
-                    Figure 10: Example of stage summary
+                    Figure 10: Example of steps review
                   </p>
                   <li>
                     <strong>Sequence Distribution: </strong>During the whole process, the number of
@@ -661,6 +661,26 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 Because these two methods need to use the 'bits sequence' after file segmentation,
                 and combined encoding to find the qualified DNA sequence. If the file is too small,
                 the screened pool will be too small to perform reasonable encoding.
+              </p>
+              <li>
+                <strong>
+                  What is FASTA format file?
+                </strong>
+              </li>
+              <p id="text-content">
+                In bioinformatics area, FASTA is the most commonly used text-based format for representing nucleotide sequences, 
+                which uses single-letter codes to present nucleotides. Strating with a ">" symbol, a description of the following Sequence
+                will be given. And the lines beneath are the said sequence before where the next ">" symbol starts. 
+              </p>
+              <li>
+                <strong>
+                  What is FASTA format file?
+                </strong>
+              </li>
+              <p id="text-content">
+                In bioinformatics area, FASTA is the most commonly used text-based format for representing nucleotide sequences, 
+                which uses single-letter codes to present nucleotides. Strating with a ">" symbol, a description of the following Sequence
+                will be given. And the lines beneath are the said sequence before where the next ">" symbol starts. 
               </p>
             </ul>
             <div id="Acknowledgment">
