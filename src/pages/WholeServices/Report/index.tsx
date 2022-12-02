@@ -9,7 +9,7 @@ import HomoGraph from "./components/HomoGraph";
 import EnergyGraph from "./components/EnergyGraph";
 import axios from "axios";
 import "./index.less";
-
+import { Link } from "react-router-dom";
 import { Spin } from "antd";
 import { API_PREFIX } from "../../../common/Config";
 import { Opacity } from "@antv/attr";
@@ -213,11 +213,11 @@ export const Report: React.FC<ReportProps> = (props) => {
       >
         <div className="encode-report-nav-wrapper">
           <Breadcrumb separator=">">
-            <Breadcrumb.Item>
-              Home
+          <Breadcrumb.Item>
+              <Link to="/home">Home</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Service</Breadcrumb.Item>
-            <Breadcrumb.Item>Encode</Breadcrumb.Item>
+            <Breadcrumb.Item><Link to='/services'>Services</Link></Breadcrumb.Item>
+            <Breadcrumb.Item><Link to='/services/wholeprocess'>Encode</Link></Breadcrumb.Item>
             <Breadcrumb.Item>Report</Breadcrumb.Item>
           </Breadcrumb>
         </div>

@@ -42,6 +42,14 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
     name1: string;
     value1: any;
   }
+  interface DataType3 {
+    key: string;
+    p:string;
+    i:string;
+    ip:string;
+    ipv:string;
+    dna:string;
+  }
   const columns1: ColumnsType<DataType> = [
     {
       title: "Name",
@@ -189,7 +197,53 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
       value1: 'the ratio of correct decode segment in "encode segment bits',
     },
   ];
-
+  const columns3: ColumnsType<DataType3> = [
+    {
+      title: "payload",
+      dataIndex: "p",
+      align: "center",
+      // width: "55%",
+      // render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "index",
+      dataIndex: "i",
+      align: "center",
+    },
+    {
+      title: "index_payload",
+      dataIndex: "ip",
+      align: "center",
+    },
+    {
+      title: "index_payload_verifycode",
+      dataIndex: "ipv",
+      align: "center",
+    },
+    {
+      title: "DNA_sequence",
+      dataIndex: "dna",
+      align: "center",
+    },
+  ];
+  const data3: DataType3[] = [
+    {
+      key: "1",
+      p: "100010010…",
+      i: "101011…",
+      ip:"101011100010010…",
+      ipv:"10101110001001000…",
+      dna:"TAAGACC…"
+    },
+    {
+      key: "2",
+      p: "100101001...",
+      i: "100000...",
+      ip:"100000100101001...",
+      ipv:"10000010010100111...",
+      dna:"TAAAGTC…"
+    },
+  ];
   return (
     <div className="tutorial-container">
       <div className="tutorial">
@@ -245,8 +299,8 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
           </div>
           <div id="usage">
             <h3 id="fourth-title">Usage</h3>
-            <h3 id="fourth-first-title">Encode/Simulation/Decode</h3>
-            <h3 id="fiveth-title">1 Encode</h3>
+            <h3 id="fourth-first-title">1 Encode/Simulation/Decode</h3>
+            <h3 id="fiveth-title">1.1 Encode</h3>
             <p id="text-content">
               The encode service integrates the most common and popular DNA storage encoding and
               verifying methods. After uploading the file, users could simply select corresponding
@@ -256,7 +310,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               directly.
             </p>
             <div id="usage-setting">
-              <h3 id="sixth-title">1.1 Setting</h3>
+              <h3 id="sixth-title">1.1.1 Setting</h3>
               <ul>
                 <li>
                   <strong>Example run: </strong>The embedded example file will be encoded and
@@ -279,16 +333,16 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   during the storage process, in order to ensure the accuracy of data, we integrated
                   two <strong>verify codes</strong>, which is{" "}
                   <i>Reed Solomon Code and Hamming Code.</i>For more details on each method, please
-                  refers to the <Link to="/methods">Method</Link>
+                  refers to the <Link to="/methods">Method</Link>.
                 </li>
                 <li>
                   <strong>Segment length and Index length: </strong>The upload file will be compiled
-                  into binary data, it will be split into fixed lengths and converted to DNA
+                  into binary data (each byte will be converted to 8 bits ), it will be split into fixed lengths and converted to DNA
                   sequence using the chosen method, this fixed length is the segment length. Since
                   the existing synthesis and sequencing technology do not support long sequences,
                   the segment length should be less than 200. At the same time, in order to restore
                   the data, each segment will be added on address information, and the length is the
-                  index length.
+                  index length (The length is automatically inferred based on the file size).
                 </li>
                 <li>
                   <strong>Run: </strong>Encode the upload file with the chosen setting parameters.
@@ -296,7 +350,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               </ul>
             </div>
             <div id="usage-report">
-              <h3 id="seventh-title">1.2 Report</h3>
+              <h3 id="seventh-title">1.1.2 Report</h3>
               <ul>
                 <li>
                   <strong>File information: </strong>The basic information of files uploaded by
@@ -357,17 +411,27 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   </pre>
                 </p>
                 <li>
-                  <strong>Download: </strong>Include two files in the downloaded compressed file,
-                  one is the encoding settings information of the uploaded file(named as
-                  file_id.yaml), and the other is the encoded DNA sequence file (including: payload,
-                  index, index_payload, index_payload_verfiycode, DNA_sequence. namely file_id.csv).
+                  <strong>Download: </strong>Include three files in the downloaded compressed file, one is the encoding settings information of the uploaded file(named as file_id.yaml), and the other is the encoded DNA sequence file(named as file_id.fasta), and the last one is the detailed information file about the encoded upload file (namely file_id.txt).
+                  <ul>
+                    <li><strong>Encode sequences(fasta):</strong> This file concains the encoded dna sequences of the uploaded file. </li>
+                    <li><strong>Information file(yaml):</strong> This information file contains the related settings  and report information of the uploaded file.</li>
+                    <li><strong>Upload file encode details(txt):</strong> This file contains detailed information about: payload(after file segment), index(address bits), index_payload(payload and index bits), index_payload_verifycode(payload,index,verifycode bits), DNA_sequence.</li>
+                  </ul>
                 </li>
+                <div style={{marginTop:"20px"}}>
+                <Table
+                  columns={columns3}
+                  dataSource={data3}
+                  size={"large"}
+                  pagination={{ position: ["none"]}}
+                />
+                </div>
               </ul>
             </div>
             <div id="errorsimu">
-              <h3 id="fiveth-title">2 Error Simulation</h3>
+              <h3 id="fiveth-title">1.2 Error Simulation</h3>
               <div id="simu-setting">
-                <h3 id="sixth-title">2.1 Settings</h3>
+                <h3 id="sixth-title">1.2.1 Settings</h3>
                 <ul>
                   <li>
                     <strong>Example: </strong>An example is embedded in this part based on the
@@ -440,7 +504,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 </p>
               </div>
               <div id="simu-report">
-                <h3 id="seventh-title">2.2 Report</h3>
+                <h3 id="seventh-title">1.2.2 Report</h3>
                 <p id="text-content">
                   The report consists of three parts, Stage Summary, Sequences Distribution, and
                   Error Counts. You could also download the simulated file together with the setting
@@ -514,7 +578,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               </div>
             </div>
             <div id="decode">
-              <h3 id="decode-title1">3 Decode</h3>
+              <h3 id="decode-title1">1.3 Decode</h3>
               <p id="text-content">
                 In this last stage, we need to decode the DNA sequences according to the reverse
                 rules of the encoding ones. However, DNA strands obtained in this stage usually have
@@ -525,7 +589,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 index code. Finally, we analyze the recovery information of bits fragment in the
                 report.
               </p>
-              <h3 id="decode-title2">3.1 Cluster algorithms</h3>
+              <h3 id="decode-title2">1.3.1 Cluster algorithms</h3>
               <pre id="code_block">
                 <p id="simuset-report">
                   Starcode command: <br></br>
@@ -543,7 +607,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               <p id="simuset-report">
                 method details please click the <Link to="/methods">Method</Link>
               </p>
-              <h3 id="decode-title3">3.2 Result</h3>
+              <h3 id="decode-title3">1.3.2 Result</h3>
               <Table
                 columns={columns2}
                 dataSource={data2}
@@ -553,23 +617,23 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
             </div>
           </div>
           <div id="usage">
-            <h3 id="Error-Simulation">Error Simulation</h3>
+            <h3 id="Error-Simulation">2 Error Simulation</h3>
             <p id="text-content">
               Except for dealing with DNA sequences encoded by ourselves, we also provide a separate
               error simulation part for users to conduct their experiments. To begin with, you could
               simply upload your own FASTA file. In consideration of computation cost, the maximum
               original sequences number we accept is 200000 in the simulation part.
               <br></br>
-              And as for other details, please refer to the “whole process/error simulation” part.{" "}
+              And as for other details, please refer to the “1 Encode/Simulation/Decode and 2 Error Simulation” part.{" "}
             </p>
             {/* <p id="text-content"> */}
              
             {/* </p> */}
-            <h3 id="File-Encode">File Encode</h3>
+            <h3 id="File-Encode">3 File Encode</h3>
             <p id="text-content">
               If the user just wants to encode the file, we also provide a separate file encode
               part, it is not necessary for you to go through the whole process. <br></br>And as for other
-              details, please refer to the “whole process/encode” part.{" "}
+              details, please refer to the “1 Encode/Simulation/Decode and 3 File Encode” part.{" "}
             </p>
             <h3 id="Frequently">Frequently Asked Questions</h3>
             <ul>
@@ -620,21 +684,25 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
           <Anchor.Link href="#what-is-it" title="What is it" />
           <Anchor.Link href="#example-file" title="Example file" />
           <Anchor.Link href="#usage" title="Usage">
-            <Anchor.Link href="#fourth-first-title" title="Encode/Simulation/Decode" />
-                <Anchor.Link href="#fiveth-title" title="1 Encode">
-                  <Anchor.Link href="#sixth-title" title="1.1 Setting" />
-                  <Anchor.Link href="#seventh-title" title="1.2 Report" />
+            <Anchor.Link href="#fourth-first-title" title="1 Encode/Simulation/Decode" >
+
+                <Anchor.Link href="#fiveth-title" title="1.1 Encode">
+                  <Anchor.Link href="#sixth-title" title="1.1.1 Setting" />
+                  <Anchor.Link href="#seventh-title" title="1.1.2 Report" />
                 </Anchor.Link>
-                <Anchor.Link href="#errorsimu" title="2 Error Simulation">
-                  <Anchor.Link href="#simu-setting" title="2.1 Setting" />
-                  <Anchor.Link href="#simu-report" title="2.2 Report" />
+
+                <Anchor.Link href="#errorsimu" title="1.2 Error Simulation">
+                  <Anchor.Link href="#simu-setting" title="1.2.1 Setting" />
+                  <Anchor.Link href="#simu-report" title="1.2.2 Report" />
                 </Anchor.Link>
-                <Anchor.Link href="#decode" title="3 Decode">
-                  <Anchor.Link href="#decode-title2" title="3.1 Cluster algorithms" />
-                  <Anchor.Link href="decode-title3" title="3.2	Result" />
-            </Anchor.Link>
-            <Anchor.Link href="#Error-Simulation" title="Error Simulation" />
-            <Anchor.Link href="#File-Encode" title="File Encode" />
+
+                <Anchor.Link href="#decode" title="1.3 Decode">
+                  <Anchor.Link href="#decode-title2" title="1.3.1 Cluster algorithms" />
+                  <Anchor.Link href="decode-title3" title="1.3.2	Result" />
+                </Anchor.Link>
+            </Anchor.Link>  
+            <Anchor.Link href="#Error-Simulation" title="2 Error Simulation" />
+            <Anchor.Link href="#File-Encode" title="3 File Encode" />
           </Anchor.Link>
           <Anchor.Link href="#Frequently" title="Frequently Asked Questions" />
           <Anchor.Link href="#Acknowledgment" title="Acknowledgment" />
