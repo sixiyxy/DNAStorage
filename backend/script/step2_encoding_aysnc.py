@@ -439,12 +439,12 @@ class Encoding():
         info['homo_data'] = homo_data
         print('### get GC plot and repeated length plot data, Done !')
 
-        # energy_info = add_min_free_energydata(self.min_free_energy_tools,
-        #                                      self.dna_demo_file,
-        #                                     self.free_enerfy_file)
-        # info['min_free_energy'] = energy_info['min_free_energy'] 
-        # info['min_free_energy_below_30kcal_mol'] = energy_info['min_free_energy_below_30kcal_mol']
-        # info['energy_plot']=energy_info['energy_plot']
+        energy_info = add_min_free_energydata(self.min_free_energy_tools,
+                                              self.dna_demo_file,
+                                             self.free_enerfy_file)
+        info['min_free_energy'] = energy_info['min_free_energy'] 
+        info['min_free_energy_below_30kcal_mol'] = energy_info['min_free_energy_below_30kcal_mol']
+        info['energy_plot']=energy_info['energy_plot']
         print('### Free energy plot data, Done !')
         
         # format data
