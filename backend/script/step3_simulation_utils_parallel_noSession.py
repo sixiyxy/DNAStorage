@@ -292,6 +292,7 @@ def run_default_settings(file_uid):
     yaml_path = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
     dna_path='{}/encode/{}.fasta'.format(backend_dir,file_uid)
     simu_dna=fasta_to_dna(dna_path)
+    #SYN=Model.Synthesizer_simu(dic)
     default_setting_path='{}/upload/default.yaml'.format(backend_dir)
     file_info=get_config(yaml_path=default_setting_path)
     funcs_final=[]
@@ -305,18 +306,14 @@ def run_default_settings(file_uid):
         func_param=[]
         for name in func_param_name:
             func_param.append(file_info[name])
-            simu_repo[func][name]=file_info[name]
-            # simu_repo[func]["error_param"]=file_info[func]
-            # print(func)
-            func=corresponding_arg(func_param_name[0],func_param[0],func_param[1:])
-            #funcs_final.append(func)
-            dna,_=func(simu_dna)
-            density,group=calculate_density(dna)
-            simu_repo[func]["density"]=density
-            simu_repo[func]['group']=group
+        function=corresponding_arg(func_param_name[0],func_param[0],func_param[1:])
+        simu_dna,_=function(simu_dna)
+        density,group=calculate_density(simu_dna)
+        simu_repo[func]["density"]=density
+        simu_repo[func]['group']=group
     
     return simu_repo
-    
+
 def calculate_density(dnas,layer=False):
         nums=[]
         nums_count={}
