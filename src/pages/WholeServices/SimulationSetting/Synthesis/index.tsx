@@ -112,9 +112,9 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     setNoDataTipsShow(false);
     props.setAlreadyRun(true);
     console.log('SYN',props.response);
-    setCountLen(props.response.SYN.syn_density.length);
-    setGroup(props.response.SYN.density_group);
-    setData(props.response.SYN.syn_density);
+    setCountLen(props.response.SYN.density.length);
+    setGroup(props.response.SYN.group);
+    setData(props.response.SYN.density);
     setLoading(false);
     // props.setIsSynthesis(true);
 

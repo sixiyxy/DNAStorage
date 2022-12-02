@@ -418,15 +418,14 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                     <li><strong>Upload file encode details(txt):</strong> This file contains detailed information about: payload(after file segment), index(address bits), index_payload(payload and index bits), index_payload_verifycode(payload,index,verifycode bits), DNA_sequence.</li>
                   </ul>
                 </li>
-                <div style={{marginTop:"20px"}}>
-                <Table
+                
+              </ul>
+              <Table
                   columns={columns3}
                   dataSource={data3}
-                  size={"large"}
+                  size={"small"}
                   pagination={{ position: ["none"]}}
                 />
-                </div>
-              </ul>
             </div>
             <div id="errorsimu">
               <h3 id="fiveth-title">1.2 Error Simulation</h3>

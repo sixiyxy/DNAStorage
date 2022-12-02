@@ -311,7 +311,7 @@ def run_default_settings(file_uid):
         density,group=calculate_density(simu_dna)
         simu_repo[func]["density"]=density
         simu_repo[func]['group']=group
-    
+    write_yaml(yaml_path=yaml_path,data=file_info,appending=True)
     return simu_repo
 
 def calculate_density(dnas,layer=False):

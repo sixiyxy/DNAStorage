@@ -75,9 +75,9 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       setLoading(true);
       setNoDataTipsShow(false);
       props.setSEQRUN(true);
-      setLen(props.response.SEQ.seq_density.length);
-      setDensityData(props.response.SEQ.seq_density);
-      setGroup(props.response.SEQ.density_group);
+      setLen(props.response.SEQ.density.length);
+      setDensityData(props.response.SEQ.density);
+      setGroup(props.response.SEQ.group);
       setLoading(false);
       props.setReport(false)
     }else{

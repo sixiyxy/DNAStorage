@@ -423,7 +423,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         step: "synthesis",
         value: errorRecoder?.SYN ? Math.log(errorRecoder?.SYN.n) : 0,
-        type: "rest sequence",
+        type: "correct sequence",
       },
       {
         step: "synthesis",
@@ -433,7 +433,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         step: "decay",
         value: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.n) : null,
-        type: "rest sequence",
+        type: "correct sequence",
       },
       {
         step: "decay",
@@ -443,7 +443,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         step: "pcr",
         value: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.n) : null,
-        type: "rest sequence",
+        type: "correct sequence",
       },
       {
         step: "pcr",
@@ -453,7 +453,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         step: "sample",
         value: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.n) : null,
-        type: "rest sequence",
+        type: "correct sequence",
       },
       {
         step: "sample",
@@ -463,7 +463,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         step: "sequence",
         value: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.n) : null,
-        type: "rest sequence",
+        type: "correct sequence",
       },
       {
         step: "sequence",
