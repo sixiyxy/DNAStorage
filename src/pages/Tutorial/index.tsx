@@ -342,7 +342,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   the existing synthesis and sequencing technology do not support long sequences,
                   the segment length should be less than 200. At the same time, in order to restore
                   the data, each segment will be added on address information, and the length is the
-                  index length (The length is automatically inferred based on the file size).
+                  index length (the length is automatically inferred based on the file size).
                 </li>
                 <li>
                   <strong>Run: </strong>Encode the upload file with the chosen setting parameters.
