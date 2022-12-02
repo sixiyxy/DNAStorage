@@ -61,13 +61,37 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
     );
   };
 
-  const onExample = function () {
-    axios.post(API_PREFIX + "/example", { type: "decode" }).then(function (response) {
-      //console.log("decode", response);
-      props.setDerepo(true);
-      props.setDecodeData(response?.data);
-      props.changeSider(["0-2-1"]);
-    });
+  const onExample = async function () {
+    props.setDerepo(true);
+    props.changeSider(["0-2-1"]);
+
+    // props.setEncodeAndDecodeSpinning(true);
+    // axios.post(API_PREFIX + "/decode", params).then(function (response) {
+    //   //console.log("decode", response);
+    //   props.setDecodeData(response?.data);
+    //   props.setEncodeAndDecodeSpinning(false);
+    // });
+
+    const body = params;
+    const intervalTime = 5000;
+    await createAsyncStepRequest(
+      "decode",
+      body,
+      props.setEncodeAndDecodeSpinning,
+      intervalTime,
+      null,
+      (resp) => {
+        console.log('decode',resp?.data);
+        props.setDecodeData(resp?.data);
+        props.setEncodeAndDecodeSpinning(false);
+      }
+    );
+    // axios.post(API_PREFIX + "/example", { type: "decode" }).then(function (response) {
+    //   //console.log("decode", response);
+    //   props.setDerepo(true);
+    //   props.setDecodeData(response?.data);
+    //   props.changeSider(["0-2-1"]);
+    // });
   };
   return (
     <div className="decode-wrapper">

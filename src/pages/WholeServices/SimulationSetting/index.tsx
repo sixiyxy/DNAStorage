@@ -92,15 +92,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     // }
     window.scrollTo(0, 0);
   }, []);
-  const paramExm = {
-    type: "simulation",
-  };
-  //控制每个步骤完成的状态
-  // const [ok1,setOK1] = useState(false);
-  // const [ok2,setOK2] = useState(false);
-  // const [ok3,setOK3] = useState(false);
-  // const [ok4,setOK4] = useState(false);
-  // const [ok5,setOK5] = useState(false);
 
   const { encodeInfo } = props;
   console.log("encodeInfo ", encodeInfo);
@@ -175,11 +166,12 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     window.location.reload();
   };
 
+  const paramExm = {
+    file_uid: props.fileId,
+  };
   const handleEXM = () => {
     setexmSpinFlag(true);
     method = [true, true, true, true];
-    //点击Example后按钮全部禁掉 默认id"1582175684011364352"
-
     setOkFlag(true);
     setDecayFlag(true);
     setPcrFlag(true);
@@ -190,11 +182,10 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setDis2(true);
     setDis3(true);
     setDis4(true);
-    // props.setclickEXM(true);
-    props.setFileId("example");
+    // props.setFileId("example");
     //控制每个步骤的useEffect
     console.log("开始请求");
-    axios.post(API_PREFIX + "/example", paramExm).then(function (response) {
+    axios.post(API_PREFIX + "/example_whole_simu", paramExm).then(function (response) {
       console.log("请求中");
       setexmSpinFlag(false);
       console.log("example-simu", response);
@@ -305,16 +296,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           {/* </div> */}
         </Card>
 
-        {/*据说不要 Note 了但以防该需求先把代码留着*/}
-        {/*{!props.needUploader && (*/}
-        {/*  <Card title="Note" bordered={false}>*/}
-        {/*    <p>*/}
-        {/*      This stage would simulate error occurrences that happened under the real*/}
-        {/*      application.You could adjust the parameters for each stage accordingly or simply skip*/}
-        {/*      some stages.It is also possible to skip the whole error simulation stage.*/}
-        {/*    </p>*/}
-        {/*  </Card>*/}
-        {/*)}*/}
 
         {props.needUploader && (
           <div className="simulation-step-content">

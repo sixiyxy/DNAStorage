@@ -86,7 +86,7 @@ export const Encode = (props) => {
       }
       return "1";
     },
-    [Zan]
+    [props.fileId]
   );
 const controlZan = useMemo(
   (placement)=>{
