@@ -435,7 +435,8 @@ def example():
 
 
 from celery_task import encode_celery,simulation_celery,decode_celery
-
+# three long time task
+# 小于1M3s  大于1M是5s
 @app.route('/encode_start',methods=['GET','POST'])
 def encode_start():
     print('\n','#'*25,'Encoding Start','#'*25,'\n','#'*60)

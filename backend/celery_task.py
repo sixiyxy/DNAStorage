@@ -37,7 +37,6 @@ def simulation_celery(self,file_uid,upload_flag):
     simu_repo=simu_utils.get_simu_repo(file_uid,upload_flag)
     return {'result':simu_repo}
     
-
 @celery.task(bind=True)
 def decode_celery(self,file_uid,clust_method):
     Decode_obj = ClusterDecode(file_uid = file_uid,clust_method= clust_method)
