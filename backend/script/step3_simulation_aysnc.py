@@ -284,7 +284,6 @@ def get_simu_repo(file_uid,upload_flag):
                             f.write(str(re[2])+"\n") # dna sequence
                             index+=1
         simu_repo["Strand_Count"]=index
-        print(simu_repo)
         return simu_repo
 
 
@@ -308,8 +307,6 @@ def run_default_settings(file_uid):
         for name in func_param_name:
             func_param.append(file_info[name])
             simu_repo[func][name]=file_info[name]
-            # simu_repo[func]["error_param"]=file_info[func]
-            # print(func)
             func=corresponding_arg(func_param_name[0],func_param[0],func_param[1:])
             #funcs_final.append(func)
             dna,_=func(simu_dna)

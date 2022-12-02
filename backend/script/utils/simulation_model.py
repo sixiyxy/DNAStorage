@@ -185,11 +185,9 @@ class PCRer_simu:
     def run(self, re_dnas,error_recorder):
         out = []
         for dna in re_dnas:
-           # print("before:"+str(dna[0]))
             if dna[0]>0:
                 tmp=dna[0]
                 dna[0] = self.distribution(dna[0])
-            #print("after:"+str(dna[0]))
             if dna[0] > 0:
                 error_recorder['n']=error_recorder.get('n',0)+dna[0]-tmp
                 for err in dna[1]:
@@ -203,7 +201,6 @@ class PCRer_simu:
         for dna in out_dnas:
             dna['re'],error_recorder = self.run(dna['re'],error_recorder)
             dna['num'] = sum([tp[0] for tp in dna['re']])
-        #print(error_recorder)
         return out_dnas,error_recorder
 
 class Sampler_simu:
@@ -264,7 +261,6 @@ class ErrorAdder_simu:
         self.probD = probD * raw_rate
         self.probI = probI * raw_rate
         self.probS = probS * raw_rate
-        #print(self.probS)
         self.del_pattern=del_pattern
         self.ins_pattern=ins_pattern
         self.TM_Normal=TM_Normal
@@ -281,11 +277,7 @@ class ErrorAdder_simu:
             sub_true=np.where(sub_flag==True)[0]
             for pos in sub_true:
                 base=dna[pos]
-                try:
-                    subi=np.random.choice(['A','C','G','T'],p=list(self.TM[base].values()))
-                except Exception as e:
-                    print(e)
-                    print(dna)
+                subi=np.random.choice(['A','C','G','T'],p=list(self.TM[base].values()))
                 Errors.append((pos,'s',subi))
         else:
             TM_keys=list(self.TM.keys())
@@ -416,7 +408,6 @@ class ErrorAdder_simu:
                 try:
                     dna.pop(pos + bias)
                 except:
-                    # print('pop index error:', pos + bias)
                     break
                 bias -= 1
             elif tp == '+':

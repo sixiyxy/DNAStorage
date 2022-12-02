@@ -21,7 +21,6 @@ def corresponding_arg(param,param_value,left):
         res,_=Sampler_arg(param_value,left)
     elif param=='seq_meth':
         res,_=Seq_arg(param_value,left)
-    print("res",res)
     return res
 
 
@@ -36,7 +35,6 @@ def SynthMeth_arg(synthesis_method,left):
 
 def DecHost_arg(decay_host,left):
     dic=decHost[decay_host]
-    print("DEC",left)
     dic=ArgumentPasser(dic)
     arg=dic
     dic.months_of_storage=left[0]
@@ -86,7 +84,20 @@ def fasta_to_dna(ori_save_dir):
                     if line[0]!=">":
                         dna.append(line.strip('\n'))
     return dna
-
+def fasta_to_dna_demo(ori_save_dir):
+    with open (ori_save_dir) as f:
+                dna=[]
+                for line in f:
+                    line=str(line).strip('b').strip("'").strip('\\r\\n')
+                    if line[0]!=">":
+                        dna.append(line.strip('\n'))
+                    if len(dna)>=1000:
+                        print(len(dna))
+                        return dna
+    print(len(dna))
+    print("here!")
+    return dna
+    
 def error_density(dnas):
         dic={}
         total=0
