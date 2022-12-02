@@ -55,7 +55,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
       intervalTime,
       null,
       (resp) => {
-        props.setDecodeData(resp?.data);
+        props.setDecodeData(resp);
         props.setEncodeAndDecodeSpinning(false);
       }
     );
