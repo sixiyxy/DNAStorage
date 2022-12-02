@@ -75,9 +75,9 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     props.setSAMRUN(true);
-    setCountLen(props.response.SAM.sam_density.length);
-    setGroup(props.response.SAM.sam_group);
-    setDensityData(props.response.SAM.sam_density);
+    setCountLen(props.response.SAM.density.length);
+    setGroup(props.response.SAM.group);
+    setDensityData(props.response.SAM.density);
     setLoading(false);
   }else{
     console.log('eff4',props.effect4);

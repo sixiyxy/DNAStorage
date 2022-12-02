@@ -471,7 +471,6 @@ def whole_simu_example():
     front_data = json.loads(request.data)
     file_uid=front_data['file_uid']
     result=simu_utils.run_default_settings(file_uid)
-    
     return json.dumps(result)
     
     

@@ -29,7 +29,7 @@ export const createAsyncStepRequest = async (
     const body = { type: step, task_id: taskId };
     console.log(`正在以 ${intervalTime} 毫秒为间隔轮询 /task_status，请求体为`, body);
     const responseBody: any = await doPost("/task_status", { body });
-    console.log(`本次 /task_status 轮询结束，得到处理结果 ${responseBody}`);
+    console.log(`本次 /task_status 轮询结束，得到处理结果 `, responseBody);
 
     const { state, result } = responseBody;
 
