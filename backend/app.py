@@ -394,7 +394,7 @@ def download():
     front_data = json.loads(request.data)
     file_uid = front_data['file_uid']
     type = front_data['type']
-    print('### Decoding parameters:',front_data)
+    print('### Download parameters:',front_data)
     if type == 'encode':
         dna_dir,downfile_name = get_download_path(type='encode',file_uid=file_uid)
         print(dna_dir,downfile_name)
@@ -433,10 +433,18 @@ def example():
     else:
         return 'wrong request!'
 
+@app.route('/example_whole_simu',methods=['GET','POST'])
+def whole_simu_example():
+    print('\n','#'*25,'display example','#'*25,'\n','#'*60)
+    front_data = json.loads(request.data)
+    file_uid=front_data['file_uid']
+    result=simu_utils.run_default_settings(file_uid)
+    return json.dumps(result)
 
+#############################################
+###############  long task #################
 from celery_task import encode_celery,simulation_celery,decode_celery
-# three long time task
-# 小于1M3s  大于1M是5s
+
 @app.route('/encode_start',methods=['GET','POST'])
 def encode_start():
     print('\n','#'*25,'Encoding Start','#'*25,'\n','#'*60)
@@ -468,17 +476,7 @@ def simulation_start():
     args = [file_uid,upload_flag]
     simulation_task = simulation_celery.apply_async(args=args)
     task_id= simulation_task.id
-    return task_id
-    
-@app.route('/example_whole_simu',methods=['GET','POST'])
-def whole_simu_example():
-    print('\n','#'*25,'display example','#'*25,'\n','#'*60)
-    front_data = json.loads(request.data)
-    file_uid=front_data['file_uid']
-    result=simu_utils.run_default_settings(file_uid)
-    return json.dumps(result)
-    
-    
+    return task_id    
 
 @app.route('/decode_start',methods=['GET','POST'])
 def decode_start():

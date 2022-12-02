@@ -154,7 +154,7 @@ class Encoding():
         self.decode_file = '{}/{}.npz'.format(self.decode_dir,self.file_uid)
 
     def segment_file(self,data):
-        print('segment start')
+        # print('segment start')
         matrix, values = [], data
         
         for current, value in enumerate(values):
@@ -172,7 +172,7 @@ class Encoding():
         return fragment_info
 
     def connet_index(self,data):
-        print('connect start')
+        # print('connect start')
         fragment_info = self.segment_file(data)
         original_bit_segments = fragment_info["original_bit_segments"]
 
@@ -191,7 +191,7 @@ class Encoding():
         return fragment_info
         
     def verify_code(self,data):
-        print('verify code start')
+        # print('verify code start')
         fragment_info = self.connet_index(data)
         original_bit_segments = fragment_info["original_bit_segments"]
         record_index = fragment_info["record_index"]
@@ -210,7 +210,7 @@ class Encoding():
         return fragment_info
 
     def encoding_normal(self,data): 
-        print('encoding start')
+        # print('encoding start')
         fragment_info = self.verify_code(data)
         original_bit_segments = fragment_info["original_bit_segments"]
         record_index = fragment_info["record_index"]
