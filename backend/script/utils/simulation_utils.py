@@ -77,13 +77,12 @@ def is_fasta(filename):
             return False
 
 def fasta_to_dna(ori_save_dir):
-    with open (ori_save_dir) as f:
-                dna=[]
-                for line in f:
-                    line=str(line).strip('b').strip("'").strip('\\r\\n')
-                    if line[0]!=">":
-                        dna.append(line.strip('\n'))
+    sri=SeqIO.parse(ori_save_dir,'fasta')
+    dna=[]
+    for sr in sri:
+        dna.append(sr)
     return dna
+    
 def fasta_to_dna_demo(ori_save_dir):
     with open (ori_save_dir) as f:
                 dna=[]
