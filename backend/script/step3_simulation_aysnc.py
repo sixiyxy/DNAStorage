@@ -21,16 +21,11 @@ def get_info(file_uid,upload_flag,final_parallel=False):
     if not upload_flag:
         file_dir=config['file_save_dir']
         file_info_path='{}/{}/{}.yaml'.format(backend_dir,file_dir,file_uid)
-        dna_dir =config['encode_dir']
-        dna_file = '{}/{}/{}.dna'.format(backend_dir,dna_dir,file_uid)
-        with open(dna_file) as f:
-            dnas=f.readlines()
-        simu_dna=[dna.split('\n')[0] for dna in dnas]
     else:
         file_dir=config['upload_dna_save_dir']
         file_info_path='{}/{}/{}.yaml'.format(backend_dir,file_dir,file_uid)
-        file_path='{}/{}/{}.fasta'.format(backend_dir,file_dir,file_uid)
-        simu_dna=fasta_to_dna(file_path)
+    file_path='{}/{}/{}.fasta'.format(backend_dir,file_dir,file_uid)
+    simu_dna=fasta_to_dna(file_path)
     file_info=get_config(yaml_path=file_info_path)
     funcs_final=[]
     funcs=[]
@@ -45,8 +40,6 @@ def get_info(file_uid,upload_flag,final_parallel=False):
             for name in func_param_name:
                 func_param.append(file_info[name])
                 simu_repo[func][name]=file_info[name]
-            # simu_repo[func]["error_param"]=file_info[func]
-            # print(func)
             func=corresponding_arg(func_param_name[0],func_param[0],func_param[1:])
             funcs_final.append(func)
     except Exception as e:
@@ -272,6 +265,13 @@ def get_simu_repo(file_uid,upload_flag):
         simu_repo["Strand_Count"]=index
         print(simu_repo)
         return simu_repo
+
+
+    
+    
+   
+
+    
 
 def calculate_density(dnas,layer=False):
         nums=[]
