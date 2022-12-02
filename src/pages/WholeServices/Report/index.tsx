@@ -20,7 +20,7 @@ export class ReportProps {
   fileinfo;
   fileId;
   dnainfo;
-  spinflag;
+  encodeAndDecodeSpinning;
   energy;
   encodeurl;
   fileURL;
@@ -39,10 +39,10 @@ interface DataType {
 
 export const Report: React.FC<ReportProps> = (props) => {
   const [size, setSize] = useState<SizeType>("large");
-  const [isClickDown,setDown] = useState(false)
-  useEffect(()=>{
+  const [isClickDown, setDown] = useState(false);
+  useEffect(() => {
     window.scrollTo(0, 0);
-  },[])
+  }, []);
   const params1 = {
     file_uid: props.exam ? "example" : props.fileId,
     type: "encode",
@@ -72,7 +72,6 @@ export const Report: React.FC<ReportProps> = (props) => {
       align: "center",
     },
   ];
- 
 
   const data1: DataType[] = [
     {
@@ -105,7 +104,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "1",
       name1: "Encode method",
-      value1: props.info.encode_method ? props.info.encode_method:'None',
+      value1: props.info.encode_method ? props.info.encode_method : "None",
     },
     {
       key: "2",
@@ -120,7 +119,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "4",
       name1: "Verify method",
-      value1: props.info.verify_method ? props.info.verify_method : 'None',
+      value1: props.info.verify_method ? props.info.verify_method : "None",
     },
     {
       key: "5",
@@ -130,7 +129,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "6",
       name1: "Encode segment length",
-      value1: props.info.final_segment_bit_length ? props.info.final_segment_bit_length :'None',
+      value1: props.info.final_segment_bit_length ? props.info.final_segment_bit_length : "None",
     },
     {
       key: "7",
@@ -168,13 +167,13 @@ export const Report: React.FC<ReportProps> = (props) => {
       value1: props.dnainfo.physical_information_density_g,
     },
   ];
- 
+
   console.log("dnainfo:", props.dnainfo);
 
   const DownloadURL = () => {
     // console.log(props.encodeurl);
     // console.log(props.fileURL);
-    setDown(true)
+    setDown(true);
     axios
       .post(API_PREFIX + "/download", params1, { responseType: "blob" })
       .then(function (response) {
@@ -191,38 +190,44 @@ export const Report: React.FC<ReportProps> = (props) => {
         document.body.appendChild(link);
         link.click(); //下载该文件
         document.body.removeChild(link);
-        setDown(false)  
+        setDown(false);
       })
       .catch(function (error) {
         console.log(error);
       });
-      
   };
-  const handleNext=()=>{
-    props.setSimuSet(true)
+  const handleNext = () => {
+    props.setSimuSet(true);
     props.changeSider(["0-1-0"]);
-  }
+  };
   return (
     <div className="encode-report-wrapper">
       <Spin
-        tip={props.fileOver2M ? "Please wait about 2mins...":"Loading..."}
+        tip={props.fileOver2M ? "Please wait about 2mins..." : "Loading..."}
         size="large"
-        spinning={props.spinflag}
+        spinning={props.encodeAndDecodeSpinning}
         // spinning={false}
         delay={10}
       >
         <div className="encode-report-nav-wrapper">
           <Breadcrumb separator=">">
-          <Breadcrumb.Item>
+            <Breadcrumb.Item>
               <Link to="/home">Home</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item><Link to='/services'>Services</Link></Breadcrumb.Item>
-            <Breadcrumb.Item><Link to='/services/wholeprocess'>Encode</Link></Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to="/services">Services</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to="/services/wholeprocess">Encode</Link>
+            </Breadcrumb.Item>
             <Breadcrumb.Item>Report</Breadcrumb.Item>
           </Breadcrumb>
         </div>
         <div className="encode-report-file-information">
-          <Card title="File Information" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
+          <Card
+            title="File Information"
+            headStyle={{ backgroundColor: "#99CCFF", fontSize: "18px" }}
+          >
             <p id="top-word">
               This part displays some basic information about the files uploaded by users.
             </p>
@@ -235,14 +240,21 @@ export const Report: React.FC<ReportProps> = (props) => {
           </Card>
         </div>
         <div className="encode-report-encode-information">
-          <Card title="Encode Information" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
+          <Card
+            title="Encode Information"
+            headStyle={{ backgroundColor: "#99CCFF", fontSize: "18px" }}
+          >
             <p id="top-word">
               This part shows the information of the uploaded file during encoding and the result of
-              DNA sequences analysis after encoding. 
-              The analysis of the encoded DNA sequences includes GC-content statics, repeated sequences
-              statics and minimum free energy calculation.
+              DNA sequences analysis after encoding. The analysis of the encoded DNA sequences
+              includes GC-content statics, repeated sequences statics and minimum free energy
+              calculation.
             </p>
-            <Table columns={columns2} dataSource={data2} pagination={{ position: ["none"],pageSize:15}} />
+            <Table
+              columns={columns2}
+              dataSource={data2}
+              pagination={{ position: ["none"], pageSize: 15 }}
+            />
             <div
               className="encode-report-graph"
               id="gcgraph"
@@ -255,13 +267,13 @@ export const Report: React.FC<ReportProps> = (props) => {
               <GLgraph GC={props.GC} />
             </div>
             <div id="gc-word">
-            <p >
-              Because the ratio of GC-content is crucial to the stability of DNA sequence. We
-              counted the GC content of each encoded DNA sequence. The X-Axis is the percentage of
-              GC content, and the Y-Axis is the number of corresponding sequences.
-            </p>
+              <p>
+                Because the ratio of GC-content is crucial to the stability of DNA sequence. We
+                counted the GC content of each encoded DNA sequence. The X-Axis is the percentage of
+                GC content, and the Y-Axis is the number of corresponding sequences.
+              </p>
             </div>
-            
+
             <div
               className="encode-report-graph"
               id="homograph"
@@ -273,12 +285,12 @@ export const Report: React.FC<ReportProps> = (props) => {
               <HomoGraph homo={props.homo} />
             </div>
             <div id="homo-word">
-            <p>
-              The presence of repetitive sequences affects the accuracy of synthesis and sequence
-              sequencing during DNA storage. So, we counted the number of repeats in the encoded DNA
-              sequence. The x-axis is the length of the repeated sequence, and the y-axis is the
-              corresponding number.
-            </p>
+              <p>
+                The presence of repetitive sequences affects the accuracy of synthesis and sequence
+                sequencing during DNA storage. So, we counted the number of repeats in the encoded
+                DNA sequence. The x-axis is the length of the repeated sequence, and the y-axis is
+                the corresponding number.
+              </p>
             </div>
             <div id="energygraph" className="encode-report-graph">
               <h3>Sequence minimum Free Energy</h3>
@@ -293,7 +305,8 @@ export const Report: React.FC<ReportProps> = (props) => {
               <div className="encode-report-footer-result">
                 <p>
                   <strong>
-                    The sequence average minimum free energy is : {props.dnainfo.min_free_energy} kcal/mol
+                    The sequence average minimum free energy is : {props.dnainfo.min_free_energy}{" "}
+                    kcal/mol
                   </strong>
                   <br></br>
                   {/* <strong>
@@ -318,20 +331,21 @@ export const Report: React.FC<ReportProps> = (props) => {
                 icon={<DownloadOutlined />}
                 size={size}
                 onClick={DownloadURL}
-                style={{backgroundColor:isClickDown ? '#99CCFF':' '}}
+                style={{ backgroundColor: isClickDown ? "#99CCFF" : " " }}
               >
                 Download
               </Button>
-              {props.btnNext?
-                  <Button
-                  style={{marginLeft:"100px",width:"100px"}}
-                    type="primary"
-                    shape="round"
-                    size={size}
-                    onClick={handleNext}
-                  >
-                    Next
-                  </Button>:null}
+              {props.btnNext ? (
+                <Button
+                  style={{ marginLeft: "100px", width: "100px" }}
+                  type="primary"
+                  shape="round"
+                  size={size}
+                  onClick={handleNext}
+                >
+                  Next
+                </Button>
+              ) : null}
             </div>
           </Card>
         </div>

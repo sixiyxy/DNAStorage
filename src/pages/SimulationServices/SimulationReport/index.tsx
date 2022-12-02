@@ -423,52 +423,52 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         step: "synthesis",
         value: errorRecoder?.SYN ? Math.log(errorRecoder?.SYN.n) : 0,
-        type: "total",
+        type: "rest sequence",
       },
       {
         step: "synthesis",
         value: errorRecoder?.SYN ? Math.log(errorRecoder?.SYN.e) : 0,
-        type: "error",
+        type: "error sequence",
       },
       {
         step: "decay",
         value: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.n) : null,
-        type: "total",
+        type: "rest sequence",
       },
       {
         step: "decay",
         value: errorRecoder?.DEC ? Math.log(errorRecoder?.DEC.e) : null,
-        type: "error",
+        type: "error sequence",
       },
       {
         step: "pcr",
         value: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.n) : null,
-        type: "total",
+        type: "rest sequence",
       },
       {
         step: "pcr",
         value: errorRecoder?.PCR ? Math.log(errorRecoder?.PCR.e) : null,
-        type: "error",
+        type: "error sequence",
       },
       {
         step: "sample",
         value: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.n) : null,
-        type: "total",
+        type: "rest sequence",
       },
       {
         step: "sample",
         value: errorRecoder?.SAM ? Math.log(errorRecoder?.SAM.e) : null,
-        type: "error",
+        type: "error sequence",
       },
       {
         step: "sequence",
         value: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.n) : null,
-        type: "total",
+        type: "rest sequence",
       },
       {
         step: "sequence",
         value: errorRecoder?.SEQ ? Math.log(errorRecoder?.SEQ.e) : null,
-        type: "error",
+        type: "error sequence",
       },
     ];
   }, [errorRecoder]);
@@ -927,7 +927,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       <div className="simulation-report-content-wrapper">
        
         <Spin tip={props.time3min? "Please waiting 3 mins!": "Loading..."} size="large" spinning={spinflag}>
-          <Card title="Stage summary (steps review)" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
+          <Card title="Steps Review" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
           {/* <p style={{
                 textAlign: "center",
               }}><strong>Setting Review</strong></p> */}
@@ -1065,7 +1065,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             <h3>Error Counts </h3> */}
               <h3><strong>Error counts</strong> </h3>
             <div style={{padding:"30px 220px 0 150px"}}>
-                <p>Error number in a strand: </p>
+                <p style={{paddingBottom:"1px",fontSize:"16px",color: "#748189"}}>Error number in a strand: </p>
               <Bar {...ErrorDensityConfig} />
             </div>
             <div
