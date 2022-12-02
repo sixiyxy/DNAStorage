@@ -294,7 +294,6 @@ def run_default_settings(file_uid):
     funcs=[]
     simu_repo={}
     funcs=file_info['simu']
-    print('funcs here',funcs)
     for func in funcs:
         simu_repo[func]={}
         func_param_name=funcs_parameter[func]

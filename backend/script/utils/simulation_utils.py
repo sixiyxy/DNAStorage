@@ -92,10 +92,7 @@ def fasta_to_dna_demo(ori_save_dir):
                     if line[0]!=">":
                         dna.append(line.strip('\n'))
                     if len(dna)>=1000:
-                        print(len(dna))
                         return dna
-    print(len(dna))
-    print("here!")
     return dna
     
 def error_density(dnas):
