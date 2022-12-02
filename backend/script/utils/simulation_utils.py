@@ -80,18 +80,17 @@ def fasta_to_dna(ori_save_dir):
     sri=SeqIO.parse(ori_save_dir,'fasta')
     dna=[]
     for sr in sri:
-        dna.append(sr)
+        dna.append(str(sr.seq))
+    print(dna[:10])
     return dna
-    
+
 def fasta_to_dna_demo(ori_save_dir):
-    with open (ori_save_dir) as f:
-                dna=[]
-                for line in f:
-                    line=str(line).strip('b').strip("'").strip('\\r\\n')
-                    if line[0]!=">":
-                        dna.append(line.strip('\n'))
-                    if len(dna)>=1000:
-                        return dna
+    sri=SeqIO.parse(ori_save_dir,'fasta')
+    dna=[]
+    for sr in sri:
+        dna.append(str(sr.seq))
+        if len(dna)>=1000:
+            return dna
     return dna
     
 def error_density(dnas):
