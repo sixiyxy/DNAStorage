@@ -1,4 +1,4 @@
-import { Button, Card, Image, Row, Col, Upload, message,Breadcrumb} from "antd";
+import { Button, Card, Image, Row, Col, Upload, message, Breadcrumb } from "antd";
 import React, { useState, useEffect } from "react";
 import "./index.less";
 import { Synthesis } from "./Synthesis";
@@ -12,6 +12,7 @@ import { API_PREFIX } from "../../../common/Config";
 import simu from "../../../assets/service/simu.png";
 import { InboxOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { createAsyncStepRequest } from "../../../utils/request-util";
 export class SimulationSetProps {
   changeSider;
   fileId;
@@ -25,7 +26,7 @@ export class SimulationSetProps {
   setSimuRepo;
   SimuRepo;
   setDeSet;
-  setSimuSpin;
+  setSimulationSpin;
   setSynthesisData;
   setDacayData;
   setPcrData;
@@ -34,18 +35,33 @@ export class SimulationSetProps {
   setErrorRecode;
   setErrorDensity;
   setStrand;
+  encodeInfo;
 }
+
+const sequenceNumTable = [5000, 10000, 100000];
+const intervalTimeTable = [1000, 2000, 5000, 10000];
+
+const getIntervalTimeBySequenceNum = (sequenceNum) => {
+  const len = sequenceNumTable.length;
+
+  for (let i = 0; i < len; i++) {
+    if (sequenceNum < sequenceNumTable[i]) {
+      return intervalTimeTable[i];
+    }
+  }
+  return intervalTimeTable[len];
+};
 
 let method = [false, false, false, false]; //存放选择的方法
 export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   // 控制全局和各个步骤是否启用，true 表示启用，false 表示不起用，会被遮罩遮住
   const [okFlag, setOkFlag] = useState(false);
-  const [examFlag, setExamFlag]=useState(false);
+  const [examFlag, setExamFlag] = useState(false);
   const [decayFlag, setDecayFlag] = useState(true);
   const [pcrFlag, setPcrFlag] = useState(true);
   const [sampleFlag, setSampleFlag] = useState(true);
   const [sequenceFlag, setSequenceFlag] = useState(true);
-  const [exmSpinFlag,setexmSpinFlag] = useState(false)
+  const [exmSpinFlag, setexmSpinFlag] = useState(false);
   // 未使用的变量：alreadyChose，暂予以注释，同时 Choose 拼写有误，确认无用后移除
   // const [alreadyChose, setAlreadyChose] = useState(false);
   const [dis0, setDis0] = useState(false);
@@ -68,7 +84,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [samrun, setSAMRUN] = useState(true);
   const [seqrun, setSEQRUN] = useState(true);
   //控制report按钮是否禁用，true表示禁用
-  const [reportFlag,setReport] = useState(true)
+  const [reportFlag, setReport] = useState(true);
   const { Dragger } = Upload;
   useEffect(() => {
     // if (props.setIsdisabled) {
@@ -85,28 +101,40 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   // const [ok3,setOK3] = useState(false);
   // const [ok4,setOK4] = useState(false);
   // const [ok5,setOK5] = useState(false);
-var paramsRepo={
-    file_uid: props.fileId, 
-  }
-  const handleReport = async() => {
+
+  const { encodeInfo } = props;
+  console.log("encodeInfo ", encodeInfo);
+
+  const paramsRepo = {
+    file_uid: props.fileId,
+  };
+  const handleReport = async () => {
     method = [false, false, false, false];
     props.setSimuRepo(true);
     props.changeSider(["0-1-1"]);
-    const resp = await doPost("/simu_repo", { body: paramsRepo });
-    props.setSimuSpin(false);
-    console.log("report", resp);
-    props.setSynthesisData(resp.SYN);
-    props.setDacayData(resp.DEC);
-    props.setPcrData(resp.PCR);
-    props.setSamplingData(resp.SAM);
-    props.setSequenceingData(resp.SEQ);
-    props.setErrorRecode(resp.Error_Recorder);
-    props.setErrorDensity(resp.Error_Density);
-    props.setStrand(resp.Strand_Count)
-    props.setDeSet(true)
+    //const resp = await doPost("/simu_repo", { body: paramsRepo });
+    const body = paramsRepo;
+    const intervalTime = getIntervalTimeBySequenceNum(encodeInfo.DNA_sequence_number);
+    await createAsyncStepRequest(
+      "simulation",
+      body,
+      props.setSimulationSpin,
+      intervalTime,
+      null,
+      (resp) => {
+        props.setSynthesisData(resp.SYN);
+        props.setDacayData(resp.DEC);
+        props.setPcrData(resp.PCR);
+        props.setSamplingData(resp.SAM);
+        props.setSequenceingData(resp.SEQ);
+        props.setErrorRecode(resp.Error_Recorder);
+        props.setErrorDensity(resp.Error_Density);
+        props.setStrand(resp.Strand_Count);
+        props.setDeSet(true);
+      }
+    );
   };
-  
-  
+
   const handleDecay = () => {
     method[0] = !method[0];
     setDecayFlag(!decayFlag);
@@ -124,7 +152,7 @@ var paramsRepo={
     setSequenceFlag(!sequenceFlag);
   };
   const handleOK = () => {
-    setExamFlag(true)
+    setExamFlag(true);
     setOkFlag(true);
     setDis1(true);
     setDis2(true);
@@ -148,10 +176,10 @@ var paramsRepo={
   };
 
   const handleEXM = () => {
-    setexmSpinFlag(true)
+    setexmSpinFlag(true);
     method = [true, true, true, true];
     //点击Example后按钮全部禁掉 默认id"1582175684011364352"
-    
+
     setOkFlag(true);
     setDecayFlag(true);
     setPcrFlag(true);
@@ -168,7 +196,7 @@ var paramsRepo={
     console.log("开始请求");
     axios.post(API_PREFIX + "/example", paramExm).then(function (response) {
       console.log("请求中");
-      setexmSpinFlag(false)
+      setexmSpinFlag(false);
       console.log("example-simu", response);
       setEffct1(true);
       setEffct2(true);
@@ -218,18 +246,22 @@ var paramsRepo={
 
     return isFasta;
   };
-  
+
   return (
     <div className="page-simulation-setting">
       {/*头部 Card 部分*/}
       <div>
-      <Card>
+        <Card>
           <Breadcrumb separator=">">
             <Breadcrumb.Item>
-              <Link to='/home'>Home</Link>
+              <Link to="/home">Home</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item><Link to='/services'>Services</Link></Breadcrumb.Item>
-            <Breadcrumb.Item><Link to='/services/wholeprocess'>Simulation</Link></Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to="/services">Services</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to="/services/wholeprocess">Simulation</Link>
+            </Breadcrumb.Item>
             <Breadcrumb.Item>Setting</Breadcrumb.Item>
           </Breadcrumb>
         </Card>
@@ -247,22 +279,21 @@ var paramsRepo={
                     setting up each stage and have a detailed report about how errors are introduced
                     and occur at the end.
                   </p>
-                  </div>
-                  <Button
-                      // className="exm"
-                      // type="primary"
-                      shape="round"
-                      size="large"
-                      onClick={handleEXM}
-                      disabled={examFlag}
-                    >
-                      Example
-                    </Button>
-                
+                </div>
+                <Button
+                  // className="exm"
+                  // type="primary"
+                  shape="round"
+                  size="large"
+                  onClick={handleEXM}
+                  disabled={examFlag}
+                >
+                  Example
+                </Button>
               </div>
             </Col>
             <Col span={10}>
-              <div style={{ marginLeft: "150px"}} className="summary-img">
+              <div style={{ marginLeft: "150px" }} className="summary-img">
                 <Image
                   width={"130%"}
                   // height={"50%"}
@@ -313,10 +344,15 @@ var paramsRepo={
           </div>
         )}
 
-        <Card title="Choose the simulation steps" headStyle={{ fontSize: "18px",backgroundColor:"#cccfd4",textAlign:"center"}}>
+        <Card
+          title="Choose the simulation steps"
+          headStyle={{ fontSize: "18px", backgroundColor: "#cccfd4", textAlign: "center" }}
+        >
           <p className="function-bar" style={{ fontSize: "16px" }}>
-            <strong>Please select the following simulation steps. You can choose to skip some of these
-            steps, but Synthesis cannot.</strong>
+            <strong>
+              Please select the following simulation steps. You can choose to skip some of these
+              steps, but Synthesis cannot.
+            </strong>
           </p>
           <div className="simulation-setting-header-button-group">
             <div>

@@ -13,46 +13,47 @@ const Uploads: React.FC = (props: any) => {
     multiple: true,
     action: API_PREFIX + "/file_upload",
     maxCount: 1,
-    
-    beforeUpload(file, fileList){
-      const islt10M = file.size / 1024 /1024 < 10
-      const islt2M = file.size / 1024 / 1024 >2
-      const islt100k = file.size /1024 < 100
-        if (islt2M) {
-            message.error('The upload file size is too large, please try with a samller file !')
-            const index = fileList.indexOf(file)
-            fileList.splice(index, 1)
-            return false
-        }else if(islt100k){
-          console.log('文件小于100kb');
-          props.setBtn(true);
-          props.setUpload100(true)
-        }else if(islt2M){
-          props.setFileOver(true)
-          props.setBtn(true);
-          props.setUpload100(true)
-        }
-        else{
-          props.setBtn(true);
-          props.setUpload100(false)
-        }
+
+    beforeUpload(file, fileList) {
+      const islt10M = file.size / 1024 / 1024 < 10;
+      const islt2M = file.size / 1024 / 1024 > 2;
+      const islt100k = file.size / 1024 < 100;
+      if (!islt10M) {
+        message.error("The upload file size is too large, please try with a smaller file !");
+        const index = fileList.indexOf(file);
+        fileList.splice(index, 1);
+        return false;
+      } else if (islt100k) {
+        console.log("文件小于100kb");
+        props.setBtn(true);
+        props.setUpload100(true);
+      } else if (islt2M) {
+        props.setFileOver(true);
+        props.setBtn(true);
+        props.setUpload100(false);
+      } else {
+        props.setBtn(true);
+        props.setUpload100(false);
+      }
     },
     onChange(info) {
       const { status } = info.file;
+      // props.setUpload(false);
       if (status !== "uploading") {
         console.log("文件上传后端返回值", info.file);
-        if (info.file.response.upload_file_size >= 2048000) {
+        if (info.file.response.upload_file_size >= 20048000) {
           props.setChange(false); //文件大于2M
         }
-        props.setUpload(!props.isUpload)
+        props.setUpload(true);
         props.GetFileID(info.file.response.file_uid);
-        props.setZan(info.file.response.eight_can)
-        props.setZanRadio(info.file.response.eight_can ? false : true)
+        props.setZan(info.file.response.eight_can);
+        props.setZanRadio(info.file.response.eight_can ? false : true);
         props.FileInfoPass(
           info.file.response.file_uid,
           info.file.response.file_name,
           info.file.response.file_type
         );
+        props.setUploadFileBytes(info.file.response.upload_file_size);
       }
       if (status === "done") {
         // props.GetFileID(info.file.response.file_uid);

@@ -11,6 +11,7 @@ import { FolderAddTwoTone } from "@ant-design/icons";
 import { doPost } from "../../../utils/request";
 import encode from "../../../assets/service/encode.png";
 import { Link } from "react-router-dom";
+import { createAsyncStepRequest } from "../../../utils/request-util";
 
 export const Encode = (props) => {
   const [targetOffset, setTargetOffset] = useState(undefined);
@@ -35,6 +36,7 @@ export const Encode = (props) => {
   const [Zan, setZan] = useState(false); //其他方法都不能使用zan
   const [ZanRadio, setZanRadio] = useState(false); //一开始不禁
   const [isUpload, setUpload] = useState(false); //假设一开始没有上传文件
+  const [uploadFileBytes, setUploadFileBytes] = useState(0);
   // useEffect(() => {
   //   props.setIsSynthesis(false);
   // }, []);
@@ -67,20 +69,40 @@ export const Encode = (props) => {
   //     });
   //   }
   // },[upload100kb,Zan])
-  const controlPlace = useMemo((placement)=>{
-    if (upload100kb){
+  const controlPlace = useMemo(
+    (placement) => {
+      if (upload100kb && Zan) { //小于100k且是英文
+        notification.info({
+          message:"Ping-zhi's yin-yang code and Erlich's fountain code method be used for files larger than 100kb!",
+          placement,
+          duration: 10.5,
+        });
+      }else if(upload100kb && !Zan){ //小于100k但是不是英文
+        notification.info({
+          message:"Ping-zhi's yin-yang code and Erlich's fountain code method be used for files larger than 100kb! Zan's code can only encode the English letters in the txt file!",
+          placement,
+          duration: 10.5,
+        });
+      }
+      return "1";
+    },
+    [Zan]
+  );
+const controlZan = useMemo(
+  (placement)=>{
+    if (!upload100kb && !Zan && isUpload==true) { //大于100k且不是英文（此时不能用Zan）
       notification.info({
-        message: Zan ? "Ping-zhi's yin-yang code and Erlich's fountain code method be used for files larger than 100kb! " : "Ping-zhi's yin-yang code and Erlich's fountain code method be used for files larger than 100kb! Zan's code can only encode the English letters in the txt file!",
+        message:"Zan's code can only encode the English letters in the txt file!",
         placement,
         duration: 10.5,
       });
     }
-    return '1'
-  },[Zan,upload100kb])
+    return "1";
+},[Zan])
 
   useEffect(() => {
     if (Zan && value === "SrcCode") {
-      console.log('index0');
+      console.log("index0");
       setIndex(0);
     }
     if (Zan && value === "SrcCode") {
@@ -185,7 +207,7 @@ export const Encode = (props) => {
     props.setSimuSet(true);
     props.setIsSynthesis(true);
     props.changeSider(["0-0-1"]);
-    props.setSpin(true);
+    props.setEncodeAndDecodeSpinning(true);
     props.setExam(false);
     params1.file_uid = props.fileId;
     params1.segment_length = seg;
@@ -193,41 +215,50 @@ export const Encode = (props) => {
     params1.verify_method = method;
     params1.encode_method = value;
 
-    // const body = params1;
+    const body = params1;
+    const uploadFileMb = uploadFileBytes / 1024 / 1024;
+    const intervalTime = uploadFileMb < 1 ? 3000 : 5000;
+    await createAsyncStepRequest(
+      "encode",
+      body,
+      props.setEncodeAndDecodeSpinning,
+      intervalTime,
+      null,
+      (resp) => {
+        InfoPass1(
+          resp.bit_size,
+          resp.byte_size,
+          resp.encode_method,
+          resp.index_length,
+          resp.segment_length,
+          resp.segment_number,
+          resp.verify_method,
+          resp.verify_code_length,
+          resp.final_segment_bit_length,
+          resp.DNA_sequence_number
+        );
+        GCPass(resp.gc_data);
+        HomoPass(resp.homo_data);
+        EnergyPass(resp.energy_plot);
+        EncodeURLPass(resp.user_encode_file);
+        FileURLPass(resp.user_file_infofile);
+        DNAInfoPass(
+          resp.DNA_sequence_length,
+          resp.encoding_time,
+          resp.information_density,
+          resp.nucleotide_counts,
+          resp.min_free_energy,
+          resp.net_information_density,
+          resp.physical_information_density_g
+          // response.data.min_free_energy_below_30kcal_mol,
+        );
+        miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
+      }
+    );
 
-    const resp = await doPost("/encode", { body: params1 });
-    console.log("Encode-response: ", resp);
-    console.log("Encode-response: ", typeof resp.min_free_energy_below_30kcal_mol);
-    InfoPass1(
-      resp.bit_size,
-      resp.byte_size,
-      resp.encode_method,
-      resp.index_length,
-      resp.segment_length,
-      resp.segment_number,
-      resp.verify_method,
-      resp.verify_code_length,
-      resp.final_segment_bit_length,
-      resp.DNA_sequence_number
-    );
-    GCPass(resp.gc_data);
-    HomoPass(resp.homo_data);
-    EnergyPass(resp.energy_plot);
-    EncodeURLPass(resp.user_encode_file);
-    FileURLPass(resp.user_file_infofile);
-    DNAInfoPass(
-      resp.DNA_sequence_length,
-      resp.encoding_time,
-      resp.information_density,
-      resp.nucleotide_counts,
-      resp.min_free_energy,
-      resp.net_information_density,
-      resp.physical_information_density_g
-      // response.data.min_free_energy_below_30kcal_mol,
-    );
-    miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
-    props.setSpin(false);
-    console.log("完成spin");
+    //const resp = await doPost("/encode", { body: params1 });
+    //props.setEncodeAndDecodeSpinning(false);
+    //console.log("完成spin");
   };
 
   const scrollToAnchor = (placement) => {
@@ -249,7 +280,7 @@ export const Encode = (props) => {
     props.setEncodeRepo(true);
     props.changeSider(["0-0-1"]);
     props.setIsSynthesis(true);
-    props.setSpin(true);
+    props.setEncodeAndDecodeSpinning(true);
     props.setExam(true);
     props.setFileId("example");
     const resp = await doPost("/example", { body: params1 });
@@ -282,7 +313,7 @@ export const Encode = (props) => {
       resp.physical_information_density_g
     );
     miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
-    props.setSpin(false);
+    props.setEncodeAndDecodeSpinning(false);
   };
   const handlereset = () => {
     setMethod("WithoutVerifycode");
@@ -299,8 +330,12 @@ export const Encode = (props) => {
             <Breadcrumb.Item>
               <Link to="/home">Home</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item><Link to="/services">Services</Link></Breadcrumb.Item>
-            <Breadcrumb.Item><Link to="/services/wholeprocess">Encode</Link></Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to="/services">Services</Link>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <Link to="/services/wholeprocess">Encode</Link>
+            </Breadcrumb.Item>
             <Breadcrumb.Item>Setting</Breadcrumb.Item>
           </Breadcrumb>
         </Card>
@@ -356,6 +391,7 @@ export const Encode = (props) => {
           <Uploads
             GetFileID={props.setFileId}
             FileInfoPass={FileInfoPass}
+            setUploadFileBytes={setUploadFileBytes}
             setBtn={setBtn}
             setChange={setChange}
             setUpload100={setUpload100}
