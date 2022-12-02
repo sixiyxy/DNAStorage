@@ -251,52 +251,52 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       {
         step: "synthesis",
         value: props.errorRecoder?.SYN ? Math.log(props.errorRecoder?.SYN.n) : 0,
-        type: "left",
+        type: "correct sequence",
       },
       {
         step: "synthesis",
         value: props.errorRecoder?.SYN ? Math.log(props.errorRecoder?.SYN.e) : 0,
-        type: "error",
+        type: "error sequence",
       },
       {
         step: "decay",
         value: props.errorRecoder?.DEC ? Math.log(props.errorRecoder?.DEC.n) : null,
-        type: "left",
+        type: "correct sequence",
       },
       {
         step: "decay",
         value: props.errorRecoder?.DEC ? Math.log(props.errorRecoder?.DEC.e) : null,
-        type: "error",
+        type: "error sequence",
       },
       {
         step: "pcr",
         value: props.errorRecoder?.PCR ? Math.log(props.errorRecoder?.PCR.n) : null,
-        type: "left",
+        type: "correct sequence",
       },
       {
         step: "pcr",
         value: props.errorRecoder?.PCR ? Math.log(props.errorRecoder?.PCR.e) : null,
-        type: "error",
+        type: "error sequence",
       },
       {
         step: "sample",
         value: props.errorRecoder?.SAM ? Math.log(props.errorRecoder?.SAM.n) : null,
-        type: "left",
+        type: "correct sequence",
       },
       {
         step: "sample",
         value: props.errorRecoder?.SAM ? Math.log(props.errorRecoder?.SAM.e) : null,
-        type: "error",
+        type: "error sequence",
       },
       {
         step: "sequence",
         value: props.errorRecoder?.SEQ ? Math.log(props.errorRecoder?.SEQ.n) : null,
-        type: "left",
+        type: "correct sequence",
       },
       {
         step: "sequence",
         value: props.errorRecoder?.SEQ ? Math.log(props.errorRecoder?.SEQ.e) : null,
-        type: "error",
+        type: "error sequence",
       },
     ];
   }, [props.errorRecoder]);
@@ -654,7 +654,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       </div>
       <div className="simulation-report-content-wrapper">
         <Spin tip="Loading..." size="large" spinning={props.spinflags}>
-          <Card title="Stage summary (steps review)" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
+          <Card title="Steps Review" headStyle={{ backgroundColor: "#99CCFF",fontSize:"18px"}}>
             <Tabs defaultActiveKey="1" size={"large"} type="card">
               <Tabs.TabPane tab="Synthesis" key="1" disabled={props.synthesisData === undefined}>
                 <div className="TabSYN">
@@ -749,7 +749,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         
             <h3><strong>Error counts</strong> </h3>
             <div style={{padding:"30px 200px 0 150px"}}>
-            <p>Error number in a strand: </p>
+            <p style={{paddingBottom:"1px",fontSize:"16px",color: "#748189"}}>Error number in a strand: </p>
               <Bar {...errorDensityConfig} />
             </div>
             <div
