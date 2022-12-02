@@ -31,8 +31,8 @@ class ClusterDecode():
         self.simulation_dir = '{}/{}'.format(self.backend_dir,self.config['simulation_dir'])
         self.simulation_dna_file = '{}/{}.fasta'.format(self.simulation_dir,self.file_uid)
         self.out_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
-        # self.starcode = self.config['starcode']
-        self.starcode = '/Users/jianglikun/VScode/starcode/starcode'
+        self.starcode = self.config['starcode']
+        # self.starcode = '/Users/jianglikun/VScode/starcode/starcode'
         self.cdhit = self.config['cdhit']
 
         # decode
@@ -156,7 +156,7 @@ class ClusterDecode():
         recall_bits_num = len(encode_index_payload_set & decode_index_payload_set)
         recall_bits_rate=  round((recall_bits_num/len(encode_index_payload_set))*100,2)
         error_bits_number = len(decode_index_payload_set) -  recall_bits_num
-        error_bits_rate = str(round(error_bits_number/len(decode_index_payload_set) * 100, 2)) + "%"
+        # error_bits_rate = str(round(error_bits_number/len(decode_index_payload_set) * 100, 2)) + "%"
 
         ### remove index
         # indices, decode_payload = remove_index(verified_segments, self.index_length, True)
