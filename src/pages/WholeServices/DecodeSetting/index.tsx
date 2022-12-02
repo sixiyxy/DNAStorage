@@ -81,10 +81,12 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
       intervalTime,
       null,
       (resp) => {
-        console.log('decode',resp?.data);
-        props.setDecodeData(resp?.data);
+        console.log('decode',resp);
+        props.setDecodeData(resp);
         props.setEncodeAndDecodeSpinning(false);
+        
       }
+      
     );
     // axios.post(API_PREFIX + "/example", { type: "decode" }).then(function (response) {
     //   //console.log("decode", response);
