@@ -206,6 +206,7 @@ const controlZan = useMemo(
     props.setEncodeRepo(true);
     props.setSimuSet(true);
     props.setIsSynthesis(true);
+    props.setEncodeSet(false)
     props.changeSider(["0-0-1"]);
     props.setEncodeAndDecodeSpinning(true);
     props.setExam(false);
@@ -278,6 +279,8 @@ const controlZan = useMemo(
   const handleExm = async () => {
     // props.setIsSynthesis(true);
     props.setEncodeRepo(true);
+    props.setSimuSet(true);
+    props.setEncodeSet(false)
     props.changeSider(["0-0-1"]);
     props.setIsSynthesis(true);
     props.setEncodeAndDecodeSpinning(true);

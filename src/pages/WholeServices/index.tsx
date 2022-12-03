@@ -191,6 +191,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setDeSet={setDeSet}
               setDerepo={setDerepo}
               resetMenu={resetMenu}
+              setEncodeSet={setEncodeSet}
             />
           ) : null}
           {siderSelect[0] === "0-0-1" ? (
@@ -211,6 +212,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               fileOver2M={fileOver2M}
               setSimuSet={setSimuSet}
               btnNext={btnNext}
+              // setEncodeSet={setEncodeSet}
             />
           ) : null}
 
@@ -240,6 +242,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setSimuRepo={setSimuRepo}
               SimuRepo={SimuRepo}
               setDeSet={setDeSet}
+              setSimuSet={setSimuSet}
               setSimulationSpin={setSimulationSpinning}
               setSynthesisData={setSynthesisData}
               setDacayData={setDacayData}
@@ -254,6 +257,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
           {siderSelect[0] === "0-2-0" ? (
             <DecodeSetting
               fileId={fileId}
+              setDeSet={setDeSet}
               changeSider={setSiderSelect}
               setIsDecode={setIsDecode}
               setDecodeData={setDecodeData}
@@ -268,6 +272,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               decodeData={decodeData}
               spinflag={encodeAndDecodeSpinning}
               setResetMenu={setResetMenu}
+              setEncodeSet={setEncodeSet}
             />
           ) : null}
         </div>

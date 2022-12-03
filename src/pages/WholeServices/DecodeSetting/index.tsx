@@ -14,6 +14,7 @@ export class DecodeProps {
   setDecodeData;
   setEncodeAndDecodeSpinning;
   setDerepo;
+  setDeSet;
 }
 
 export const DecodeSetting: React.FC<DecodeProps> = (props) => {
@@ -63,6 +64,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
 
   const onExample = async function () {
     props.setDerepo(true);
+    props.setDeSet(false)
     props.changeSider(["0-2-1"]);
 
     // props.setEncodeAndDecodeSpinning(true);

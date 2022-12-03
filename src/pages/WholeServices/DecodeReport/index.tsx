@@ -11,6 +11,7 @@ export class DecodeProps {
   isDecode;
   spinflag;
   setResetMenu;
+  setEncodeSet;
 }
 
 export const DecodeReport: React.FC<DecodeProps> = (props) => {
@@ -32,6 +33,7 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
   const tableData = useMemo(() => {
     const data = props.decodeData;
     props.setResetMenu(true)//decode数据收到，所有页面展示完毕了
+    props.setEncodeSet(true)
     return [
       {
         key: "1",

@@ -762,7 +762,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             <div
               style={{
                 textAlign: "justify",
-
+                fontSize:"16px",
                 color: "#748189",
                 padding: "20px 200px 0 180px",
               }}
@@ -783,7 +783,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         
             <h3><strong>Error counts</strong> </h3>
             <div style={{padding:"30px 200px 0 150px"}}>
-            <p style={{paddingBottom:"1px",fontSize:"16px",color: "#748189"}}>Error number in a strand: </p>
+            <p style={{paddingBottom:"1px",fontSize:"14px",color: "#748189"}}>Error number in a strand: </p>
               <Bar {...errorDensityConfig} />
             </div>
             <div
@@ -791,7 +791,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 textAlign: "justify",
 
                 color: "#748189",
-                padding: "30px 200px 50px 180px",
+                padding: "30px 200px 50px 190px",
               }}
             >
               <p>

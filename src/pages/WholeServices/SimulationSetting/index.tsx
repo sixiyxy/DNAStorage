@@ -36,6 +36,7 @@ export class SimulationSetProps {
   setErrorDensity;
   setStrand;
   encodeInfo;
+  setSimuSet;
 }
 
 const sequenceNumTable = [5000, 10000, 100000];
@@ -102,6 +103,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const handleReport = async () => {
     method = [false, false, false, false];
     props.setSimuRepo(true);
+    props.setSimuSet(false)
     props.changeSider(["0-1-1"]);
     //const resp = await doPost("/simu_repo", { body: paramsRepo });
     const body = paramsRepo;

@@ -13,7 +13,7 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     <Layout className="layout">
       <Header>
         <Menu theme="dark" mode="horizontal" className="header-menu">
-          <Link to="/home">
+          {/* <Link to="/home"> */}
             <div
               style={{
                 color: "white",
@@ -27,7 +27,7 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
               ></i>
               DNA Storage Designer
             </div>
-          </Link>
+          {/* </Link> */}
 
           <MenuItem key="home">
             <i

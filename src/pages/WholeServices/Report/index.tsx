@@ -30,6 +30,7 @@ export class ReportProps {
   fileOver2M;
   setSimuSet;
   btnNext;
+  // setEncodeSet;
 }
 interface DataType {
   key: string;
