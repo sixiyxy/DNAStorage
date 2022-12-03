@@ -275,7 +275,7 @@ def get_simu_repo(file_uid,upload_flag):
                 index=0
                 for dna in dnas:
                     for re in dna['re']:
-                        for i in range(re[0]):                    
+                        for _,i in enumerate(re[0]):                    
                             f.write('>'+str(index)+"|"+str(re[1])+"\n") #index | errors
                             f.write(str(re[2])+"\n") # dna sequence
                             index+=1
@@ -335,7 +335,10 @@ def calculate_density(dnas,layer=False):
         if group>10:
             groups=[]
             for i in range(0,len(nums_count)//group):
+                try:
                     groups.append(nums_count[(i+1)*group][0]-nums_count[i*group][0])
+                except:
+                    pass
             try:   
                 group=int(sum(groups)/len(groups))
             except:

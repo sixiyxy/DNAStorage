@@ -239,7 +239,7 @@ class Simulation():
             index=0
             for dna in self.simu_dna:
                 for re in dna['re']:
-                    for i in range(re[0]): 
+                    for _,i in enumerate(re[0]): 
                         f.write('>'+str(index)+'|'+str(re[1])+"\n") #index | errors
                         index+=1
                         f.write(str(re[2])+"\n") # dna sequence

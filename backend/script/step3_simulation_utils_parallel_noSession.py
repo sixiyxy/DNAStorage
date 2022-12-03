@@ -273,7 +273,7 @@ def get_simu_repo(file_uid,upload_flag):
                 index=0
                 for dna in dnas:
                     for re in dna['re']:
-                        for i in range(re[0]):                    
+                        for _,i in enumerate(re[0]):                    
                             f.write('>'+str(index)+"|"+str(re[1])+"\n") #index | errors
                             f.write(str(re[2])+"\n") # dna sequence
                             index+=1
@@ -285,8 +285,10 @@ def run_default_settings(file_uid):
     config = get_config(yaml_path='config')
     backend_dir = config['backend_dir']
     yaml_path = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
-    dna_path='{}/encode/{}.fasta'.format(backend_dir,file_uid)
-    simu_dna=fasta_to_dna(dna_path)
+    dna_path='{}/encode/{}_demo.dna'.format(backend_dir,file_uid)
+    with open(dna_path) as f:
+                dnas=f.readlines()
+    simu_dna=[dna.split('\n')[0] for dna in dnas]
     #SYN=Model.Synthesizer_simu(dic)
     default_setting_path='{}/upload/default.yaml'.format(backend_dir)
     file_info=get_config(yaml_path=default_setting_path)
@@ -333,7 +335,10 @@ def calculate_density(dnas,layer=False):
         if group>10:
             groups=[]
             for i in range(0,len(nums_count)//group):
+                try:
                     groups.append(nums_count[(i+1)*group][0]-nums_count[i*group][0])
+                except:
+                    pass
             try:   
                 group=int(sum(groups)/len(groups))
             except:
