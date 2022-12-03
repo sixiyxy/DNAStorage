@@ -2,7 +2,7 @@ import imp
 import os
 import numpy as np
 from datetime import datetime
-from .utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+from .utils.utils_basic import get_config,write_yaml
 from .utils.verify_methods import Hamming,ReedSolomon
 from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
 from .utils.decode_utils import remove_index

@@ -1,7 +1,7 @@
 from distutils.log import error
 import script.utils.simulation_model as Model
 import numpy as np
-from script.utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
+from script.utils.utils_basic import get_config,write_yaml,Monitor
 from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg,funcs_parameter,fasta_to_dna_demo
 import os
 from multiprocessing import Pool
