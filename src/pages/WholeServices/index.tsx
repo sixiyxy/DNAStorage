@@ -212,7 +212,6 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               fileOver2M={fileOver2M}
               setSimuSet={setSimuSet}
               btnNext={btnNext}
-              // setEncodeSet={setEncodeSet}
             />
           ) : null}
 
