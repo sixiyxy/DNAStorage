@@ -256,10 +256,3 @@ def save_decode_txt(file_dir,payload,bit_sequences,dna_sequences):
         'bit_sequences':bit_sequences,
          'dna_sequences':dna_sequences}
     np.savez(file_dir,**save_dict)
-
-def save_decode_txt(file_dir,payload,bit_sequences,dna_sequences):
-    save_dict = {
-        'index_payload':payload,
-        'bit_sequences':bit_sequences,
-         'dna_sequences':dna_sequences}
-    np.savez(file_dir,**save_dict)
