@@ -668,8 +668,8 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 </strong>
               </li>
               <p id="text-content">
-                In bioinformatics area, FASTA is the most commonly used text-based format for representing nucleotide sequences, 
-                which uses single-letter codes to present nucleotides. Strating with a ">" symbol, a description of the following Sequence
+                In bioinformatics area, FASTA is the most commonly accepted text-based format for representing nucleotide sequences, 
+                which uses single-letter codes to present nucleotides. Strating with a ">" symbol, a description of the following sequence
                 will be given. And the lines beneath are the said sequence before where the next ">" symbol starts. 
               </p>
               <li>
@@ -678,9 +678,9 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 </strong>
               </li>
               <p id="text-content">
-                Generally, errors occur during DNA storage projects come from two aspects: within-sequences errors and between-sequences errors.
-                The former one refers to errors like insertion, deletion and substitution for bases in sequences and the later one means the change of sequence distributon and even 
-                sequences lost. With-in sequences errors are often introduced by the methods or platforms used, whereas the distribution changes relates to human operations, for example,
+                Generally, errors occur in DNA storage projects come from two aspects: within-sequences errors and between-sequences errors.
+                The former one refers to errors like insertion, deletion and substitution for bases in sequences which may lead to wrong information. The later one, between-sequences errors, means the change of sequence distributon and even 
+                sequence lost. With-in sequences errors are often introduced by and varying from the methods or platforms used, whereas the distribution changes relates to human operations, for example,
                 sampling ratio, sequencing depth, etc. Thus, we design our error simulation parts in the combined way to help users most. 
               </p>
             </ul>
