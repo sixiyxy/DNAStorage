@@ -36,62 +36,62 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
       {
         key: "1",
         name: "Decode time",
-        value: data?.decode_time || "",
+        value: data?.decode_time || "0",
       },
       {
         key: "2",
         name: "Clustering method",
-        value: data?.clust_method || "",
+        value: data?.clust_method || "0",
       },
       {
         key: "3",
         name: "Clustering time",
-        value: data?.clust_time || "",
+        value: data?.clust_time || "0",
       },
       {
         key: "4",
         name: "Encode DNA sequence number",
-        value: data?.encode_dna_sequence_number || "",
+        value: data?.encode_dna_sequence_number || "0",
       },
       {
         key: "5",
         name: "Simulation DNA sequence number",
-        value: data?.simulation_dna_number || "",
+        value: data?.simulation_dna_number || "0",
       },
       {
         key: "6",
         name: "Clustering DNA sequence number",
-        value: data?.after_clust_dna_sequence_number || "",
+        value: data?.after_clust_dna_sequence_number || "0",
       },
       {
         key: "7",
         name: "Recall DNA sequence number",
-        value: data?.recall_dna_sequence_number || "",
+        value: data?.recall_dna_sequence_number || "0",
       },
       {
         key: "8",
         name: "Recall rate",
-        value: data?.recall_dna_sequence_rate || "",
+        value: data?.recall_dna_sequence_rate || "0",
       },
       {
         key: "9",
         name: "Encode segment bits number",
-        value: data?.encode_bits_number || "",
+        value: data?.encode_bits_number || "0",
       },
       {
         key: "10",
         name: "Decode segment bits number",
-        value: data?.final_decode_bits_number || "",
+        value: data?.final_decode_bits_number || "0",
       },
       {
         key: "11",
         name: "Recall segment bits number",
-        value: data?.recall_bits_number || "",
+        value: data?.recall_bits_number || "0",
       },
       {
         key: "12",
         name: "Recall bits rate",
-        value: data?.recall_bits_rate || "",
+        value: data?.recall_bits_rate || "0",
       },
     ];
   }, [props.decodeData]);

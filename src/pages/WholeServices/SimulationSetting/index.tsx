@@ -113,6 +113,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       intervalTime,
       null,
       (resp) => {
+        console.log('simu-report-response:',resp);
         props.setSynthesisData(resp.SYN);
         props.setDacayData(resp.DEC);
         props.setPcrData(resp.PCR);
