@@ -2,7 +2,7 @@ from distutils.log import error
 import script.utils.simulation_model as Model
 import numpy as np
 from script.utils.utils_basic import get_config,write_yaml
-from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg,funcs_parameter
+from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg,funcs_parameter,tar_file
 import os
 # from multiprocessing import Pool
 import billiard as multiprocessing
@@ -275,11 +275,13 @@ def get_simu_repo(file_uid,upload_flag):
                 index=0
                 for dna in dnas:
                     for re in dna['re']:
-                        for _,i in enumerate(re[0]):                    
+                        for i in range(re[0]):                    
                             f.write('>'+str(index)+"|"+str(re[1])+"\n") #index | errors
                             f.write(str(re[2])+"\n") # dna sequence
                             index+=1
+        
         simu_repo["Strand_Count"]=index
+        tar_file(upload_dir=os.path.dirname(file_info_path),simulation_dir=simulation_dir,file_uid=file_uid)
         return simu_repo
 
 
@@ -287,8 +289,11 @@ def run_default_settings(file_uid):
     config = get_config(yaml_path='config')
     backend_dir = config['backend_dir']
     yaml_path = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
-    dna_path='{}/encode/{}.fasta'.format(backend_dir,file_uid)
-    simu_dna=fasta_to_dna(dna_path)
+    dna_path='{}/encode/{}_demo.dna'.format(backend_dir,file_uid)
+    print(dna_path)
+    with open(dna_path) as f:
+                dnas=f.readlines()
+    simu_dna=[dna.split('\n')[0] for dna in dnas]
     #SYN=Model.Synthesizer_simu(dic)
     default_setting_path='{}/upload/default.yaml'.format(backend_dir)
     file_info=get_config(yaml_path=default_setting_path)

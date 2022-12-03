@@ -1,7 +1,8 @@
 from .simulation_arg import synthMeth, decHost,pcrPoly,seqMeth
 from Bio import SeqIO
 import script.utils.simulation_model as Model
-
+import os
+import tarfile
 
 class ArgumentPasser:
     """Simple Class for passing arguments in arg object.
@@ -64,6 +65,25 @@ def Seq_arg(seq_meth,left):
     dic.seq_depth=left[0]
     SEQ=Model.Sequencer_simu(dic)
     return SEQ,arg
+
+def tar_file(upload_dir,simulation_dir,file_uid):
+    current_dir = os.getcwd()
+
+    # file save dir and file information
+    file_info_name = '{}.yaml'.format(file_uid)
+    # file encode dir
+    # fasta file
+    fasta_file = '{}.fasta'.format(file_uid)
+
+    os.chdir(simulation_dir)
+    downfile_name = '{}.tar.gz'.format(file_uid)
+    file_obj = tarfile.open(downfile_name,'w:gz')
+    file_obj.add(fasta_file)
+    os.chdir(upload_dir)
+    file_obj.add(file_info_name)
+    os.chdir(current_dir)
+    file_obj.close()
+
 
 def is_fasta(filename):
     with open(filename,'r') as handle:
