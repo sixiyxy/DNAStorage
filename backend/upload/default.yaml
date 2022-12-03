@@ -16,3 +16,19 @@ decay_loss_rate:  0.3
 synthesis_method: ErrASE
 synthesis_number: 10
 synthesis_yield: 0.99
+SYN:
+  del: 0.6
+  ins: 0.2
+  sub: 0.2
+DEC:
+  del: 0.06
+  ins: 0.06
+  sub: 0.88
+SEQ:
+  del: 0.0016
+  ins: 0.0012
+  sub: 0.9972
+PCR:
+  del: 0.01
+  ins: 0
+  sub: 0.99

@@ -2,7 +2,7 @@ from distutils.log import error
 import script.utils.simulation_model as Model
 import numpy as np
 from script.utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg,funcs_parameter
+from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg,funcs_parameter,fasta_to_dna_demo
 import os
 from multiprocessing import Pool
 import time
@@ -29,14 +29,11 @@ import yaml
 def get_info(file_uid,upload_flag,final_parallel=False):
     config = get_config(yaml_path='config')
     backend_dir = config['backend_dir']
-    print(upload_flag)
-    print(not upload_flag)
     if not upload_flag:
         file_dir=config['file_save_dir']
         dna_dir=config['encode_dir']
         file_path='{}/{}/{}.fasta'.format(backend_dir,dna_dir,file_uid)
         demo_dna_dir='{}/{}/{}_demo.dna'.format(backend_dir,dna_dir,file_uid)
-        print("Here")
     else:
         file_dir=config['upload_dna_save_dir']
         file_path='{}/{}/{}.fasta'.format(backend_dir,file_dir,file_uid)
@@ -66,8 +63,7 @@ def get_info(file_uid,upload_flag,final_parallel=False):
                 dnas=f.readlines()
             simu_dna=[dna.split('\n')[0] for dna in dnas]
         else:
-            simu_dna=fasta_to_dna(file_path)
-            simu_dna=simu_dna[1000:]
+            simu_dna=fasta_to_dna_demo(file_path)
     else:
         simu_dna=fasta_to_dna(file_path)
         for func in funcs:
@@ -282,7 +278,6 @@ def get_simu_repo(file_uid,upload_flag):
                             f.write(str(re[2])+"\n") # dna sequence
                             index+=1
         simu_repo["Strand_Count"]=index
-        print(simu_repo)
         return simu_repo
 
 
@@ -299,7 +294,6 @@ def run_default_settings(file_uid):
     funcs=[]
     simu_repo={}
     funcs=file_info['simu']
-    print('funcs here',funcs)
     for func in funcs:
         simu_repo[func]={}
         func_param_name=funcs_parameter[func]
@@ -339,10 +333,7 @@ def calculate_density(dnas,layer=False):
         if group>10:
             groups=[]
             for i in range(0,len(nums_count)//group):
-                try:
                     groups.append(nums_count[(i+1)*group][0]-nums_count[i*group][0])
-                except:
-                    print(str(len(nums_count))+" "+str(i+1)+" "+str(group))
             try:   
                 group=int(sum(groups)/len(groups))
             except:
@@ -426,7 +417,6 @@ def parallel(simu_dna,funcs,funcs_names):
         t2 = time.time()
         print('cut size {},threads {}, pool time {}'.format(cut,thread,t2-t1))
         print("Done")
-        print(error_recorder_final)
         return dnas,error_recorder_final,error_density_final
 
 def density_front_end_solver(dictlist):

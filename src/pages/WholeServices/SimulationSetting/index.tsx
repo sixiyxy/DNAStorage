@@ -94,7 +94,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   }, []);
 
   const { encodeInfo } = props;
-  console.log("encodeInfo ", encodeInfo);
+  // console.log("encodeInfo ", encodeInfo);
 
   const paramsRepo = {
     file_uid: props.fileId,
@@ -127,18 +127,22 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   };
 
   const handleDecay = () => {
+    // console.log(method);
     method[0] = !method[0];
     setDecayFlag(!decayFlag);
   };
   const handlePCR = () => {
+    // console.log(method);
     method[1] = !method[1];
     setPcrFlag(!pcrFlag);
   };
   const handleSampling = () => {
+    // console.log(method);
     method[2] = !method[2];
     setSampleFlag(!sampleFlag);
   };
   const handleSequencing = () => {
+    // console.log(method);
     method[3] = !method[3];
     setSequenceFlag(!sequenceFlag);
   };
@@ -332,7 +336,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           <p className="function-bar" style={{ fontSize: "16px" }}>
             <strong>
               Please select the following simulation steps. You can choose to skip some of these
-              steps, but Synthesis cannot.
+              steps, but Synthesis is a must.
             </strong>
           </p>
           <div className="simulation-setting-header-button-group">

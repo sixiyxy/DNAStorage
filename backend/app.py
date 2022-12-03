@@ -121,13 +121,12 @@ def dna_upload():
     ori_save_dir='{}/upload_dna/{}'.format(backend_dir,file_rename)
     f.save(ori_save_dir)
     flag=is_fasta(ori_save_dir)
-    print(flag)
     # except:
     #     os.remove(ori_save_dir)
     #     return "Invalid"
     if flag:
         strand_count=0
-        print("Here")
+        print("Fasta upload successfully!")
         with open(ori_save_dir,'r') as fp:
             for i in fp:
                 if i[0]=='>':
@@ -138,7 +137,6 @@ def dna_upload():
             file_basic_info={"file_uid":file_uid,
                 "overCount":True}
             os.remove(ori_save_dir)
-            print(file_basic_info)
             return json.dumps(file_basic_info)
 
         if strand_count>150000:
@@ -356,14 +354,11 @@ def simu_repo():
     try:
         upload_flag=front_data['upload_flag']
     except Exception as e:
-        print(e)
-        print(front_data)
         upload_flag=False
     
     file_uid=front_data['file_uid']
     #upload_flag=front_data['upload_flag']
     simu_repo=simu_utils.get_simu_repo(file_uid,upload_flag)
-    print(simu_repo)
     return json.dumps(simu_repo)
     
 @app.route('/decode',methods=['GET','POST'])
@@ -476,7 +471,17 @@ def simulation_start():
     args = [file_uid,upload_flag]
     simulation_task = simulation_celery.apply_async(args=args)
     task_id= simulation_task.id
-    return task_id    
+    return task_id
+    
+@app.route('/example_whole_simu',methods=['GET','POST'])
+def whole_simu_example():
+    print('\n','#'*25,'display example','#'*25,'\n','#'*60)
+    front_data = json.loads(request.data)
+    file_uid=front_data['file_uid']
+    result=simu_utils.run_default_settings(file_uid)
+    return json.dumps(result)
+    
+    
 
 @app.route('/decode_start',methods=['GET','POST'])
 def decode_start():

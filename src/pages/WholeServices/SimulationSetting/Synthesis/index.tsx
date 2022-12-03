@@ -59,7 +59,9 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     if (isNaN(value)) {
       return;
     }
+    // console.log(props.method1);
     setCycleValue(value);
+    // console.log(props.method1);
   };
   const yieldChange = (value: number) => {
     if (isNaN(value)) {
@@ -83,6 +85,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       // sessionStorage.setItem("respdata", JSON.stringify(response?.data));
       // var getdata0 = JSON.parse(sessionStorage.getItem("respdata"));
       // console.log(getdata0);
+      
       setLoading(false);
       if (!props.method1[0]){
         props.setDECRUN(false)
