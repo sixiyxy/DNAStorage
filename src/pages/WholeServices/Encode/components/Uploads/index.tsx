@@ -25,20 +25,19 @@ const Uploads: React.FC = (props: any) => {
         return false;
       } else if (islt100k) {
         console.log("文件小于100kb");
-        props.setBtn(true);
+        // props.setBtn(true);
         props.setUpload100(true);
       } else if (islt2M) {
         props.setFileOver(true);
-        props.setBtn(true);
+        // props.setBtn(true);
         props.setUpload100(false);
       } else {
-        props.setBtn(true);
+        // props.setBtn(true);
         props.setUpload100(false);
       }
     },
     onChange(info) {
       const { status } = info.file;
-      // props.setUpload(false);
       if (status !== "uploading") {
         console.log("文件上传后端返回值", info.file);
         if (info.file.response.upload_file_size >= 20048000) {
@@ -58,6 +57,7 @@ const Uploads: React.FC = (props: any) => {
       if (status === "done") {
         // props.GetFileID(info.file.response.file_uid);
         message.success(`${info.file.name} file uploaded successfully.`);
+        props.setBtn(true);
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
       }

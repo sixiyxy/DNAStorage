@@ -132,5 +132,5 @@ def decode_celery(self,file_uid,clust_method):
 
 
 if __name__ == '__main__':
-    # celery -A app_celery worker -l info
+    # /opt/anaconda3/bin/celery -A celery_task worker -l info
     pass
