@@ -2,7 +2,7 @@ from distutils.log import error
 import script.utils.simulation_model as Model
 import numpy as np
 from script.utils.utils_basic import get_config,write_yaml
-from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg,funcs_parameter,tar_file
+from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg,funcs_parameter,tar_file,fasta_to_dna_demo
 import os
 # from multiprocessing import Pool
 import billiard as multiprocessing
@@ -14,19 +14,6 @@ from collections import Counter
 import Bio
 from Bio import SeqIO
 import yaml
-
-# import utils.simulation_model as Model
-# import numpy as np
-# from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-# from utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna
-# funcs_parameter={
-#     "SYN":["synthesis_method","synthesis_number","synthesis_yield"],
-#     "DEC":["storage_host","months_of_storage","decay_loss_rate"],
-#     "PCR":["pcr_polymerase","pcr_cycle","pcr_prob"],
-#     "SAM":['sam_ratio'],
-#     "SEQ":['seq_meth',"seq_depth"]
-# }
-
 
 def get_info(file_uid,upload_flag,final_parallel=False):
     config = get_config(yaml_path='config')
@@ -64,8 +51,7 @@ def get_info(file_uid,upload_flag,final_parallel=False):
                 dnas=f.readlines()
             simu_dna=[dna.split('\n')[0] for dna in dnas]
         else:
-            simu_dna=fasta_to_dna(file_path)
-            simu_dna=simu_dna[1000:]
+            simu_dna=fasta_to_dna_demo(file_path)
     else:
         simu_dna=fasta_to_dna(file_path)
         for func in funcs:
@@ -266,7 +252,7 @@ def get_simu_seq_info(file_uid,
         return seq_info
 
 def get_simu_repo(file_uid,upload_flag):
-        print("aysnc repo!")
+        print("simu aysnc")
         simu_dna,file_info_path,funcs,funcs_name,file_uid,simu_repo=get_info(file_uid,upload_flag,final_parallel=True)
         dnas,error_recorder,error_density_final=parallel(simu_dna,funcs,funcs_name)
         simu_repo["Error_Recorder"]=error_recorder
@@ -446,9 +432,6 @@ def density_front_end_solver(dictlist):
     return outdic
 
 def cut_file(simu_dna,cut_size):
-    
-        # print("Read binary matrix from file: " + self.file_path)
-        #dnas=self.simu_dna
         cut_file_data = []
         for i in range(math.ceil(len(simu_dna)/cut_size)):
             if i != len(simu_dna)//cut_size:
@@ -463,11 +446,7 @@ def cut_file(simu_dna,cut_size):
 
 if __name__ == "__main__":
 
-    # _,in_dnas=get_simu_synthesis_info(1565536927137009664,
-    # 30,0.99,'ErrASE')
 
-    # a=get_simu_dec_info(1565536927137009664,24,0.3,'Ecoli',in_dnas)
-    # print(a)
     files=[1584069747073486848,1584070962381459456]
     for file in files:
         simu=Simulation(file)

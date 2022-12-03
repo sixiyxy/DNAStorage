@@ -34,6 +34,7 @@ def encode_celery(self,file_uid,segment_length,index_length,verify_method,encode
 
 @celery.task(bind=True)
 def simulation_celery(self,file_uid,upload_flag):
+    print("simulation celery~")
     simu_repo=simu_utils.get_simu_repo(file_uid,upload_flag)
     return {'result':simu_repo}
     
