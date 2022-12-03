@@ -8,7 +8,7 @@ from decimal import Decimal
 from multiprocessing import Pool
 from numpy import fromfile, array, uint8
 
-from .utils.utils_basic import get_config,write_yaml,write_dna_file
+from .utils.utils_basic import get_config,write_yaml
 from .utils.verify_methods import Hamming,ReedSolomon
 from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
 from .utils.srcode import SrcCode
