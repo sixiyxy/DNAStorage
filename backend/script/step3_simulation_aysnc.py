@@ -252,7 +252,6 @@ def get_simu_seq_info(file_uid,
         return seq_info
 
 def get_simu_repo(file_uid,upload_flag):
-        print("simu aysnc")
         simu_dna,file_info_path,funcs,funcs_name,file_uid,simu_repo=get_info(file_uid,upload_flag,final_parallel=True)
         dnas,error_recorder,error_density_final=parallel(simu_dna,funcs,funcs_name)
         simu_repo["Error_Recorder"]=error_recorder
@@ -456,7 +455,6 @@ if __name__ == "__main__":
         simu.get_simu_pcr_info( 12,0.8,"Taq")
         simu.get_simu_sam_info(0.005)
         simu.get_simu_seq_info(15,"ill_PairedEnd")
-        print("Normal:", time.time() - t1)
         #simu.parallel_test()
     # dic={}
     # for dna in simu.simu_dna:
