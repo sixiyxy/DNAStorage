@@ -67,6 +67,7 @@ def Seq_arg(seq_meth,left):
     return SEQ,arg
 
 def tar_file(upload_dir,simulation_dir,file_uid):
+    print("tar file here!")
     current_dir = os.getcwd()
     print("current_dir",current_dir)
     file_info_name = '{}.yaml'.format(file_uid)

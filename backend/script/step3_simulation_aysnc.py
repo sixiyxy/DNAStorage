@@ -266,6 +266,7 @@ def get_simu_seq_info(file_uid,
         return seq_info
 
 def get_simu_repo(file_uid,upload_flag):
+        print("aysnc repo!")
         simu_dna,file_info_path,funcs,funcs_name,file_uid,simu_repo=get_info(file_uid,upload_flag,final_parallel=True)
         dnas,error_recorder,error_density_final=parallel(simu_dna,funcs,funcs_name)
         simu_repo["Error_Recorder"]=error_recorder
