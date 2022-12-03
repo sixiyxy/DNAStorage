@@ -68,20 +68,20 @@ def Seq_arg(seq_meth,left):
 
 def tar_file(upload_dir,simulation_dir,file_uid):
     current_dir = os.getcwd()
-
-    # file save dir and file information
+    print("current_dir",current_dir)
     file_info_name = '{}.yaml'.format(file_uid)
-    # file encode dir
-    # fasta file
     fasta_file = '{}.fasta'.format(file_uid)
 
     os.chdir(simulation_dir)
+    print("now dir(simu)".simulation_dir)
     downfile_name = '{}.tar.gz'.format(file_uid)
     file_obj = tarfile.open(downfile_name,'w:gz')
     file_obj.add(fasta_file)
     os.chdir(upload_dir)
+    print("now dir(upload)",upload_dir)
     file_obj.add(file_info_name)
     os.chdir(current_dir)
+    print("now dir(current)",current_dir)
     file_obj.close()
 
 
