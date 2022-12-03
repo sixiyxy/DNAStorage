@@ -72,7 +72,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
             <br />
             All the mentioned methods are provided and users could choose based on your needs. The
             following part will introduce these methods one by one. Their corresponding references
-            are also provided.
+            are also attached.
           </p>
           <br />
           <br />
@@ -100,7 +100,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           <p className="text-content">
             {" "}
             The authors propose a robust transcoding algorithm named <i>the yin–yang code</i>, which
-            uses two rules to encode two binary bits into one double-stranded DNA molecule, to
+            uses two rules, <i>yin</i> and <i>yang</i>, to encode two binary bits into one double-stranded DNA molecule, to
             generate DNA sequences that are highly compatible with synthesis and sequencing
             technologies.
           </p>
@@ -135,7 +135,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           <p className="text-content">
             {" "}
             Erlich and Zielinski present <i>DNA Fountain</i>, which approaches the theoretical
-            maximum for information stored per nucleotide.
+            maximum information capacity per nucleotide of DNA.
           </p>
           <Image src={dnafountain} width={"70%"} rootClassName="image" />
 
@@ -163,7 +163,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           </h4>
           <p className="text-content">
             {" "}
-            <i>DNA Information Code</i> has at least five advantages over the previous DNA storage
+            <i>DNA Information Code</i> has at least five advantages over the previous 
             encoding approaches. It encodes one bit per base (A or C for zero, G or T for one),
             instead of two. This method allows us to encode messages in many ways so that we could
             avoid sequences that are difficult to read or write due to problems like extreme GC
@@ -200,8 +200,8 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           </h4>
           <p className="text-content">
             {" "}
-            As for <i>Nick Goldman Code</i>, the bytes comprising each file were represented as
-            single DNA sequences with no homopolymers. Each DNA sequence was split into overlapping
+            As for <i>Nick Goldman Code</i>, the bytes comprising each file are represented as
+            single DNA sequences with no homopolymers. Each DNA sequence is split into overlapping
             segments, generating fourfold redundancy, and alternate segments were converted to their
             reverse complement. These measures reduce the occurring probability of systematic
             failure for any particular string, which could lead to uncorrectable errors and data
