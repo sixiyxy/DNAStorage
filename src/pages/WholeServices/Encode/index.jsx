@@ -37,9 +37,7 @@ export const Encode = (props) => {
   const [ZanRadio, setZanRadio] = useState(false); //一开始不禁
   const [isUpload, setUpload] = useState(false); //假设一开始没有上传文件
   const [uploadFileBytes, setUploadFileBytes] = useState(0);
-  // useEffect(() => {
-  //   props.setIsSynthesis(false);
-  // }, []);
+  
   useEffect(() => {
     if (props.resetMenu) {
       props.setEncodeRepo(false);
@@ -60,15 +58,7 @@ export const Encode = (props) => {
     </Button>
   );
   const key = `open${Date.now()}`;
-  // useEffect((placement)=>{
-  //   if (upload100kb){
-  //     notification.info({
-  //       message: Zan ? "Ping-zhi's yin-yang code and Erlich's fountain code method be used for files larger than 100kb! " : "Ping-zhi's yin-yang code and Erlich's fountain code method be used for files larger than 100kb! Zan's code can only encode the English letters in the txt file!",
-  //       placement,
-  //       duration: 10.5,
-  //     });
-  //   }
-  // },[upload100kb,Zan])
+  
   const controlPlace = useMemo(
     (placement) => {
       if (upload100kb && Zan) { //小于100k且是英文
@@ -201,11 +191,10 @@ const controlZan = useMemo(
     type: "encode",
   };
   const handleClick = async () => {
-    //console.log("加载中");
-    // props.setIsSynthesis(true);
     props.setEncodeRepo(true);
     props.setSimuSet(true);
     props.setIsSynthesis(true);
+    props.setEncodeSet(false)
     props.changeSider(["0-0-1"]);
     props.setEncodeAndDecodeSpinning(true);
     props.setExam(false);
@@ -278,6 +267,8 @@ const controlZan = useMemo(
   const handleExm = async () => {
     // props.setIsSynthesis(true);
     props.setEncodeRepo(true);
+    props.setSimuSet(true);
+    props.setEncodeSet(false)
     props.changeSider(["0-0-1"]);
     props.setIsSynthesis(true);
     props.setEncodeAndDecodeSpinning(true);
