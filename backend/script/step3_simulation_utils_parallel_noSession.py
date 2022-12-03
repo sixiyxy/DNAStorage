@@ -2,7 +2,7 @@ from distutils.log import error
 import script.utils.simulation_model as Model
 import numpy as np
 from script.utils.utils_basic import get_config,write_yaml,Monitor
-from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg,funcs_parameter,fasta_to_dna_demo
+from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg,funcs_parameter,fasta_to_dna_demo,tar_file
 import os
 from multiprocessing import Pool
 import time
@@ -259,6 +259,7 @@ def get_simu_seq_info(file_uid,
         return seq_info
 
 def get_simu_repo(file_uid,upload_flag):
+        print("simu aysnc")
         simu_dna,file_info_path,funcs,funcs_name,file_uid,simu_repo=get_info(file_uid,upload_flag,final_parallel=True)
         dnas,error_recorder,error_density_final=parallel(simu_dna,funcs,funcs_name)
         simu_repo["Error_Recorder"]=error_recorder
@@ -273,11 +274,13 @@ def get_simu_repo(file_uid,upload_flag):
                 index=0
                 for dna in dnas:
                     for re in dna['re']:
-                        for _,i in enumerate(re[0]):                    
+                        for i in range(re[0]):                    
                             f.write('>'+str(index)+"|"+str(re[1])+"\n") #index | errors
                             f.write(str(re[2])+"\n") # dna sequence
                             index+=1
+        
         simu_repo["Strand_Count"]=index
+        tar_file(upload_dir=os.path.dirname(file_info_path),simulation_dir=simulation_dir,file_uid=file_uid)
         return simu_repo
 
 

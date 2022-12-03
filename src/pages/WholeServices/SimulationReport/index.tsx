@@ -743,7 +743,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             </Tabs>
           </Card>
           <Card
-            title="Simulation result"
+            title="Simulation Result"
             headStyle={{ backgroundColor: "#99CCFF", fontSize: "18px" }}
           >
             <p style={{ textAlign: "justify" }}>

@@ -70,6 +70,7 @@ def get_download_path(type,file_uid):
         dna_dir = os.path.join(backend_dir,config['encode_dir'])
     elif type =='simulation':
         dna_dir =   os.path.join(backend_dir,config['simulation_dir'])
+        
 
     downfile_name = '{}.tar.gz'.format(file_uid)
     

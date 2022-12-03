@@ -2,7 +2,7 @@ from distutils.log import error
 import script.utils.simulation_model as Model
 import numpy as np
 from script.utils.utils_basic import get_config,write_yaml
-from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg,funcs_parameter
+from script.utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg,funcs_parameter,tar_file,fasta_to_dna_demo
 import os
 # from multiprocessing import Pool
 import billiard as multiprocessing
@@ -14,19 +14,6 @@ from collections import Counter
 import Bio
 from Bio import SeqIO
 import yaml
-
-# import utils.simulation_model as Model
-# import numpy as np
-# from utils.utils_basic import get_config,write_yaml,write_dna_file,Monitor
-# from utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna
-# funcs_parameter={
-#     "SYN":["synthesis_method","synthesis_number","synthesis_yield"],
-#     "DEC":["storage_host","months_of_storage","decay_loss_rate"],
-#     "PCR":["pcr_polymerase","pcr_cycle","pcr_prob"],
-#     "SAM":['sam_ratio'],
-#     "SEQ":['seq_meth',"seq_depth"]
-# }
-
 
 def get_info(file_uid,upload_flag,final_parallel=False):
     config = get_config(yaml_path='config')
@@ -64,8 +51,7 @@ def get_info(file_uid,upload_flag,final_parallel=False):
                 dnas=f.readlines()
             simu_dna=[dna.split('\n')[0] for dna in dnas]
         else:
-            simu_dna=fasta_to_dna(file_path)
-            simu_dna=simu_dna[1000:]
+            simu_dna=fasta_to_dna_demo(file_path)
     else:
         simu_dna=fasta_to_dna(file_path)
         for func in funcs:
@@ -92,6 +78,7 @@ def get_simu_synthesis_info(file_uid,
         SYN,arg=SynthMeth_arg(synthesis_method,[synthesis_number,synthesis_yield])
         simu_dna=funcs_parallel([SYN],simu_dna,False)
         funcs_name=['SYN']
+        print("Now : SYN")
         error_param={"sub":arg.syn_sub_prob,"ins":arg.syn_ins_prob,"del":arg.syn_del_prob}
         syn_info={
             "simu":funcs_name,
@@ -129,6 +116,7 @@ def get_simu_dec_info(file_uid,
         simu_dna,file_info_path,funcs,funcs_name=get_info(file_uid,upload_flag)
         DEC,arg=DecHost_arg(storage_host,[months_of_storage,loss_rate])
         funcs.append(DEC)
+        print("Now : DEC")
         funcs_name.append("DEC")
         simu_dna=funcs_parallel(funcs,simu_dna,False)
         error_param={"sub":arg.dec_sub_prob,"ins":arg.dec_ins_prob,"del":arg.dec_del_prob}
@@ -168,6 +156,7 @@ def get_simu_pcr_info(
         simu_dna,file_info_path,funcs,funcs_name=get_info(file_uid,upload_flag)
         PCR,arg=PcrPoly_arg(pcr_polymerase,[pcr_cycle,pcr_prob])
         funcs.append(PCR)
+        print("Now : PCR")
         funcs_name.append("PCR")
         simu_dna=funcs_parallel(funcs,simu_dna,False)
         error_param={"sub":arg.pcr_sub_prob,"ins":arg.pcr_ins_prob,"del":arg.pcr_del_prob}
@@ -203,6 +192,7 @@ def get_simu_sam_info(file_uid,
         simu_dna,file_info_path,funcs,funcs_name=get_info(file_uid,upload_flag)
         SAM,_=Sampler_arg(sam_ratio,None)
         funcs.append(SAM)
+        print("Now : SAM")
         funcs_name.append("SAM")
         simu_dna=funcs_parallel(funcs,simu_dna,False)
         
@@ -239,6 +229,7 @@ def get_simu_seq_info(file_uid,
         SEQ,arg=Seq_arg(seq_meth,[seq_depth])
         funcs.append(SEQ)
         funcs_name.append("SEQ")
+        print("Now :SEQ")
         #simu_dna=funcs_parallel(funcs,simu_dna,False)
         simu_dna,_,_=parallel(simu_dna,funcs,funcs_name)
         density,group=calculate_density(simu_dna)
@@ -275,11 +266,13 @@ def get_simu_repo(file_uid,upload_flag):
                 index=0
                 for dna in dnas:
                     for re in dna['re']:
-                        for _,i in enumerate(re[0]):                    
+                        for i in range(re[0]):                    
                             f.write('>'+str(index)+"|"+str(re[1])+"\n") #index | errors
                             f.write(str(re[2])+"\n") # dna sequence
                             index+=1
+        
         simu_repo["Strand_Count"]=index
+        tar_file(upload_dir=os.path.dirname(file_info_path),simulation_dir=simulation_dir,file_uid=file_uid)
         return simu_repo
 
 
@@ -287,8 +280,10 @@ def run_default_settings(file_uid):
     config = get_config(yaml_path='config')
     backend_dir = config['backend_dir']
     yaml_path = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
-    dna_path='{}/encode/{}.fasta'.format(backend_dir,file_uid)
-    simu_dna=fasta_to_dna(dna_path)
+    dna_path='{}/encode/{}_demo.dna'.format(backend_dir,file_uid)
+    with open(dna_path) as f:
+                dnas=f.readlines()
+    simu_dna=[dna.split('\n')[0] for dna in dnas]
     #SYN=Model.Synthesizer_simu(dic)
     default_setting_path='{}/upload/default.yaml'.format(backend_dir)
     file_info=get_config(yaml_path=default_setting_path)
@@ -297,6 +292,7 @@ def run_default_settings(file_uid):
     simu_repo={}
     funcs=file_info['simu']
     for func in funcs:
+        print("Now : ",func)
         simu_repo[func]={}
         func_param_name=funcs_parameter[func]
         func_param=[]
@@ -394,7 +390,8 @@ def parallel(simu_dna,funcs,funcs_names):
             cut=50
         t1 = time.time()
         cut_file_list = cut_file(simu_dna,cut)
-        thread=8
+        config = get_config(yaml_path='config')
+        thread=config["threads"]
         with multiprocessing.Pool(thread) as pool:
                 r = list(tqdm(pool.starmap(funcs_parallel,[(funcs,item) for item in cut_file_list])))   
                 pool.close()
@@ -434,9 +431,6 @@ def density_front_end_solver(dictlist):
     return outdic
 
 def cut_file(simu_dna,cut_size):
-    
-        # print("Read binary matrix from file: " + self.file_path)
-        #dnas=self.simu_dna
         cut_file_data = []
         for i in range(math.ceil(len(simu_dna)/cut_size)):
             if i != len(simu_dna)//cut_size:
@@ -451,11 +445,7 @@ def cut_file(simu_dna,cut_size):
 
 if __name__ == "__main__":
 
-    # _,in_dnas=get_simu_synthesis_info(1565536927137009664,
-    # 30,0.99,'ErrASE')
 
-    # a=get_simu_dec_info(1565536927137009664,24,0.3,'Ecoli',in_dnas)
-    # print(a)
     files=[1584069747073486848,1584070962381459456]
     for file in files:
         simu=Simulation(file)
@@ -465,7 +455,6 @@ if __name__ == "__main__":
         simu.get_simu_pcr_info( 12,0.8,"Taq")
         simu.get_simu_sam_info(0.005)
         simu.get_simu_seq_info(15,"ill_PairedEnd")
-        print("Normal:", time.time() - t1)
         #simu.parallel_test()
     # dic={}
     # for dna in simu.simu_dna:

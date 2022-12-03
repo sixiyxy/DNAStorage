@@ -513,5 +513,4 @@ if __name__ == '__main__':
     arg=ArgumentPasser(arg_pcr)
     PCR=PCRer_simu(arg)
     dnas=PCR(dnas)
-    print(dnas)
 
