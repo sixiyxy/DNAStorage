@@ -92,6 +92,7 @@ def get_simu_synthesis_info(file_uid,
         SYN,arg=SynthMeth_arg(synthesis_method,[synthesis_number,synthesis_yield])
         simu_dna=funcs_parallel([SYN],simu_dna,False)
         funcs_name=['SYN']
+        print("Now : SYN")
         error_param={"sub":arg.syn_sub_prob,"ins":arg.syn_ins_prob,"del":arg.syn_del_prob}
         syn_info={
             "simu":funcs_name,
@@ -129,6 +130,7 @@ def get_simu_dec_info(file_uid,
         simu_dna,file_info_path,funcs,funcs_name=get_info(file_uid,upload_flag)
         DEC,arg=DecHost_arg(storage_host,[months_of_storage,loss_rate])
         funcs.append(DEC)
+        print("Now : DEC")
         funcs_name.append("DEC")
         simu_dna=funcs_parallel(funcs,simu_dna,False)
         error_param={"sub":arg.dec_sub_prob,"ins":arg.dec_ins_prob,"del":arg.dec_del_prob}
@@ -168,6 +170,7 @@ def get_simu_pcr_info(
         simu_dna,file_info_path,funcs,funcs_name=get_info(file_uid,upload_flag)
         PCR,arg=PcrPoly_arg(pcr_polymerase,[pcr_cycle,pcr_prob])
         funcs.append(PCR)
+        print("Now : PCR")
         funcs_name.append("PCR")
         simu_dna=funcs_parallel(funcs,simu_dna,False)
         error_param={"sub":arg.pcr_sub_prob,"ins":arg.pcr_ins_prob,"del":arg.pcr_del_prob}
@@ -203,6 +206,7 @@ def get_simu_sam_info(file_uid,
         simu_dna,file_info_path,funcs,funcs_name=get_info(file_uid,upload_flag)
         SAM,_=Sampler_arg(sam_ratio,None)
         funcs.append(SAM)
+        print("Now : SAM")
         funcs_name.append("SAM")
         simu_dna=funcs_parallel(funcs,simu_dna,False)
         
@@ -239,6 +243,7 @@ def get_simu_seq_info(file_uid,
         SEQ,arg=Seq_arg(seq_meth,[seq_depth])
         funcs.append(SEQ)
         funcs_name.append("SEQ")
+        print("Now :SEQ")
         #simu_dna=funcs_parallel(funcs,simu_dna,False)
         simu_dna,_,_=parallel(simu_dna,funcs,funcs_name)
         density,group=calculate_density(simu_dna)
@@ -290,7 +295,6 @@ def run_default_settings(file_uid):
     backend_dir = config['backend_dir']
     yaml_path = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
     dna_path='{}/encode/{}_demo.dna'.format(backend_dir,file_uid)
-    print(dna_path)
     with open(dna_path) as f:
                 dnas=f.readlines()
     simu_dna=[dna.split('\n')[0] for dna in dnas]
@@ -302,6 +306,7 @@ def run_default_settings(file_uid):
     simu_repo={}
     funcs=file_info['simu']
     for func in funcs:
+        print("Now : ",func)
         simu_repo[func]={}
         func_param_name=funcs_parameter[func]
         func_param=[]

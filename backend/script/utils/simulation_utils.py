@@ -101,7 +101,6 @@ def fasta_to_dna(ori_save_dir):
     dna=[]
     for sr in sri:
         dna.append(str(sr.seq))
-    print(dna[:10])
     return dna
 
 def fasta_to_dna_demo(ori_save_dir):
