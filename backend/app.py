@@ -472,16 +472,6 @@ def simulation_start():
     simulation_task = simulation_celery.apply_async(args=args)
     task_id= simulation_task.id
     return task_id
-    
-@app.route('/example_whole_simu',methods=['GET','POST'])
-def whole_simu_example():
-    print('\n','#'*25,'display example','#'*25,'\n','#'*60)
-    front_data = json.loads(request.data)
-    file_uid=front_data['file_uid']
-    result=simu_utils.run_default_settings(file_uid)
-    return json.dumps(result)
-    
-    
 
 @app.route('/decode_start',methods=['GET','POST'])
 def decode_start():
