@@ -669,8 +669,8 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               </li>
               <p id="text-content">
                 In bioinformatics area, FASTA is the most commonly accepted text-based format for representing nucleotide sequences, 
-                which uses single-letter codes to present nucleotides. Strating with a ">" symbol, a description of the following sequence
-                will be given. And the lines beneath are the said sequence before where the next ">" symbol starts. 
+                which uses single-letter codes to present nucleotides. Strating with a "{">"}" symbol, a description of the following sequence
+                will be given. And the lines beneath are the said sequence before where the next "{">"}" symbol starts. 
               </p>
               <li>
                 <strong>

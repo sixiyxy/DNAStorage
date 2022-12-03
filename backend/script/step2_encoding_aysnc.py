@@ -9,11 +9,11 @@ from decimal import Decimal
 import billiard as multiprocessing
 from numpy import fromfile, array, uint8
 
-from .utils.utils_basic import get_config,write_yaml,write_dna_file
+from .utils.utils_basic import get_config,write_yaml
 from .utils.verify_methods import Hamming,ReedSolomon
 from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
 from .utils.srcode import SrcCode
-from .utils.encode_utils import cut_file, gc_homo,download_normal,download_txt,add_min_free_energydata
+from .utils.encode_utils import cut_file, gc_homo,download_normal,download_txt,add_min_free_energydata,tar_file,write_dna_file
 
 verify_methods = {
     "WithoutVerifycode":False,
@@ -395,20 +395,43 @@ class Encoding():
     def record_file(self,info,data,run_time):
         print('record and plot')
         dna_sequences_all = data['dna_sequences']
+        dna_sequences_all = [''.join(list(map(str,i))) for i in dna_sequences_all]
         # for simulation enerfy
         demo_dna_sequences = write_dna_file(path=self.dna_file,demo_path=self.dna_demo_file,dna_sequences=dna_sequences_all)
         if self.encode_method in encoding_methods:
             # for dowdload file
-            download_normal(self.user_download_file,data)
-            # for decode data
-            connected_bit_segments_all = data['connected_bit_segments']
-            final_bit_segments_all = data['final_bit_segments']
-            index_ori_bit_sequences = [''.join(list(map(str,i))) for i in connected_bit_segments_all]
-            final_bit_sequences = [''.join(list(map(str,i))) for i in final_bit_segments_all]
-            dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences_all]
-            save_dict = {'index_payload':index_ori_bit_sequences,
+            
+            original_bit_segments = data["original_bit_segments"]
+            payload = [''.join(map(str,i)) for i in original_bit_segments]
+
+            record_index = data["record_index"]
+            index = [''.join(map(str,i)) for i in record_index]
+
+            connected_bit_segments = data['connected_bit_segments']
+            index_payload = [''.join(list(map(str,i))) for i in connected_bit_segments]
+            
+            
+            final_bit_segments = data['final_bit_segments']
+            final_bit_sequences = [''.join(list(map(str,i))) for i in final_bit_segments]
+
+            usr_dna_sequences = data["user_record_dna"]
+            usr_dna_sequences = [''.join(map(str,i)) for i in usr_dna_sequences]
+
+            total = len(usr_dna_sequences)
+            total_id =range(total)
+            download_dict = {'total':total,
+                             'payload':dict(zip(total_id,payload)),
+                             'index':dict(zip(total_id,index)),
+                             'index_payload':dict(zip(total_id,index_payload)),
+                             'index_payload_verfiycode':dict(zip(total_id,final_bit_sequences)),
+                             'DNA_sequence':dict(zip(total_id,usr_dna_sequences))}
+            download_normal(self.user_download_file,download_dict)
+
+            dna_sequences = dna_sequences_all
+            save_dict = {'index_payload':index_payload,
                     'bit_sequences':final_bit_sequences,
                     'dna_sequences':dna_sequences}
+            
             np.savez(self.decode_file,**save_dict)
 
             info['verify_code_length'] = '{} bits'.format(info['verify_code_length'])
@@ -418,7 +441,7 @@ class Encoding():
             original_chracter_segments = data['original_bit_segments']
             index_ori_bit_sequences = data['connected_bit_segments']
             dna_sequences = data["dna_sequences"]
-            dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences_all]
+            dna_sequences = dna_sequences_all
             # for decode data
             save_dict = {'index_payload':index_ori_bit_sequences,
                         'dna_sequences':dna_sequences}
@@ -426,7 +449,6 @@ class Encoding():
             # for user
             original_chracter_segments = [i.replace('\n',' <n> ') for i in original_chracter_segments] 
             download_txt(self.user_download_file,dna_sequences,original_chracter_segments)
-
 
 
         # record run time
@@ -458,6 +480,10 @@ class Encoding():
         info['physical_information_density_g'] = physical_information_density_g
         info['physical_information_density_ug'] = physical_information_density_ug
         info = write_yaml(yaml_path=self.file_info_path,data=info,appending=True)
+        print('### Prepare the download data...')
+        tar_file(upload_dir=self.file_dir,encode_dir=self.dna_dir,file_uid=self.file_uid)
+        print('### Tar the download data,Done!')
+
         
         return info
 

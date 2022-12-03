@@ -2,6 +2,8 @@ import numpy as np
 from numpy import fromfile
 import pandas as pd
 import os
+import tarfile
+import random
 
 def cut_file(file_data,encode_method):
     file_size = file_data.shape[0]
@@ -106,27 +108,40 @@ def add_min_free_energydata(tools,dna_demo_file,free_enerfy_file):
     info['energy_plot']=free_energy_plotdata
     return info
 
-def download_normal(file,download_data):
-    # record dowdload file
+def write_dna_file(path,demo_path, dna_sequences):
+    with open(path, "a+") as file:
+        for index, dna_sequence in enumerate(dna_sequences):
+            file.write('>{}\n{}\n'.format(index,dna_sequence))
     
-    original_bit_segments = download_data["original_bit_segments"] 
-    record_index = download_data["record_index"]
-    connected_bit_segments = download_data["connected_bit_segments"]
-    final_bit_segments = download_data["final_bit_segments"]
-    dna_sequences = download_data["user_record_dna"]
-    # print(len(original_bit_segments),len(record_index),
-    #       len(connected_bit_segments),len(final_bit_segments),
-    #       len(dna_sequences))
+    if len(dna_sequences)<=1000:
+        demo_dna_sequences =dna_sequences
+    else:
+        demo_dna_sequences = random.sample(dna_sequences,1000)
+        
+    with open(demo_path, "a+") as demo_file:
+        for index, dna_sequence in enumerate(demo_dna_sequences):
+            demo_file.write("".join(dna_sequence) + "\n")
+    print("### Write 1000 demo DNA sequences for Simulation:\n {} ".format(path))
+    return demo_dna_sequences
+
+def download_normal(file,download_data):
+    # record dowdload file    
+    number = download_data['total']
+    payload_all = download_data['payload']
+    index_all = download_data['index']
+    index_payload_all = download_data['index_payload']
+    index_payload_verfiycode_all =download_data["index_payload_verfiycode"]
+    dna_sequences_all = download_data['DNA_sequence']
 
     f = open(file,'w')
     f.write('payload,index,index_payload,index_payload_verfiycode,DNA_sequence\n')
 
-    for idx in range(len(dna_sequences)):
-        payload = ''.join(map(str,original_bit_segments[idx]))
-        index = ''.join(map(str,record_index[idx]))
-        index_payload  = ''.join(map(str,connected_bit_segments[idx]))
-        index_payload_verfiycode= ''.join(map(str,final_bit_segments[idx]))
-        DNA_sequence= ''.join(map(str,dna_sequences[idx]))
+    for idx in range(number):
+        payload = payload_all[idx]
+        index = index_all[idx]
+        index_payload  = index_payload_all[idx]
+        index_payload_verfiycode= index_payload_verfiycode_all[idx]
+        DNA_sequence= dna_sequences_all[idx]
         f.write('{payload},{index},{index_payload},{index_payload_verfiycode},{DNA_sequence}\n'.format(
                 payload=payload,index=index,index_payload=index_payload,
                 index_payload_verfiycode=index_payload_verfiycode,
@@ -136,13 +151,32 @@ def download_normal(file,download_data):
 def download_txt(file,dna_sequences,original_chracter_segments):
     f = open(file,'w')
     f.write('payload,DNA_sequence\n')
-    for idx in range(len(dna_sequences)):
+    for idx,dna_sequence in enumerate(dna_sequences):
         payload = original_chracter_segments[idx]
-        DNA_sequence= dna_sequences[idx]
         f.write('{payload},{DNA_sequence}\n'.format(
                 payload=payload,
-                DNA_sequence = DNA_sequence))
+                DNA_sequence = dna_sequence))
     f.close()
+
+def tar_file(upload_dir,encode_dir,file_uid):
+    current_dir = os.getcwd()
+    
+    # file save dir and file information
+    file_info_name = '{}.yaml'.format(file_uid)
+    # file encode dir
+    dna_file = '{}.txt'.format(file_uid)
+    # fasta file
+    fasta_file = '{}.fasta'.format(file_uid)
+
+    os.chdir(encode_dir)
+    downfile_name = '{}.tar.gz'.format(file_uid)
+    file_obj = tarfile.open(downfile_name,'w:gz')
+    file_obj.add(dna_file)
+    file_obj.add(fasta_file)
+    os.chdir(upload_dir)
+    file_obj.add(file_info_name)
+    os.chdir(current_dir)
+    file_obj.close()
 
 def contact_result(self,parallel_results):
         bit_szie_all = 0

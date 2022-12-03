@@ -32,7 +32,6 @@ def is_txt(file):
     except:
         return False
 
-
 def write_yaml(yaml_path,data,appending):
     display_data = copy.deepcopy(data)
     if appending==False:
@@ -63,63 +62,18 @@ def write_yaml(yaml_path,data,appending):
                 
     return display_data
 
-def write_dna_file(path,demo_path, dna_sequences):
-   
-    with open(path, "a+") as file:
-        for index, dna_sequence in enumerate(dna_sequences):
-            dna_sequence = "".join(dna_sequence)
-            file.write('>{}\n{}\n'.format(index,dna_sequence))
-    
-    if len(dna_sequences)<=1000:
-        demo_dna_sequences =dna_sequences
-    else:
-        demo_dna_sequences = random.sample(dna_sequences,1000)
-        
-    with open(demo_path, "a+") as demo_file:
-        for index, dna_sequence in enumerate(demo_dna_sequences):
-            demo_file.write("".join(dna_sequence) + "\n")
-    print("### Write 1000 demo DNA sequences for Simulation:\n {} ".format(path))
-    return demo_dna_sequences
-
 def get_download_path(type,file_uid):
-    current_dir = os.getcwd()
     config = get_config(yaml_path='config')
     backend_dir = config['backend_dir']
     
     if type == 'encode':
-        # file save dir and file information
-        file_dir = os.path.join(backend_dir,config['file_save_dir'])
-        file_info_name = '{}.yaml'.format(file_uid)
-
-        # file encode dir
         dna_dir = os.path.join(backend_dir,config['encode_dir'])
-        dna_file = '{}.txt'.format(file_uid)
-
-        # fasta file
-        fasta_file = '{}.fasta'.format(file_uid)
-
     elif type =='simulation':
-        file_dir = os.path.join(backend_dir,config['upload_dna_save_dir'])
-        file_info_name = '{}.yaml'.format(file_uid)
-
         dna_dir =   os.path.join(backend_dir,config['simulation_dir'])
-        dna_file = '{}.fasta'.format(file_uid)
-    
-    
-    os.chdir(dna_dir)
-    downfile_name = '{}.tar.gz'.format(file_uid)
-    file_obj = tarfile.open(downfile_name,'w:gz')
-    file_obj.add(dna_file)
-    if type == 'encode':
-        file_obj.add(fasta_file)
-    os.chdir(file_dir)
-    file_obj.add(file_info_name)
-    os.chdir(current_dir)
-    file_obj.close()
-    downloadfile_path = os.path.join(dna_dir,downfile_name)
-    print(dna_dir,downfile_name)
-    return dna_dir,downfile_name
 
+    downfile_name = '{}.tar.gz'.format(file_uid)
+    
+    return dna_dir,downfile_name
 
 def example_plot(segment_length):
     n = 1
