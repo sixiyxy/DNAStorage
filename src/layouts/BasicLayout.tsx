@@ -4,6 +4,7 @@ import React from "react";
 import { Link, Outlet, Route, useNavigate } from "react-router-dom";
 import "./BasicLayout.less";
 import AntdIcon from "../components/base/AntdIcon";
+import {SettingOutlined,AppstoreOutlined } from '@ant-design/icons';
 import {doGet, doPost} from "../utils/request";
 export class BasicLayoutProps {}
 
@@ -36,14 +37,28 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
             ></i>
             <Link to="/home">Home</Link>
           </MenuItem>
-
-          <MenuItem key="services">
-            <i
+          
+          <Menu.SubMenu key="SubMenu" title="Utils" icon={<i
               className="iconfont icon-function-console"
               style={{ color: "white", display: "inline", margin: "0 3px" }}
-            ></i>
-            <Link to="/services">Services</Link>
-          </MenuItem>
+            ></i>}>
+              {/* <Link to="/services">Services</Link> */}
+              <Menu.Item key="one" icon={<AppstoreOutlined />}>
+                <Link to="/services">Services</Link>
+              </Menu.Item>
+              <Menu.ItemGroup title="Item Group">
+                  <Menu.Item key="four" icon={<AppstoreOutlined />}>
+                    <Link to="/services/encode">Encode</Link>
+                  </Menu.Item>
+                  <Menu.Item key="five" icon={<AppstoreOutlined />}>
+                    <Link to="/services/wholeprocess">Encode/Simulation/Decode</Link>
+                  </Menu.Item>
+                  <Menu.Item key="six" icon={<AppstoreOutlined />}>
+                    <Link to="/services/simulation">Simulation</Link>
+                  </Menu.Item>
+              </Menu.ItemGroup>
+          </Menu.SubMenu>
+
 
           <MenuItem key="tutorial">
             <i

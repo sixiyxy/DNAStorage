@@ -45,6 +45,8 @@ export const Encode = (props) => {
       props.setSimuRepo(false);
       props.setDeSet(false);
       props.setDerepo(false);
+      props.setRepoNext(false)
+      props.setdecodeRepoNext(false)
     }
   }, [props.resetMenu]);
   const close = () => {

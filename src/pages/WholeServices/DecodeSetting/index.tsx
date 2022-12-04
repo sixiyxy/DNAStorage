@@ -15,6 +15,7 @@ export class DecodeProps {
   setEncodeAndDecodeSpinning;
   setDerepo;
   setDeSet;
+  
 }
 
 export const DecodeSetting: React.FC<DecodeProps> = (props) => {
