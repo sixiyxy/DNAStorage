@@ -208,7 +208,7 @@ const controlZan = useMemo(
 
     const body = params1;
     const uploadFileMb = uploadFileBytes / 1024 / 1024;
-    const intervalTime = uploadFileMb < 1 ? 3000 : 5000;
+    const intervalTime = uploadFileMb < 1 ? 2000 : 5000;
     await createAsyncStepRequest(
       "encode",
       body,

@@ -143,7 +143,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
                     size="large"
                     onClick={onExample}
                   >
-                    Example
+                    Default
                   </Button>
                 </div>
               </Col>
@@ -161,7 +161,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
           </Card>
         </div>
         <div className="cluster-algorithm-wrapper">
-          <Card title="Cluster algorithms" headStyle={{ backgroundColor: "#99CCFF" }}>
+          <Card title="Clustering algorithms" headStyle={{ backgroundColor: "#99CCFF" }}>
             <Radio.Group onChange={onChange} value={value}>
               <Space direction="vertical">
                 <Radio value={"starcode"}>

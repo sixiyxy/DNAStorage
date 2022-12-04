@@ -296,7 +296,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                   onClick={handleEXM}
                   disabled={examFlag}
                 >
-                  Example
+                  Default
                 </Button>
               </div>
             </Col>
