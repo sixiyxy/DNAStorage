@@ -105,6 +105,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   };
   const paramDef ={
     file_uid: props.fileId,
+    type:"single"
   }
   const handleReport = () => {
     method = [false, false, false, false];
@@ -206,7 +207,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     // props.setFileId("example");
     // //控制每个步骤的useEffect
     // console.log("开始请求");
-    // axios.post(API_PREFIX + "/example_whole_simu", paramDef).then(function (response) {
+    // axios.post(API_PREFIX + "/simu_default_run", paramDef).then(function (response) {
     //   console.log("请求中");
     //   setexmSpinFlag(false);
     //   console.log("example-simu", response);
