@@ -6,12 +6,8 @@ script_dir: script
 file_save_dir: upload
 upload_dna_save_dir: upload_dna
 
-file_type:
- - picture
- - music
- - txt
- - pdf
- - video
+# demo file
+demo_dir: demo
 
 # about run
 encode_dir: encode
@@ -28,4 +24,4 @@ cdhit: /home/dna/Software/cdhit-4.8.1/cd-hit
 decode_dir: decode
 
 # threads
-threads: 4
+threads: 12

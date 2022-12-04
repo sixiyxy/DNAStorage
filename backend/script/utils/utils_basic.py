@@ -67,14 +67,16 @@ def get_download_path(type,file_uid):
     backend_dir = config['backend_dir']
     
     if type == 'encode':
-        dna_dir = os.path.join(backend_dir,config['encode_dir'])
+        file_dir = os.path.join(backend_dir,config['encode_dir'])
+        downfile_name = '{}.tar.gz'.format(file_uid)
     elif type =='simulation':
-        dna_dir =   os.path.join(backend_dir,config['simulation_dir'])
-        
+        file_dir =   os.path.join(backend_dir,config['simulation_dir'])
+        downfile_name = '{}.tar.gz'.format(file_uid)
+    elif type == 'demo':
+        file_dir = os.path.join(backend_dir,config['demo_dir'])
+        downfile_name = '{}.zip'.format(file_uid)
 
-    downfile_name = '{}.tar.gz'.format(file_uid)
-    
-    return dna_dir,downfile_name
+    return file_dir,downfile_name
 
 def example_plot(segment_length):
     n = 1
