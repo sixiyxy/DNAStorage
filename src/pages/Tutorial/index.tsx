@@ -17,6 +17,8 @@ import dnatable from "../../assets/tutorial/dnatable.png";
 import { Link } from "react-router-dom";
 import type { ColumnsType } from "antd/es/table";
 import { Link as RouterLink } from "react-router-dom";
+import { API_PREFIX } from "../../common/Config";
+import axios from "axios";
 export class TutorialProps {}
 
 // const { Link } = Anchor;
@@ -246,6 +248,26 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
   ];
   const handelURL=()=>{
     console.log('请求地址中');  
+    axios
+      .post(API_PREFIX + "/download", {type:'demo',file_uid:'demo'}, { responseType: "blob" })
+      .then(function (response) {
+        console.log(response.data);
+        const link = document.createElement("a"); //创建一个a标签
+        const blob = new Blob([response.data]); //实例化一个blob出来
+        link.style.display = "none";
+        link.href = URL.createObjectURL(blob); //将后端返回的数据通过blob转换为一个地址
+        //设置下载下来后文件的名字以及文件格式
+        link.setAttribute(
+          "download",
+          `Demo-Files` + `${"zip"}` //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
+        );
+        document.body.appendChild(link);
+        link.click(); //下载该文件
+        document.body.removeChild(link);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
   return (
     <div className="tutorial-container">
