@@ -3,6 +3,10 @@ from Bio import SeqIO
 import script.utils.simulation_model as Model
 import os
 import tarfile
+import subprocess
+import shutil
+from script.utils.utils_basic import get_config
+import glob
 
 class ArgumentPasser:
     """Simple Class for passing arguments in arg object.
@@ -67,17 +71,22 @@ def Seq_arg(seq_meth,left):
     return SEQ,arg
 
 def tar_file(upload_dir,simulation_dir,file_uid):
-    current_dir = os.getcwd()
-    file_info_name = '{}.yaml'.format(file_uid)
-    fasta_file = '{}.fasta'.format(file_uid)
-    os.chdir(simulation_dir)
-    downfile_name = '{}.tar.gz'.format(file_uid)
-    file_obj = tarfile.open(downfile_name,'w:gz')
-    file_obj.add(fasta_file)
-    os.chdir(upload_dir)
-    file_obj.add(file_info_name)
-    os.chdir(current_dir)
-    file_obj.close()
+    config=get_config(yaml_path='config')
+    backend_dir=config['backend_dir']
+    os.chdir(backend_dir)
+    file_info_name='{}.yaml'.format(file_uid)
+    fasta_file_name='{}.fasta'.format(file_uid)
+    file_info = '{}/{}'.format(upload_dir,file_info_name)
+    fasta_file = '{}/{}'.format(simulation_dir,fasta_file_name)
+    folder_dir='{}/{}'.format(simulation_dir,file_uid)
+    if not os.path.exists(folder_dir):
+        os.mkdir(folder_dir)    
+    shutil.copy(fasta_file,folder_dir+"/"+fasta_file_name)
+    shutil.copy(file_info,folder_dir+"/"+file_info_name)
+    downfile_name = '{}/{}.tar.gz'.format(simulation_dir,file_uid)
+    subprocess.call(["tar", "zcvf", downfile_name, "-P", folder_dir])
+    shutil.rmtree(folder_dir)
+
 
 
 def is_fasta(filename):

@@ -4,6 +4,9 @@ import pandas as pd
 import os
 import tarfile
 import random
+from script.utils.utils_basic import get_config
+import shutil
+import subprocess
 
 def cut_file(file_data,encode_method):
     file_size = file_data.shape[0]
@@ -157,6 +160,26 @@ def download_txt(file,dna_sequences,original_chracter_segments):
                 payload=payload,
                 DNA_sequence = dna_sequence))
     f.close()
+def tar_file(upload_dir,encode_dir,file_uid):
+    config=get_config(yaml_path='config')
+    backend_dir=config['backend_dir']
+    os.chdir(backend_dir)
+    file_info_name='{}.yaml'.format(file_uid)
+    fasta_file_name='{}.fasta'.format(file_uid)
+    dna_file_name = '{}.txt'.format(file_uid)
+    
+    file_info = '{}/{}'.format(upload_dir,file_info_name)
+    fasta_file = '{}/{}'.format(encode_dir,fasta_file_name)
+    dna_file='{}/{}'.format(encode_dir,dna_file_name)
+    folder_dir='{}/{}'.format(encode_dir,file_uid)
+    if not os.path.exists(folder_dir):
+        os.mkdir(folder_dir)    
+    shutil.copy(fasta_file,folder_dir+"/"+fasta_file_name)
+    shutil.copy(file_info,folder_dir+"/"+file_info_name)
+    shutil.copy(file_info,folder_dir+"/"+dna_file_name)
+    downfile_name = '{}/{}.tar.gz'.format(encode_dir,file_uid)
+    subprocess.call(["tar", "zcvf", downfile_name, "-P", folder_dir])
+    shutil.rmtree(folder_dir)
 
 def tar_file(upload_dir,encode_dir,file_uid):
     current_dir = os.getcwd()

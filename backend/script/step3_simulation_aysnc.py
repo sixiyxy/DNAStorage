@@ -272,6 +272,7 @@ def get_simu_repo(file_uid,upload_flag):
                             index+=1
         
         simu_repo["Strand_Count"]=index
+        print('\n','#'*25,'Prepare for download file','#'*25,'\n','#'*60)
         tar_file(upload_dir=os.path.dirname(file_info_path),simulation_dir=simulation_dir,file_uid=file_uid)
         return simu_repo
 
@@ -341,46 +342,6 @@ def calculate_density(dnas,layer=False):
                 pass
         print("Group is", group)
         return nums,group
-        '''
-        # nums = {}
-        # total = 0
-        # for dna in dnas:
-        #     for re in dna['re']:
-        #         n = re[0]
-        #         nums[n] = nums.get(n, 0) + 1
-        #         total += 1
-
-        # for i in nums:
-        #     nums[i] = nums[i] / total
-        
-        # n_group=10
-        # while not layer:
-        #     if len(nums.items())>n_group:
-        #         layer=True
-        #         break
-        #     n_group-=1
-        # nums = sorted(nums.items(), key=lambda e: e[0])
-        # group=int(len(nums)/n_group)
-        # print(nums)
-        # nums_final=[]
-        # for i in nums:
-        #     nums_final.append({'x':i[0],'y':i[1]})
-        # print(nums_final)
-        # print("group",group)
-        #print(nums)
-        
-        # if layer: #分层，针对pcr后等数据多样化的阶段
-        #     n=len(nums)
-        #     group=int(n/n_group)
-        #     b={}
-        #     for i in range(0,n,group):
-        #         for j in nums[i:i+group]:
-        #             b[str(i)+"-"+str(i+group)]=b.get(str(i)+"-"+str(i+group),0)+j[1]
-        #     nums=[]
-        #     for i in b.items():
-        #         nums.append([i[0],float(i[1])])
-        '''
-
 
    
 def parallel(simu_dna,funcs,funcs_names):

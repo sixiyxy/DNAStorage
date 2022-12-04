@@ -465,6 +465,7 @@ def simulation_start():
         upload_flag=False
     
     file_uid=front_data['file_uid']
+    print("File uid is ", file_uid)
     args = [file_uid,upload_flag]
     simulation_task = simulation_celery.apply_async(args=args)
     task_id= simulation_task.id
