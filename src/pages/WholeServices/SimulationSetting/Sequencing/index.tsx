@@ -99,6 +99,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
+      isPercent:true,
       // yAxis:{
       //   maxLimit:17000
       // },
@@ -115,15 +116,15 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
           offset:50,
         },
       },
-      meta: {
-        count: {
-          alias: 'percentage',
-          formatter: (value: any) => {
-            return `${((value / countlen)*100).toFixed(2)}%`;
-          }
+      // meta: {
+      //   count: {
+      //     alias: 'percentage',
+      //     formatter: (value: any) => {
+      //       return `${((value / countlen)*100).toFixed(2)}%`;
+      //     }
 
-        }
-      }
+      //   }
+      // }
     };
   }, [group, densityData]);
 
