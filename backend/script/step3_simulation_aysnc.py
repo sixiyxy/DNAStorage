@@ -358,28 +358,26 @@ def parallel(simu_dna,funcs,funcs_names):
         thread=config["threads"]
         with multiprocessing.Pool(thread) as pool:
                 r = list(tqdm(pool.starmap(funcs_parallel,[(funcs,item) for item in cut_file_list])))   
-                pool.close()
-                pool.join()
-                dnas=[]
-                error_recorder=[{'+':0,"-":0,"s":0,"e":0,"n":0} for i in range(len(funcs))]
-                error_density=[{} for i in range(len(funcs))]
-                for index,i in enumerate (r):
-                    for j in i[0]:
-                        dnas.append(j)
-                    for index_1 in range (len(i[1])):
-                        x,y=Counter(i[1][index_1]),Counter(error_recorder[index_1])
-                        error_recorder[index_1]=dict(x+y)
-                        error_density[index_1]=dict(Counter(error_density[index_1]) + Counter(i[2][index_1]))
-                #for front end data processsing 
-                error_recorder_final={}
-                for index,i in enumerate (funcs_names):
-                        error_recorder[index]=density_front_end_solver([error_recorder[index],{'+':0,"-":0,"s":0,"e":0,"n":0}])
-                        error_recorder_final[i]=error_recorder[index]
-                error_density_final=[]
-                for index,density in enumerate(error_density):
-                    density = sorted(density.items(), key=lambda e: e[0])
-                    for i in density:
-                        error_density_final.append({'type':funcs_names[index],"error":str(i[0]),"count":i[1]})
+        dnas=[]
+        error_recorder=[{'+':0,"-":0,"s":0,"e":0,"n":0} for i in range(len(funcs))]
+        error_density=[{} for i in range(len(funcs))]
+        for index,i in enumerate (r):
+            for j in i[0]:
+                dnas.append(j)
+            for index_1 in range (len(i[1])):
+                x,y=Counter(i[1][index_1]),Counter(error_recorder[index_1])
+                error_recorder[index_1]=dict(x+y)
+                error_density[index_1]=dict(Counter(error_density[index_1]) + Counter(i[2][index_1]))
+        #for front end data processsing 
+        error_recorder_final={}
+        for index,i in enumerate (funcs_names):
+                error_recorder[index]=density_front_end_solver([error_recorder[index],{'+':0,"-":0,"s":0,"e":0,"n":0}])
+                error_recorder_final[i]=error_recorder[index]
+        error_density_final=[]
+        for index,density in enumerate(error_density):
+            density = sorted(density.items(), key=lambda e: e[0])
+            for i in density:
+                error_density_final.append({'type':funcs_names[index],"error":str(i[0]),"count":i[1]})
         t2 = time.time()
         print('cut size {},threads {}, pool time {}'.format(cut,thread,t2-t1))
         return dnas,error_recorder_final,error_density_final
