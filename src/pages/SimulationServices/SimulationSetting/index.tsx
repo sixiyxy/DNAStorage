@@ -297,7 +297,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       >
         <p>
           {changeTxt
-            ? "You have uploaded too many Fasta files to process, please upload again!"
+            ? "The FASTA file you upload is too large, please try a smaller one(maximum 200000 sequences)."
             : "The file you uploaded is not in Fasta format, please upload again!"}
         </p>
       </Modal>

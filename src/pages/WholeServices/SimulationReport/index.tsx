@@ -21,7 +21,6 @@ export class SimulationReportProps {
   errorDensity;
   strand;
   setDeSet;
-  encodeInfo;
   setdecodeRepoNext;
   decodeRepoNext;
   // controlReport;
