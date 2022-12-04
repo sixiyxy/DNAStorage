@@ -160,6 +160,7 @@ def download_txt(file,dna_sequences,original_chracter_segments):
                 payload=payload,
                 DNA_sequence = dna_sequence))
     f.close()
+
 def tar_file(upload_dir,encode_dir,file_uid):
     config=get_config(yaml_path='config')
     backend_dir=config['backend_dir']
@@ -176,7 +177,7 @@ def tar_file(upload_dir,encode_dir,file_uid):
         os.mkdir(folder_dir)    
     shutil.copy(fasta_file,folder_dir+"/"+fasta_file_name)
     shutil.copy(file_info,folder_dir+"/"+file_info_name)
-    shutil.copy(file_info,folder_dir+"/"+dna_file_name)
+    shutil.copy(dna_file,folder_dir+"/"+dna_file_name)
     downfile_name = '{}/{}.tar.gz'.format(encode_dir,file_uid)
     subprocess.call(["tar", "zcvf", downfile_name, "-P", folder_dir])
     shutil.rmtree(folder_dir)
