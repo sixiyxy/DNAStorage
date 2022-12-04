@@ -143,7 +143,7 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
                 size="large"
                 onClick={handleNew}
               >
-                New
+                New Start
               </Button>
             </div>
           </Card>

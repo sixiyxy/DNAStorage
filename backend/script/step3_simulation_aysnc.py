@@ -230,8 +230,7 @@ def get_simu_seq_info(file_uid,
         funcs.append(SEQ)
         funcs_name.append("SEQ")
         print("Now :SEQ")
-        #simu_dna=funcs_parallel(funcs,simu_dna,False)
-        simu_dna,_,_=parallel(simu_dna,funcs,funcs_name)
+        simu_dna=funcs_parallel(funcs,simu_dna,False)
         density,group=calculate_density(simu_dna)
         error_param={"sub":arg.seq_sub_prob,"ins":arg.seq_ins_prob,"del":arg.seq_del_prob}
         seq_info={
@@ -276,14 +275,20 @@ def get_simu_repo(file_uid,upload_flag):
         tar_file(upload_dir=os.path.dirname(file_info_path),simulation_dir=simulation_dir,file_uid=file_uid)
         return simu_repo
 
-def run_default_settings(file_uid):
+
+def run_default_settings(file_uid,type):
     config = get_config(yaml_path='config')
     backend_dir = config['backend_dir']
-    yaml_path = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
-    dna_path='{}/encode/{}_demo.dna'.format(backend_dir,file_uid)
-    with open(dna_path) as f:
-                dnas=f.readlines()
-    simu_dna=[dna.split('\n')[0] for dna in dnas]
+    if type=='whole':
+        yaml_path = '{}/upload/{}.yaml'.format(backend_dir,file_uid)
+        dna_path='{}/encode/{}_demo.dna'.format(backend_dir,file_uid)
+        with open(dna_path) as f:
+                    dnas=f.readlines()
+        simu_dna=[dna.split('\n')[0] for dna in dnas]
+    elif type=='single':
+        yaml_path = '{}/upload_dna/{}.yaml'.format(backend_dir,file_uid)
+        dna_path='{}/upload_dna/{}.fasta'.format(backend_dir,file_uid)
+        simu_dna=fasta_to_dna_demo(dna_path)
     #SYN=Model.Synthesizer_simu(dic)
     default_setting_path='{}/upload/default.yaml'.format(backend_dir)
     file_info=get_config(yaml_path=default_setting_path)

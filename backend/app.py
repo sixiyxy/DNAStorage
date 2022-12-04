@@ -430,12 +430,13 @@ def example():
     else:
         return 'wrong request!'
 
-@app.route('/example_whole_simu',methods=['GET','POST'])
-def whole_simu_example():
+@app.route('/simu_default_run',methods=['GET','POST'])
+def simu_default_run():
     print('\n','#'*25,'display example','#'*25,'\n','#'*60)
     front_data = json.loads(request.data)
     file_uid=front_data['file_uid']
-    result=simu_utils.run_default_settings(file_uid)
+    type=front_data['type'] #whole or single
+    result=simu_utils.run_default_settings(file_uid,type)
     return json.dumps(result)
 
 #############################################

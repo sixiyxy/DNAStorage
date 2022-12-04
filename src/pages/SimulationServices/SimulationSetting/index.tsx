@@ -76,6 +76,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [changeTxt, setChangeTxt] = useState(false);
   //控制report按钮是否禁用，true表示禁用
   const [reportFlag,setReport] = useState(true)
+  const [defaultFlag,setdefaultFlag] = useState(true) //一开始是禁用的
   let format = true;
   let overCount = false;
   const { Dragger } = Upload;
@@ -102,7 +103,10 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const paramExm = {
     type: "simulation",
   };
-
+  const paramDef ={
+    file_uid: props.fileId,
+    type:"single"
+  }
   const handleReport = () => {
     method = [false, false, false, false];
     props.setIsdisabled(false);
@@ -133,20 +137,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setDis4(true);
     setDis0(true);
   };
-  const handleReset = () => {
-    method = [false, false, false, false];
-    setOkFlag(false);
-    setDecayFlag(false);
-    setPcrFlag(false);
-    setSampleFlag(false);
-    setSequenceFlag(false);
-    setDis0(false);
-    setDis1(false);
-    setDis2(false);
-    setDis3(false);
-    setDis4(false);
-    window.location.reload();
-  };
+ 
   function GotoCard(){
     if ("Simu-btn") {
       let anchorElement = document.getElementById("Simu-btn");
@@ -193,8 +184,40 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setIsModalOpen(false);
     window.location.reload();
   };
-  // console.log(okFlag, decayFlag, pcrFlag, sampleFlag, sequenceFlag);
-  // console.log("method", method);
+  const handleDefault=()=>{
+    //todo 等后端接口
+    // console.log('已点击，等待后端接口完成。');
+    setexmSpinFlag(true);
+    // setExamFlag(true);
+    setAlreadyRun(true);
+    GotoCard();
+    method = [true, true, true, true];
+    //点击Example后按钮全部禁掉 默认id"1582175684011364352"
+    setOkFlag(true);
+    setDecayFlag(true);
+    setPcrFlag(true);
+    setSampleFlag(true);
+    setSequenceFlag(true);
+    setDis0(true);
+    setDis1(true);
+    setDis2(true);
+    setDis3(true);
+    setDis4(true);
+    props.setclickEXM(true);
+    //控制每个步骤的useEffect
+    console.log("开始请求");
+    axios.post(API_PREFIX + "/simu_default_run", paramDef).then(function (response) {
+      console.log("请求中");
+      setexmSpinFlag(false);
+      console.log("example-simu", response);
+      setEffct1(true);
+      setEffct2(true);
+      setEffct3(true);
+      setEffct4(true);
+      setEffct5(true);
+      setRes(response.data);
+    });
+  }
   const uploadProps = {
     name: "file",
     multiple: true,
@@ -229,6 +252,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           props.setFileId(response.file_uid);
           props.setStrandCount(response.strand_count);
           props.setTime(response.time);
+          setdefaultFlag(false)
+          setExamFlag(true)
           setSimuOK(true);
           setIsOkDisable(false);
           message.success(`${info.file.name} file uploaded successfully.`);
@@ -241,19 +266,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
       //console.log("Dropped files", e.dataTransfer.files);
     },
   };
-
-  // const beforeUpload = (file) => {
-  //   const { name } = file;
-  //   const type = name.split(".")[1];
-
-  //   const isFasta = type === "fasta";
-  //   const isFASTA = type === "FASTA";
-  //   if (!isFasta && !isFASTA ) {
-  //     message.error("You can only upload FASTA or fasta file!");
-  //   }
-
-  //   return isFasta || isFASTA;
-  // };
 
   const scrollToAnchor = (placement) => {
     console.log("toanthor");
@@ -316,6 +328,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                     and occur at the end.
                   </p>
                 </div>
+                {/*一开始example亮,default灭;上传文件后，default亮，example灭;*/}
                 <Button
                   className="exm"
                   // type="primary"
@@ -325,6 +338,16 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                   disabled={examFlag}
                 >
                   Example
+                </Button>
+                <Button
+                  className="exm"
+                  // type="primary"
+                  shape="round"
+                  size="large"
+                  onClick={handleDefault}
+                  disabled={defaultFlag}
+                >
+                  Default
                 </Button>
               </div>
             </Col>
@@ -341,16 +364,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           {/* </div> */}
         </Card>
 
-        {/*据说不要 Note 了但以防该需求先把代码留着*/}
-        {/*{!props.needUploader && (*/}
-        {/*  <Card title="Note" bordered={false}>*/}
-        {/*    <p>*/}
-        {/*      This stage would simulate error occurrences that happened under the real*/}
-        {/*      application.You could adjust the parameters for each stage accordingly or simply skip*/}
-        {/*      some stages.It is also possible to skip the whole error simulation stage.*/}
-        {/*    </p>*/}
-        {/*  </Card>*/}
-        {/*)}*/}
 
         {props.needUploader && (
           <div className="simulation-step-content">

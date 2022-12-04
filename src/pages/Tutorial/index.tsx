@@ -244,6 +244,9 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
       dna:"TAAAGTC…"
     },
   ];
+  const handelURL=()=>{
+    console.log('请求地址中');  
+  }
   return (
     <div className="tutorial-container">
       <div className="tutorial">
@@ -288,14 +291,15 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
             <h3 id="third-title">Example file</h3>
             <p id="text-content">
               We use the Xiamen University badge picture as an example file to introduce the working
-              process of the website.
+              process of the website.Other demo files can be <a href="javascript:void(0)" onClick={handelURL} id='a-link'> downloaded from here</a>. The file types include: Image, video,
+              audio, text, and binary.
             </p>
             <Image src={xiamen} width={"50%"} rootClassName="image2" />
             <p style={{ textAlign: "center", fontSize: 13 }}>Figure 2: Example file</p>
-            <p id="text-content">
+            {/* <p id="text-content">
               Other demo files can be downloaded from here. The file types include: Image, video,
               audio, text, and binary.
-            </p>
+            </p> */}
           </div>
           <div id="usage">
             <h3 id="fourth-title">Usage</h3>
