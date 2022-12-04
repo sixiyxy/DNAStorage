@@ -79,7 +79,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     const resp: any = await doPost("/simu_pcr", {body: params});
     setCountLen(resp.pcr_density.length);
     // setErrorData(response?.data?.pcr_error_density);
-    setGroup(resp.pcr_group);
+    setGroup(resp.density_group);
     setDensityData(resp.pcr_density);
     setLoading(false);
 
@@ -98,7 +98,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     setNoDataTipsShow(false);
     props.setPCRRUN(true);
     setCountLen(props.response.PCR.pcr_density.length);
-    setGroup(props.response.PCR.pcr_group);
+    setGroup(props.response.PCR.density_group);
     setDensityData(props.response.PCR.pcr_density);
     setLoading(false);
   

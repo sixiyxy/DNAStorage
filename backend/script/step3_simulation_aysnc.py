@@ -346,8 +346,7 @@ def calculate_density(dnas,layer=False):
                 pass
         print("Group is", group)
         return nums,group
-
-   
+  
 def parallel(simu_dna,funcs,funcs_names):
         if len(simu_dna)<20000:
             cut=5

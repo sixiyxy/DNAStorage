@@ -22,6 +22,7 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
   const [isdisabled, setIsdisabled] = useState(true);
   const [clickEXM, setclickEXM] = useState(false);
   const [time3min,setTime]=useState(false)
+  const [standCount,setStrandCount] = useState(0)
   const url = new URL(window.location.href);
   const pathname = url?.pathname;
 
@@ -75,10 +76,11 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
               setIsdisabled={setIsdisabled}
               needUploader={true}
               setTime={setTime}
+              setStrandCount={setStrandCount}
             />
           ) : null}
           {siderSelect[0] === "0-1-1" ? (
-            <SimulationReport fileId={fileId} clickEXM={clickEXM} time3min={time3min} />
+            <SimulationReport fileId={fileId} clickEXM={clickEXM} time3min={time3min} standCount={standCount}/>
           ) : null}
         </div>
       </div>

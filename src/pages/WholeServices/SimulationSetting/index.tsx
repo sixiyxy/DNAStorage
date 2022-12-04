@@ -175,9 +175,20 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
 
   const paramExm = {
     file_uid: props.fileId,
+    type:"whole"
   };
+  function GotoCard(){
+    if ("Simu-btn") {
+      let anchorElement = document.getElementById("Simu-btn");
+      if (anchorElement) {
+        anchorElement.scrollIntoView();
+      }
+    }
+  }
   const handleEXM = () => {
     setexmSpinFlag(true);
+    setExamFlag(true);
+    GotoCard();
     method = [true, true, true, true];
     setOkFlag(true);
     setDecayFlag(true);
@@ -192,7 +203,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     // props.setFileId("example");
     //控制每个步骤的useEffect
     console.log("开始请求");
-    axios.post(API_PREFIX + "/example_whole_simu", paramExm).then(function (response) {
+    axios.post(API_PREFIX + "/simu_default_run", paramExm).then(function (response) {
       console.log("请求中");
       setexmSpinFlag(false);
       console.log("example-simu", response);
@@ -286,7 +297,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                   onClick={handleEXM}
                   disabled={examFlag}
                 >
-                  Example
+                  Default
                 </Button>
               </div>
             </Col>
@@ -343,7 +354,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
             </strong>
           </p>
           <div className="simulation-setting-header-button-group">
-            <div>
+            <div id="Simu-btn">
               <Button
                 className="simulation-setting-header-button-step"
                 size="large"

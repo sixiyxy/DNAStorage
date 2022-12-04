@@ -188,7 +188,7 @@ export const Report: React.FC<ReportProps> = (props) => {
         //设置下载下来后文件的名字以及文件格式
         link.setAttribute(
           "download",
-          `${props.exam ? "Picture Demo" : props.fileinfo.filerename}.` + `${"zip"}` //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
+          `EncodeResult-${props.fileId}.` + `${"zip"}` //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
         );
         document.body.appendChild(link);
         link.click(); //下载该文件
@@ -273,8 +273,8 @@ export const Report: React.FC<ReportProps> = (props) => {
             <div id="gc-word">
               <p>
                 Because the ratio of GC-content is crucial to the stability of DNA sequence. We
-                counted the GC content of each encoded DNA sequence. The X-Axis is the percentage of
-                GC content, and the Y-Axis is the number of corresponding sequences.
+                counted the GC content of each encoded DNA sequence. The x-axis is the percentage of
+                GC content, and the y-axis is the number of corresponding sequences.
               </p>
             </div>
 

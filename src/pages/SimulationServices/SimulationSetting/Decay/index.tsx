@@ -117,7 +117,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
     setNoDataTipsShow(false);
     props.setDECRUN(true);
     setCountLen(props.response.DEC.dec_density.length);
-    setGroup(props.response.DEC.dec_group);
+    setGroup(props.response.DEC.density_group);
     setData(props.response.DEC.dec_density);
     // setHrefLink(response.data.storage_host_parameter_reference);
     setLoading(false);
