@@ -83,6 +83,9 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [errorDensity, setErrorDensity] = useState();
   const [btnNext, setBtnNext] = useState(true);
   const [strand, setStrand] = useState(0);
+  //控制repo的next
+  const [repoNext,setRepoNext] = useState(false) //能看见一开始
+  const [decodeRepoNext,setdecodeRepoNext] = useState(false)
   // const [controlReport,setControl]=useState(false)
   const items1 = useMemo(() => {
     return [
@@ -192,6 +195,8 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setDerepo={setDerepo}
               resetMenu={resetMenu}
               setEncodeSet={setEncodeSet}
+              setRepoNext={setRepoNext}
+              setdecodeRepoNext={setdecodeRepoNext}
             />
           ) : null}
           {siderSelect[0] === "0-0-1" ? (
@@ -212,6 +217,8 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               fileOver2M={fileOver2M}
               setSimuSet={setSimuSet}
               btnNext={btnNext}
+              repoNext={repoNext}
+              setRepoNext={setRepoNext}
             />
           ) : null}
 
@@ -229,6 +236,8 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               errorDensity={errorDensity}
               strand={strand}
               setDeSet={setDeSet}
+              setdecodeRepoNext={setdecodeRepoNext}
+              decodeRepoNext={decodeRepoNext}
             />
           ) : null}
           {siderSelect[0] === "0-1-0" ? (
@@ -262,6 +271,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setDecodeData={setDecodeData}
               setEncodeAndDecodeSpinning={setEncodeAndDecodeSpinning}
               setDerepo={setDerepo}
+              
             />
           ) : null}
           {siderSelect[0] === "0-2-1" ? (
@@ -272,6 +282,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               spinflag={encodeAndDecodeSpinning}
               setResetMenu={setResetMenu}
               setEncodeSet={setEncodeSet}
+              changeSider={setSiderSelect}
             />
           ) : null}
         </div>

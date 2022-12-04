@@ -49,7 +49,8 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
   const [dnainfo, setDNAinfo] = useState(DNAinfos);
   const [encodeurl, setEncodeURL] = useState("");
   const [fileURL, setFileURL] = useState("");
-  const [spinflag, setSpin] = useState(true);
+  const [EncodeSet, setEncodeSet] = useState(true); //true代表可以看见
+  const [encodeAndDecodeSpinning, setEncodeAndDecodeSpinning] = useState(true);
   const [exam, setExam] = useState(false);
   const [mini, setMini] = useState(0);
   const [fileOver2M, setFileOver] = useState(false); //假设一开始不超过2M
@@ -58,7 +59,9 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
   const [SimuRepo, setSimuRepo] = useState(false);
   const [DeSet, setDeSet] = useState(false);
   const [DeRepo, setDerepo] = useState(false);
-
+  const [repoNext,setRepoNext] = useState(false) //能看见一开始
+  const [decodeRepoNext,setdecodeRepoNext] = useState(false)
+  const [btnNext, setBtnNext] = useState(false);
   //控制所有导航栏全部展示完毕恢复原始的状态
   const [resetMenu, setResetMenu] = useState(false); //还没有全部展示完
 
@@ -104,51 +107,57 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
         <div className="encode-wrapper">
           {siderSelect[0] === "0-0-0" ? (
             <Encode
-              infos={infos}
-              setDNAinfo={setDNAinfo}
-              DNAinfos={DNAinfos}
-              changeSider={setSiderSelect}
-              fileId={fileId}
-              setFileId={setFileId}
-              setGC={setGC}
-              setHomo={setHomo}
-              setEncodeURL={setEncodeURL}
-              setFileURL={setFileURL}
-              setEnergy={setEnergy}
-              setInfo={setInfo}
-              setFileInfo={setFileInfo}
-              FileValue={FileValue}
-              fileinfo={fileinfo}
-              setIsSynthesis={setIsSynthesis}
-              setSpin={setSpin}
-              setExam={setExam}
-              setMini={setMini}
-              setFileOver={setFileOver}
-              setEncodeRepo={setEncodeRepo}
-              setSimuSet={setSimuSet}
-              setSimuRepo={setSimuRepo}
-              setDeSet={setDeSet}
-              setDerepo={setDerepo}
-              resetMenu={resetMenu}
+            infos={infos}
+            setDNAinfo={setDNAinfo}
+            DNAinfos={DNAinfos}
+            changeSider={setSiderSelect}
+            fileId={fileId}
+            setFileId={setFileId}
+            setGC={setGC}
+            setHomo={setHomo}
+            setEncodeURL={setEncodeURL}
+            setFileURL={setFileURL}
+            setEnergy={setEnergy}
+            setInfo={setInfo}
+            setFileInfo={setFileInfo}
+            FileValue={FileValue}
+            fileinfo={fileinfo}
+            setIsSynthesis={setIsSynthesis}
+            setEncodeAndDecodeSpinning={setEncodeAndDecodeSpinning}
+            setExam={setExam}
+            setMini={setMini}
+            setFileOver={setFileOver}
+            setEncodeRepo={setEncodeRepo}
+            setSimuSet={setSimuSet}
+            setSimuRepo={setSimuRepo}
+            setDeSet={setDeSet}
+            setDerepo={setDerepo}
+            resetMenu={resetMenu}
+            setEncodeSet={setEncodeSet}
+            setRepoNext={setRepoNext}
+            setdecodeRepoNext={setdecodeRepoNext}
             />
           ) : null}
           {siderSelect[0] === "0-0-1" ? (
             <Report
-              dnainfo={dnainfo}
-              GC={GC}
-              homo={homo}
-              encodeurl={encodeurl}
-              fileURL={fileURL}
-              energy={energy}
-              fileinfo={fileinfo}
-              info={info}
-              fileId={fileId}
-              encodeAndDecodeSpinning={spinflag}
-              exam={exam}
-              mini={mini}
-              changeSider={setSiderSelect}
-              fileOver2M={fileOver2M}
-              setSimuSet={setSimuSet}
+            dnainfo={dnainfo}
+            GC={GC}
+            homo={homo}
+            encodeurl={encodeurl}
+            fileURL={fileURL}
+            energy={energy}
+            fileinfo={fileinfo}
+            info={info}
+            fileId={fileId}
+            encodeAndDecodeSpinning={encodeAndDecodeSpinning}
+            exam={exam}
+            mini={mini}
+            changeSider={setSiderSelect}
+            fileOver2M={fileOver2M}
+            setSimuSet={setSimuSet}
+            btnNext={btnNext}
+            repoNext={repoNext}
+            setRepoNext={setRepoNext}
             />
           ) : null}
         </div>

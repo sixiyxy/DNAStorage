@@ -12,6 +12,7 @@ export class DecodeProps {
   spinflag;
   setResetMenu;
   setEncodeSet;
+  changeSider;
 }
 
 export const DecodeReport: React.FC<DecodeProps> = (props) => {
@@ -33,7 +34,6 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
   const tableData = useMemo(() => {
     const data = props.decodeData;
     props.setResetMenu(true)//decode数据收到，所有页面展示完毕了
-    props.setEncodeSet(true)
     return [
       {
         key: "1",
@@ -97,7 +97,12 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
       },
     ];
   }, [props.decodeData]);
+  const handleNew=()=>{
+    props.setEncodeSet(true)
+    props.changeSider(["0-0-0"]);
+  }
 
+  
   return (
     <div className="decode-report-wrapper">
       <Spin
@@ -130,6 +135,16 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
                 // pagination={{}}
                 // size={"small"}
               />
+            </div>
+            <div className="decode-report-button-group">
+            <Button
+                type="primary"
+                shape="round"
+                size="large"
+                onClick={handleNew}
+              >
+                New
+              </Button>
             </div>
           </Card>
         </div>

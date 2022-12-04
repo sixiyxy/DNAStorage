@@ -22,6 +22,8 @@ export class SimulationReportProps {
   strand;
   setDeSet;
   encodeInfo;
+  setdecodeRepoNext;
+  decodeRepoNext;
   // controlReport;
   // setControl;
 }
@@ -566,6 +568,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   };
   const handleNext = () => {
     props.setDeSet(true);
+    props.setdecodeRepoNext(true)
     props.changeSider(["0-2-0"]);
   };
   const columns1: ColumnsType<DataType> = [
@@ -818,6 +821,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                   size="large"
                   type="primary"
                   onClick={handleNext}
+                  disabled={props.decodeRepoNext}
                   style={{ marginLeft: "100px", width: "100px" }}
                 >
                   Next

@@ -30,6 +30,8 @@ export class ReportProps {
   fileOver2M;
   setSimuSet;
   btnNext;
+  setRepoNext;
+  repoNext;
   // setEncodeSet;
 }
 interface DataType {
@@ -200,6 +202,7 @@ export const Report: React.FC<ReportProps> = (props) => {
   const handleNext = () => {
     props.setSimuSet(true);
     props.changeSider(["0-1-0"]);
+    props.setRepoNext(true)
   };
   return (
     <div className="encode-report-wrapper">
@@ -276,7 +279,6 @@ export const Report: React.FC<ReportProps> = (props) => {
             </div>
 
             <div
-              className="encode-report-graph"
               id="homograph"
               style={{
                 fontSize: "15px",
@@ -342,6 +344,7 @@ export const Report: React.FC<ReportProps> = (props) => {
                   type="primary"
                   shape="round"
                   size={size}
+                  disabled={props.repoNext}
                   onClick={handleNext}
                 >
                   Next
