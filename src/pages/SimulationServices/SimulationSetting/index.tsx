@@ -186,38 +186,37 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   };
   const handleDefault=()=>{
     //todo 等后端接口
-    console.log('已点击，等待后端接口完成。');
-    // setexmSpinFlag(true);
-    // // setExamFlag(true);
-    // setAlreadyRun(true);
-    // GotoCard();
-    // method = [true, true, true, true];
-    // //点击Example后按钮全部禁掉 默认id"1582175684011364352"
-    // setOkFlag(true);
-    // setDecayFlag(true);
-    // setPcrFlag(true);
-    // setSampleFlag(true);
-    // setSequenceFlag(true);
-    // setDis0(true);
-    // setDis1(true);
-    // setDis2(true);
-    // setDis3(true);
-    // setDis4(true);
-    // props.setclickEXM(true);
-    // props.setFileId("example");
-    // //控制每个步骤的useEffect
-    // console.log("开始请求");
-    // axios.post(API_PREFIX + "/simu_default_run", paramDef).then(function (response) {
-    //   console.log("请求中");
-    //   setexmSpinFlag(false);
-    //   console.log("example-simu", response);
-    //   setEffct1(true);
-    //   setEffct2(true);
-    //   setEffct3(true);
-    //   setEffct4(true);
-    //   setEffct5(true);
-    //   setRes(response.data);
-    // });
+    // console.log('已点击，等待后端接口完成。');
+    setexmSpinFlag(true);
+    // setExamFlag(true);
+    setAlreadyRun(true);
+    GotoCard();
+    method = [true, true, true, true];
+    //点击Example后按钮全部禁掉 默认id"1582175684011364352"
+    setOkFlag(true);
+    setDecayFlag(true);
+    setPcrFlag(true);
+    setSampleFlag(true);
+    setSequenceFlag(true);
+    setDis0(true);
+    setDis1(true);
+    setDis2(true);
+    setDis3(true);
+    setDis4(true);
+    props.setclickEXM(true);
+    //控制每个步骤的useEffect
+    console.log("开始请求");
+    axios.post(API_PREFIX + "/simu_default_run", paramDef).then(function (response) {
+      console.log("请求中");
+      setexmSpinFlag(false);
+      console.log("example-simu", response);
+      setEffct1(true);
+      setEffct2(true);
+      setEffct3(true);
+      setEffct4(true);
+      setEffct5(true);
+      setRes(response.data);
+    });
   }
   const uploadProps = {
     name: "file",

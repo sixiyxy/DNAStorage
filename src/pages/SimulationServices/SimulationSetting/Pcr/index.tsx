@@ -97,9 +97,9 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     props.setPCRRUN(true);
-    setCountLen(props.response.PCR.pcr_density.length);
-    setGroup(props.response.PCR.density_group);
-    setDensityData(props.response.PCR.pcr_density);
+    setCountLen(props.response.PCR.density.length);
+    setGroup(props.response.PCR.group);
+    setDensityData(props.response.PCR.density);
     setLoading(false);
   
   }else{
