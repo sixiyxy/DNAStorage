@@ -7,18 +7,33 @@ import axios from "axios";
 import { API_PREFIX } from "../../../common/Config";
 import { DownloadOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
+import { createAsyncStepRequest } from "../../../utils/request-util";
 export class SimulationReportProps {
   changeSider?;
   fileId;
   // setTime;
   clickEXM;
   time3min;
+  standCount;
 }
 interface DataType {
   key: string;
   name1: string;
   value1: any;
 }
+const sequenceNumTable = [5000, 10000, 100000];
+const intervalTimeTable = [1000, 2000, 5000, 10000];
+
+const getIntervalTimeBySequenceNum = (sequenceNum) => {
+  const len = sequenceNumTable.length;
+
+  for (let i = 0; i < len; i++) {
+    if (sequenceNum < sequenceNumTable[i]) {
+      return intervalTimeTable[i];
+    }
+  }
+  return intervalTimeTable[len];
+};
 
 export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const downinfo = {
@@ -45,81 +60,78 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const [errorDensity, setErrorDensity] = useState();
   const [strand,setStrand] = useState(0)
   const [isClickDown,setDown] = useState(false)
+  // const { encodeInfo } = props;
   //处理函数
-  const monthChange = (value: number) => {
-    if (isNaN(value)) {
-      return;
-    }
-    setSequencingDepth(value);
-  };
+  // const monthChange = (value: number) => {
+  //   if (isNaN(value)) {
+  //     return;
+  //   }
+  //   setSequencingDepth(value);
+  // };
 
-  const handleChange = (value: string) => {
-    setMethod(value);
-  };
-  const skipDecay = function () {
-    props.changeSider(["0-2"]);
-  };
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  // const handleChange = (value: string) => {
+  //   setMethod(value);
+  // };
+  // const skipDecay = function () {
+  //   props.changeSider(["0-2"]);
+  // };
+  // const showModal = () => {
+  //   setIsModalOpen(true);
+  // };
+  // const handleCancel = () => {
+  //   setIsModalOpen(false);
+  // };
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      setNoDataTipsShow(false);
-      const resp = await doPost("/simu_repo", { body: params });
-      setSpin(false);
-      console.log("report", resp);
-      setSynthesisData(resp.SYN);
-      setDacayData(resp.DEC);
-      setPcrData(resp.PCR);
-      setSamplingData(resp.SAM);
-      setSequenceingData(resp.SEQ);
-      setErrorRecode(resp.Error_Recorder);
-      setErrorDensity(resp.Error_Density);
-      setLoading(false);
-      setStrand(resp.Strand_Count)
-    }
+    async function fetchData(){
+    setLoading(true);
+    setNoDataTipsShow(false);
+    const body = params;
+    const intervalTime = getIntervalTimeBySequenceNum(props.standCount);
+    await createAsyncStepRequest(
+      "simulation",
+      body,
+      setSpin,
+      intervalTime,
+      null,
+      (resp) => {
+        console.log('simu-report-response:',resp);
+            setSpin(false);
+            console.log("report", resp);
+            setSynthesisData(resp.SYN);
+            setDacayData(resp.DEC);
+            setPcrData(resp.PCR);
+            setSamplingData(resp.SAM);
+            setSequenceingData(resp.SEQ);
+            setErrorRecode(resp.Error_Recorder);
+            setErrorDensity(resp.Error_Density);
+            setLoading(false);
+            setStrand(resp.Strand_Count)
+      }
+    );
+  }
+    // async function fetchData() {
+    //   setLoading(true);
+    //   setNoDataTipsShow(false);
+    //   const resp = await doPost("/simu_repo", { body: params });
+    //   setSpin(false);
+    //   console.log("report", resp);
+    //   setSynthesisData(resp.SYN);
+    //   setDacayData(resp.DEC);
+    //   setPcrData(resp.PCR);
+    //   setSamplingData(resp.SAM);
+    //   setSequenceingData(resp.SEQ);
+    //   setErrorRecode(resp.Error_Recorder);
+    //   setErrorDensity(resp.Error_Density);
+    //   setLoading(false);
+    //   setStrand(resp.Strand_Count)
+    // }
 
     fetchData();
-    // axios
-    //   .post("http://localhost:5000//simu_repo", params)
-    //   .then(function (response) {
-    //     console.log("report", response);
-    //     setSynthesisData(response?.data?.synthesis);
-    //     setDacayData(response?.data?.decay);
-    //     setPcrData(response?.data?.pcr);
-    //     setSamplingData(response?.data?.sample);
-    //     setSequenceingData(response?.data?.sequence);
-    //     setErrorRecode(response?.data?.Error_Recorder);
-    //     setErrorDensity(response?.data?.Error_Density);
-    //     setLoading(false);
-    //   });
   }, [props.fileId]);
-  // const handleOk = () => {
-  //   setLoading(true);
-  //   setNoDataTipsShow(false);
-  //   axios
-  //     .post("http://localhost:5000//simu_repo", params)
-  //     .then(function (response) {
-  //       console.log("report", response);
-  //       setSynthesisData(response?.data?.synthesis);
-  //       setDacayData(response?.data?.decay);
-  //       setPcrData(response?.data?.pcr);
-  //       setSamplingData(response?.data?.sample);
-  //       setSequenceingData(response?.data?.sequence);
-  //       setErrorRecode(response?.data?.Error_Recorder);
-  //       setLoading(false);
-  //     });
-  // };
-  const handleContinue = () => {
-    props.changeSider(["0-2"]);
-  };
+
 
   //数据生成
 
@@ -821,7 +833,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         //设置下载下来后文件的名字以及文件格式
         link.setAttribute(
           "download",
-          `${props.fileId}.` + `${"zip"}` //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
+          `SimulationResult-${props.fileId}.` + `${"zip"}` //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
         );
         document.body.appendChild(link);
         link.click(); //下载该文件
@@ -1048,6 +1060,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               style={{
                 textAlign: "justify",
                 color: "#748189",
+                fontSize:"16px",
                 padding:"20px 200px 0 180px"
               }}
             >

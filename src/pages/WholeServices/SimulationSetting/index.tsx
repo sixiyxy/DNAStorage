@@ -176,8 +176,18 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const paramExm = {
     file_uid: props.fileId,
   };
+  function GotoCard(){
+    if ("Simu-btn") {
+      let anchorElement = document.getElementById("Simu-btn");
+      if (anchorElement) {
+        anchorElement.scrollIntoView();
+      }
+    }
+  }
   const handleEXM = () => {
     setexmSpinFlag(true);
+    setExamFlag(true);
+    GotoCard();
     method = [true, true, true, true];
     setOkFlag(true);
     setDecayFlag(true);
@@ -343,7 +353,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
             </strong>
           </p>
           <div className="simulation-setting-header-button-group">
-            <div>
+            <div id="Simu-btn">
               <Button
                 className="simulation-setting-header-button-step"
                 size="large"
