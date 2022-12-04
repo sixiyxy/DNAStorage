@@ -146,7 +146,8 @@ def dna_upload():
             "file_name":filename,
             "file_rename":file_rename,
             'upload':True,
-            'time':time
+            'time':time,
+            'strand_count':strand_count
             }
         yaml_file='{}/upload_dna/{}.yaml'.format(backend_dir,file_uid)
         write_yaml(yaml_path=yaml_file,data=file_basic_info,appending=False)

@@ -34,6 +34,7 @@ export class SimulationSetProps {
   needUploader: boolean;
   clickEXM?;
   setTime;
+  setStrandCount;
 }
 
 let method = [false, false, false, false]; //存放选择的方法
@@ -146,9 +147,19 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setDis4(false);
     window.location.reload();
   };
-
+  function GotoCard(){
+    if ("Simu-btn") {
+      let anchorElement = document.getElementById("Simu-btn");
+      if (anchorElement) {
+        anchorElement.scrollIntoView();
+      }
+    }
+  }
   const handleEXM = () => {
     setexmSpinFlag(true);
+    setExamFlag(true);
+    setAlreadyRun(true)
+    GotoCard();
     method = [true, true, true, true];
     //点击Example后按钮全部禁掉 默认id"1582175684011364352"
     setOkFlag(true);
@@ -216,6 +227,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setIsModalOpen(true);
         } else {
           props.setFileId(response.file_uid);
+          props.setStrandCount(response.strand_count);
           props.setTime(response.time);
           setSimuOK(true);
           setIsOkDisable(false);
@@ -230,18 +242,18 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     },
   };
 
-  const beforeUpload = (file) => {
-    const { name } = file;
-    const type = name.split(".")[1];
+  // const beforeUpload = (file) => {
+  //   const { name } = file;
+  //   const type = name.split(".")[1];
 
-    const isFasta = type === "fasta";
-    const isFASTA = type === "FASTA";
-    if (!isFasta && !isFASTA ) {
-      message.error("You can only upload FASTA or fasta file!");
-    }
+  //   const isFasta = type === "fasta";
+  //   const isFASTA = type === "FASTA";
+  //   if (!isFasta && !isFASTA ) {
+  //     message.error("You can only upload FASTA or fasta file!");
+  //   }
 
-    return isFasta || isFASTA;
-  };
+  //   return isFasta || isFASTA;
+  // };
 
   const scrollToAnchor = (placement) => {
     console.log("toanthor");
@@ -377,7 +389,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
             steps, but Synthesis is the must.</strong>
           </p>
           <div className="simulation-setting-header-button-group">
-            <div>
+            <div id="Simu-btn">
               {/* <button className="btn-right"><a href="#">Synthesis</a></button> */}
               <Button
                 className="simulation-setting-header-button-step"

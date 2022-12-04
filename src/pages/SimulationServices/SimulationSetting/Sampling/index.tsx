@@ -49,7 +49,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     // todo 对请求接口 ts 化
     const resp: any = await doPost("/simu_sam", {body: params});
     setCountLen(resp.sam_density.length);
-    setGroup(resp.sam_group);
+    setGroup(resp.density_group);
     setDensityData(resp.sam_density);
     setLoading(false);
 
@@ -65,7 +65,7 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     setNoDataTipsShow(false);
     props.setSAMRUN(true);
     setCountLen(props.response.SAM.sam_density.length);
-    setGroup(props.response.SAM.sam_group);
+    setGroup(props.response.SAM.density_group);
     setDensityData(props.response.SAM.sam_density);
     setLoading(false);
   }else{

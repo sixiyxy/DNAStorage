@@ -38,15 +38,15 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
             <Link to="/home">Home</Link>
           </MenuItem>
           
-          <Menu.SubMenu key="SubMenu" title="Utils" icon={<i
+          <Menu.SubMenu key="SubMenu" title="Services" icon={<i
               className="iconfont icon-function-console"
               style={{ color: "white", display: "inline", margin: "0 3px" }}
             ></i>}>
               {/* <Link to="/services">Services</Link> */}
               <Menu.Item key="one" icon={<AppstoreOutlined />}>
-                <Link to="/services">Services</Link>
+                <Link to="/services">Main</Link>
               </Menu.Item>
-              <Menu.ItemGroup title="Item Group">
+              <Menu.ItemGroup title="Subprocess">
                   <Menu.Item key="four" icon={<AppstoreOutlined />}>
                     <Link to="/services/encode">Encode</Link>
                   </Menu.Item>

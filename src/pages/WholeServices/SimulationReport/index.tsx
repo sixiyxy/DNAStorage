@@ -555,7 +555,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         //设置下载下来后文件的名字以及文件格式
         link.setAttribute(
           "download",
-          `SimulationReport-${props.fileId}.` + `${"zip"}` //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
+          `SimulationResult-${props.fileId}.` + `${"zip"}` //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
         );
         document.body.appendChild(link);
         link.click(); //下载该文件
@@ -792,7 +792,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             <div
               style={{
                 textAlign: "justify",
-
                 color: "#748189",
                 padding: "30px 200px 50px 190px",
               }}
