@@ -394,7 +394,7 @@ def download():
         return response
     elif type == 'simulation':
         dna_dir,downfile_name = get_download_path(type='simulation',file_uid=file_uid)
-        response = send_from_directory(dna_dir,downfile_name.encode('utf-8').decode('utf-8'),as_attachment=True)
+        response = send_from_directory(dna_dir,downfile_name,as_attachment=True)
         return response
     else:
         return "Please make sure the uid has been encoded or simulated!"

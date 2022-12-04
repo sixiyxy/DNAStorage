@@ -181,25 +181,6 @@ def tar_file(upload_dir,encode_dir,file_uid):
     subprocess.call(["tar", "zcvf", downfile_name, "-P", folder_dir])
     shutil.rmtree(folder_dir)
 
-def tar_file(upload_dir,encode_dir,file_uid):
-    current_dir = os.getcwd()
-    
-    # file save dir and file information
-    file_info_name = '{}.yaml'.format(file_uid)
-    # file encode dir
-    dna_file = '{}.txt'.format(file_uid)
-    # fasta file
-    fasta_file = '{}.fasta'.format(file_uid)
-
-    os.chdir(encode_dir)
-    downfile_name = '{}.tar.gz'.format(file_uid)
-    file_obj = tarfile.open(downfile_name,'w:gz')
-    file_obj.add(dna_file)
-    file_obj.add(fasta_file)
-    os.chdir(upload_dir)
-    file_obj.add(file_info_name)
-    os.chdir(current_dir)
-    file_obj.close()
 
 def contact_result(self,parallel_results):
         bit_szie_all = 0
