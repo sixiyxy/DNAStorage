@@ -273,8 +273,8 @@ export const Report: React.FC<ReportProps> = (props) => {
             <div id="gc-word">
               <p>
                 Because the ratio of GC-content is crucial to the stability of DNA sequence. We
-                counted the GC content of each encoded DNA sequence. The X-Axis is the percentage of
-                GC content, and the Y-Axis is the number of corresponding sequences.
+                counted the GC content of each encoded DNA sequence. The x-axis is the percentage of
+                GC content, and the y-axis is the number of corresponding sequences.
               </p>
             </div>
 
