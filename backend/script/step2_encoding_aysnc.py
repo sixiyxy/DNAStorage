@@ -30,6 +30,22 @@ encoding_methods = {
     "Yin_Yang":YinYangCode(need_logs=False)}
 
 
+display_dict={"Basic":"Vanilla",
+    "Church":"Church, et al.",
+    "Goldman":"Goldman, Nick, et al.",
+    "Grass":"Grass, Robert N., et al.",
+    "Blawat":"Blawat, Meinolf, et al.",
+    "DNA_Fountain":"Erlich, Yaniv, and Dina Zielinski et al.",
+    "Yin_Yang":"Ping, Zhi, et al.",
+    "SrcCode":"Zan, Xiangzhen, et al.",
+    "WithoutVerifycode":"None",
+    "Hamming":"Hamming code",
+    "ReedSolomon":"ReedSolomon code"
+    }
+
+
+
+
 class get_progress_bar():
     def __init__(self,file_uid,encode_method,verify_method):
         # methods
@@ -479,11 +495,14 @@ class Encoding():
         physical_information_density_g = '{} petabyte/ug'.format('%.2E'%Decimal(info['physical_information_density_g']))
         info['physical_information_density_g'] = physical_information_density_g
         info['physical_information_density_ug'] = physical_information_density_ug
+
         info = write_yaml(yaml_path=self.file_info_path,data=info,appending=True)
         print('### Prepare the download data...')
         tar_file(upload_dir=self.file_dir,encode_dir=self.dna_dir,file_uid=self.file_uid)
         print('### Tar the download data,Done!')
 
+        info["encode_method"] = display_dict[info["encode_method"]]
+        info["verify_method"] = display_dict[info["verify_method"]]
         
         return info
 

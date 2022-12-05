@@ -3,7 +3,7 @@ import json
 import time
 import yaml
 
-from flask import Flask, render_template,session
+from flask import Flask, render_template
 from flask import request,send_from_directory
 from flask_cors import CORS
 
@@ -13,7 +13,7 @@ import script.step3_simulation_aysnc as simu_utils
 from script.step4_decode_aysnc import ClusterDecode
 from script.utils.simulation_utils import is_fasta,fasta_to_dna
 from script.utils.utils_basic import get_config,write_yaml,get_download_path,is_txt
-from app_utils import set_session,get_session
+
 
 app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
 CORS(app, resources=r'/*')
