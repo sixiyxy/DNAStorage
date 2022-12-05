@@ -259,7 +259,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
         //设置下载下来后文件的名字以及文件格式
         link.setAttribute(
           "download",
-          `Demo-Files` + `${"zip"}` //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
+          `Demo-Files.`+ `${"zip"}` //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
         );
         document.body.appendChild(link);
         link.click(); //下载该文件
