@@ -7,7 +7,6 @@ const { Dragger } = Upload;
 import "./index.less";
 
 const Uploads: React.FC = (props: any) => {
-  //const [fileID,setfileID] = useState(FileValue)
   const Props: UploadProps = {
     name: "file",
     multiple: true,
@@ -25,21 +24,17 @@ const Uploads: React.FC = (props: any) => {
         return false;
       } else if (islt100k) {
         console.log("文件小于100kb");
-        // props.setBtn(true);
         props.setUpload100(true);
       } else if (islt2M) {
         props.setFileOver(true);
-        // props.setBtn(true);
         props.setUpload100(false);
       } else {
-        // props.setBtn(true);
         props.setUpload100(false);
       }
     },
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
-        console.log("文件上传后端返回值", info.file);
         if (info.file.response.upload_file_size >= 20048000) {
           props.setChange(false); //文件大于2M
         }
@@ -55,7 +50,6 @@ const Uploads: React.FC = (props: any) => {
         props.setUploadFileBytes(info.file.response.upload_file_size);
       }
       if (status === "done") {
-        // props.GetFileID(info.file.response.file_uid);
         message.success(`${info.file.name} file uploaded successfully.`);
         props.setBtn(true);
       } else if (status === "error") {

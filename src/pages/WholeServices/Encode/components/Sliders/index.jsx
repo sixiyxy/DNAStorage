@@ -1,8 +1,6 @@
 import { Card, Slider } from "antd";
-import React, { useState, useEffect } from "react";
-import { Radio, Space } from "antd";
-import { Link } from "react-router-dom";
-import { HighlightTwoTone, BulbTwoTone } from "@ant-design/icons";
+import React from "react";
+import { HighlightTwoTone} from "@ant-design/icons";
 import "./index.less";
 
 const Sliders = (props) => {
@@ -10,12 +8,10 @@ const Sliders = (props) => {
   
   //获取segment和index的值
   const onAfterChange_seg = (value1) => {
-    console.log('segmentAfter',value1);
     props.setSeg(value1);
     
   };
   const onChange_seg = (value1) => {
-    console.log('segmentChange',value1);
     props.SetSegvalue(value1);
     
   };
@@ -36,9 +32,7 @@ const Sliders = (props) => {
             max={props.processRes.bar ? Number(Object.keys(props.processRes.bar)[Object.keys(props.processRes.bar).length-1]) : 200}
             min={Number(Object.keys(props.processRes.bar ? props.processRes.bar : {80:' '} )[0])}
             value={props.Segment}
-            // step={8}
             defaultValue={Number(Object.keys(props.processRes.bar ? props.processRes.bar : {80:' '} )[0])}
-            // disabled={disabled}
             onAfterChange={onAfterChange_seg}
             onChange={onChange_seg}
             style={{ marginLeft: "20px", marginTop: "20px" }}

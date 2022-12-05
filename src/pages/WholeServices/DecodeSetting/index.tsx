@@ -20,14 +20,11 @@ export class DecodeProps {
 
 export const DecodeSetting: React.FC<DecodeProps> = (props) => {
   const [value, setValue] = useState("starcode");
-  const [data, setData] = useState();
   const onChange = (e: RadioChangeEvent) => {
     setValue(e.target.value);
   };
   useEffect(() => {
-    // if (props.setIsdisabled) {
-    //   props.setIsdisabled(true);
-    // }
+    
     window.scrollTo(0, 0);
   }, []);
   const params = useMemo(() => {
@@ -40,13 +37,6 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
   const onDecode = async function () {
     props.setDerepo(true);
     props.changeSider(["0-2-1"]);
-
-    // props.setEncodeAndDecodeSpinning(true);
-    // axios.post(API_PREFIX + "/decode", params).then(function (response) {
-    //   //console.log("decode", response);
-    //   props.setDecodeData(response?.data);
-    //   props.setEncodeAndDecodeSpinning(false);
-    // });
 
     const body = params;
     const intervalTime = 5000;
@@ -67,14 +57,6 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
     props.setDerepo(true);
     props.setDeSet(false)
     props.changeSider(["0-2-1"]);
-
-    // props.setEncodeAndDecodeSpinning(true);
-    // axios.post(API_PREFIX + "/decode", params).then(function (response) {
-    //   //console.log("decode", response);
-    //   props.setDecodeData(response?.data);
-    //   props.setEncodeAndDecodeSpinning(false);
-    // });
-
     const body = params;
     const intervalTime = 5000;
     await createAsyncStepRequest(
@@ -91,12 +73,6 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
       }
       
     );
-    // axios.post(API_PREFIX + "/example", { type: "decode" }).then(function (response) {
-    //   //console.log("decode", response);
-    //   props.setDerepo(true);
-    //   props.setDecodeData(response?.data);
-    //   props.changeSider(["0-2-1"]);
-    // });
   };
   return (
     <div className="decode-wrapper">
@@ -138,7 +114,6 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
                   </div>
                   <Button
                     className="exm"
-                    // type="primary"
                     shape="round"
                     size="large"
                     onClick={onExample}
@@ -152,7 +127,6 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
                 <div style={{ marginLeft: "150px" }} className="summary-img">
                   <Image
                     width={"130%"}
-                    // height={"50%"}
                     src={decode}
                   />
                 </div>

@@ -22,10 +22,8 @@ export class SamplingProps {
 }
 
 export const Sampling: React.FC<SamplingProps> = (props) => {
-  // console.log(props.pcrFlag);
   const [samplingRatio, setSamplingRatio] = useState(0.005);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  const [hrefLink, setHrefLink] = useState([]);
   const [countLen, setCountLen] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [densityData, setDensityData] = useState([]);
@@ -44,20 +42,10 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     }
     setSamplingRatio(value);
   };
-  const skipDecay = function () {
-    props.changeSider(["0-1-4"]);
-  };
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
   const handleOk = async () => {
     setLoading(true);
     setNoDataTipsShow(false);
     props.setSAMRUN(true);
-    // todo 对请求接口 ts 化
     const resp: any = await doPost("/simu_sam", {body: params});
     setCountLen(resp.sam_density.length);
     setGroup(resp.sam_group);
@@ -79,15 +67,12 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     setGroup(props.response.SAM.group);
     setDensityData(props.response.SAM.density);
     setLoading(false);
-  }else{
-    console.log('eff4',props.effect4);
   }
   },[props.effect4])
 
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
-      // file_uid: "1565536927137009664",
       sam_ratio: samplingRatio,
     };
   }, [samplingRatio, props.fileId]);
@@ -103,7 +88,8 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
         title:{
           text:'Percentage',
           offset:60,
-        }
+        },
+        maxLimit:countLen
       },
       xAxis: {
         title:{
@@ -174,23 +160,6 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
               >
                 OK
               </Button>
-              {/* <Button shape="round" size="large"
-                      onClick={handleReset}>
-                Reset
-              </Button> */}
-              <Modal
-                title="Warning"
-                visible={isModalOpen}
-                onOk={skipDecay}
-                onCancel={handleCancel}
-                okText="Skip"
-              >
-                <i
-                  className="iconfont icon-warning-circle"
-                  style={{fontSize: 40, color: "red"}}
-                />
-                <p>Do you want to skip Sampling?</p>
-              </Modal>
             </div>
             </div>
           </Col>

@@ -2,7 +2,6 @@ import { Bar, DualAxes, Pie } from "@ant-design/charts";
 import { Breadcrumb, Button, Card, Select, Tabs, Table, Spin } from "antd";
 import React, { useEffect, useMemo, useState } from "react";
 import "./index.less";
-import { doPost } from "../../../utils/request";
 import { DownloadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { API_PREFIX } from "../../../common/Config";
@@ -23,8 +22,6 @@ export class SimulationReportProps {
   setDeSet;
   setdecodeRepoNext;
   decodeRepoNext;
-  // controlReport;
-  // setControl;
 }
 interface DataType {
   key: string;
@@ -42,8 +39,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  //数据生成
 
   //环形图数据以及配置
   const synthesisErrorParamData = useMemo(() => {
@@ -393,27 +388,19 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     data: [columnData, lineData],
     xField: "step",
     yField: ["value", "count"],
-    // yAxis: {
-    //   value: {
-    //     tickMethod: "log",
-    //   },
-    //   count: {
-
-    //   },
-    // },
     yAxis: {
       value: {
         title: {
           text: "ln(y1)",
           offset: 60,
-          // rotate:14.13
+         
         },
       },
       count: {
         title: {
           text: "ln(y2)",
           offset: 60,
-          // rotate:14.10
+        
         },
       },
     },
@@ -509,36 +496,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         },
       ],
     },
-    // tooltip:{
-    //   position:'bottom',
-    //   customContent:(title,data)=>{
-    //     return (`<div>
-    //     </br>
-    //     <h3>Erro counts</h3>
-    //     </br>
-    //       <h3>0 : ${props.errorDensity} </h3>
-    //       </br>
-    //       <h3>1 : ${props.index} </h3>
-    //       </br>
-    //       <h3>2 : ${veri} </h3>
-    //       </br>
-    //       <h3>3 : ${props.seg} </h3>
-    //       </br>
-    //       <h3>4 : ${props.index} </h3>
-    //       </br>
-    //       <h3>5 : ${veri} </h3>
-    //       </br>
-    //       <h3>6 : ${veri} </h3>
-    //     </div>`)
-    //   }
-    // }
-    // tooltip: {
-    //   type: {
-    //     formatter: (value: any) => {
-    //       return `${value}个`;
-    //     },
-    //   },
-    // },
+    
   };
 
   const DownloadURL = () => {
@@ -546,7 +504,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     axios
       .post(API_PREFIX + "/download", downinfo, { responseType: "blob" })
       .then(function (response) {
-        console.log(response.data);
         const link = document.createElement("a"); //创建一个a标签
         const blob = new Blob([response.data]); //实例化一个blob出来
         link.style.display = "none";
@@ -691,7 +648,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                     columns={columns1}
                     dataSource={data2}
                     size={"small"}
-                    // showHeader={false}
                     pagination={{ position: ["none"] }}
                   />
                   <br />
@@ -708,7 +664,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                     columns={columns1}
                     dataSource={data3}
                     size={"small"}
-                    // showHeader={false}
                     pagination={{ position: ["none"] }}
                   />
                 </div>
@@ -719,7 +674,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 </p>
               </Tabs.TabPane>
               <Tabs.TabPane tab="Sampling" key="4" disabled={props.samplingData === undefined}>
-                {/* sam_ratio: {props.samplingData?.sam_ratio} */}
+     
                 <p style={{ margin: "10px 0 0 0px" }}>The sampling ratio you chose is:</p>
                 <div style={{ margin: "40px 80px 0 80px" }}>
                   <Bar {...samplingErrorParamConfig} />
@@ -732,7 +687,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                     columns={columns1}
                     dataSource={data4}
                     size={"small"}
-                    // showHeader={false}
                     pagination={{ position: ["none"] }}
                   />
                 </div>
@@ -824,9 +778,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
                 >
                   Next
                 </Button>
-                {/* <Button shape="round" size="large" type="primary" onClick={handleBack} style={{marginLeft:"100px",width:"100px"}}>
-                  Back
-                </Button> */}
+               
               </div>
             </div>
           </Card>

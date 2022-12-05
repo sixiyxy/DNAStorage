@@ -40,12 +40,9 @@ export const Decay: React.FC<DecayProps> = (props) => {
   const [lossValue, setLossValue] = useState(0.3);
   const [monthValue, setMonthValue] = useState(24);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  const [hrefLink, setHrefLink] = useState([]);
   const [method, setMethod] = useState("Hsapiens");
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [alreadyRun, setAlreadyRun] = useState(false);
   const [group, setGroup] = useState();
 
   //处理函数
@@ -64,33 +61,16 @@ export const Decay: React.FC<DecayProps> = (props) => {
   const handleChange = (value: string) => {
     setMethod(value);
   };
-  const skipDecay = function () {
-    props.changeSider(["0-1-2"]);
-  };
-  const handleReset = function () {
-    setMethod("Hsapiens");
-    setLossValue(0.3);
-    setMonthValue(24);
-  };
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
   const handleOk = async () => {
     setLoading(true);
     setNoDataTipsShow(false);
     props.setDECRUN(true);
-    console.log('decay11.15',props.fileId);
-    console.log(typeof(props.fileId));
     
     const resp: any = await doPost("/simu_dec", {body: params});
 
     setCountLen(resp.dec_density.length);
     setGroup(resp.dec_group);
     setData(resp.dec_density);
-    setHrefLink(resp.storage_host_parameter_reference);
     setLoading(false);
 
     if(!props.method1[1]){
@@ -102,12 +82,6 @@ export const Decay: React.FC<DecayProps> = (props) => {
     }else{
       props.setReport(false)
     }
-    // props.setPCRRUN(false)
-  };
-  const param1 = {  file_uid:"1582175684011364352",
-  months_of_storage:24,
-  decay_loss_rate:0.3,
-  storage_host:"Hsapiens",
   };
 
   useEffect(()=>{
@@ -118,19 +92,14 @@ export const Decay: React.FC<DecayProps> = (props) => {
     setCountLen(props.response.DEC.density.length);
     setGroup(props.response.DEC.group);
     setData(props.response.DEC.density);
-    // setHrefLink(response.data.storage_host_parameter_reference);
     setLoading(false);
     
-  }else{
-    console.log('eff2',props.effect2);
   }
   },[props.effect2])
 
   const params = useMemo(() => {
-    // console.log('decay11.15',props.fileId);
     return {
       file_uid: props.fileId,
-      //file_uid: "1565536927137009664",
       months_of_storage: monthValue,
       decay_loss_rate: lossValue,
       storage_host: method,
@@ -148,7 +117,8 @@ export const Decay: React.FC<DecayProps> = (props) => {
         title:{
           text:'Percentage',
           offset:60,
-        }
+        },
+        maxLimit:countLen
       },
       xAxis: {
         title:{
@@ -167,18 +137,6 @@ export const Decay: React.FC<DecayProps> = (props) => {
     };
   }, [group, data]);
 
-  const methodLink = useMemo(() => {
-    return hrefLink?.map((link, index) => {
-      return (
-        <>
-          <a href={link} target="_blank" rel="noreferrer">
-            {link}
-          </a>
-          <br/>
-        </>
-      );
-    });
-  }, [hrefLink]);
   const show = props.okFlag && props.decayFlag
   return (
     <div className={`simulation-step-content`}>
@@ -268,21 +226,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
               <Button size="large" shape="round" onClick={handleOk} disabled={props.decrun}>
                 OK
               </Button>
-              {/* <Button shape="round" size="large" onClick={handleReset}>
-                Reset
-              </Button> */}
-              <Modal
-                title="Warning"
-                visible={isModalOpen}
-                onOk={skipDecay}
-                onCancel={handleCancel}
-                okText="Skip"
-              >
-                <i
-                  className="iconfont icon-warning-circle"
-                />
-                <p>Do you want to skip Decay?</p>
-              </Modal>
+            
             </div>
             </div>
           </Col>

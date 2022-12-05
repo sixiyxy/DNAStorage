@@ -109,7 +109,6 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
         tip="Loading..."
         size="large"
         spinning={props.spinflag}
-        // spinning={false}
         delay={10}
       >
         <div>
@@ -132,8 +131,6 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
                 columns={columns}
                 dataSource={tableData}
                 pagination={{ position: ["none"], pageSize: 15 }}
-                // pagination={{}}
-                // size={"small"}
               />
             </div>
             <div className="decode-report-button-group">

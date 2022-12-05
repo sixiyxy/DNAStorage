@@ -16,11 +16,8 @@ import { createAsyncStepRequest } from "../../../utils/request-util";
 export class SimulationSetProps {
   changeSider;
   fileId;
-  // 未使用到的入参，暂时以 ? 形式保留，若无需使用应予以移除
   setIsSynthesis?;
   setFileId?;
-  // setclickEXM?;
-  // setIsdisabled?;
   needUploader: boolean;
   clickEXM?;
   setSimuRepo;
@@ -63,8 +60,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [sampleFlag, setSampleFlag] = useState(true);
   const [sequenceFlag, setSequenceFlag] = useState(true);
   const [exmSpinFlag, setexmSpinFlag] = useState(false);
-  // 未使用的变量：alreadyChose，暂予以注释，同时 Choose 拼写有误，确认无用后移除
-  // const [alreadyChose, setAlreadyChose] = useState(false);
   const [dis0, setDis0] = useState(false);
   const [dis1, setDis1] = useState(false);
   const [dis2, setDis2] = useState(false);
@@ -88,14 +83,10 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [reportFlag, setReport] = useState(true);
   const { Dragger } = Upload;
   useEffect(() => {
-    // if (props.setIsdisabled) {
-    //   props.setIsdisabled(true);
-    // }
     window.scrollTo(0, 0);
   }, []);
 
   const { encodeInfo } = props;
-  // console.log("encodeInfo ", encodeInfo);
 
   const paramsRepo = {
     file_uid: props.fileId,
@@ -105,7 +96,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     props.setSimuRepo(true);
     props.setSimuSet(false)
     props.changeSider(["0-1-1"]);
-    //const resp = await doPost("/simu_repo", { body: paramsRepo });
     const body = paramsRepo;
     const intervalTime = getIntervalTimeBySequenceNum(encodeInfo.DNA_sequence_number);
     await createAsyncStepRequest(
@@ -130,22 +120,18 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   };
 
   const handleDecay = () => {
-    // console.log(method);
     method[0] = !method[0];
     setDecayFlag(!decayFlag);
   };
   const handlePCR = () => {
-    // console.log(method);
     method[1] = !method[1];
     setPcrFlag(!pcrFlag);
   };
   const handleSampling = () => {
-    // console.log(method);
     method[2] = !method[2];
     setSampleFlag(!sampleFlag);
   };
   const handleSequencing = () => {
-    // console.log(method);
     method[3] = !method[3];
     setSequenceFlag(!sequenceFlag);
   };
@@ -157,20 +143,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setDis3(true);
     setDis4(true);
     setDis0(true);
-  };
-  const handleReset = () => {
-    method = [false, false, false, false];
-    setOkFlag(false);
-    setDecayFlag(false);
-    setPcrFlag(false);
-    setSampleFlag(false);
-    setSequenceFlag(false);
-    setDis0(false);
-    setDis1(false);
-    setDis2(false);
-    setDis3(false);
-    setDis4(false);
-    window.location.reload();
   };
 
   const paramExm = {
@@ -200,26 +172,20 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setDis2(true);
     setDis3(true);
     setDis4(true);
-    // props.setFileId("example");
     //控制每个步骤的useEffect
     console.log("开始请求");
     axios.post(API_PREFIX + "/simu_default_run", paramExm).then(function (response) {
-      console.log("请求中");
       setexmSpinFlag(false);
-      console.log("example-simu", response);
       setEffct1(true);
       setEffct2(true);
       setEffct3(true);
       setEffct4(true);
       setEffct5(true);
       setRes(response.data);
-
-      // props.setEffct1(false)
     });
   };
 
-  // console.log(okFlag, decayFlag, pcrFlag, sampleFlag, sequenceFlag);
-  // console.log("method", method);
+
   const uploadProps = {
     name: "file",
     multiple: true,
@@ -244,21 +210,9 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     },
   };
 
-  const beforeUpload = (file) => {
-    const { name } = file;
-    const type = name.split(".")[1];
-
-    const isFasta = type === "fasta";
-    if (!isFasta) {
-      message.error("You can only upload fasta file!");
-    }
-
-    return isFasta;
-  };
 
   return (
     <div className="page-simulation-setting">
-      {/*头部 Card 部分*/}
       <div>
         <Card>
           <Breadcrumb separator=">">
@@ -290,8 +244,6 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                   </p>
                 </div>
                 <Button
-                  // className="exm"
-                  // type="primary"
                   shape="round"
                   size="large"
                   onClick={handleEXM}
@@ -305,13 +257,11 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
               <div style={{ marginLeft: "150px" }} className="summary-img">
                 <Image
                   width={"130%"}
-                  // height={"50%"}
                   src={simu}
                 />
               </div>
             </Col>
           </Row>
-          {/* </div> */}
         </Card>
 
 
@@ -326,8 +276,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
               <Dragger
                 className="simulation-synthesis-uploader"
                 {...uploadProps}
-                beforeUpload={beforeUpload}
-                accept=".fasta"
+                accept=".FASTA"
                 maxCount={1}
                 onRemove={() => {
                   setIsOkDisable(true);
