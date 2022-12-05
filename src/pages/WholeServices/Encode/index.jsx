@@ -18,6 +18,7 @@ export const Encode = (props) => {
 
   useEffect(() => {
     props.setIsSynthesis(false);
+    window.scrollTo(0, 0);
     setTargetOffset(window.innerHeight / 2);
   }, []);
 
@@ -138,7 +139,6 @@ const controlZan = useMemo(
   };
   const miniEnergyPass = (param1) => {
     props.setMini(param1);
-    console.log(props.mini);
   };
   const InfoPass1 = (
     param1,
@@ -163,17 +163,14 @@ const controlZan = useMemo(
     props.infos.final_segment_bit_length = param9;
     props.infos.DNA_sequence_number = param10;
     props.setInfo(props.infos);
-    //console.log("InfoPass1", info);
   };
   const FileInfoPass = (param1, param2, param3) => {
     props.FileValue.fileId = param1;
     props.FileValue.filerename = param2;
     props.FileValue.filetype = param3;
     props.setFileInfo(props.FileValue);
-    //console.log(props.fileinfo);
   };
   const DNAInfoPass = (param1, param2, param3, param4, param5, param6, param7) => {
-    //console.log('param6:',param6);
     props.DNAinfos.DNA_sequence = param1;
     props.DNAinfos.encoding_time = param2;
     props.DNAinfos.information_density = param3;
@@ -182,14 +179,8 @@ const controlZan = useMemo(
     props.DNAinfos.net_information_density = param6;
     props.DNAinfos.physical_information_density_g = param7;
     props.setDNAinfo(props.DNAinfos);
-    console.log("Encode-dnaindo", props.dnainfo);
   };
   var params1 = {
-    // file_uid: "1565536927137009664",
-    // segment_length: 160,
-    // index_length: 16,
-    // verify_method: "WithoutVerifycode",
-    // encode_method: "Basic",
     type: "encode",
   };
   const handleClick = async () => {
@@ -241,19 +232,13 @@ const controlZan = useMemo(
           resp.min_free_energy,
           resp.net_information_density,
           resp.physical_information_density_g
-          // response.data.min_free_energy_below_30kcal_mol,
         );
         miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
       }
     );
-
-    //const resp = await doPost("/encode", { body: params1 });
-    //props.setEncodeAndDecodeSpinning(false);
-    //console.log("完成spin");
   };
 
   const scrollToAnchor = (placement) => {
-    console.log("toanthor");
     notification.info({
       message: "Please make sure you uploaded the files!",
       placement,
@@ -267,7 +252,6 @@ const controlZan = useMemo(
     }
   };
   const handleExm = async () => {
-    // props.setIsSynthesis(true);
     props.setEncodeRepo(true);
     props.setSimuSet(true);
     props.setEncodeSet(false)
@@ -277,8 +261,6 @@ const controlZan = useMemo(
     props.setExam(true);
     props.setFileId("example");
     const resp = await doPost("/example", { body: params1 });
-    console.log("Encode-response: ", resp);
-    console.log("Encode-response: ", typeof resp.min_free_energy_below_30kcal_mol);
     InfoPass1(
       resp.bit_size,
       resp.byte_size,
@@ -443,9 +425,6 @@ const controlZan = useMemo(
             >
               Run
             </Button>
-            {/* <Button shape="round" size={"large"} onClick={handleExm}>
-              Example
-            </Button> */}
             <Button shape="round" size={"large"} onClick={handlereset}>
               Reset
             </Button>

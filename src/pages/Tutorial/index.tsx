@@ -145,13 +145,13 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
     },
     {
       key: "2",
-      name1: "Clust method",
-      value1: "starcode/cd-hit, which will be used for clust simulation dna sequences",
+      name1: "Clustering method",
+      value1: "starcode/cd-hit, which will be used for clustering simulation dna sequences",
     },
     {
       key: "3",
-      name1: "Clust time",
-      value1: "clust time",
+      name1: "Clustering time",
+      value1: "clustering time",
     },
     {
       key: "4",
@@ -165,7 +165,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
     },
     {
       key: "6",
-      name1: "Cluster DNA sequence number",
+      name1: "Clustering DNA sequence number",
       value1: "the number of error simulated DNA sequences after clustering",
     },
     {
@@ -259,7 +259,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
         //设置下载下来后文件的名字以及文件格式
         link.setAttribute(
           "download",
-          `Demo-Files` + `${"zip"}` //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
+          `Demo-Files.`+ `${"zip"}` //upload为下载的文件信息 可以在外层包一个函数 将upload作为参数传递进来
         );
         document.body.appendChild(link);
         link.click(); //下载该文件
@@ -614,7 +614,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 index code. Finally, we analyze the recovery information of bits fragment in the
                 report.
               </p>
-              <h3 id="decode-title2">1.3.1 Cluster algorithms</h3>
+              <h3 id="decode-title2">1.3.1 Clustering algorithms</h3>
               <pre id="code_block">
                 <p id="simuset-report">
                   Starcode command: <br></br>
@@ -743,7 +743,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 </Anchor.Link>
 
                 <Anchor.Link href="#decode" title="1.3 Decode">
-                  <Anchor.Link href="#decode-title2" title="1.3.1 Cluster algorithms" />
+                  <Anchor.Link href="#decode-title2" title="1.3.1 Clustering algorithms" />
                   <Anchor.Link href="decode-title3" title="1.3.2	Result" />
                 </Anchor.Link>
             </Anchor.Link>  

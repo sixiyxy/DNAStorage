@@ -23,8 +23,6 @@ const EncodeMethodList: React.FC = (props: any) => {
       console.log('ProcessResp:',response);
       props.setprocessRes(response.data)
       props.setIndex(props.Zan && props.value==='SrcCode' ? 0 : response.data.index_length)
-      console.log(Number(Object.keys(response.data.bar)[Object.keys(response.data.bar).length-1]));
-      
     })
   },[props.value,props.method,props.fileID,props.isUpload,props.Zan])
 

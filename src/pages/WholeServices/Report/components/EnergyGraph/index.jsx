@@ -7,7 +7,6 @@ const EnergyGraph = (props) => {
   const data =useMemo(() => {
     return props.energy ? props.energy : []
 }, [props.energy]);
-console.log("energydata", data);
   const config = {
     data,
     xField: 'x_value',
@@ -15,10 +14,7 @@ console.log("energydata", data);
     width:400,
     intervalPadding:0,
     label: {
-      // 可手动配置 label 数据标签位置
       position: 'top',
-      // 'top', 'bottom', 'middle',
-      // 配置样式
       style: {
         fill: '#FFFFFF',
         opacity: 0.6,

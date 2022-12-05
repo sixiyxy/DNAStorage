@@ -125,7 +125,7 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
             </Col>
           </Row>
 
-          <Row>
+          {/* <Row>
             <Button onClick={async () => {
               console.log("开始测试 request 工具类...");
 
@@ -144,7 +144,7 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
                 console.log("发生异常", err);
               }
             }}>测试请求按钮（最后会删除）</Button>
-          </Row>
+          </Row> */}
 
         </div>
       </div>

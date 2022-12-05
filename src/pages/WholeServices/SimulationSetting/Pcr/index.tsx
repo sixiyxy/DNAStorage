@@ -39,12 +39,8 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   const [pcrProbability, setPcrProbability] = useState(0.8);
   const [pcrCycleValue, setPcrCycleValue] = useState(5);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  const [hrefLink, setHrefLink] = useState([]);
   const [method, setMethod] = useState("Taq");
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [densityData, setDensityData] = useState([]);
-  // 未使用的变量，暂予以注释
-  // const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [group, setGroup] = useState();
 
@@ -64,12 +60,6 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   const handleChange = (value: string) => {
     setMethod(value);
   };
-  const skipDecay = function () {
-    props.changeSider(["0-1-3"]);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
   const handleOk = async () => {
     setLoading(true);
@@ -78,7 +68,6 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     // todo 将请求接口 ts 化，否则无法移除警告
     const resp: any = await doPost("/simu_pcr", {body: params});
     setCountLen(resp.pcr_density.length);
-    // setErrorData(response?.data?.pcr_error_density);
     setGroup(resp.pcr_group);
     setDensityData(resp.pcr_density);
     setLoading(false);
@@ -101,8 +90,6 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     setDensityData(props.response.PCR.density);
     setLoading(false);
   
-  }else{
-    console.log('eff3',props.effect3);
   }
   },[props.effect3])
 
@@ -128,7 +115,8 @@ export const Pcr: React.FC<PcrProps> = (props) => {
         title:{
           text:'Percentage',
           offset:60,
-        }
+        },
+        maxLimit:countLen
       },
       xAxis: {
         title:{
@@ -247,22 +235,8 @@ export const Pcr: React.FC<PcrProps> = (props) => {
               >
                 OK
               </Button>
-              {/* <Button shape="round" size="large"
-                      onClick={handleReset}>
-                Reset
-              </Button> */}
-              <Modal
-                title="Warning"
-                visible={isModalOpen}
-                onOk={skipDecay}
-                onCancel={handleCancel}
-                okText="Skip"
-              >
-                <i
-                  className="iconfont icon-warning-circle"
-                />
-                <p>Do you want to skip PCR?</p>
-              </Modal>
+             
+            
             </div>
             </div>
           </Col>

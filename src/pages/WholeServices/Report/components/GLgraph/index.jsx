@@ -6,17 +6,13 @@ const GLgraph = (props) => {
   const data = useMemo(() => {
     return props.GC;
   }, [props.GC]);
-  console.log("gcdata", data);
   const config = {
     data,
     xField: "x_value",
     yField: "y_value",
     width: 400,
     label: {
-      // 可手动配置 label 数据标签位置
       position: "top",
-      // 'top', 'bottom', 'middle',
-      // 配置样式
       style: {
         fill: "#FFFFFF",
         opacity: 0.6,

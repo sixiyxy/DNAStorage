@@ -15,8 +15,7 @@ import {
 import React, {useMemo, useState,useEffect} from "react";
 import "./index.less";
 import {doPost} from "../../../../utils/request";
-import axios from "axios";
-import {API_PREFIX} from "../../../../common/Config";
+
 export class SequencingProps {
   changeSider?;
   fileId;
@@ -38,7 +37,6 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
   const [method, setMethod] = useState("ill_PairedEnd");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [densityData, setDensityData] = useState([]);
-  const [errorData, setErrorData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [group, setGroup] = useState();
 
@@ -80,14 +78,11 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       setGroup(props.response.SEQ.group);
       setLoading(false);
       props.setReport(false)
-    }else{
-        console.log('eff5',props.effect5);
-      }
+    }
       },[props.effect5])
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
-      // file_uid: "1565536927137009664",
       seq_depth: sequencingDepth,
       seq_meth: method,
     };
@@ -99,10 +94,6 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
       height: 300,
       binField: "value",
       binWidth: group,
-      // isPercent:true,
-      // yAxis:{
-      //   maxLimit:17000
-      // },
       yAxis:{
         title:{
           text:'Percentage',
@@ -205,10 +196,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                   >
                     OK
                   </Button>
-                  {/* <Button shape="round" size="large"
-                          onClick={handleReset}>
-                    Reset
-                  </Button> */}
+                 
                   <Modal
                     title="Warning"
                     visible={isModalOpen}
@@ -229,9 +217,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
           <Col span={12}>
             <Card>
             <Spin size="large" spinning={props.exmSpinFlag}>
-              {/* <div>
-                After Sequencing simulation, the situation of oligonucleotides pool as follows:
-              </div> */}
+             
               <div>
                 {noDataTipsShow ? (
                   <Empty

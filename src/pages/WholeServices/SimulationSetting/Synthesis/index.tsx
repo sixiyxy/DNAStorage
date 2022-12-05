@@ -59,9 +59,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     if (isNaN(value)) {
       return;
     }
-    // console.log(props.method1);
     setCycleValue(value);
-    // console.log(props.method1);
   };
   const yieldChange = (value: number) => {
     if (isNaN(value)) {
@@ -79,14 +77,10 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     props.setAlreadyRun(true);
     axios.post(API_PREFIX + "/simu_synthesis", params).then(function (response) {
       setCountLen(response?.data?.syn_density.length);
-      console.log("synthesis response", response);
       setGroup(response?.data?.density_group);
       setData(response?.data?.syn_density);
-      // sessionStorage.setItem("respdata", JSON.stringify(response?.data));
-      // var getdata0 = JSON.parse(sessionStorage.getItem("respdata"));
-      // console.log(getdata0);
-      
       setLoading(false);
+
       if (!props.method1[0]){
         props.setDECRUN(false)
       }else if(!props.method1[1]){
@@ -100,55 +94,24 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
       }
       
     });
-    // props.setIsSynthesis(true);
   };
-  const param1 = {
-    file_uid: "1582175684011364352", //待确认
-    synthesis_number: 30,
-    synthesis_yield: 0.99,
-    synthesis_method: "ErrASE",
-  };
+ 
 
   useEffect(()=>{
     setLoading(true);
     if (props.effect1 == true){
     setNoDataTipsShow(false);
     props.setAlreadyRun(true);
-    console.log('SYN',props.response);
     setCountLen(props.response.SYN.density.length);
     setGroup(props.response.SYN.group);
     setData(props.response.SYN.density);
     setLoading(false);
-    // props.setIsSynthesis(true);
-
-  // })
-  }else{
-    console.log('eff1',props.effect1);
   }
   },[props.effect1])
-  
-
-  
-  //数据生成
-  // const chartData = useMemo(() => {
-  //   return data?.map((item) => {
-  //     return {
-  //       copyNumber: item[0],
-  //       density: Number(item[1].toFixed(3)),
-  //     };
-  //   });
-  // }, [data]);
-  const handleReset = function () {
-    console.log("ressssssss....");
-
-    setCycleValue(30);
-    setMethod("ErrASE");
-    setYieldValue(0.99);
-  };
+ 
   const params = useMemo(() => {
     return {
       file_uid: props.fileId,
-      //file_uid: "1565536927137009664",
       synthesis_number: cycleValue,
       synthesis_yield: yieldValue,
       synthesis_method: method,
@@ -167,7 +130,8 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
         title:{
           text:'Percentage',
           offset:60,
-        }
+        },
+        maxLimit:countLen
       },
       xAxis: {
         title:{
@@ -187,15 +151,6 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   }, [group, data, countLen]);
 
   const show = props.okFlag;
-  //存储数据
-  // const [countLen, setCountLen] = useState(0);
-  // const [yieldValue, setYieldValue] = useState(0.99);
-  // const [cycleValue, setCycleValue] = useState(10);
-  // const [noDataTipsShow, setNoDataTipsShow] = useState(true);
-  // const [method, setMethod] = useState("ErrASE");
-  // const [data, setData] = useState([]);
-  // const [loading, setLoading] = useState(false);
-  // const [group, setGroup] = useState();
 
 
 
@@ -296,24 +251,9 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 <Button size="large" shape="round" onClick={handleOk} disabled={props.alreadyRun}>
                   OK
                 </Button>
-                {/* <Button shape="round" size="large" onClick={handleReset}>
-                  Reset
-                </Button> */}
+               
               </div>
-              {/* <Modal
-                title="Warning"
-                visible={isModalOpen}
-                onOk={skipSynthesis}
-                onCancel={handleCancel}
-                okText="Skip"
-              >
-                <i
-                  className="iconfont icon-warning-circle"
-                />
-                <p>Synthesis is the basic process of the error simulation stage.</p>
-                <p>Skipping this step means skipping the whole stage. </p>
-                <p>Do you still want to skip it?</p>
-              </Modal> */}
+              
               </div>
             </Col>
             <Col span={12}>

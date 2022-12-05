@@ -171,11 +171,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     },
   ];
 
-  console.log("dnainfo:", props.dnainfo);
-
   const DownloadURL = () => {
-    // console.log(props.encodeurl);
-    // console.log(props.fileURL);
     setDown(true);
     axios
       .post(API_PREFIX + "/download", params1, { responseType: "blob" })
