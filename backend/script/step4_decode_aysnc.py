@@ -20,7 +20,7 @@ verify_methods = {
 def cut_sequences(data):
     data_size = len(data)
     cut_data_all = []
-    cut_size = 4000
+    cut_size = 1000
 
     for i in range(data_size//cut_size):
         if i+1 != data_size//cut_size:
@@ -65,7 +65,6 @@ class ClusterDecode():
         
         self.encode_file = '{}/{}.npz'.format(self.out_dir,self.file_uid)
         self.encode_data = np.load(self.encode_file)
-        
 
     def method_cdhit(self):
         cmd = '{tool} -T {threads} -c 0.99 -i {in_file} -o {out_file} '.format(
@@ -120,7 +119,7 @@ class ClusterDecode():
                              "Yin_Yang":YinYangCode(index_length =self.index_length ,need_logs=False)}
         start_time = datetime.now()
         decode_method = method_dict[self.method_name]
-        print('Begin decode bit segments...')
+        print('### Begin decode bit segments...')
         clust_dna_sequences_list = [list(i) for i in clust_dna_sequences]
         if len(clust_dna_sequences) <10000:
             decode_result = decode_method.carbon_to_silicon(clust_dna_sequences_list)
@@ -132,7 +131,7 @@ class ClusterDecode():
             decode_bit_segments = []
             for result in parallel_results:
                 decode_bit_segments+= result['bit']
-        print('DNA sequences to bit segment Done!')
+        print('### DNA sequences to bit segment Done!')
 
         a = []
         if self.method_name == "DNA_Fountain":
