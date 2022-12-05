@@ -1,5 +1,6 @@
 import sys,os
 import shutil
+import subprocess
 
 example_id = sys.argv[1]
 backend_dir = sys.argv[2]
@@ -25,6 +26,7 @@ os.remove(example_fasta)
 os.remove(example_demo)
 os.remove(example_tar)
 
+
 new_example_txt = '{}/{}.txt'.format(encode_dir,example_id)
 new_example_fasta = '{}/{}.fasta'.format(encode_dir,example_id)
 new_example_demo = '{}/{}_demo.dna'.format(encode_dir,example_id)
@@ -32,7 +34,15 @@ new_example_tar = '{}/{}.tar.gz'.format(encode_dir,example_id)
 shutil.copy(new_example_txt,example_txt)
 shutil.copy(new_example_fasta,example_fasta)
 shutil.copy(new_example_demo,example_demo)
-shutil.copy(new_example_tar,example_tar)
+
+example_dir = '{}/example'.format(encode_dir)
+os.mkdir(example_dir)
+shutil.copy(new_example_txt,example_txt)
+shutil.copy(new_example_fasta,example_fasta)
+shutil.copy(new_example_yaml,example_yaml)
+downfile_name = '{}/example.tar.gz'.format(encode_dir)
+subprocess.call(["tar", "zcvf", downfile_name, "-P", example_dir])
+shutil.rmtree(example_dir)
 
 # simulation
 simulation_dir = '{}/simulation'.format(backend_dir)
