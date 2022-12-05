@@ -396,9 +396,11 @@ def download():
     elif type == 'simulation':
         dna_dir,downfile_name = get_download_path(type='simulation',file_uid=file_uid)
         response = send_from_directory(dna_dir,downfile_name,as_attachment=True)
+        print(dna_dir,downfile_name)
         return response
     elif type=='demo':
         file_dir,downfile_name = get_download_path(type='demo',file_uid='demo')
+        print(file_dir,downfile_name)
         response = send_from_directory(file_dir,downfile_name,as_attachment=True)
         return response
     else:
