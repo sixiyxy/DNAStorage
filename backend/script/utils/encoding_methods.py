@@ -309,7 +309,6 @@ class Goldman(AbstractCodingAlgorithm):
         if size is None:
             size = len(bit_matrix) * len(bit_matrix[0])
 
-        print(len(bit_matrix),len(bit_matrix[0]),size)
 
         # Replace the bit matrix with one-dimensional decimal byte list
         decimal_list = self._get_decimal_list(bit_matrix, size)
@@ -318,18 +317,15 @@ class Goldman(AbstractCodingAlgorithm):
         weight, code = {}, {}
         # Recorder, prepare for the following screening of valid keys
         _node = lambda i: "_" + str(i).zfill(3)
-        print(_node)
         for one_byte in decimal_list:
             # Create weight values for each element
             if _node(one_byte) in weight:
                 weight[_node(one_byte)] += 1
             else:
                 # Set the initial value of the code
-                print(one_byte,_node(one_byte))
                 code[_node(one_byte)] = ""
                 weight[_node(one_byte)] = 1
 
-        print(weight)
         for one_byte in range(1, multiple - 1):
             # Add impossible elements to ensure normal combination and close as one element
             if (len(weight) - 1) % (multiple - 1) == 0:
@@ -337,14 +333,13 @@ class Goldman(AbstractCodingAlgorithm):
             else:
                 weight["_" * one_byte] = 0
         weight_list = list(weight.items())
-        print(weight_list)
-        print((len(weight) - 1) // (multiple - 1))
+
 
         for index in range(0, (len(weight) - 1) // (multiple - 1)):
             weight_list = sorted(weight_list, key=lambda x: x[0])
-            print(weight_list)
+
             weight_list = sorted(weight_list, key=lambda x: x[1])
-            print(weight_list)
+
             # Combine the previous terms into one term
             item = str(index).zfill(3)
             weight = 0
@@ -365,7 +360,7 @@ class Goldman(AbstractCodingAlgorithm):
         for index in range(256):
             tree.append(dictionary.get(index))
 
-        print(tree,len(tree))
+
         return tree
 
     @staticmethod
@@ -390,10 +385,7 @@ class Goldman(AbstractCodingAlgorithm):
                 temp_byte += bit_matrix[row][col]
                 if bit_index == 8:
                     if size >= 0:
-                        print(bit_matrix[row])
-                        print(temp_byte)
                         decimal_list.append(int(temp_byte))
-                        print(decimal_list)
                         size -= 1
                     bit_index, temp_byte = 0, 0
 
@@ -548,20 +540,22 @@ class Blawat(AbstractCodingAlgorithm):
             if len(dna_sequence) % 5 !=0:
                 continue
             else:
+                try:
+                    for position in range(0, len(dna_sequence), 5):
+                        carbon_piece, silicon_piece = dna_sequence[position: position + 5], []
+                        for index in [0, 1, 3]:
+                            silicon_piece += self.first_3[base_index.get(carbon_piece[index])]
 
-                for position in range(0, len(dna_sequence), 5):
-                    carbon_piece, silicon_piece = dna_sequence[position: position + 5], []
-                    for index in [0, 1, 3]:
-                        silicon_piece += self.first_3[base_index.get(carbon_piece[index])]
+                        combination = carbon_piece[2] + carbon_piece[4]
+                        for value, options in self.last_2.items():
+                            if combination in options:
+                                silicon_piece += [int(value[1]), int(value[4])]
 
-                    combination = carbon_piece[2] + carbon_piece[4]
-                    for value, options in self.last_2.items():
-                        if combination in options:
-                            silicon_piece += [int(value[1]), int(value[4])]
+                        bit_segment += silicon_piece
 
-                    bit_segment += silicon_piece
-
-                bit_segments.append(bit_segment)
+                    bit_segments.append(bit_segment)
+                except:
+                    pass
 
             if self.need_logs:
                 self.monitor.output(sequence_index + 1, len(dna_sequences))
