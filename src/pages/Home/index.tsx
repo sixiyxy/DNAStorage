@@ -76,7 +76,7 @@ export const Home: React.FC<HomeProps> = (props) => {
         <div className="home-introduce-line">
           <div className="home-introduce-item">
             <h2>Encode File</h2>
-            <p style={{ fontSize: "20px", textAlign: "justify" }}>
+            <p style={{ fontSize: "19px", textAlign: "justify" }}>
               The encode service integrates the most common and popular DNA storage encoding and
               verifying methods. After uploading the file, users could simply select corresponding
               methods, elegantly slide the sliders to set the segment length, and wait for the
@@ -85,7 +85,7 @@ export const Home: React.FC<HomeProps> = (props) => {
           </div>
           <div className="home-introduce-item">
             <h2>Error Simulation</h2>
-            <p style={{ fontSize: "20px", textAlign: "justify" }}>
+            <p style={{ fontSize: "19px", textAlign: "justify" }}>
               The simulation service allows user to upload their own fasta DNA file to proceed error
               simulation stage. It covers the five stages of DNA storage, namely, synthesis, storage
               decay, PCR, sampling, and sequencing.
@@ -96,9 +96,10 @@ export const Home: React.FC<HomeProps> = (props) => {
           <div className="home-introduce-item">
             <Button
               className="home-button"
+              type="primary"
               shape="round"
               size="large"
-              style={{ backgroundColor: "#83c5b7" }}
+              // style={{ backgroundColor: "#83c5b7" }}
             >
               <Link to="/services/encode"> Try </Link>
             </Button>
@@ -106,9 +107,10 @@ export const Home: React.FC<HomeProps> = (props) => {
           <div className="home-introduce-item">
             <Button
               className="home-button"
+              type="primary"
               shape="round"
               size="large"
-              style={{ backgroundColor: "#83c5b7" }}
+              // style={{ backgroundColor: "#83c5b7" }}
             >
               <Link to="/services/simulation">Try</Link>
             </Button>
