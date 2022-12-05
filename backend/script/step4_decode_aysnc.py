@@ -120,19 +120,20 @@ class ClusterDecode():
                              "Yin_Yang":YinYangCode(index_length =self.index_length ,need_logs=False)}
         start_time = datetime.now()
         decode_method = method_dict[self.method_name]
+        print('Begin decode bit segments...')
         clust_dna_sequences_list = [list(i) for i in clust_dna_sequences]
         if len(clust_dna_sequences) <10000:
             decode_result = decode_method.carbon_to_silicon(clust_dna_sequences_list)
             decode_bit_segments = decode_result['bit']
         else:
-            cut_file_data = cut_sequences(clust_dna_sequences_list)
+            cut_data = cut_sequences(clust_dna_sequences_list)
             with multiprocessing.Pool(self.threads) as pool:
-                parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
+                parallel_results = list(pool.imap(decode_method.carbon_to_silicon,cut_data))
             decode_bit_segments = []
             for result in parallel_results:
                 decode_bit_segments+= result['bit']
+        print('DNA sequences to bit segment Done!')
 
-        decode_bit_segments = decode_result['bit']
         a = []
         if self.method_name == "DNA_Fountain":
             for i in decode_bit_segments:
