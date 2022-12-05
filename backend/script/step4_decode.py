@@ -2,11 +2,11 @@ import imp
 import os
 import numpy as np
 from datetime import datetime
-from .utils.utils_basic import get_config,write_yaml
-from .utils.verify_methods import Hamming,ReedSolomon
-from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
-from .utils.decode_utils import remove_index
-from .utils.srcode import SrcCode
+from utils.utils_basic import get_config,write_yaml
+from utils.verify_methods import Hamming,ReedSolomon
+from utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
+from utils.decode_utils import remove_index
+from utils.srcode import SrcCode
 
 
 verify_methods = {
@@ -26,13 +26,14 @@ class ClusterDecode():
         self.file_info_path = '{}/{}.yaml'.format(self.file_dir,file_uid)
         self.file_info_dict = get_config(yaml_path=self.file_info_path)
         self.threads = self.config['threads']
+        self.threads = 4
 
         # cluster
         self.simulation_dir = '{}/{}'.format(self.backend_dir,self.config['simulation_dir'])
         self.simulation_dna_file = '{}/{}.fasta'.format(self.simulation_dir,self.file_uid)
         self.out_dir = '{}/{}'.format(self.backend_dir,self.config['decode_dir'])
-        self.starcode = self.config['starcode']
-        # self.starcode = '/Users/jianglikun/VScode/starcode/starcode'
+        # self.starcode = self.config['starcode']
+        self.starcode = '/Users/jianglikun/VScode/starcode/starcode'
         self.cdhit = self.config['cdhit']
 
         # decode
@@ -47,11 +48,11 @@ class ClusterDecode():
         self.segment_length = self.file_info_dict['segment_length']
         self.index_length =  self.file_info_dict['index_length']
         self.verify_method = verify_methods[self.file_info_dict['verify_method']]
+        self.dna_sequence_length = self.file_info_dict['DNA_sequence_length']
         
         self.encode_file = '{}/{}.npz'.format(self.out_dir,self.file_uid)
         self.encode_data = np.load(self.encode_file)
         
-
     def method_cdhit(self):
         cmd = '{tool} -T {threads} -c 0.99 -i {in_file} -o {out_file} '.format(
             tool = self.cdhit, 
@@ -264,6 +265,6 @@ if __name__ == '__main__':
     # obj = Encoding(1565536927137009664)
     # record_info,bit_segments = obj.bit_to_dna()
 
-    obj = ClusterDecode(file_uid = 1595671626651930624,clust_method= 'starcode')
+    obj = ClusterDecode(file_uid = 1599636313127129088,clust_method= 'starcode')
 
     obj.decode()

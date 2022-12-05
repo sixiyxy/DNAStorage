@@ -545,19 +545,23 @@ class Blawat(AbstractCodingAlgorithm):
 
         for sequence_index, dna_sequence in enumerate(dna_sequences):
             bit_segment = []
-            for position in range(0, len(dna_sequence), 5):
-                carbon_piece, silicon_piece = dna_sequence[position: position + 5], []
-                for index in [0, 1, 3]:
-                    silicon_piece += self.first_3[base_index.get(carbon_piece[index])]
+            if len(dna_sequence) % 5 !=0:
+                continue
+            else:
 
-                combination = carbon_piece[2] + carbon_piece[4]
-                for value, options in self.last_2.items():
-                    if combination in options:
-                        silicon_piece += [int(value[1]), int(value[4])]
+                for position in range(0, len(dna_sequence), 5):
+                    carbon_piece, silicon_piece = dna_sequence[position: position + 5], []
+                    for index in [0, 1, 3]:
+                        silicon_piece += self.first_3[base_index.get(carbon_piece[index])]
 
-                bit_segment += silicon_piece
+                    combination = carbon_piece[2] + carbon_piece[4]
+                    for value, options in self.last_2.items():
+                        if combination in options:
+                            silicon_piece += [int(value[1]), int(value[4])]
 
-            bit_segments.append(bit_segment)
+                    bit_segment += silicon_piece
+
+                bit_segments.append(bit_segment)
 
             if self.need_logs:
                 self.monitor.output(sequence_index + 1, len(dna_sequences))
