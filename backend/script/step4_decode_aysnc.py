@@ -2,6 +2,9 @@ import imp
 import os
 import numpy as np
 from datetime import datetime
+# from multiprocessing import Pool
+import billiard as multiprocessing
+
 from .utils.utils_basic import get_config,write_yaml
 from .utils.verify_methods import Hamming,ReedSolomon
 from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
@@ -14,7 +17,19 @@ verify_methods = {
     "Hamming":Hamming(need_logs=False),
     "ReedSolomon":ReedSolomon(need_logs=False)}
 
+def cut_sequences(data):
+    data_size = len(data)
+    cut_data_all = []
+    cut_size = 4000
 
+    for i in range(data_size//cut_size):
+        if i+1 != data_size//cut_size:
+            cut_data = data[i*cut_size:(i+1)*cut_size]
+        else:
+            cut_data = data[i*cut_size:]
+        cut_data_all.append(cut_data)
+    
+    return cut_data_all
 
 class ClusterDecode():
     def __init__(self,file_uid,clust_method):
@@ -106,8 +121,16 @@ class ClusterDecode():
         start_time = datetime.now()
         decode_method = method_dict[self.method_name]
         clust_dna_sequences_list = [list(i) for i in clust_dna_sequences]
-        decode_result = decode_method.carbon_to_silicon(clust_dna_sequences_list)
-
+        if len(clust_dna_sequences) <10000:
+            decode_result = decode_method.carbon_to_silicon(clust_dna_sequences_list)
+            decode_bit_segments = decode_result['bit']
+        else:
+            cut_file_data = cut_sequences(clust_dna_sequences_list)
+            with multiprocessing.Pool(self.threads) as pool:
+                parallel_results = list(pool.imap(self.encoding_normal,cut_file_data))
+            decode_bit_segments = []
+            for result in parallel_results:
+                decode_bit_segments+= result['bit']
 
         decode_bit_segments = decode_result['bit']
         a = []
