@@ -115,13 +115,13 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
     {
       key: "10",
       name1: "Information density",
-      value1: "the ratio of Nucleotide counts to File bits",
+      value1: "the ratio of nucleotide counts to file bits",
     },
     {
       key: "11",
       name1: "Physical information density",
       value1:
-        "The ratio of File bytes to the total mass of DNA sequences (Define 1.5pmol * 1000bp = 9.03 * 10^14bp = 1ug)",
+        "The ratio of file bytes to the total mass of DNA sequences (Define 1.5pmol * 1000bp = 9.03 * 10^14bp = 1ug)",
     },
   ];
   const columns2: ColumnsType<DataType> = [
@@ -313,7 +313,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
             <h3 id="third-title">Example file</h3>
             <p id="text-content">
               We use the Xiamen University badge picture as an example file to introduce the working
-              process of the website.Other demo files can be <a href="javascript:void(0)" onClick={handelURL} id='a-link'> downloaded from here</a>. The file types include: Image, video,
+              process of the website. Other demo files can be <a href="javascript:void(0)" onClick={handelURL} id='a-link'> downloaded from here</a>. The file types include: Image, video,
               audio, text, and binary.
             </p>
             <Image src={xiamen} width={"50%"} rootClassName="image2" />
@@ -358,13 +358,13 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   <strong>Verify code: </strong>Because the DNA sequence will inevitably have errors
                   during the storage process, in order to ensure the accuracy of data, we integrated
                   two <strong>verify codes</strong>, which is{" "}
-                  <i>Reed Solomon Code and Hamming Code.</i>For more details on each method, please
+                  <i>Reed Solomon Code</i> and <i>Hamming Code</i>. For more details on each method, please
                   refers to the <Link to="/methods">Method</Link>.
                 </li>
                 <li>
                   <strong>Segment length and Index length: </strong>The upload file will be compiled
-                  into binary data (each byte will be converted to 8 bits ), it will be split into fixed lengths and converted to DNA
-                  sequence using the chosen method, this fixed length is the segment length. Since
+                  into binary data (each byte will be converted to 8 bits ), it will be split into fixed lengths (segment length) and converted to DNA
+                  sequence using the chosen method. Since
                   the existing synthesis and sequencing technology do not support long sequences,
                   the segment length should be less than 200. At the same time, in order to restore
                   the data, each segment will be added on address information, and the length is the
@@ -380,7 +380,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               <ul>
                 <li>
                   <strong>File information: </strong>The basic information of files uploaded by
-                  users
+                  users.
                 </li>
                 <li>
                   <strong>Encode information: </strong>This part shows the information of the
@@ -394,7 +394,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   pagination={{ position: ["none"], pageSize: 15 }}
                 />
                 <p id="report-content">
-                  The analysis of the encoded DNA sequences includes GC-content statics, Repeated
+                  The analysis of the encoded DNA sequences includes GC content statics, repeated
                   sequence statics, and minimum free energy calculation. Here, we randomly sampled
                   only 1000 DNA sequences for analysis.
                 </p>
@@ -424,8 +424,8 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   The minimum free energy (MFE) of a DNA sequence is the minimum of the Gibbs
                   standard free energy of all possible secondary structures. Therefore, the quality
                   of DNA sequences can be measured by calculating the MFE of each sequence. Here we
-                  calculated the minimum free energies if randomly selected 1000 encoded DNA
-                  sequences by RNAfold(see methods).<br></br>
+                  calculated the MFE if randomly selected 1000 encoded DNA
+                  sequences by RNAfold (see methods).<br></br>
                   <br></br>
                   <pre id="code_block">
                     Here we use the RNAfold command is:<br></br>
@@ -437,11 +437,11 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   </pre>
                 </p>
                 <li>
-                  <strong>Download: </strong>Include three files in the downloaded compressed file, one is the encoding settings information of the uploaded file(named as file_id.yaml), and the other is the encoded DNA sequence file(named as file_id.fasta), and the last one is the detailed information file about the encoded upload file (namely file_id.txt).
+                  <strong>Download: </strong>Include three files in the downloaded compressed file, one is the encoding settings information of the uploaded file (namely as file_id.yaml), and the other is the encoded DNA sequence file (namely as file_id.fasta), and the last one is the detailed information file about the encoded upload file (namely file_id.txt).
                   <ul>
-                    <li><strong>Encode sequences(fasta):</strong> This file concains the encoded dna sequences of the uploaded file. </li>
-                    <li><strong>Information file(yaml):</strong> This information file contains the related settings  and report information of the uploaded file.</li>
-                    <li><strong>Upload file encode details(txt):</strong> This file contains detailed information about: payload(after file segment), index(address bits), index_payload(payload and index bits), index_payload_verifycode(payload,index,verifycode bits), DNA_sequence.</li>
+                    <li><strong>Encode sequences (fasta):</strong> This file contains the encoded dna sequences of the uploaded file. </li>
+                    <li><strong>Information file (yaml):</strong> This information file contains the related settings  and report information of the uploaded file.</li>
+                    <li><strong>Upload file encode details (txt):</strong> This file contains detailed information about: payload (after file segment), index (address bits), index_payload (payload and index bits), index_payload_verifycode (payload,index,verifycode bits), DNA_sequence.</li>
                   </ul>
                 </li>
                 
@@ -465,13 +465,13 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   </li>
                   <li>
                     <strong>Stages Setting: </strong>We list out five processes, namely, synthesis,
-                    decay(storage), PCR, sampling, and sequencing. You could decide whether these
+                    decay (storage), PCR, sampling, and sequencing. You could decide whether these
                     stages are needed or not to get a final workflow based on your experiment
-                    design. By default, all stages are simulated. If you want to skip some of them,
-                    you could click on the corresponding buttons. However, because the synthesis of
+                    design. By default, all stages are simulated. <strong>If you want to skip some of them,
+                    you could click on the corresponding buttons.</strong> However, because the synthesis of
                     sequences is the base of the following stages, this stage is a must for the
                     simulation part and can not be ignored. After your decision is done, please
-                    click the “ok” button to start your detailed settings.
+                    click the OK button to start your detailed settings.
                   </li>
                   <Image src={simubtn} width={"80%"} rootClassName="image6" />
                   <p style={{ textAlign: "center", fontSize: 13 }}>
@@ -484,7 +484,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                     question mark aside, the explanation will be popped out. As for the settings
                     with provided options, you could see their corresponding short introduction and
                     references from the “Methods” page. After setting up parameters for one stage,
-                    please click on the “ok” button to confirm.{" "}
+                    please click on the OK button to confirm.{" "}
                   </li>
                   <Image src={SYN} width={"40%"} rootClassName="image6" />
                   <p style={{ textAlign: "center", fontSize: 13 }}>
@@ -502,21 +502,21 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 </p>
                 <p id="simuset-report">
                   To be specific, for example, if we have an original sequence<i> M </i>at first,
-                  after 10 cycle synthesis, we may get 10 copies for<i>M</i>, among them, some may
+                  after 10 cycle synthesis, we may get 10 copies for <i>M</i>, among them, some may
                   be embedded with simulated errors (
                   <i>
                     M<sub>1</sub>
                   </i>
-                  ,
+                  , 
                   <i>
-                    M<sub>2</sub>
+                     M<sub>2</sub>
                   </i>
                   ).
                 </p>
-                <Image src={dnatable} width={"60%"} rootClassName="image6" />
-                <p style={{ textAlign: "center", fontSize: 13 }}>
+                <Image preview={false} src={dnatable} width={"60%"} rootClassName="image6" />
+                {/* <p style={{ textAlign: "center", fontSize: 13 }}>
                   Figure 9: Example of simulated situation of <i>M</i>
-                </p>
+                </p> */}
                 <p id="simuset-report">
                   Thus, for this example, in this stage, most DNA strands have a copy number around
                   10, while strands with 1 or 2 copy number also exist.Therefore, the diagrams will
@@ -544,7 +544,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   </li>
                   <Image src={simutab} width={"75%"} rootClassName="image6" />
                   <p style={{ textAlign: "center", fontSize: 13 }}>
-                    Figure 10: Example of steps review
+                    Figure 9: Example of steps review
                   </p>
                   <li>
                     <strong>Sequence Distribution: </strong>During the whole process, the number of
@@ -565,7 +565,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   </p>
                   <Image src={simuseq} width={"75%"} rootClassName="image6" />
                   <p style={{ textAlign: "center", fontSize: 13 }}>
-                    Figure 11: Example of sequence distribution diagram
+                    Figure 10: Example of sequence distribution diagram
                   </p>
                   <li>
                     <strong>Error Counts: </strong>Because the effects of occurred errors are
@@ -578,7 +578,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   </li>
                   <Image src={simucounts} width={"75%"} rootClassName="image6" />
                   <p style={{ textAlign: "center", fontSize: 13 }}>
-                    Figure 12: Example of error counts diagram
+                    Figure 11: Example of error counts diagram
                   </p>
                   <li>
                     <strong>Download: </strong>After clicking on the download button, a zip folder
