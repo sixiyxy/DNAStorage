@@ -425,7 +425,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   standard free energy of all possible secondary structures. Therefore, the quality
                   of DNA sequences can be measured by calculating the MFE of each sequence. Here we
                   calculated the MFE if randomly selected 1000 encoded DNA
-                  sequences by RNAfold (see methods).<br></br>
+                  sequences by RNAfold (see <Link to="/methods">Method</Link>).<br></br>
                   <br></br>
                   <pre id="code_block">
                     Here we use the RNAfold command is:<br></br>
@@ -649,7 +649,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
               simply upload your own FASTA file. In consideration of computation cost, the maximum
               original sequences number we accept is 200000 in the simulation part.
               <br></br>
-              And as for other details, please refer to the “1 Encode/Simulation/Decode and 2 Error Simulation” part.{" "}
+              And as for other details, please refer to the “1.2 Error Simulation” part.{" "}
             </p>
             {/* <p id="text-content"> */}
              
@@ -658,7 +658,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
             <p id="text-content">
               If the user just wants to encode the file, we also provide a separate file encode
               part, it is not necessary for you to go through the whole process. <br></br>And as for other
-              details, please refer to the “1 Encode/Simulation/Decode and 3 File Encode” part.{" "}
+              details, please refer to the “1.1 Encode” part.{" "}
             </p>
             <h3 id="Frequently">Frequently Asked Questions</h3>
             <ul>
