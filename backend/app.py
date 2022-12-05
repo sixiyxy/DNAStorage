@@ -15,7 +15,8 @@ from script.utils.simulation_utils import is_fasta,fasta_to_dna
 from script.utils.utils_basic import get_config,write_yaml,get_download_path,is_txt
 
 
-app = Flask(__name__,static_folder="../dist/assets",template_folder="../dist/")
+app = Flask(__name__,static_folder="/home/dna/front/dna-storage-designer/assets",
+template_folder="/home/dna/front/dna-storage-designer/")
 CORS(app, resources=r'/*')
 backend_dir = os.path.dirname(os.path.abspath(__file__))
 print("----------------------------------------------------------------",backend_dir)
@@ -75,7 +76,6 @@ def progress_bar():
     info = {'index_length':index_length,'bar':bar}
 
     return json.dumps(info)
-
 
 @app.route('/encode',methods=['GET','POST'])
 def file_encode():
