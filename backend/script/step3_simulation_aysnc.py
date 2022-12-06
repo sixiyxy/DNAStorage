@@ -359,7 +359,7 @@ def parallel(simu_dna,funcs,funcs_names):
         data=[(funcs,item) for item in cut_file_list]
         data=[funcs,simu_dna]
         with multiprocessing.Pool(thread) as pool:
-                r = list((pool.map(funcs_parallel,data)))   
+                r = list(pool.map(funcs_parallel,data))   
         dnas=[]
         error_recorder=[{'+':0,"-":0,"s":0,"e":0,"n":0} for i in range(len(funcs))]
         error_density=[{} for i in range(len(funcs))]
