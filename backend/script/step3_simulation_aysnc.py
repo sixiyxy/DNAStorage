@@ -76,7 +76,7 @@ def get_simu_synthesis_info(file_uid,
         '''
         simu_dna,file_info_path,_,_=get_info(file_uid,upload_flag)
         SYN,arg=SynthMeth_arg(synthesis_method,[synthesis_number,synthesis_yield])
-        simu_dna=funcs_parallel([SYN],simu_dna,False)
+        simu_dna=funcs_parallel([[SYN],simu_dna],False)
         funcs_name=['SYN']
         print("Now : SYN")
         error_param={"sub":arg.syn_sub_prob,"ins":arg.syn_ins_prob,"del":arg.syn_del_prob}
@@ -118,7 +118,7 @@ def get_simu_dec_info(file_uid,
         funcs.append(DEC)
         print("Now : DEC")
         funcs_name.append("DEC")
-        simu_dna=funcs_parallel(funcs,simu_dna,False)
+        simu_dna=funcs_parallel([funcs,simu_dna],False)
         error_param={"sub":arg.dec_sub_prob,"ins":arg.dec_ins_prob,"del":arg.dec_del_prob}
         dec_info={
             "simu":funcs_name,
@@ -158,7 +158,7 @@ def get_simu_pcr_info(
         funcs.append(PCR)
         print("Now : PCR")
         funcs_name.append("PCR")
-        simu_dna=funcs_parallel(funcs,simu_dna,False)
+        simu_dna=funcs_parallel([funcs,simu_dna],False)
         error_param={"sub":arg.pcr_sub_prob,"ins":arg.pcr_ins_prob,"del":arg.pcr_del_prob}
         pcr_info={
             "simu":funcs_name,
@@ -230,7 +230,7 @@ def get_simu_seq_info(file_uid,
         funcs.append(SEQ)
         funcs_name.append("SEQ")
         print("Now :SEQ")
-        simu_dna=funcs_parallel(funcs,simu_dna,False)
+        simu_dna=funcs_parallel([funcs,simu_dna],False)
         density,group=calculate_density(simu_dna)
         error_param={"sub":arg.seq_sub_prob,"ins":arg.seq_ins_prob,"del":arg.seq_del_prob}
         seq_info={
@@ -356,8 +356,10 @@ def parallel(simu_dna,funcs,funcs_names):
         cut_file_list = cut_file(simu_dna,cut)
         config = get_config(yaml_path='config')
         thread=config["threads"]
+        data=[(funcs,item) for item in cut_file_list]
+        data=[funcs,simu_dna]
         with multiprocessing.Pool(thread) as pool:
-                r = list(tqdm(pool.starmap(funcs_parallel,[(funcs,item) for item in cut_file_list])))   
+                r = list((pool.map(funcs_parallel,data)))   
         dnas=[]
         error_recorder=[{'+':0,"-":0,"s":0,"e":0,"n":0} for i in range(len(funcs))]
         error_density=[{} for i in range(len(funcs))]
