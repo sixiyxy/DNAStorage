@@ -1,6 +1,6 @@
 SYN:
-  density_group: 1
-  syn_density:
+  group: 1
+  density:
   - value: 7
   - value: 11
   - value: 10
@@ -1035,7 +1035,7 @@ SYN:
   - value: 8
   - value: 7
 DEC:
-  dec_density:
+  density:
   - value: 3
   - value: 4
   - value: 7
@@ -2055,10 +2055,10 @@ DEC:
   - value: 9
   - value: 8
   - value: 5
-  density_group: 1
+  group: 1
 PCR:
-  density_group: 1713
-  pcr_density:
+  group: 1713
+  density:
   - value: 6856
   - value: 11905
   - value: 7703
@@ -3462,8 +3462,8 @@ PCR:
   - value: 4795
   - value: 556
 SAM:
-  density_group: 9
-  sam_density:
+  group: 9
+  density:
   - value: 27
   - value: 40
   - value: 43
@@ -4857,8 +4857,8 @@ SAM:
   - value: 26
   - value: 6
 SEQ:
-  density_group: 2
-  seq_density:
+  group: 2
+  density:
   - value: 9
   - value: 1
   - value: 1

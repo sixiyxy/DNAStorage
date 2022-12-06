@@ -261,24 +261,34 @@ class ErrorAdder_simu:
         self.probD = probD * raw_rate
         self.probI = probI * raw_rate
         self.probS = probS * raw_rate
+        equal_pattern={'A':0.25,'C':0.25,'G':0.25,'T':0.25}
         self.del_pattern=del_pattern
         self.ins_pattern=ins_pattern
+        if del_pattern==equal_pattern:
+            self.del_pattern=False
+        else:
+            self.del_pattern=del_pattern
+        if ins_pattern == equal_pattern:
+            self.ins_pattern==False
+        else:
+            self.ins_pattern=ins_pattern
+
         self.TM_Normal=TM_Normal
 
         self.ins_pos_random=ins_pos['random']
         self.ins_pos_homo=ins_pos['homopolymer']
         self.del_pos_random=del_pos['random']
         self.del_pos_homo=del_pos['homopolymer']
-
+        self.base=['A','C','G','T']
     def genNewError(self, dna):
         Errors = []
+        random_probs=np.random.rand(len(dna)*3) #prob array, to identify whether errors could occur or not
         if self.TM_Normal:
-            sub_flag=np.random.choice([False,True],size=len(dna),p=[1-self.probS,self.probS])
-            sub_true=np.where(sub_flag==True)[0]
+            sub_true=np.where(random_probs[0:len(dna)]<self.probS)[0]
             for pos in sub_true:
                 base=dna[pos]
                 subi=np.random.choice(['A','C','G','T'],p=list(self.TM[base].values()))
-                Errors.append((pos,'s',subi))
+                Errors.append([pos,'s',subi])
         else:
             TM_keys=list(self.TM.keys())
             for key in TM_keys:
@@ -286,10 +296,8 @@ class ErrorAdder_simu:
                 for i in index:
                     prob_try=np.random.uniform(0,1)
                     if prob_try > self.probS:
-                        change=False
                         break
                     else:
-                        change=True
                         prob=list(self.TM[key].values())
                         if len(prob)==1:    
                             sub=list(self.TM[key].keys())[0]
@@ -301,74 +309,61 @@ class ErrorAdder_simu:
                             if diff:
                                 Errors.append([i+j,'s',sub[j]])               
         ##delete
-        del_flag=np.random.choice([False,True],size=len(dna),p=[1-self.probD,self.probD])
-        del_count=(np.where(del_flag==True)[0]).size
-        del_random_count=int(del_count*self.del_pos_random)#random/homo seperate
+        del_count=(np.where(random_probs[len(dna):len(dna)*2]<self.probD)[0]).size
+        del_random_count=int(del_count*self.del_pos_random)
         del_homo_count=del_count-del_random_count
         for i in range(del_random_count):
                 if self.del_pattern:
                     choose_base=np.random.choice(list(self.del_pattern.keys()),p=list(self.del_pattern.values()))
-                    random_pos=np.where(dna==choose_base[0])
-                    try:
+                    random_pos=np.where(dna==choose_base)
+                    if len(random_pos[0])>0:
                         pick=random.choice(random_pos[0])
                         Errors.append([pick,'-',dna[pick]])
-                    except:
-                        pass
                 else:
                     pos=np.random.choice(len(dna))
                     Errors.append([pos,'-',dna[pos]])
-        for i in range(del_homo_count):
-            homos=homopolymer.homopolymer(dna)
-            homos_pos=[[i['startpos'],i['endpos']] for i in homos]
-            if len(homos_pos)!=0:
-                if self.del_pattern:
-                    choose_base=choose_base=np.random.choice(list(self.del_pattern.keys()),p=list(self.del_pattern.values()))
-                    count=0
-                    while count<=5000:
-                        pos=randomPicker(homos_pos)
-                        if dna[pos]==choose_base:
-                            Errors.append([pos,'-',dna[pos]])
-                            break
-                        else:
-                            count+=1
-                else:
-                    pos=randomPicker(homos_pos)
-                    Errors.append([pos,'-',dna[pos]])
 
         #insert
-        ins_flag=np.random.choice([False,True],size=len(dna),p=[1-self.probI,self.probI])
-        ins_count=(np.where(ins_flag==True)[0]).size
+        ins_count=(np.where(random_probs[len(dna)*2:len(dna)*3]<self.probI)[0]).size
         ins_random_count=int(ins_count*self.ins_pos_random)
         ins_homo_count=ins_count-ins_random_count
+
         for i in range(ins_random_count):
             if self.ins_pattern:
                 choose_base=np.random.choice(list(self.ins_pattern.keys()),p=list(self.ins_pattern.values()))
-                random_pos=np.where(dna==choose_base[0])
-                try:
+                random_pos=np.where(dna==choose_base)
+                if len(random_pos[0])>0:
                     pick=random.choice(random_pos[0])
                     Errors.append([pick,'+',dna[pick]])
-                except:
-                    pass
             else:
                 pos=np.random.choice(len(dna))
                 Errors.append([pos,'+',np.random.choice(['A','C','G','T'])])
-        for i in range(ins_homo_count):
+        
+        if del_homo_count!=0 and ins_homo_count!=0:
             homos=homopolymer.homopolymer(dna)
-            homos_pos=[[i['startpos'],i['endpos']] for i in homos]
-            if len(homos_pos)!=0:
-                if self.ins_pattern:
-                    choose_base=choose_base=np.random.choice(list(self.ins_pattern.keys()),p=list(self.ins_pattern.values()))
-                    count=0
-                    while count<=5000:
-                        pos=randomPicker(homos_pos)
-                        if dna[pos]==choose_base:
-                            Errors.append([pos,'+',dna[pos]])
-                            break
-                        else:
-                            count+=1
-                else:
-                    pos=randomPicker(homos_pos)
-                    Errors.append([pos,'+',dna[pos]])
+            if len(homos)!=0:
+                for i in range(del_homo_count):
+                    if self.del_pattern:
+                            choose_base=np.random.choice(list(self.del_pattern.keys()),p=list(self.del_pattern.values()))
+                    else:
+                            choose_base=np.random.choice(self.base)
+                    prob_homo=[[homo['startpos'],homo['endpos'],homo['errorprob']] for homo in homos if homo['base']==choose_base]
+                    if len(prob_homo)>=1:
+                        pos_total=randomPicker_new(prob_homo,1)
+                        for pos in pos_total:
+                            Errors.append([pos,'-',dna[pos][0]])
+                    
+                for i in range(ins_homo_count):
+                    if self.ins_pattern:
+                            choose_base=np.random.choice(list(self.ins_pattern.keys()),p=list(self.ins_pattern.values()))
+                    else:
+                            choose_base=np.random.choice(self.base)
+                    prob_homo=[[homo['startpos'],homo['endpos'],homo['errorprob']] for homo in homos if homo['base']==choose_base]
+                    if len(prob_homo)>=1:
+                        pos_total=randomPicker_new(prob_homo,1)
+                        for pos in pos_total:
+                            Errors.append([pos,'+',dna[pos][0]])
+
         return Errors
 
     def run(self, ori_dna, re_dnas):
@@ -411,8 +406,8 @@ class ErrorAdder_simu:
                     break
                 bias -= 1
             elif tp == '+':
-                dna.insert(pos, base)
-                bias += 1
+                    dna.insert(pos, base)
+                    bias += 1
         dna = ''.join(dna)
         return dna
 
@@ -470,7 +465,15 @@ def randomPicker(ranges):
         for i in range:
             nums.append(i)
     return random.choice(nums)
-
+def randomPicker_new(ranges,total):
+     picks=[]
+     probs=np.array([i[2] for i in ranges])
+     probs=probs/sum(probs)
+     nums=[round(prob*total) for prob in probs]
+     for i,rangePick in enumerate (ranges):
+        if nums[i]!=0:
+            picks+=random.sample(range(rangePick[0],rangePick[1]+1),min(rangePick[1]-rangePick[0],nums[i]))
+     return picks
 if __name__ == '__main__':
 
     # arg_synthesis={
