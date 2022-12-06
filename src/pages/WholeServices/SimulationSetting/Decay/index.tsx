@@ -118,7 +118,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
           text:'Percentage',
           offset:60,
         },
-        maxLimit:countLen
+       // maxLimit:countLen
       },
       xAxis: {
         title:{
