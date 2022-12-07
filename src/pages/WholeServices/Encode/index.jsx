@@ -362,6 +362,9 @@ const controlZan = useMemo(
               <FolderAddTwoTone /> Upload the storage file
             </strong>
           </p>
+          <p style={{fontSize:"16px",margin:"0 40px 20px 40px",color: "#748189"}}><strong>Tips:</strong> (a) the first and second methods requires the file size more than 100KB.
+            (b) the eighth method only encodes English in txt and does not support other languages.
+            (c) maximum file size is 6 MB. Compressed files such as doc or pdf will take longer to encode.</p>
           {/*文件上传组件*/}
           <Uploads
             GetFileID={props.setFileId}

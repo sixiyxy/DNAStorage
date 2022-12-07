@@ -95,7 +95,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
             10" will be transferred to a DNA sequence ‘CGTGAG’ accordingly.
           </p>
           <h4 id="yinyang" className="third-title">
-            1.2 Yin-Yang Code
+            1.2 Ping, Zhi, et al. code
           </h4>
           <p className="text-content">
             {" "}
@@ -130,7 +130,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
             </a>
           </p>
           <h4 id="dna-fountain" className="third-title">
-            1.3 DNA Fountain Code
+            1.3 Erlich, Yaniv, and Dina Zielinski. code
           </h4>
           <p className="text-content">
             {" "}
@@ -159,7 +159,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
             </a>
           </p>
           <h4 id="dna-information" className="third-title">
-            1.4 DNA Information Code
+            1.4 Church, et al. code
           </h4>
           <p className="text-content">
             {" "}
@@ -196,7 +196,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           </p>
 
           <h4 id="nick-doldman" className="third-title">
-            1.5 Nick Goldman Code
+            1.5 Goldman, Nick, et al. code
           </h4>
           <p className="text-content">
             {" "}
@@ -239,7 +239,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
             </strong>
           </p>
           <h4 id="robert" className="third-title">
-            1.6 Robert N. Grass Code
+            1.6 Grass, Robert N., et al. code
           </h4>
           <p className="text-content">
             {" "}
@@ -280,7 +280,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
             Angewandte Chemie International Edition, 54(8), 2552-2555.
           </p>
           <h4 id="forward-error" className="third-title">
-            1.7 Forward Error Correction Code
+            1.7 Blawat, Meinolf, et al. code
           </h4>
           <p className="text-content">
             {" "}
@@ -299,7 +299,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
             Procedia Computer Science, 80, 1011-1022.
           </p>
           <h4 id="hierarchical" className="third-title">
-            1.8 Hierarchical Error Correction Code
+            1.8 Zan, Xiangzhen, et al. code
           </h4>
           <p className="text-content">
             {" "}
@@ -808,13 +808,13 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           <Link href="#Introduction" title="Introduction" />
           <Link href="#encode-method" title="1 Encoding Method">
             <Link href="#vanilla-code" title="1.1 Vanilla code" />
-            <Link href="#yinyang" title="1.2 Yin-Yang Code" />
-            <Link href="#dna-fountain" title="1.3 DNA Fountain Code" />
-            <Link href="#dna-information" title="1.4 DNA Information Code" />
-            <Link href="#nick-doldman" title="1.5 Nick Goldman Code" />
-            <Link href="#robert" title="1.6 Robert N. Grass Code" />
-            <Link href="#forward-error" title="1.7 Forward Error Correction Code" />
-            <Link href="#hierarchical" title="1.8 Hierarchical Error Correction Code" />
+            <Link href="#yinyang" title="1.2 Ping, Zhi, et al. code" />
+            <Link href="#dna-fountain" title="1.3 Erlich, Yaniv, and Dina Zielinski. code" />
+            <Link href="#dna-information" title="1.4 Church, et al. code" />
+            <Link href="#nick-doldman" title="1.5 Goldman, Nick, et al. code" />
+            <Link href="#robert" title="1.6 Grass, Robert N., et al. code" />
+            <Link href="#forward-error" title="1.7 Blawat, Meinolf, et al. code" />
+            <Link href="#hierarchical" title="1.8 Zan, Xiangzhen, et al. code" />
           </Link>
           <Link href="#verify-code" title="2 Verify code">
             <Link href="#hamming" title="2.1 Hamming code" />

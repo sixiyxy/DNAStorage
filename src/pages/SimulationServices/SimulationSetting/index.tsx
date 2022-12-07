@@ -308,8 +308,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
             <Breadcrumb.Item>
               <Link to="/home">Home</Link>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Services</Breadcrumb.Item>
-            <Breadcrumb.Item>Simulation</Breadcrumb.Item>
+            <Breadcrumb.Item><Link to="/services">Services</Link></Breadcrumb.Item>
+            <Breadcrumb.Item><Link to="/services/simulation">Simulation</Link></Breadcrumb.Item>
             <Breadcrumb.Item>Setting</Breadcrumb.Item>
           </Breadcrumb>
         </Card>
