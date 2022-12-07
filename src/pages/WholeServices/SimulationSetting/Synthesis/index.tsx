@@ -131,7 +131,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
           text:'Percentage',
           offset:60,
         },
-        maxLimit:countLen
+       // maxLimit:countLen
       },
       xAxis: {
         title:{

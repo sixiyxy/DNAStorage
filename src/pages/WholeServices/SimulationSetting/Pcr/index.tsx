@@ -116,7 +116,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
           text:'Percentage',
           offset:60,
         },
-        maxLimit:countLen
+       // maxLimit:countLen
       },
       xAxis: {
         title:{

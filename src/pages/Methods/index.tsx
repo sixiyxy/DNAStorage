@@ -63,7 +63,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
             codes, Reed Solomon Code and Hamming Code, to conduct basic error correction. To
             maximize the restoration of the mutations and errors that occur in real experiments, we
             embed a five-process error simulation of DNA sequence storage (including synthesis,
-            decay, PCR, sample, and sequencing processes). Based on the literature, common
+            decay, PCR, sampling, and sequencing processes). Based on the literature, common
             experiment settings and conditions are provided. Users could set and simulate their
             experiments accordingly. Also, stages are optional except that synthesis is a must.
             Finally, if you want to decode the simulated DNA sequences, we utilize Starcode and

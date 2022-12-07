@@ -129,8 +129,8 @@ def error_density(dnas):
         #dic = sorted(dic.items(), key=lambda e: e[0])
         return dic
 
-
-def funcs_parallel(funcs,dna,final=True):
+def funcs_parallel(data,final=True):
+    funcs,dna=data[0],data[1]
     error_recorders=[]
     error_density_list=[]
     for fun in funcs:

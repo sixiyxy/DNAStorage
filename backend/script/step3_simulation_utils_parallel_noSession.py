@@ -1,9 +1,9 @@
 # -*- coding:UTF-8 -*-
 from distutils.log import error
-import utils.simulation_model as Model
+#import utils.simulation_model as Model
 import numpy as np
 from utils.utils_basic import get_config,write_yaml,Monitor
-from utils.simulation_utils_copy import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg,funcs_parameter,fasta_to_dna_demo,tar_file
+from utils.simulation_utils import SynthMeth_arg, DecHost_arg, PcrPoly_arg, Sampler_arg,Seq_arg,fasta_to_dna,funcs_parallel,corresponding_arg,funcs_parameter,fasta_to_dna_demo,tar_file
 import os
 from multiprocessing import Pool
 import time
@@ -13,6 +13,7 @@ from collections import Counter
 import Bio
 from Bio import SeqIO
 import yaml
+import cProfile
 
 # import utils.simulation_model as Model
 # import numpy as np
@@ -389,46 +390,52 @@ def calculate_density(dnas,layer=False):
         #         nums.append([i[0],float(i[1])])
         '''
 
-
+# def para_test(simu_dna,funcs):
+#     t1=time.time()
+#     data=[funcs,simu_dna]
+#     funcs_parallel(data)
+#     print("Time cost", time.time()-t1 )
    
 def parallel(simu_dna,funcs,funcs_names):
-        # if len(simu_dna)<20000:
-        #     cut=5
-        # else:
-        #     cut=50
-        cuts=[5,10,20,100,200,500,1000,2000,5000,10000]
+        if len(simu_dna)<20000:
+            cut=5
+        else:
+            cut=50
+        cuts=[5]
         for cut in cuts:
-            print("Now we are testing "+str(cut)+" cut in "+str(len(simu_dna))+" dna sequences.")
-            t1 = time.time()
             cut_file_list = cut_file(simu_dna,cut)
             thread=8
-            with Pool(thread) as pool:
+            data=[(funcs,item) for item in cut_file_list]
+            data=[funcs,simu_dna]
+            funcs_parallel(data)
+            #with Pool(thread) as pool:
                     #r = list(tqdm(pool.starmap(funcs_parallel,[(funcs,item) for item in cut_file_list])))   
-                    r = list(pool.starmap(funcs_parallel,[(funcs,item) for item in cut_file_list]))
+                    #r = list(pool.map(funcs_parallel,data))
             t3=time.time()
-            dnas=[]
-            error_recorder=[{'+':0,"-":0,"s":0,"e":0,"n":0} for i in range(len(funcs))]
-            error_density=[{} for i in range(len(funcs))]
-            for index,i in enumerate (r):
-                for j in i[0]:
-                    dnas.append(j)
-                for index_1 in range (len(i[1])):
-                    x,y=Counter(i[1][index_1]),Counter(error_recorder[index_1])
-                    error_recorder[index_1]=dict(x+y)
-                    error_density[index_1]=dict(Counter(error_density[index_1]) + Counter(i[2][index_1]))
-            #for front end data processsing 
-            error_recorder_final={}
-            for index,i in enumerate (funcs_names):
-                    error_recorder[index]=density_front_end_solver([error_recorder[index],{'+':0,"-":0,"s":0,"e":0,"n":0}])
-                    error_recorder_final[i]=error_recorder[index]
-            error_density_final=[]
-            for index,density in enumerate(error_density):
-                density = sorted(density.items(), key=lambda e: e[0])
-                for i in density:
-                    error_density_final.append({'type':funcs_names[index],"error":str(i[0]),"count":i[1]})
+            # dnas=[]
+            # error_recorder=[{'+':0,"-":0,"s":0,"e":0,"n":0} for i in range(len(funcs))]
+            # error_density=[{} for i in range(len(funcs))]
+            # # for index,i in enumerate (r):
+            # #     for j in i[0]:
+            # #         dnas.append(j)
+            # #     for index_1 in range (len(i[1])):
+            # #         x,y=Counter(i[1][index_1]),Counter(error_recorder[index_1])
+            # #         error_recorder[index_1]=dict(x+y)
+            # #         error_density[index_1]=dict(Counter(error_density[index_1]) + Counter(i[2][index_1]))
+            # #for front end data processsing 
+            # error_recorder_final={}
+            # for index,i in enumerate (funcs_names):
+            #         error_recorder[index]=density_front_end_solver([error_recorder[index],{'+':0,"-":0,"s":0,"e":0,"n":0}])
+            #         error_recorder_final[i]=error_recorder[index]
+            # error_density_final=[]
+            # for index,density in enumerate(error_density):
+            #     density = sorted(density.items(), key=lambda e: e[0])
+            #     for i in density:
+            #         error_density_final.append({'type':funcs_names[index],"error":str(i[0]),"count":i[1]})
             t2 = time.time()
-            print('cut size {},threads {}, pool time {}, parallel time{}'.format(cut,thread,t2-t1,t3-t1))
-        return dnas,error_recorder_final,error_density_final
+            #print('cut size {},threads {}, pool time {}, parallel time{}'.format(cut,thread,t2-t1,t3-t1))
+            #print(error_recorder_final)
+            #return dnas,error_recorder_final,error_density_final
 
 def density_front_end_solver(dictlist):
     outdic = {}
@@ -470,7 +477,8 @@ if __name__ == "__main__":
     #480 summer 480274
 
     #files=[1599341117650898944,1599342034290872320,1599342711268315136,1599343893583892480]
-    files=[1599343893583892480]
+    #files=[1599763153166667776]
+    files=[1599578685122416640]
     for file in files:
         repo=get_simu_repo(file,False)
 
