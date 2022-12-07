@@ -229,7 +229,7 @@ export const Report: React.FC<ReportProps> = (props) => {
             headStyle={{ backgroundColor: "#99CCFF", fontSize: "18px" }}
           >
             <p id="top-word">
-              This part displays some basic information about the files uploaded by users.
+              The basic information about the files uploaded by users.
             </p>
             <Table
               columns={columns1}
@@ -245,7 +245,7 @@ export const Report: React.FC<ReportProps> = (props) => {
             headStyle={{ backgroundColor: "#99CCFF", fontSize: "18px" }}
           >
             <p id="top-word">
-              This part shows the information of the uploaded file during encoding and the result of
+              The information of the uploaded file during encoding and the result of
               DNA sequences analysis after encoding. The analysis of the encoded DNA sequences
               includes GC-content statics, repeated sequences statics and minimum free energy
               calculation.

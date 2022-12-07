@@ -194,7 +194,7 @@ def get_simu_sam_info(file_uid,
         funcs.append(SAM)
         print("Now : SAM")
         funcs_name.append("SAM")
-        simu_dna=funcs_parallel(funcs,simu_dna,False)
+        simu_dna=funcs_parallel([funcs,simu_dna],False)
         
         density,group=calculate_density(simu_dna)
 

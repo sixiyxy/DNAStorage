@@ -38,7 +38,7 @@ export const Home: React.FC<HomeProps> = (props) => {
           errors in the five DNA sequences storage processes of synthesis, decay, PCR, sampling and
           sequencing. Users can not only use independent encode modules to encode files and obtain
           DNA sequences for vivo/in vivo storage experiments, but also could upload DNA sequences to
-          simulate sequence errors during storage by the 'simulation' modules. Aiming to provide
+          simulate sequence errors during storage by the 'Simulation' modules. Aiming to provide
           user-friendly services, this website embeds the most popular methods and platforms
           related to DNA storage instead of asking users for complex parameters. It also provides
           thorough guidelines and simulated feedback based on user settings so that user could
@@ -77,10 +77,9 @@ export const Home: React.FC<HomeProps> = (props) => {
           <div className="home-introduce-item">
             <h2>Encode File</h2>
             <p style={{ fontSize: "19px", textAlign: "justify" }}>
-              The encode service integrates the most common and popular DNA storage encoding and
-              verifying methods. After uploading the file, users could simply select corresponding
-              methods, elegantly set the segment length, and wait for the
-              result.
+              The encode service integrates the most common and popular encoding and
+              verifying methods about DNA storage. After uploading the file, users could simply select corresponding
+              methods, elegantly set the segment length. The result makes a visual analysis of the encoded file and presents relevant information.
             </p>
           </div>
           <div className="home-introduce-item">

@@ -7,6 +7,7 @@ import axios from "axios";
 import { API_PREFIX } from "../../../common/Config";
 import { DownloadOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
+import { Link } from "react-router-dom";
 import { createAsyncStepRequest } from "../../../utils/request-util";
 export class SimulationReportProps {
   changeSider?;
@@ -60,27 +61,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
   const [errorDensity, setErrorDensity] = useState();
   const [strand,setStrand] = useState(0)
   const [isClickDown,setDown] = useState(false)
-  // const { encodeInfo } = props;
-  //处理函数
-  // const monthChange = (value: number) => {
-  //   if (isNaN(value)) {
-  //     return;
-  //   }
-  //   setSequencingDepth(value);
-  // };
 
-  // const handleChange = (value: string) => {
-  //   setMethod(value);
-  // };
-  // const skipDecay = function () {
-  //   props.changeSider(["0-2"]);
-  // };
-  // const showModal = () => {
-  //   setIsModalOpen(true);
-  // };
-  // const handleCancel = () => {
-  //   setIsModalOpen(false);
-  // };
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -112,22 +93,6 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       }
     );
   }
-    // async function fetchData() {
-    //   setLoading(true);
-    //   setNoDataTipsShow(false);
-    //   const resp = await doPost("/simu_repo", { body: params });
-    //   setSpin(false);
-    //   console.log("report", resp);
-    //   setSynthesisData(resp.SYN);
-    //   setDacayData(resp.DEC);
-    //   setPcrData(resp.PCR);
-    //   setSamplingData(resp.SAM);
-    //   setSequenceingData(resp.SEQ);
-    //   setErrorRecode(resp.Error_Recorder);
-    //   setErrorDensity(resp.Error_Density);
-    //   setLoading(false);
-    //   setStrand(resp.Strand_Count)
-    // }
 
     fetchData();
   }, [props.fileId]);
@@ -927,12 +892,12 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       <div className="simulation-report-nav-wrapper">
         <Breadcrumb separator=">">
           <Breadcrumb.Item>
-            <a href="/">Home</a>
+            <Link to="/home">Home</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="/Services">Service</a>
+            <Link to="/services">Service</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>Simulation</Breadcrumb.Item>
+          <Breadcrumb.Item><Link to="/services/simulation">Simulation</Link></Breadcrumb.Item>
           <Breadcrumb.Item>Report</Breadcrumb.Item>
         </Breadcrumb>
       </div>

@@ -124,13 +124,13 @@ const EncodeMethodList: React.FC = (props: any) => {
           >
             <Space direction="vertical">
               <Radio value={"WithoutVerifycode"}>
-                <span>WithoutVerifycode</span>
+                <span>None</span>
               </Radio>
               <Radio value={"Hamming"}>
-                <span>Hamming</span>
+                <span>Hamming code</span>
               </Radio>
               <Radio value={"ReedSolomon"}>
-                <span>ReedSolomon</span>
+                <span>Reed Solomon code</span>
               </Radio>
             </Space>
           </Radio.Group>

@@ -68,7 +68,7 @@ const Uploads: React.FC = (props: any) => {
           <InboxOutlined />
         </p>
         <p className="ant-upload-text">Let's start!</p>
-        <p className="ant-upload-hint">Support file types: video, txt, mp3, picture...</p>
+        <p className="ant-upload-hint">Support file types: jpg, png, txt, mp4, mp3, exe...</p>
       </Dragger>
     </div>
   );
