@@ -84,7 +84,9 @@ def tar_file(upload_dir,simulation_dir,file_uid):
     shutil.copy(fasta_file,folder_dir+"/"+fasta_file_name)
     shutil.copy(file_info,folder_dir+"/"+file_info_name)
     downfile_name = '{}/{}.tar.gz'.format(simulation_dir,file_uid)
-    subprocess.call(["tar", "zcvf", downfile_name, "-P", folder_dir])
+    # subprocess.call(["tar", "zcvf", downfile_name, "-P", folder_dir])
+    os.system('tar -cf - {}|pigz -4 -p 16 > {}'.format(folder_dir,downfile_name))
+
     shutil.rmtree(folder_dir)
 
 

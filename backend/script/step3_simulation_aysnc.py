@@ -275,7 +275,6 @@ def get_simu_repo(file_uid,upload_flag):
         tar_file(upload_dir=os.path.dirname(file_info_path),simulation_dir=simulation_dir,file_uid=file_uid)
         return simu_repo
 
-
 def run_default_settings(file_uid,type):
     config = get_config(yaml_path='config')
     backend_dir = config['backend_dir']

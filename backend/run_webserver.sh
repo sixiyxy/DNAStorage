@@ -94,7 +94,7 @@ then
     ############################ running  ###############################
     uwsgi_jobs_num=`ps -ef|grep "$UWSGI"|grep -v "grep"|awk '{print $2}'|wc -l`
     celery_jobs_num=`ps -ef|grep "$CELERY"|grep -v "grep"|awk '{print $2}'|wc -l`
-    redis_jobs_num=`ps -ef|grep "redis-server"|grep -v "grep"|awk '{print $2}'|wc -l`
+    redis_jobs_num=`ps -ef|grep $REDIS|grep -v "grep"|awk '{print $2}'|wc -l`
     # redis config
     # bind 121.192.180.202
     # protected-mode no

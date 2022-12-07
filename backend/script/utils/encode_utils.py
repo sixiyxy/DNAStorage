@@ -179,7 +179,8 @@ def tar_file(upload_dir,encode_dir,file_uid):
     shutil.copy(file_info,folder_dir+"/"+file_info_name)
     shutil.copy(dna_file,folder_dir+"/"+dna_file_name)
     downfile_name = '{}/{}.tar.gz'.format(encode_dir,file_uid)
-    subprocess.call(["tar", "zcvf", downfile_name, "-P", folder_dir])
+    # subprocess.call(["tar", "zcvf", downfile_name, "-P", folder_dir])
+    os.system('tar -cf - {}|pigz -4 -p 16 > {}'.format(folder_dir,downfile_name))
     shutil.rmtree(folder_dir)
 
 

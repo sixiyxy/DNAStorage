@@ -40,7 +40,7 @@ display_dict={"Basic":"Vanilla",
     "SrcCode":"Zan, Xiangzhen, et al.",
     "WithoutVerifycode":"None",
     "Hamming":"Hamming code",
-    "ReedSolomon":"ReedSolomon code"
+    "ReedSolomon":"Reed Solomon code"
     }
 
 
