@@ -441,7 +441,7 @@ class Encoding():
                              'index_payload':dict(zip(total_id,index_payload)),
                              'index_payload_verfiycode':dict(zip(total_id,final_bit_sequences)),
                              'DNA_sequence':dict(zip(total_id,usr_dna_sequences))}
-            download_normal(self.user_download_file,download_dict)
+            download_normal(self.user_download_file,download_dict,self.threads)
 
             dna_sequences = dna_sequences_all
             save_dict = {'index_payload':index_payload,

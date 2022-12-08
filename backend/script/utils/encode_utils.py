@@ -7,6 +7,8 @@ import random
 from script.utils.utils_basic import get_config
 import shutil
 import subprocess
+import billiard as multiprocessing
+
 
 def cut_file(file_data,encode_method):
     file_size = file_data.shape[0]
@@ -127,7 +129,48 @@ def write_dna_file(path,demo_path, dna_sequences):
     print("### Write 1000 demo DNA sequences for Simulation:\n {} ".format(path))
     return demo_dna_sequences
 
-def download_normal(file,download_data):
+def parell_write(f,index_list,download_data):
+    payload_all = download_data['payload']
+    index_all = download_data['index']
+    index_payload_all = download_data['index_payload']
+    index_payload_verfiycode_all =download_data["index_payload_verfiycode"]
+    dna_sequences_all = download_data['DNA_sequence']
+    for idx in index_list:
+        payload = payload_all[idx]
+        index = index_all[idx]
+        index_payload  = index_payload_all[idx]
+        index_payload_verfiycode= index_payload_verfiycode_all[idx]
+        DNA_sequence= dna_sequences_all[idx]
+        f.write('{payload},{index},{index_payload},{index_payload_verfiycode},{DNA_sequence}\n'.format(
+                payload=payload,index=index,index_payload=index_payload,
+                index_payload_verfiycode=index_payload_verfiycode,
+                DNA_sequence = DNA_sequence))
+
+def download_normal(file,download_data,threads):
+    # record dowdload file    
+    number = download_data['total']
+    if number <= 10000:
+        cut_data_all = [list(range(number))]
+    else:
+        cut_size = 2000
+        cut_data_all = []
+        index_list_all = list(range(number))
+        for i in range(number//cut_size):
+            if i+1 != number//cut_size:
+                cut_data = index_list_all[i*cut_size:(i+1)*cut_size]
+            else:
+                cut_data = index_list_all[i*cut_size:]
+            # cut_data = cut_data.tolist()
+            cut_data_all.append(cut_data)
+        print('paralle write, number is {}'.format(len(cut_data_all)))
+    with open(file,'w') as f:
+        f.write('payload,index,index_payload,index_payload_verfiycode,DNA_sequence\n')
+        input_paralle = [(f,i,download_data) for i in cut_data_all]
+        with multiprocessing.Pool(threads) as pool:
+            pool.imap(parell_write,input_paralle)
+    f.close()
+
+def download_normal_bk(file,download_data):
     # record dowdload file    
     number = download_data['total']
     payload_all = download_data['payload']
