@@ -129,24 +129,26 @@ def write_dna_file(path,demo_path, dna_sequences):
     print("### Write 1000 demo DNA sequences for Simulation:\n {} ".format(path))
     return demo_dna_sequences
 
-def parell_write(f,index_list,download_data):
-    payload_all = download_data['payload']
-    index_all = download_data['index']
-    index_payload_all = download_data['index_payload']
-    index_payload_verfiycode_all =download_data["index_payload_verfiycode"]
-    dna_sequences_all = download_data['DNA_sequence']
-    for idx in index_list:
-        payload = payload_all[idx]
-        index = index_all[idx]
-        index_payload  = index_payload_all[idx]
-        index_payload_verfiycode= index_payload_verfiycode_all[idx]
-        DNA_sequence= dna_sequences_all[idx]
-        f.write('{payload},{index},{index_payload},{index_payload_verfiycode},{DNA_sequence}\n'.format(
-                payload=payload,index=index,index_payload=index_payload,
-                index_payload_verfiycode=index_payload_verfiycode,
-                DNA_sequence = DNA_sequence))
+def parell_write(file,index_list,download_data):
+    with open(file,'a+') as f:
+        payload_all = download_data['payload']
+        index_all = download_data['index']
+        index_payload_all = download_data['index_payload']
+        index_payload_verfiycode_all =download_data["index_payload_verfiycode"]
+        dna_sequences_all = download_data['DNA_sequence']
+        for idx in index_list:
+            payload = payload_all[idx]
+            index = index_all[idx]
+            index_payload  = index_payload_all[idx]
+            index_payload_verfiycode= index_payload_verfiycode_all[idx]
+            DNA_sequence= dna_sequences_all[idx]
+            f.write('{payload},{index},{index_payload},{index_payload_verfiycode},{DNA_sequence}\n'.format(
+                    payload=payload,index=index,index_payload=index_payload,
+                    index_payload_verfiycode=index_payload_verfiycode,
+                    DNA_sequence = DNA_sequence))
+        f.close()
 
-def download_normal(file,download_data,threads):
+def download_normal_bk(file,download_data,threads):
     # record dowdload file    
     number = download_data['total']
     if number <= 10000:
@@ -165,12 +167,12 @@ def download_normal(file,download_data,threads):
         print('paralle write, number is {}'.format(len(cut_data_all)))
     with open(file,'w') as f:
         f.write('payload,index,index_payload,index_payload_verfiycode,DNA_sequence\n')
-        input_paralle = [(f,i,download_data) for i in cut_data_all]
-        with multiprocessing.Pool(threads) as pool:
-            pool.imap(parell_write,input_paralle)
+    input_paralle = [(file,i,download_data) for i in cut_data_all]
+    with multiprocessing.Pool(threads) as pool:
+        pool.imap(parell_write,input_paralle)
     f.close()
 
-def download_normal_bk(file,download_data):
+def download_normal(file,download_data):
     # record dowdload file    
     number = download_data['total']
     payload_all = download_data['payload']
