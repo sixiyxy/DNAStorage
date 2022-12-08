@@ -93,7 +93,8 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
         title:{
           text:'Percentage',
           offset:60,
-        }
+        },
+        maxLimit:countLen
       },
       xAxis: {
         title:{
