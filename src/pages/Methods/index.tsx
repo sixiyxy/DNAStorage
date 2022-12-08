@@ -412,7 +412,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
             200nt or better. Although compared with CSO, MBOP is faster and cheaper, the error rates
             of oligo pools are usually higher than those for CSO because the mass production leads
             to more rough operations. Thus, several methods are proposed to overcome the problems
-            and decrease the error rates.
+            and decrease the error rates. 
             <i>DNA Storage Designer</i> provides 3 error correction methods for CSO and 5 for MBOP
             for users to choose from.
           </p>
@@ -471,13 +471,12 @@ export const Methods: React.FC<MethodsProps> = (props) => {
             hydrolytic damage due to depurination and deamination. When the depurination will result
             in strand breaking and make the strand no longer read because of the loss of
             amplification primers, deamination might cause C2U and G2T mutations as well as sequence
-            loss. Thus, the storage process can result in significant loss of whole DNA molecules as
-            well as substitution errors within sequences.
+            loss. Thus, the storage process can result in significant loss of whole DNA molecules and substitution errors within sequences.
           </p>
           <h5 className="forth-title">- Number Distribution:</h5>
           <p className="text-content">
             {" "}
-            For this stage, DNA Storage Designer asks the user for an overall loss rate first and
+            For this stage, <i>DNA Storage Designer</i> asks the user for an overall loss rate first and
             will conduct distribution computation based on the binomial distribution.
           </p>
           <h5 className="forth-title">- Host Organism:</h5>
@@ -570,7 +569,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           </p>
           <h5 className="forth-title">- Distribution:</h5>
           <p className="text-content">
-            FThe sequence number{" "}
+            The sequence number{" "}
             <i>
               N<sub>ij</sub>
             </i>
@@ -626,11 +625,11 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           <p className="text-content">
             {" "}
             Before sequencing, a proportion of DNA strands should be sampled from the main oligo
-            pools, only random sequences could proceed. Thus, the sample ratio p<sub>s</sub> is the
+            pools, only random sequences could proceed. Thus, the sample ratio <i>p<sub>s</sub></i> is the
             key parameter of this stage, and no within-sequences will be introduced. Hence, we model
             this stage using the binomial distribution that the sample ratio of each sequence is{" "}
             <i>
-              p<sub>s</sub>
+              p<sub>s</sub> .
             </i>
           </p>
           <h4 id="sequencing" className="third-title">
@@ -651,7 +650,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           </p>
           <h5 className="forth-title">- Method:</h5>
           <p className="text-content">
-            We provide 6 sequencing methods from the literature as following:
+            We provide 6 sequencing methods from the literatures as following:
           </p>
           <Image src={sequencing} width={"60%"} rootClassName="image" />
 
@@ -743,7 +742,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           </h4>
           <p className="text-content">
             {" "}
-            Starcode is a DNA sequence clustering software. Starcode clustering is based on all
+            <i>Starcode</i> is a DNA sequence clustering software. Starcode clustering is based on all
             pairs search within a specified Levenshtein distance (allowing insertions and
             deletions), followed by a clustering algorithm: Message Passing, Spheres or Connected
             Components. Typically, a file containing a set of DNA sequences is passed as input,
@@ -770,7 +769,7 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           <p className="text-content">
             {" "}
             When DNA sequences contain two or more stretches of complementary sequences, DNA
-            molecules form special spatial structures such as hairpins or topological pseudoknots
+            molecules tend to form special spatial structures such as hairpins or topological pseudoknots
             (i.e., secondary structures). Stable secondary structures have been reported to have
             negative effects during DNA synthesis, sequencing and amplification. Energy changes can
             reflect the degree of secondary structure stability of DNA, and the Gibbs standard free
