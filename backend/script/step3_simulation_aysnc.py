@@ -356,7 +356,7 @@ def parallel(simu_dna,funcs,funcs_names):
         config = get_config(yaml_path='config')
         thread=config["threads"]
         data=[(funcs,item) for item in cut_file_list]
-        data=[funcs,simu_dna]
+        #data=[funcs,simu_dna]
         with multiprocessing.Pool(thread) as pool:
                 r = list(pool.map(funcs_parallel,data))   
         dnas=[]
