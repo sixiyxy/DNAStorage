@@ -325,7 +325,7 @@ const controlZan = useMemo(
                     <p>
                       The encode service integrates the most common and popular DNA storage encoding
                       and verifying methods. After uploading the file, users could simply select
-                      corresponding methods, elegantly slide the sliders to set the segment length,
+                      corresponding methods, set the segment length,
                       and wait for the result. The website will not only convert the file into DNA
                       sequences but also calculate GC content and homopolymer length as well as the
                       minimum free energy out directly.

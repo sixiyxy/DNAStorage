@@ -105,7 +105,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
                     <p>
                       In the final stage, we need to decode the DNA sequences according to the
                       reverse rules of the encoding ones. However, DNA strands obtained in this
-                      stage usually have random errors (insert\indel\SNV, we have simulated this).
+                      stage usually have random errors (insert\indel\substitution, we have simulated this).
                       Therefore, we embedded two clustering algorithms, CD-HIT and Starcode, to remove
                       de-redundancy and correct the data. Then, the clustered sequences will be
                       decoded to obtain bits fragments. Subsequently, the bits fragments will be
