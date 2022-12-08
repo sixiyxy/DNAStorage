@@ -120,8 +120,8 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         name: "Percentage",
         value:
           props.samplingData?.sam_ratio <= 0.1
-            ? 100 - props.samplingData?.sam_ratio * 1000
-            : 100 - props.samplingData?.sam_ratio * 100,
+            ? (100 - props.samplingData?.sam_ratio * 1000)
+            : (100 - props.samplingData?.sam_ratio * 100),
         type: "Rest",
       },
     ];
@@ -243,7 +243,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     meta: {
       value: {
         formatter: (value: any) => {
-          return `${value}%`;
+          return `${value.toFixed(2)}%`;
         },
       },
     },

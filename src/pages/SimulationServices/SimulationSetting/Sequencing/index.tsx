@@ -64,9 +64,10 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     setNoDataTipsShow(false);
     props.setSEQRUN(true);
     const resp: any = await doPost("/simu_seq", {body: params});
+    console.log('seq',resp);
     setLen(resp.seq_density.length);
     setDensityData(resp.seq_density);
-    setGroup(resp.density_group);
+    setGroup(resp.seq_group);
     setLoading(false);
     props.setReport(false)
   };
