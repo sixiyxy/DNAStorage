@@ -48,6 +48,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
       null,
       (resp) => {
         props.setDecodeData(resp);
+        props.setDeSet(false)
         props.setEncodeAndDecodeSpinning(false);
       }
     );
@@ -102,10 +103,10 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
                 <div className="decode-button-group">
                   <div className="whole-summary-word">
                     <p>
-                      In this last stage, we need to decode the DNA sequences according to the
+                      In the final stage, we need to decode the DNA sequences according to the
                       reverse rules of the encoding ones. However, DNA strands obtained in this
                       stage usually have random errors (insert\indel\SNV, we have simulated this).
-                      So, we embedded two clustering algorithms, CD-HIT and Starcode, to remove
+                      Therefore, we embedded two clustering algorithms, CD-HIT and Starcode, to remove
                       de-redundancy and correct the data. Then, the clustered sequences will be
                       decoded to obtain bits fragments. Subsequently, the bits fragments will be
                       removed from the verification code and index code. Finally, we analyze the
