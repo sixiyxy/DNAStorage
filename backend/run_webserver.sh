@@ -14,7 +14,7 @@ LOG_DIR="/home/dna/run_web"
 now_dir=`pwd`
 
 FRONT_dir="/home/dna/front/"
-BACKEND_dir="d/home/dna/DNAStorage"
+BACKEND_dir="/home/dna/DNAStorage"
 
 if [ ! -n "$1" ]
 then
