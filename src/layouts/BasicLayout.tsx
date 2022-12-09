@@ -47,15 +47,16 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
                 <Link to="/services">Main</Link>
               </Menu.Item>
               <Menu.ItemGroup title="Subprocess">
-                  <Menu.Item key="four" icon={<AppstoreOutlined />}>
-                    <Link to="/services/encode">Encode</Link>
-                  </Menu.Item>
-                  <Menu.Item key="five" icon={<AppstoreOutlined />}>
+                 <Menu.Item key="five" icon={<AppstoreOutlined />}>
                     <Link to="/services/wholeprocess">Encode/Simulation/Decode</Link>
                   </Menu.Item>
                   <Menu.Item key="six" icon={<AppstoreOutlined />}>
                     <Link to="/services/simulation">Simulation</Link>
                   </Menu.Item>
+                  <Menu.Item key="four" icon={<AppstoreOutlined />}>
+                    <Link to="/services/encode">Encode</Link>
+                  </Menu.Item>
+                  
               </Menu.ItemGroup>
           </Menu.SubMenu>
 

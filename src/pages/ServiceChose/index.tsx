@@ -16,7 +16,7 @@ export const ServiceChose: React.FC<ServiceChoseProps> = (props) => {
         <p>
           The encode service integrates the most common and popular DNA storage encoding and
           verifying methods. After uploading the file, users could simply select corresponding
-          methods, elegantly slide the sliders to set the segment length, and wait for the result.
+          methods, elegantly set the segment length, and wait for the result.
         </p>
         <div className="button">
           <Link to="/services/encode">
@@ -32,7 +32,7 @@ export const ServiceChose: React.FC<ServiceChoseProps> = (props) => {
         <p>
           This module helps the user to go through the complete stages of DNA storage, encoding,
           error simulation, and decoding. As long as users upload the original files they want to
-          store and choose the corresponding methods and platforms, they could easily see how their
+          encode and choose the corresponding methods and platforms, they could easily see how their
           files change through each process based on the website report.
         </p>
         <div className="button">

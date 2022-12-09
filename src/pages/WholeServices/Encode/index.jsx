@@ -68,13 +68,13 @@ export const Encode = (props) => {
         notification.info({
           message:"Ping-zhi's yin-yang code and Erlich's fountain code method are only used for files larger than 100kb!",
           placement,
-          duration: 10.5,
+          duration: 5.5,
         });
       }else if(upload100kb && !Zan){ //小于100k但是不是英文
         notification.info({
           message:"Ping-zhi's yin-yang code and Erlich's fountain code method are only used for files larger than 100kb! Zan's code can only encode the English letters in the txt file!",
           placement,
-          duration: 10.5,
+          duration: 8.5,
         });
       }
       return "1";
@@ -87,11 +87,11 @@ const controlZan = useMemo(
       notification.info({
         message:"Zan's code can only encode the English letters in the txt file!",
         placement,
-        duration: 10.5,
+        duration: 3.5,
       });
     }
     return "1";
-},[Zan])
+},[props.fileId])
 
   useEffect(() => {
     if (Zan && value === "SrcCode") {
@@ -325,7 +325,7 @@ const controlZan = useMemo(
                     <p>
                       The encode service integrates the most common and popular DNA storage encoding
                       and verifying methods. After uploading the file, users could simply select
-                      corresponding methods, elegantly slide the sliders to set the segment length,
+                      corresponding methods, set the segment length,
                       and wait for the result. The website will not only convert the file into DNA
                       sequences but also calculate GC content and homopolymer length as well as the
                       minimum free energy out directly.

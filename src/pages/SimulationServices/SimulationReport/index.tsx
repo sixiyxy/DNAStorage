@@ -175,7 +175,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
 
       {
         name: "Percentage",
-        value: samplingData?.sam_ratio <= 0.1? (100 - samplingData?.sam_ratio * 1000): 100-samplingData?.sam_ratio*100,
+        value: samplingData?.sam_ratio <= 0.1? (100 - samplingData?.sam_ratio * 1000): (1-samplingData?.sam_ratio)*100,
         type: "Rest",
       },
     ];
@@ -333,7 +333,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
     meta: {
       value: {
         formatter: (value: any) => {
-          return `${value}%`;
+          return `${value.toFixed(2)}%`;
         },
       },
     },
@@ -625,14 +625,14 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         title: {
           text: "ln(y1)",
           offset: 60,
-          rotate:14.13
+          
         },
       },
       count: {
         title: {
           text: "ln(y2)",
           offset: 60,
-          rotate:14.10
+          
         },
       },
     },
@@ -697,6 +697,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       title: {
         text: "Stage",
         offset: 80,
+        rotate: 17.26,
       },
       label:{
         formatter:(val)=>{

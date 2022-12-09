@@ -32,11 +32,11 @@ export const Home: React.FC<HomeProps> = (props) => {
             textAlign: "justify",
           }}
         >
-          DNA Storage Designer is an easy-to-use online webserver that covers the simulation of
+          DNA Storage Designer is an easy-to-use online web-server that covers the simulation of
           whole process of DNA storage application. It includes eight popular encoding methods and
-          realizes the corresponding decoding process. In addition, it also simulates the sequence
+          realizes the corresponding decoding process. Users can choose freely and convert uploaded files into DNA sequences. In addition, it also simulates the sequence
           errors in the five DNA sequences storage processes of synthesis, decay, PCR, sampling and
-          sequencing. Users can not only use independent encode modules to encode files and obtain
+          sequencing. Users can not only use independent 'Encode' modules to encode files and obtain
           DNA sequences for vivo/in vivo storage experiments, but also could upload DNA sequences to
           simulate sequence errors during storage by the 'Simulation' modules. Aiming to provide
           user-friendly services, this website embeds the most popular methods and platforms
@@ -79,7 +79,7 @@ export const Home: React.FC<HomeProps> = (props) => {
             <p style={{ fontSize: "19px", textAlign: "justify" }}>
               The encode service integrates the most common and popular encoding and
               verifying methods about DNA storage. After uploading the file, users could simply select corresponding
-              methods, elegantly set the segment length. The result makes a visual analysis of the encoded file and presents relevant information.
+              methods and elegantly set the segment length. The result makes a visual analysis of the encoded file and presents relevant information.
             </p>
           </div>
           <div className="home-introduce-item">
@@ -87,7 +87,8 @@ export const Home: React.FC<HomeProps> = (props) => {
             <p style={{ fontSize: "19px", textAlign: "justify" }}>
               The simulation service allows user to upload their own fasta DNA file to proceed error
               simulation stage. It covers the five stages of DNA storage, namely, synthesis, storage
-              decay, PCR, sampling, and sequencing.
+              decay, PCR, sampling, and sequencing. Users could see how sequence distribution changes accordingly and how errors
+              are introduced from stages to stages.
             </p>
           </div>
         </div>

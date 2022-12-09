@@ -519,7 +519,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 </p> */}
                 <p id="simuset-report">
                   Thus, for this example, in this stage, most DNA strands have a copy number around
-                  10, while strands with 1 or 2 copy number also exist.Therefore, the diagrams will
+                  10, while strands with 1 or 2 copy number also exist. Therefore, the diagrams will
                   help you to intuitively understand the density change of chains in nucleic acid
                   pool. Then, you could move to the next stage.
                 </p>
@@ -589,7 +589,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                     <li>
                       <strong>Simulated DNA Sequences: </strong>This file is in fasta format. The
                       label of each sequence contains the error simulation results. For example, “
-                      {">"}11079[(77, 's', 'T'), (23, '+', 'C'), (36, '-', 'A')]” means, the 77th
+                      {">"}11079 | [(77, 's', 'T'), (23, '+', 'C'), (36, '-', 'A')]” means, the 77th
                       base, “T”, of 11079th sequence has been substituted, 23rd position has
                       inserted a 'C', and the 'A' on 36th has been deleted.{" "}
                     </li>
