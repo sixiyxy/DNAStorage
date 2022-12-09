@@ -449,6 +449,7 @@ class Encoding():
 
             print('### Write download txt done!')
             dna_sequences = data['dna_sequences']
+            dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences]
 
             save_dict = {'index_payload':index_payload,
                     'bit_sequences':final_bit_sequences,

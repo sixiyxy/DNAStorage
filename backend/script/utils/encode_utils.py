@@ -74,7 +74,7 @@ def gc_homo(dna_sequences):
 
     return front_gc,front_homo
 
-def add_min_free_energydata(tools,method,dna_demo_file,free_enerfy_file):
+def add_min_free_energydata(tools,dna_demo_file,free_enerfy_file):
 
     # run tools
     os.system("{tools} --noPS --noGU --noconv -T 59.1"

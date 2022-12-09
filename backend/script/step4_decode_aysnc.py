@@ -97,9 +97,12 @@ class ClusterDecode():
         encode_dna_sequences = self.encode_data['dna_sequences']
         encode_index_payload = self.encode_data['index_payload']
         encode_bit_segment = self.encode_data['bit_sequences']
+        # print(len(encode_dna_sequences[0]),len(encode_index_payload[0]),len(encode_bit_segment[0]))
         
-        if self.method_name == "DNA_Fountain":
-            encode_index_payload = [i[self.index_length:] for i in encode_bit_segment]
+        # if self.method_name == "DNA_Fountain":
+        #     encode_index_payload = [i[self.index_length:] for i in encode_bit_segment]
+        
+        # print(len(encode_dna_sequences),encode_dna_sequences[0])
         encoding_dna_sequences_set = set(encode_dna_sequences)
         encode_index_payload_set = set(encode_index_payload)
         encode_bit_segment_set = set(encode_bit_segment)
@@ -133,16 +136,7 @@ class ClusterDecode():
                 decode_bit_segments+= result['bit']
         print('### DNA sequences to bit segment Done!')
 
-        a = []
-        if self.method_name == "DNA_Fountain":
-            for i in decode_bit_segments:
-                if len(i) >1: #[1]
-                    id = len(i)-self.segment_length
-                    payload = i[id:]
-                    a.append(payload)
-            decode_bit_segments = a
-        decode_bit_segments_str = [''.join(list(map(str,i))) for i in decode_bit_segments]
-        decode_bit_segments_set = set(decode_bit_segments_str)
+
         # print([len(i) for i in decode_result['bit']])
         # remove verify code
         if self.verify_method == False:
@@ -155,6 +149,21 @@ class ClusterDecode():
             error_indices = verified_data["e_bit"]
             error_rate = str(round(verified_data["e_r"] * 100, 2)) + "%"
         
+        # print('### before',verified_segments[0],len(verified_segments[0]))
+        a = []
+        if self.method_name == "DNA_Fountain":
+            for i in verified_segments:
+                if len(i) >1: #[1]
+                    id = len(i)-(self.segment_length + self.index_length)
+                    payload = i[id:]
+                    a.append(payload)
+            verified_segments = a
+
+        # print('#### decode',verified_segments[0],len(verified_segments[0]),len(verified_segments))
+        # print('#### encode',encode_index_payload[0],len(encode_index_payload[0]))
+        decode_bit_segments_str = [''.join(list(map(str,i))) for i in decode_bit_segments]
+        decode_bit_segments_set = set(decode_bit_segments_str)
+
         # print([len(i) for i in verified_segments])
         decode_index_payload = [''.join(list(map(str,i))) for i in verified_segments]
         decode_index_payload_set = set([str(segment) for segment in decode_index_payload]) 
@@ -275,14 +284,12 @@ class ClusterDecode():
         record_info['clust_time'] =clust_time
         write_yaml(yaml_path=self.file_info_path,data=record_info,appending=True)
         print('### Front data is ready')
-        print(record_info)
+        
         return record_info
 
 if __name__ == '__main__':
     # obj = Encoding(1565536927137009664)
     # record_info,bit_segments = obj.bit_to_dna()
 
-    obj = ClusterDecode(file_uid = 159524562738885836,clust_method= 'starcode')
-
-    a,b = obj.clust()
-    obj.decode(a,b)
+    obj = ClusterDecode(file_uid = 1601216763339608064,clust_method= 'starcode')
+    obj.decode()
