@@ -437,21 +437,29 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                   </pre>
                 </p>
                 <li>
-                  <strong>Download: </strong>Include three files in the downloaded compressed file, one is the encoding settings information of the uploaded file (namely as file_id.yaml), and the other is the encoded DNA sequence file (namely as file_id.fasta), and the last one is the detailed information file about the encoded upload file (namely file_id.txt).
+                  <strong>Download: </strong>Include two files in the downloaded compressed file, one is the encoding settings information of the uploaded file (namely as file_id.yaml), and the other is the encoded DNA sequence file (namely as file_id.fasta).
                   <ul>
-                    <li><strong>Encode sequences (fasta):</strong> This file contains the encoded dna sequences of the uploaded file. </li>
                     <li><strong>Information file (yaml):</strong> This information file contains the related settings  and report information of the uploaded file.</li>
-                    <li><strong>Upload file encode details (txt):</strong> This file contains detailed information about: payload (after file segment), index (address bits), index_payload (payload and index bits), index_payload_verifycode (payload,index,verifycode bits), DNA_sequence.</li>
+                    <li><strong>Encode sequences (fasta):</strong> This file contains the encoded dna sequences of the uploaded file. The information of each sequence is the corresponding segment payload data (after file segment), and the id is the corresponding index(address bits). </li>
+                    {/* <li><strong>Upload file encode details (txt):</strong> This file contains detailed information about: payload (after file segment), index (address bits), index_payload (payload and index bits), index_payload_verifycode (payload,index,verifycode bits), DNA_sequence.</li> */}
                   </ul>
                 </li>
-                
+                <pre id="code_block" style={{margin:"20px"}}>
+                    <code>
+                      
+                       {">"}1 | 000001000101001100010… (payload)<br></br>CAGTCATGCCAACAGTAATTGTGATAAACGTTCCGCTATGCCTCATTTCCTTGGAATTGTGCTACGCTTTAGACCGGACTCTAC<br></br>
+                       {">"}2 | 010010100000000001101… (payload)<br></br>AACGATTAATCTCAGTAAGGAGACGGGCAATGAGTTGTAGTAGGTTCGTAAATCCGCATTCATTCTGTCAGGTTCCCCGTGGCA<br></br>
+                       ...
+                      
+                    </code>
+                  </pre>
               </ul>
-              <Table
+              {/* <Table
                   columns={columns3}
                   dataSource={data3}
                   size={"small"}
                   pagination={{ position: ["none"]}}
-                />
+                /> */}
             </div>
             <div id="errorsimu">
               <h3 id="fiveth-title">1.2 Error Simulation</h3>

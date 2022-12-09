@@ -56,7 +56,7 @@ export const Home: React.FC<HomeProps> = (props) => {
           style={{ marginTop: "40px", display: "flex", flexDirection: "row", marginBottom: "60px" }}
         >
           <Button className="home-button" size="large" type="primary" shape="round">
-            <Link to="/services/wholeprocess">Getting Start</Link>
+            <Link to="/services/wholeprocess">Getting Started</Link>
           </Button>
           {/* <Button className="home-button" size="large" shape="round" style={{marginLeft:"200px",marginTop:"20px"}} icon={<ContainerTwoTone/>}>
               <Link to="/methods"> Methods</Link>
