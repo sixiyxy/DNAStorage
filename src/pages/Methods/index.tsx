@@ -218,10 +218,10 @@ export const Methods: React.FC<MethodsProps> = (props) => {
               <strong>
                 {" "}
                 Towards practical, high-capacity, low-maintenance information storage in synthesized
-                DNA.{" "}
+                DNA. {" "}
               </strong>
             </i>
-            nature, 494(7435), 77-80.
+            Nature, 494(7435), 77-80.
           </p>
           <p className="text-content">
             <strong>
