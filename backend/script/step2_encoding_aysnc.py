@@ -256,8 +256,7 @@ class Encoding():
 
             for id in fail_list:
                 print('#### fail encoding number is {} !'.format(len(fail_list)))
-                record_dna_sequence.insert(id,'encoding fail!') 
-
+                record_dna_sequence.insert(id,'AGCT') 
 
             fragment_info = { "original_bit_segments":original_bit_segments,
                         "record_index":record_index,
@@ -269,15 +268,14 @@ class Encoding():
             dna_sequences,dna_idx = encode_method.encode(final_bit_segments_copy)
             successful_bit_size = bit_size
             successful_byte_size = byte_size
-            record_dna_sequence = list(dna_idx.values())
-
+            record_dna_sequence = dna_idx
+            # print(record_dna_sequence)
             fragment_info = {"original_bit_segments":original_bit_segments,
                         "record_index":record_index,
                         "connected_bit_segments":connected_bit_segments,
                         "final_bit_segments":final_bit_segments,
                         "dna_sequences":dna_sequences,
                         "user_record_dna":record_dna_sequence}            
-
         else:
             dna_sequences = encode_method.encode(final_bit_segments_copy)
             successful_bit_size = bit_size
@@ -410,10 +408,6 @@ class Encoding():
     
     def record_file(self,info,data,run_time):
         print('record and plot')
-        dna_sequences_all = data['dna_sequences']
-        dna_sequences_all = [''.join(list(map(str,i))) for i in dna_sequences_all]
-        # for simulation enerfy
-        demo_dna_sequences = write_dna_file(path=self.dna_file,demo_path=self.dna_demo_file,dna_sequences=dna_sequences_all)
         if self.encode_method in encoding_methods:
             # for dowdload file
             
@@ -431,32 +425,41 @@ class Encoding():
             final_bit_sequences = [''.join(list(map(str,i))) for i in final_bit_segments]
 
             usr_dna_sequences = data["user_record_dna"]
-            usr_dna_sequences = [''.join(map(str,i)) for i in usr_dna_sequences]
+            # usr_dna_sequences = [''.join(map(str,i)) for i in usr_dna_sequences]
 
-            total = len(usr_dna_sequences)
-            total_id =range(total)
+            ############################# pre download file ################################
+            # total = len(usr_dna_sequences)
+            # total_id =range(total)
             # download_dict = {'total':total,
             #                  'payload':dict(zip(total_id,payload)),
             #                  'index':dict(zip(total_id,index)),
             #                  'index_payload':dict(zip(total_id,index_payload)),
             #                  'index_payload_verfiycode':dict(zip(total_id,final_bit_sequences)),
             #                  'DNA_sequence':dict(zip(total_id,usr_dna_sequences))}
-            download_dict = {'total':total,
-                             'payload':dict(zip(total_id,payload)),
-                             'DNA_sequence':dict(zip(total_id,usr_dna_sequences))}
+            # download_normal_small(self.user_download_file,download_dict)
+
             print('### Write download file...')
-            download_normal_small(self.user_download_file,download_dict)
+            
+            # for simulation enerfy
+            demo_dna_sequences = write_dna_file(method=self.encode_method,path=self.dna_file,
+            demo_path=self.dna_demo_file,
+            info=payload,
+            dna_sequences = usr_dna_sequences)
+
+
             print('### Write download txt done!')
-            dna_sequences = dna_sequences_all
+            dna_sequences = data['dna_sequences']
+
             save_dict = {'index_payload':index_payload,
                     'bit_sequences':final_bit_sequences,
                     'dna_sequences':dna_sequences}
-            
             np.savez(self.decode_file,**save_dict)
 
             info['verify_code_length'] = '{} bits'.format(info['verify_code_length'])
             info['final_segment_bit_length'] = '{} bits'.format(info['final_segment_bit_length'])
         elif self.encode_method == 'SrcCode':
+            dna_sequences_all = data['dna_sequences']
+
             # for download file
             original_chracter_segments = data['original_bit_segments']
             index_ori_bit_sequences = data['connected_bit_segments']
@@ -468,7 +471,10 @@ class Encoding():
             np.savez(self.decode_file,**save_dict)
             # for user
             original_chracter_segments = [i.replace('\n',' <n> ') for i in original_chracter_segments] 
-            download_txt(self.user_download_file,dna_sequences,original_chracter_segments)
+            demo_dna_sequences = write_dna_file(method=self.encode_method,
+            path=self.dna_file,demo_path=self.dna_demo_file,
+            info=original_chracter_segments,dna_sequences=dna_sequences_all)
+            # download_txt(self.user_download_file,dna_sequences,original_chracter_segments)
 
 
         # record run time
@@ -481,12 +487,12 @@ class Encoding():
         info['homo_data'] = homo_data
         print('### get GC plot and repeated length plot data, Done !')
 
-        energy_info = add_min_free_energydata(self.min_free_energy_tools,
-                                              self.dna_demo_file,
-                                             self.free_enerfy_file)
-        info['min_free_energy'] = energy_info['min_free_energy'] 
-        info['min_free_energy_below_30kcal_mol'] = energy_info['min_free_energy_below_30kcal_mol']
-        info['energy_plot']=energy_info['energy_plot']
+        # energy_info = add_min_free_energydata(self.min_free_energy_tools,
+        #                                       self.dna_demo_file,
+        #                                      self.free_enerfy_file)
+        # info['min_free_energy'] = energy_info['min_free_energy'] 
+        # info['min_free_energy_below_30kcal_mol'] = energy_info['min_free_energy_below_30kcal_mol']
+        # info['energy_plot']=energy_info['energy_plot']
         print('### Free energy plot data, Done !')
         
         # format data
@@ -541,7 +547,7 @@ class Encoding():
             index_ori_charater_list = record_data["index_ori_charater_list"]
                       
             # information
-            dna_sequences = list(map(list,dna_sequences))
+            # dna_sequences = list(map(list,dna_sequences))
             bit_size = file_size*8
             nucleotide_count = sum(map(len,dna_sequences))
             information_density = bit_size/nucleotide_count

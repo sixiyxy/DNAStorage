@@ -640,11 +640,14 @@ class DNAFountain(AbstractCodingAlgorithm):
                             max_homopolymer=self.homopolymer, max_content=0.5 + self.gc_bias):
                 dna_sequences.append(dna_sequence)
                 chuck_recorder.append(droplet.chuck_indices)
-                for i in droplet.chuck_indices:
-                    if i not in record_dna_idx:
-                        record_dna_idx[i] = ''
-                    else:
-                        record_dna_idx[i] = record_dna_idx[i]+' ' + ''.join(dna_sequence)
+                # for i in droplet.chuck_indices:
+                #     if i not in record_dna_idx:
+                #         record_dna_idx[i] = []
+                #     else:
+                #         # print(len(dna_sequence),dna_sequence)
+                #         record_dna_idx[i].append(''.join(dna_sequence))
+                #         # print(record_dna_idx[i])
+                record_dna_idx[''.join(dna_sequence)] = droplet.chuck_indices
 
             if self.need_logs:
                 self.monitor.output(len(dna_sequences), final_count)

@@ -74,7 +74,7 @@ def gc_homo(dna_sequences):
 
     return front_gc,front_homo
 
-def add_min_free_energydata(tools,dna_demo_file,free_enerfy_file):
+def add_min_free_energydata(tools,method,dna_demo_file,free_enerfy_file):
 
     # run tools
     os.system("{tools} --noPS --noGU --noconv -T 59.1"
@@ -113,20 +113,47 @@ def add_min_free_energydata(tools,dna_demo_file,free_enerfy_file):
     info['energy_plot']=free_energy_plotdata
     return info
 
-def write_dna_file(path,demo_path, dna_sequences):
+def write_dna_file(method,path,demo_path,info,dna_sequences):
     with open(path, "a+") as file:
-        for index, dna_sequence in enumerate(dna_sequences):
-            file.write('>{}\n{}\n'.format(index,dna_sequence))
-    
+        info_dict = dict(zip(range(len(info)),info))
+
+        ### download fasta file
+        if method == 'DNA_Fountain':
+            index = 0
+            for dna_sequence,index_many in dna_sequences.items(): 
+                payload = '|'.join([info_dict[i] for i in index_many])
+                file.write('>{}|{}\n{}\n'.format(index,payload,''.join(dna_sequence)))
+                index+=1  
+            dna_sequences = list(dna_sequences.keys())           
+        elif method == 'Yin_Yang':
+            for index,dna_sequence in enumerate(dna_sequences):
+                payload = info_dict[index]
+                if dna_sequence == 'AGCT':
+                    file.write('>{}|{}|fail encode!\n{}\n'.format(index,payload,''.join(dna_sequence)))
+                else:
+                    file.write('>{}|{}\n{}\n'.format(index,payload,''.join(dna_sequence)))
+       
+        elif method == 'SrcCode':
+            for index,dna_sequence in enumerate(dna_sequences):
+                payload = info_dict[index]
+                file.write('>{}|{}\n{}\n'.format(index,payload,dna_sequence))
+        else:
+            for index,dna_sequence in enumerate(dna_sequences):
+                payload = info_dict[index]
+                file.write('>{}|{}\n{}\n'.format(index,payload,''.join(dna_sequence)))
+
+    print("### Write fasta DNA sequences for dwonload: {} ".format(path))
+
+    ### demo file
     if len(dna_sequences)<=1000:
         demo_dna_sequences =dna_sequences
     else:
         demo_dna_sequences = random.sample(dna_sequences,1000)
-        
     with open(demo_path, "a+") as demo_file:
         for index, dna_sequence in enumerate(demo_dna_sequences):
             demo_file.write("".join(dna_sequence) + "\n")
-    print("### Write 1000 demo DNA sequences for Simulation:\n {} ".format(path))
+    print("### Write 1000 demo DNA sequences for Simulation: {} ".format(demo_path))
+    
     return demo_dna_sequences
 
 def parell_write(file,index_list,download_data):
@@ -229,17 +256,17 @@ def tar_file(upload_dir,encode_dir,file_uid):
     os.chdir(backend_dir)
     file_info_name='{}.yaml'.format(file_uid)
     fasta_file_name='{}.fasta'.format(file_uid)
-    dna_file_name = '{}.txt'.format(file_uid)
+    # dna_file_name = '{}.txt'.format(file_uid)
     
     file_info = '{}/{}'.format(upload_dir,file_info_name)
     fasta_file = '{}/{}'.format(encode_dir,fasta_file_name)
-    dna_file='{}/{}'.format(encode_dir,dna_file_name)
+    # dna_file='{}/{}'.format(encode_dir,dna_file_name)
     folder_dir='{}/{}'.format(encode_dir,file_uid)
     if not os.path.exists(folder_dir):
         os.mkdir(folder_dir)    
     shutil.copy(fasta_file,folder_dir+"/"+fasta_file_name)
     shutil.copy(file_info,folder_dir+"/"+file_info_name)
-    shutil.copy(dna_file,folder_dir+"/"+dna_file_name)
+    # shutil.copy(dna_file,folder_dir+"/"+dna_file_name)
     downfile_name = '{}/{}.tar.gz'.format(encode_dir,file_uid)
     # subprocess.call(["tar", "zcvf", downfile_name, "-P", folder_dir])
     os.system('tar -cf - {}|pigz -4 -p 16 > {}'.format(folder_dir,downfile_name))
