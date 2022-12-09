@@ -13,7 +13,7 @@ from .utils.utils_basic import get_config,write_yaml
 from .utils.verify_methods import Hamming,ReedSolomon
 from .utils.encoding_methods import BaseCodingAlgorithm,Church,Goldman,Grass,Blawat,DNAFountain,YinYangCode
 from .utils.srcode import SrcCode
-from .utils.encode_utils import cut_file, gc_homo,download_normal,download_txt,add_min_free_energydata,tar_file,write_dna_file
+from .utils.encode_utils import cut_file, gc_homo,download_normal,download_normal_small,download_txt,add_min_free_energydata,tar_file,write_dna_file
 
 verify_methods = {
     "WithoutVerifycode":False,
@@ -435,14 +435,18 @@ class Encoding():
 
             total = len(usr_dna_sequences)
             total_id =range(total)
+            # download_dict = {'total':total,
+            #                  'payload':dict(zip(total_id,payload)),
+            #                  'index':dict(zip(total_id,index)),
+            #                  'index_payload':dict(zip(total_id,index_payload)),
+            #                  'index_payload_verfiycode':dict(zip(total_id,final_bit_sequences)),
+            #                  'DNA_sequence':dict(zip(total_id,usr_dna_sequences))}
             download_dict = {'total':total,
                              'payload':dict(zip(total_id,payload)),
-                             'index':dict(zip(total_id,index)),
-                             'index_payload':dict(zip(total_id,index_payload)),
-                             'index_payload_verfiycode':dict(zip(total_id,final_bit_sequences)),
                              'DNA_sequence':dict(zip(total_id,usr_dna_sequences))}
-            download_normal(self.user_download_file,download_dict)
-
+            print('### Write download file...')
+            download_normal_small(self.user_download_file,download_dict)
+            print('### Write download txt done!')
             dna_sequences = dna_sequences_all
             save_dict = {'index_payload':index_payload,
                     'bit_sequences':final_bit_sequences,

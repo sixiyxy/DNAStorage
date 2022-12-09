@@ -196,6 +196,23 @@ def download_normal(file,download_data):
                 DNA_sequence = DNA_sequence))
     f.close()
 
+def download_normal_small(file,download_data):
+    # record dowdload file    
+    number = download_data['total']
+    payload_all = download_data['payload']
+    dna_sequences_all = download_data['DNA_sequence']
+
+    f = open(file,'w')
+    f.write('payload,DNA_sequence\n')
+
+    for idx in range(number):
+        payload = payload_all[idx]
+
+        DNA_sequence= dna_sequences_all[idx]
+        f.write('{payload},{DNA_sequence}\n'.format(
+                payload=payload,DNA_sequence = DNA_sequence))
+    f.close()
+
 def download_txt(file,dna_sequences,original_chracter_segments):
     f = open(file,'w')
     f.write('payload,DNA_sequence\n')
