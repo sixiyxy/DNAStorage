@@ -39,7 +39,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
     props.changeSider(["0-2-1"]);
 
     const body = params;
-    const intervalTime = 5000;
+    const intervalTime = 2500;
     await createAsyncStepRequest(
       "decode",
       body,
@@ -59,7 +59,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
     props.setDeSet(false)
     props.changeSider(["0-2-1"]);
     const body = params;
-    const intervalTime = 5000;
+    const intervalTime = 2500;
     await createAsyncStepRequest(
       "decode",
       body,

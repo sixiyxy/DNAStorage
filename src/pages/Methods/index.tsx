@@ -808,8 +808,8 @@ export const Methods: React.FC<MethodsProps> = (props) => {
           <Link href="#encode-method" title="1 Encoding Method">
             <Link href="#vanilla-code" title="1.1 Vanilla code" />
             <Link href="#yinyang" title="1.2 Ping, Zhi, et al. code" />
-            <Link href="#dna-fountain" title="1.3 Erlich, Yaniv, and Dina Zielinski. code" />
-            <Link href="#dna-information" title="1.4 Church, et al. code" />
+            <Link href="#dna-fountain" title="1.3 Erlich  et al. code" />
+            <Link href="#dna-information" title="1.4 George M. Church, et al. code" />
             <Link href="#nick-doldman" title="1.5 Goldman, Nick, et al. code" />
             <Link href="#robert" title="1.6 Grass, Robert N., et al. code" />
             <Link href="#forward-error" title="1.7 Blawat, Meinolf, et al. code" />

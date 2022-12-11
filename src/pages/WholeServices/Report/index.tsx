@@ -112,12 +112,12 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "2",
       name1: "Segment length",
-      value1: `${props.info.segment_length} bits`,
+      value1: props.info.segment_length,
     },
     {
       key: "3",
       name1: "Index length",
-      value1: `${props.info.index_length} bits`,
+      value1: props.info.index_length,
     },
     {
       key: "4",
@@ -229,7 +229,7 @@ export const Report: React.FC<ReportProps> = (props) => {
             headStyle={{ backgroundColor: "#99CCFF", fontSize: "18px" }}
           >
             <p id="top-word">
-              The basic information about the files uploaded by users.
+              The basic information about the files uploaded by users (each byte will be converted to 8 binary bits).
             </p>
             <Table
               columns={columns1}
