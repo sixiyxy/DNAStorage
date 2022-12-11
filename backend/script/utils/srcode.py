@@ -357,7 +357,7 @@ class SrcCode():
         thousandthousand={0:"AGACCT",1:"TCGAAC",2:"ATCACG",3:"TAGCGA",4:"TAACCG",5:"ACTCTG",6:"ACACAC",7:"CAGACA",8:"ATGAGC",9:"ACTGCA"}
 
 
-        if num>99999:
+        if num>9999999:
             return None
         tmpstr=""
         p1=num%10

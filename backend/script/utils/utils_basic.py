@@ -25,6 +25,8 @@ def get_config(yaml_path=''):
     return config
 
 def is_txt(file):
+    # if os.path.getsize(file) > 5000000:
+    #     return False 
     try:
         upload_file = open(file,"r",encoding='UTF-8')
         upload_file.read()

@@ -512,8 +512,12 @@ class Encoding():
         tar_file(upload_dir=self.file_dir,encode_dir=self.dna_dir,file_uid=self.file_uid)
         print('### Tar the download data,Done!')
 
+        if self.encode_method in encoding_methods:
+            info['segment_length'] = '{} bits'.format(info['segment_length'])
+            info['index_length'] = '{} bits'.format(info['index_length'])
         info["encode_method"] = display_dict[info["encode_method"]]
         info["verify_method"] = display_dict[info["verify_method"]]
+        
         
         return info
 
@@ -564,10 +568,10 @@ class Encoding():
 
             record_info = {"bit_size" : file_size*8,
                     "byte_size":file_size,
-                    "segment_length":self.segment_length,
-                    "index_length":self.index_length,
-                    "verify_method":self.verify_method,
-                     "encode_method":self.encode_method,
+                    "segment_length":"None",
+                    "index_length":"None",
+                    "verify_method":"None",
+                    "encode_method":self.encode_method,
                     "verify_code_length":"None",
                     "final_bit_segments_length" :"None",
                     "segment_number":len(original_charater_list),

@@ -481,7 +481,7 @@ def simulation_start():
 
 @app.route('/decode_start',methods=['GET','POST'])
 def decode_start():
-    print('\n','#'*25,'Encoding Start','#'*25,'\n','#'*60)
+    print('\n','#'*25,'Dncoding Start','#'*25,'\n','#'*60)
     front_data = request.data
     front_data = json.loads(front_data)
     file_uid = front_data['file_uid'] 

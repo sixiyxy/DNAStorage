@@ -1,106 +1,106 @@
 eight_can: false
 file_name: example.png
-file_rename: 1599654310491328512_example.png
+file_rename: 1601937931860316160_example.png
 file_type: image/png
-file_uid: '1599654310491328512'
+file_uid: '1601937931860316160'
 upload_file_size: 108096
 DNA_sequence_length: 121 nt
 DNA_sequence_number: 8647
 bit_size: 864768
 byte_size: 108096
 encode_method: Yin_Yang
-encoding_time: '6.19'
+encoding_time: '6.11'
 energy_plot:
-- range: '-22.53 : -21.779'
-  x_value: '-22.2'
-  y_value: 0
-- range: '-21.779 : -21.028'
-  x_value: '-21.4'
-  y_value: 0
-- range: '-21.028 : -20.277'
-  x_value: '-20.7'
-  y_value: 0
-- range: '-20.277 : -19.526'
-  x_value: '-19.9'
-  y_value: 0
-- range: '-19.526 : -18.775'
-  x_value: '-19.2'
+- range: '-21.37 : -20.658'
+  x_value: '-21.0'
+  y_value: 1
+- range: '-20.658 : -19.945'
+  x_value: '-20.3'
+  y_value: 3
+- range: '-19.945 : -19.233'
+  x_value: '-19.6'
   y_value: 2
-- range: '-18.775 : -18.024'
-  x_value: '-18.4'
+- range: '-19.233 : -18.521'
+  x_value: '-18.9'
   y_value: 4
-- range: '-18.024 : -17.273'
-  x_value: '-17.6'
+- range: '-18.521 : -17.808'
+  x_value: '-18.2'
+  y_value: 1
+- range: '-17.808 : -17.096'
+  x_value: '-17.5'
   y_value: 5
-- range: '-17.273 : -16.522'
-  x_value: '-16.9'
-  y_value: 6
-- range: '-16.522 : -15.771'
-  x_value: '-16.1'
-  y_value: 8
-- range: '-15.771 : -15.02'
-  x_value: '-15.4'
-  y_value: 24
-- range: '-15.02 : -14.269'
+- range: '-17.096 : -16.384'
+  x_value: '-16.7'
+  y_value: 11
+- range: '-16.384 : -15.671'
+  x_value: '-16.0'
+  y_value: 4
+- range: '-15.671 : -14.959'
+  x_value: '-15.3'
+  y_value: 21
+- range: '-14.959 : -14.247'
   x_value: '-14.6'
-  y_value: 24
-- range: '-14.269 : -13.518'
+  y_value: 22
+- range: '-14.247 : -13.534'
   x_value: '-13.9'
-  y_value: 24
-- range: '-13.518 : -12.767'
-  x_value: '-13.1'
-  y_value: 37
-- range: '-12.767 : -12.016'
-  x_value: '-12.4'
+  y_value: 27
+- range: '-13.534 : -12.822'
+  x_value: '-13.2'
+  y_value: 42
+- range: '-12.822 : -12.11'
+  x_value: '-12.5'
   y_value: 44
-- range: '-12.016 : -11.265'
-  x_value: '-11.6'
-  y_value: 43
-- range: '-11.265 : -10.514'
-  x_value: '-10.9'
-  y_value: 51
-- range: '-10.514 : -9.763'
-  x_value: '-10.1'
-  y_value: 64
-- range: '-9.763 : -9.012'
-  x_value: '-9.4'
-  y_value: 85
-- range: '-9.012 : -8.261'
-  x_value: '-8.6'
-  y_value: 83
-- range: '-8.261 : -7.51'
-  x_value: '-7.9'
-  y_value: 81
-- range: '-7.51 : -6.759'
-  x_value: '-7.1'
-  y_value: 79
-- range: '-6.759 : -6.008'
-  x_value: '-6.4'
-  y_value: 79
-- range: '-6.008 : -5.257'
-  x_value: '-5.6'
-  y_value: 65
-- range: '-5.257 : -4.506'
-  x_value: '-4.9'
+- range: '-12.11 : -11.397'
+  x_value: '-11.8'
   y_value: 54
-- range: '-4.506 : -3.755'
-  x_value: '-4.1'
-  y_value: 44
-- range: '-3.755 : -3.004'
-  x_value: '-3.4'
-  y_value: 38
-- range: '-3.004 : -2.253'
-  x_value: '-2.6'
-  y_value: 26
-- range: '-2.253 : -1.502'
-  x_value: '-1.9'
-  y_value: 14
-- range: '-1.502 : -0.751'
+- range: '-11.397 : -10.685'
+  x_value: '-11.0'
+  y_value: 54
+- range: '-10.685 : -9.973'
+  x_value: '-10.3'
+  y_value: 56
+- range: '-9.973 : -9.26'
+  x_value: '-9.6'
+  y_value: 66
+- range: '-9.26 : -8.548'
+  x_value: '-8.9'
+  y_value: 75
+- range: '-8.548 : -7.836'
+  x_value: '-8.2'
+  y_value: 81
+- range: '-7.836 : -7.123'
+  x_value: '-7.5'
+  y_value: 65
+- range: '-7.123 : -6.411'
+  x_value: '-6.8'
+  y_value: 65
+- range: '-6.411 : -5.699'
+  x_value: '-6.1'
+  y_value: 65
+- range: '-5.699 : -4.986'
+  x_value: '-5.3'
+  y_value: 68
+- range: '-4.986 : -4.274'
+  x_value: '-4.6'
+  y_value: 50
+- range: '-4.274 : -3.562'
+  x_value: '-3.9'
+  y_value: 35
+- range: '-3.562 : -2.849'
+  x_value: '-3.2'
+  y_value: 32
+- range: '-2.849 : -2.137'
+  x_value: '-2.5'
+  y_value: 19
+- range: '-2.137 : -1.425'
+  x_value: '-1.8'
+  y_value: 10
+- range: '-1.425 : -0.712'
   x_value: '-1.1'
-  y_value: 6
-- range: '-0.751 : 0.0'
+  y_value: 10
+- range: '-0.712 : 0.0'
   x_value: '-0.4'
-  y_value: 9
+  y_value: 7
 final_segment_bit_length: 121 bits
 gc_data:
 - x_value: 0
@@ -184,47 +184,47 @@ gc_data:
 - x_value: 39
   y_value: 0
 - x_value: 40
-  y_value: 14
+  y_value: 9
 - x_value: 41
-  y_value: 8
+  y_value: 10
 - x_value: 42
-  y_value: 14
+  y_value: 17
 - x_value: 43
-  y_value: 19
+  y_value: 29
 - x_value: 44
-  y_value: 22
+  y_value: 44
 - x_value: 45
-  y_value: 112
+  y_value: 88
 - x_value: 46
-  y_value: 47
+  y_value: 48
 - x_value: 47
-  y_value: 64
+  y_value: 59
 - x_value: 48
-  y_value: 56
+  y_value: 67
 - x_value: 49
-  y_value: 79
+  y_value: 59
 - x_value: 50
   y_value: 156
 - x_value: 51
-  y_value: 85
+  y_value: 77
 - x_value: 52
-  y_value: 66
+  y_value: 56
 - x_value: 53
-  y_value: 58
+  y_value: 70
 - x_value: 54
-  y_value: 50
+  y_value: 53
 - x_value: 55
-  y_value: 73
+  y_value: 88
 - x_value: 56
-  y_value: 15
+  y_value: 19
 - x_value: 57
-  y_value: 22
+  y_value: 18
 - x_value: 58
-  y_value: 21
+  y_value: 19
 - x_value: 59
-  y_value: 12
+  y_value: 9
 - x_value: 60
-  y_value: 7
+  y_value: 5
 - x_value: 61
   y_value: 0
 - x_value: 62
@@ -311,9 +311,9 @@ homo_data:
 - x_value: 2
   y_value: 1000
 - x_value: 3
-  y_value: 1000
+  y_value: 999
 - x_value: 4
-  y_value: 747
+  y_value: 719
 - x_value: 5
   y_value: 0
 - x_value: 6
@@ -346,7 +346,7 @@ homo_data:
   y_value: 0
 index_length: 14
 information_density: 0.826
-min_free_energy: -8.51
+min_free_energy: -8.7
 min_free_energy_below_30kcal_mol: 0.0
 net_information_density: 0.9999629929455303
 nucleotide_counts: 1046287 nt
@@ -391,16 +391,16 @@ storage_host: Hsapiens
 synthesis_method: ErrASE
 synthesis_number: 10
 synthesis_yield: 0.99
-after_clust_dna_sequence_number: 1164
+after_clust_dna_sequence_number: 1408
 clust_method: starcode
-clust_time: 0.20 s
-decode_time: 1.08 s
+clust_time: 0.24 s
+decode_time: 1.17 s
 encode_bits_number: 8648
 encode_dna_sequence_number: 8647
-final_decode_bits_number: 2170
-recall_bits_number: 2038
-recall_bits_rate: 23.57 %
-recall_dna_sequence_number: 856
-recall_dna_sequence_rate: 9.9%
-simulation_dna_number: 1306
-verify_method_remove_bits: 0
+final_decode_bits_number: 2678
+recall_bits_number: 2276
+recall_bits_rate: 26.32 %
+recall_dna_sequence_number: 751
+recall_dna_sequence_rate: 8.69%
+simulation_dna_number: 1597
+verify_method_remove_bits: 10
