@@ -353,6 +353,9 @@ class SrcCode():
         hundred={0:"AGACCT",1:"TCGAAC",2:"ATCACG",3:"TAGCGA",4:"TAACCG",5:"ACTCTG",6:"ACACAC",7:"CAGACA",8:"ATGAGC",9:"ACTGCA"}
         thousand={0:"AGACCT",1:"TCGAAC",2:"ATCACG",3:"TAGCGA",4:"TAACCG",5:"ACTCTG",6:"ACACAC",7:"CAGACA",8:"ATGAGC",9:"ACTGCA"}
         tenthousand={0:"AGACCT",1:"TCGAAC",2:"ATCACG",3:"TAGCGA",4:"TAACCG",5:"ACTCTG",6:"ACACAC",7:"CAGACA",8:"ATGAGC",9:"ACTGCA"}
+        houndredthousand={0:"AGACCT",1:"TCGAAC",2:"ATCACG",3:"TAGCGA",4:"TAACCG",5:"ACTCTG",6:"ACACAC",7:"CAGACA",8:"ATGAGC",9:"ACTGCA"}
+        thousandthousand={0:"AGACCT",1:"TCGAAC",2:"ATCACG",3:"TAGCGA",4:"TAACCG",5:"ACTCTG",6:"ACACAC",7:"CAGACA",8:"ATGAGC",9:"ACTGCA"}
+
 
         if num>99999:
             return None
@@ -362,7 +365,9 @@ class SrcCode():
         p3=num//100%10
         p4=num//1000%10
         p5=num//10000%10
-        tmpstr=tenthousand[p5]+thousand[p4]+hundred[p3]+decade[p2]+unit[p1]
+        p6=num//100000%10
+        p7=num//1000000%10
+        tmpstr=thousandthousand[p7]+houndredthousand[p6]+tenthousand[p5]+thousand[p4]+hundred[p3]+decade[p2]+unit[p1]
         return tmpstr
 
     def encodeing(self,file):
