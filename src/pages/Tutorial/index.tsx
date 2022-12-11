@@ -313,7 +313,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
             <h3 id="third-title">Example file</h3>
             <p id="text-content">
               We use the Xiamen University badge picture as an example file to introduce the working
-              process of the website. Other demo files can be <a href="javascript:void(0)" onClick={handelURL} id='a-link'> downloaded from here</a>. The file types include: Image, video,
+              process of the website. Here, we use <i>Ping-Zhi's</i> yin-yang method to encode the example file, and use the default parameters to perform error simulation on the encoded DNA sequence. Other demo files can be <a href="javascript:void(0)" onClick={handelURL} id='a-link'> downloaded from here</a>. The file types include: Image, video,
               audio, text, and binary.
             </p>
             <Image src={xiamen} width={"50%"} rootClassName="image2" />
