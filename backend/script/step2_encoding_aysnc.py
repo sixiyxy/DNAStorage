@@ -31,7 +31,7 @@ encoding_methods = {
 
 
 display_dict={"Basic":"Vanilla",
-    "Church":"Church, et al.",
+    "Church":"George M. Church, et al.",
     "Goldman":"Goldman, Nick, et al.",
     "Grass":"Grass, Robert N., et al.",
     "Blawat":"Blawat, Meinolf, et al.",
