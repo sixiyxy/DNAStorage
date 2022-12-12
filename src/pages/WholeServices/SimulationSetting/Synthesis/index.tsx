@@ -76,6 +76,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
     setNoDataTipsShow(false);
     props.setAlreadyRun(true);
     axios.post(API_PREFIX + "/simu_synthesis", params).then(function (response) {
+      console.log('ok',response);
       setCountLen(response?.data?.syn_density.length);
       setGroup(response?.data?.density_group);
       setData(response?.data?.syn_density);

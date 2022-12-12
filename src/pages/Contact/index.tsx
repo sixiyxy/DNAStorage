@@ -5,7 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { Image } from 'antd';
 import { Breadcrumb } from 'antd';
 import { Link } from "react-router-dom";
-import logo from '../../assets/contact/logo.png';
+import teacher from '../../assets/contact/teacher.png';
 import jlk from '../../assets/contact/jlk.jpg';
 import yxy from '../../assets/contact/yxy.jpg';
 import rxr from '../../assets/contact/rxr.jpg';
@@ -51,8 +51,8 @@ export const Contact: React.FC<ContactProps> = (props) => {
                   />
                   <br/>
                   <br/>
-                  <strong>Ph.D. Likun Jiang</strong><br/>
-                  School of Computer Science and Technology<br/>
+                  <strong>PHD student<br></br> Likun Jiang</strong><br/>
+                  Department of Computer Science and Technology<br/>
                   Xiamen University
                 </p>
               </Col>
@@ -67,8 +67,8 @@ export const Contact: React.FC<ContactProps> = (props) => {
                   />
                   <br/>
                   <br/>
-                  <strong>Master. Ziyun Zou</strong><br/>
-                  School of Computer Science and Technology<br/>
+                  <strong>Graduate student<br></br> Ziyun Zou</strong><br/>
+                  Department of Computer Science and Technology<br/>
                   Xiamen University
                 </p>
               </Col>
@@ -82,16 +82,16 @@ export const Contact: React.FC<ContactProps> = (props) => {
                   />
                   <br/>
                   <br/>
-                  <strong>Master. Xinru Ruan</strong><br/>
-                  School of Computer Science and Technology<br/>
+                  <strong>Graduate student<br></br> Xinru Ruan</strong><br/>
+                  Department of Computer Science and Technology<br/>
                   Xiamen University
                 </p>
 
               </Col>
               <Col span={5}>
-              <p style={{margin:"0 0 0 100px",width:"75%"}}>
+              <p style={{margin:"0 0 0 100px",width:"80%"}}>
                   <Image
-                  width={"72%"}
+                  width={"68%"}
                   height={"100%"}
                   src={yxy}
                   preview={false}
@@ -99,19 +99,19 @@ export const Contact: React.FC<ContactProps> = (props) => {
                   />
                   <br/>
                   <br/>
-                  <strong>Master. Xinyu Yu</strong><br/>
-                  School of Computer Science and Technology<br/>
+                  <strong>Graduate student<br></br> Xinyu Yu</strong><br/>
+                  Department of Computer Science and Technology<br/>
                   Xiamen University
                 </p>
 
               </Col>
               </Row>
               <br/>
-              <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Yinghao Lan, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
-              <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Zelong Chen, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
-              <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Xinyi Zhang, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
-              <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Yanni Xu, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
-              <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Changzhi Jiang, School of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
+              <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Yinghao Lan, Department of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
+              <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Zelong Chen, Department of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
+              <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Xinyi Zhang, Department of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
+              <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Yanni Xu, Department of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
+              <p><Avatar size="small" style={{ backgroundColor: '#1678ff' }} icon={<UserOutlined />} />  Changzhi Jiang, Department of Computer Science and Technology, Xiamen University, Xiamen, 361005, Fujian, China</p>
 
               <h1 style={{paddingTop:"30px"}}>Correspondence</h1>
               <Row gutter={8}>
@@ -119,7 +119,7 @@ export const Contact: React.FC<ContactProps> = (props) => {
                 <p style={{paddingBottom:"200px",paddingTop:"20px",marginRight:"10px"}}>
                 <Image
                 width={"100%"}
-                src={logo}
+                src={teacher}
                 preview={false}
                 />
               </p>

@@ -175,6 +175,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     //控制每个步骤的useEffect
     console.log("开始请求");
     axios.post(API_PREFIX + "/simu_default_run", paramExm).then(function (response) {
+      console.log('exm',response);
+      
       setexmSpinFlag(false);
       setEffct1(true);
       setEffct2(true);
