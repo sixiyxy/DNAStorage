@@ -14,7 +14,7 @@ const Uploads: React.FC = (props: any) => {
     maxCount: 1,
 
     beforeUpload(file, fileList) {
-      const islt10M = file.size / 1024 / 1024 < 10;
+      const islt10M = file.size / 1024 / 1024 < 6;
       const islt2M = file.size / 1024 / 1024 > 2;
       const islt100k = file.size / 1024 < 100;
       if (!islt10M) {

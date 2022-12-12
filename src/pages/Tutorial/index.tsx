@@ -679,10 +679,10 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
                 and txt file types are all allowed.
               </p>
               <li>
-                <strong>Why the file size cannot exceed 10M?</strong>
+                <strong>Why the file size cannot exceed 6M?</strong>
               </li>
               <p id="text-content">
-                In fact, file lager than 10M can be processed, but the backend processing time is
+                In fact, file lager than 6M can be processed, but the backend processing time is
                 too long, so we limit the file size.
               </p>
               <li>
@@ -721,8 +721,7 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
             <div id="Acknowledgment">
               <h3 id="fourth-title">Acknowledgment</h3>
               <p id="text-content">
-                <strong>Funding: </strong>Major Scientific Research Project of Zhejiang Lab (No.
-                2019MC0AD01)
+                <strong>Funding: </strong>This work is being supported by Open Research Projects of Zhejiang Lab (2022RD0AB02), and the National Key R\&D Program of China (2017YFE0130600).
               </p>
               <p id="text-content">
                 <strong>Conflict of Interest: </strong>The authors declare that the research was
