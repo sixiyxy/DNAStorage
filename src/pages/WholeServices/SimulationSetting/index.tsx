@@ -51,6 +51,8 @@ const getIntervalTimeBySequenceNum = (sequenceNum) => {
 };
 
 let method = [false, false, false, false]; //存放选择的方法
+
+
 export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   // 控制全局和各个步骤是否启用，true 表示启用，false 表示不起用，会被遮罩遮住
   const [okFlag, setOkFlag] = useState(false);
@@ -84,6 +86,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const { Dragger } = Upload;
   useEffect(() => {
     window.scrollTo(0, 0);
+    method = [false, false, false, false];
   }, []);
 
   const { encodeInfo } = props;
@@ -136,6 +139,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setSequenceFlag(!sequenceFlag);
   };
   const handleOK = () => {
+
     setExamFlag(true);
     setOkFlag(true);
     setDis1(true);
