@@ -516,6 +516,7 @@ class Encoding():
             info['segment_length'] = '{} bits'.format(info['segment_length'])
             info['index_length'] = '{} bits'.format(info['index_length'])
         info["encode_method"] = display_dict[info["encode_method"]]
+
         info["verify_method"] = display_dict[info["verify_method"]]
         
         
@@ -570,7 +571,7 @@ class Encoding():
                     "byte_size":file_size,
                     "segment_length":"None",
                     "index_length":"None",
-                    "verify_method":"None",
+                    "verify_method":self.verify_method,
                     "encode_method":self.encode_method,
                     "verify_code_length":"None",
                     "final_bit_segments_length" :"None",
