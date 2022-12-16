@@ -283,6 +283,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setResetMenu={setResetMenu}
               setEncodeSet={setEncodeSet}
               changeSider={setSiderSelect}
+              strand={strand}
             />
           ) : null}
         </div>

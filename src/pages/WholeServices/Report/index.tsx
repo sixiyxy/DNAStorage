@@ -80,7 +80,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "1",
       name1: "Job ID",
-      value1: props.exam ? "1565536927137009664" : props.fileinfo.fileId,
+      value1: props.fileId,
     },
     {
       key: "2",
