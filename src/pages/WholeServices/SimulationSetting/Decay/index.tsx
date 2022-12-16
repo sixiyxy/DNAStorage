@@ -32,6 +32,8 @@ export class DecayProps {
   method1;
   exmSpinFlag;
   setReport;
+  setSimuStrand;
+  simuStrand;
 }
 
 export const Decay: React.FC<DecayProps> = (props) => {
@@ -65,7 +67,10 @@ export const Decay: React.FC<DecayProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     props.setDECRUN(true);
-    
+    let strand = props.simuStrand*(1-lossValue)
+    props.setSimuStrand(strand)
+    console.log('strand',strand);
+    console.log('props.stradn',props.simuStrand);
     const resp: any = await doPost("/simu_dec", {body: params});
 
     setCountLen(resp.dec_density.length);

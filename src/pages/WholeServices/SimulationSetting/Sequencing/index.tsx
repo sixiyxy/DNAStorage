@@ -27,6 +27,9 @@ export class SequencingProps {
   seqrun;
   exmSpinFlag;
   setReport;
+  info;
+  simuStrand;
+  setSimuStrand
 }
 
 export const Sequencing: React.FC<SequencingProps> = (props) => {
@@ -57,7 +60,12 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
     setIsModalOpen(false);
   };
   const handleOk = async () => {
-    
+    let a = props.simuStrand/props.info.DNA_sequence_number
+    let b = a / sequencingDepth
+    let strand = props.simuStrand * b
+    props.setSimuStrand(strand)
+    console.log('strand',strand);
+    console.log('props.stradn',props.simuStrand);
     setLoading(true);
     setNoDataTipsShow(false);
     props.setSEQRUN(true);

@@ -22,6 +22,7 @@ export class SimulationReportProps {
   setDeSet;
   setdecodeRepoNext;
   decodeRepoNext;
+  simuStrand;
 }
 interface DataType {
   key: string;
@@ -622,7 +623,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         </Breadcrumb>
       </div>
       <div className="simulation-report-content-wrapper">
-        <Spin tip="Loading..." size="large" spinning={props.spinflags}>
+        <Spin tip={props.simuStrand > 4000000? (props.simuStrand>10000000?"Please wait 4mins":"Please wait 2mins"):"Loading..."} size="large" spinning={props.spinflags}>
           <Card
             title="Steps Review"
             headStyle={{ backgroundColor: "#99CCFF", fontSize: "18px" }}

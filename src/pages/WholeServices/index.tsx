@@ -29,7 +29,7 @@ const infos = {
   DNA_sequence_number: 0,
 };
 const DNAinfos = {
-  DNA_sequence: "None",
+  DNA_sequence: 0,
   encoding_time: 0,
   information_density: 0,
   nucleotide_counts: 0,
@@ -86,6 +86,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   //控制repo的next
   const [repoNext,setRepoNext] = useState(false) //能看见一开始
   const [decodeRepoNext,setdecodeRepoNext] = useState(false)
+  const [simuStrand,setSimuStrand] = useState(0)
   // const [controlReport,setControl]=useState(false)
   const items1 = useMemo(() => {
     return [
@@ -238,6 +239,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setDeSet={setDeSet}
               setdecodeRepoNext={setdecodeRepoNext}
               decodeRepoNext={decodeRepoNext}
+              simuStrand={simuStrand}
             />
           ) : null}
           {siderSelect[0] === "0-1-0" ? (
@@ -260,6 +262,11 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setErrorRecode={setErrorRecode}
               setErrorDensity={setErrorDensity}
               setStrand={setStrand}
+              info={info}
+              dnainfo={dnainfo}
+              setSimuStrand={setSimuStrand}
+              simuStrand={simuStrand}
+
             />
           ) : null}
           {siderSelect[0] === "0-2-0" ? (

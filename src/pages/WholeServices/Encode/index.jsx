@@ -185,7 +185,6 @@ const controlZan = useMemo(
   };
   const handleClick = async () => {
     props.setEncodeRepo(true);
-    props.setSimuSet(true);
     props.setIsSynthesis(true);
     props.setEncodeSet(false)
     props.changeSider(["0-0-1"]);
@@ -234,6 +233,7 @@ const controlZan = useMemo(
           resp.physical_information_density_g
         );
         miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
+        props.setSimuSet(true);
       }
     );
   };

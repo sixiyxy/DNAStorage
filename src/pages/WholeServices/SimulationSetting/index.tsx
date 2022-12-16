@@ -34,6 +34,10 @@ export class SimulationSetProps {
   setStrand;
   encodeInfo;
   setSimuSet;
+  info;
+  dnainfo;
+  simuStrand;
+  setSimuStrand;
 }
 
 const sequenceNumTable = [5000, 10000, 100000];
@@ -81,6 +85,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   const [pcrrun, setPCRRUN] = useState(true);
   const [samrun, setSAMRUN] = useState(true);
   const [seqrun, setSEQRUN] = useState(true);
+  
   //控制report按钮是否禁用，true表示禁用
   const [reportFlag, setReport] = useState(true);
   const { Dragger } = Upload;
@@ -178,6 +183,14 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     setDis4(true);
     //控制每个步骤的useEffect
     console.log("开始请求");
+    let strands = props.info.DNA_sequence_number
+    strands = strands*10*(0.99**props.dnainfo.DNA_sequence)
+    strands = strands*0.7
+    strands = strands*(2**0.8)*0.005
+    let a = strands/props.info.DNA_sequence_number
+    strands = strands*a
+    console.log('exm',strands);
+    props.setSimuStrand(strands)
     axios.post(API_PREFIX + "/simu_default_run", paramExm).then(function (response) {
       console.log('exm',response);
       
@@ -389,6 +402,9 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setSEQRUN={setSEQRUN}
           method1={method}
           exmSpinFlag={exmSpinFlag}
+          setSimuStrand={props.setSimuStrand}
+          info={props.info}
+          dnainfo={props.dnainfo}
         />
         <Decay
           fileId={props.fileId}
@@ -404,6 +420,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           method1={method}
           exmSpinFlag={exmSpinFlag}
           setReport={setReport}
+          setSimuStrand={props.setSimuStrand}
+          simuStrand={props.simuStrand}
         />
         <Pcr
           fileId={props.fileId}
@@ -418,6 +436,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           method1={method}
           exmSpinFlag={exmSpinFlag}
           setReport={setReport}
+          setSimuStrand={props.setSimuStrand}
+          simuStrand={props.simuStrand}
         />
         <Sampling
           fileId={props.fileId}
@@ -432,6 +452,8 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           exmSpinFlag={exmSpinFlag}
           pcrFlag={pcrFlag}
           setReport={setReport}
+          setSimuStrand={props.setSimuStrand}
+          simuStrand={props.simuStrand}
         />
         <Sequencing
           fileId={props.fileId}
@@ -443,6 +465,9 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           seqrun={seqrun}
           exmSpinFlag={exmSpinFlag}
           setReport={setReport}
+          info={props.info}
+          simuStrand={props.simuStrand}
+          setSimuStrand={props.setSimuStrand} 
         />
       </div>
       <div className="simulation-setting-footer-buttons">

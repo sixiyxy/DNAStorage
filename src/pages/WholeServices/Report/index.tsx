@@ -147,7 +147,7 @@ export const Report: React.FC<ReportProps> = (props) => {
     {
       key: "9",
       name1: "Single DNA length",
-      value1: props.dnainfo.DNA_sequence,
+      value1: `${props.dnainfo.DNA_sequence} nt`,
     },
     {
       key: "10",

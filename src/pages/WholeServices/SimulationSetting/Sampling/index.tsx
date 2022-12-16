@@ -19,6 +19,8 @@ export class SamplingProps {
   exmSpinFlag;
   pcrFlag;
   setReport;
+  setSimuStrand;
+  simuStrand;
 }
 
 export const Sampling: React.FC<SamplingProps> = (props) => {
@@ -48,6 +50,10 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     props.setSAMRUN(true);
+    let strand = props.simuStrand * samplingRatio
+    props.setSimuStrand(strand)
+    console.log('strand',strand);
+    console.log('props.stradn',props.simuStrand);
     const resp: any = await doPost("/simu_sam", {body: params});
     setCountLen(resp.sam_density.length);
     setGroup(resp.sam_group);

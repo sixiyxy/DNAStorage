@@ -31,6 +31,8 @@ export class PcrProps {
   method1;
   exmSpinFlag;
   setReport;
+  setSimuStrand;
+  simuStrand;
 }
 
 export const Pcr: React.FC<PcrProps> = (props) => {
@@ -65,6 +67,12 @@ export const Pcr: React.FC<PcrProps> = (props) => {
     setLoading(true);
     setNoDataTipsShow(false);
     props.setPCRRUN(true);
+    let strand = props.simuStrand*(2**pcrCycleValue)
+    props.setSimuStrand(strand)
+    console.log('strand',strand);
+    console.log('props.stradn',props.simuStrand);
+    
+    
     // todo 将请求接口 ts 化，否则无法移除警告
     const resp: any = await doPost("/simu_pcr", {body: params});
     setCountLen(resp.pcr_density.length);

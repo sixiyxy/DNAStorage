@@ -14,6 +14,7 @@ import {
   Spin,
   Tooltip,
   Upload,
+
 } from "antd";
 import React, {useEffect, useMemo, useState} from "react";
 import "./index.less";
@@ -39,6 +40,9 @@ export class SynthesisProps {
   setSEQRUN
   method1;
   exmSpinFlag;
+  setSimuStrand;
+  info;
+  dnainfo;
 }
 
 export const Synthesis: React.FC<SynthesisProps> = (props) => {
@@ -72,6 +76,10 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
   };
   
   const handleOk = () => {
+    let strands = props.info.DNA_sequence_number
+    strands = strands*cycleValue*(yieldValue**props.dnainfo.DNA_sequence)
+    props.setSimuStrand(strands)
+    console.log('strand',strands);
     setLoading(true);
     setNoDataTipsShow(false);
     props.setAlreadyRun(true);
