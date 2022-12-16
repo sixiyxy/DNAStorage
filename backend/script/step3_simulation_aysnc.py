@@ -380,6 +380,7 @@ def parallel(simu_dna,funcs,funcs_names):
             for i in density:
                 error_density_final.append({'type':funcs_names[index],"error":str(i[0]),"count":i[1]})
         t2 = time.time()
+        print(error_recorder_final)
         print('cut size {},threads {}, pool time {}'.format(cut,thread,t2-t1))
         return dnas,error_recorder_final,error_density_final
 

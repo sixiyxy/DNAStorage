@@ -69,7 +69,7 @@ class ClusterDecode():
     def method_cdhit(self):
         cmd = '{tool} -T {threads} -c 0.99 -i {in_file} -o {out_file} '.format(
             tool = self.cdhit, 
-            threads = 16,
+            threads = self.threads,
             in_file = self.simulation_dna_file,
             out_file = self.out_file)
         print('# CDHIT cmd is:',cmd)

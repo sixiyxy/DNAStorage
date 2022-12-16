@@ -24,4 +24,4 @@ cdhit: /home/dna/Software/cdhit-4.8.1/cd-hit
 decode_dir: decode
 
 # threads
-threads: 16
+threads: 20

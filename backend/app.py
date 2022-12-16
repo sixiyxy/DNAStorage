@@ -416,6 +416,9 @@ def example():
         f = open(yaml_path)
         config_data = f.read()
         config = yaml.load(config_data,Loader=yaml.FullLoader)
+        file_uid = get_file_uid()
+        config['file_uid'] = file_uid
+        os.system('cp {} {}/upload/{}.yaml'.format(yaml_path,backend_dir,file_uid))
         return json.dumps(config)
     elif type == 'simulation':
         yaml_path= '{}/upload_dna/example_1.yaml'.format(backend_dir)
