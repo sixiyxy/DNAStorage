@@ -415,6 +415,8 @@ def example():
         yaml_path = '{}/upload/example.yaml'.format(backend_dir)
         fasta_path = '{}/encode/example.fasta'.format(backend_dir)
         demo_fasta_path = '{}/encode/example_demo.dna'.format(backend_dir)
+        decode_file = '{}/decode/example.npz'.format(backend_dir)
+
         f = open(yaml_path)
         config_data = f.read()
         config = yaml.load(config_data,Loader=yaml.FullLoader)
@@ -423,6 +425,8 @@ def example():
         os.system('cp {} {}/upload/{}.yaml'.format(yaml_path,backend_dir,file_uid))
         os.system('cp {} {}/encode/{}.fasta'.format(fasta_path,backend_dir,file_uid))
         os.system('cp {} {}/encode/{}_demo.dna'.format(demo_fasta_path,backend_dir,file_uid))
+        os.system('cp {} {}/decode/{}.npz'.format(decode_file,backend_dir,file_uid))
+
         return json.dumps(config)
         
     elif type == 'simulation':
