@@ -107,7 +107,7 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
   return (
     <div className="decode-report-wrapper">
       <Spin
-        tip={props.strand > 500000? "the simulation sequences is more than 500000, the decoding time will beyond 5mins!":"Loading..."}
+        tip={props.strand > 500000? "the simulation sequences is more than 500000, the decoding time will beyond 5mins!":"the decoding time will about 2mins!"}
         size="large"
         spinning={props.spinflag}
         delay={10}

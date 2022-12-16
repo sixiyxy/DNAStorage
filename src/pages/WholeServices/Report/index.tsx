@@ -203,7 +203,7 @@ export const Report: React.FC<ReportProps> = (props) => {
   return (
     <div className="encode-report-wrapper">
       <Spin
-        tip={props.fileOver2M ? "Please wait about 2mins..." : "Loading..."}
+        tip={props.fileOver2M ? "the file size is more than 2MB, the encoding time will about 2mins!" : "Loading..."}
         size="large"
         spinning={props.encodeAndDecodeSpinning}
         // spinning={false}
