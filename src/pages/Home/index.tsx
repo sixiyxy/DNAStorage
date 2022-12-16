@@ -3,7 +3,7 @@ import { Link, PathRouteProps } from "react-router-dom";
 import { Col, Row } from "antd";
 import "./index.less";
 import { Image } from "antd";
-import pic1 from "./Home1031.png";
+import pic1 from "../../assets/tutorial/home.png";
 import { InboxOutlined } from "@ant-design/icons";
 import { Button, notification, Drawer, Modal } from "antd";
 import { message, Upload } from "antd";

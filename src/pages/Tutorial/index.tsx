@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { Breadcrumb, Image, Table, Anchor } from "antd";
 import "./index.less";
-import Home1031 from "../../assets/tutorial/Home1031.png";
+import Home1031 from "../../assets/tutorial/home.png";
 import xiamen from "../../assets/tutorial/xiamen.png";
 import gc from "../../assets/tutorial/gc.png";
 import rp from "../../assets/tutorial/rp.png";
