@@ -58,7 +58,7 @@ def PcrPoly_arg(pcr_polymerase,left):
 
 def Sampler_arg(sam_ratio,left=None):
     dic={"sam_ratio":sam_ratio}
-    SAM=Model.Sampler_simu(sam_ratio)
+    SAM=Model.Sampler_simu(p=sam_ratio)
     dic=ArgumentPasser(dic)
     return SAM,dic
 

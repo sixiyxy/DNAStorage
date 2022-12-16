@@ -190,8 +190,23 @@ class PCRer_simu:
                 dna[0] = self.distribution(dna[0])
             if dna[0] > 0:
                 error_recorder['n']=error_recorder.get('n',0)+dna[0]-tmp
-                for err in dna[1]:
-                    error_recorder[err[1]]=error_recorder.get(err[1],0)+dna[0]-tmp    
+                # for err in dna[1]:
+                #     error_recorder[err[1]]=error_recorder.get(err[1],0)+dna[0]-tmp 
+                flags={'+':0,'-':0,'s':0}
+                flag=0
+                if len(dna[1])!=0:
+                    error_recorder['e']=error_recorder.get("e",0)+dna[0]
+                    error_recorder['n']=error_recorder.get('n',0)-dna[0]
+                    for err in dna[1]:
+                        if not flags[err[1]]:
+                            try:
+                                error_recorder[err[1]]=error_recorder.get(err[1],0)+dna[0]
+                                flags[err[1]]=1
+                                flag+=1
+                                if flag==3:
+                                    pass
+                            except:
+                                pass 
                 out.append(dna)
         return out,error_recorder
 
@@ -211,13 +226,14 @@ class Sampler_simu:
             self.p = p
 
     def distribution(self,N):
-        if self.p>1:
+        if self.p>=1:
                 return N
         return np.random.binomial(int(N),self.p)
 
     def run(self,re_dnas,recorder):
         markers = []
         for i,dna in enumerate(re_dnas):
+            if dna[0] == 0: pass
             dna[0] = self.distribution(dna[0])
             if dna[0] > 0: 
                 markers.append(i)
@@ -226,6 +242,7 @@ class Sampler_simu:
                 flag=0
                 if len(dna[1])!=0:
                     recorder['e']=recorder.get("e",0)+dna[0]
+                    recorder['n']=recorder.get('n',0)-dna[0]
                     for err in dna[1]:
                         if not flags[err[1]]:
                             try:
@@ -246,7 +263,7 @@ class Sampler_simu:
         for dna in out_dnas:
             dna['re'],error_recorder = self.run(dna['re'],error_recorder)
             dna['num'] = sum([tp[0] for tp in dna['re']])
-
+        
         return out_dnas,error_recorder
         
 class ErrorAdder_simu:
