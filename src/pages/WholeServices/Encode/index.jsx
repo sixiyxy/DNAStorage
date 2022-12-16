@@ -259,8 +259,10 @@ const controlZan = useMemo(
     props.setIsSynthesis(true);
     props.setEncodeAndDecodeSpinning(true);
     props.setExam(true);
-    props.setFileId("example");
+    
     const resp = await doPost("/example", { body: params1 });
+    console.log('encoderesp',resp);
+    props.setFileId(resp.file_uid);
     InfoPass1(
       resp.bit_size,
       resp.byte_size,

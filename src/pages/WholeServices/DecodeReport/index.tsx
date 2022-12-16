@@ -13,6 +13,7 @@ export class DecodeProps {
   setResetMenu;
   setEncodeSet;
   changeSider;
+  strand;
 }
 
 export const DecodeReport: React.FC<DecodeProps> = (props) => {
@@ -106,7 +107,7 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
   return (
     <div className="decode-report-wrapper">
       <Spin
-        tip="Loading..."
+        tip={props.strand > 500000? "the simulation sequences is more than 500000, the decoding time will beyond 5mins!":"Loading..."}
         size="large"
         spinning={props.spinflag}
         delay={10}

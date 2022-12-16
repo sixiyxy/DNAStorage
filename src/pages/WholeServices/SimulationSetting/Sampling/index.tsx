@@ -42,6 +42,8 @@ export const Sampling: React.FC<SamplingProps> = (props) => {
     }
     setSamplingRatio(value);
   };
+  console.log('samp',samplingRatio);
+  
   const handleOk = async () => {
     setLoading(true);
     setNoDataTipsShow(false);
