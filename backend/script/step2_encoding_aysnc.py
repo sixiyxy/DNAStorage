@@ -269,7 +269,6 @@ class Encoding():
             successful_bit_size = bit_size
             successful_byte_size = byte_size
             record_dna_sequence = [dna_idx]
-            # print(record_dna_sequence)
             fragment_info = {"original_bit_segments":original_bit_segments,
                         "record_index":record_index,
                         "connected_bit_segments":connected_bit_segments,
@@ -413,8 +412,8 @@ class Encoding():
             original_bit_segments = data["original_bit_segments"]
             payload = [''.join(map(str,i)) for i in original_bit_segments]
 
-            record_index = data["record_index"]
-            index = [''.join(map(str,i)) for i in record_index]
+            # record_index = data["record_index"]
+            # index = [''.join(map(str,i)) for i in record_index]
 
             connected_bit_segments = data['connected_bit_segments']
             index_payload = [''.join(list(map(str,i))) for i in connected_bit_segments]

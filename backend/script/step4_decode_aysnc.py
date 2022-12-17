@@ -97,12 +97,7 @@ class ClusterDecode():
         encode_dna_sequences = self.encode_data['dna_sequences']
         encode_index_payload = self.encode_data['index_payload']
         encode_bit_segment = self.encode_data['bit_sequences']
-        # print(len(encode_dna_sequences[0]),len(encode_index_payload[0]),len(encode_bit_segment[0]))
-        
-        # if self.method_name == "DNA_Fountain":
-        #     encode_index_payload = [i[self.index_length:] for i in encode_bit_segment]
-        
-        # print(len(encode_dna_sequences),encode_dna_sequences[0])
+             
         encoding_dna_sequences_set = set(encode_dna_sequences)
         encode_index_payload_set = set(encode_index_payload)
         encode_bit_segment_set = set(encode_bit_segment)
@@ -121,6 +116,7 @@ class ClusterDecode():
                              "DNA_Fountain":DNAFountain(decode_packets=len(encode_bit_segment),need_logs=False),
                              "Yin_Yang":YinYangCode(index_length =self.index_length ,need_logs=False)}
         start_time = datetime.now()
+
         decode_method = method_dict[self.method_name]
         print('### Begin decode bit segments...')
         clust_dna_sequences_list = [list(i) for i in clust_dna_sequences]
@@ -136,8 +132,6 @@ class ClusterDecode():
                 decode_bit_segments+= result['bit']
         print('### DNA sequences to bit segment Done!')
 
-
-        # print([len(i) for i in decode_result['bit']])
         # remove verify code
         if self.verify_method == False:
                 error_rate = 0
@@ -149,7 +143,6 @@ class ClusterDecode():
             error_indices = verified_data["e_bit"]
             error_rate = str(round(verified_data["e_r"] * 100, 2)) + "%"
         
-        # print('### before',verified_segments[0],len(verified_segments[0]))
         a = []
         if self.method_name == "DNA_Fountain":
             for i in verified_segments:
@@ -159,17 +152,8 @@ class ClusterDecode():
                     a.append(payload)
             verified_segments = a
 
-        # print('#### decode',verified_segments[0],len(verified_segments[0]),len(verified_segments))
-        # print('#### encode',encode_index_payload[0],len(encode_index_payload[0]))
-        decode_bit_segments_str = [''.join(list(map(str,i))) for i in decode_bit_segments]
-        decode_bit_segments_set = set(decode_bit_segments_str)
 
-        # print([len(i) for i in verified_segments])
-        decode_index_payload = [''.join(list(map(str,i))) for i in verified_segments]
-        decode_index_payload_set = set([str(segment) for segment in decode_index_payload]) 
-        # print([len(i) for i in decode_bit_segments_set])
-        decode_time = (datetime.now() - start_time).total_seconds()
-        decode_time = '%.2f s'%(decode_time)
+ 
 
         #######################################################################
         ### stat dna
@@ -177,22 +161,29 @@ class ClusterDecode():
         recall_dna_number = len(encoding_dna_sequences_set & clust_dna_sequences_set)
         recall_dna_rate = str(round(recall_dna_number/len(encoding_dna_sequences_set)*100,2)) + '%'
 
+        ### stat decode bit number
+        decode_bit_segments_str = [''.join(list(map(str,i))) for i in decode_bit_segments]
+        decode_bit_segments_set = set(decode_bit_segments_str)
+
         ### stat final bit segment rate,before verify code
-        recall_fianl_bits_num = len(encode_bit_segment_set & decode_bit_segments_set)
-        recall_final_bits_rate=  round((recall_fianl_bits_num/len(encode_bit_segment_set))*100,2)
+        # recall_fianl_bits_num = len(encode_bit_segment_set & decode_bit_segments_set)
+        # recall_final_bits_rate=  round((recall_fianl_bits_num/len(encode_bit_segment_set))*100,2)
 
         ### stat index_payload
-        # print(len(encode_bit_segment[0]))
-        # print([len(i) for i in decode_bit_segments_set])
-        # print(encode_bit_segment_set,decode_bit_segments_set)
+        decode_index_payload = [''.join(list(map(str,i))) for i in verified_segments]
+        decode_index_payload_set = set([str(segment) for segment in decode_index_payload]) 
+       
         recall_bits_num = len(encode_index_payload_set & decode_index_payload_set)
         recall_bits_rate=  round((recall_bits_num/len(encode_index_payload_set))*100,2)
-        error_bits_number = len(decode_index_payload_set) -  recall_bits_num
+        # error_bits_number = len(decode_index_payload_set) -  recall_bits_num
         # error_bits_rate = str(round(error_bits_number/len(decode_index_payload_set) * 100, 2)) + "%"
 
         ### remove index
         # indices, decode_payload = remove_index(verified_segments, self.index_length, True)
         # decode_payload = [''.join(list(map(str,i))) for i in decode_payload]
+
+        decode_time = (datetime.now() - start_time).total_seconds()
+        decode_time = '%.2f s'%(decode_time)
 
         info = {"clust_method":self.clust_method,
                         "encode_dna_sequence_number":len(encode_dna_sequences) ,
