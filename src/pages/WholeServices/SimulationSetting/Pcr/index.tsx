@@ -33,13 +33,14 @@ export class PcrProps {
   setReport;
   setSimuStrand;
   simuStrand;
+  info;
 }
 
 export const Pcr: React.FC<PcrProps> = (props) => {
   const {Option, OptGroup} = Select;
   const [countLen, setCountLen] = useState(0)
   const [pcrProbability, setPcrProbability] = useState(0.8);
-  const [pcrCycleValue, setPcrCycleValue] = useState(5);
+  const [pcrCycleValue, setPcrCycleValue] = useState(props.info.DNA_sequence_number>10000 ? 4:5);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
   const [method, setMethod] = useState("Taq");
   const [densityData, setDensityData] = useState([]);
@@ -164,7 +165,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
                 <Col span={12}>
                   <Slider
                     min={0}
-                    max={10}
+                    max={props.info.DNA_sequence_number>10000 ? 4:10}
                     onChange={monthChange}
                     value={typeof pcrCycleValue === "number" ? pcrCycleValue : 0}
                   />
@@ -172,7 +173,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
                 <Col span={4}>
                   <InputNumber
                     min={0}
-                    max={10}
+                    max={props.info.DNA_sequence_number>10000 ? 4:10}
                     style={{
                       margin: "0 16px",
                     }}

@@ -438,6 +438,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
           setReport={setReport}
           setSimuStrand={props.setSimuStrand}
           simuStrand={props.simuStrand}
+          info={props.info}
         />
         <Sampling
           fileId={props.fileId}
