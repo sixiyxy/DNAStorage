@@ -67,7 +67,7 @@ class get_progress_bar():
                         "Grass":[100,200],
                         "Blawat":[100,200],
                         "DNA_Fountain":[80,150],
-                        "Yin_Yang":[80,150]}
+                        "Yin_Yang":[80,120]}
 
         self.progress_bar_rule = {"Basic":2,
                         "Church":1,
@@ -385,7 +385,7 @@ class Encoding():
             original_bit_segments_all +=fragment_data_result['original_bit_segments']
             connected_bit_segments_all+=fragment_data_result['connected_bit_segments']
             final_bit_segments_all+=fragment_data_result['final_bit_segments']
-            dna_sequences_all+fragment_data_result['dna_sequences']
+            dna_sequences_all+=fragment_data_result['dna_sequences']
             user_record_dna_all += fragment_data_result['user_record_dna']
 
         final_record_info = {
@@ -436,8 +436,8 @@ class Encoding():
             dna_sequences = data['dna_sequences']
             # dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences]
             save_dict = {'index_payload':index_payload,
-                    'bit_sequences':final_bit_sequences,
-                    'dna_sequences':dna_sequences}
+                         'bit_sequences':final_bit_sequences,
+                         'dna_sequences':dna_sequences}
             np.savez(self.decode_file,**save_dict)
             print('### Decode file is ready!')
 
@@ -449,7 +449,7 @@ class Encoding():
             # for download file
             original_chracter_segments = data['original_bit_segments']
             index_ori_bit_sequences = data['connected_bit_segments']
-            dna_sequences = set(data["dna_sequences"])
+            dna_sequences = data["dna_sequences"]
             dna_sequences = dna_sequences_all
 
 

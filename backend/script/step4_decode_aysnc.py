@@ -118,16 +118,16 @@ class ClusterDecode():
         
         print('### Begin decode bit segments...')
         clust_dna_sequences_list = [list(i) for i in clust_dna_sequences]
-        if len(clust_dna_sequences) <10000:
-            decode_result = decode_method.carbon_to_silicon(clust_dna_sequences_list)
-            decode_bit_segments = decode_result['bit']
-        else:
+        if (len(clust_dna_sequences) > 10000) and (self.method_name not in ['DNA_Fountain',"Yin_Yang"]):
             cut_data = cut_sequences(clust_dna_sequences_list)
             with multiprocessing.Pool(self.threads) as pool:
                 parallel_results = list(pool.imap(decode_method.carbon_to_silicon,cut_data))
             decode_bit_segments = []
             for result in parallel_results:
                 decode_bit_segments+= result['bit']
+        else:
+            decode_result = decode_method.carbon_to_silicon(clust_dna_sequences_list)
+            decode_bit_segments = decode_result['bit']
 
         # remove verify code
         if self.verify_method == False:
@@ -198,7 +198,6 @@ class ClusterDecode():
         encode_index_payload_str = self.encode_data['index_payload']
         encode_dna_sequences =self.encode_data['dna_sequences']  
         encode_charaters_set = set(encode_index_payload_str) 
-        
         encoding_dna_sequences_set = set(encode_dna_sequences)
 
         # simulation dna sequence
@@ -249,7 +248,7 @@ class ClusterDecode():
             clust_dna_sequences = open(self.encode_dna).read().splitlines()
         clust_time = (datetime.now() - start_time).total_seconds()
         clust_time = '%.2f s'%(clust_time)
-        print('### Clust simulation dan sequence done.')
+        print('### Clust simulation dan sequence done!')
 
         ### decoding
         print('### Star decode dna sequences....')

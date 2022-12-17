@@ -14,7 +14,7 @@ def cut_file(file_data,encode_method):
     file_size = file_data.shape[0]
     cut_file_data = []
     if encode_method in ['DNA_Fountain',"Yin_Yang"]:
-        cut_size = 20000
+        cut_size = 400000
     else:
         if file_size <= 1000000:
             cut_size = 4000
