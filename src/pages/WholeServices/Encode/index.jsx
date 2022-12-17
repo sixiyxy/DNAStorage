@@ -380,6 +380,7 @@ const controlZan = useMemo(
             setZanRadio={setZanRadio}
             setUpload={setUpload}
             isUpload={isUpload}
+            setFileOver3M={props.setFileOver3M}
           />
         </Card>
       </div>
