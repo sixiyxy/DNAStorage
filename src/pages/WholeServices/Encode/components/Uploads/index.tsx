@@ -17,6 +17,7 @@ const Uploads: React.FC = (props: any) => {
       const islt10M = file.size / 1024 / 1024 < 6;
       const islt2M = file.size / 1024 / 1024 > 2;
       const islt100k = file.size / 1024 < 100;
+      const islt3M = file.size /1024/1024>3;
       if (!islt10M) {
         message.error("The upload file size is too large, please try with a smaller file !");
         const index = fileList.indexOf(file);
@@ -25,7 +26,11 @@ const Uploads: React.FC = (props: any) => {
       } else if (islt100k) {
         console.log("文件小于100kb");
         props.setUpload100(true);
-      } else if (islt2M) {
+      } else if(islt3M){
+        props.setFileOver3M(true);
+        props.setUpload100(false);
+      }
+      else if (islt2M) {
         props.setFileOver(true);
         props.setUpload100(false);
       } else {

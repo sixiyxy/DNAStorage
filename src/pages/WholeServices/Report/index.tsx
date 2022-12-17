@@ -32,6 +32,7 @@ export class ReportProps {
   btnNext;
   setRepoNext;
   repoNext;
+  fileOver3M;
   // setEncodeSet;
 }
 interface DataType {
@@ -203,7 +204,8 @@ export const Report: React.FC<ReportProps> = (props) => {
   return (
     <div className="encode-report-wrapper">
       <Spin
-        tip={props.fileOver2M ? "the file size is more than 2MB, the encoding time will about 2mins!" : "Loading..."}
+        tip={props.fileOver3M?"the file size is more than 3MB, the encoding time will about 4mins!":
+          (props.fileOver2M ? "the file size is more than 2MB, the encoding time will about 3mins!":"the encoding time will about 2mins")}
         size="large"
         spinning={props.encodeAndDecodeSpinning}
         // spinning={false}

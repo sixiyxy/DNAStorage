@@ -54,6 +54,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
   const [exam, setExam] = useState(false);
   const [mini, setMini] = useState(0);
   const [fileOver2M, setFileOver] = useState(false); //假设一开始不超过2M
+  const [fileOver3M,setFileOver3M] = useState(false)
   const [EncodeRepo, setEncodeRepo] = useState(false);
   const [SimuSet, setSimuSet] = useState(false);
   const [SimuRepo, setSimuRepo] = useState(false);
@@ -108,56 +109,58 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
           {siderSelect[0] === "0-0-0" ? (
             <Encode
             infos={infos}
-            setDNAinfo={setDNAinfo}
-            DNAinfos={DNAinfos}
-            changeSider={setSiderSelect}
-            fileId={fileId}
-            setFileId={setFileId}
-            setGC={setGC}
-            setHomo={setHomo}
-            setEncodeURL={setEncodeURL}
-            setFileURL={setFileURL}
-            setEnergy={setEnergy}
-            setInfo={setInfo}
-            setFileInfo={setFileInfo}
-            FileValue={FileValue}
-            fileinfo={fileinfo}
-            setIsSynthesis={setIsSynthesis}
-            setEncodeAndDecodeSpinning={setEncodeAndDecodeSpinning}
-            setExam={setExam}
-            setMini={setMini}
-            setFileOver={setFileOver}
-            setEncodeRepo={setEncodeRepo}
-            setSimuSet={setSimuSet}
-            setSimuRepo={setSimuRepo}
-            setDeSet={setDeSet}
-            setDerepo={setDerepo}
-            resetMenu={resetMenu}
-            setEncodeSet={setEncodeSet}
-            setRepoNext={setRepoNext}
-            setdecodeRepoNext={setdecodeRepoNext}
+              setDNAinfo={setDNAinfo}
+              DNAinfos={DNAinfos}
+              changeSider={setSiderSelect}
+              fileId={fileId}
+              setFileId={setFileId}
+              setGC={setGC}
+              setHomo={setHomo}
+              setEncodeURL={setEncodeURL}
+              setFileURL={setFileURL}
+              setEnergy={setEnergy}
+              setInfo={setInfo}
+              setFileInfo={setFileInfo}
+              FileValue={FileValue}
+              fileinfo={fileinfo}
+              setIsSynthesis={setIsSynthesis}
+              setEncodeAndDecodeSpinning={setEncodeAndDecodeSpinning}
+              setExam={setExam}
+              setMini={setMini}
+              setFileOver={setFileOver}
+              setEncodeRepo={setEncodeRepo}
+              setSimuSet={setSimuSet}
+              setSimuRepo={setSimuRepo}
+              setDeSet={setDeSet}
+              setDerepo={setDerepo}
+              resetMenu={resetMenu}
+              setEncodeSet={setEncodeSet}
+              setRepoNext={setRepoNext}
+              setdecodeRepoNext={setdecodeRepoNext}
+              setFileOver3M={setFileOver3M}
             />
           ) : null}
           {siderSelect[0] === "0-0-1" ? (
             <Report
             dnainfo={dnainfo}
-            GC={GC}
-            homo={homo}
-            encodeurl={encodeurl}
-            fileURL={fileURL}
-            energy={energy}
-            fileinfo={fileinfo}
-            info={info}
-            fileId={fileId}
-            encodeAndDecodeSpinning={encodeAndDecodeSpinning}
-            exam={exam}
-            mini={mini}
-            changeSider={setSiderSelect}
-            fileOver2M={fileOver2M}
-            setSimuSet={setSimuSet}
-            btnNext={btnNext}
-            repoNext={repoNext}
-            setRepoNext={setRepoNext}
+              GC={GC}
+              homo={homo}
+              encodeurl={encodeurl}
+              fileURL={fileURL}
+              energy={energy}
+              fileinfo={fileinfo}
+              info={info}
+              fileId={fileId}
+              encodeAndDecodeSpinning={encodeAndDecodeSpinning}
+              exam={exam}
+              mini={mini}
+              changeSider={setSiderSelect}
+              fileOver2M={fileOver2M}
+              setSimuSet={setSimuSet}
+              btnNext={btnNext}
+              repoNext={repoNext}
+              setRepoNext={setRepoNext}
+              fileOver3M={fileOver3M}
             />
           ) : null}
         </div>

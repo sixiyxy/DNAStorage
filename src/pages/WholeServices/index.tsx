@@ -63,6 +63,8 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [decodeData, setDecodeData] = useState();
   const [isdisabled, setIsdisabled] = useState(true);
   const [fileOver2M, setFileOver] = useState(false); //假设一开始不超过2M
+  const [fileOver3M,setFileOver3M] = useState(false)
+
   //左侧导航栏逻辑状态
   const [EncodeSet, setEncodeSet] = useState(true); //true代表可以看见
   const [EncodeRepo, setEncodeRepo] = useState(false);
@@ -198,6 +200,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setEncodeSet={setEncodeSet}
               setRepoNext={setRepoNext}
               setdecodeRepoNext={setdecodeRepoNext}
+              setFileOver3M={setFileOver3M}
             />
           ) : null}
           {siderSelect[0] === "0-0-1" ? (
@@ -220,6 +223,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               btnNext={btnNext}
               repoNext={repoNext}
               setRepoNext={setRepoNext}
+              fileOver3M={fileOver3M}
             />
           ) : null}
 
@@ -240,6 +244,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setdecodeRepoNext={setdecodeRepoNext}
               decodeRepoNext={decodeRepoNext}
               simuStrand={simuStrand}
+              info={info}
             />
           ) : null}
           {siderSelect[0] === "0-1-0" ? (
@@ -278,7 +283,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setDecodeData={setDecodeData}
               setEncodeAndDecodeSpinning={setEncodeAndDecodeSpinning}
               setDerepo={setDerepo}
-              
+              strand={strand}
             />
           ) : null}
           {siderSelect[0] === "0-2-1" ? (
@@ -291,6 +296,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               setEncodeSet={setEncodeSet}
               changeSider={setSiderSelect}
               strand={strand}
+              info={info}
             />
           ) : null}
         </div>

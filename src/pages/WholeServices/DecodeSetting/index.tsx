@@ -15,7 +15,7 @@ export class DecodeProps {
   setEncodeAndDecodeSpinning;
   setDerepo;
   setDeSet;
-  
+  strand;
 }
 
 export const DecodeSetting: React.FC<DecodeProps> = (props) => {
@@ -37,7 +37,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
   const onDecode = async function () {
     props.setDerepo(true);
     props.changeSider(["0-2-1"]);
-
+    props.setDeSet(false)
     const body = params;
     const intervalTime = 2500;
     await createAsyncStepRequest(
@@ -48,7 +48,6 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
       null,
       (resp) => {
         props.setDecodeData(resp);
-        props.setDeSet(false)
         props.setEncodeAndDecodeSpinning(false);
       }
     );
@@ -143,7 +142,7 @@ export const DecodeSetting: React.FC<DecodeProps> = (props) => {
                   <strong>Starcode: </strong>sequence clustering based on all-pairs search.
                   Bioinformatics 31.12 (2015): 1913-1919.{" "}
                 </Radio>
-                <Radio value={"cdhit"}>
+                <Radio value={"cdhit"} disabled={props.strand > 100000? true:false}>
                   <strong>CD-HIT: </strong>a fast program for clustering and comparing large sets of
                   protein or nucleotide sequences. Bioinformatics 22.13 (2006): 1658-1659.{" "}
                 </Radio>
