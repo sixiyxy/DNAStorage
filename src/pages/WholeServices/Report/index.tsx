@@ -20,7 +20,7 @@ export class ReportProps {
   fileinfo;
   fileId;
   dnainfo;
-  encodeAndDecodeSpinning;
+  encodeSpinning;
   energy;
   encodeurl;
   fileURL;
@@ -205,9 +205,9 @@ export const Report: React.FC<ReportProps> = (props) => {
     <div className="encode-report-wrapper">
       <Spin
         tip={props.fileOver3M?"the file size is more than 3MB, the encoding time will about 4mins!":
-          (props.fileOver2M ? "the file size is more than 2MB, the encoding time will about 3mins!":"the encoding time will about 2mins")}
+          (props.fileOver2M ? "the file size is more than 2MB, the encoding time will about 3mins!":"the encoding time will about 2mins!")}
         size="large"
-        spinning={props.encodeAndDecodeSpinning}
+        spinning={props.encodeSpinning}
         // spinning={false}
         delay={10}
       >

@@ -188,7 +188,7 @@ const controlZan = useMemo(
     props.setIsSynthesis(true);
     props.setEncodeSet(false)
     props.changeSider(["0-0-1"]);
-    props.setEncodeAndDecodeSpinning(true);
+    props.setencodeSpinning(true);
     props.setExam(false);
     params1.file_uid = props.fileId;
     params1.segment_length = seg;
@@ -202,7 +202,7 @@ const controlZan = useMemo(
     await createAsyncStepRequest(
       "encode",
       body,
-      props.setEncodeAndDecodeSpinning,
+      props.setencodeSpinning,
       intervalTime,
       null,
       (resp) => {
@@ -233,6 +233,7 @@ const controlZan = useMemo(
           resp.physical_information_density_g
         );
         miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
+        props.setencodeSpinning(false);
         props.setSimuSet(true);
       }
     );
@@ -257,7 +258,7 @@ const controlZan = useMemo(
     props.setEncodeSet(false)
     props.changeSider(["0-0-1"]);
     props.setIsSynthesis(true);
-    props.setEncodeAndDecodeSpinning(true);
+    props.setencodeSpinning(true);
     props.setExam(true);
     
     const resp = await doPost("/example", { body: params1 });
@@ -290,7 +291,7 @@ const controlZan = useMemo(
       resp.physical_information_density_g
     );
     miniEnergyPass(resp.min_free_energy_below_30kcal_mol);
-    props.setEncodeAndDecodeSpinning(false);
+    props.setencodeSpinning(false);
   };
   const handlereset = () => {
     setMethod("WithoutVerifycode");

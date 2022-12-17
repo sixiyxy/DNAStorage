@@ -57,7 +57,8 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [dnainfo, setDNAinfo] = useState(DNAinfos);
   const [encodeurl, setEncodeURL] = useState("");
   const [fileURL, setFileURL] = useState("");
-  const [encodeAndDecodeSpinning, setEncodeAndDecodeSpinning] = useState(true);
+  const [encodeSpinning, setencodeSpinning] = useState(true);
+  const [decodeSpinning, setDecodeSpinning] = useState(true);
   const [exam, setExam] = useState(false);
   const [mini, setMini] = useState(0);
   const [decodeData, setDecodeData] = useState();
@@ -187,7 +188,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               FileValue={FileValue}
               fileinfo={fileinfo}
               setIsSynthesis={setIsSynthesis}
-              setEncodeAndDecodeSpinning={setEncodeAndDecodeSpinning}
+              setencodeSpinning={setencodeSpinning}
               setExam={setExam}
               setMini={setMini}
               setFileOver={setFileOver}
@@ -214,7 +215,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               fileinfo={fileinfo}
               info={info}
               fileId={fileId}
-              encodeAndDecodeSpinning={encodeAndDecodeSpinning}
+              encodeSpinning={encodeSpinning}
               exam={exam}
               mini={mini}
               changeSider={setSiderSelect}
@@ -281,7 +282,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               changeSider={setSiderSelect}
               setIsDecode={setIsDecode}
               setDecodeData={setDecodeData}
-              setEncodeAndDecodeSpinning={setEncodeAndDecodeSpinning}
+              setEncodeAndDecodeSpinning={setDecodeSpinning}
               setDerepo={setDerepo}
               strand={strand}
             />
@@ -291,7 +292,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               fileId={fileId}
               isDecode={isDecode}
               decodeData={decodeData}
-              spinflag={encodeAndDecodeSpinning}
+              spinflag={decodeSpinning}
               setResetMenu={setResetMenu}
               setEncodeSet={setEncodeSet}
               changeSider={setSiderSelect}

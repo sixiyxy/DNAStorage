@@ -50,7 +50,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
   const [encodeurl, setEncodeURL] = useState("");
   const [fileURL, setFileURL] = useState("");
   const [EncodeSet, setEncodeSet] = useState(true); //true代表可以看见
-  const [encodeAndDecodeSpinning, setEncodeAndDecodeSpinning] = useState(true);
+  const [encodeSpinning, setencodeSpinning] = useState(true);
   const [exam, setExam] = useState(false);
   const [mini, setMini] = useState(0);
   const [fileOver2M, setFileOver] = useState(false); //假设一开始不超过2M
@@ -124,7 +124,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
               FileValue={FileValue}
               fileinfo={fileinfo}
               setIsSynthesis={setIsSynthesis}
-              setEncodeAndDecodeSpinning={setEncodeAndDecodeSpinning}
+              setEncodeAndDecodeSpinning={setencodeSpinning}
               setExam={setExam}
               setMini={setMini}
               setFileOver={setFileOver}
@@ -151,7 +151,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
               fileinfo={fileinfo}
               info={info}
               fileId={fileId}
-              encodeAndDecodeSpinning={encodeAndDecodeSpinning}
+              encodeSpinning={encodeSpinning}
               exam={exam}
               mini={mini}
               changeSider={setSiderSelect}
