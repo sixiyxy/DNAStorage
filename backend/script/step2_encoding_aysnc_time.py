@@ -67,7 +67,7 @@ class get_progress_bar():
                         "Grass":[100,200],
                         "Blawat":[100,200],
                         "DNA_Fountain":[80,150],
-                        "Yin_Yang":[80,120]}
+                        "Yin_Yang":[80,150]}
 
         self.progress_bar_rule = {"Basic":2,
                         "Church":1,
