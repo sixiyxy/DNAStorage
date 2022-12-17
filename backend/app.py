@@ -471,7 +471,7 @@ def encode_start():
     args = [file_uid,segment_length,index_length,verify_method,encode_method]
     encode_task = encode_celery.apply_async(args=args)
     task_id = encode_task.id
-    print(task_id)
+    print(front_data,task_id)
     return task_id
 
 @app.route('/simulation_start',methods=['GET','POST'])

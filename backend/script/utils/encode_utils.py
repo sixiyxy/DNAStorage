@@ -14,7 +14,7 @@ def cut_file(file_data,encode_method):
     file_size = file_data.shape[0]
     cut_file_data = []
     if encode_method in ['DNA_Fountain',"Yin_Yang"]:
-        cut_size = 1000000
+        cut_size = 20000
     else:
         if file_size <= 1000000:
             cut_size = 4000
@@ -116,15 +116,16 @@ def add_min_free_energydata(tools,dna_demo_file,free_enerfy_file):
 def write_dna_file(method,path,demo_path,info,dna_sequences):
     with open(path, "a+") as file:
         info_dict = dict(zip(range(len(info)),info))
-
         ### download fasta file
         if method == 'DNA_Fountain':
             index = 0
-            for dna_sequence,index_many in dna_sequences.items(): 
-                payload = '|'.join([info_dict[i] for i in index_many])
-                file.write('>{}|{}\n{}\n'.format(index,payload,''.join(dna_sequence)))
-                index+=1  
-            dna_sequences = list(dna_sequences.keys())           
+            dna_sequences_record = []
+            for cut in dna_sequences:
+                for dna_sequence,index_many in cut.items(): 
+                    payload = '|'.join([info_dict[i] for i in index_many])
+                    file.write('>{}|{}\n{}\n'.format(index,payload,''.join(dna_sequence)))
+                    index+=1  
+                dna_sequences_record += list(cut.keys())           
         elif method == 'Yin_Yang':
             for index,dna_sequence in enumerate(dna_sequences):
                 payload = info_dict[index]
@@ -132,23 +133,25 @@ def write_dna_file(method,path,demo_path,info,dna_sequences):
                     file.write('>{}|{}|fail encode!\n{}\n'.format(index,payload,''.join(dna_sequence)))
                 else:
                     file.write('>{}|{}\n{}\n'.format(index,payload,''.join(dna_sequence)))
-       
+            dna_sequences_record = dna_sequences
         elif method == 'SrcCode':
             for index,dna_sequence in enumerate(dna_sequences):
                 payload = info_dict[index]
                 file.write('>{}|{}\n{}\n'.format(index,payload,dna_sequence))
+            dna_sequences_record = dna_sequences
         else:
             for index,dna_sequence in enumerate(dna_sequences):
                 payload = info_dict[index]
                 file.write('>{}|{}\n{}\n'.format(index,payload,''.join(dna_sequence)))
+            dna_sequences_record = dna_sequences
 
     print("### Write fasta DNA sequences for dwonload: {} ".format(path))
 
     ### demo file
     if len(dna_sequences)<=1000:
-        demo_dna_sequences =dna_sequences
+        demo_dna_sequences =dna_sequences_record
     else:
-        demo_dna_sequences = random.sample(dna_sequences,1000)
+        demo_dna_sequences = random.sample(dna_sequences_record,1000)
     with open(demo_path, "a+") as demo_file:
         for index, dna_sequence in enumerate(demo_dna_sequences):
             demo_file.write("".join(dna_sequence) + "\n")

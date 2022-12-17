@@ -268,7 +268,7 @@ class Encoding():
             dna_sequences,dna_idx = encode_method.encode(final_bit_segments_copy)
             successful_bit_size = bit_size
             successful_byte_size = byte_size
-            record_dna_sequence = dna_idx
+            record_dna_sequence = [dna_idx]
             # print(record_dna_sequence)
             fragment_info = {"original_bit_segments":original_bit_segments,
                         "record_index":record_index,
@@ -375,7 +375,6 @@ class Encoding():
             dna_sequences_all += fragment_data_result['dna_sequences']
             user_record_dna_all += fragment_data_result['user_record_dna']
 
-        
         final_record_info = {
                     "bit_size":bit_szie_all,
                     'byte_size':byte_size_all,
