@@ -148,7 +148,7 @@ def write_dna_file(method,path,demo_path,info,dna_sequences):
     print("### Write fasta DNA sequences for dwonload: {} ".format(path))
 
     ### demo file
-    if len(dna_sequences)<=1000:
+    if len(dna_sequences_record)<=1000:
         demo_dna_sequences =dna_sequences_record
     else:
         demo_dna_sequences = random.sample(dna_sequences_record,1000)
