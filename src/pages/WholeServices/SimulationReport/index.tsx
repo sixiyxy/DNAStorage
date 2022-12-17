@@ -624,7 +624,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
         </Breadcrumb>
       </div>
       <div className="simulation-report-content-wrapper">
-        <Spin tip={props.info.DNA_sequence_number>10000 ? (props.simuStrand > 4000000? `The encoding DNA sequence is ${props.info.DNA_sequence_number} and simulated too many sequences, please wait 4mins !`:`The encoding DNA sequence is ${props.info.DNA_sequence_number} and simulated too many sequences, please wait 2mins!`):"Please wait 1mins!"} size="large" spinning={props.spinflags}>
+        <Spin tip={props.info.DNA_sequence_number>10000 ? (props.simuStrand > 4000000? `Simulated too many sequences and the encoding DNA sequence is ${props.info.DNA_sequence_number}, please wait 4mins !`:`Simulated too many sequences and the encoding DNA sequence is ${props.info.DNA_sequence_number}, please wait 2mins!`):"Please wait 1mins!"} size="large" spinning={props.spinflags}>
           <Card
             title="Steps Review"
             headStyle={{ backgroundColor: "#99CCFF", fontSize: "18px" }}

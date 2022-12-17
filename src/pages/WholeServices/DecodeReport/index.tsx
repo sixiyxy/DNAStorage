@@ -108,7 +108,7 @@ export const DecodeReport: React.FC<DecodeProps> = (props) => {
   return (
     <div className="decode-report-wrapper">
       <Spin
-        tip={props.info.DNA_sequence_number>20000?(props.strand > 5000000? "the simulation sequences is more than 500000, the decoding time will beyond 4mins!":"the decoding time will about 2mins!"):"the decoding time will about 1mins!"}
+        tip={props.info.DNA_sequence_number>20000?(props.strand > 5000000? `Simulated too many sequences and the encoding DNA sequence is ${props.info.DNA_sequence_number},Please wait 3mins!`:`Simulated too many sequences and the encoding DNA sequence is ${props.info.DNA_sequence_number},please wait 2mins!`):"the decoding time will about 1mins!"}
         size="large"
         spinning={props.spinflag}
         delay={10}
