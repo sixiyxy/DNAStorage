@@ -226,13 +226,12 @@ class Encoding():
         return fragment_info
 
     def encoding_normal(self,data): 
-        # print('encoding start')
+        # encoding start
         fragment_info = self.verify_code(data)
         original_bit_segments = fragment_info["original_bit_segments"]
-        record_index = fragment_info["record_index"]
         connected_bit_segments = fragment_info["connected_bit_segments"]
         final_bit_segments = fragment_info["final_bit_segments"]
-        
+        final_bit_segments_length  = len(final_bit_segments[0])
 
         # data information 
         bit_size = len(data)*8
@@ -249,6 +248,10 @@ class Encoding():
         
         if self.encode_method == 'Yin_Yang':
             dna_sequences,fail_list = encode_method.encode(final_bit_segments_copy)
+            DNA_sequence_number = len(dna_sequences)
+            DNA_sequence_length = len(dna_sequences[0])
+            dna_sequences = [''.join(i) for i in dna_sequences]
+
             record_dna_sequence = copy.deepcopy(dna_sequences)
             fail_segemnt_number = len(fail_list)
             successful_bit_size = bit_size - self.segment_length*fail_segemnt_number
@@ -259,40 +262,52 @@ class Encoding():
                 print('#### fail encoding number is {} !'.format(len(fail_list)))
                 record_dna_sequence.insert(id,'AGCT') 
 
+            original_bit_segments = [''.join(map(str,i)) for i in original_bit_segments]
+            connected_bit_segments = [''.join(map(str,i)) for i in connected_bit_segments]
+            final_bit_segments = [''.join(map(str,i)) for i in final_bit_segments]
             fragment_info = { "original_bit_segments":original_bit_segments,
-                        "record_index":record_index,
                         "connected_bit_segments":connected_bit_segments,
                         "final_bit_segments":final_bit_segments,
                         "dna_sequences":dna_sequences,
                         "user_record_dna":record_dna_sequence}
         elif self.encode_method == 'DNA_Fountain':
             dna_sequences,dna_idx = encode_method.encode(final_bit_segments_copy)
+            DNA_sequence_number = len(dna_sequences)
+            DNA_sequence_length = len(dna_sequences[0])
+            dna_sequences = [''.join(i) for i in dna_sequences]
             successful_bit_size = bit_size
             successful_byte_size = byte_size
             record_dna_sequence = [dna_idx]
+            original_bit_segments = [''.join(map(str,i)) for i in original_bit_segments]
+            connected_bit_segments = [''.join(map(str,i)) for i in connected_bit_segments]
+            final_bit_segments = [''.join(map(str,i)) for i in final_bit_segments]
             fragment_info = {"original_bit_segments":original_bit_segments,
-                        "record_index":record_index,
                         "connected_bit_segments":connected_bit_segments,
                         "final_bit_segments":final_bit_segments,
                         "dna_sequences":dna_sequences,
                         "user_record_dna":record_dna_sequence}            
         else:
             dna_sequences = encode_method.encode(final_bit_segments_copy)
+            DNA_sequence_number = len(dna_sequences)
+            DNA_sequence_length = len(dna_sequences[0])
+            dna_sequences = [''.join(i) for i in dna_sequences]
             successful_bit_size = bit_size
             successful_byte_size = byte_size
+            original_bit_segments = [''.join(map(str,i)) for i in original_bit_segments]
+            connected_bit_segments = [''.join(map(str,i)) for i in connected_bit_segments]
+            final_bit_segments = [''.join(map(str,i)) for i in final_bit_segments]
             fragment_info = {"original_bit_segments":original_bit_segments,
-                        "record_index":record_index,
                         "connected_bit_segments":connected_bit_segments,
                         "final_bit_segments":final_bit_segments,
                         "dna_sequences":dna_sequences,
                         "user_record_dna":dna_sequences}
 
         # record encode value
-        nucleotide_count = len(dna_sequences)*len(dna_sequences[0])
+        nucleotide_count = DNA_sequence_number*DNA_sequence_length
         information_density = successful_bit_size/nucleotide_count
 
         # net information density is wrong do not display
-        net_nucleotide_count = len(dna_sequences)*(len(dna_sequences[0]) - self.index_length - error_correction_length)
+        net_nucleotide_count = DNA_sequence_number*(DNA_sequence_length - self.index_length - error_correction_length)
         net_information_density = successful_bit_size/net_nucleotide_count
         information_density = round(information_density,3)
 
@@ -309,10 +324,10 @@ class Encoding():
                         "index_length":self.index_length,
                         "verify_method":self.verify_method,
                         "encode_method":self.encode_method,
-                        "DNA_sequence_number":len(dna_sequences),
+                        "DNA_sequence_number":DNA_sequence_number,
                         "verify_code_length":error_correction_length,
-                        "final_segment_bit_length":len(final_bit_segments[0]),
-                        "DNA_sequence_length":len(dna_sequences[0]),
+                        "final_segment_bit_length":final_bit_segments_length,
+                        "DNA_sequence_length":DNA_sequence_length,
                         "nucleotide_counts":nucleotide_count,
                         "information_density":information_density,
                         "net_information_density":net_information_density,
@@ -342,7 +357,6 @@ class Encoding():
         
         ### fragment data
         original_bit_segments_all= []
-        record_index_all = []
         connected_bit_segments_all = []
         final_bit_segments_all = []
         dna_sequences_all = []
@@ -368,11 +382,10 @@ class Encoding():
 
 
             fragment_data_result = result[1]
-            original_bit_segments_all += fragment_data_result['original_bit_segments']
-            record_index_all += fragment_data_result['record_index']
-            connected_bit_segments_all += fragment_data_result['connected_bit_segments']
-            final_bit_segments_all += fragment_data_result['final_bit_segments']
-            dna_sequences_all += fragment_data_result['dna_sequences']
+            original_bit_segments_all +=fragment_data_result['original_bit_segments']
+            connected_bit_segments_all+=fragment_data_result['connected_bit_segments']
+            final_bit_segments_all+=fragment_data_result['final_bit_segments']
+            dna_sequences_all+fragment_data_result['dna_sequences']
             user_record_dna_all += fragment_data_result['user_record_dna']
 
         final_record_info = {
@@ -397,7 +410,6 @@ class Encoding():
                     "physical_information_density_g":physical_information_density_g_all/result_number
                     }
         final_data = {"original_bit_segments" : original_bit_segments_all, 
-            "record_index" : record_index_all, 
             "connected_bit_segments" : connected_bit_segments_all,
             "final_bit_segments" : final_bit_segments_all,
             "dna_sequences":dna_sequences_all,
@@ -406,54 +418,28 @@ class Encoding():
         return final_record_info,final_data
     
     def record_file(self,info,data,run_time):
-        print('record and plot')
+        print('### record and plot')
         if self.encode_method in encoding_methods:
-            # for dowdload file
-            
-            original_bit_segments = data["original_bit_segments"]
-            payload = [''.join(map(str,i)) for i in original_bit_segments]
-
-            # record_index = data["record_index"]
-            # index = [''.join(map(str,i)) for i in record_index]
-
-            connected_bit_segments = data['connected_bit_segments']
-            index_payload = [''.join(list(map(str,i))) for i in connected_bit_segments]
-            
-            
-            final_bit_segments = data['final_bit_segments']
-            final_bit_sequences = [''.join(list(map(str,i))) for i in final_bit_segments]
-
-            usr_dna_sequences = data["user_record_dna"]
-            # usr_dna_sequences = [''.join(map(str,i)) for i in usr_dna_sequences]
-
-            ############################# pre download file ################################
-            # total = len(usr_dna_sequences)
-            # total_id =range(total)
-            # download_dict = {'total':total,
-            #                  'payload':dict(zip(total_id,payload)),
-            #                  'index':dict(zip(total_id,index)),
-            #                  'index_payload':dict(zip(total_id,index_payload)),
-            #                  'index_payload_verfiycode':dict(zip(total_id,final_bit_sequences)),
-            #                  'DNA_sequence':dict(zip(total_id,usr_dna_sequences))}
-            # download_normal_small(self.user_download_file,download_dict)
-
             print('### Write download file...')
-            
-            # for simulation enerfy
+            # for dowdload file
+            payload = data["original_bit_segments"]
+            index_payload = data['connected_bit_segments']
+            final_bit_sequences= data['final_bit_segments']
+            usr_dna_sequences = data["user_record_dna"]
             demo_dna_sequences = write_dna_file(method=self.encode_method,path=self.dna_file,
-            demo_path=self.dna_demo_file,
-            info=payload,
-            dna_sequences = usr_dna_sequences)
-
-
+                                                demo_path=self.dna_demo_file,
+                                                info=payload,
+                                                dna_sequences = usr_dna_sequences)
             print('### Write download txt done!')
+            
+            print('### Prepare decode files...' )
             dna_sequences = data['dna_sequences']
-            dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences]
-
+            # dna_sequences = [''.join(list(map(str,i))) for i in dna_sequences]
             save_dict = {'index_payload':index_payload,
                     'bit_sequences':final_bit_sequences,
                     'dna_sequences':dna_sequences}
             np.savez(self.decode_file,**save_dict)
+            print('### Decode file is ready!')
 
             info['verify_code_length'] = '{} bits'.format(info['verify_code_length'])
             info['final_segment_bit_length'] = '{} bits'.format(info['final_segment_bit_length'])
@@ -463,18 +449,24 @@ class Encoding():
             # for download file
             original_chracter_segments = data['original_bit_segments']
             index_ori_bit_sequences = data['connected_bit_segments']
-            dna_sequences = data["dna_sequences"]
+            dna_sequences = set(data["dna_sequences"])
             dna_sequences = dna_sequences_all
+
+
             # for decode data
+            print('### Prepare decode files...' )
             save_dict = {'index_payload':index_ori_bit_sequences,
                         'dna_sequences':dna_sequences}
             np.savez(self.decode_file,**save_dict)
+            print('### Decode file is ready!')
+
             # for user
+            print('### Write download file...')
             original_chracter_segments = [i.replace('\n',' <n> ') for i in original_chracter_segments] 
             demo_dna_sequences = write_dna_file(method=self.encode_method,
-            path=self.dna_file,demo_path=self.dna_demo_file,
-            info=original_chracter_segments,dna_sequences=dna_sequences_all)
-            # download_txt(self.user_download_file,dna_sequences,original_chracter_segments)
+                                path=self.dna_file,demo_path=self.dna_demo_file,
+                                info=original_chracter_segments,dna_sequences=dna_sequences_all)
+            print('### Write download txt done!')
 
 
         # record run time
@@ -487,20 +479,16 @@ class Encoding():
         info['homo_data'] = homo_data
         print('### get GC plot and repeated length plot data, Done !')
 
-        # energy_info = add_min_free_energydata(self.min_free_energy_tools,
-        #                                       self.dna_demo_file,
-        #                                      self.free_enerfy_file)
-        # info['min_free_energy'] = energy_info['min_free_energy'] 
-        # info['min_free_energy_below_30kcal_mol'] = energy_info['min_free_energy_below_30kcal_mol']
-        # info['energy_plot']=energy_info['energy_plot']
-        # print('### Free energy plot data, Done !')
+        energy_info = add_min_free_energydata(self.min_free_energy_tools,
+                                              self.dna_demo_file,
+                                             self.free_enerfy_file)
+        info['min_free_energy'] = energy_info['min_free_energy'] 
+        info['min_free_energy_below_30kcal_mol'] = energy_info['min_free_energy_below_30kcal_mol']
+        info['energy_plot']=energy_info['energy_plot']
+        print('### Free energy plot data, Done !')
         
         # format data
-        # filebytes = info['byte_size']
-        # filebytes_kb = filebytes/1024
-        # filebytes_mb = filebytes_kb/1024
         info['nucleotide_counts'] = '{} nt'.format(info['nucleotide_counts'])
-        # info['DNA_sequence_length'] = '{} nt'.format(info['DNA_sequence_length'])
         physical_information_density_ug = '{} petabyte/gram'.format('%.2E'%Decimal(info['physical_information_density_ug'])),
         physical_information_density_g = '{} petabyte/ug'.format('%.2E'%Decimal(info['physical_information_density_g']))
         info['physical_information_density_g'] = physical_information_density_g
@@ -515,9 +503,7 @@ class Encoding():
             info['segment_length'] = '{} bits'.format(info['segment_length'])
             info['index_length'] = '{} bits'.format(info['index_length'])
         info["encode_method"] = display_dict[info["encode_method"]]
-
         info["verify_method"] = display_dict[info["verify_method"]]
-        
         
         return info
 
@@ -601,30 +587,6 @@ class Encoding():
         return record_info
 
 if __name__ == '__main__':
-    # obj = Encoding(file_uid=1594899412327469056,
-    #               encode_method='SrcCode',
-    #               segment_length=None,
-    #               index_length=None,
-    #               verify_method=None)
-    # print('here')
-    # {"file_uid":1565237658387615744,
-    # "segment_length":160,
-    # "index_length":20,
-    # "verify_method":"Hamming",
-    # "encode_method":"Basic"}
-    # obj = Encoding(file_uid=1565536927137009664,
-    #               encode_method='DNA_Fountain',
-    #               segment_length=160,
-    #               index_length=20,
-    #               verify_method="Hamming")
-    # encoding_methods = {
-    # "Basic":BaseCodingAlgorithm(need_logs=False),
-    # "Church":Church(need_logs=False),
-    # "Goldman":Goldman(need_logs=False),
-    # "Grass":Grass(need_logs=False),
-    # "Blawat":Blawat(need_logs=False),
-    # "DNA_Fountain":DNAFountain(redundancy=0.5,need_logs=False),
-    # "Yin_Yang":YinYangCode(need_logs=False)}
     obj = Encoding(file_uid=1594952553521614848,
                   encode_method='Church',
                   segment_length=120,

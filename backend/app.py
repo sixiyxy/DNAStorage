@@ -8,7 +8,7 @@ from flask import request,send_from_directory
 from flask_cors import CORS
 
 from script.step1_get_file_uid import get_file_uid
-from script.step2_encoding_aysnc import Encoding,get_progress_bar
+from script.step2_encoding_aysnc_time import Encoding,get_progress_bar
 import script.step3_simulation_aysnc as simu_utils
 from script.step4_decode_aysnc import ClusterDecode
 from script.utils.simulation_utils import is_fasta,fasta_to_dna

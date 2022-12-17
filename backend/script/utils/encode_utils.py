@@ -123,16 +123,16 @@ def write_dna_file(method,path,demo_path,info,dna_sequences):
             for cut in dna_sequences:
                 for dna_sequence,index_many in cut.items(): 
                     payload = '|'.join([info_dict[i] for i in index_many])
-                    file.write('>{}|{}\n{}\n'.format(index,payload,''.join(dna_sequence)))
+                    file.write('>{}|{}\n{}\n'.format(index,payload,dna_sequence))
                     index+=1  
                 dna_sequences_record += list(cut.keys())           
         elif method == 'Yin_Yang':
             for index,dna_sequence in enumerate(dna_sequences):
                 payload = info_dict[index]
                 if dna_sequence == 'AGCT':
-                    file.write('>{}|{}|fail encode!\n{}\n'.format(index,payload,''.join(dna_sequence)))
+                    file.write('>{}|{}|fail encode!\n{}\n'.format(index,payload,dna_sequence))
                 else:
-                    file.write('>{}|{}\n{}\n'.format(index,payload,''.join(dna_sequence)))
+                    file.write('>{}|{}\n{}\n'.format(index,payload,dna_sequence))
             dna_sequences_record = dna_sequences
         elif method == 'SrcCode':
             for index,dna_sequence in enumerate(dna_sequences):
@@ -142,7 +142,7 @@ def write_dna_file(method,path,demo_path,info,dna_sequences):
         else:
             for index,dna_sequence in enumerate(dna_sequences):
                 payload = info_dict[index]
-                file.write('>{}|{}\n{}\n'.format(index,payload,''.join(dna_sequence)))
+                file.write('>{}|{}\n{}\n'.format(index,payload,dna_sequence))
             dna_sequences_record = dna_sequences
 
     print("### Write fasta DNA sequences for dwonload: {} ".format(path))

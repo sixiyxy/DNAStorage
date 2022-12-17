@@ -7,7 +7,7 @@ from datetime import datetime
 from celery import Celery
 
 
-from script.step2_encoding_aysnc import Encoding
+from script.step2_encoding_aysnc_time import Encoding
 import script.step3_simulation_aysnc as simu_utils
 from script.step4_decode_aysnc import ClusterDecode
 

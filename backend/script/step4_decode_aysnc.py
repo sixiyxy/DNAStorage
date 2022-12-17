@@ -100,8 +100,6 @@ class ClusterDecode():
              
         encoding_dna_sequences_set = set(encode_dna_sequences)
         encode_index_payload_set = set(encode_index_payload)
-        encode_bit_segment_set = set(encode_bit_segment)
-
 
         # simulation dna sequence
         simulation_dna_seq = open(self.simulation_dna_file).read().splitlines()[1::2]
@@ -116,8 +114,8 @@ class ClusterDecode():
                              "DNA_Fountain":DNAFountain(decode_packets=len(encode_bit_segment),need_logs=False),
                              "Yin_Yang":YinYangCode(index_length =self.index_length ,need_logs=False)}
         start_time = datetime.now()
-
         decode_method = method_dict[self.method_name]
+        
         print('### Begin decode bit segments...')
         clust_dna_sequences_list = [list(i) for i in clust_dna_sequences]
         if len(clust_dna_sequences) <10000:
@@ -130,7 +128,6 @@ class ClusterDecode():
             decode_bit_segments = []
             for result in parallel_results:
                 decode_bit_segments+= result['bit']
-        print('### DNA sequences to bit segment Done!')
 
         # remove verify code
         if self.verify_method == False:
@@ -141,7 +138,7 @@ class ClusterDecode():
             verified_data = self.verify_method.remove(decode_bit_segments)
             verified_segments = verified_data['bit']
             error_indices = verified_data["e_bit"]
-            error_rate = str(round(verified_data["e_r"] * 100, 2)) + "%"
+            # error_rate = str(round(verified_data["e_r"] * 100, 2)) + "%"
         
         a = []
         if self.method_name == "DNA_Fountain":
@@ -151,9 +148,7 @@ class ClusterDecode():
                     payload = i[id:]
                     a.append(payload)
             verified_segments = a
-
-
- 
+        print('### DNA sequences to bit segment Done!')
 
         #######################################################################
         ### stat dna
