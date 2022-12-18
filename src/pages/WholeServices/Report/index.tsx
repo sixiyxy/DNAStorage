@@ -33,6 +33,9 @@ export class ReportProps {
   setRepoNext;
   repoNext;
   fileOver3M;
+  setBtnNext;
+  setEncodeSet;
+  setIsSynthesis;
   // setEncodeSet;
 }
 interface DataType {
@@ -201,6 +204,12 @@ export const Report: React.FC<ReportProps> = (props) => {
     props.changeSider(["0-1-0"]);
     props.setRepoNext(true)
   };
+  const handleNew=()=>{
+    props.changeSider(["0-0-0"]);
+    props.setEncodeSet(true)
+    props.setIsSynthesis(true)
+
+  }
   return (
     <div className="encode-report-wrapper">
       <Spin
@@ -347,7 +356,16 @@ export const Report: React.FC<ReportProps> = (props) => {
                 >
                   Next
                 </Button>
-              ) : null}
+              ) : <Button
+              style={{ marginLeft: "100px", width: "110px" }}
+              type="primary"
+              shape="round"
+              size={size}
+              disabled={props.repoNext}
+              onClick={handleNew}
+            >
+              New Start
+            </Button>}
             </div>
           </Card>
         </div>

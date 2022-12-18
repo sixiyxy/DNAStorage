@@ -16,6 +16,7 @@ export class SimulationReportProps {
   clickEXM;
   time3min;
   standCount;
+  setSimuSet;
 }
 interface DataType {
   key: string;
@@ -888,6 +889,10 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
       value1: sequencingData?.seq_meth,
     },
   ];
+  const handleNew=()=>{
+    props.changeSider(["0-1-0"]);
+    props.setSimuSet(true)
+  }
   return (
     <div className="simulation-report-wrapper">
       <div className="simulation-report-nav-wrapper">
@@ -1065,6 +1070,9 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
               <div className="simulation-report-button-group">
                 <Button shape="round" size="large" type="primary" onClick={DownloadURL} icon={<DownloadOutlined />} style={{backgroundColor:isClickDown ? '#99CCFF':' '}}>
                   Download
+                </Button>
+                <Button shape="round" size="large" type="primary" onClick={handleNew} style={{marginLeft:"80px"}}>
+                  New Start
                 </Button>
               </div>
             </div>

@@ -35,6 +35,7 @@ export class SimulationSetProps {
   clickEXM?;
   setTime;
   setStrandCount;
+  setSimuSet;
 }
 
 let method = [false, false, false, false]; //存放选择的方法
@@ -81,6 +82,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
   let overCount = false;
   const { Dragger } = Upload;
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (props.setIsdisabled) {
       props.setIsdisabled(true);
     }
@@ -111,6 +113,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     method = [false, false, false, false];
     props.setIsdisabled(false);
     props.changeSider(["0-1-1"]);
+    props.setSimuSet(false)
   };
   const handleDecay = () => {
     method[0] = !method[0];
@@ -191,6 +194,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
     // setExamFlag(true);
     setAlreadyRun(true);
     GotoCard();
+    setdefaultFlag(true)
     method = [true, true, true, true];
     //点击Example后按钮全部禁掉 默认id"1582175684011364352"
     setOkFlag(true);
@@ -325,7 +329,10 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                     other stages are optional, you could simply skip some based on your needs.
                     What's more, you could directly get feedback about how the density changes after
                     setting up each stage and have a detailed report about how errors are introduced
-                    and occur at the end.
+                    and occur at the end. <br></br>
+                    <span style={{paddingLeft:"20px"}}>The example button is used to simulate the encoded DNA sequence of the example file. 
+                    After the user uploads his own fasta file, they can use the default button to simulate 
+                    the error with default parameters.</span>
                   </p>
                 </div>
                 {/*一开始example亮,default灭;上传文件后，default亮，example灭;*/}
