@@ -84,7 +84,7 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
   const [sequencingData, setSequenceingData] = useState();
   const [errorRecoder, setErrorRecode] = useState();
   const [errorDensity, setErrorDensity] = useState();
-  const [btnNext, setBtnNext] = useState(true);
+  const [btnNext, setBtnNext] = useState(true); //true为全流程
   const [strand, setStrand] = useState(0);
   //控制repo的next
   const [repoNext,setRepoNext] = useState(false) //能看见一开始
@@ -225,6 +225,9 @@ export const WholeServices: React.FC<ServicesProps> = (props) => {
               repoNext={repoNext}
               setRepoNext={setRepoNext}
               fileOver3M={fileOver3M}
+              setBtnNext={setBtnNext}
+              setEncodeSet={setEncodeSet}
+              setIsSynthesis={setIsSynthesis}
             />
           ) : null}
 

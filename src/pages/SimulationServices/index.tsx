@@ -20,6 +20,7 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
   const [siderSelect, setSiderSelect] = useState(["0-1-0"]);
   const [fileId, setFileId] = useState("");
   const [isdisabled, setIsdisabled] = useState(true);
+  const [SimuSet, setSimuSet] = useState(true);//一开始可以看见
   const [clickEXM, setclickEXM] = useState(false);
   const [time3min,setTime]=useState(false)
   const [standCount,setStrandCount] = useState(0)
@@ -36,6 +37,7 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
           {
             label: "Setting",
             key: "0-1-0",
+            disabled:!SimuSet
           },
           {
             label: "Report",
@@ -45,7 +47,7 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
         ],
       },
     ];
-  }, [isdisabled]);
+  }, [SimuSet,isdisabled]);
 
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
@@ -77,10 +79,11 @@ export const SimulationServices: React.FC<ServicesProps> = (props) => {
               needUploader={true}
               setTime={setTime}
               setStrandCount={setStrandCount}
+              setSimuSet={setSimuSet}
             />
           ) : null}
           {siderSelect[0] === "0-1-1" ? (
-            <SimulationReport fileId={fileId} clickEXM={clickEXM} time3min={time3min} standCount={standCount}/>
+            <SimulationReport fileId={fileId} clickEXM={clickEXM} time3min={time3min} standCount={standCount} changeSider={setSiderSelect} setSimuSet={setSimuSet}/>
           ) : null}
         </div>
       </div>

@@ -62,7 +62,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
   const [DeRepo, setDerepo] = useState(false);
   const [repoNext,setRepoNext] = useState(false) //能看见一开始
   const [decodeRepoNext,setdecodeRepoNext] = useState(false)
-  const [btnNext, setBtnNext] = useState(false);
+  const [btnNext, setBtnNext] = useState(false); //true为全流程
   //控制所有导航栏全部展示完毕恢复原始的状态
   const [resetMenu, setResetMenu] = useState(false); //还没有全部展示完
 
@@ -78,6 +78,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
           {
             label: "Setting",
             key: "0-0-0",
+            disabled: !EncodeSet,
           },
           {
             label: "Report",
@@ -87,7 +88,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
         ],
       },
     ];
-  }, [isSynthesis]);
+  }, [EncodeSet,isSynthesis]);
   const onClick: MenuProps["onClick"] = (e) => {
     setSiderSelect([e?.key]);
   };
@@ -142,7 +143,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
           ) : null}
           {siderSelect[0] === "0-0-1" ? (
             <Report
-            dnainfo={dnainfo}
+              dnainfo={dnainfo}
               GC={GC}
               homo={homo}
               encodeurl={encodeurl}
@@ -161,6 +162,9 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
               repoNext={repoNext}
               setRepoNext={setRepoNext}
               fileOver3M={fileOver3M}
+              setBtnNext={setBtnNext}
+              setEncodeSet={setEncodeSet}
+              setIsSynthesis={setIsSynthesis}
             />
           ) : null}
         </div>
