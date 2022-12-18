@@ -132,6 +132,10 @@ class ClusterDecode():
             decode_result = decode_method.carbon_to_silicon(clust_dna_sequences_list)
             decode_bit_segments = decode_result['bit']
 
+        ### stat decode bit number
+        decode_bit_segments_str = [''.join(list(map(str,i))) for i in decode_bit_segments]
+        decode_bit_segments_set = set(decode_bit_segments_str)
+
         # remove verify code
         if self.verify_method == False:
                 error_rate = 0
@@ -158,10 +162,6 @@ class ClusterDecode():
         clust_dna_sequences_set = set(clust_dna_sequences)
         recall_dna_number = len(encoding_dna_sequences_set & clust_dna_sequences_set)
         recall_dna_rate = str(round(recall_dna_number/len(encoding_dna_sequences_set)*100,2)) + '%'
-
-        ### stat decode bit number
-        decode_bit_segments_str = [''.join(list(map(str,i))) for i in decode_bit_segments]
-        decode_bit_segments_set = set(decode_bit_segments_str)
 
         ### stat final bit segment rate,before verify code
         # recall_fianl_bits_num = len(encode_bit_segment_set & decode_bit_segments_set)
