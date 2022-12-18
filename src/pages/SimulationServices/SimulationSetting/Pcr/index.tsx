@@ -38,7 +38,7 @@ export const Pcr: React.FC<PcrProps> = (props) => {
   const {Option, OptGroup} = Select;
   const [countLen, setCountLen] = useState(0)
   const [pcrProbability, setPcrProbability] = useState(0.8);
-  const [pcrCycleValue, setPcrCycleValue] = useState(5);
+  const [pcrCycleValue, setPcrCycleValue] = useState(2);
   const [noDataTipsShow, setNoDataTipsShow] = useState(true);
   const [method, setMethod] = useState("Taq");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -171,16 +171,16 @@ export const Pcr: React.FC<PcrProps> = (props) => {
               <Row>
                 <Col span={12}>
                   <Slider
-                    min={0}
-                    max={10}
+                    min={1}
+                    max={5}
                     onChange={monthChange}
                     value={typeof pcrCycleValue === "number" ? pcrCycleValue : 0}
                   />
                 </Col>
                 <Col span={4}>
                   <InputNumber
-                    min={0}
-                    max={10}
+                    min={1}
+                    max={5}
                     style={{
                       margin: "0 16px",
                     }}

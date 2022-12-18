@@ -181,7 +181,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                 <Row>
                   <Col span={12}>
                     <Slider
-                      min={10}
+                      min={1}
                       max={20}
                       onChange={cycleChange}
                       value={typeof cycleValue === "number" ? cycleValue : 0}
@@ -190,7 +190,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   <Col span={4}>
                     <InputNumber
                       className="simulation-input"
-                      min={10}
+                      min={1}
                       max={20}
                       value={cycleValue}
                       onChange={cycleChange}

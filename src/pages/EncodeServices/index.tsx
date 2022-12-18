@@ -124,7 +124,7 @@ export const EncodeServices: React.FC<ServicesProps> = (props) => {
               FileValue={FileValue}
               fileinfo={fileinfo}
               setIsSynthesis={setIsSynthesis}
-              setEncodeAndDecodeSpinning={setencodeSpinning}
+              setencodeSpinning={setencodeSpinning}
               setExam={setExam}
               setMini={setMini}
               setFileOver={setFileOver}
