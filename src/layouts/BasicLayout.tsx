@@ -3,6 +3,7 @@ import MenuItem from "antd/lib/menu/MenuItem";
 import React from "react";
 import { Link, Outlet, Route, useNavigate } from "react-router-dom";
 import "./BasicLayout.less";
+import zhijiang from "../assets/service/zhijiang.png";
 import AntdIcon from "../components/base/AntdIcon";
 import {SettingOutlined,AppstoreOutlined } from '@ant-design/icons';
 import {doGet, doPost} from "../utils/request";
@@ -116,11 +117,13 @@ export const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
                 />
               </div>
             </Col>
-            <Col xxl={5} xl={7} lg={8} xs={24}>
-              <div className="logo">
+            <Col xxl={3} xl={7} lg={8} xs={24}>
+              <div className="logo" >
                 <img
-                    src="https://www.zhejianglab.com/statics/images/whitelogo.png"
+                    // src="https://www.zhejianglab.com/statics/images/whitelogo.png"
+                    src={zhijiang}
                     alt="zhijianglab"
+                    style={{width:"290px",height:"140px"}}
                 />
               </div>
             </Col>
