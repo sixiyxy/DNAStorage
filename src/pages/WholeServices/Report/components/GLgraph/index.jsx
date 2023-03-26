@@ -6,6 +6,8 @@ const GLgraph = (props) => {
   const data = useMemo(() => {
     return props.GC;
   }, [props.GC]);
+//  console.log(props.GC)
+  
   const config = {
     data,
     xField: "x_value",

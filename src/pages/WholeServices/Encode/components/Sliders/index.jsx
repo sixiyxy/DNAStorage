@@ -8,10 +8,12 @@ const Sliders = (props) => {
   
   //获取segment和index的值
   const onAfterChange_seg = (value1) => {
+    //获取鼠标放开之后的那个值
     props.setSeg(value1);
     
   };
   const onChange_seg = (value1) => {
+    //这里获取的是鼠标不断移动的值
     props.SetSegvalue(value1);
     
   };

@@ -23,6 +23,9 @@ export const createAsyncStepRequest = async (
   const url = StepUrlMap[step];
 
   setSpin(true);
+  //首先请求页面主体任务的后端接口，返回一个taskID。此时开启了一个定时器，定时器每隔5s请求一次轮询任务。如果一直没有返回值，则一直请求。
+  //如果成功或者出错了，则需要清除循环并且关闭加载页面。如果成功，执行后置回调。
+
   const taskId = await doPost(url, { body: requestBody });
 
   const it = setInterval(async () => {

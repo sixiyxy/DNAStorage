@@ -21,6 +21,7 @@ module.exports = {
 
     // proxy: 'http://10.61.38.135:5000',
     // Various Dev Server settings
+    //指定使用一个 可以访问静态资源的地址
     host: "localhost", // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,

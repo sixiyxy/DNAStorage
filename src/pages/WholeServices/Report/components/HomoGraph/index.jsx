@@ -5,8 +5,14 @@ import { Area } from "@ant-design/plots";
 
 const HomoGraph = (props) => {
   const data = useMemo(() => {
+    console.log(props.homo)
+    let objj = {'x_value':0,'y_value':0}
+    props.homo.unshift(objj)
+    console.log(props.homo)
     return props.homo;
   }, [props.homo]);
+
+  
   const config = {
     data,
     xField: "x_value",
