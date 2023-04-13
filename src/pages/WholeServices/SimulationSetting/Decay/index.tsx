@@ -199,7 +199,7 @@ export const Decay: React.FC<DecayProps> = (props) => {
             <div className="simulation-row">
               <div style={{paddingTop:'15px'}}>
               <span>Storage host :</span>
-              <Select onChange={handleChange} value={method} className="simulation-selector">
+              <Select onChange={handleChange} value={method} listHeight={400} className="simulation-selector" >
                 <OptGroup label="Eukaryotic">
                   <Option value="Hsapiens">H sapiens</Option>
                   <Option value="Mmusculus">M musculus </Option>

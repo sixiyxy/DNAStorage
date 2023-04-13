@@ -178,6 +178,7 @@ export const Sequencing: React.FC<SequencingProps> = (props) => {
                     className="simulation-selector"
                     onChange={handleChange}
                     value={method}
+                    listHeight={360}
                   >
                     <OptGroup label="Illumina">
                       <Option value="ill_PairedEnd">PairedEnd</Option>

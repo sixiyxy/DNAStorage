@@ -235,6 +235,7 @@ export const Synthesis: React.FC<SynthesisProps> = (props) => {
                   className="simulation-selector"
                   onChange={handleChange}
                   value={method}
+                  listHeight={400}
                 >
                   <OptGroup label="Column Synthesized Oligos">
                     <Option value="ErrASE">ErrASE</Option>
