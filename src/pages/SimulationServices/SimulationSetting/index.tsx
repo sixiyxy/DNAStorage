@@ -346,16 +346,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
                 >
                   Example
                 </Button>
-                <Button
-                  className="exm"
-                  // type="primary"
-                  shape="round"
-                  size="large"
-                  onClick={handleDefault}
-                  disabled={defaultFlag}
-                >
-                  Default
-                </Button>
+                
               </div>
             </Col>
             <Col span={10}>
@@ -460,7 +451,7 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
               </Button>
             </div>
 
-            <div>
+            <div className="second-header-button">
               <Button
                 className="simulation-setting-header-button-ok"
                 type="primary"
@@ -471,6 +462,16 @@ export const SimulationSetting: React.FC<SimulationSetProps> = (props) => {
               >
                 OK
               </Button>
+              <Button
+                  className="exm"
+                  // type="primary"
+                  shape="round"
+                  size="large"
+                  onClick={handleDefault}
+                  disabled={defaultFlag}
+                >
+                  Default
+                </Button>
             </div>
           </div>
         </Card>

@@ -613,14 +613,12 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
             <div id="decode">
               <h3 id="decode-title1">1.3 Decode</h3>
               <p id="text-content">
-                In this last stage, we need to decode the DNA sequences according to the reverse
-                rules of the encoding ones. However, DNA strands obtained in this stage usually have
-                random errors( insert\indel\SNV, we have simulated this). So, we embedded two
-                clustering algorithms, CD-HIT and Starcode, to remove de-redundancy and correct the
-                data. Then, the clustered sequences will be decoded to obtain bits fragments.
-                Subsequently, the bits fragments will be removed from the verification code and
-                index code. Finally, we analyze the recovery information of bits fragment in the
-                report.
+              In this last stage, we need to decode the simulated DNA sequences according to the reverse rules of the encoding ones. 
+              However, DNA strands passed to this stage usually have random errors( insertion\indeletion\substitution, we have simulated this). 
+              So, we embedded two clustering algorithms, CD-HIT and Starcode, to remove redundancy and correct the data. 
+              Then, the clustered sequences will be decoded to obtain bit fragments. 
+              Subsequently, the the verification code and index code are removed from the bit fragments. 
+              Finally, we analyze the recovery information of bit fragments in the report.
               </p>
               <h3 id="decode-title2">1.3.1 Clustering algorithms</h3>
               <pre id="code_block">

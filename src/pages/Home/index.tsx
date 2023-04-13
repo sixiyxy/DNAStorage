@@ -17,7 +17,7 @@ export const Home: React.FC<HomeProps> = (props) => {
   return (
     <div className="home">
       <div className="home-content1" style={{ height: "100%", backgroundColor: "#1B5585" }}>
-        <h1 style={{ color: "white", paddingTop: "100px", fontSize: "30px" }}>
+        <h1 style={{ color: "white", paddingTop: "100px", fontSize: "33px" }}>
           {" "}
           <strong>Welcome to the DNA Storage Designer</strong>
         </h1>
@@ -32,17 +32,16 @@ export const Home: React.FC<HomeProps> = (props) => {
             textAlign: "justify",
           }}
         >
-          DNA Storage Designer is an easy-to-use online web-server that covers the simulation of
-          whole process of DNA storage application. It includes eight popular encoding methods and
-          realizes the corresponding decoding process. Users can choose freely and convert uploaded files into DNA sequences. In addition, it also simulates the sequence
-          errors in the five DNA sequences storage processes of synthesis, decay, PCR, sampling and
-          sequencing. Users can not only use independent 'Encode' modules to encode files and obtain
-          DNA sequences for vivo/in vivo storage experiments, but also could upload DNA sequences to
-          simulate sequence errors during storage by the 'Simulation' modules. Aiming to provide
-          user-friendly services, this website embeds the most popular methods and platforms
-          related to DNA storage instead of asking users for complex parameters. It also provides
-          thorough guidelines and simulated feedback based on user settings so that user could
-          adjust their experimental plan accordingly.
+          In recent times, synthetic DNA has garnered significant attention as a molecular medium for digital data storage owing to its superior characteristics. 
+          These include theoretical retention time, power consumption, and storage density that surpass conventional electronic memory devices. 
+          As a result, synthetic DNA has emerged as a highly promising medium for digital data storage. 
+          However, practical applications of synthetic DNA are limited due to uncertainties in in vitro DNA synthesis and sequencing, 
+          conjugation chemistry, and preservation conditions. These issues can result in significant errors and data loss. 
+          Thus, DNA Storage Designer is proposed to simulate the workflow of the whole system to guide the design of the experiments. 
+          This approach comprises three main stages for wet experiments: encoding, error simulation, and decoding. 
+          To provide user-friendly services, the website embeds popular methods and platforms related to DNA storage instead of asking users for complex parameters. 
+          It also offers comprehensive guidelines and simulated feedback based on user settings to help users adjust their experimental plans accordingly.
+
         </p>
         <div style={{ paddingTop: "30px", textAlign:"center"}}>
           <img
@@ -77,9 +76,12 @@ export const Home: React.FC<HomeProps> = (props) => {
           <div className="home-introduce-item">
             <h2>Encode File</h2>
             <p style={{ fontSize: "19px", textAlign: "justify" }}>
-              The encode service integrates the most common and popular encoding and
-              verifying methods about DNA storage. After uploading the file, users could simply select corresponding
-              methods and elegantly set the segment length. The result makes a visual analysis of the encoded file and presents relevant information.
+            The very first step for DNA Storage experiment is to encode files(usually binary format) into DNA bases(A,C,G,T) and sequences. 
+            Therefore, we could synthesis the sequences and store the files accordingly. 
+            The encode service integrates eight encoding and two verifying methods about DNA storage. 
+            After uploading the file, users could simply select corresponding methods and elegantly set the segment length. 
+            The result makes a visual analysis of the encoded file and presents relevant information.
+
             </p>
           </div>
           <div className="home-introduce-item">

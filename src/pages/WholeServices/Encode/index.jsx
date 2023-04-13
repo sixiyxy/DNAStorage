@@ -326,12 +326,11 @@ const controlZan = useMemo(
                 <div className="decode-button-group">
                   <div className="summary-word">
                     <p>
-                      The encode service integrates the most common and popular DNA storage encoding
-                      and verifying methods. After uploading the file, users could simply select
-                      corresponding methods, set the segment length,
-                      and wait for the result. The website will not only convert the file into DNA
-                      sequences but also calculate GC content and homopolymer length as well as the
-                      minimum free energy out directly.
+                    In this page, you could encode your uploaded file into DNA sequences, which is the first step for storing your digital files into DNA strands. 
+                    To start, you need to upload files(Supported types: jpg, pnt, txt, mp4, mp4, exe...), select encoding method, 
+                    set the desired length of DNA segments and determine the appropriate verification code to use. 
+                    As such, you could embark on a fantastic simulation journey in DNA Storage. 
+
                     </p>
                   </div>
                   <Button

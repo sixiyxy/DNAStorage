@@ -291,7 +291,7 @@ export const Report: React.FC<ReportProps> = (props) => {
                 fontSize: "15px",
               }}
             >
-              <h3>Repeated Sequences Length</h3>
+              <h3>The length of repeated sequences</h3>
               <HomoGraph homo={props.homo} />
             </div>
             <div id="homo-word">

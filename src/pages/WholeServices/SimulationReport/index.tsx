@@ -704,7 +704,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             title="Simulation Result"
             headStyle={{ backgroundColor: "#99CCFF", fontSize: "18px" }}
           >
-            <p style={{ textAlign: "justify" }}>
+            <p style={{ textAlign: "justify",padding: "20px 200px 0 180px"}}>
               During simulation, sequence density, distribution and error occurrance vary from
               stages. Down below, we provide a Sequence distribution and a Error counts diagram to
               illustrate these change tendency. Simple explanation are provided beneath the diagrams
@@ -714,7 +714,7 @@ export const SimulationReport: React.FC<SimulationReportProps> = (props) => {
             <h3>
               <strong>Sequences distribution</strong>
             </h3>
-            <div style={{ padding: "50px 150px 0 150px" }}>
+            <div style={{ padding: "50px 150px 0 150px",}}>
               <DualAxes {...dualConfig} />
             </div>
             <div
