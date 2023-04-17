@@ -32,15 +32,16 @@ export const Home: React.FC<HomeProps> = (props) => {
             textAlign: "justify",
           }}
         >
-          In recent times, synthetic DNA has garnered significant attention as a molecular medium for digital data storage owing to its superior characteristics. 
-          These include theoretical retention time, power consumption, and storage density that surpass conventional electronic memory devices. 
-          As a result, synthetic DNA has emerged as a highly promising medium for digital data storage. 
-          However, practical applications of synthetic DNA are limited due to uncertainties in in vitro DNA synthesis and sequencing, 
-          conjugation chemistry, and preservation conditions. These issues can result in significant errors and data loss. 
-          Thus, DNA Storage Designer is proposed to simulate the workflow of the whole system to guide the design of the experiments. 
-          This approach comprises three main stages for wet experiments: encoding, error simulation, and decoding. 
-          To provide user-friendly services, the website embeds popular methods and platforms related to DNA storage instead of asking users for complex parameters. 
-          It also offers comprehensive guidelines and simulated feedback based on user settings to help users adjust their experimental plans accordingly.
+           In recent times, synthetic DNA has garnered significant attention as a molecular medium for digital data storage owing to its superior characteristics. 
+           These include theoretical retention time, power consumption, and storage density that surpass conventional electronic memory devices. 
+           As a result, in the era of data explosion, DNA molecules have emerged as a highly promising medium for digital data storage. 
+           However, practical applications of synthetic DNA are limited due to uncertainties in in vitro synthesis and sequencing, 
+           conjugation chemistry, and preservation conditions. 
+           These issues can result in significant errors and data loss. 
+           Thus, DNA Storage Designer is proposed to transfer files into DNA squences and simulate the workflow of the whole system to guide the design of the experiments. 
+           This approach comprises three main stages for wet experiments: encoding, error simulation, and decoding. 
+           To provide user-friendly services, the website embeds popular methods and platforms related to DNA storage instead of asking users for complex parameters. 
+           It also offers comprehensive guidelines and simulated feedback based on user settings to help users adjust their experimental plans accordingly.
 
         </p>
         <div style={{ paddingTop: "30px", textAlign:"center"}}>
