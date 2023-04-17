@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Breadcrumb, Image, Table, Anchor } from "antd";
 import "./index.less";
 import Home1031 from "../../assets/tutorial/home.png";
-import xiamen from "../../assets/tutorial/xiamen.png";
+import xiamen from "../../assets/tutorial/demo.png";
 import gc from "../../assets/tutorial/gc.png";
 import rp from "../../assets/tutorial/rp.png";
 import free from "../../assets/tutorial/free.png";
@@ -312,9 +312,9 @@ export const Tutorial: React.FC<TutorialProps> = (props) => {
           <div id="example-file">
             <h3 id="third-title">Example file</h3>
             <p id="text-content">
-              We use the Xiamen University badge picture as an example file to introduce the working
-              process of the website. Here, we use <i>Ping-Zhi's</i> yin-yang method to encode the example file, and use the default parameters to perform error simulation on the encoded DNA sequence. Other demo files can be <a href="javascript:void(0)" onClick={handelURL} id='a-link'> downloaded from here</a>. The file types include: Image, video,
-              audio, text, and binary.
+            We use <i>Monet Claude's "Impression,Sunrise</i> .jpg" picture as an example file to introduce the working process of the website. 
+            Here, we utilize <i>Ping-Zhi's</i> yin-yang method to encode the example file, and the default parameters to perform error simulation on the encoded DNA sequence. 
+            Other demo files can be <a href="javascript:void(0)" onClick={handelURL} id='a-link'>downloaded from here.</a> The file types include: Image, video, audio, text, and binary.
             </p>
             <Image src={xiamen} width={"50%"} rootClassName="image2" />
             <p style={{ textAlign: "center", fontSize: 13 }}>Figure 2: Example file</p>
