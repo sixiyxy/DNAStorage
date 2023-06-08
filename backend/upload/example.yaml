@@ -1,107 +1,107 @@
 eight_can: false
-file_name: example.png
-file_rename: 1601937931860316160_example.png
-file_type: image/png
-file_uid: '1601937931860316160'
-upload_file_size: 108096
-DNA_sequence_length: 121 nt
-DNA_sequence_number: 8647
-bit_size: 864768
-byte_size: 108096
+file_name: Figure2_A.jpg
+file_rename: 1666625580789010432_Figure2_A.jpg
+file_type: image/jpeg
+file_uid: '1666625580789010432'
+upload_file_size: 122473
+DNA_sequence_length: 144
+DNA_sequence_number: 8031
+bit_size: 979784
+byte_size: 122473
 encode_method: Yin_Yang
-encoding_time: '6.11'
+encoding_time: '6.47'
 energy_plot:
-- range: '-21.37 : -20.658'
-  x_value: '-21.0'
+- range: '-36.21 : -35.003'
+  x_value: '-35.6'
+  y_value: 0
+- range: '-35.003 : -33.796'
+  x_value: '-34.4'
+  y_value: 0
+- range: '-33.796 : -32.589'
+  x_value: '-33.2'
+  y_value: 0
+- range: '-32.589 : -31.382'
+  x_value: '-32.0'
+  y_value: 0
+- range: '-31.382 : -30.175'
+  x_value: '-30.8'
+  y_value: 0
+- range: '-30.175 : -28.968'
+  x_value: '-29.6'
+  y_value: 0
+- range: '-28.968 : -27.761'
+  x_value: '-28.4'
   y_value: 1
-- range: '-20.658 : -19.945'
-  x_value: '-20.3'
-  y_value: 3
-- range: '-19.945 : -19.233'
-  x_value: '-19.6'
+- range: '-27.761 : -26.554'
+  x_value: '-27.2'
+  y_value: 0
+- range: '-26.554 : -25.347'
+  x_value: '-26.0'
   y_value: 2
-- range: '-19.233 : -18.521'
-  x_value: '-18.9'
-  y_value: 4
-- range: '-18.521 : -17.808'
-  x_value: '-18.2'
-  y_value: 1
-- range: '-17.808 : -17.096'
+- range: '-25.347 : -24.14'
+  x_value: '-24.7'
+  y_value: 2
+- range: '-24.14 : -22.933'
+  x_value: '-23.5'
+  y_value: 6
+- range: '-22.933 : -21.726'
+  x_value: '-22.3'
+  y_value: 13
+- range: '-21.726 : -20.519'
+  x_value: '-21.1'
+  y_value: 14
+- range: '-20.519 : -19.312'
+  x_value: '-19.9'
+  y_value: 25
+- range: '-19.312 : -18.105'
+  x_value: '-18.7'
+  y_value: 29
+- range: '-18.105 : -16.898'
   x_value: '-17.5'
-  y_value: 5
-- range: '-17.096 : -16.384'
-  x_value: '-16.7'
-  y_value: 11
-- range: '-16.384 : -15.671'
-  x_value: '-16.0'
-  y_value: 4
-- range: '-15.671 : -14.959'
-  x_value: '-15.3'
-  y_value: 21
-- range: '-14.959 : -14.247'
-  x_value: '-14.6'
-  y_value: 22
-- range: '-14.247 : -13.534'
+  y_value: 49
+- range: '-16.898 : -15.691'
+  x_value: '-16.3'
+  y_value: 55
+- range: '-15.691 : -14.484'
+  x_value: '-15.1'
+  y_value: 90
+- range: '-14.484 : -13.277'
   x_value: '-13.9'
-  y_value: 27
-- range: '-13.534 : -12.822'
-  x_value: '-13.2'
-  y_value: 42
-- range: '-12.822 : -12.11'
-  x_value: '-12.5'
-  y_value: 44
-- range: '-12.11 : -11.397'
-  x_value: '-11.8'
-  y_value: 54
-- range: '-11.397 : -10.685'
-  x_value: '-11.0'
-  y_value: 54
-- range: '-10.685 : -9.973'
+  y_value: 106
+- range: '-13.277 : -12.07'
+  x_value: '-12.7'
+  y_value: 117
+- range: '-12.07 : -10.863'
+  x_value: '-11.5'
+  y_value: 115
+- range: '-10.863 : -9.656'
   x_value: '-10.3'
-  y_value: 56
-- range: '-9.973 : -9.26'
-  x_value: '-9.6'
-  y_value: 66
-- range: '-9.26 : -8.548'
-  x_value: '-8.9'
-  y_value: 75
-- range: '-8.548 : -7.836'
-  x_value: '-8.2'
-  y_value: 81
-- range: '-7.836 : -7.123'
-  x_value: '-7.5'
-  y_value: 65
-- range: '-7.123 : -6.411'
-  x_value: '-6.8'
-  y_value: 65
-- range: '-6.411 : -5.699'
-  x_value: '-6.1'
-  y_value: 65
-- range: '-5.699 : -4.986'
-  x_value: '-5.3'
-  y_value: 68
-- range: '-4.986 : -4.274'
-  x_value: '-4.6'
-  y_value: 50
-- range: '-4.274 : -3.562'
-  x_value: '-3.9'
-  y_value: 35
-- range: '-3.562 : -2.849'
-  x_value: '-3.2'
-  y_value: 32
-- range: '-2.849 : -2.137'
-  x_value: '-2.5'
-  y_value: 19
-- range: '-2.137 : -1.425'
+  y_value: 117
+- range: '-9.656 : -8.449'
+  x_value: '-9.1'
+  y_value: 88
+- range: '-8.449 : -7.242'
+  x_value: '-7.8'
+  y_value: 73
+- range: '-7.242 : -6.035'
+  x_value: '-6.6'
+  y_value: 42
+- range: '-6.035 : -4.828'
+  x_value: '-5.4'
+  y_value: 33
+- range: '-4.828 : -3.621'
+  x_value: '-4.2'
+  y_value: 13
+- range: '-3.621 : -2.414'
+  x_value: '-3.0'
+  y_value: 4
+- range: '-2.414 : -1.207'
   x_value: '-1.8'
-  y_value: 10
-- range: '-1.425 : -0.712'
-  x_value: '-1.1'
-  y_value: 10
-- range: '-0.712 : 0.0'
-  x_value: '-0.4'
-  y_value: 7
-final_segment_bit_length: 121 bits
+  y_value: 2
+- range: '-1.207 : 0.0'
+  x_value: '-0.6'
+  y_value: 3
+final_segment_bit_length: 144 bits
 gc_data:
 - x_value: 0
   y_value: 0
@@ -184,47 +184,47 @@ gc_data:
 - x_value: 39
   y_value: 0
 - x_value: 40
-  y_value: 9
+  y_value: 3
 - x_value: 41
-  y_value: 10
+  y_value: 4
 - x_value: 42
-  y_value: 17
+  y_value: 13
 - x_value: 43
-  y_value: 29
-- x_value: 44
-  y_value: 44
-- x_value: 45
-  y_value: 88
-- x_value: 46
-  y_value: 48
-- x_value: 47
-  y_value: 59
-- x_value: 48
-  y_value: 67
-- x_value: 49
-  y_value: 59
-- x_value: 50
-  y_value: 156
-- x_value: 51
-  y_value: 77
-- x_value: 52
-  y_value: 56
-- x_value: 53
-  y_value: 70
-- x_value: 54
-  y_value: 53
-- x_value: 55
-  y_value: 88
-- x_value: 56
-  y_value: 19
-- x_value: 57
-  y_value: 18
-- x_value: 58
-  y_value: 19
-- x_value: 59
-  y_value: 9
-- x_value: 60
   y_value: 5
+- x_value: 44
+  y_value: 36
+- x_value: 45
+  y_value: 26
+- x_value: 46
+  y_value: 35
+- x_value: 47
+  y_value: 86
+- x_value: 48
+  y_value: 63
+- x_value: 49
+  y_value: 111
+- x_value: 50
+  y_value: 65
+- x_value: 51
+  y_value: 150
+- x_value: 52
+  y_value: 59
+- x_value: 53
+  y_value: 115
+- x_value: 54
+  y_value: 51
+- x_value: 55
+  y_value: 45
+- x_value: 56
+  y_value: 71
+- x_value: 57
+  y_value: 21
+- x_value: 58
+  y_value: 23
+- x_value: 59
+  y_value: 8
+- x_value: 60
+  y_value: 10
 - x_value: 61
   y_value: 0
 - x_value: 62
@@ -313,7 +313,7 @@ homo_data:
 - x_value: 3
   y_value: 999
 - x_value: 4
-  y_value: 719
+  y_value: 731
 - x_value: 5
   y_value: 0
 - x_value: 6
@@ -345,16 +345,62 @@ homo_data:
 - x_value: 19
   y_value: 0
 index_length: 14
-information_density: 0.826
-min_free_energy: -8.7
-min_free_energy_below_30kcal_mol: 0.0
-net_information_density: 0.9999629929455303
-nucleotide_counts: 1046287 nt
-physical_information_density_g: 9.33E+22 petabyte/ug
+information_density: 0.847
+min_free_energy: -12.41
+min_free_energy_below_30kcal_mol: 0.1
+net_information_density: 0.999877523775697
+nucleotide_counts: 1156464 nt
+physical_information_density_g: 9.56E+22 petabyte/ug
 physical_information_density_ug: !!python/tuple
-- 9.33E+16 petabyte/gram
-segment_length: 100
-segment_number: 8648
-verify_code_length: 7 bits
+- 9.56E+16 petabyte/gram
+segment_length: 122
+segment_number: 8032
+verify_code_length: 8 bits
 verify_method: Hamming
-
+DEC:
+  del: 0.06
+  ins: 0.06
+  sub: 0.88
+PCR:
+  del: 0.01
+  ins: 0
+  sub: 0.99
+SEQ:
+  del: 0.0016
+  ins: 0.0012
+  sub: 0.9972
+SYN:
+  del: 0.6
+  ins: 0.2
+  sub: 0.2
+decay_loss_rate: 0.3
+months_of_storage: 24
+pcr_cycle: 5
+pcr_polymerase: Taq
+pcr_prob: 0.8
+sam_ratio: 0.005
+seq_depth: 1
+seq_meth: ill_PairedEnd
+simu:
+- SYN
+- DEC
+- PCR
+- SAM
+- SEQ
+storage_host: Hsapiens
+synthesis_method: ErrASE
+synthesis_number: 10
+synthesis_yield: 0.99
+after_clust_dna_sequence_number: 1171
+clust_method: starcode
+clust_time: 0.29 s
+decode_time: 1.13 s
+encode_bits_number: 8032
+encode_dna_sequence_number: 8031
+final_decode_bits_number: 2229
+recall_bits_number: 1938
+recall_bits_rate: 24.13 %
+recall_dna_sequence_number: 670
+recall_dna_sequence_rate: 8.34%
+simulation_dna_number: 1297
+verify_method_remove_bits: 5
