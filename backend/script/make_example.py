@@ -56,7 +56,8 @@ local_example_tar = '{}/encode/example.tar.gz'.format(local_backend_dir)
 # os.mkdir(local_example_dir)
 shutil.copy(ori_fasta,local_backend_dir+'/example.fasta')
 shutil.copy(ori_yaml,local_example_dir+'/example.yaml')
-subprocess.call(["tar", "zcvf", local_example_tar, "-P", local_example_dir])
+# subprocess.call(["tar", "zcvf", local_example_tar, "-P", local_example_dir])
+os.system('tar -cf - {}|pigz -4 -p 16 > {}'.format(local_example_dir,local_example_tar))
 shutil.rmtree(local_example_dir)
 
 ####### simulation
