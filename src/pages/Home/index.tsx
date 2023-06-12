@@ -35,7 +35,7 @@ export const Home: React.FC<HomeProps> = (props) => {
            In recent times, synthetic DNA has garnered significant attention as a molecular medium for digital data storage owing to its superior characteristics. 
            These include theoretical retention time, power consumption, and storage density that surpass conventional electronic memory devices. 
            As a result, in the era of data explosion, DNA molecules have emerged as a highly promising medium for digital data storage. 
-           However, practical applications of synthetic DNA are limited due to uncertainties in in vitro synthesis and sequencing, 
+           However, practical applications of synthetic DNA are limited due to uncertainties in in-vitro synthesis and sequencing, 
            conjugation chemistry, and preservation conditions. 
            These issues can result in significant errors and data loss. 
            Thus, DNA Storage Designer is proposed to transfer files into DNA squences and simulate the workflow of the whole system to guide the design of the experiments. 
@@ -77,7 +77,7 @@ export const Home: React.FC<HomeProps> = (props) => {
           <div className="home-introduce-item">
             <h2>Encode File</h2>
             <p style={{ fontSize: "19px", textAlign: "justify" }}>
-            The very first step for DNA Storage experiment is to encode files(usually binary format) into DNA bases(A,C,G,T) and sequences. 
+            The very first step for DNA Storage experiment is to encode files(usually in binary format) into DNA bases(A,C,G,T) and sequences. 
             Therefore, we could synthesis the sequences and store the files accordingly. 
             The encode service integrates eight encoding and two verifying methods about DNA storage. 
             After uploading the file, users could simply select corresponding methods and elegantly set the segment length. 
@@ -88,10 +88,10 @@ export const Home: React.FC<HomeProps> = (props) => {
           <div className="home-introduce-item">
             <h2>Error Simulation</h2>
             <p style={{ fontSize: "19px", textAlign: "justify" }}>
-              The simulation service allows user to upload their own fasta DNA file to proceed error
-              simulation stage. It covers the five stages of DNA storage, namely, synthesis, storage
-              decay, PCR, sampling, and sequencing. Users could see how sequence distribution changes accordingly and how errors
-              are introduced from stages to stages.
+            The error simulation service allows users to simulate the experiments and adjust their experimental settings based on the result.
+            Users could upload their fasta DNA file to proceed to this stage. 
+            It covers the five stages of DNA storage, namely, synthesis, storage decay, PCR, sampling, and sequencing. 
+            Users could see how sequence distribution changes accordingly and how errors are introduced from stage to stage.
             </p>
           </div>
         </div>
