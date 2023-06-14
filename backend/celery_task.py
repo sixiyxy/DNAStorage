@@ -12,8 +12,10 @@ import script.step3_simulation_aysnc as simu_utils
 from script.step4_decode_aysnc import ClusterDecode
 
 
-backend = 'redis://121.192.180.202:6379/1'
-broker = 'redis://121.192.180.202:6379/2'
+# backend = 'redis://121.192.180.202:6379/1'
+# broker = 'redis://121.192.180.202:6379/2'
+backend = 'redis://10.26.56.2:6379/1'
+broker = 'redis://10.26.56.2:6379/2'
 # backend = 'redis://127.0.0.1:6379/1'
 # broker ='redis://127.0.0.1:6379/2' 
 
