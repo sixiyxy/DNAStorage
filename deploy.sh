@@ -11,8 +11,8 @@
 rm -rf dna-storage-designer/
 cp -r dist dna-storage-designer
 tar -zcf dna-storage-designer.tar.gz dna-storage-designer/
-scp -i ~/.ssh/id_rsa_202 dna-storage-designer.tar.gz dna@121.192.180.202:/home/dna/front 
+scp -i ~/.ssh/id_rsa_202 dna-storage-designer.tar.gz dna@10.26.56.2:/home/dna/front 
 # scp dna-storage-designer.tar.gz dna@121.192.180.202:/home/dna/front
-ssh dna@121.192.180.202 "rm -rf /home/dna/front/dna-storage-designer; tar -zxf /home/dna/front/dna-storage-designer.tar.gz -C /home/dna/front/;"
+ssh dna@10.26.56.2 "rm -rf /home/dna/front/dna-storage-designer; tar -zxf /home/dna/front/dna-storage-designer.tar.gz -C /home/dna/front/;"
 rm -rf dna-storage-designer/
 rm -f dna-storage-designer.tar.gz

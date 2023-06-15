@@ -5,7 +5,7 @@
 
 // 如果开发阶段要用服务器接口，采用这个，需要服务端支持跨域
 // export const API_PREFIX = 'https://dmci.xmu.edu.cn/dna-storage-designer-api';
-export const API_PREFIX = 'https://dmci.xmu.edu.cn/dna/';
+export const API_PREFIX = 'https://dmci.xmu.edu.cn/dna-api/';
 // export const API_PREFIX = 'http://10.26.56.2:5000';
 // export const API_PREFIX = 'http://10.26.42.170/dna-api/';
 
